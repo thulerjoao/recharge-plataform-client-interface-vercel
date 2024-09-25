@@ -1,0 +1,13 @@
+{
+  "private": true,
+  "workspaces":{
+    "packages":[
+      "projects/*"
+    ]
+  },
+  "scripts": {
+    "dev:web-public": "yarn web-public dev",
+    "start:web-public": "yarn web-public start",
+    "build:web-public": "yarn web-public build"
+  }
+}
