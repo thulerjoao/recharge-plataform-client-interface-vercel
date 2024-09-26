@@ -1,11 +1,14 @@
 {
   "private": true,
-  "workspaces":{
-    "packages":[
-      "projects/*"
+  "workspaces": {
+    "packages": [
+      "projects/*",
+      "packages/*",
+      "setup/*"
     ]
   },
   "scripts": {
+    "web-public": "yarn workspace @4miga/web-public",
     "dev:web-public": "yarn web-public dev",
     "start:web-public": "yarn web-public start",
     "build:web-public": "yarn web-public build"
