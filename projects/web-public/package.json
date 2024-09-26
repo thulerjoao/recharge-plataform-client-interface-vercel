@@ -13,7 +13,8 @@
     "next": "^14.2.13",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
-    "@4miga/design-sistem": "*"
+    "@4miga/design-system": "*"
+  
   },
   "devDependencies": {
     "@types/node": "22.6.1",

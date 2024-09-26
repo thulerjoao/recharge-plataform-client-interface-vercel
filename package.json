@@ -12,5 +12,11 @@
     "dev:web-public": "yarn web-public dev",
     "start:web-public": "yarn web-public start",
     "build:web-public": "yarn web-public build"
+  },
+  "dependencies": {
+    "styled-components": "6.1.8"
+  },
+  "devDependencies": {
+    "@types/styled-components": "5.1.34"
   }
 }

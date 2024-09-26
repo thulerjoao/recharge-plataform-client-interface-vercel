@@ -1,10 +1,10 @@
-import FirstTest from "@4miga/design-sistem/firstTest/index";
+import Text from "@4miga/design-system/components/Text";
 
 const homeScreen = () => {
   return (
     <main>
-      <h1>4miga recharge store</h1>
-      <FirstTest />
+      <Text tag="h1">4miga recharge store</Text>
+      <Text tag="h3">Text working properly</Text>
     </main>
   );
 };
