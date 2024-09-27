@@ -7,16 +7,17 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "test": "jest",
+    "lint": "eslint ./src/app/**/*.{ts,tsx}"
   },
   "dependencies": {
     "next": "^14.2.13",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
     "@4miga/design-system": "*"
-  
   },
   "devDependencies": {
-    "@4miga/tsconfig-commons": "*"
+    "@4miga/tsconfig-commons": "*",
+    "@4miga/eslint-commons": "*"
   }
 }
