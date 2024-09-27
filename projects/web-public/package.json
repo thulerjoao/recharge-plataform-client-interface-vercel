@@ -17,6 +17,7 @@
     "@4miga/design-system": "*"
   },
   "devDependencies": {
+    "@4miga/test-commons": "*",
     "@4miga/tsconfig-commons": "*",
     "@4miga/eslint-commons": "*"
   }

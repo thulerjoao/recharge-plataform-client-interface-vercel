@@ -3,11 +3,13 @@
   "version": "1.0.0",
   "main": "index.js",
   "license": "MIT",
-  "scripts": {
+  "scripts":{
     "test": "jest",
     "lint": "eslint ./**/*.{ts,tsx}"
   },
   "devDependencies": {
-    "@4miga/tsconfig-commons": "*"
+    "@4miga/test-commons": "*",
+    "@4miga/tsconfig-commons": "*",
+    "@4miga/eslint-commons": "*"
   }
 }
