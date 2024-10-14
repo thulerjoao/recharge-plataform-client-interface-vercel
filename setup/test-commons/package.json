@@ -12,6 +12,7 @@
     ],
     "devDependencies": {
         "jest":"27.0.0",
+        "@types/jest":"29.5.13",
         "ts-node":"10.7.0",
         "babel-jest":"28.0.3",
         "@babel/core":"7.17.10",

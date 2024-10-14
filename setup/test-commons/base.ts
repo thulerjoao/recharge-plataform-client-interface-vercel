@@ -12,7 +12,10 @@ const config: Config.InitialOptions = {
         '\\.[jt]sx?$': ['babel-jest', {
             configFile: path.resolve(__dirname, '.babelrc')
         }],
-    }
+    },
+    moduleNameMapper: {
+      '^axios$': require.resolve('axios'),
+    },
 }
 export default config
 
