@@ -1,0 +1,176 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Button Component Snapshots matches snapshot with height 28 1`] = `
+<DocumentFragment>
+  .c0 {
+  user-select: none;
+  font-size: 14px;
+  font-weight: 600;
+  width: 100%;
+  height: 28px;
+  align-items: center;
+  background-color: #00C8FF;
+  border: none;
+  border-radius: 8px;
+  display: flex;
+  justify-content: center;
+  text-align: center;
+  cursor: pointer;
+  margin: undefined;
+}
+
+<button
+    class="c0"
+  >
+    <p>
+      Height 28
+    </p>
+  </button>
+</DocumentFragment>
+`;
+
+exports[`Button Component Snapshots matches snapshot with height 32 1`] = `
+<DocumentFragment>
+  .c0 {
+  user-select: none;
+  font-size: 14px;
+  font-weight: 600;
+  width: 100%;
+  height: 32px;
+  align-items: center;
+  background-color: #00C8FF;
+  border: none;
+  border-radius: 8px;
+  display: flex;
+  justify-content: center;
+  text-align: center;
+  cursor: pointer;
+  margin: undefined;
+}
+
+<button
+    class="c0"
+  >
+    <p>
+      Height 32
+    </p>
+  </button>
+</DocumentFragment>
+`;
+
+exports[`Button Component Snapshots matches snapshot with height 40 1`] = `
+<DocumentFragment>
+  .c0 {
+  user-select: none;
+  font-size: 16px;
+  font-weight: 600;
+  width: 100%;
+  height: 40px;
+  align-items: center;
+  background-color: #00C8FF;
+  border: none;
+  border-radius: 16px;
+  display: flex;
+  justify-content: center;
+  text-align: center;
+  cursor: pointer;
+  margin: undefined;
+}
+
+<button
+    class="c0"
+  >
+    <p>
+      Height 40
+    </p>
+  </button>
+</DocumentFragment>
+`;
+
+exports[`Button Component Snapshots matches snapshot with height 48 1`] = `
+<DocumentFragment>
+  .c0 {
+  user-select: none;
+  font-size: 16px;
+  font-weight: 600;
+  width: 100%;
+  height: 48px;
+  align-items: center;
+  background-color: #00C8FF;
+  border: none;
+  border-radius: 16px;
+  display: flex;
+  justify-content: center;
+  text-align: center;
+  cursor: pointer;
+  margin: undefined;
+}
+
+<button
+    class="c0"
+  >
+    <p>
+      Height 48
+    </p>
+  </button>
+</DocumentFragment>
+`;
+
+exports[`Button Component Snapshots matches snapshot with no rounded corners 1`] = `
+<DocumentFragment>
+  .c0 {
+  user-select: none;
+  font-size: 16px;
+  font-weight: 600;
+  width: 100%;
+  height: 40px;
+  align-items: center;
+  background-color: #00C8FF;
+  border: none;
+  border-radius: 16px;
+  display: flex;
+  justify-content: center;
+  text-align: center;
+  cursor: pointer;
+  margin: undefined;
+}
+
+<button
+    class="c0"
+  >
+    <p>
+      Square Button
+    </p>
+  </button>
+</DocumentFragment>
+`;
+
+exports[`Button Component Snapshots matches snapshot with rounded corners 1`] = `
+<DocumentFragment>
+  .c0 {
+  user-select: none;
+  font-size: 16px;
+  font-weight: 600;
+  width: 100%;
+  height: 40px;
+  align-items: center;
+  background-color: #00C8FF;
+  border: none;
+  border-radius: 16px;
+  border-radius: 20px;
+  display: flex;
+  justify-content: center;
+  text-align: center;
+  cursor: pointer;
+  margin: undefined;
+}
+
+<button
+    class="c0"
+  >
+    <p>
+      Rounded Button
+    </p>
+  </button>
+</DocumentFragment>
+`;
