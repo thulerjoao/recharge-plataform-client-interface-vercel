@@ -5,7 +5,6 @@ export enum fontTypes {
   SMALL = "SMALL", //14PX
   SMALL_MEDIUM = "SMALL_MEDIUM",
   SMALL_SEMI_BOLD = "SMALL_SEMI_BOLD",
-  SMALL_BOLD = "SMALL_BOLD",
   REGULAR = "REGULAR", //16PX
   REGULAR_MEDIUM = "REGULAR_MEDIUM",
   REGULAR_SEMI_BOLD = "REGULAR_SEMI_BOLD",
@@ -16,3 +15,20 @@ export enum fontTypes {
   BIG_MEDIUM = "BIG_MEDIUM",
   BIG_SEMI_BOLD = "BIG_SEMI_BOLD",
 }
+
+export type fontTypesEnum =
+  | "TINY"
+  | "TINY_MEDIUM"
+  | "TINY_SEMI_BOLD"
+  | "SMALL"
+  | "SMALL_MEDIUM"
+  | "SMALL_SEMI_BOLD"
+  | "REGULAR"
+  | "REGULAR_MEDIUM"
+  | "REGULAR_SEMI_BOLD"
+  | "LARGE"
+  | "LARGE_MEDIUM"
+  | "LARGE_SEMI_BOLD"
+  | "BIG"
+  | "BIG_MEDIUM"
+  | "BIG_SEMI_BOLD";
