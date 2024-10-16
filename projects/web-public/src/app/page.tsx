@@ -1,13 +1,13 @@
-"use  client";
+"use client";
 
-// import { useRouter } from "next/navigation";
+import { useRouter } from "next/navigation";
 import { useEffect } from "react";
 import "./globals.css";
 
 const Page = () => {
-  // const route = useRouter();
+  const route = useRouter();
 
-  // useEffect(() => route.replace("/login"), [route]);
+  useEffect(() => route.replace("/home"), [route]);
   return (
     <div className="container">
       <span className="loading" />

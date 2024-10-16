@@ -4,5 +4,5 @@ export const colors = {
   maindark: "#071116",
   secondaryAction: "#525F63",
   mainBbackgroundSolid: "#071D23",
-  mainTransparent: "#050D1090",
+  mainTransparent: "#071D2390",
 };

@@ -6,7 +6,7 @@ import StyledComponentsRegistry from "lib/registry";
 export const metadata = {
   title: {
     template: "%s - 4miga",
-    default: "4miga",
+    default: "4miga store",
   },
   description: "Project created by 4miga",
 };
@@ -25,7 +25,7 @@ export default function RootLayout({
           name="viewport"
           content="width=device-width, initial-scale=1.0, maximum-scale=1.0"
         />
-        {/* <meta name="theme-color" content="#700A9A" /> */}
+        {/* <meta name="theme-color" content="##00C8FF" /> */}
         <title>{metadata.title.default}</title>
       </Head>
       <body>
