@@ -11,6 +11,7 @@ export const HeaderContainer = styled.header`
   align-items: start;
   justify-content: center;
   background-color: ${Theme.colors.mainTransparent};
+  z-index: 100;
 
   .centerComponent {
     width: 100%;

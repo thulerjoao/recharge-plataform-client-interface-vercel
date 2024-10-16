@@ -8,7 +8,7 @@ const homeScreen = () => {
   return (
     <main>
       <Header />
-      <div style={{ width: "50%" }}>
+      <div style={{ width: "50%", marginTop: "3rem" }}>
         <Text fontType="BIG_SEMI_BOLD" color={Theme.colors.maindark} tag="h1">
           4miga recharge store
         </Text>
@@ -25,7 +25,7 @@ const homeScreen = () => {
           height={40}
         />
         <Button
-          margin="20px 0px 0px 0px"
+          margin="20px 0px 5px 0px"
           shadow
           height={40}
           title="Iniciar"
