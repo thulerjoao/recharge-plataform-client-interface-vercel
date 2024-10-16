@@ -1,21 +1,5 @@
 import styled from "styled-components";
 
-export const LayoutComponent = styled.div`
-  width: 100%;
-  display: flex;
-  justify-content: center;
-  align-items: start;
-`;
-
-export const HomeContainer = styled.div`
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: flex-start;
-  height: auto;
-`;
-
 export const LineDetail = styled.span`
   width: 100%;
   display: flex;
@@ -23,7 +7,7 @@ export const LineDetail = styled.span`
   align-items: center;
   height: 0;
   width: 0;
-  /* z-index: -1; */
+  z-index: -1;
 
   .verticalLines {
     height: 300px;

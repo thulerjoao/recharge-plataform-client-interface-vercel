@@ -1,7 +1,7 @@
 "use client";
 
 import React from "react";
-import { LayoutComponent } from "./common/style";
+import { LayoutComponent } from "./utils/style";
 
 interface LayoutProps {
   children: React.ReactNode;

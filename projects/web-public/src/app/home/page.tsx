@@ -1,4 +1,4 @@
-import Home from "./common/home";
+import Home from "./utils/home";
 
 const Page = () => {
   return <Home />;
