@@ -1,5 +1,7 @@
 export const colors = {
-  mainhighlight: "#00C8FF",
+  mainHighlight: "#00C8FF",
   mainlight: "#FFFFFF",
   maindark: "#071116",
+  secondaryAction: "#525F63",
+  mainBbackgroundSolid: "#071D23",
 };

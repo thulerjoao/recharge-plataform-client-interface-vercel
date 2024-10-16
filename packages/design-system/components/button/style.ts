@@ -10,17 +10,18 @@ interface ButtonInputProps {
 }
 
 export const ButtonInput = styled.button<ButtonInputProps>`
+  color: ${Theme.colors.mainBbackgroundSolid};
   user-select: none;
   font-size: ${({ height }) => (height >= 40 ? "16px;" : "14px;")};
   font-weight: 600;
   width: 100%;
   height: ${({ height }) => `${height}px`};
   align-items: center;
-  background-color: ${Theme.colors.mainhighlight};
+  background-color: ${Theme.colors.mainHighlight};
   border: none;
   box-shadow: ${({ shadow }) =>
-    shadow && `0px 0px 12px 0px ${Theme.colors.mainhighlight}`};
-  border-radius: ${({ height }) => (height >= 40 ? "16px;" : "8px;")};
+    shadow && `0px 0px 12px 0px ${Theme.colors.mainHighlight}`};
+  border-radius: ${({ height }) => (height >= 44 ? "16px;" : "8px;")};
   border-radius: ${(props) => props.rounded && `${props.height / 2}px`};
   display: flex;
   justify-content: center;
@@ -36,7 +37,7 @@ const spin = keyframes`
 `;
 
 export const Spinner = styled.div`
-  border: 2px solid #071116;
+  border: 2px solid ${Theme.colors.mainBbackgroundSolid};
   border-top-color: transparent;
   border-radius: 50%;
   width: 18px;

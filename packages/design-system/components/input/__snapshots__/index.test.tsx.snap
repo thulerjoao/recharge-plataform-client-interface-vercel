@@ -1,0 +1,212 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Global input snapshot test matches snapshot with height 40 1`] = `
+<DocumentFragment>
+  .c1 {
+  box-sizing: border-box;
+  padding: 0px 16px;
+  width: 100%;
+  font-size: 16px;
+  height: 36px;
+  border-radius: 8px;
+  border: 2px solid #525F63;
+  color: #525F63;
+}
+
+.c1::placeholder {
+  color: #525F63;
+}
+
+.c1:focus {
+  outline: none;
+}
+
+.c0 {
+  position: relative;
+  width: 100%;
+  height: auto;
+}
+
+<div
+    class="c0"
+  >
+    <input
+      class="c1"
+      height="40"
+    />
+  </div>
+</DocumentFragment>
+`;
+
+exports[`Global input snapshot test matches snapshot with height 48 1`] = `
+<DocumentFragment>
+  .c1 {
+  box-sizing: border-box;
+  padding: 0px 16px;
+  width: 100%;
+  font-size: 16px;
+  height: 44px;
+  border-radius: 8px;
+  border: 2px solid #525F63;
+  color: #525F63;
+}
+
+.c1::placeholder {
+  color: #525F63;
+}
+
+.c1:focus {
+  outline: none;
+}
+
+.c0 {
+  position: relative;
+  width: 100%;
+  height: auto;
+}
+
+<div
+    class="c0"
+  >
+    <input
+      class="c1"
+      height="48"
+    />
+  </div>
+</DocumentFragment>
+`;
+
+exports[`Global input snapshot test matches the snapshot when loading 1`] = `
+<DocumentFragment>
+  .c1 {
+  box-sizing: border-box;
+  padding: 0px 16px;
+  width: 100%;
+  font-size: 16px;
+  height: 36px;
+  border-radius: 8px;
+  border: 2px solid #525F63;
+  color: #525F63;
+}
+
+.c1::placeholder {
+  color: #525F63;
+}
+
+.c1:focus {
+  outline: none;
+}
+
+.c0 {
+  position: relative;
+  width: 100%;
+  height: auto;
+}
+
+<div
+    class="c0"
+  >
+    <input
+      class="c1"
+      height="40"
+    />
+  </div>
+</DocumentFragment>
+`;
+
+exports[`Global input snapshot test matches the snapshot with a left element 1`] = `
+<DocumentFragment>
+  .c2 {
+  box-sizing: border-box;
+  padding: 0px 16px;
+  width: 100%;
+  font-size: 16px;
+  height: 36px;
+  border-radius: 8px;
+  border: 2px solid #525F63;
+  color: #525F63;
+}
+
+.c2::placeholder {
+  color: #525F63;
+}
+
+.c2:focus {
+  outline: none;
+}
+
+.c0 {
+  position: relative;
+  width: 100%;
+  height: auto;
+}
+
+.c1 {
+  position: absolute;
+  left: 8px;
+  top: 0;
+  width: 16px;
+  height: 100%;
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+<div
+    class="c0"
+  >
+    <div
+      class="c1"
+    >
+      <span>
+        Left
+      </span>
+    </div>
+    <input
+      class="c2"
+      height="40"
+    />
+  </div>
+</DocumentFragment>
+`;
+
+exports[`Global input snapshot test matches the snapshot with custom margin and padding 1`] = `
+<DocumentFragment>
+  .c1 {
+  box-sizing: border-box;
+  padding: 0px 16px;
+  padding: 5px;
+  width: 100%;
+  font-size: 16px;
+  height: 44px;
+  border-radius: 8px;
+  border: 2px solid #525F63;
+  color: #525F63;
+}
+
+.c1::placeholder {
+  color: #525F63;
+}
+
+.c1:focus {
+  outline: none;
+}
+
+.c0 {
+  position: relative;
+  width: 100%;
+  height: auto;
+}
+
+<div
+    class="c0"
+  >
+    <input
+      class="c1"
+      height="48"
+      padding="5px"
+    />
+  </div>
+</DocumentFragment>
+`;

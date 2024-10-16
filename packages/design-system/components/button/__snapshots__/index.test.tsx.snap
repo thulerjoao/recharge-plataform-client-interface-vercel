@@ -3,6 +3,7 @@
 exports[`Button Component Snapshots matches snapshot with height 28 1`] = `
 <DocumentFragment>
   .c0 {
+  color: #071D23;
   user-select: none;
   font-size: 14px;
   font-weight: 600;
@@ -32,6 +33,7 @@ exports[`Button Component Snapshots matches snapshot with height 28 1`] = `
 exports[`Button Component Snapshots matches snapshot with height 32 1`] = `
 <DocumentFragment>
   .c0 {
+  color: #071D23;
   user-select: none;
   font-size: 14px;
   font-weight: 600;
@@ -61,6 +63,7 @@ exports[`Button Component Snapshots matches snapshot with height 32 1`] = `
 exports[`Button Component Snapshots matches snapshot with height 40 1`] = `
 <DocumentFragment>
   .c0 {
+  color: #071D23;
   user-select: none;
   font-size: 16px;
   font-weight: 600;
@@ -69,7 +72,7 @@ exports[`Button Component Snapshots matches snapshot with height 40 1`] = `
   align-items: center;
   background-color: #00C8FF;
   border: none;
-  border-radius: 16px;
+  border-radius: 8px;
   display: flex;
   justify-content: center;
   text-align: center;
@@ -90,6 +93,7 @@ exports[`Button Component Snapshots matches snapshot with height 40 1`] = `
 exports[`Button Component Snapshots matches snapshot with height 48 1`] = `
 <DocumentFragment>
   .c0 {
+  color: #071D23;
   user-select: none;
   font-size: 16px;
   font-weight: 600;
@@ -119,6 +123,7 @@ exports[`Button Component Snapshots matches snapshot with height 48 1`] = `
 exports[`Button Component Snapshots matches snapshot with no rounded corners 1`] = `
 <DocumentFragment>
   .c0 {
+  color: #071D23;
   user-select: none;
   font-size: 16px;
   font-weight: 600;
@@ -127,7 +132,7 @@ exports[`Button Component Snapshots matches snapshot with no rounded corners 1`]
   align-items: center;
   background-color: #00C8FF;
   border: none;
-  border-radius: 16px;
+  border-radius: 8px;
   display: flex;
   justify-content: center;
   text-align: center;
@@ -148,6 +153,7 @@ exports[`Button Component Snapshots matches snapshot with no rounded corners 1`]
 exports[`Button Component Snapshots matches snapshot with rounded corners 1`] = `
 <DocumentFragment>
   .c0 {
+  color: #071D23;
   user-select: none;
   font-size: 16px;
   font-weight: 600;
@@ -156,7 +162,7 @@ exports[`Button Component Snapshots matches snapshot with rounded corners 1`] = 
   align-items: center;
   background-color: #00C8FF;
   border: none;
-  border-radius: 16px;
+  border-radius: 8px;
   border-radius: 20px;
   display: flex;
   justify-content: center;

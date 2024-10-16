@@ -5,7 +5,7 @@ import Text from "./index";
 const render = customRender();
 
 describe("<Text />", () => {
-  it("render h1 tag", () => {
+  it("render h2 tag", () => {
     const { container } = render(
       <Text fontType="REGULAR_SEMI_BOLD" color={Theme.colors.maindark} tag="h2">
         Sample

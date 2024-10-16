@@ -1,5 +1,7 @@
-import { render } from "@testing-library/react";
 import Button from "./index";
+import { customRender } from "@4miga/test-commons/react-testing-library";
+
+const render = customRender();
 
 describe("Button Component Snapshots", () => {
   const heights = [28, 32, 40, 48] as const;
