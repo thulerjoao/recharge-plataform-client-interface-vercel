@@ -7,6 +7,7 @@ import { ButtonInput, Spinner } from "./style";
 interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   title: string;
   height: 28 | 32 | 40 | 48;
+  width?: number;
   rounded?: boolean;
   loading?: boolean;
   shadow?: boolean;
@@ -20,6 +21,7 @@ const Button: React.FC<ButtonProps> = ({
   loading,
   shadow,
   margin,
+  width,
   ...props
 }: ButtonProps) => {
   return (
@@ -32,10 +34,12 @@ const Button: React.FC<ButtonProps> = ({
         prop !== "loading" &&
         prop !== "shadow" &&
         prop !== "margin" &&
+        prop !== "width" &&
         prop !== "fontType"
       }
     >
       <ButtonInput
+        width={width}
         margin={margin}
         loading={loading}
         height={height}

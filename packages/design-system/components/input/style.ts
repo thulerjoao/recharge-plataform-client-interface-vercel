@@ -3,7 +3,7 @@ import { Theme } from "../../theme/theme";
 
 interface InputProps {
   height: 40 | 48;
-  isfocused: boolean;
+  isInputFocused: boolean;
   padding: string;
 }
 
@@ -16,10 +16,12 @@ export const InputElement = styled.input<InputProps>`
   height: ${({ height }) => `${height - 4}px`};
   border-radius: 8px;
   border: 2px solid
-    ${({ isfocused }) =>
-      isfocused ? Theme.colors.mainHighlight : Theme.colors.secondaryAction};
-  box-shadow: ${({ isfocused }) =>
-    isfocused && `0px 0px 10px 0px ${Theme.colors.mainHighlight}`};
+    ${({ isInputFocused }) =>
+      isInputFocused
+        ? Theme.colors.mainHighlight
+        : Theme.colors.secondaryAction};
+  box-shadow: ${({ isInputFocused }) =>
+    isInputFocused && `0px 0px 10px 0px ${Theme.colors.mainHighlight}`};
   color: ${Theme.colors.secondaryAction};
   &::placeholder {
     color: ${Theme.colors.secondaryAction};

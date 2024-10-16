@@ -26,7 +26,7 @@ const Input: React.FC<InputProps> = ({
   padding,
   ...props
 }) => {
-  const [isFocused, setIsFocused] = useState(false);
+  const [isInputFocused, setIsInputFocused] = useState<boolean>(false);
 
   return (
     <StyleSheetManager
@@ -42,10 +42,10 @@ const Input: React.FC<InputProps> = ({
       <ExternalComponent>
         {leftElement && <LeftElement>{leftElement}</LeftElement>}
         <InputElement
-          onFocus={() => setIsFocused(true)}
-          onBlur={() => setIsFocused(false)}
+          onFocus={() => setIsInputFocused(true)}
+          onBlur={() => setIsInputFocused(false)}
           height={height}
-          isfocused={isFocused}
+          isInputFocused={isInputFocused}
           padding={padding}
         />
       </ExternalComponent>

@@ -3,6 +3,7 @@ import { Theme } from "../../theme/theme";
 
 interface ButtonInputProps {
   height: 28 | 32 | 40 | 48;
+  width: number;
   rounded: boolean;
   loading: boolean;
   shadow: boolean;
@@ -15,6 +16,7 @@ export const ButtonInput = styled.button<ButtonInputProps>`
   font-size: ${({ height }) => (height >= 40 ? "16px;" : "14px;")};
   font-weight: 600;
   width: 100%;
+  width: ${({ width }) => width && `${width}px`};
   height: ${({ height }) => `${height}px`};
   align-items: center;
   background-color: ${Theme.colors.mainHighlight};
