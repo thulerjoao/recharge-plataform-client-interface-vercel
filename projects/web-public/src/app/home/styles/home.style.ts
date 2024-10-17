@@ -8,7 +8,7 @@ export const HomeContainer = styled.div`
   justify-content: flex-start;
   height: auto;
 
-  nav {
+  .topBanner {
     margin-top: 48px;
   }
 

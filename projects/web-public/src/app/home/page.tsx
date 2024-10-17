@@ -1,4 +1,4 @@
-import Home from "./common/home";
+import Home from "./home";
 
 const Page = () => {
   return <Home />;
