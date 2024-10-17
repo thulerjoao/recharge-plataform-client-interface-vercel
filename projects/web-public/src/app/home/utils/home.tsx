@@ -11,15 +11,15 @@ import Card3 from "./images/Card3.svg";
 import Card4 from "./images/Card4.svg";
 import Card5 from "./images/Card5.svg";
 import Card6 from "./images/Card6.svg";
+import Email from "./images/Email.svg";
+import Facebook from "./images/Facebook.svg";
+import Instagram from "./images/Instagram.svg";
 import Kart from "./images/Kart.svg";
 import Locker from "./images/Locker.svg";
 import MainBanner from "./images/mainBanner.svg";
-import Wpp from "./images/Wpp.svg";
-import Email from "./images/Email.svg";
 import Offer from "./images/Offer.svg";
-import Instagram from "./images/Instagram.svg";
-import Facebook from "./images/Facebook.svg";
 import TikTok from "./images/TikTok.svg";
+import Wpp from "./images/Wpp.svg";
 import { HomeContainer } from "./style";
 
 const Home = () => {
@@ -97,21 +97,27 @@ const Home = () => {
             Central de Atendimento
           </Text>
           <span>
-            <Wpp />
+            <figure>
+              <Wpp />
+            </figure>
             <Text
               align="center"
               color={Theme.colors.mainlight}
               fontType="REGULAR"
+              margin="0 0 0 8px"
             >
               (11) 9 9999-9999
             </Text>
           </span>
           <span>
-            <Email />
+            <figure>
+              <Email />
+            </figure>
             <Text
               align="center"
               color={Theme.colors.mainlight}
               fontType="REGULAR"
+              margin="0 0 0 8px"
             >
               contato@4miga.com
             </Text>
@@ -126,9 +132,15 @@ const Home = () => {
             Nossas Redes Sociais
           </Text>
           <span>
-            <Instagram />
-            <Facebook />
-            <TikTok />
+            <figure className="socialMedia">
+              <Instagram />
+            </figure>
+            <figure className="socialMedia">
+              <Facebook />
+            </figure>
+            <figure className="socialMedia">
+              <TikTok />
+            </figure>
           </span>
         </div>
       </section>

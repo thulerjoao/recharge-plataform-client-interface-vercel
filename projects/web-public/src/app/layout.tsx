@@ -1,6 +1,5 @@
 import React from "react";
 import "./globals.css";
-import Head from "next/head";
 import StyledComponentsRegistry from "lib/registry";
 
 export const metadata = {
@@ -9,7 +8,16 @@ export const metadata = {
     default: "4miga store",
   },
   description: "Project created by 4miga",
+  charset: "utf-8",
 };
+
+export const viewport = {
+  width: "device-width",
+  initialScale: 1.0,
+  maximumScale: 1.0,
+};
+
+// export const themeColor = "#00C8FF";
 
 export default function RootLayout({
   children,
@@ -18,16 +26,6 @@ export default function RootLayout({
 }) {
   return (
     <html lang="pt-br">
-      <Head>
-        <meta charSet="UTF-8" />
-        <meta httpEquiv="X-UA-Compatible" content="IE-edge" />
-        <meta
-          name="viewport"
-          content="width=device-width, initial-scale=1.0, maximum-scale=1.0"
-        />
-        {/* <meta name="theme-color" content="##00C8FF" /> */}
-        <title>{metadata.title.default}</title>
-      </Head>
       <body>
         <StyledComponentsRegistry>{children}</StyledComponentsRegistry>
       </body>
