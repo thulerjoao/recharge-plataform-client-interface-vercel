@@ -4,8 +4,8 @@ import React from "react";
 import Header from "utils/components/header/header";
 import { LayoutStyle } from "./styles/layout.style";
 import { DescriptionContainer } from "./utils/components/description/style";
-import SecurityAdvertise from "app/common/(globalComponents)/securityAdvertise/securityAdvertise";
-import Contact from "app/common/(globalComponents)/contact/contact";
+import SecurityAdvertise from "utils/components/securityAdvertise/securityAdvertise";
+import Contact from "utils/components/contact/contact";
 import Footer from "utils/components/footer/footer";
 
 interface LayoutProps {

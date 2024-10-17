@@ -2,14 +2,13 @@
 
 import Text from "@4miga/design-system/components/Text";
 import { Theme } from "@4miga/design-system/theme/theme";
+import SecurityAdvertise from "utils/components/securityAdvertise/securityAdvertise";
 import Footer from "utils/components/footer/footer";
 import Header from "utils/components/header/header";
-import Contact from "../common/(globalComponents)/contact/contact";
+import Contact from "../../utils/components/contact/contact";
 import { HomeContainer } from "./styles/home.style";
 import Card from "./utils/components/card/card";
 import Lines from "./utils/components/lines/lines";
-
-import SecurityAdvertise from "app/common/(globalComponents)/securityAdvertise/securityAdvertise";
 import Card1 from "./utils/temp/Card1.svg";
 import Card2 from "./utils/temp/Card2.svg";
 import Card3 from "./utils/temp/Card3.svg";

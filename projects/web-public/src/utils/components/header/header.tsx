@@ -3,14 +3,16 @@
 import Button from "@4miga/design-system/components/button";
 import Text from "@4miga/design-system/components/Text";
 import { Theme } from "@4miga/design-system/theme/theme";
+import { useRouter } from "next/navigation";
 import HeaderLogo from "./icons/HeaderLogo.svg";
 import { HeaderContainer } from "./style";
 
 const Header = () => {
+  const route = useRouter();
   return (
     <HeaderContainer>
       <div className="centerComponent">
-        <span>
+        <span className="mainLogo" onClick={() => route.replace("/home")}>
           <HeaderLogo />
         </span>
         <div className="loginContainer">

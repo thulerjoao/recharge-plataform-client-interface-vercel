@@ -21,6 +21,10 @@ export const HeaderContainer = styled.header`
     align-items: center;
     justify-content: space-between;
 
+    .mainLogo {
+      cursor: pointer;
+    }
+
     .loginContainer {
       display: flex;
       align-items: center;
