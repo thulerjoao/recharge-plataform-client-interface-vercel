@@ -7,6 +7,9 @@ interface TextProps {
   fontSize: string;
   fontWeight: number;
   align?: string;
+  nowrap: boolean;
+  pointer: boolean;
+  underline: boolean;
 }
 
 export const TextContainer = styled.p<TextProps>`
@@ -20,4 +23,7 @@ export const TextContainer = styled.p<TextProps>`
   ${({ threeDotsLimit }) => threeDotsLimit && `text-overflow: ellipsis;`};
   width: 100%;
   height: auto;
+  white-space: ${({ nowrap }) => nowrap && "nowrap"};
+  cursor: ${({ pointer }) => pointer && "pointer"};
+  text-decoration: ${({ underline }) => underline && "underline"};
 `;

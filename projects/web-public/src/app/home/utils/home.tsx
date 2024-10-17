@@ -21,6 +21,7 @@ import Offer from "./images/Offer.svg";
 import TikTok from "./images/TikTok.svg";
 import Wpp from "./images/Wpp.svg";
 import { HomeContainer } from "./style";
+import Footer from "utils/components/footer/footer";
 
 const Home = () => {
   return (
@@ -144,6 +145,7 @@ const Home = () => {
           </span>
         </div>
       </section>
+      <Footer />
     </HomeContainer>
   );
 };

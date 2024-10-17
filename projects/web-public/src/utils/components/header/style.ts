@@ -25,14 +25,20 @@ export const HeaderContainer = styled.header`
       display: flex;
       align-items: center;
       justify-content: space-between;
-      width: 157px;
+      width: 165px;
 
       .loginButton {
         display: flex;
         align-items: center;
         cursor: pointer;
-        padding-right: 10px;
+        padding-left: 8px;
+        padding-right: 8px;
         height: 28px;
+        border-radius: 8px;
+
+        &:hover {
+          background-color: ${Theme.colors.maindark};
+        }
       }
     }
   }

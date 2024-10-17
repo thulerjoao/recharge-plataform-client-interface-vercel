@@ -11,6 +11,9 @@ interface TextProps extends React.HTMLAttributes<HTMLSpanElement> {
   fontType: fontTypes;
   color: string;
   margin?: string;
+  nowrap?: boolean;
+  pointer?: boolean;
+  underline?: boolean;
   children: React.ReactNode;
 }
 
@@ -20,6 +23,9 @@ const Text = ({
   align,
   fontType,
   color,
+  nowrap,
+  pointer,
+  underline,
   children,
   ...props
 }: TextProps) => {
@@ -83,6 +89,9 @@ const Text = ({
         prop !== "fontSype" &&
         prop !== "fontWeight" &&
         prop !== "color" &&
+        prop !== "nowrap" &&
+        prop !== "pointer" &&
+        prop !== "underline" &&
         prop !== "threeDotsLimit"
       }
     >
@@ -93,6 +102,9 @@ const Text = ({
         fontSize={fontSize}
         fontWeight={fontWeight}
         color={color}
+        nowrap={nowrap}
+        pointer={pointer}
+        underline={underline}
         {...props}
       >
         {children}
