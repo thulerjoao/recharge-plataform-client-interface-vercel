@@ -13,6 +13,7 @@ const Card = ({ image, name }: CardProps) => {
     <CardContainer>
       <figure>{image}</figure>
       <Text
+        tag="h2"
         align="center"
         color={Theme.colors.mainlight}
         fontType="REGULAR_MEDIUM"

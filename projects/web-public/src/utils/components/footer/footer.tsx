@@ -2,14 +2,14 @@
 
 import Text from "@4miga/design-system/components/Text";
 import { Theme } from "@4miga/design-system/theme/theme";
-import Ame from "./images/Ame.svg";
-import Boleto from "./images/Boleto.svg";
-import FooterLogo from "./images/FooterLogo.svg";
-import MercadoPago from "./images/MercadoPago.svg";
-import Paypal from "./images/Paypal.svg";
-import PicPay from "./images/PicPay.svg";
-import Pix from "./images/Pix.svg";
-import Transfer from "./images/Transfer.svg";
+import Ame from "./icons/Ame.svg";
+import Boleto from "./icons/Boleto.svg";
+import FooterLogo from "./icons/FooterLogo.svg";
+import MercadoPago from "./icons/MercadoPago.svg";
+import Paypal from "./icons/Paypal.svg";
+import PicPay from "./icons/PicPay.svg";
+import Pix from "./icons/Pix.svg";
+import Transfer from "./icons/Transfer.svg";
 import { FooterContainer } from "./style";
 
 const Footer = () => {
@@ -68,6 +68,7 @@ const Footer = () => {
               Desenvolvido por
             </Text>
             <Text
+              tag="a"
               pointer
               underline
               nowrap

@@ -3,7 +3,7 @@
 import Button from "@4miga/design-system/components/button";
 import Text from "@4miga/design-system/components/Text";
 import { Theme } from "@4miga/design-system/theme/theme";
-import HeaderLogo from "./HeaderLogo.svg";
+import HeaderLogo from "./icons/HeaderLogo.svg";
 import { HeaderContainer } from "./style";
 
 const Header = () => {
