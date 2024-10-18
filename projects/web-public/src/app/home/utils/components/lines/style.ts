@@ -13,7 +13,7 @@ export const LineDetail = styled.span`
     height: 300px;
     width: 465px;
     position: absolute;
-    top: 344px;
+    top: 376px;
     border-left: 1px solid #66767a;
     border-right: 1px solid #66767a;
   }
@@ -22,14 +22,14 @@ export const LineDetail = styled.span`
     top: 0;
     right: 0;
     width: 100%;
-    height: 408px;
+    height: 440px;
     border-bottom: 1px solid #66767a;
   }
   .boldLittleLines {
     width: 470px;
     height: 24px;
     position: absolute;
-    top: 398px;
+    top: 430px;
     display: flex;
     align-items: center;
     justify-content: space-between;

@@ -10,8 +10,8 @@ export const LayoutStyle = styled.div`
     width: 100%;
     max-width: 85.5rem;
     display: flex;
-    align-items: center;
+    align-items: flex-start;
     justify-content: space-between;
-    height: 50rem;
+    margin-top: 80px;
   }
 `;

@@ -9,7 +9,7 @@ export const HomeContainer = styled.div`
   height: auto;
 
   .topBanner {
-    margin-top: 48px;
+    margin-top: 80px;
   }
 
   main {
