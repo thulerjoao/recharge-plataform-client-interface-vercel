@@ -1,6 +1,6 @@
 "use client";
 
-import React, { InputHTMLAttributes, ReactElement, useState } from "react";
+import React, { InputHTMLAttributes, ReactElement } from "react";
 import { StyleSheetManager } from "styled-components";
 import { ExternalComponent, InputElement, LeftElement } from "./style";
 
@@ -26,8 +26,6 @@ const Input: React.FC<InputProps> = ({
   padding,
   ...props
 }) => {
-  const [isInputFocused, setIsInputFocused] = useState<boolean>(false);
-
   return (
     <StyleSheetManager
       shouldForwardProp={(prop) =>
@@ -39,15 +37,9 @@ const Input: React.FC<InputProps> = ({
         prop !== "password"
       }
     >
-      <ExternalComponent>
+      <ExternalComponent margin={margin}>
         {leftElement && <LeftElement>{leftElement}</LeftElement>}
-        <InputElement
-          onFocus={() => setIsInputFocused(true)}
-          onBlur={() => setIsInputFocused(false)}
-          height={height}
-          isInputFocused={isInputFocused}
-          padding={padding}
-        />
+        <InputElement {...props} height={height} padding={padding} />
       </ExternalComponent>
     </StyleSheetManager>
   );

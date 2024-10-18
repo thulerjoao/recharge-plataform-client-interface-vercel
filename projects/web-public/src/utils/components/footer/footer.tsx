@@ -39,32 +39,18 @@ const Footer = () => {
         </div>
         <div className="bottomComponent">
           <div className="topPhrase">
-            <Text
-              nowrap
-              align="center"
-              fontType="TINY"
-              color={Theme.colors.mainlight}
-            >
+            <Text nowrap align="center" fontType="TINY">
               Termos de uso
             </Text>
-            <Text
-              align="center"
-              fontType="BIG_SEMI_BOLD"
-              color={Theme.colors.mainlight}
-            >
+            <Text align="center" fontType="BIG_SEMI_BOLD">
               •
             </Text>
-            <Text nowrap fontType="TINY" color={Theme.colors.mainlight}>
+            <Text nowrap fontType="TINY">
               Política de privacidade
             </Text>
           </div>
           <div className="bottomPhrase">
-            <Text
-              nowrap
-              align="center"
-              fontType="TINY"
-              color={Theme.colors.mainlight}
-            >
+            <Text nowrap align="center" fontType="TINY">
               Desenvolvido por
             </Text>
             <Text

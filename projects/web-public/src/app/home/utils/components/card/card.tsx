@@ -1,8 +1,7 @@
 import Text from "@4miga/design-system/components/Text";
-import { Theme } from "@4miga/design-system/theme/theme";
+import { useRouter } from "next/navigation";
 import { ReactElement } from "react";
 import { CardContainer } from "./style";
-import { useRouter } from "next/navigation";
 
 interface CardProps {
   image: ReactElement;
@@ -18,7 +17,6 @@ const Card = ({ image, name }: CardProps) => {
       <Text
         tag="h2"
         align="center"
-        color={Theme.colors.mainlight}
         fontType="REGULAR_MEDIUM"
         margin="16px 0 0 0"
       >

@@ -9,7 +9,7 @@ interface TextProps extends React.HTMLAttributes<HTMLSpanElement> {
   align?: "center" | "start" | "end" | "justify";
   tag?: "h1" | "h2" | "h3" | "h4" | "h5" | "h6" | "p" | "span" | "u" | "a";
   fontType: fontTypes;
-  color: string;
+  color?: string;
   margin?: string;
   nowrap?: boolean;
   pointer?: boolean;

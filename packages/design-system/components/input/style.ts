@@ -3,8 +3,11 @@ import { Theme } from "../../theme/theme";
 
 interface InputProps {
   height: 40 | 48;
-  isInputFocused: boolean;
   padding: string;
+}
+
+interface ExternalProps {
+  margin: string;
 }
 
 export const InputElement = styled.input<InputProps>`
@@ -15,26 +18,25 @@ export const InputElement = styled.input<InputProps>`
   font-size: 16px;
   height: ${({ height }) => `${height - 4}px`};
   border-radius: 8px;
-  border: 2px solid
-    ${({ isInputFocused }) =>
-      isInputFocused
-        ? Theme.colors.mainHighlight
-        : Theme.colors.secondaryAction};
-  box-shadow: ${({ isInputFocused }) =>
-    isInputFocused && `0px 0px 10px 0px ${Theme.colors.mainHighlight}`};
+  border: 2px solid ${Theme.colors.secondaryAction};
   color: ${Theme.colors.secondaryAction};
+
   &::placeholder {
     color: ${Theme.colors.secondaryAction};
   }
+
   &:focus {
     outline: none;
+    box-shadow: 0px 0px 10px 0px ${Theme.colors.mainHighlight};
+    border: 2px solid ${Theme.colors.mainHighlight};
   }
 `;
 
-export const ExternalComponent = styled.div`
+export const ExternalComponent = styled.div<ExternalProps>`
   position: relative;
   width: 100%;
   height: auto;
+  ${({ margin }) => `margin: ${margin}`};
 `;
 
 export const LeftElement = styled.div`

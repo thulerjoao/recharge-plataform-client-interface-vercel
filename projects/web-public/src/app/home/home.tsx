@@ -1,10 +1,9 @@
 "use client";
 
 import Text from "@4miga/design-system/components/Text";
-import { Theme } from "@4miga/design-system/theme/theme";
-import SecurityAdvertise from "utils/components/securityAdvertise/securityAdvertise";
 import Footer from "utils/components/footer/footer";
 import Header from "utils/components/header/header";
+import SecurityAdvertise from "utils/components/securityAdvertise/securityAdvertise";
 import Contact from "../../utils/components/contact/contact";
 import { HomeContainer } from "./styles/home.style";
 import Card from "./utils/components/card/card";
@@ -30,7 +29,6 @@ const Home = () => {
         <Text
           tag="h1"
           align="center"
-          color={Theme.colors.mainlight}
           fontType="LARGE_SEMI_BOLD"
           margin="72px 0px 0px 0px"
         >
@@ -39,7 +37,6 @@ const Home = () => {
         <Text
           tag="h2"
           align="center"
-          color={Theme.colors.mainlight}
           fontType="REGULAR"
           margin="8px 0px 0px 0px"
         >
@@ -58,7 +55,6 @@ const Home = () => {
       <Text
         tag="h2"
         align="center"
-        color={Theme.colors.mainlight}
         fontType="LARGE_SEMI_BOLD"
         margin="56px 0 24px 0"
       >
