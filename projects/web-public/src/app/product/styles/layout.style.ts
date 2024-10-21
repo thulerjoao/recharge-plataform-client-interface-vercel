@@ -13,5 +13,7 @@ export const LayoutStyle = styled.div`
     align-items: flex-start;
     justify-content: space-between;
     margin-top: 80px;
+    padding: 0 40px;
+    gap: 32px;
   }
 `;

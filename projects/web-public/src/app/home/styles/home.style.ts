@@ -8,8 +8,12 @@ export const HomeContainer = styled.div`
   justify-content: flex-start;
   height: auto;
 
-  .topBanner {
+  .mainBanner {
     margin-top: 80px;
+    width: 100%;
+    max-width: 696px;
+    object-fit: contain;
+    height: auto;
   }
 
   main {
