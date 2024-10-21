@@ -1,7 +1,11 @@
 import { Theme } from "@4miga/design-system/theme/theme";
 import styled from "styled-components";
 
-export const PackageCardContainer = styled.article`
+interface PackageCardProps {
+  selected: boolean;
+}
+
+export const PackageCardContainer = styled.article<PackageCardProps>`
   background: ${Theme.colors.maindark};
   -webkit-box-shadow: 0px 0px 5px 0px rgba(7, 29, 35, 1);
   -moz-box-shadow: 0px 0px 5px 0px rgba(7, 29, 35, 1);
@@ -15,6 +19,10 @@ export const PackageCardContainer = styled.article`
   flex-direction: column;
   align-items: center;
   padding: 0 8px;
+  ${({ selected }) =>
+    selected && `border: 4px solid  ${Theme.colors.mainHighlight}`};
+  box-shadow: ${({ selected }) =>
+    selected && `0px 0px 10px 0px ${Theme.colors.mainHighlight}`};
 
   figure {
     height: 80px;

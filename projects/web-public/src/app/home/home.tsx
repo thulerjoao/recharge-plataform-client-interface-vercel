@@ -6,16 +6,16 @@ import Header from "utils/components/header/header";
 import SecurityAdvertise from "utils/components/securityAdvertise/securityAdvertise";
 import Contact from "../../utils/components/contact/contact";
 import { HomeContainer } from "./styles/home.style";
-import Card from "./utils/components/card/card";
-import Lines from "./utils/components/lines/lines";
-import Card1 from "./utils/temp/Card1.svg";
-import Card2 from "./utils/temp/Card2.svg";
-import Card3 from "./utils/temp/Card3.svg";
-import Card4 from "./utils/temp/Card4.svg";
-import Card5 from "./utils/temp/Card5.svg";
-import Card6 from "./utils/temp/Card6.svg";
-import MainBanner from "./utils/temp/mainBanner.svg";
-import Offer from "./utils/temp/Offer.svg";
+import Card from "./common/components/card/card";
+import Lines from "./common/components/lines/lines";
+import Card1 from "./common/temp/Card1.svg";
+import Card2 from "./common/temp/Card2.svg";
+import Card3 from "./common/temp/Card3.svg";
+import Card4 from "./common/temp/Card4.svg";
+import Card5 from "./common/temp/Card5.svg";
+import Card6 from "./common/temp/Card6.svg";
+import MainBanner from "./common/temp/mainBanner.svg";
+import Offer from "./common/temp/Offer.svg";
 
 const Home = () => {
   return (

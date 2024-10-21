@@ -2,9 +2,10 @@
 
 import Text from "@4miga/design-system/components/Text";
 import Input from "@4miga/design-system/components/input";
+import PackageCard from "./common/components/packageCard/card";
+import PaymentCard from "./common/components/paymentCard/card";
+import BigoCard from "./common/temp/bigoCard.svg";
 import { ProductContainer } from "./styles/product.style";
-import PackageCard from "./utils/components/packageCard/card";
-import BigoCard from "./utils/temp/bigoCard.svg";
 
 const ProductPage = () => {
   return (
@@ -22,6 +23,7 @@ const ProductPage = () => {
       </Text>
       <section className="cardsContainer">
         <PackageCard
+          selected
           bestOffer
           title="BIGO 30"
           image={<BigoCard />}
@@ -42,6 +44,17 @@ const ProductPage = () => {
           image={<BigoCard />}
           price={89.9}
         />
+      </section>
+      <Text margin="32px 0 0 0" align="center" fontType="REGULAR_SEMI_BOLD">
+        SELECIONE A FORMA DE PAGAMENTO
+      </Text>
+      <section className="paymentMethodsContainer">
+        <PaymentCard selected method="pix" price={3.9} />
+        <PaymentCard method="mercado pago" price={3.95} />
+        <PaymentCard method="picpay" price={3.95} />
+        <PaymentCard method="paypal" price={3.95} />
+        <PaymentCard method="boleto" price={3.95} />
+        <PaymentCard method="transferencia" price={3.95} />
       </section>
     </ProductContainer>
   );

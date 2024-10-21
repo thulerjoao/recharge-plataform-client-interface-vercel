@@ -16,4 +16,11 @@ export const ProductContainer = styled.div`
     padding: 0 14px;
     margin-top: 24px;
   }
+
+  .paymentMethodsContainer {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+  }
 `;

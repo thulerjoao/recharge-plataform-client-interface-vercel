@@ -6,7 +6,7 @@ import Footer from "utils/components/footer/footer";
 import Header from "utils/components/header/header";
 import SecurityAdvertise from "utils/components/securityAdvertise/securityAdvertise";
 import { LayoutStyle } from "./styles/layout.style";
-import Description from "./utils/components/description/description";
+import Description from "./common/components/description/description";
 
 interface LayoutProps {
   children: React.ReactNode;

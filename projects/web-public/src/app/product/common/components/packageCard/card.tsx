@@ -9,13 +9,20 @@ interface PackageCardProps {
   image: ReactElement;
   bestOffer?: boolean;
   price: number;
+  selected?: boolean;
 }
 
-const PackageCard = ({ title, image, bestOffer, price }: PackageCardProps) => {
+const PackageCard = ({
+  title,
+  image,
+  bestOffer,
+  price,
+  selected,
+}: PackageCardProps) => {
   const route = useRouter();
 
   return (
-    <PackageCardContainer onClick={() => route.replace("/product")}>
+    <PackageCardContainer selected={selected}>
       <Text
         tag="h2"
         align="center"
