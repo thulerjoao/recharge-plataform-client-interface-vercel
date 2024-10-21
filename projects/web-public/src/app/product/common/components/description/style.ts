@@ -8,8 +8,10 @@ export const DescriptionContainer = styled.div`
   justify-content: flex-start;
 
   img {
-    width: 628px;
-    height: 238px;
+    object-fit: contain;
+    width: 100%;
+    max-width: 628px;
+    height: auto;
   }
 
   .instructions {

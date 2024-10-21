@@ -6,7 +6,6 @@ export const HeaderContainer = styled.header`
   height: 48px;
   position: fixed;
   top: 0;
-  left: 0;
   display: flex;
   align-items: start;
   justify-content: center;
@@ -20,6 +19,8 @@ export const HeaderContainer = styled.header`
     display: flex;
     align-items: center;
     justify-content: space-between;
+
+    padding: 0 40px;
 
     .mainLogo {
       cursor: pointer;
@@ -44,6 +45,17 @@ export const HeaderContainer = styled.header`
           background-color: ${Theme.colors.maindark};
         }
       }
+    }
+  }
+
+  @media (min-width: 768px) and (max-width: 1024px) {
+    .centerComponent {
+      padding: 0 24px;
+    }
+  }
+  @media (max-width: 767px) {
+    .centerComponent {
+      padding: 0 16px;
     }
   }
 `;

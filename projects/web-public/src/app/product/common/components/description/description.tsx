@@ -7,7 +7,7 @@ import bigo from "./temp/bigo.png";
 const Description = () => {
   return (
     <DescriptionContainer>
-      <Image src={bigo} alt="Imagem geral do produto" />
+      <Image src={bigo} alt="General product image" />
       <Text margin="24px 0 0 0 " fontType="BIG_SEMI_BOLD">
         BIGO LIVE
       </Text>

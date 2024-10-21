@@ -2,34 +2,36 @@ import styled from "styled-components";
 
 export const LineDetail = styled.span`
   width: 100%;
+  height: 0;
   display: flex;
   flex-direction: column;
   align-items: center;
-  height: 0;
-  width: 0;
   z-index: -1;
+  position: relative;
 
   .verticalLines {
     height: 300px;
-    width: 465px;
+    width: calc(100% - 69px);
+    max-width: 465px;
     position: absolute;
-    top: 376px;
+    top: 0px;
     border-left: 1px solid #66767a;
     border-right: 1px solid #66767a;
   }
+
   .horizontalLine {
     position: absolute;
-    top: 0;
-    right: 0;
-    width: 100%;
-    height: 440px;
+    top: 40px;
+    width: 100vw;
     border-bottom: 1px solid #66767a;
   }
+
   .boldLittleLines {
-    width: 470px;
+    width: calc(100% - 64.5px);
+    max-width: 470px;
     height: 24px;
     position: absolute;
-    top: 430px;
+    top: 31px;
     display: flex;
     align-items: center;
     justify-content: space-between;
