@@ -23,6 +23,7 @@ export const HomeContainer = styled.div`
       gap: 32px;
       grid-template-columns: repeat(3, 1fr);
       margin-top: 24px;
+      margin-bottom: 56px;
     }
   }
 `;

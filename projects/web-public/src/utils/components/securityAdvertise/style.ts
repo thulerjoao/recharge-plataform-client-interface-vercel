@@ -3,7 +3,6 @@ import styled from "styled-components";
 
 export const SecurityAdvertiseContainer = styled.section`
   display: flex;
-  margin-top: 56px;
 
   article {
     height: 160px;

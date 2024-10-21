@@ -1,6 +1,7 @@
 "use client";
 
 import Text from "@4miga/design-system/components/Text";
+import Button from "@4miga/design-system/components/button";
 import Input from "@4miga/design-system/components/input";
 import PackageCard from "./common/components/packageCard/card";
 import PaymentCard from "./common/components/paymentCard/card";
@@ -56,6 +57,13 @@ const ProductPage = () => {
         <PaymentCard method="boleto" price={3.95} />
         <PaymentCard method="transferencia" price={3.95} />
       </section>
+      <Button
+        margin="32px 0 80px 0"
+        width={185}
+        rounded
+        height={40}
+        title="Compre Agora"
+      />
     </ProductContainer>
   );
 };

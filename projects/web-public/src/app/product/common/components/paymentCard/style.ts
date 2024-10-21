@@ -20,7 +20,7 @@ export const PaymentCardContainer = styled.article<PaymentCardProps>`
       selected ? Theme.colors.mainHighlight : Theme.colors.mainlight};
   box-shadow: ${({ selected }) =>
     selected && `0px 0px 10px 0px ${Theme.colors.mainHighlight}`};
-    cursor: pointer;
+  cursor: pointer;
 
   .iconContainer {
     display: flex;
