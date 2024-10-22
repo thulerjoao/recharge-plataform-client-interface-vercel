@@ -23,6 +23,7 @@ export const HomeContainer = styled.div`
     justify-content: flex-start;
 
     .cardsContainer {
+      width: 100%;
       display: grid;
       gap: 32px;
       grid-template-columns: repeat(3, 1fr);
@@ -31,14 +32,23 @@ export const HomeContainer = styled.div`
     }
   }
 
-  @media (min-width: 768px) and (max-width: 1024px) {
+  @media (min-width: 540px) and (max-width: 1024px) {
   }
-  @media (max-width: 767px) {
+  @media (max-width: 539px) {
     main {
       .cardsContainer {
         grid-template-columns: repeat(2, 1fr);
-        padding: 0 24px;
+        gap: 28px;
+        padding: 0 16px;
+        box-sizing: border-box;
       }
+    }
+
+    .offerBanner {
+      width: 100%;
+      height: auto;
+      object-fit: contain;
+      padding: 0 16px;
     }
   }
 `;

@@ -13,7 +13,7 @@ export const CardContainer = styled.article`
   height: 231px;
   width: 100%;
   max-width: 174px;
-  min-width: 160px;
+  /* min-width: 160px; */
   border-radius: 8px;
   overflow: hidden;
   cursor: pointer;
