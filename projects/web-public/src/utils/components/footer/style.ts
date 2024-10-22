@@ -17,6 +17,7 @@ export const FooterContainer = styled.footer`
     display: flex;
     flex-direction: column;
     align-items: center;
+    margin: 0 80px;
 
     .upperComponent {
       width: 100%;
@@ -64,6 +65,17 @@ export const FooterContainer = styled.footer`
         justify-content: center;
         gap: 8px;
       }
+    }
+  }
+
+  @media (min-width: 768px) and (max-width: 1024px) {
+    .centerComponent {
+      margin: 0 80px;
+    }
+  }
+  @media (max-width: 767px) {
+    .centerComponent {
+      margin: 0 16px;
     }
   }
 `;

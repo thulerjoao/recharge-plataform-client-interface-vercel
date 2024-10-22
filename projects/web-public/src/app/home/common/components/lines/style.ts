@@ -22,13 +22,13 @@ export const LineDetail = styled.span`
   .horizontalLine {
     position: absolute;
     top: 40px;
-    width: 100vw;
+    width: 100%;
     border-bottom: 1px solid #66767a;
   }
 
   .boldLittleLines {
-    width: calc(100% - 64.5px);
-    max-width: 470px;
+    width: calc(100% - 65px);
+    max-width: 469px;
     height: 24px;
     position: absolute;
     top: 31px;
