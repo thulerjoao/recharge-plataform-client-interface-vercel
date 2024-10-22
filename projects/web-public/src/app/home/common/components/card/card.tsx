@@ -2,9 +2,10 @@ import Text from "@4miga/design-system/components/Text";
 import { useRouter } from "next/navigation";
 import { ReactElement } from "react";
 import { CardContainer } from "./style";
+import Image, { StaticImageData } from "next/image";
 
 interface CardProps {
-  image: ReactElement;
+  image: StaticImageData;
   name: string;
 }
 
@@ -13,7 +14,7 @@ const Card = ({ image, name }: CardProps) => {
 
   return (
     <CardContainer onClick={() => route.replace("/product")}>
-      <figure>{image}</figure>
+      <Image src={image} alt={`Imagem do jogo ${name}`} />
       <Text
         tag="h2"
         align="center"

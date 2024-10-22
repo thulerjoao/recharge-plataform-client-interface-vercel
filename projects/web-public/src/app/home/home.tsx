@@ -8,14 +8,14 @@ import SecurityAdvertise from "utils/components/securityAdvertise/securityAdvert
 import Contact from "../../utils/components/contact/contact";
 import Card from "./common/components/card/card";
 import Lines from "./common/components/lines/lines";
-import Card1 from "./common/temp/Card1.svg";
-import Card2 from "./common/temp/Card2.svg";
-import Card3 from "./common/temp/Card3.svg";
-import Card4 from "./common/temp/Card4.svg";
-import Card5 from "./common/temp/Card5.svg";
-import Card6 from "./common/temp/Card6.svg";
-import offer from "./common/temp/offer.png";
+import Card1 from "./common/temp/Card1.png";
+import Card2 from "./common/temp/Card2.png";
+import Card3 from "./common/temp/Card3.png";
+import Card4 from "./common/temp/Card4.png";
+import Card5 from "./common/temp/Card5.png";
+import Card6 from "./common/temp/Card6.png";
 import mainBanner from "./common/temp/mainBanner.png";
+import offer from "./common/temp/offer.png";
 import { HomeContainer } from "./styles/home.style";
 
 const Home = () => {
@@ -42,12 +42,12 @@ const Home = () => {
           Texto de exemplo
         </Text>
         <section className="cardsContainer">
-          <Card image={<Card1 />} name="Bigo Live" />
-          <Card image={<Card2 />} name="Farlight 84" />
-          <Card image={<Card3 />} name="8 Ball Pool" />
-          <Card image={<Card4 />} name="Free Fire" />
-          <Card image={<Card5 />} name="Pubg Mobile" />
-          <Card image={<Card6 />} name="Mobile Legends" />
+          <Card image={Card1} name="Bigo Live" />
+          <Card image={Card2} name="Farlight 84" />
+          <Card image={Card3} name="8 Ball Pool" />
+          <Card image={Card4} name="Free Fire" />
+          <Card image={Card5} name="Pubg Mobile" />
+          <Card image={Card6} name="Mobile Legends" />
         </section>
       </main>
       <SecurityAdvertise />
