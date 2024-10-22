@@ -11,7 +11,7 @@ export const LineDetail = styled.span`
 
   .verticalLines {
     height: 300px;
-    width: calc(100% - 69px);
+    width: calc(100% - 99px);
     max-width: 465px;
     position: absolute;
     top: 0px;
@@ -22,13 +22,13 @@ export const LineDetail = styled.span`
   .horizontalLine {
     position: absolute;
     top: 40px;
-    width: 100vw;
+    width: 100%;
     border-bottom: 1px solid #66767a;
   }
 
   .boldLittleLines {
-    width: calc(100% - 64.5px);
-    max-width: 470px;
+    width: calc(100% - 95px);
+    max-width: 469px;
     height: 24px;
     position: absolute;
     top: 31px;
@@ -42,5 +42,10 @@ export const LineDetail = styled.span`
       background-color: white;
       border-radius: 2.5px;
     }
+  }
+
+  @media (min-width: 768px) and (max-width: 1024px) {
+  }
+  @media (max-width: 767px) {
   }
 `;

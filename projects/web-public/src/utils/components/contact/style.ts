@@ -31,4 +31,18 @@ export const ContactContainer = styled.section`
       }
     }
   }
+
+  @media (min-width: 768px) and (max-width: 1024px) {
+    /* flex-direction: column;
+
+    .topDiv {
+      margin-bottom: 32px;
+    } */
+  }
+  @media (max-width: 767px) {
+    flex-direction: column;
+    .topDiv {
+      margin-bottom: 32px;
+    }
+  }
 `;

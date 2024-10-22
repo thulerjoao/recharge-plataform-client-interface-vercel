@@ -23,11 +23,32 @@ export const HomeContainer = styled.div`
     justify-content: flex-start;
 
     .cardsContainer {
+      width: 100%;
       display: grid;
       gap: 32px;
       grid-template-columns: repeat(3, 1fr);
       margin-top: 24px;
       margin-bottom: 56px;
+    }
+  }
+
+  @media (min-width: 540px) and (max-width: 1024px) {
+  }
+  @media (max-width: 539px) {
+    main {
+      .cardsContainer {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 28px;
+        padding: 0 16px;
+        box-sizing: border-box;
+      }
+    }
+
+    .offerBanner {
+      width: 100%;
+      height: auto;
+      object-fit: contain;
+      padding: 0 16px;
     }
   }
 `;

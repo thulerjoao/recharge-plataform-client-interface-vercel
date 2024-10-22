@@ -19,12 +19,15 @@ exports[`Global input snapshot test matches snapshot with height 40 1`] = `
 
 .c1:focus {
   outline: none;
+  box-shadow: 0px 0px 10px 0px #00C8FF;
+  border: 2px solid #00C8FF;
 }
 
 .c0 {
   position: relative;
   width: 100%;
   height: auto;
+  margin: undefined;
 }
 
 <div
@@ -33,6 +36,7 @@ exports[`Global input snapshot test matches snapshot with height 40 1`] = `
     <input
       class="c1"
       height="40"
+      value="The height value is 40"
     />
   </div>
 </DocumentFragment>
@@ -57,12 +61,15 @@ exports[`Global input snapshot test matches snapshot with height 48 1`] = `
 
 .c1:focus {
   outline: none;
+  box-shadow: 0px 0px 10px 0px #00C8FF;
+  border: 2px solid #00C8FF;
 }
 
 .c0 {
   position: relative;
   width: 100%;
   height: auto;
+  margin: undefined;
 }
 
 <div
@@ -71,6 +78,7 @@ exports[`Global input snapshot test matches snapshot with height 48 1`] = `
     <input
       class="c1"
       height="48"
+      value="The height value is 48"
     />
   </div>
 </DocumentFragment>
@@ -95,12 +103,15 @@ exports[`Global input snapshot test matches the snapshot when loading 1`] = `
 
 .c1:focus {
   outline: none;
+  box-shadow: 0px 0px 10px 0px #00C8FF;
+  border: 2px solid #00C8FF;
 }
 
 .c0 {
   position: relative;
   width: 100%;
   height: auto;
+  margin: undefined;
 }
 
 <div
@@ -133,12 +144,15 @@ exports[`Global input snapshot test matches the snapshot with a left element 1`]
 
 .c2:focus {
   outline: none;
+  box-shadow: 0px 0px 10px 0px #00C8FF;
+  border: 2px solid #00C8FF;
 }
 
 .c0 {
   position: relative;
   width: 100%;
   height: auto;
+  margin: undefined;
 }
 
 .c1 {
@@ -191,12 +205,15 @@ exports[`Global input snapshot test matches the snapshot with custom margin and 
 
 .c1:focus {
   outline: none;
+  box-shadow: 0px 0px 10px 0px #00C8FF;
+  border: 2px solid #00C8FF;
 }
 
 .c0 {
   position: relative;
   width: 100%;
   height: auto;
+  margin: 10px;
 }
 
 <div

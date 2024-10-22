@@ -10,7 +10,7 @@ import { ContactContainer } from "./style";
 const Contact = () => {
   return (
     <ContactContainer>
-      <div>
+      <div className="topDiv">
         <Text
           align="center"
           color={Theme.colors.mainHighlight}
