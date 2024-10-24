@@ -81,7 +81,7 @@ const Description = () => {
               varius mauris morbi sit leo parturient.
             </Text>
           </div>
-          {seeMore && (
+          {seeMore && device !== "desktop" && (
             <span
               style={{ cursor: "pointer" }}
               onClick={() => setSeeMore(false)}

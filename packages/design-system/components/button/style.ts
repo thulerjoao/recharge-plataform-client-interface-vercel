@@ -8,6 +8,7 @@ interface ButtonInputProps {
   loading: boolean;
   shadow: boolean;
   margin: string;
+  isNotSelected: boolean;
 }
 
 export const ButtonInput = styled.button<ButtonInputProps>`
@@ -19,7 +20,8 @@ export const ButtonInput = styled.button<ButtonInputProps>`
   width: ${({ width }) => width && `${width}px`};
   height: ${({ height }) => `${height}px`};
   align-items: center;
-  background-color: ${Theme.colors.mainHighlight};
+  background-color: ${({ isNotSelected }) =>
+    isNotSelected ? Theme.colors.mainTransparent : Theme.colors.mainHighlight};
   border: none;
   box-shadow: ${({ shadow }) =>
     shadow && `0px 0px 12px 0px ${Theme.colors.mainHighlight}`};
