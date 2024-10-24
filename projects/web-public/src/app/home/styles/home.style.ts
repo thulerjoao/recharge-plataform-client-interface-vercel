@@ -52,6 +52,10 @@ export const HomeContainer = styled.div`
     }
   }
   @media (max-width: 539px) {
+    .mainBanner {
+      margin-top: 48px;
+      max-width: 100%;
+    }
     main {
       .cardsContainer {
         padding: 0 14px;
