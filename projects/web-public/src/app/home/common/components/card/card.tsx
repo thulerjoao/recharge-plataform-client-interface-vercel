@@ -13,7 +13,7 @@ const Card = ({ image, name }: CardProps) => {
   const route = useRouter();
 
   return (
-    <CardContainer onClick={() => route.replace("/product")}>
+    <CardContainer onClick={() => route.push("/product")}>
       <Image src={image} alt={`Imagem do jogo ${name}`} />
       <Text
         tag="h2"
