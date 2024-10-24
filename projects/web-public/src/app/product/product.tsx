@@ -23,28 +23,40 @@ const ProductPage = () => {
         SELECIONE O PACOTE PARA RECARGA
       </Text>
       <section className="cardsContainer">
-        <PackageCard
-          selected
-          bestOffer
-          title="BIGO 30"
-          image={<BigoCard />}
-          price={3.9}
-        />
-        <PackageCard
-          bestOffer
-          title="BIGO 100"
-          image={<BigoCard />}
-          price={6.9}
-        />
-        <PackageCard title="BIGO 300" image={<BigoCard />} price={9.9} />
-        <PackageCard title="BIGO 500" image={<BigoCard />} price={14.9} />
-        <PackageCard title="BIGO 1000" image={<BigoCard />} price={24.9} />
-        <PackageCard
-          bestOffer
-          title="BIGO 5000"
-          image={<BigoCard />}
-          price={89.9}
-        />
+        <div className="cardEnviroment">
+          <PackageCard
+            selected
+            bestOffer
+            title="BIGO 30"
+            image={<BigoCard />}
+            price={3.9}
+          />
+        </div>
+        <div className="cardEnviroment">
+          <PackageCard
+            bestOffer
+            title="BIGO 100"
+            image={<BigoCard />}
+            price={6.9}
+          />
+        </div>
+        <div className="cardEnviroment">
+          <PackageCard title="BIGO 300" image={<BigoCard />} price={9.9} />
+        </div>
+        <div className="cardEnviroment">
+          <PackageCard title="BIGO 500" image={<BigoCard />} price={14.9} />
+        </div>
+        <div className="cardEnviroment">
+          <PackageCard title="BIGO 1000" image={<BigoCard />} price={24.9} />
+        </div>
+        <div className="cardEnviroment">
+          <PackageCard
+            bestOffer
+            title="BIGO 5000"
+            image={<BigoCard />}
+            price={89.9}
+          />
+        </div>
       </section>
       <Text margin="32px 0 0 0" align="center" fontName="REGULAR_SEMI_BOLD">
         SELECIONE A FORMA DE PAGAMENTO
