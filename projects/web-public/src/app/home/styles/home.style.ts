@@ -24,11 +24,23 @@ export const HomeContainer = styled.div`
 
     .cardsContainer {
       width: 100%;
-      display: grid;
-      gap: 32px;
-      grid-template-columns: repeat(3, 1fr);
+      max-width: 605px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
       margin-top: 24px;
       margin-bottom: 56px;
+
+      .cardEnviroment {
+        height: auto;
+        flex: 0 1 calc(33.33% - 16px);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 100%;
+        margin-bottom: 24px;
+      }
     }
   }
 
@@ -37,10 +49,12 @@ export const HomeContainer = styled.div`
   @media (max-width: 539px) {
     main {
       .cardsContainer {
-        grid-template-columns: repeat(2, 1fr);
-        gap: 28px;
-        padding: 0 16px;
+        padding: 0 14px;
         box-sizing: border-box;
+
+        .cardEnviroment {
+          flex: 0 1 calc(50% - 10px);
+        }
       }
     }
 

@@ -8,5 +8,5 @@ RUN mkdir -p /home/node/app
 
 WORKDIR /home/node/app
 
-CMD [ "/home/node/app/.docker/start-dev.sh" ]
+CMD [ "/home/node/app/recharge-plataform/.docker/start-dev.sh" ]
 

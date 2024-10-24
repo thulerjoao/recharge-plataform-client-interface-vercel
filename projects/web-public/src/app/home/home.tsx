@@ -42,12 +42,24 @@ const Home = () => {
           Texto de exemplo
         </Text>
         <section className="cardsContainer">
-          <Card image={Card1} name="Bigo Live" />
-          <Card image={Card2} name="Farlight 84" />
-          <Card image={Card3} name="8 Ball Pool" />
-          <Card image={Card4} name="Free Fire" />
-          <Card image={Card5} name="Pubg Mobile" />
-          <Card image={Card6} name="Mobile Legends" />
+          <div className="cardEnviroment">
+            <Card image={Card1} name="Bigo Live" />
+          </div>
+          <div className="cardEnviroment">
+            <Card image={Card2} name="Farlight 84" />
+          </div>
+          <div className="cardEnviroment">
+            <Card image={Card3} name="8 Ball Pool" />
+          </div>
+          <div className="cardEnviroment">
+            <Card image={Card4} name="Free Fire" />
+          </div>
+          <div className="cardEnviroment">
+            <Card image={Card5} name="Pubg Mobile" />
+          </div>
+          <div className="cardEnviroment">
+            <Card image={Card6} name="Mobile Legends" />
+          </div>
         </section>
       </main>
       <SecurityAdvertise />
