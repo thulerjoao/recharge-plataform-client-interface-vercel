@@ -6,6 +6,7 @@ import CreditcardCard from "app/common/payment/creditcardCard/creditcardCard";
 import PackageCard from "../common/components/packageCard/card";
 import BigoCard from "../common/temp/bigoCard.svg";
 import { ProductInnerPage } from "./style";
+import PixCard from "app/common/payment/pixCard/pixCard";
 
 type Props = {
   params: {
@@ -35,8 +36,10 @@ const Page = ({ params }: Props) => {
       <Text margin="32px 0 0 0" align="center" fontName="REGULAR_SEMI_BOLD">
         FORMAS DE PAGAMENTO
       </Text>
-      <Input height={48} title="CPF do titular" placeholder="000.000.000-00" />
-      <CreditcardCard />
+      <section className="paymentMethods">
+        <PixCard />
+        <CreditcardCard />
+      </section>
     </ProductInnerPage>
   );
 };

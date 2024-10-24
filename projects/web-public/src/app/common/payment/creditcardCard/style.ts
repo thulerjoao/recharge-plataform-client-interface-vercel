@@ -113,13 +113,13 @@ const expandFirstStep = keyframes`
     height: 0;
   }
   to {
-    height: 421px;
+    height: 461px;
   }
 `;
 
 const shrinkFirstStep = keyframes`
   from {
-    height: 421px;
+    height: 461px;
   }
   to {
     height: 0px;

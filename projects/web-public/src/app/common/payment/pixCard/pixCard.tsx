@@ -1,11 +1,13 @@
-import Text from "@4miga/design-system/components/text/text";
-import { Icons } from "@4miga/design-system/icons/icons";
+import Button from "@4miga/design-system/components/button";
+import Text from "@4miga/design-system/components/Text";
 import { Theme } from "@4miga/design-system/theme/theme";
-import { BottomElement, PixCardContainer } from "./style";
-import { useEffect, useState } from "react";
-import Button from "@4miga/design-system/components/button/button";
 import Image from "next/image";
+import { useEffect, useState } from "react";
+import DownArrow from "../../icons/DownArrow.svg";
+import Pix from "../../icons/Pix.svg";
+import UpArrow from "../../icons/UpArrow.svg";
 import qrcode from "./qrcode.png";
+import { BottomElement, PixCardContainer } from "./style";
 
 const PixCard = () => {
   const [firstExpand, setFirstExpand] = useState<boolean>(false);
@@ -50,21 +52,14 @@ const PixCard = () => {
       >
         <div className="headerText">
           <span>
-            <Icons.bankTags.pix />
+            <Pix />
           </span>
-          <Text
-            fontType={Theme.font.REGULAR_MEDIUM}
-            color={Theme.colors.mainBlack}
-          >
+          <Text fontName="REGULAR_MEDIUM" color={Theme.colors.secondaryAction}>
             Pix
           </Text>
         </div>
         <span className="downArrow">
-          {firstExpand ? (
-            <Icons.navigation.UpArrow />
-          ) : (
-            <Icons.navigation.DownArrow />
-          )}
+          {firstExpand ? <UpArrow /> : <DownArrow />}
         </span>
       </PixCardContainer>
       <BottomElement
@@ -75,15 +70,15 @@ const PixCard = () => {
       >
         <div className="valueToPay">
           <div style={{ width: "300px" }}>
-            <Text fontType={Theme.font.REGULAR} color={Theme.colors.mainBlack}>
+            <Text fontName="REGULAR" color={Theme.colors.secondaryAction}>
               Valor para pagamento
             </Text>
           </div>
           <div>
             <Text
               align="end"
-              fontType={Theme.font.REGULAR_SEMI_BOLD}
-              color={Theme.colors.mainBlack}
+              fontName="REGULAR_SEMI_BOLD"
+              color={Theme.colors.secondaryAction}
             >
               R$ 12,00
             </Text>
@@ -91,8 +86,9 @@ const PixCard = () => {
         </div>
         <div className="pixCode">
           <Text
-            fontType={Theme.font.REGULAR_SEMI_BOLD}
-            color={Theme.colors.mainBlack}
+            align="center"
+            fontName="REGULAR_SEMI_BOLD"
+            color={Theme.colors.secondaryAction}
           >
             0001234567890012345678900BR
           </Text>
@@ -101,16 +97,16 @@ const PixCard = () => {
           <Button
             onClick={() => handleGeneratePix()}
             loading={loading}
-            height="tall"
+            height={40}
+            rounded
             title={secondExpand ? "Copiar código Pix" : "Gerar Pix"}
-            fontType={Theme.font.SMALL_MEDIUM}
           />
         </div>
         <div className="pixImage">
           <Text
             align="center"
-            fontType={Theme.font.SMALL_MEDIUM}
-            color={Theme.colors.mainBlack}
+            fontName="SMALL_MEDIUM"
+            color={Theme.colors.secondaryAction}
           >
             {`Por gentileza, utilize a opção "Copiar e Colar" do PIX em seu
             aplicativo bancário.`}

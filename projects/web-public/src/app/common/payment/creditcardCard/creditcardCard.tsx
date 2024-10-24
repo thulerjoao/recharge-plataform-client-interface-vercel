@@ -44,7 +44,7 @@ const CreditcardCard = () => {
           <span>
             <CreditCard />
           </span>
-          <Text fontName="REGULAR_MEDIUM" color={Theme.colors.maindark}>
+          <Text fontName="REGULAR_MEDIUM" color={Theme.colors.secondaryAction}>
             Cartão de crédito
           </Text>
         </div>
@@ -59,15 +59,15 @@ const CreditcardCard = () => {
       >
         <div className="valueToPay">
           <div style={{ width: "300px" }}>
-            <Text fontName="LARGE_MEDIUM" color={Theme.colors.maindark}>
+            <Text fontName="REGULAR" color={Theme.colors.secondaryAction}>
               Valor para pagamento
             </Text>
           </div>
           <div>
             <Text
               align="end"
-              fontName="LARGE_SEMI_BOLD"
-              color={Theme.colors.maindark}
+              fontName="REGULAR_SEMI_BOLD"
+              color={Theme.colors.secondaryAction}
             >
               R$ 12,00
             </Text>

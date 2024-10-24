@@ -13,11 +13,11 @@ export const PixCardContainer = styled.div<AnimationProps>`
   justify-content: flex-start;
   align-items: start;
   flex-direction: row;
-  background-color: ${Theme.colors.backGround};
+  background-color: ${Theme.colors.mainlight};
   box-sizing: border-box;
   height: 48px;
   width: 100%;
-  border: 1px solid ${Theme.colors.mainColor};
+  border: 2px solid ${Theme.colors.secondaryAction};
   border-radius: ${({ isRounded }) => (isRounded ? "8px" : "8px 8px 0 0")};
   animation: ${({ isRounded }) => (!isRounded ? halfRounded : fullRounded)} 0.2s
     forwards;
@@ -46,6 +46,7 @@ export const PixCardContainer = styled.div<AnimationProps>`
 `;
 
 export const BottomElement = styled.div<AnimationProps>`
+  background-color: ${Theme.colors.mainlight};
   display: flex;
   flex-direction: column;
   justify-content: space-evenly;
@@ -53,7 +54,7 @@ export const BottomElement = styled.div<AnimationProps>`
   border-radius: 0 0 8px 8px;
   padding: 0px 24px;
   border: ${({ isRounded }) =>
-    !isRounded ? `1px solid ${Theme.colors.mainColor};` : "0"};
+    !isRounded ? `2px solid ${Theme.colors.secondaryAction};` : "0"};
   border-top: 0;
   height: ${({ initialized }) => !initialized && "0px"};
   animation: ${({ firstExpand, secondExpand, initialized }) =>
@@ -88,7 +89,7 @@ export const BottomElement = styled.div<AnimationProps>`
     justify-content: center;
     border-radius: 8px;
     border: ${({ secondExpand }) =>
-      secondExpand ? `1px solid ${Theme.colors.mainColor};` : "none"};
+      secondExpand ? `2px solid ${Theme.colors.secondaryAction};` : "none"};
     overflow: hidden;
     height: ${({ secondExpand }) => (secondExpand ? "40px" : "0")};
     animation: 0.5s easy-in-out;
@@ -97,6 +98,7 @@ export const BottomElement = styled.div<AnimationProps>`
   .bottomButton {
     width: 100%;
     overflow: hidden;
+    padding: 0 16px;
     z-index: 10;
   }
 

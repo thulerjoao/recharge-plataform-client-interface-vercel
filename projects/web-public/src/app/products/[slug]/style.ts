@@ -10,4 +10,10 @@ export const ProductInnerPage = styled.div`
     justify-content: center;
     margin-top: 16px;
   }
+
+  .paymentMethods {
+    width: 100%;
+    min-height: 420px;
+    margin-bottom: 80px;
+  }
 `;
