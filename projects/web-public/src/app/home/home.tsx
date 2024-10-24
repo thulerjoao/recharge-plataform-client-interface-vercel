@@ -28,7 +28,7 @@ const Home = () => {
         <Text
           tag="h1"
           align="center"
-          fontType="LARGE_SEMI_BOLD"
+          fontName="LARGE_SEMI_BOLD"
           margin="72px 0px 0px 0px"
         >
           RECARREGUE AGORA!
@@ -36,7 +36,7 @@ const Home = () => {
         <Text
           tag="h2"
           align="center"
-          fontType="REGULAR"
+          fontName="REGULAR"
           margin="8px 0px 0px 0px"
         >
           Texto de exemplo
@@ -66,7 +66,7 @@ const Home = () => {
       <Text
         tag="h2"
         align="center"
-        fontType="LARGE_SEMI_BOLD"
+        fontName="LARGE_SEMI_BOLD"
         margin="56px 0 24px 0"
       >
         OFERTA X

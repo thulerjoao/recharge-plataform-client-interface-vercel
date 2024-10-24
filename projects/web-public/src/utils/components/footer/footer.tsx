@@ -21,7 +21,7 @@ const Footer = () => {
           <div className="paymentMethods">
             <Text
               align="center"
-              fontType="SMALL"
+              fontName="SMALL"
               color={Theme.colors.mainHighlight}
             >
               Formas de Pagamento
@@ -39,18 +39,18 @@ const Footer = () => {
         </div>
         <div className="bottomComponent">
           <div className="topPhrase">
-            <Text nowrap align="center" fontType="TINY">
+            <Text nowrap align="center" fontName="TINY">
               Termos de uso
             </Text>
-            <Text align="center" fontType="BIG_SEMI_BOLD">
+            <Text align="center" fontName="BIG_SEMI_BOLD">
               •
             </Text>
-            <Text nowrap fontType="TINY">
+            <Text nowrap fontName="TINY">
               Política de privacidade
             </Text>
           </div>
           <div className="bottomPhrase">
-            <Text nowrap align="center" fontType="TINY">
+            <Text nowrap align="center" fontName="TINY">
               Desenvolvido por
             </Text>
             <Text
@@ -59,7 +59,7 @@ const Footer = () => {
               underline
               nowrap
               align="center"
-              fontType="TINY"
+              fontName="TINY"
               color={Theme.colors.mainHighlight}
             >
               4MIGA GAMES

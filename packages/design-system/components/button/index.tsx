@@ -35,7 +35,7 @@ const Button: React.FC<ButtonProps> = ({
         prop !== "shadow" &&
         prop !== "margin" &&
         prop !== "width" &&
-        prop !== "fontType"
+        prop !== "fontName"
       }
     >
       <ButtonInput

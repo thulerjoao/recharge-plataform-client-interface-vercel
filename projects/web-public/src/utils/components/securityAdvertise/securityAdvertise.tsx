@@ -8,13 +8,13 @@ const SecurityAdvertise = () => {
     <SecurityAdvertiseContainer>
       <article>
         <Kart />
-        <Text tag="h3" align="center" fontType="SMALL_MEDIUM">
+        <Text tag="h3" align="center" fontName="SMALL_MEDIUM">
           Entrega imediata
         </Text>
       </article>
       <article>
         <Locker />
-        <Text tag="h3" align="center" fontType="SMALL_MEDIUM">
+        <Text tag="h3" align="center" fontName="SMALL_MEDIUM">
           Compra Segura
         </Text>
       </article>

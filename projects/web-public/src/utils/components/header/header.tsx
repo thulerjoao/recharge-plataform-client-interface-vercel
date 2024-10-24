@@ -16,7 +16,7 @@ const Header = () => {
         </span>
         <div className="loginContainer">
           <span className="loginButton">
-            <Text align="start" fontType="SMALL_SEMI_BOLD">
+            <Text align="start" fontName="SMALL_SEMI_BOLD">
               Entrar
             </Text>
           </span>
