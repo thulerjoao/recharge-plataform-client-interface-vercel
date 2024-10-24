@@ -11,7 +11,7 @@ const Header = () => {
   return (
     <HeaderContainer>
       <div className="centerComponent">
-        <span className="mainLogo" onClick={() => route.replace("/home")}>
+        <span className="mainLogo" onClick={() => route.push("/home")}>
           <HeaderLogo />
         </span>
         <div className="loginContainer">
