@@ -10,7 +10,7 @@ describe("<Text />", () => {
       <Text
         align="justify"
         underline
-        fontType="REGULAR_SEMI_BOLD"
+        fontName="REGULAR_SEMI_BOLD"
         color={Theme.colors.maindark}
         tag="h2"
       >

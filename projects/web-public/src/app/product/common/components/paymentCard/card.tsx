@@ -44,14 +44,14 @@ const PaymentCard = ({ selected, method, price }: Props) => {
     <PaymentCardContainer selected={selected}>
       <div className="iconContainer">
         <span>{RenderedComponent[0]}</span>
-        <Text color={Theme.colors.maindark} fontType="REGULAR_MEDIUM">
+        <Text color={Theme.colors.maindark} fontName="REGULAR_MEDIUM">
           {RenderedComponent[1]}
         </Text>
       </div>
       <Text
         align="end"
         color={Theme.colors.maindark}
-        fontType="REGULAR_SEMI_BOLD"
+        fontName="REGULAR_SEMI_BOLD"
       >{`R$ ${price.toFixed(2)}`}</Text>
     </PaymentCardContainer>
   );

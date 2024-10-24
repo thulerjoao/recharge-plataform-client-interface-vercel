@@ -26,12 +26,12 @@ const PackageCard = ({
       <Text
         tag="h2"
         align="center"
-        fontType="REGULAR_SEMI_BOLD"
+        fontName="REGULAR_SEMI_BOLD"
         margin="16px 0 0 0"
       >
         {title}
       </Text>
-      <Text tag="h2" align="center" fontType="REGULAR_SEMI_BOLD">
+      <Text tag="h2" align="center" fontName="REGULAR_SEMI_BOLD">
         DIAMANTES
       </Text>
       <figure>{image}</figure>
@@ -40,7 +40,7 @@ const PackageCard = ({
           <Text
             align="center"
             color={Theme.colors.mainBbackgroundSolid}
-            fontType="SMALL_SEMI_BOLD"
+            fontName="SMALL_SEMI_BOLD"
           >
             Melhor Preço
           </Text>
@@ -50,7 +50,7 @@ const PackageCard = ({
           tag="h4"
           color={Theme.colors.mainHighlight}
           align="end"
-          fontType="SMALL"
+          fontName="SMALL"
           margin="18px 16px 0 0"
         >
           Por apenas
@@ -59,7 +59,7 @@ const PackageCard = ({
       <Text
         tag="h4"
         align="end"
-        fontType="REGULAR_SEMI_BOLD"
+        fontName="REGULAR_SEMI_BOLD"
         margin="9px 16px 0 0"
       >
         {`R$ ${price.toFixed(2)}`}

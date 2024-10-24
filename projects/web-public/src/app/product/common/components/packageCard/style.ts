@@ -11,7 +11,8 @@ export const PackageCardContainer = styled.article<PackageCardProps>`
   -moz-box-shadow: 0px 0px 5px 0px rgba(7, 29, 35, 1);
   box-shadow: 0px 0px 5px 0px rgba(7, 29, 35, 1);
   height: 232px;
-  width: 174px;
+  width: 100%;
+  max-width: 174px;
   border-radius: 8px;
   overflow: hidden;
   cursor: pointer;

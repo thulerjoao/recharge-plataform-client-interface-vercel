@@ -2,13 +2,13 @@
 
 import React, { useMemo } from "react";
 import { StyleSheetManager } from "styled-components";
-import { fontTypes } from "../../theme/modules/font";
+import { fontNames } from "../../theme/modules/font";
 import { TextContainer } from "./style";
 
 interface TextProps extends React.HTMLAttributes<HTMLSpanElement> {
   align?: "center" | "start" | "end" | "justify";
   tag?: "h1" | "h2" | "h3" | "h4" | "h5" | "h6" | "p" | "span" | "u" | "a";
-  fontType: fontTypes;
+  fontName: fontNames;
   color?: string;
   margin?: string;
   nowrap?: boolean;
@@ -21,7 +21,7 @@ const Text = ({
   margin,
   tag,
   align,
-  fontType,
+  fontName,
   color,
   nowrap,
   pointer,
@@ -30,7 +30,7 @@ const Text = ({
   ...props
 }: TextProps) => {
   const fontSize = useMemo(() => {
-    switch (fontType) {
+    switch (fontName) {
       case "TINY":
       case "TINY_MEDIUM":
       case "TINY_SEMI_BOLD":
@@ -54,10 +54,10 @@ const Text = ({
       default:
         return "16px";
     }
-  }, [fontType]);
+  }, [fontName]);
 
   const fontWeight = useMemo(() => {
-    switch (fontType) {
+    switch (fontName) {
       case "TINY":
       case "SMALL":
       case "REGULAR":
@@ -79,7 +79,7 @@ const Text = ({
       default:
         return 400;
     }
-  }, [fontType]);
+  }, [fontName]);
 
   return (
     <StyleSheetManager

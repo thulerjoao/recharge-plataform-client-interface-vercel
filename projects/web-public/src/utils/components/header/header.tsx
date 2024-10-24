@@ -11,12 +11,12 @@ const Header = () => {
   return (
     <HeaderContainer>
       <div className="centerComponent">
-        <span className="mainLogo" onClick={() => route.replace("/home")}>
+        <span className="mainLogo" onClick={() => route.push("/home")}>
           <HeaderLogo />
         </span>
         <div className="loginContainer">
           <span className="loginButton">
-            <Text align="start" fontType="SMALL_SEMI_BOLD">
+            <Text align="start" fontName="SMALL_SEMI_BOLD">
               Entrar
             </Text>
           </span>

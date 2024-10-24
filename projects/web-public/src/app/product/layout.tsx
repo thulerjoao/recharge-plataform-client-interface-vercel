@@ -7,14 +7,17 @@ import Header from "utils/components/header/header";
 import SecurityAdvertise from "utils/components/securityAdvertise/securityAdvertise";
 import { LayoutStyle } from "./styles/layout.style";
 import Description from "./common/components/description/description";
+import { useDevice } from "app/contexts/deviceContext";
 
 interface LayoutProps {
   children: React.ReactNode;
 }
 
 const Layout: React.FC<LayoutProps> = ({ children }) => {
+  const { device } = useDevice();
+
   return (
-    <LayoutStyle>
+    <LayoutStyle device={device}>
       <Header />
       <section className="mainContent">
         <Description />
