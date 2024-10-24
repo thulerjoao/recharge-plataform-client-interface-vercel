@@ -45,6 +45,11 @@ export const HomeContainer = styled.div`
   }
 
   @media (min-width: 540px) and (max-width: 1024px) {
+    .mainBanner {
+      margin-top: 48px;
+      max-width: 100%;
+      padding: 0 24px;
+    }
   }
   @media (max-width: 539px) {
     main {

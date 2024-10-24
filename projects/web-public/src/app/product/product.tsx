@@ -11,7 +11,7 @@ import { ProductContainer } from "./styles/product.style";
 const ProductPage = () => {
   return (
     <ProductContainer>
-      <Text align="center" fontType="REGULAR_SEMI_BOLD">
+      <Text align="center" fontName="REGULAR_SEMI_BOLD">
         INSIRA SEU ID DE USUÁRIO
       </Text>
       <Input
@@ -19,7 +19,7 @@ const ProductPage = () => {
         margin="16px 0 0 0"
         height={48}
       />
-      <Text margin="32px 0 0 0" align="center" fontType="REGULAR_SEMI_BOLD">
+      <Text margin="32px 0 0 0" align="center" fontName="REGULAR_SEMI_BOLD">
         SELECIONE O PACOTE PARA RECARGA
       </Text>
       <section className="cardsContainer">
@@ -46,7 +46,7 @@ const ProductPage = () => {
           price={89.9}
         />
       </section>
-      <Text margin="32px 0 0 0" align="center" fontType="REGULAR_SEMI_BOLD">
+      <Text margin="32px 0 0 0" align="center" fontName="REGULAR_SEMI_BOLD">
         SELECIONE A FORMA DE PAGAMENTO
       </Text>
       <section className="paymentMethodsContainer">

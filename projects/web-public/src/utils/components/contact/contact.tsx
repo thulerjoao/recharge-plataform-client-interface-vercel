@@ -14,7 +14,7 @@ const Contact = () => {
         <Text
           align="center"
           color={Theme.colors.mainHighlight}
-          fontType="REGULAR_MEDIUM"
+          fontName="REGULAR_MEDIUM"
         >
           Central de Atendimento
         </Text>
@@ -22,7 +22,7 @@ const Contact = () => {
           <figure>
             <Wpp />
           </figure>
-          <Text align="center" fontType="REGULAR" margin="0 0 0 8px">
+          <Text align="center" fontName="REGULAR" margin="0 0 0 8px">
             (11) 9 9999-9999
           </Text>
         </span>
@@ -30,7 +30,7 @@ const Contact = () => {
           <figure>
             <Email />
           </figure>
-          <Text align="center" fontType="REGULAR" margin="0 0 0 8px">
+          <Text align="center" fontName="REGULAR" margin="0 0 0 8px">
             contato@4miga.com
           </Text>
         </span>
@@ -39,7 +39,7 @@ const Contact = () => {
         <Text
           align="center"
           color={Theme.colors.mainHighlight}
-          fontType="REGULAR_MEDIUM"
+          fontName="REGULAR_MEDIUM"
         >
           Nossas Redes Sociais
         </Text>

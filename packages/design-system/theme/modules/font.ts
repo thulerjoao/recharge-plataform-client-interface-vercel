@@ -1,4 +1,4 @@
-export type fontTypes =
+export type fontNames =
   | "TINY" //12PX
   | "TINY_MEDIUM"
   | "TINY_SEMI_BOLD"

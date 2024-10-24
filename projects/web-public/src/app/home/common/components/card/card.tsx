@@ -18,7 +18,7 @@ const Card = ({ image, name }: CardProps) => {
       <Text
         tag="h2"
         align="center"
-        fontType="REGULAR_MEDIUM"
+        fontName="REGULAR_MEDIUM"
         margin="16px 0 0 0"
       >
         {name}
