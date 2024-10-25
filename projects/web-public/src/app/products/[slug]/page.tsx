@@ -20,7 +20,11 @@ const Page = ({ params }: Props) => {
       <Text align="center" fontName="REGULAR_SEMI_BOLD">
         ID DE USUÁRIO
       </Text>
-      <Input margin="16px 0 0 0" height={48} />
+      <Input
+        placeholder="Insira seu ID de usuário"
+        margin="16px 0 0 0"
+        height={48}
+      />
       <Text margin="32px 0 0 0" align="center" fontName="REGULAR_SEMI_BOLD">
         PACOTE PARA RECARGA
       </Text>

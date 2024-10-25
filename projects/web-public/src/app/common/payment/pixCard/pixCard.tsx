@@ -3,6 +3,7 @@ import Text from "@4miga/design-system/components/Text";
 import { Theme } from "@4miga/design-system/theme/theme";
 import Image from "next/image";
 import { useEffect, useState } from "react";
+import { StyleSheetManager } from "styled-components";
 import DownArrow from "../../icons/DownArrow.svg";
 import Pix from "../../icons/Pix.svg";
 import UpArrow from "../../icons/UpArrow.svg";
@@ -42,7 +43,14 @@ const PixCard = () => {
   };
 
   return (
-    <>
+    <StyleSheetManager
+      shouldForwardProp={(prop) =>
+        prop !== "firstExpand" &&
+        prop !== "isRounded" &&
+        prop !== "secondExpand" &&
+        prop !== "initialized"
+      }
+    >
       <PixCardContainer
         onClick={() => handleFirstExpand()}
         firstExpand={firstExpand}
@@ -114,7 +122,7 @@ const PixCard = () => {
           <Image src={qrcode} alt="QR code para pagar o pix" />
         </div>
       </BottomElement>
-    </>
+    </StyleSheetManager>
   );
 };
 

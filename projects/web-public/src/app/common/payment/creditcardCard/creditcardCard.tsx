@@ -5,6 +5,7 @@ import Input from "@4miga/design-system/components/input";
 import Text from "@4miga/design-system/components/Text";
 import { InputHTMLAttributes, useEffect, useState } from "react";
 import InputMask from "react-input-mask";
+import { StyleSheetManager } from "styled-components";
 import CreditCard from "../../icons/CreditCard.svg";
 import DownArrow from "../../icons/DownArrow.svg";
 import UpArrow from "../../icons/UpArrow.svg";
@@ -33,7 +34,11 @@ const CreditcardCard = () => {
   }, [expand]);
 
   return (
-    <>
+    <StyleSheetManager
+      shouldForwardProp={(prop) =>
+        prop !== "expand" && prop !== "isRounded" && prop !== "initialized"
+      }
+    >
       <CreditCardContainer
         onClick={() => handleFirstExpand()}
         expand={expand}
@@ -145,7 +150,7 @@ const CreditcardCard = () => {
           />
         </div>
       </BottomElement>
-    </>
+    </StyleSheetManager>
   );
 };
 
