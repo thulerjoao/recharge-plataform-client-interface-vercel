@@ -4,9 +4,7 @@ import { Theme } from "@4miga/design-system/theme/theme";
 import Image from "next/image";
 import { useEffect, useState } from "react";
 import { StyleSheetManager } from "styled-components";
-import DownArrow from "../../icons/DownArrow.svg";
 import Pix from "../../icons/Pix.svg";
-import UpArrow from "../../icons/UpArrow.svg";
 import qrcode from "./qrcode.png";
 import { BottomElement, PixCardContainer } from "./style";
 
@@ -58,7 +56,7 @@ const PixCard = () => {
         secondExpand={secondExpand}
         initialized={initialized}
       >
-        <div className="headerText">
+        <div className="pixText">
           <span>
             <Pix />
           </span>
@@ -66,8 +64,10 @@ const PixCard = () => {
             Pix
           </Text>
         </div>
-        <span className="downArrow">
-          {firstExpand ? <UpArrow /> : <DownArrow />}
+        <span className="value">
+          <Text fontName="REGULAR_MEDIUM" color={Theme.colors.secondaryAction}>
+            R$: 3,95
+          </Text>
         </span>
       </PixCardContainer>
       <BottomElement
@@ -76,22 +76,6 @@ const PixCard = () => {
         firstExpand={firstExpand}
         isRounded={isRounded}
       >
-        <div className="valueToPay">
-          <div style={{ width: "300px" }}>
-            <Text fontName="REGULAR" color={Theme.colors.secondaryAction}>
-              Valor para pagamento
-            </Text>
-          </div>
-          <div>
-            <Text
-              align="end"
-              fontName="REGULAR_SEMI_BOLD"
-              color={Theme.colors.secondaryAction}
-            >
-              R$ 12,00
-            </Text>
-          </div>
-        </div>
         <div className="pixCode">
           <Text
             align="center"
@@ -111,11 +95,7 @@ const PixCard = () => {
           />
         </div>
         <div className="pixImage">
-          <Text
-            align="center"
-            fontName="SMALL_MEDIUM"
-            color={Theme.colors.secondaryAction}
-          >
+          <Text margin="24px 0 0 0" align="center" fontName="SMALL_MEDIUM">
             {`Por gentileza, utilize a opção "Copiar e Colar" do PIX em seu
             aplicativo bancário.`}
           </Text>
