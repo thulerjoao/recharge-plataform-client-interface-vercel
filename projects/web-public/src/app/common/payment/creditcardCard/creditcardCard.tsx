@@ -53,6 +53,11 @@ const CreditcardCard = () => {
             Cartão de crédito
           </Text>
         </div>
+        <span className="value">
+          <Text fontName="REGULAR_MEDIUM" color={Theme.colors.secondaryAction}>
+            R$: 3,95
+          </Text>
+        </span>
         <span className="downArrow">
           {expand ? <UpArrow /> : <DownArrow />}
         </span>
@@ -62,22 +67,6 @@ const CreditcardCard = () => {
         isRounded={isRounded}
         initialized={initialized}
       >
-        <div className="valueToPay">
-          <div style={{ width: "300px" }}>
-            <Text fontName="REGULAR" color={Theme.colors.secondaryAction}>
-              Valor para pagamento
-            </Text>
-          </div>
-          <div>
-            <Text
-              align="end"
-              fontName="REGULAR_SEMI_BOLD"
-              color={Theme.colors.secondaryAction}
-            >
-              R$ 12,00
-            </Text>
-          </div>
-        </div>
         <InputMask
           mask="9999 9999 9999 9999"
           maskChar=""

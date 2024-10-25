@@ -21,9 +21,6 @@ export const PixCardContainer = styled.div<AnimationProps>`
   ${({ firstExpand }) =>
     firstExpand && `border: 4px solid ${Theme.colors.mainHighlight}`};
   border-radius: 8px;
-  /* border-radius: ${({ isRounded }) => (isRounded ? "8px" : "8px 8px 0 0")};
-  animation: ${({ isRounded }) => (!isRounded ? halfRounded : fullRounded)} 0.2s
-    forwards; */
   padding: 0px 16px;
   padding-top: 12px;
   cursor: pointer;
@@ -39,7 +36,6 @@ export const PixCardContainer = styled.div<AnimationProps>`
     display: flex;
     align-items: center;
     height: 100%;
-    width: 5rem;
   }
 
   p {
@@ -58,16 +54,11 @@ export const PixCardContainer = styled.div<AnimationProps>`
 `;
 
 export const BottomElement = styled.div<AnimationProps>`
-  /* background-color: ${Theme.colors.mainlight}; */
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
   align-items: center;
   width: 100%;
-  /* border-radius: 0 0 8px 8px; */
-  /* padding: 0px 24px; */
-  /* border: ${({ isRounded }) =>
-    !isRounded ? `2px solid ${Theme.colors.secondaryAction};` : "0"}; */
   border-top: 0;
   height: ${({ initialized }) => !initialized && "0px"};
   animation: ${({ firstExpand, secondExpand, initialized }) =>
@@ -138,24 +129,6 @@ export const BottomElement = styled.div<AnimationProps>`
     .bottomButton {
       max-width: 100%;
     }
-  }
-`;
-
-const halfRounded = keyframes`
-  from {
-    border-radius: 8px;
-  }
-  to {
-    border-radius: 8px 8px 0 0;
-  }
-`;
-
-const fullRounded = keyframes`
-  from {
-    border-radius: 8px 8px 0 0;
-  }
-  to {
-    border-radius: 8px ;
   }
 `;
 

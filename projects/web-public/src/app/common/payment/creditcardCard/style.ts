@@ -14,31 +14,38 @@ export const CreditCardContainer = styled.div<AnimationProps>`
   flex-direction: row;
   background-color: ${Theme.colors.mainlight};
   box-sizing: border-box;
-  height: 48px;
+  height: 72px;
   width: 100%;
   border: 2px solid ${Theme.colors.secondaryAction};
-  border-radius: ${({ isRounded }) => (isRounded ? "8px" : "8px 8px 0 0")};
-  animation: ${({ isRounded, initialized }) =>
-      initialized ? (!isRounded ? halfRounded : fullRounded) : "none"}
-    0.2s forwards;
+  ${({ expand }) =>
+    expand && `border: 4px solid ${Theme.colors.mainHighlight}`};
+  border-radius: 8px;
   padding: 0px 16px;
   padding-top: 12px;
   cursor: pointer;
   margin-top: 24px;
   position: relative;
+  box-shadow: ${({ expand }) =>
+    expand && `0px 0px 12px 0px ${Theme.colors.mainHighlight}`};
 
   .headerText {
+    position: absolute;
+    left: ${({ expand }) => (expand ? "14px" : "16px")};
+    top: 0;
     display: flex;
     align-items: center;
+    height: 100%;
   }
 
   p {
     margin-left: 8px;
   }
 
-  .downArrow {
+  .value {
     position: absolute;
-    right: 16px;
+    right: ${({ expand }) => (expand ? "14px" : "16px")};
+    top: 0;
+    height: 100%;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -50,30 +57,12 @@ export const BottomElement = styled.div<AnimationProps>`
   flex-direction: column;
   justify-content: space-evenly;
   width: 100%;
-  border-radius: 0 0 8px 8px;
-  padding: 0px 16px;
-  background-color: ${Theme.colors.mainlight};
-  border: ${({ isRounded }) =>
-    !isRounded ? `2px solid ${Theme.colors.secondaryAction};` : "0"};
   border-top: 0;
   height: ${({ initialized }) => !initialized && "0px"};
   animation: ${({ expand, initialized }) =>
       initialized ? (expand ? expandFirstStep : shrinkFirstStep) : "none"}
     0.5s forwards;
   overflow: hidden;
-
-  .valueToPay {
-    display: flex;
-    align-items: center;
-    width: 100%;
-    justify-content: space-between;
-    overflow: hidden;
-    margin: 8px 0;
-
-    div {
-      width: 50%;
-    }
-  }
 
   .bottomInputs {
     display: flex;
@@ -88,23 +77,11 @@ export const BottomElement = styled.div<AnimationProps>`
     z-index: 10;
     margin: 16px;
   }
-`;
 
-const halfRounded = keyframes`
-  from {
-    border-radius: 8px;
-  }
-  to {
-    border-radius: 8px 8px 0 0;
-  }
-`;
-
-const fullRounded = keyframes`
-  from {
-    border-radius: 8px 8px 0 0;
-  }
-  to {
-    border-radius: 8px ;
+  @media (max-width: 767px) {
+    .bottomButtons {
+      margin: 0;
+    }
   }
 `;
 

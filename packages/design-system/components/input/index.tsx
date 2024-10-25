@@ -46,7 +46,7 @@ const Input: React.FC<InputProps> = ({
           <Text
             margin="0 0 8px 16px"
             fontName="SMALL_MEDIUM"
-            color={Theme.colors.secondaryAction}
+            color={Theme.colors.mainlight}
           >
             {title}
           </Text>

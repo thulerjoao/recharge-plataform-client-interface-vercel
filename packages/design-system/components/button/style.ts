@@ -12,7 +12,8 @@ interface ButtonInputProps {
 }
 
 export const ButtonInput = styled.button<ButtonInputProps>`
-  color: ${Theme.colors.mainBbackgroundSolid};
+  color: ${({ isNotSelected }) =>
+    isNotSelected ? Theme.colors.mainlight : Theme.colors.mainBbackgroundSolid};
   user-select: none;
   font-size: ${({ height }) => (height >= 40 ? "16px;" : "14px;")};
   font-weight: 600;
@@ -21,7 +22,7 @@ export const ButtonInput = styled.button<ButtonInputProps>`
   height: ${({ height }) => `${height}px`};
   align-items: center;
   background-color: ${({ isNotSelected }) =>
-    isNotSelected ? Theme.colors.mainTransparent : Theme.colors.mainHighlight};
+    isNotSelected ? Theme.colors.secondaryAction : Theme.colors.mainHighlight};
   border: none;
   box-shadow: ${({ shadow }) =>
     shadow && `0px 0px 12px 0px ${Theme.colors.mainHighlight}`};

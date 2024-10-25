@@ -66,7 +66,7 @@ const PixCard = () => {
         </div>
         <span className="value">
           <Text fontName="REGULAR_MEDIUM" color={Theme.colors.secondaryAction}>
-            R$: 3,95
+            R$: 3,90
           </Text>
         </span>
       </PixCardContainer>
