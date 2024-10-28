@@ -12,7 +12,10 @@ export const LoginModalBackground = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  padding: 0 16px;
+
+  @media (max-width: 767px) {
+    padding: 0 16px;
+  }
 `;
 
 export const LoginModalContainer = styled.div`
@@ -41,5 +44,9 @@ export const LoginModalContainer = styled.div`
   .newAccountButton {
     margin: 24px 0 48px 0;
     cursor: pointer;
+  }
+
+  @media (min-width: 768px) and (max-width: 1024px) {
+    max-width: 456px;
   }
 `;
