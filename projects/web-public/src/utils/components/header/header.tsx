@@ -11,12 +11,14 @@ import { HeaderContainer } from "./style";
 
 const Header = () => {
   const logged: boolean = false;
-  const [loginModal, setLoginModal] = useState<boolean>(true);
+  const [loginModal, setLoginModal] = useState<boolean>(false);
 
   const route = useRouter();
   return (
     <HeaderContainer>
-      {loginModal && <LoginModal setLoginModal={setLoginModal} />}
+      {loginModal && (
+        <LoginModal loginModal={loginModal} setLoginModal={setLoginModal} />
+      )}
       <div className="centerComponent">
         <span className="mainLogo" onClick={() => route.push("/home")}>
           <HeaderLogo />
