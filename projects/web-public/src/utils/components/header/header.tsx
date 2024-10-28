@@ -11,7 +11,7 @@ import { HeaderContainer } from "./style";
 
 const Header = () => {
   const logged: boolean = false;
-  const [loginModal, setLoginModal] = useState<boolean>(true);
+  const [loginModal, setLoginModal] = useState<boolean>(false);
 
   const route = useRouter();
   return (
