@@ -16,7 +16,9 @@ const Header = () => {
   const route = useRouter();
   return (
     <HeaderContainer>
-      {loginModal && <LoginModal setLoginModal={setLoginModal} />}
+      {loginModal && (
+        <LoginModal loginModal={loginModal} setLoginModal={setLoginModal} />
+      )}
       <div className="centerComponent">
         <span className="mainLogo" onClick={() => route.push("/home")}>
           <HeaderLogo />
