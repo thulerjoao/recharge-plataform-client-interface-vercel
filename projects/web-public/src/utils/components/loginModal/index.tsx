@@ -1,13 +1,13 @@
 import Button from "@4miga/design-system/components/button";
-import Input from "@4miga/design-system/components/input";
 import Text from "@4miga/design-system/components/Text";
 import { Theme } from "@4miga/design-system/theme/theme";
 import React, { useState } from "react";
 import Close from "./icons/Close.svg";
 
+import LoginComponent from "./components/login";
+import NewAccount from "./components/newAccount";
 import TopLogo from "./icons/topLogo.svg";
 import { LoginModalBackground, LoginModalContainer } from "./style";
-import LoginComponent from "./components/login";
 
 interface LoginModalProps {
   setLoginModal: React.Dispatch<React.SetStateAction<boolean>>;
@@ -29,23 +29,18 @@ const LoginModal = ({ setLoginModal }: LoginModalProps) => {
         {!newAccount ? (
           <LoginComponent check={check} setIsCheck={setIsCheck} />
         ) : (
-          <div></div>
+          <NewAccount />
         )}
-        <Button
-          margin="24px 0 0 0"
-          width={310}
-          height={40}
-          rounded
-          title="Entrar"
-        />
-        <span style={{ cursor: "pointer" }} onClick={() => setNewAccount(true)}>
+        <span
+          className="newAccountButton"
+          onClick={() => setNewAccount(!newAccount)}
+        >
           <Text
             fontName="SMALL"
-            margin="24px 0 48px 0"
             align="center"
             color={Theme.colors.mainHighlight}
           >
-            Criar uma conta
+            {!newAccount ? "Criar uma conta" : "Já possui uma conta?"}
           </Text>
         </span>
       </LoginModalContainer>

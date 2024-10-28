@@ -1,10 +1,11 @@
-import Text from "@4miga/design-system/components/Text";
-import { LoginComponentContainer } from "./style";
+import Button from "@4miga/design-system/components/button";
 import Input from "@4miga/design-system/components/input";
+import Text from "@4miga/design-system/components/Text";
 import { Theme } from "@4miga/design-system/theme/theme";
 import React from "react";
 import Email from "../../icons/Email.svg";
 import Password from "../../icons/Password.svg";
+import { LoginComponentContainer } from "./style";
 
 interface Props {
   check: boolean;
@@ -15,7 +16,7 @@ const LoginComponent = ({ check, setIsCheck }: Props) => {
   return (
     <LoginComponentContainer>
       <Text margin="24px 0 0 0" align="center" fontName="REGULAR_MEDIUM">
-        Entre para acessar sua ocnta
+        Entre para acessar sua conta
       </Text>
       <Input
         margin="24px 0 0 0"
@@ -51,6 +52,13 @@ const LoginComponent = ({ check, setIsCheck }: Props) => {
           </Text>
         </span>
       </div>
+      <Button
+        margin="24px 0 0 0"
+        width={310}
+        height={40}
+        rounded
+        title="Entrar"
+      />
     </LoginComponentContainer>
   );
 };

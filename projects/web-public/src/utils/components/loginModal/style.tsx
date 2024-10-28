@@ -37,4 +37,9 @@ export const LoginModalContainer = styled.div`
       cursor: pointer;
     }
   }
+
+  .newAccountButton {
+    margin: 24px 0 48px 0;
+    cursor: pointer;
+  }
 `;
