@@ -50,9 +50,9 @@ const NewAccount = () => {
         placeholder="Senha"
         leftElement={<Password />}
       />
-      <Text margin="16px 0 0 0" align="center" fontName="TINY">
+      {/* <Text margin="16px 0 0 0" align="center" fontName="TINY">
         Ao clicar em Cadastre-se você concorda com nossos:
-      </Text>
+      </Text> */}
       <span style={{ cursor: "pointer" }}>
         <Text
           margin="4px 0 0 0"
