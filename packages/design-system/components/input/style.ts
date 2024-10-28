@@ -43,7 +43,7 @@ export const LeftElement = styled.div`
   position: absolute;
   left: 8px;
   top: 0;
-  width: 16px;
+  width: auto;
   height: 100%;
   z-index: 1;
   display: flex;

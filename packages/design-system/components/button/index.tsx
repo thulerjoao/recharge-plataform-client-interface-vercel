@@ -12,6 +12,7 @@ interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   loading?: boolean;
   shadow?: boolean;
   margin?: string;
+  isNotSelected?: boolean;
 }
 
 const Button: React.FC<ButtonProps> = ({
@@ -22,6 +23,7 @@ const Button: React.FC<ButtonProps> = ({
   shadow,
   margin,
   width,
+  isNotSelected,
   ...props
 }: ButtonProps) => {
   return (
@@ -35,10 +37,12 @@ const Button: React.FC<ButtonProps> = ({
         prop !== "shadow" &&
         prop !== "margin" &&
         prop !== "width" &&
+        prop !== "isNotSelected" &&
         prop !== "fontName"
       }
     >
       <ButtonInput
+        isNotSelected={isNotSelected}
         width={width}
         margin={margin}
         loading={loading}

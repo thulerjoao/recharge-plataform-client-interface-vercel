@@ -1,7 +1,8 @@
 import StyledComponentsRegistry from "lib/registry";
 import React from "react";
-import { DeviceProvider } from "./contexts/deviceContext";
+import { DeviceProvider } from "../contexts/deviceContext";
 import "./globals.css";
+import Providers from "contexts/providers";
 
 export const metadata = {
   title: {
@@ -28,9 +29,9 @@ export default function RootLayout({
   return (
     <html lang="pt-br">
       <body>
-        <DeviceProvider>
+        <Providers>
           <StyledComponentsRegistry>{children}</StyledComponentsRegistry>
-        </DeviceProvider>
+        </Providers>
       </body>
     </html>
   );

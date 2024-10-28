@@ -3,12 +3,14 @@
 import Text from "@4miga/design-system/components/Text";
 import Button from "@4miga/design-system/components/button";
 import Input from "@4miga/design-system/components/input";
+import { useRouter } from "next/navigation";
 import PackageCard from "./common/components/packageCard/card";
 import PaymentCard from "./common/components/paymentCard/card";
 import BigoCard from "./common/temp/bigoCard.svg";
 import { ProductContainer } from "./styles/product.style";
 
 const ProductPage = () => {
+  const route = useRouter();
   return (
     <ProductContainer>
       <Text align="center" fontName="REGULAR_SEMI_BOLD">
@@ -70,6 +72,7 @@ const ProductPage = () => {
         <PaymentCard method="transferencia" price={3.95} />
       </section>
       <Button
+        onClick={() => route.push("/products/bigo300")}
         margin="32px 0 80px 0"
         width={185}
         rounded
