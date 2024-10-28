@@ -21,7 +21,8 @@
     "test": "yarn workspaces run test"
   },
   "dependencies": {
-    "styled-components": "6.1.8"
+    "styled-components": "6.1.8",
+    "react-input-mask" : "2.0.4"
   },
   "devDependencies": {
     "@svgr/webpack": "8.1.0",

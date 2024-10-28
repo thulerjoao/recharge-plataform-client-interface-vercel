@@ -8,7 +8,6 @@ export const FooterContainer = styled.footer`
   align-items: start;
   justify-content: center;
   background-color: ${Theme.colors.mainBbackgroundSolid};
-  z-index: 100;
 
   .centerComponent {
     width: 100%;
