@@ -1,6 +1,6 @@
 import Text from "@4miga/design-system/components/Text";
 import { Theme } from "@4miga/design-system/theme/theme";
-import { useDevice } from "app/contexts/deviceContext";
+import { useDevice } from "contexts/deviceContext";
 import Image from "next/image";
 import { useEffect, useState } from "react";
 import { DescriptionContainer } from "./style";

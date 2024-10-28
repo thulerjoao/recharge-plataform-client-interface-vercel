@@ -1,6 +1,6 @@
 "use client";
 
-import { useDevice } from "app/contexts/deviceContext";
+import { useDevice } from "contexts/deviceContext";
 import React from "react";
 import { StyleSheetManager } from "styled-components";
 import Contact from "utils/components/contact/contact";

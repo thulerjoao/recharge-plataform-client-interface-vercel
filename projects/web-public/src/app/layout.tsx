@@ -1,8 +1,8 @@
 import StyledComponentsRegistry from "lib/registry";
 import React from "react";
-import { DeviceProvider } from "./contexts/deviceContext";
+import { DeviceProvider } from "../contexts/deviceContext";
 import "./globals.css";
-import Providers from "app/contexts/providers";
+import Providers from "contexts/providers";
 
 export const metadata = {
   title: {

@@ -30,7 +30,6 @@ export const HeaderContainer = styled.header`
       display: flex;
       align-items: center;
       justify-content: space-between;
-      width: 165px;
 
       .loginButton {
         display: flex;
@@ -44,6 +43,10 @@ export const HeaderContainer = styled.header`
         &:hover {
           background-color: ${Theme.colors.maindark};
         }
+      }
+
+      .name {
+        cursor: default;
       }
     }
   }
