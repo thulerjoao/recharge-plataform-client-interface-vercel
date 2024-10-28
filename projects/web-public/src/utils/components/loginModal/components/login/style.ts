@@ -6,6 +6,7 @@ export const LoginComponentContainer = styled.div`
   flex-direction: column;
   padding: 0 24px;
   width: 100%;
+  align-items: center;
 
   .keepConnected {
     margin-top: 24px;
