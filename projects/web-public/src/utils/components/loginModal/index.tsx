@@ -1,7 +1,6 @@
-import Button from "@4miga/design-system/components/button";
 import Text from "@4miga/design-system/components/Text";
 import { Theme } from "@4miga/design-system/theme/theme";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Close from "./icons/Close.svg";
 
 import LoginComponent from "./components/login";
@@ -10,12 +9,27 @@ import TopLogo from "./icons/topLogo.svg";
 import { LoginModalBackground, LoginModalContainer } from "./style";
 
 interface LoginModalProps {
+  loginModal: boolean;
   setLoginModal: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-const LoginModal = ({ setLoginModal }: LoginModalProps) => {
+const LoginModal = ({ loginModal, setLoginModal }: LoginModalProps) => {
   const [check, setIsCheck] = useState<boolean>(true);
   const [newAccount, setNewAccount] = useState<boolean>(false);
+
+  useEffect(() => {
+    if (loginModal) {
+      document.documentElement.style.overflowY = "hidden";
+      document.body.style.overflowY = "scroll";
+    } else {
+      document.documentElement.style.overflowY = "scroll";
+    }
+
+    return () => {
+      document.documentElement.style.overflowY = "scroll";
+      document.body.style.overflowY = "hidden";
+    };
+  }, [loginModal]);
 
   return (
     <LoginModalBackground onClick={() => setLoginModal(false)}>
