@@ -30,7 +30,7 @@ const Header = () => {
         {!logged ? (
           <div className="loginContainer">
             <span
-              className="loginButton"
+              className="loginButton getIn"
               onClick={() => handleOpenLogin(false)}
             >
               <Text align="start" fontName="SMALL_SEMI_BOLD">
@@ -47,8 +47,8 @@ const Header = () => {
             </span>
           </div>
         ) : (
-          <div className="loginContainer">
-            <span className="loginButton name">
+          <div className="loginContainer name">
+            <span className="loginButton">
               <Text align="start" fontName="SMALL_SEMI_BOLD">
                 Luiz Silva Santos
               </Text>

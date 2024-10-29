@@ -7,8 +7,6 @@ import { InputHTMLAttributes, useEffect, useState } from "react";
 import InputMask from "react-input-mask";
 import { StyleSheetManager } from "styled-components";
 import CreditCard from "../../icons/CreditCard.svg";
-import DownArrow from "../../icons/DownArrow.svg";
-import UpArrow from "../../icons/UpArrow.svg";
 import { BottomElement, CreditCardContainer } from "./style";
 
 const CreditcardCard = () => {
@@ -57,9 +55,6 @@ const CreditcardCard = () => {
           <Text fontName="REGULAR_MEDIUM" color={Theme.colors.secondaryAction}>
             R$: 3,95
           </Text>
-        </span>
-        <span className="downArrow">
-          {expand ? <UpArrow /> : <DownArrow />}
         </span>
       </CreditCardContainer>
       <BottomElement

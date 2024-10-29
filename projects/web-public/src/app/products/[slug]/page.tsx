@@ -3,8 +3,8 @@
 import Input from "@4miga/design-system/components/input";
 import Text from "@4miga/design-system/components/Text";
 import CreditcardCard from "app/common/payment/creditcardCard/creditcardCard";
-import PackageCard from "../common/components/packageCard/card";
-import BigoCard from "../common/temp/bigoCard.svg";
+import PackageCard from "../../../utils/cards/packageCard/card";
+import BigoCard from "../temp/bigoCard.svg";
 import { ProductInnerPage } from "./style";
 import PixCard from "app/common/payment/pixCard/pixCard";
 

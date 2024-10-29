@@ -4,10 +4,10 @@ import Text from "@4miga/design-system/components/Text";
 import Button from "@4miga/design-system/components/button";
 import Input from "@4miga/design-system/components/input";
 import { useRouter } from "next/navigation";
-import PackageCard from "./common/components/packageCard/card";
-import PaymentCard from "./common/components/paymentCard/card";
-import BigoCard from "./common/temp/bigoCard.svg";
-import { ProductContainer } from "./styles/product.style";
+import PackageCard from "../../../utils/cards/packageCard/card";
+import PaymentCard from "../../../utils/cards/paymentCard/card";
+import BigoCard from "../temp/bigoCard.svg";
+import { ProductContainer } from "./product.style";
 
 const ProductPage = () => {
   const route = useRouter();
