@@ -22,8 +22,6 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
       <LayoutStyle device={device}>
         <Header />
         {children}
-        <SecurityAdvertise />
-        <BottomOffer />
         <Contact />
         <Footer />
       </LayoutStyle>

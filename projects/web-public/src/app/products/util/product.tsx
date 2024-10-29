@@ -7,7 +7,7 @@ import { useRouter } from "next/navigation";
 import PackageCard from "../../../utils/cards/packageCard/card";
 import PaymentCard from "../../../utils/cards/paymentCard/card";
 import BigoCard from "../common/temp/bigoCard.svg";
-import { ProductContainer } from "./product.style";
+import { ProductContainer } from "./style";
 
 const ProductPage = () => {
   const route = useRouter();

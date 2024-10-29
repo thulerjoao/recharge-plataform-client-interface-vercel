@@ -2,6 +2,8 @@
 
 import Text from "@4miga/design-system/components/Text";
 import Image from "next/image";
+import BottomOffer from "utils/components/bottomOffer/bottomOffer";
+import SecurityAdvertise from "utils/components/securityAdvertise/securityAdvertise";
 import Card from "../common/components/card/card";
 import Lines from "../common/components/lines/lines";
 import Card1 from "../common/temp/Card1.png";
@@ -11,7 +13,7 @@ import Card4 from "../common/temp/Card4.png";
 import Card5 from "../common/temp/Card5.png";
 import Card6 from "../common/temp/Card6.png";
 import mainBanner from "../common/temp/mainBanner.png";
-import { HomeContainer } from "./home.style";
+import { HomeContainer } from "./style";
 
 const Home = () => {
   return (
@@ -56,6 +58,8 @@ const Home = () => {
           </div>
         </section>
       </main>
+      <SecurityAdvertise />
+      <BottomOffer />
     </HomeContainer>
   );
 };
