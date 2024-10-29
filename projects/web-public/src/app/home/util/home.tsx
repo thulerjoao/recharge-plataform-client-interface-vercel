@@ -2,27 +2,20 @@
 
 import Text from "@4miga/design-system/components/Text";
 import Image from "next/image";
-import Footer from "utils/components/footer/footer";
-import Header from "utils/components/header/header";
-import SecurityAdvertise from "utils/components/securityAdvertise/securityAdvertise";
-import Contact from "../../utils/components/contact/contact";
-import Card from "./common/components/card/card";
-import Lines from "./common/components/lines/lines";
-import Card1 from "./common/temp/Card1.png";
-import Card2 from "./common/temp/Card2.png";
-import Card3 from "./common/temp/Card3.png";
-import Card4 from "./common/temp/Card4.png";
-import Card5 from "./common/temp/Card5.png";
-import Card6 from "./common/temp/Card6.png";
-import mainBanner from "./common/temp/mainBanner.png";
-import offer from "./common/temp/offer.png";
-import { HomeContainer } from "./styles/home.style";
-import BottomOffer from "utils/components/bottomOffer/bottomOffer";
+import Card from "../common/components/card/card";
+import Lines from "../common/components/lines/lines";
+import Card1 from "../common/temp/Card1.png";
+import Card2 from "../common/temp/Card2.png";
+import Card3 from "../common/temp/Card3.png";
+import Card4 from "../common/temp/Card4.png";
+import Card5 from "../common/temp/Card5.png";
+import Card6 from "../common/temp/Card6.png";
+import mainBanner from "../common/temp/mainBanner.png";
+import { HomeContainer } from "./home.style";
 
 const Home = () => {
   return (
     <HomeContainer>
-      {/* <Header /> */}
       <Image className="mainBanner" src={mainBanner} alt="main banner" />
       <Lines />
       <main>
@@ -63,10 +56,6 @@ const Home = () => {
           </div>
         </section>
       </main>
-      {/* <SecurityAdvertise />
-      <BottomOffer />
-      <Contact />
-      <Footer /> */}
     </HomeContainer>
   );
 };

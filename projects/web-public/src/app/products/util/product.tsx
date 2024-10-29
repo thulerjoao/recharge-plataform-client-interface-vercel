@@ -6,7 +6,7 @@ import Input from "@4miga/design-system/components/input";
 import { useRouter } from "next/navigation";
 import PackageCard from "../../../utils/cards/packageCard/card";
 import PaymentCard from "../../../utils/cards/paymentCard/card";
-import BigoCard from "../temp/bigoCard.svg";
+import BigoCard from "../common/temp/bigoCard.svg";
 import { ProductContainer } from "./product.style";
 
 const ProductPage = () => {
