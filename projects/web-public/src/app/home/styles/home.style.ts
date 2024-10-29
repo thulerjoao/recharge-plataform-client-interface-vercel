@@ -66,12 +66,5 @@ export const HomeContainer = styled.div`
         }
       }
     }
-
-    .offerBanner {
-      width: 100%;
-      height: auto;
-      object-fit: contain;
-      padding: 0 16px;
-    }
   }
 `;

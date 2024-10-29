@@ -17,11 +17,12 @@ import Card6 from "./common/temp/Card6.png";
 import mainBanner from "./common/temp/mainBanner.png";
 import offer from "./common/temp/offer.png";
 import { HomeContainer } from "./styles/home.style";
+import BottomOffer from "utils/components/bottomOffer/bottomOffer";
 
 const Home = () => {
   return (
     <HomeContainer>
-      <Header />
+      {/* <Header /> */}
       <Image className="mainBanner" src={mainBanner} alt="main banner" />
       <Lines />
       <main>
@@ -62,18 +63,10 @@ const Home = () => {
           </div>
         </section>
       </main>
-      <SecurityAdvertise />
-      <Text
-        tag="h2"
-        align="center"
-        fontName="LARGE_SEMI_BOLD"
-        margin="56px 0 24px 0"
-      >
-        OFERTA X
-      </Text>
-      <Image className="offerBanner" src={offer} alt="offer banner" />
+      {/* <SecurityAdvertise />
+      <BottomOffer />
       <Contact />
-      <Footer />
+      <Footer /> */}
     </HomeContainer>
   );
 };
