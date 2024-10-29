@@ -9,11 +9,16 @@ import TopLogo from "./icons/topLogo.svg";
 import { LoginModalBackground, LoginModalContainer } from "./style";
 
 interface LoginModalProps {
+  openInNewAccount?: boolean;
   loginModal: boolean;
   setLoginModal: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-const LoginModal = ({ loginModal, setLoginModal }: LoginModalProps) => {
+const LoginModal = ({
+  loginModal,
+  setLoginModal,
+  openInNewAccount,
+}: LoginModalProps) => {
   const [check, setIsCheck] = useState<boolean>(true);
   const [newAccount, setNewAccount] = useState<boolean>(false);
 
@@ -31,6 +36,14 @@ const LoginModal = ({ loginModal, setLoginModal }: LoginModalProps) => {
     };
   }, [loginModal]);
 
+  useEffect(() => {
+    openInNewAccount && setNewAccount(true);
+  }, [openInNewAccount]);
+
+  const closeModal = () => {
+    setLoginModal(false);
+  };
+
   return (
     <LoginModalBackground onClick={() => setLoginModal(false)}>
       <LoginModalContainer onClick={(e) => e.stopPropagation()}>
@@ -41,7 +54,11 @@ const LoginModal = ({ loginModal, setLoginModal }: LoginModalProps) => {
         </div>
         <TopLogo />
         {!newAccount ? (
-          <LoginComponent check={check} setIsCheck={setIsCheck} />
+          <LoginComponent
+            closeModal={closeModal}
+            check={check}
+            setIsCheck={setIsCheck}
+          />
         ) : (
           <NewAccount />
         )}
