@@ -47,7 +47,10 @@ const Header = () => {
             </span>
           </div>
         ) : (
-          <div className="loginContainer name">
+          <div
+            className="loginContainer name"
+            onClick={() => route.push("/my-orders")}
+          >
             <span className="loginButton">
               <Text align="start" fontName="SMALL_SEMI_BOLD">
                 Luiz Silva Santos

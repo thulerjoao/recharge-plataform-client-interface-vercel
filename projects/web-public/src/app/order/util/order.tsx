@@ -4,7 +4,7 @@ import Button from "@4miga/design-system/components/button";
 import Text from "@4miga/design-system/components/Text";
 import { Theme } from "@4miga/design-system/theme/theme";
 import Image from "next/image";
-import BackArrow from "../common/icons/BackArrow.svg";
+import BackArrow from "../../common/icons/BackArrow.svg";
 import MiniBigo from "../common/icons/MiniBigo.svg";
 import Pix from "../common/icons/Pix.svg";
 import cardIcon from "../common/temp/cardIcon.png";
