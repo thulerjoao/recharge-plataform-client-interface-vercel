@@ -28,4 +28,22 @@ export const MyOrderContainer = styled.div`
     align-items: center;
     margin-top: 8px;
   }
+
+  .pagination {
+    display: flex;
+    width: 100%;
+    max-width: 270px;
+    flex-direction: row;
+    justify-content: center;
+    margin-top: 32px;
+
+    p {
+      margin: 0 16px;
+      cursor: pointer;
+    }
+
+    .dots {
+      cursor: default;
+    }
+  }
 `;
