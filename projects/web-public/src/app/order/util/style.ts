@@ -14,6 +14,7 @@ export const OrderContainer = styled.div`
     position: relative;
     display: flex;
     align-items: center;
+    height: 32px;
 
     span {
       position: absolute;
@@ -86,8 +87,11 @@ export const OrderContainer = styled.div`
       border-bottom: none;
     }
   }
-  @media (min-width: 540px) and (max-width: 1024px) {
+  @media (min-width: 768px) and (max-width: 1024px) {
+    padding: 0 72px;
   }
-  @media (max-width: 539px) {
+  @media (max-width: 767px) {
+    padding: 0 16px;
+    margin-top: 16px;
   }
 `;

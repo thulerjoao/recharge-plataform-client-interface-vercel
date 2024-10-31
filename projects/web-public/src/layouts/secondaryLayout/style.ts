@@ -9,6 +9,9 @@ export const LayoutStyle = styled.div<LayoutProps>`
   display: flex;
   flex-direction: column;
   align-items: center;
+  min-height: calc(100vh - 238px);
+  padding-bottom: 238px;
+  position: relative;
 
   .mainContent {
     display: flex;

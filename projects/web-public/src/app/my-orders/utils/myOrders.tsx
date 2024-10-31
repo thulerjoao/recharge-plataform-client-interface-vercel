@@ -54,7 +54,7 @@ const MyOrders = () => {
         <OrderCard
           status="canceled"
           price={29.9}
-          time="ontem, 10:32"
+          time="Ontem, 10:32"
           title="Farlight 84 5000 diamantes"
           image={<Freefire />}
         />
