@@ -4,16 +4,20 @@ import Text from "@4miga/design-system/components/Text";
 import Button from "@4miga/design-system/components/button";
 import Input from "@4miga/design-system/components/input";
 import { useRouter } from "next/navigation";
+import { useState } from "react";
 import PackageCard from "../../../utils/cards/packageCard/card";
 import PaymentCard from "../../../utils/cards/paymentCard/card";
 import BigoCard from "../common/temp/bigoCard.svg";
 import { ProductContainer } from "./style";
 
 const ProductPage = () => {
+  const [selected, setSelected] = useState<number>(1);
+  const [paymentMethod, setPaymentMethod] = useState<number>(1);
+
   const route = useRouter();
   return (
     <ProductContainer>
-      <Text align="center" fontName="REGULAR_SEMI_BOLD">
+      <Text tag="h2" align="center" fontName="REGULAR_SEMI_BOLD">
         INSIRA SEU ID DE USUÁRIO
       </Text>
       <Input
@@ -21,38 +25,60 @@ const ProductPage = () => {
         margin="16px 0 0 0"
         height={48}
       />
-      <Text margin="32px 0 0 0" align="center" fontName="REGULAR_SEMI_BOLD">
+      <Text
+        tag="h2"
+        margin="32px 0 0 0"
+        align="center"
+        fontName="REGULAR_SEMI_BOLD"
+      >
         SELECIONE O PACOTE PARA RECARGA
       </Text>
       <section className="cardsContainer">
-        <div className="cardEnviroment">
+        <div className="cardEnviroment" onClick={() => setSelected(1)}>
           <PackageCard
-            selected
+            selected={selected === 1}
             bestOffer
             title="BIGO 30"
             image={<BigoCard />}
             price={3.9}
           />
         </div>
-        <div className="cardEnviroment">
+        <div className="cardEnviroment" onClick={() => setSelected(2)}>
           <PackageCard
+            selected={selected === 2}
             bestOffer
             title="BIGO 100"
             image={<BigoCard />}
             price={6.9}
           />
         </div>
-        <div className="cardEnviroment">
-          <PackageCard title="BIGO 300" image={<BigoCard />} price={9.9} />
-        </div>
-        <div className="cardEnviroment">
-          <PackageCard title="BIGO 500" image={<BigoCard />} price={14.9} />
-        </div>
-        <div className="cardEnviroment">
-          <PackageCard title="BIGO 1000" image={<BigoCard />} price={24.9} />
-        </div>
-        <div className="cardEnviroment">
+        <div className="cardEnviroment" onClick={() => setSelected(3)}>
           <PackageCard
+            selected={selected === 3}
+            title="BIGO 300"
+            image={<BigoCard />}
+            price={9.9}
+          />
+        </div>
+        <div className="cardEnviroment" onClick={() => setSelected(4)}>
+          <PackageCard
+            selected={selected === 4}
+            title="BIGO 500"
+            image={<BigoCard />}
+            price={14.9}
+          />
+        </div>
+        <div className="cardEnviroment" onClick={() => setSelected(5)}>
+          <PackageCard
+            selected={selected === 5}
+            title="BIGO 1000"
+            image={<BigoCard />}
+            price={24.9}
+          />
+        </div>
+        <div className="cardEnviroment" onClick={() => setSelected(6)}>
+          <PackageCard
+            selected={selected === 6}
             bestOffer
             title="BIGO 5000"
             image={<BigoCard />}
@@ -60,16 +86,57 @@ const ProductPage = () => {
           />
         </div>
       </section>
-      <Text margin="32px 0 0 0" align="center" fontName="REGULAR_SEMI_BOLD">
+      <Text
+        tag="h2"
+        margin="32px 0 0 0"
+        align="center"
+        fontName="REGULAR_SEMI_BOLD"
+      >
         SELECIONE A FORMA DE PAGAMENTO
       </Text>
       <section className="paymentMethodsContainer">
-        <PaymentCard selected method="pix" price={3.9} />
-        <PaymentCard method="mercado pago" price={3.95} />
-        <PaymentCard method="picpay" price={3.95} />
-        <PaymentCard method="paypal" price={3.95} />
-        <PaymentCard method="boleto" price={3.95} />
-        <PaymentCard method="transferencia" price={3.95} />
+        <div className="paymentEnviroment" onClick={() => setPaymentMethod(1)}>
+          <PaymentCard
+            selected={paymentMethod === 1}
+            method="pix"
+            price={3.9}
+          />
+        </div>
+        <div className="paymentEnviroment" onClick={() => setPaymentMethod(2)}>
+          <PaymentCard
+            selected={paymentMethod === 2}
+            method="mercado pago"
+            price={3.95}
+          />
+        </div>
+        <div className="paymentEnviroment" onClick={() => setPaymentMethod(3)}>
+          <PaymentCard
+            selected={paymentMethod === 3}
+            method="picpay"
+            price={3.95}
+          />
+        </div>
+        <div className="paymentEnviroment" onClick={() => setPaymentMethod(4)}>
+          <PaymentCard
+            selected={paymentMethod === 4}
+            method="paypal"
+            price={3.95}
+          />
+        </div>
+        <div className="paymentEnviroment" onClick={() => setPaymentMethod(5)}>
+          <PaymentCard
+            selected={paymentMethod === 5}
+            method="boleto"
+            price={3.95}
+          />
+        </div>
+        <div className="paymentEnviroment" onClick={() => setPaymentMethod(6)}>
+          <PaymentCard
+            selected={paymentMethod === 6}
+            method="transferencia"
+            price={3.95}
+          />
+        </div>
       </section>
       <Button
         onClick={() => route.push("/products/bigo300")}
