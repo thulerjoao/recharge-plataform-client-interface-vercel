@@ -15,9 +15,9 @@ interface OrderCardProps {
 const OrderCard = ({ title, image, time, price, status }: OrderCardProps) => {
   const route = useRouter();
   const handleStatus = () => {
-    if (status === "approved") return "aprovado";
-    if (status === "pending") return "pendente";
-    if (status === "canceled") return "cancelado";
+    if (status === "approved") return "Aprovado";
+    if (status === "pending") return "Pendente";
+    if (status === "canceled") return "Cancelado";
   };
 
   const handleStatusColor = () => {
@@ -31,9 +31,11 @@ const OrderCard = ({ title, image, time, price, status }: OrderCardProps) => {
       {image}
       <section className="allInfo">
         <div className="rowInfos">
-          <Text fontName="REGULAR">{title}</Text>
-          <Text align="end" fontName="REGULAR_MEDIUM">
-            {price.toFixed(2)}
+          <Text nowrap fontName="SMALL">
+            {title}
+          </Text>
+          <Text align="end" fontName="SMALL_MEDIUM">
+            R$ {price.toFixed(2)}
           </Text>
         </div>
         <div className="rowInfos">
@@ -44,14 +46,16 @@ const OrderCard = ({ title, image, time, price, status }: OrderCardProps) => {
             {handleStatus()}
           </Text>
         </div>
-        <Text
-          align="center"
-          underline
-          fontName="TINY"
-          color={Theme.colors.secondaryText}
-        >
-          ver detalhes
-        </Text>
+        <div className="seeDetails" onClick={() => route.push("/order")}>
+          <Text
+            align="center"
+            underline
+            fontName="TINY"
+            color={Theme.colors.secondaryText}
+          >
+            ver detalhes
+          </Text>
+        </div>
       </section>
     </OrderCardContainer>
   );
