@@ -46,14 +46,16 @@ const OrderCard = ({ title, image, time, price, status }: OrderCardProps) => {
             {handleStatus()}
           </Text>
         </div>
-        <Text
-          align="center"
-          underline
-          fontName="TINY"
-          color={Theme.colors.secondaryText}
-        >
-          ver detalhes
-        </Text>
+        <div className="seeDetails" onClick={() => route.push("/order")}>
+          <Text
+            align="center"
+            underline
+            fontName="TINY"
+            color={Theme.colors.secondaryText}
+          >
+            ver detalhes
+          </Text>
+        </div>
       </section>
     </OrderCardContainer>
   );
