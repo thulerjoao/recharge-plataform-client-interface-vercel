@@ -20,6 +20,7 @@ export const HeaderContainer = styled.header`
     align-items: center;
     justify-content: space-between;
     padding: 0 40px;
+    position: relative;
 
     .mainLogo {
       cursor: pointer;
@@ -62,5 +63,50 @@ export const HeaderContainer = styled.header`
     .centerComponent {
       padding: 0 16px;
     }
+  }
+`;
+
+export const MenuComponent = styled.div`
+  position: absolute;
+  right: 28px;
+  top: 52px;
+  background-color: ${Theme.colors.mainBbackgroundSolid};
+  width: 13rem;
+  display: flex;
+  flex-direction: column;
+  padding: 8px 16px;
+  border-radius: 8px;
+
+  .square {
+    height: 16px;
+    width: 16px;
+    background-color: ${Theme.colors.mainBbackgroundSolid};
+    position: absolute;
+    top: -8px;
+    right: 16px;
+    transform: rotate(45deg);
+  }
+
+  div {
+    width: 1rem;
+    cursor: pointer;
+    margin-top: 8px;
+    display: flex;
+    align-items: center;
+
+    span {
+      width: 40px;
+    }
+
+    svg {
+      width: 60px;
+    }
+  }
+
+  @media (min-width: 768px) and (max-width: 1024px) {
+    right: 12px;
+  }
+  @media (max-width: 767px) {
+    right: 4px;
   }
 `;
