@@ -27,7 +27,7 @@ const PackageCard = ({
         tag="h2"
         align="center"
         fontName="REGULAR_SEMI_BOLD"
-        margin="16px 0 0 0"
+        margin="12px 0 0 0"
       >
         {title}
       </Text>
