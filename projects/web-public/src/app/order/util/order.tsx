@@ -9,12 +9,15 @@ import MiniBigo from "../common/icons/MiniBigo.svg";
 import Pix from "../common/icons/Pix.svg";
 import cardIcon from "../common/temp/cardIcon.png";
 import { OrderContainer } from "./style";
+import { useRouter } from "next/navigation";
 
 const Order = () => {
+  const route = useRouter();
+
   return (
     <OrderContainer>
       <div className="topMessage">
-        <span>
+        <span onClick={() => route.back()}>
           <BackArrow />
         </span>
         <Text tag="h1" align="center" fontName="REGULAR_SEMI_BOLD">

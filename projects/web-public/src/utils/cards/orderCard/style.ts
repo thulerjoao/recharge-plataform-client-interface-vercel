@@ -20,10 +20,19 @@ export const OrderCardContainer = styled.article<OrderCardProps>`
   .allInfo {
     height: 66px;
     width: calc(100% - 82px);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 
     .rowInfos {
       display: flex;
       margin-bottom: 8px;
+      width: 100%;
+    }
+
+    .seeDetails {
+      cursor: pointer;
+      width: 6rem;
     }
   }
 `;

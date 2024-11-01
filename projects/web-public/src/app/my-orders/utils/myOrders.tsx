@@ -2,6 +2,7 @@
 
 import Text from "@4miga/design-system/components/Text";
 import { Theme } from "@4miga/design-system/theme/theme";
+import { useRouter } from "next/navigation";
 import { useState } from "react";
 import OrderCard from "utils/cards/orderCard/card";
 import BackArrow from "../../common/icons/BackArrow.svg";
@@ -11,11 +12,12 @@ import { MyOrderContainer } from "./style";
 
 const MyOrders = () => {
   const [page, setPage] = useState<number>(1);
+  const route = useRouter();
 
   return (
     <MyOrderContainer>
       <div className="topMessage">
-        <span>
+        <span onClick={() => route.back()}>
           <BackArrow />
         </span>
         <Text tag="h1" align="center" fontName="REGULAR_SEMI_BOLD">
@@ -54,7 +56,7 @@ const MyOrders = () => {
         <OrderCard
           status="canceled"
           price={29.9}
-          time="ontem, 10:32"
+          time="Ontem, 10:32"
           title="Farlight 84 5000 diamantes"
           image={<Freefire />}
         />
