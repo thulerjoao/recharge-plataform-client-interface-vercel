@@ -2,6 +2,7 @@ import Button from "@4miga/design-system/components/button";
 import Text from "@4miga/design-system/components/Text";
 import { Theme } from "@4miga/design-system/theme/theme";
 import Image from "next/image";
+import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { StyleSheetManager } from "styled-components";
 import Pix from "../../icons/Pix.svg";
@@ -14,6 +15,8 @@ const PixCard = () => {
   const [isRounded, setIsRounded] = useState<boolean>(true);
   const [loading, setLoading] = useState<boolean>(false);
   const [initialized, setInitialized] = useState<boolean>(false);
+
+  const route = useRouter();
 
   const handleFirstExpand = () => {
     if (!initialized) {
@@ -37,6 +40,7 @@ const PixCard = () => {
     setTimeout(() => {
       setSecondExpand(true);
       setLoading(false);
+      secondExpand && route.push("/order");
     }, 1300);
   };
 

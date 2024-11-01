@@ -38,15 +38,18 @@ export const HeaderContainer = styled.header`
         padding-right: 8px;
         height: 28px;
         border-radius: 8px;
+        margin-right: 2px;
 
         &:hover {
           background-color: ${Theme.colors.maindark};
         }
       }
-
-      .name {
-        cursor: default;
+      .getIn {
+        margin-right: 8px;
       }
+    }
+    .name {
+      cursor: pointer;
     }
   }
 

@@ -1,6 +1,6 @@
 "use client";
 
-import SecondaryLayout from "layouts/secondaryLayout/secondaryLayout";
+import PrimaryLayout from "layouts/primaryLayout/primaryLayout";
 import React from "react";
 
 interface LayoutProps {
@@ -8,7 +8,7 @@ interface LayoutProps {
 }
 
 const Layout: React.FC<LayoutProps> = ({ children }) => {
-  return <SecondaryLayout>{children}</SecondaryLayout>;
+  return <PrimaryLayout>{children}</PrimaryLayout>;
 };
 
 export default Layout;

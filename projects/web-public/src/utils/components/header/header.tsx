@@ -2,6 +2,7 @@
 
 import Button from "@4miga/design-system/components/button";
 import Text from "@4miga/design-system/components/Text";
+import { useAuth } from "contexts/auth";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import LoginModal from "../loginModal";
@@ -10,33 +11,47 @@ import Profile from "./icons/Profile.svg";
 import { HeaderContainer } from "./style";
 
 const Header = () => {
-  const logged: boolean = false;
   const [loginModal, setLoginModal] = useState<boolean>(false);
-
+  const [openInNewAccount, setOpenInNewAccount] = useState<boolean>(false);
+  const { logged } = useAuth();
   const route = useRouter();
+
+  const handleOpenLogin = (isNewAccount: boolean) => {
+    setOpenInNewAccount(isNewAccount);
+    setLoginModal(true);
+  };
+
   return (
     <HeaderContainer>
-      {loginModal && (
-        <LoginModal loginModal={loginModal} setLoginModal={setLoginModal} />
-      )}
       <div className="centerComponent">
         <span className="mainLogo" onClick={() => route.push("/home")}>
           <HeaderLogo />
         </span>
         {!logged ? (
           <div className="loginContainer">
-            <span className="loginButton" onClick={() => setLoginModal(true)}>
+            <span
+              className="loginButton getIn"
+              onClick={() => handleOpenLogin(false)}
+            >
               <Text align="start" fontName="SMALL_SEMI_BOLD">
                 Entrar
               </Text>
             </span>
             <span>
-              <Button width={98} height={28} title="Cadastre-se" />
+              <Button
+                onClick={() => handleOpenLogin(true)}
+                width={98}
+                height={28}
+                title="Cadastre-se"
+              />
             </span>
           </div>
         ) : (
-          <div className="loginContainer">
-            <span className="loginButton name">
+          <div
+            className="loginContainer name"
+            onClick={() => route.push("/my-orders")}
+          >
+            <span className="loginButton">
               <Text align="start" fontName="SMALL_SEMI_BOLD">
                 Luiz Silva Santos
               </Text>
@@ -45,6 +60,13 @@ const Header = () => {
           </div>
         )}
       </div>
+      {loginModal && (
+        <LoginModal
+          openInNewAccount={openInNewAccount}
+          loginModal={loginModal}
+          setLoginModal={setLoginModal}
+        />
+      )}
     </HeaderContainer>
   );
 };
