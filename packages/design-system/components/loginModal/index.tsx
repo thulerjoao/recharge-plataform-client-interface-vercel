@@ -10,6 +10,7 @@ import Backward from "./icons/Backward.svg";
 import Close from "./icons/Close.svg";
 import TopLogo from "./icons/topLogo.svg";
 import { LoginModalBackground, LoginModalContainer } from "./style";
+import { LoginSteps } from "./types/types";
 
 interface LoginModalProps {
   handleLogin: () => void;
