@@ -52,7 +52,9 @@ const PaymentCard = ({ selected, method, price }: Props) => {
         align="end"
         color={Theme.colors.maindark}
         fontName="REGULAR_SEMI_BOLD"
-      >{`R$ ${price.toFixed(2)}`}</Text>
+      >
+        R$ {price.toFixed(2)}
+      </Text>
     </PaymentCardContainer>
   );
 };

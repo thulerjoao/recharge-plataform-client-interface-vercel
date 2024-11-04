@@ -62,7 +62,7 @@ const PackageCard = ({
         fontName="REGULAR_SEMI_BOLD"
         margin="9px 16px 0 0"
       >
-        {`R$ ${price.toFixed(2)}`}
+        R$ ${price.toFixed(2)}
       </Text>
     </PackageCardContainer>
   );
