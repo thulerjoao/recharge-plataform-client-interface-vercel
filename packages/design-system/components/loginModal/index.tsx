@@ -6,10 +6,10 @@ import ForgotPassword from "./common/forgotPassword";
 import LoginComponent from "./common/login";
 import NewAccount from "./common/newAccount";
 import NewPassword from "./common/newPassword";
+import Backward from "./icons/Backward.svg";
 import Close from "./icons/Close.svg";
 import TopLogo from "./icons/topLogo.svg";
 import { LoginModalBackground, LoginModalContainer } from "./style";
-import { LoginSteps } from "./types/types";
 
 interface LoginModalProps {
   handleLogin: () => void;
@@ -49,15 +49,22 @@ const LoginModal = ({
     setLoginModal(false);
   };
 
+  const handleBackward = () => {
+    step === "forgotPassword" && setStep("login");
+    step === "confirmCode" && setStep("forgotPassword");
+    step === "newPassword" && setStep("confirmCode");
+  };
+
   return (
     <LoginModalBackground onClick={() => !reseller && setLoginModal(false)}>
       <LoginModalContainer onClick={(e) => e.stopPropagation()}>
         <div className="close">
-          {!reseller && (
-            <span onClick={() => setLoginModal(false)}>
-              <Close />
-            </span>
-          )}
+          <span onClick={() => handleBackward()}>
+            {step !== "login" && step !== "newAccount" && <Backward />}
+          </span>
+          <span onClick={() => !reseller && setLoginModal(false)}>
+            {!reseller && <Close />}
+          </span>
         </div>
         <TopLogo />
         {step === "login" && (

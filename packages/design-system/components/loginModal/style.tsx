@@ -31,10 +31,10 @@ export const LoginModalContainer = styled.div`
     width: 100%;
     display: flex;
     align-items: center;
-    justify-content: flex-end;
+    justify-content: space-between;
     margin-top: 16px;
     margin-bottom: 8px;
-    padding-right: 16px;
+    padding: 0 16px;
     height: 28px;
 
     span {
