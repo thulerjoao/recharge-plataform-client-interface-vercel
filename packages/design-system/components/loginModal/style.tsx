@@ -26,6 +26,7 @@ export const LoginModalContainer = styled.div`
   flex-direction: column;
   align-items: center;
   border-radius: 8px;
+  padding-bottom: 48px;
 
   .close {
     width: 100%;
@@ -35,7 +36,7 @@ export const LoginModalContainer = styled.div`
     margin-top: 16px;
     margin-bottom: 8px;
     padding: 0 16px;
-    height: 28px;
+    min-height: 24px;
 
     span {
       cursor: pointer;
@@ -43,7 +44,6 @@ export const LoginModalContainer = styled.div`
   }
 
   .newAccountButton {
-    margin: 24px 0 48px 0;
     cursor: pointer;
   }
 
