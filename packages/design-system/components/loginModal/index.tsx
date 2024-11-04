@@ -91,6 +91,7 @@ const LoginModal = ({
           >
             {!reseller && (
               <Text
+                margin="24px 0 0 0"
                 fontName="SMALL"
                 align="center"
                 color={Theme.colors.mainHighlight}

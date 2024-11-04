@@ -34,7 +34,7 @@ const NewPassword = ({ handleLogin, closeModal }: Props) => {
           handleLogin();
           closeModal && closeModal();
         }}
-        margin="24px 0 48px 0"
+        margin="24px 0 0 0"
         width={310}
         height={40}
         rounded
