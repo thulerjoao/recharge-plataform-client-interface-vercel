@@ -35,6 +35,7 @@ export const LoginModalContainer = styled.div`
     margin-top: 16px;
     margin-bottom: 8px;
     padding-right: 16px;
+    height: 28px;
 
     span {
       cursor: pointer;

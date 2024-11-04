@@ -16,7 +16,7 @@ const Header = () => {
   const [loginModal, setLoginModal] = useState<boolean>(false);
   const [openInNewAccount, setOpenInNewAccount] = useState<boolean>(false);
   const [openMenu, setOpenMenu] = useState<boolean>(false);
-  const { logged, handleLogout } = useAuth();
+  const { logged, handleLogout, handleLogin } = useAuth();
   const route = useRouter();
   const modalRef = useRef(null);
 
@@ -109,6 +109,7 @@ const Header = () => {
       </div>
       {loginModal && (
         <LoginModal
+          handleLogin={handleLogin}
           openInNewAccount={openInNewAccount}
           loginModal={loginModal}
           setLoginModal={setLoginModal}

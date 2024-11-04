@@ -5,7 +5,7 @@ import "./globals.css";
 export const metadata = {
   title: {
     template: "%s - 4miga",
-    default: "4miga store",
+    default: "4miga Reseller",
   },
   description: "Project created by 4miga",
   charset: "utf-8",

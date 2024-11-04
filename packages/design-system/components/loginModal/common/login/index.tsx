@@ -2,21 +2,27 @@ import Button from "@4miga/design-system/components/button";
 import Input from "@4miga/design-system/components/input";
 import Text from "@4miga/design-system/components/Text";
 import { Theme } from "@4miga/design-system/theme/theme";
-import { useAuth } from "contexts/auth";
 import React from "react";
 import Email from "../../icons/Email.svg";
 import Password from "../../icons/Password.svg";
+import { LoginSteps } from "../../types/types";
 import { LoginComponentContainer } from "./style";
 
 interface Props {
+  setStep: React.Dispatch<React.SetStateAction<LoginSteps>>;
+  handleLogin: () => void;
   check: boolean;
   setIsCheck: React.Dispatch<React.SetStateAction<boolean>>;
   closeModal: () => void;
 }
 
-const LoginComponent = ({ check, setIsCheck, closeModal }: Props) => {
-  const { logged, handleLogin } = useAuth();
-
+const LoginComponent = ({
+  setStep,
+  handleLogin,
+  check,
+  setIsCheck,
+  closeModal,
+}: Props) => {
   return (
     <LoginComponentContainer>
       <Text margin="24px 0 0 0" align="center" fontName="REGULAR_MEDIUM">
@@ -45,7 +51,10 @@ const LoginComponent = ({ check, setIsCheck, closeModal }: Props) => {
             Continuar conectado
           </Text>
         </div>
-        <span className="forgotPassword">
+        <span
+          className="forgotPassword"
+          onClick={() => setStep("forgotPassword")}
+        >
           <Text
             nowrap
             align="end"
