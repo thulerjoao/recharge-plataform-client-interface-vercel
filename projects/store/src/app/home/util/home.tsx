@@ -2,8 +2,8 @@
 
 import Text from "@4miga/design-system/components/Text";
 import Image from "next/image";
-import BottomOffer from "utils/components/bottomOffer/bottomOffer";
-import SecurityAdvertise from "utils/components/securityAdvertise/securityAdvertise";
+import BottomOffer from "public/components/bottomOffer/bottomOffer";
+import SecurityAdvertise from "public/components/securityAdvertise/securityAdvertise";
 import Card from "../common/components/card/card";
 import Lines from "../common/components/lines/lines";
 import Card1 from "../common/temp/Card1.png";

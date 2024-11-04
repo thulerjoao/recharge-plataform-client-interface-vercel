@@ -5,8 +5,8 @@ import Button from "@4miga/design-system/components/button";
 import Input from "@4miga/design-system/components/input";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
-import PackageCard from "../../../utils/cards/packageCard/card";
-import PaymentCard from "../../../utils/cards/paymentCard/card";
+import PackageCard from "../../../public/cards/packageCard/card";
+import PaymentCard from "../../../public/cards/paymentCard/card";
 import BigoCard from "../common/temp/bigoCard.svg";
 import { ProductContainer } from "./style";
 

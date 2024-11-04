@@ -3,11 +3,11 @@
 import { useDevice } from "contexts/deviceContext";
 import React from "react";
 import { StyleSheetManager } from "styled-components";
-import Contact from "utils/components/contact/contact";
-import Description from "utils/components/description/description";
-import Footer from "utils/components/footer/footer";
-import Header from "utils/components/header/header";
-import SecurityAdvertise from "utils/components/securityAdvertise/securityAdvertise";
+import Contact from "public/components/contact/contact";
+import Description from "public/components/description/description";
+import Footer from "public/components/footer/footer";
+import Header from "public/components/header/header";
+import SecurityAdvertise from "public/components/securityAdvertise/securityAdvertise";
 import { LayoutStyle } from "./style";
 
 interface LayoutProps {
