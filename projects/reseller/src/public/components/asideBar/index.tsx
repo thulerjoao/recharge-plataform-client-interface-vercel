@@ -1,80 +1,147 @@
 import Text from "@4miga/design-system/components/Text";
+import { Theme } from "@4miga/design-system/theme/theme";
 import { useState } from "react";
-import Home from "./icons/Home.svg";
-import Logo from "./icons/Logo.svg";
-import Products from "./icons/Products.svg";
-import Recharge from "./icons/Recharge.svg";
-import Sell from "./icons/Sell.svg";
-import Wallet from "./icons/Wallet.svg";
 import Gear from "./icons/Gear.svg";
+import GearSelected from "./icons/GearSelected.svg";
+import Home from "./icons/Home.svg";
+import HomeSelected from "./icons/HomeSelected.svg";
+import Logo from "./icons/Logo.svg";
 import Logout from "./icons/Logout.svg";
+import Products from "./icons/Products.svg";
+import ProductsSelected from "./icons/ProductsSelected.svg";
+import Recharge from "./icons/Recharge.svg";
+import RechargeSelected from "./icons/RechargeSelected.svg";
+import Sell from "./icons/Sell.svg";
+import SellSelected from "./icons/SellSelected.svg";
+import Wallet from "./icons/Wallet.svg";
+import WalletSelected from "./icons/WalletSelected.svg";
 import { AsideBarContainer } from "./style";
 
-type AsideSelected = "home" | "sell" | "products" | "recharge" | "wallet";
+type AsideSelected =
+  | "home"
+  | "sell"
+  | "products"
+  | "recharge"
+  | "wallet"
+  | "config";
 
 const AsideBar = () => {
   const [selected, setSelected] = useState<AsideSelected>("home");
 
+  const handleClick = (prop: AsideSelected) => {
+    setSelected(prop);
+  };
+
+  const handleCheck = (prop: AsideSelected) => {
+    return selected === prop ? 1 : 0;
+  };
+
   return (
     <AsideBarContainer>
-      <Logo />
-      <div style={{ margin: "40px 0 16px 0" }} className="menuOption">
-        <span>
-          <Home />
-        </span>
-        <Text margin="0 0 0 16px" fontName="REGULAR_SEMI_BOLD">
-          INÍCIO
-        </Text>
-      </div>
-      <div className="menuOption">
-        <span>
-          <Sell />
-        </span>
-        <Text margin="0 0 0 16px" fontName="REGULAR_SEMI_BOLD">
-          VENDAS
-        </Text>
-      </div>
-      <div className="menuOption">
-        <span>
-          <Products />
-        </span>
-        <Text margin="0 0 0 16px" fontName="REGULAR_SEMI_BOLD">
-          PRODUTOS
-        </Text>
-      </div>
-      <div className="menuOption">
-        <span>
-          <Recharge />
-        </span>
-        <Text margin="0 0 0 16px" fontName="REGULAR_SEMI_BOLD">
-          RECARREGAR
-        </Text>
-      </div>
-      <div className="menuOption">
-        <span>
-          <Wallet />
-        </span>
-        <Text margin="0 0 0 16px" fontName="REGULAR_SEMI_BOLD">
-          CARTEIRA
-        </Text>
-      </div>
-      <section className="bottomOptions">
-        <div className="menuOption">
-          <span>
-            <Gear />
-          </span>
-          <Text margin="0 0 0 16px" fontName="REGULAR_SEMI_BOLD">
-            CONFIGURAÇÕES
-          </Text>
-        </div>
-        <div className="menuOption">
-          <span>
-            <Logout />
-          </span>
-          <Text margin="0 0 0 16px" fontName="REGULAR_SEMI_BOLD">
-            SAIR
-          </Text>
-        </div>
+      <section className="CenterContent">
+        <aside className="mainContent">
+          <Logo />
+          <div
+            onClick={() => handleClick("home")}
+            className={`menuOption ${handleCheck("home") && "selected"}`}
+            style={{ margin: "40px 0 16px 0" }}
+          >
+            <span>{handleCheck("home") ? <HomeSelected /> : <Home />}</span>
+            <Text
+              color={handleCheck("home") && Theme.colors.maindark}
+              margin="0 0 0 16px"
+              fontName="REGULAR_SEMI_BOLD"
+            >
+              INÍCIO
+            </Text>
+          </div>
+
+          <div
+            onClick={() => handleClick("sell")}
+            className={`menuOption ${handleCheck("sell") && "selected"}`}
+          >
+            <span>{handleCheck("sell") ? <SellSelected /> : <Sell />}</span>
+            <Text
+              color={handleCheck("sell") && Theme.colors.maindark}
+              margin="0 0 0 16px"
+              fontName="REGULAR_SEMI_BOLD"
+            >
+              VENDAS
+            </Text>
+          </div>
+
+          <div
+            onClick={() => handleClick("products")}
+            className={`menuOption ${handleCheck("products") && "selected"}`}
+          >
+            <span>
+              {handleCheck("products") ? <ProductsSelected /> : <Products />}
+            </span>
+            <Text
+              color={handleCheck("products") && Theme.colors.maindark}
+              margin="0 0 0 16px"
+              fontName="REGULAR_SEMI_BOLD"
+            >
+              PRODUTOS
+            </Text>
+          </div>
+
+          <div
+            onClick={() => handleClick("recharge")}
+            className={`menuOption ${handleCheck("recharge") && "selected"}`}
+          >
+            <span>
+              {handleCheck("recharge") ? <RechargeSelected /> : <Recharge />}
+            </span>
+            <Text
+              color={handleCheck("recharge") && Theme.colors.maindark}
+              margin="0 0 0 16px"
+              fontName="REGULAR_SEMI_BOLD"
+            >
+              RECARREGAR
+            </Text>
+          </div>
+
+          <div
+            onClick={() => handleClick("wallet")}
+            className={`menuOption ${handleCheck("wallet") && "selected"}`}
+          >
+            <span>
+              {handleCheck("wallet") ? <WalletSelected /> : <Wallet />}
+            </span>
+            <Text
+              color={handleCheck("wallet") && Theme.colors.maindark}
+              margin="0 0 0 16px"
+              fontName="REGULAR_SEMI_BOLD"
+            >
+              CARTEIRA
+            </Text>
+          </div>
+
+          <div className="bottomOptions">
+            <div
+              onClick={() => handleClick("config")}
+              className={`menuOption ${handleCheck("config") && "selected"}`}
+            >
+              <span>{handleCheck("config") ? <GearSelected /> : <Gear />}</span>
+              <Text
+                color={handleCheck("config") && Theme.colors.maindark}
+                margin="0 0 0 16px"
+                fontName="REGULAR_SEMI_BOLD"
+              >
+                CARTEIRA
+              </Text>
+            </div>
+            <div className="menuOption">
+              <span>
+                <Logout />
+              </span>
+              <Text margin="0 0 0 16px" fontName="REGULAR_SEMI_BOLD">
+                SAIR
+              </Text>
+            </div>
+          </div>
+        </aside>
       </section>
     </AsideBarContainer>
   );
