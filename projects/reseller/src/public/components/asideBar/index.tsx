@@ -11,15 +11,15 @@ import Products from "./icons/Products.svg";
 import ProductsSelected from "./icons/ProductsSelected.svg";
 import Recharge from "./icons/Recharge.svg";
 import RechargeSelected from "./icons/RechargeSelected.svg";
-import Sell from "./icons/Sell.svg";
-import SellSelected from "./icons/SellSelected.svg";
+import Sales from "./icons/Sales.svg";
+import SalesSelected from "./icons/SalesSelected.svg";
 import Wallet from "./icons/Wallet.svg";
 import WalletSelected from "./icons/WalletSelected.svg";
 import { AsideBarContainer } from "./style";
 
 type AsideSelected =
   | "home"
-  | "sell"
+  | "sales"
   | "products"
   | "recharge"
   | "wallet"
@@ -57,12 +57,12 @@ const AsideBar = () => {
           </div>
 
           <div
-            onClick={() => handleClick("sell")}
-            className={`menuOption ${handleCheck("sell") && "selected"}`}
+            onClick={() => handleClick("sales")}
+            className={`menuOption ${handleCheck("sales") && "selected"}`}
           >
-            <span>{handleCheck("sell") ? <SellSelected /> : <Sell />}</span>
+            <span>{handleCheck("sales") ? <SalesSelected /> : <Sales />}</span>
             <Text
-              color={handleCheck("sell") && Theme.colors.maindark}
+              color={handleCheck("sales") && Theme.colors.maindark}
               margin="0 0 0 16px"
               fontName="REGULAR_SEMI_BOLD"
             >

@@ -9,7 +9,7 @@ interface CardProps {
   name: string;
 }
 
-const Card = ({ image, name }: CardProps) => {
+const GameCard = ({ image, name }: CardProps) => {
   const route = useRouter();
 
   return (
@@ -27,4 +27,4 @@ const Card = ({ image, name }: CardProps) => {
   );
 };
 
-export default Card;
+export default GameCard;
