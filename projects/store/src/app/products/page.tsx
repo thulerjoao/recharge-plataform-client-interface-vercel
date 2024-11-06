@@ -1,4 +1,4 @@
-import ProductPage from "./util/product";
+import ProductPage from "./public/product";
 
 const Page = () => {
   return <ProductPage />;
