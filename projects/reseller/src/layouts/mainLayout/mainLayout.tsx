@@ -1,27 +1,25 @@
 "use client";
 
-import Contact from "public/components/contact/contact";
-import Footer from "public/components/footer/footer";
-import Header from "public/components/header/header";
 import React from "react";
 import { StyleSheetManager } from "styled-components";
 import { LayoutStyle } from "./style";
+import AsideBar from "public/components/asideBar";
 
 interface LayoutProps {
   children: React.ReactNode;
 }
 
-const Layout: React.FC<LayoutProps> = ({ children }) => {
+const MainLayout: React.FC<LayoutProps> = ({ children }) => {
   return (
     <StyleSheetManager shouldForwardProp={(prop) => prop !== "device"}>
       <LayoutStyle>
-        <Header />
-        {children}
-        <Contact />
-        <Footer />
+        <section className="mainContent">
+          <AsideBar />
+          {children}
+        </section>
       </LayoutStyle>
     </StyleSheetManager>
   );
 };
 
-export default Layout;
+export default MainLayout;

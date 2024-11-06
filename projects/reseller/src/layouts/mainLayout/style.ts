@@ -4,12 +4,16 @@ interface LayoutProps {}
 
 export const LayoutStyle = styled.div<LayoutProps>`
   display: flex;
-  flex-direction: column;
-  align-items: center;
-  margin-top: 48px;
-  min-height: calc(100vh - 238px);
-  padding-bottom: 238px;
-  position: relative;
+  justify-content: center;
+  width: 100%;
+  height: 0;
+
+  .mainContent {
+    width: 100%;
+    max-width: 85.5rem;
+    padding-right: 40px;
+    padding-left: 304px;
+  }
 
   @media (min-width: 768px) and (max-width: 1024px) {
   }

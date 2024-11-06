@@ -1,9 +1,6 @@
 import styled from "styled-components";
-import { DeviceType } from "types/device.types";
 
-interface LayoutProps {
-  device: DeviceType;
-}
+interface LayoutProps {}
 
 export const LayoutStyle = styled.div<LayoutProps>`
   display: flex;
@@ -17,8 +14,7 @@ export const LayoutStyle = styled.div<LayoutProps>`
     display: flex;
     width: 100%;
     max-width: 85.5rem;
-    flex-direction: ${({ device }) =>
-      device !== "desktop" ? "column" : "row"};
+    flex-direction: row;
     align-items: flex-start;
     justify-content: space-between;
     margin-top: 80px;
@@ -30,12 +26,14 @@ export const LayoutStyle = styled.div<LayoutProps>`
     .mainContent {
       margin-top: 48px;
       padding: 0;
+      flex-direction: column;
     }
   }
   @media (max-width: 767px) {
     .mainContent {
       margin-top: 48px;
       padding: 0;
+      flex-direction: column;
     }
   }
 `;

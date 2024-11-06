@@ -1,4 +1,4 @@
-import MyOrders from "./utils/myOrders";
+import MyOrders from "./public/myOrders";
 
 const Page = () => {
   return <MyOrders />;

@@ -10,7 +10,7 @@ const Page = () => {
   // useEffect(() => route.replace("/home"), [route]);
   return (
     <div className="container">
-      <span className="loading" />
+      {/* <span className="loading" /> */}
       <LoginModal reseller handleLogin={null} />
     </div>
   );
