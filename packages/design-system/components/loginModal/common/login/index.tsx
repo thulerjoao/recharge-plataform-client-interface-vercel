@@ -13,7 +13,7 @@ interface Props {
   handleLogin: () => void;
   check: boolean;
   setIsCheck: React.Dispatch<React.SetStateAction<boolean>>;
-  closeModal: () => void;
+  closeModal?: () => void;
 }
 
 const LoginComponent = ({
@@ -68,7 +68,7 @@ const LoginComponent = ({
       <Button
         onClick={() => {
           handleLogin();
-          closeModal();
+          closeModal && closeModal();
         }}
         margin="24px 0 0 0"
         width={310}

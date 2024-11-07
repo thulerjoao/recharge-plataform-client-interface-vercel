@@ -1,3 +1,4 @@
+import Providers from "context/providers";
 import StyledComponentsRegistry from "lib/registry";
 import React from "react";
 import "./globals.css";
@@ -27,7 +28,9 @@ export default function RootLayout({
   return (
     <html lang="pt-br">
       <body>
-        <StyledComponentsRegistry>{children}</StyledComponentsRegistry>
+        <Providers>
+          <StyledComponentsRegistry>{children}</StyledComponentsRegistry>
+        </Providers>
       </body>
     </html>
   );

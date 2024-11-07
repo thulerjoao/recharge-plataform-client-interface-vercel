@@ -1,62 +1,88 @@
 import Text from "@4miga/design-system/components/Text";
 import { Theme } from "@4miga/design-system/theme/theme";
+import Image, { StaticImageData } from "next/image";
 import { useRouter } from "next/navigation";
-import { ReactElement } from "react";
 import { OrderCardContainer } from "./style";
+import ForwardArrow from ".//icons/ForwardArrow.svg";
 
 interface OrderCardProps {
-  title: string;
-  image: ReactElement;
-  time: string;
-  price: number;
-  status: "approved" | "pending" | "canceled";
+  image: StaticImageData;
+  orderNumber: number;
+  clientName: string;
+  packageName: string;
+  paymentStatus: "approved";
+  rechargeStatus: "processing";
 }
 
-const OrderCard = ({ title, image, time, price, status }: OrderCardProps) => {
+const OrderCard = ({
+  image,
+  orderNumber,
+  clientName,
+  packageName,
+  paymentStatus,
+  rechargeStatus,
+}: OrderCardProps) => {
   const route = useRouter();
-  const handleStatus = () => {
-    if (status === "approved") return "Aprovado";
-    if (status === "pending") return "Pendente";
-    if (status === "canceled") return "Cancelado";
+
+  const handlePaymentStatus = () => {
+    if (paymentStatus === "approved") return "Aprovado";
   };
 
-  const handleStatusColor = () => {
-    if (status === "approved") return Theme.colors.approved;
-    if (status === "pending") return Theme.colors.pending;
-    if (status === "canceled") return Theme.colors.refused;
+  const handlePaymentStatusColor = () => {
+    if (paymentStatus === "approved") return Theme.colors.approved;
+  };
+
+  const handleRechargeStatus = () => {
+    if (rechargeStatus === "processing") return "Processando";
+  };
+
+  const handleRechargeStatusColor = () => {
+    if (rechargeStatus === "processing") return Theme.colors.pending;
   };
 
   return (
-    <OrderCardContainer status={status}>
-      {image}
+    <OrderCardContainer>
+      <Image src={image} alt="Imagem do jogo" />
       <section className="allInfo">
-        <div className="rowInfos">
-          <Text nowrap fontName="SMALL">
-            {title}
+        <span className="orderNumber">
+          <Text nowrap align="center" fontName="SMALL_MEDIUM">
+            {orderNumber}
           </Text>
-          <Text align="end" fontName="SMALL_MEDIUM">
-            R$ {price.toFixed(2)}
+        </span>
+        <span className="name">
+          <Text nowrap align="center" fontName="SMALL_MEDIUM">
+            {clientName}
           </Text>
-        </div>
-        <div className="rowInfos">
-          <Text color={Theme.colors.secondaryText} fontName="TINY">
-            {time}
+        </span>
+        <span className="name">
+          <Text nowrap align="center" fontName="SMALL_MEDIUM">
+            {packageName}
           </Text>
-          <Text color={handleStatusColor()} align="end" fontName="TINY">
-            {handleStatus()}
-          </Text>
-        </div>
-        <div className="seeDetails" onClick={() => route.push("/order")}>
+        </span>
+        <span className="status">
           <Text
+            nowrap
             align="center"
-            underline
-            fontName="TINY"
-            color={Theme.colors.secondaryText}
+            color={handlePaymentStatusColor()}
+            fontName="SMALL_MEDIUM"
           >
-            ver detalhes
+            {handlePaymentStatus()}
           </Text>
-        </div>
+        </span>
+        <span className="status">
+          <Text
+            nowrap
+            align="center"
+            color={handleRechargeStatusColor()}
+            fontName="SMALL_MEDIUM"
+          >
+            {handleRechargeStatus()}
+          </Text>
+        </span>
       </section>
+      <span className="forwardIcon">
+        <ForwardArrow />
+      </span>
     </OrderCardContainer>
   );
 };

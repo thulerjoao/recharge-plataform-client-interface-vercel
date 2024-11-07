@@ -1,8 +1,8 @@
 "use client";
 
-import Home from "./util/home";
+import Sales from "./util/sales";
 
 const Page = () => {
-  return <Home />;
+  return <Sales />;
 };
 export default Page;

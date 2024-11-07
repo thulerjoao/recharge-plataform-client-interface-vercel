@@ -1,6 +1,8 @@
 import Text from "@4miga/design-system/components/Text";
 import { Theme } from "@4miga/design-system/theme/theme";
+import { usePathname, useRouter } from "next/navigation";
 import { useState } from "react";
+import { AsideSelected } from "types/asideMenu.types";
 import Gear from "./icons/Gear.svg";
 import GearSelected from "./icons/GearSelected.svg";
 import Home from "./icons/Home.svg";
@@ -17,23 +19,18 @@ import Wallet from "./icons/Wallet.svg";
 import WalletSelected from "./icons/WalletSelected.svg";
 import { AsideBarContainer } from "./style";
 
-type AsideSelected =
-  | "home"
-  | "sales"
-  | "products"
-  | "recharge"
-  | "wallet"
-  | "config";
-
 const AsideBar = () => {
-  const [selected, setSelected] = useState<AsideSelected>("home");
+  const route = useRouter();
+  const currentRoute = usePathname();
+  const [selected, setSelected] = useState<string>(currentRoute);
 
   const handleClick = (prop: AsideSelected) => {
     setSelected(prop);
+    route.push(`/${prop}`);
   };
 
   const handleCheck = (prop: AsideSelected) => {
-    return selected === prop ? 1 : 0;
+    return selected === `/${prop}` ? 1 : 0;
   };
 
   return (
