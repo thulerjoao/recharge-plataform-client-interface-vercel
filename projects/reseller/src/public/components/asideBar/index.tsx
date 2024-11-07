@@ -26,7 +26,7 @@ const AsideBar = () => {
 
   const handleClick = (prop: AsideSelected) => {
     setSelected(prop);
-    route.replace(`/${prop}`);
+    route.push(`/${prop}`);
   };
 
   const handleCheck = (prop: AsideSelected) => {

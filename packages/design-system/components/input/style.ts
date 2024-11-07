@@ -50,3 +50,15 @@ export const LeftElement = styled.div`
   align-items: center;
   justify-content: center;
 `;
+
+export const RightElement = styled.div`
+  position: absolute;
+  right: 8px;
+  top: 0;
+  width: auto;
+  height: 100%;
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+`;

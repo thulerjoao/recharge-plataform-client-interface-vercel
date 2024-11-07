@@ -4,11 +4,17 @@ import React, { InputHTMLAttributes, ReactElement } from "react";
 import { StyleSheetManager } from "styled-components";
 import { Theme } from "../../theme/theme";
 import Text from "../Text";
-import { ExternalComponent, InputElement, LeftElement } from "./style";
+import {
+  ExternalComponent,
+  InputElement,
+  LeftElement,
+  RightElement,
+} from "./style";
 
 interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
   height: 40 | 48;
   leftElement?: ReactElement;
+  rightElement?: ReactElement;
   loading?: boolean;
   password?: boolean;
   maxCharacters?: number;
@@ -20,6 +26,7 @@ interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
 
 const Input: React.FC<InputProps> = ({
   leftElement,
+  rightElement,
   loading,
   password,
   maxCharacters,
@@ -36,6 +43,7 @@ const Input: React.FC<InputProps> = ({
         prop !== "loading" &&
         prop !== "margin" &&
         prop !== "leftElement" &&
+        prop !== "rightElement" &&
         prop !== "maxCharacters" &&
         prop !== "leftPaddingInPx" &&
         prop !== "password"
@@ -52,6 +60,7 @@ const Input: React.FC<InputProps> = ({
           </Text>
         )}
         {leftElement && <LeftElement>{leftElement}</LeftElement>}
+        {rightElement && <RightElement>{rightElement}</RightElement>}
         <InputElement {...props} height={height} padding={padding} />
       </ExternalComponent>
     </StyleSheetManager>

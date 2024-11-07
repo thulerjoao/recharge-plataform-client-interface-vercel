@@ -1,38 +1,52 @@
 import { Theme } from "@4miga/design-system/theme/theme";
 import styled from "styled-components";
 
-interface OrderCardProps {
-  status: string;
-}
+interface OrderCardProps {}
 
 export const OrderCardContainer = styled.article<OrderCardProps>`
-  height: 90px;
-  width: 100%;
+  height: 64px;
+  background-color: ${Theme.colors.maindark};
+  margin-bottom: 16px;
   display: flex;
   align-items: center;
-  justify-content: space-between;
-  padding: 0 10px;
-  box-sizing: border-box;
-  margin-top: 16px;
+  padding: 0 16px;
   border-radius: 8px;
-  background-color: ${Theme.colors.maindark};
+  cursor: pointer;
+
+  img {
+    height: 48px;
+    width: 48px;
+    border-radius: 8px;
+  }
 
   .allInfo {
-    height: 66px;
-    width: calc(100% - 82px);
     display: flex;
-    flex-direction: column;
     align-items: center;
+    width: 100%;
+    justify-content: space-between;
+    margin: 0 16px;
 
-    .rowInfos {
-      display: flex;
-      margin-bottom: 8px;
+    span {
       width: 100%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex-direction: column;
     }
 
-    .seeDetails {
-      cursor: pointer;
-      width: 6rem;
+    .orderNumber {
+      max-width: 112px;
     }
+
+    .name {
+      max-width: 220px;
+    }
+
+    .status {
+      max-width: 140px;
+    }
+  }
+
+  .forwardIcon {
   }
 `;
