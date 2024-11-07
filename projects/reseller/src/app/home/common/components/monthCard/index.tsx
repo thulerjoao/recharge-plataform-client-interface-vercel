@@ -12,7 +12,7 @@ interface CardProps {
 const MonthCard = ({ image, sold, invoicing, profit }: CardProps) => {
   return (
     <MonthCardContainer>
-      <Image src={image} alt={`Imagem do jogo ${name}`} />
+      <Image src={image} alt="Imagem do jogo" />
       <section>
         <div>
           <Text fontName="REGULAR">Vendas</Text>

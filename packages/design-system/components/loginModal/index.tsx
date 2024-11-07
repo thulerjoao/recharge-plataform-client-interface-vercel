@@ -32,19 +32,19 @@ const LoginModal = ({
     openInNewAccount ? "newAccount" : "login",
   );
 
-  useEffect(() => {
-    if (loginModal) {
-      document.documentElement.style.overflowY = "hidden";
-      document.body.style.overflowY = "scroll";
-    } else {
-      document.documentElement.style.overflowY = "scroll";
-    }
+  // useEffect(() => {
+  //   if (loginModal) {
+  //     document.documentElement.style.overflowY = "hidden";
+  //     document.body.style.overflowY = "scroll";
+  //   } else {
+  //     document.documentElement.style.overflowY = "scroll";
+  //   }
 
-    return () => {
-      document.documentElement.style.overflowY = "scroll";
-      document.body.style.overflowY = "hidden";
-    };
-  }, [loginModal]);
+  //   return () => {
+  //     document.documentElement.style.overflowY = "scroll";
+  //     document.body.style.overflowY = "hidden";
+  //   };
+  // }, [loginModal]);
 
   const closeModal = () => {
     setLoginModal(false);
