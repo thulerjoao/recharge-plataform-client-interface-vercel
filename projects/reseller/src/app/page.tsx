@@ -6,12 +6,10 @@ import "./globals.css";
 
 const Page = () => {
   const route = useRouter();
-
-  // useEffect(() => route.replace("/home"), [route]);
   return (
     <div className="container">
       {/* <span className="loading" /> */}
-      <LoginModal reseller handleLogin={null} />
+      <LoginModal reseller handleLogin={() => route.replace("/home")} />
     </div>
   );
 };

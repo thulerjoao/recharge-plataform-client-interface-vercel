@@ -72,7 +72,7 @@ const LoginModal = ({
           <LoginComponent
             setStep={setStep}
             handleLogin={handleLogin}
-            closeModal={closeModal}
+            closeModal={!reseller && closeModal}
             check={check}
             setIsCheck={setIsCheck}
           />

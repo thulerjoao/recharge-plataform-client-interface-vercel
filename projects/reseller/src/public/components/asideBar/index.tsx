@@ -16,14 +16,7 @@ import SalesSelected from "./icons/SalesSelected.svg";
 import Wallet from "./icons/Wallet.svg";
 import WalletSelected from "./icons/WalletSelected.svg";
 import { AsideBarContainer } from "./style";
-
-type AsideSelected =
-  | "home"
-  | "sales"
-  | "products"
-  | "recharge"
-  | "wallet"
-  | "config";
+import { AsideSelected } from "types/asideMenu.types";
 
 const AsideBar = () => {
   const [selected, setSelected] = useState<AsideSelected>("home");

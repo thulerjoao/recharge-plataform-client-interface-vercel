@@ -1,6 +1,6 @@
 "use client";
 
-import Home from "./public/home";
+import Home from "./util/home";
 
 const Page = () => {
   return <Home />;
