@@ -7,6 +7,7 @@ import Card2 from "../common/temp/Card2.png";
 import { SalesContainer } from "./style";
 import Pagination from "public/components/pagination";
 import SalesHeader from "../common/components/salesHeaderContainer";
+import SalesTitles from "../common/components/salesTiltes";
 
 const Sales = () => {
   return (
@@ -14,53 +15,7 @@ const Sales = () => {
       <HeaderEnviroment>
         <SalesHeader />
       </HeaderEnviroment>
-      <section className="titles">
-        <span className="orderNumber">
-          <Text
-            align="center"
-            color={Theme.colors.mainHighlight}
-            fontName="REGULAR_MEDIUM"
-          >
-            Nº do Pedido
-          </Text>
-        </span>
-        <span className="names">
-          <Text
-            align="center"
-            color={Theme.colors.mainHighlight}
-            fontName="REGULAR_MEDIUM"
-          >
-            Cliente
-          </Text>
-        </span>
-        <span className="names">
-          <Text
-            align="center"
-            color={Theme.colors.mainHighlight}
-            fontName="REGULAR_MEDIUM"
-          >
-            Pacote
-          </Text>
-        </span>
-        <span className="status">
-          <Text
-            align="center"
-            color={Theme.colors.mainHighlight}
-            fontName="REGULAR_MEDIUM"
-          >
-            Pagamento
-          </Text>
-        </span>
-        <span className="status">
-          <Text
-            align="center"
-            color={Theme.colors.mainHighlight}
-            fontName="REGULAR_MEDIUM"
-          >
-            Recarga
-          </Text>
-        </span>
-      </section>
+      <SalesTitles />
       <div className="cards">
         <OrderCard
           image={Card1}
