@@ -22,15 +22,13 @@ import { AsideBarContainer } from "./style";
 const AsideBar = () => {
   const route = useRouter();
   const currentRoute = usePathname();
-  const [selected, setSelected] = useState<string>(currentRoute);
 
   const handleClick = (prop: AsideSelected) => {
-    setSelected(prop);
     route.push(`/${prop}`);
   };
 
   const handleCheck = (prop: AsideSelected) => {
-    return selected === `/${prop}` ? 1 : 0;
+    return currentRoute === `/${prop}` ? 1 : 0;
   };
 
   return (
@@ -129,7 +127,7 @@ const AsideBar = () => {
                 CARTEIRA
               </Text>
             </div>
-            <div className="menuOption">
+            <div className="menuOption" onClick={() => route.replace("/")}>
               <span>
                 <Logout />
               </span>
