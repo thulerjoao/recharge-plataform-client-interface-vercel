@@ -12,5 +12,6 @@ export const DefaultHeaderContainer = styled.header`
   .backArrow {
     position: absolute;
     left: 24px;
+    cursor: pointer;
   }
 `;
