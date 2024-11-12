@@ -1,7 +1,6 @@
 import Text from "@4miga/design-system/components/Text";
 import { Theme } from "@4miga/design-system/theme/theme";
 import { usePathname, useRouter } from "next/navigation";
-import { useState } from "react";
 import { AsideSelected } from "types/asideMenu.types";
 import Gear from "./icons/Gear.svg";
 import GearSelected from "./icons/GearSelected.svg";
@@ -28,7 +27,8 @@ const AsideBar = () => {
   };
 
   const handleCheck = (prop: AsideSelected) => {
-    return currentRoute === `/${prop}` ? 1 : 0;
+    const propLenght: number = prop.length;
+    return currentRoute.slice(0, propLenght + 1) === `/${prop}` ? 1 : 0;
   };
 
   return (
