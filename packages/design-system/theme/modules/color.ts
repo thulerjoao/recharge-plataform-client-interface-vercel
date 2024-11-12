@@ -4,7 +4,7 @@ export const colors = {
   maindark: "#071116",
   secondaryAction: "#525F63",
   mainBbackgroundSolid: "#071D23",
-  mainTransparent: "#071D2390",
+  mainTransparent: "#010a0e99",
   secondaryText: "#76B4C3",
   approved: "#01FF0B",
   pending: "#FFFF00",

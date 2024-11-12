@@ -6,7 +6,7 @@ import Card1 from "../common/temp/Card1.png";
 import Card2 from "../common/temp/Card2.png";
 import { SalesContainer } from "./style";
 import Pagination from "public/components/pagination";
-import SalesHeader from "../common/components/salesHeaderContainer";
+import SalesHeader from "../common/components/salesHeader";
 import SalesTitles from "../common/components/salesTiltes";
 
 const Sales = () => {

@@ -2,7 +2,7 @@ import { Theme } from "@4miga/design-system/theme/theme";
 import styled from "styled-components";
 
 export const SalesHeaderContainer = styled.header`
-  height: 68px;
+  height: 64px;
   width: 100%;
   display: flex;
   align-items: center;

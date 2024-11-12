@@ -2,8 +2,8 @@ import Text from "@4miga/design-system/components/Text";
 import { Theme } from "@4miga/design-system/theme/theme";
 import Image, { StaticImageData } from "next/image";
 import { useRouter } from "next/navigation";
-import { OrderCardContainer } from "./style";
 import ForwardArrow from ".//icons/ForwardArrow.svg";
+import { OrderCardContainer } from "./style";
 
 interface OrderCardProps {
   image: StaticImageData;
@@ -41,7 +41,7 @@ const OrderCard = ({
   };
 
   return (
-    <OrderCardContainer>
+    <OrderCardContainer onClick={() => route.push(`/sales/${orderNumber}`)}>
       <Image src={image} alt="Imagem do jogo" />
       <section className="allInfo">
         <span className="orderNumber">
