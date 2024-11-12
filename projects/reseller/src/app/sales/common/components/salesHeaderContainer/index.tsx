@@ -1,15 +1,19 @@
 import Input from "@4miga/design-system/components/input";
 import Text from "@4miga/design-system/components/Text";
 import { useState } from "react";
+import DownArrow from "../../icons/DownArrow.svg";
 import Search from "../../icons/Search.svg";
 import Setting from "../../icons/Setting.svg";
 import UpArrow from "../../icons/UpArrow.svg";
-import DownArrow from "../../icons/DownArrow.svg";
 import SearchModal from "../searchModal";
 import { SalesHeaderContainer } from "./style";
 
 const SalesHeader = () => {
-  const [openModal, setOpenModal] = useState<boolean>(true);
+  const [openModal, setOpenModal] = useState<boolean>(false);
+
+  const handleOpenOrClose = () => {
+    setOpenModal(!openModal);
+  };
 
   return (
     <SalesHeaderContainer>
@@ -25,7 +29,7 @@ const SalesHeader = () => {
         />
       </div>
       <div
-        onClick={() => setOpenModal(!openModal)}
+        onClick={() => setOpenModal(true)}
         className={`filter ${openModal && "opened"}`}
       >
         <span>
@@ -34,9 +38,11 @@ const SalesHeader = () => {
         <Text align="center" fontName="SMALL">
           FILTRAR
         </Text>
-        <span>{openModal ? <UpArrow /> : <DownArrow />}</span>
+        <span onClick={() => setOpenModal(!openModal)}>
+          {openModal ? <UpArrow /> : <DownArrow />}
+        </span>
       </div>
-      {openModal && <SearchModal />}
+      {openModal && <SearchModal setOpenModal={setOpenModal} />}
     </SalesHeaderContainer>
   );
 };
