@@ -1,5 +1,6 @@
 "use client";
 
+import Button from "@4miga/design-system/components/button";
 import Text from "@4miga/design-system/components/Text";
 import { Theme } from "@4miga/design-system/theme/theme";
 import Image from "next/image";
@@ -17,6 +18,10 @@ type Props = {
 };
 
 const Page = ({ params }: Props) => {
+  const handleCheck = () => {
+    return params.slug == "123456" ? 1 : 0;
+  };
+
   return (
     <SalesInnerPage>
       <HeaderEnviroment>
@@ -104,8 +109,13 @@ const Page = ({ params }: Props) => {
           <section>
             <div className="leftMedium">
               <Text fontName="SMALL_MEDIUM">Bigo Live</Text>
-              <Text fontName="TINY" color={Theme.colors.approved}>
-                Recarga realizada
+              <Text
+                fontName="TINY"
+                color={
+                  handleCheck() ? Theme.colors.approved : Theme.colors.refused
+                }
+              >
+                {handleCheck() ? "Recarga realizada" : "Cancelada"}
               </Text>
             </div>
             <div className="rightMedium">
@@ -123,6 +133,46 @@ const Page = ({ params }: Props) => {
           </section>
         </section>
       </main>
+      {handleCheck() ? (
+        <div className="bottomContainer">
+          <div>
+            <Text
+              nowrap
+              color={Theme.colors.secondaryTextAction}
+              align="end"
+              fontName="SMALL_MEDIUM"
+            >
+              Custo total:
+            </Text>
+            <Text margin="0 0 0 8px" nowrap fontName="SMALL_MEDIUM">
+              R$ 19,32
+            </Text>
+          </div>
+          <div>
+            <Text
+              nowrap
+              color={Theme.colors.secondaryTextAction}
+              align="end"
+              fontName="SMALL_MEDIUM"
+            >
+              Lucro:
+            </Text>
+            <Text margin="0 0 0 8px" nowrap fontName="SMALL_MEDIUM">
+              R$ 10,58
+            </Text>
+          </div>
+        </div>
+      ) : (
+        <span>
+          <Button
+            margin="40px 0 97px 0"
+            width={188}
+            rounded
+            height={40}
+            title="Corrigir recarga"
+          />
+        </span>
+      )}
     </SalesInnerPage>
   );
 };

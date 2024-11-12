@@ -87,4 +87,20 @@ export const SalesInnerPage = styled.div`
       }
     }
   }
+
+  .bottomContainer {
+    display: flex;
+    align-items: center;
+    padding: 24px;
+    margin-top: 32px;
+    background-color: ${Theme.colors.maindark};
+    border-radius: 8px;
+    gap: 24px;
+    margin-bottom: 79px;
+
+    div {
+      display: flex;
+      width: 50%;
+    }
+  }
 `;
