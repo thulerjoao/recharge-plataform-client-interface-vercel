@@ -1,6 +1,6 @@
 import Text from "@4miga/design-system/components/Text";
 import { useRouter } from "next/navigation";
-import BackArrow from "../../icons//BackArrow.svg";
+import BackArrow from "./icons//BackArrow.svg";
 import { DefaultHeaderContainer } from "./style";
 
 interface Props {
