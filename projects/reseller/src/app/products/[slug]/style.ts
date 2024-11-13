@@ -11,6 +11,11 @@ export const ProductsInnerPage = styled.div`
 
     .topContainer {
       display: flex;
+      width: 100%;
+
+      h3 {
+        cursor: pointer;
+      }
     }
 
     .cardsContainer {

@@ -48,7 +48,7 @@ const Page = ({ params }: Props) => {
       <main>
         <div className="topContainer">
           <Text fontName="LARGE_MEDIUM">BIGO LIVE</Text>
-          <Text align="end" underline fontName="REGULAR">
+          <Text tag="h3" align="end" underline fontName="REGULAR">
             Desativar Produto
           </Text>
         </div>
