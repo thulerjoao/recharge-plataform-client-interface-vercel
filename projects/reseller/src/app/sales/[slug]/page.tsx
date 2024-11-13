@@ -5,7 +5,7 @@ import Text from "@4miga/design-system/components/Text";
 import { Theme } from "@4miga/design-system/theme/theme";
 import Image from "next/image";
 import HeaderEnviroment from "public/components/headerEnviroment";
-import DefaultHeader from "../common/components/defaultHeader";
+import DefaultHeader from "public/components/defaultHeader";
 import Pix from "../common/icons/Pix.svg";
 import Card1 from "../common/temp/Card1.png";
 import Card3 from "../common/temp/Card3.png";
