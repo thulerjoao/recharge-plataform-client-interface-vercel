@@ -4,17 +4,20 @@ import BackArrow from "./icons//BackArrow.svg";
 import { DefaultHeaderContainer } from "./style";
 
 interface Props {
+  backWard?: boolean;
   title: string;
 }
 
-const DefaultHeader = ({ title }: Props) => {
+const DefaultHeader = ({ backWard, title }: Props) => {
   const route = useRouter();
 
   return (
     <DefaultHeaderContainer>
-      <span onClick={() => route.back()} className="backArrow">
-        <BackArrow />
-      </span>
+      {backWard && (
+        <span onClick={() => route.back()} className="backArrow">
+          <BackArrow />
+        </span>
+      )}
       <Text align="center" fontName="LARGE_SEMI_BOLD">
         {title}
       </Text>

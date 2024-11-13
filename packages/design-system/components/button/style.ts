@@ -50,3 +50,11 @@ export const Spinner = styled.div`
   margin-left: 0px;
   animation: ${spin} 0.8s linear infinite;
 `;
+
+export const LeftElement = styled.div`
+  width: auto;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  margin-right: 8px;
+`;

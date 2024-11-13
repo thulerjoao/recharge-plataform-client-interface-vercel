@@ -25,7 +25,7 @@ const Page = ({ params }: Props) => {
   return (
     <SalesInnerPage>
       <HeaderEnviroment>
-        <DefaultHeader title="DETALHES DA VENDA" />
+        <DefaultHeader backWard title="DETALHES DA VENDA" />
       </HeaderEnviroment>
       <div>
         <Text margin="96px 0 0 0" align="center" fontName="LARGE_MEDIUM">

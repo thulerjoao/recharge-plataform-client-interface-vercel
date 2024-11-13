@@ -1,8 +1,8 @@
 "use client";
 
-import React from "react";
+import React, { ReactElement } from "react";
 import { StyleSheetManager } from "styled-components";
-import { ButtonInput, Spinner } from "./style";
+import { ButtonInput, LeftElement, Spinner } from "./style";
 
 interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   title: string;
@@ -13,6 +13,7 @@ interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   shadow?: boolean;
   margin?: string;
   isNotSelected?: boolean;
+  leftElement?: ReactElement;
 }
 
 const Button: React.FC<ButtonProps> = ({
@@ -24,6 +25,7 @@ const Button: React.FC<ButtonProps> = ({
   margin,
   width,
   isNotSelected,
+  leftElement,
   ...props
 }: ButtonProps) => {
   return (
@@ -38,6 +40,7 @@ const Button: React.FC<ButtonProps> = ({
         prop !== "margin" &&
         prop !== "width" &&
         prop !== "isNotSelected" &&
+        prop !== "leftElement" &&
         prop !== "fontName"
       }
     >
@@ -51,7 +54,14 @@ const Button: React.FC<ButtonProps> = ({
         shadow={shadow}
         {...props}
       >
-        {!loading ? <p>{title}</p> : <Spinner />}
+        {!loading ? (
+          <>
+            {leftElement && <LeftElement>{leftElement}</LeftElement>}
+            <p>{title}</p>
+          </>
+        ) : (
+          <Spinner />
+        )}
       </ButtonInput>
     </StyleSheetManager>
   );
