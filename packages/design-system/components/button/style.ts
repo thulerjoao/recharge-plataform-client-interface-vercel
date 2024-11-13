@@ -13,7 +13,7 @@ interface ButtonInputProps {
 
 export const ButtonInput = styled.button<ButtonInputProps>`
   color: ${({ isNotSelected }) =>
-    isNotSelected ? Theme.colors.mainlight : Theme.colors.mainBbackgroundSolid};
+    isNotSelected ? Theme.colors.maindark : Theme.colors.mainBbackgroundSolid};
   user-select: none;
   font-size: ${({ height }) => (height >= 40 ? "16px;" : "14px;")};
   font-weight: 600;

@@ -6,7 +6,9 @@ import Image from "next/image";
 import PackageCard from "public/cards/packageCard/card";
 import DefaultHeader from "public/components/defaultHeader";
 import HeaderEnviroment from "public/components/headerEnviroment";
+import { useEffect, useState } from "react";
 import CameraIcon from "../common/icons/CameraIcon.svg";
+import Pen from "../common/icons/Pen.svg";
 import BigoBanner from "../common/temp/BigoBanner.png";
 import BigoCard1 from "../common/temp/BigoCard.png";
 import BigoCard from "../common/temp/bigoCard.svg";
@@ -19,6 +21,25 @@ type Props = {
 };
 
 const Page = ({ params }: Props) => {
+  const initialProduct =
+    "Lorem ipsum dolor sit amet consectetur. Egestas egestas nec elementum eleifend ac. Enim enim sit morbi pulvinar velit dictum venenatis erat. Vitae mi eget donec nisl id.\n\nNulla suspendisse ut quis lorem sit vivamus adipiscing lobortis id.";
+  const initialInstructions =
+    "Lorem ipsum dolor sit amet consectetur. Egestas egestas nec elementum eleifend ac. Enim enim sit morbi pulvinar velit dictum venenatis erat. Vitae mi eget donec nisl id. \n\nNulla suspendisse ut quis lorem sit vivamus adipiscing lobortis id. At vitae velit lectus non felis. Id molestie venenatis mi sed amet nunc. Mattis lectus dis urna massa vitae duis. Phasellus varius mauris morbi sit leo parturient.";
+  const [aboutProduct, setAboutProduct] = useState<string>(initialProduct);
+  const [instructions, setInstructions] = useState<string>(initialInstructions);
+  const [ischanged, setIsChanged] = useState<boolean>(false);
+
+  useEffect(() => {
+    if (
+      aboutProduct !== initialProduct ||
+      instructions !== initialInstructions
+    ) {
+      setIsChanged(true);
+    } else {
+      setIsChanged(false);
+    }
+  }, [aboutProduct, instructions]);
+
   return (
     <ProductsInnerPage>
       <HeaderEnviroment>
@@ -125,9 +146,47 @@ const Page = ({ params }: Props) => {
             />
           </div>
         </section>
+        <section className="descriptions">
+          <div className="leftContainer">
+            <span className="pen">
+              <Pen />
+            </span>
+            <Text fontName="REGULAR_SEMI_BOLD">SOBRE BIGO LIVE</Text>
+            <textarea
+              value={aboutProduct}
+              onChange={(e) => setAboutProduct(e.target.value)}
+              placeholder="Descrição do jogo ou plataforma..."
+            />
+          </div>
+          <div className="rightContainer">
+            <span className="pen">
+              <Pen />
+            </span>
+            <Text fontName="REGULAR_SEMI_BOLD">INSTRUÇÕES</Text>
+            <textarea
+              value={instructions}
+              onChange={(e) => setInstructions(e.target.value)}
+              placeholder="Intruções de recarga..."
+            />
+          </div>
+        </section>
+        <Button
+          rounded
+          isNotSelected={!ischanged}
+          disabled={!ischanged}
+          margin="8px 0 72px 0"
+          height={40}
+          width={197}
+          title="Salvar alterações"
+        />
       </main>
     </ProductsInnerPage>
   );
 };
 
 export default Page;
+
+// example of use with \n
+// <div className="tutorial-output" style={{ whiteSpace: "pre-wrap" }}>
+//   {tutorialText}
+// </div>
