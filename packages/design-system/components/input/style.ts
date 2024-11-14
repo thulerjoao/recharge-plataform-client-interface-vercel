@@ -2,7 +2,7 @@ import styled from "styled-components";
 import { Theme } from "../../theme/theme";
 
 interface InputProps {
-  height: 40 | 48;
+  height: number;
   padding: string;
 }
 
