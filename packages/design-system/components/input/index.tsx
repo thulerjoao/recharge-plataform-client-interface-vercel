@@ -12,7 +12,7 @@ import {
 } from "./style";
 
 interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
-  height: 40 | 48 | 53;
+  height: 32 | 40 | 48 | 53;
   leftElement?: ReactElement;
   rightElement?: ReactElement;
   loading?: boolean;
