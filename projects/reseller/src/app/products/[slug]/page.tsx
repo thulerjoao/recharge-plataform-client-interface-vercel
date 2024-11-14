@@ -13,6 +13,7 @@ import BigoBanner from "../common/temp/BigoBanner.png";
 import BigoCard1 from "../common/temp/BigoCard.png";
 import BigoCard from "../common/temp/bigoCard.svg";
 import { ProductsInnerPage } from "./style";
+import { useRouter } from "next/navigation";
 
 type Props = {
   params: {
@@ -21,6 +22,7 @@ type Props = {
 };
 
 const Page = ({ params }: Props) => {
+  const route = useRouter();
   const initialProduct =
     "Lorem ipsum dolor sit amet consectetur. Egestas egestas nec elementum eleifend ac. Enim enim sit morbi pulvinar velit dictum venenatis erat. Vitae mi eget donec nisl id.\n\nNulla suspendisse ut quis lorem sit vivamus adipiscing lobortis id.";
   const initialInstructions =
@@ -56,7 +58,10 @@ const Page = ({ params }: Props) => {
           CONFIGURAR PACOTES
         </Text>
         <section className="cardsContainer">
-          <div className="cardEnviroment">
+          <div
+            onClick={() => route.push(`/products/${params.slug}/731263932`)}
+            className="cardEnviroment"
+          >
             <PackageCard
               bestOffer
               title="BIGO 30"
@@ -64,7 +69,10 @@ const Page = ({ params }: Props) => {
               price={3.9}
             />
           </div>
-          <div className="cardEnviroment">
+          <div
+            onClick={() => route.push(`/products/${params.slug}/731263932`)}
+            className="cardEnviroment"
+          >
             <PackageCard
               bestOffer
               title="BIGO 100"
@@ -72,16 +80,28 @@ const Page = ({ params }: Props) => {
               price={6.9}
             />
           </div>
-          <div className="cardEnviroment">
+          <div
+            onClick={() => route.push(`/products/${params.slug}/731263932`)}
+            className="cardEnviroment"
+          >
             <PackageCard title="BIGO 300" image={<BigoCard />} price={9.9} />
           </div>
-          <div className="cardEnviroment">
+          <div
+            onClick={() => route.push(`/products/${params.slug}/731263932`)}
+            className="cardEnviroment"
+          >
             <PackageCard title="BIGO 500" image={<BigoCard />} price={14.9} />
           </div>
-          <div className="cardEnviroment">
+          <div
+            onClick={() => route.push(`/products/${params.slug}/731263932`)}
+            className="cardEnviroment"
+          >
             <PackageCard title="BIGO 1000" image={<BigoCard />} price={24.9} />
           </div>
-          <div className="cardEnviroment">
+          <div
+            onClick={() => route.push(`/products/${params.slug}/731263932`)}
+            className="cardEnviroment"
+          >
             <PackageCard
               bestOffer
               title="BIGO 5000"
@@ -89,16 +109,28 @@ const Page = ({ params }: Props) => {
               price={89.9}
             />
           </div>
-          <div className="cardEnviroment">
+          <div
+            onClick={() => route.push(`/products/${params.slug}/731263932`)}
+            className="cardEnviroment"
+          >
             <PackageCard title="BIGO 300" image={<BigoCard />} price={9.9} />
           </div>
-          <div className="cardEnviroment">
+          <div
+            onClick={() => route.push(`/products/${params.slug}/731263932`)}
+            className="cardEnviroment"
+          >
             <PackageCard title="BIGO 500" image={<BigoCard />} price={14.9} />
           </div>
-          <div className="cardEnviroment">
+          <div
+            onClick={() => route.push(`/products/${params.slug}/731263932`)}
+            className="cardEnviroment"
+          >
             <PackageCard title="BIGO 1000" image={<BigoCard />} price={24.9} />
           </div>
-          <div className="cardEnviroment">
+          <div
+            onClick={() => route.push(`/products/${params.slug}/731263932`)}
+            className="cardEnviroment"
+          >
             <PackageCard
               bestOffer
               title="BIGO 5000"
