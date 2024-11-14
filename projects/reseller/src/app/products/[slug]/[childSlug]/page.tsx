@@ -11,6 +11,14 @@ import CameraIcon from "../../common/icons/CameraIcon.svg";
 import Pen from "../../common/icons/Pen.svg";
 import BigoCard from "../../common/temp/bigoCard.svg";
 import { ConfigPackagePage } from "./style";
+import PriceCard from "./common/priceCard";
+import Ame from "./common/icons/Ame.svg";
+import Boleto from "./common/icons/Boleto.svg";
+import MercadoPago from "./common/icons/MercadoPago.svg";
+import PayPal from "./common/icons/PayPal.svg";
+import PicPay from "./common/icons/PicPay.svg";
+import Pix from "./common/icons/Pix.svg";
+import Transfer from "./common/icons/Transfer.svg";
 
 type Props = {
   params: {
@@ -76,6 +84,117 @@ const Page = ({ params }: Props) => {
               height={32}
               width={181}
               title="Atualizar imagem"
+            />
+          </div>
+        </section>
+        <section className="packageValues">
+          <div className="topText">
+            <Text nowrap fontName="REGULAR_SEMI_BOLD">
+              CONFIGURAÇÕES DE PREÇO
+            </Text>
+            <div>
+              <Text
+                nowrap
+                color={Theme.colors.secondaryTextAction}
+                fontName="REGULAR_SEMI_BOLD"
+              >
+                CUSTO BASE
+              </Text>
+              <Text nowrap fontName="REGULAR_SEMI_BOLD">
+                R$ 1,90
+              </Text>
+            </div>
+          </div>
+          <div className="scales">
+            <span className="tax">
+              <Text align="center" nowrap fontName="REGULAR_MEDIUM">
+                TAXAS
+              </Text>
+            </span>
+            <span className="totalCost">
+              <Text align="center" nowrap fontName="REGULAR_MEDIUM">
+                CUSTO TOTAL
+              </Text>
+            </span>
+            <span className="profitMargin">
+              <Text align="center" nowrap fontName="REGULAR_MEDIUM">
+                MARGEM DE LUCRO
+              </Text>
+            </span>
+            <span className="profitValue">
+              <Text align="center" nowrap fontName="REGULAR_MEDIUM">
+                VALOR DO LUCRO
+              </Text>
+            </span>
+            <span className="saleValue">
+              <Text align="center" nowrap fontName="REGULAR_MEDIUM">
+                VALOR DE VENDA
+              </Text>
+            </span>
+          </div>
+          <div className="cardsList">
+            <PriceCard
+              image={<Pix />}
+              tax="1%"
+              totalCost={1.92}
+              profitMargin={50}
+              profitValue={1.9}
+              title="PIX"
+              sellValue={3.9}
+            />
+            <PriceCard
+              image={<MercadoPago />}
+              tax="1%"
+              totalCost={1.92}
+              profitMargin={50}
+              profitValue={1.9}
+              title="Mercado Pago"
+              sellValue={3.9}
+            />
+            <PriceCard
+              image={<PayPal />}
+              tax="1%"
+              totalCost={1.92}
+              profitMargin={50}
+              profitValue={1.9}
+              title="PayPal"
+              sellValue={3.9}
+            />
+            <PriceCard
+              image={<PicPay />}
+              tax="1,5%"
+              totalCost={1.92}
+              profitMargin={50}
+              profitValue={1.9}
+              title="PicPay"
+              sellValue={3.9}
+            />
+            <PriceCard
+              image={<Ame />}
+              tax="0,99%"
+              totalCost={1.92}
+              profitMargin={50}
+              profitValue={1.9}
+              title="Ame"
+              sellValue={3.9}
+            />
+            <PriceCard
+              image={<Boleto />}
+              tax="3,99% + R$ 1,90"
+              totalCost={1.92}
+              profitMargin={50}
+              profitValue={1.9}
+              title="Boleto"
+              sellValue={3.9}
+            />
+            <PriceCard
+              image={<Transfer />}
+              tax="1,99%"
+              totalCost={1.92}
+              profitMargin={50}
+              profitValue={1.9}
+              title="TRANSFERÊNCIA"
+              sellValue={3.9}
             />
           </div>
         </section>

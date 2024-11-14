@@ -3,6 +3,7 @@ import styled from "styled-components";
 
 export const ConfigPackagePage = styled.div`
   padding-top: 96px;
+  padding-bottom: 296px;
 
   main {
     display: flex;
@@ -58,6 +59,63 @@ export const ConfigPackagePage = styled.div`
           justify-content: center;
           overflow: hidden;
         }
+      }
+    }
+
+    .packageValues {
+      margin-top: 24px;
+      border-radius: 16px;
+      padding: 24px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      background-color: ${Theme.colors.maindark};
+      width: 100%;
+
+      .topText {
+        display: flex;
+        width: 100%;
+
+        div {
+          display: flex;
+          align-items: center;
+          gap: 16px;
+        }
+      }
+
+      .scales {
+        margin-top: 32px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        width: 100%;
+
+        span {
+          width: 100%;
+        }
+        .tax {
+          max-width: 234px;
+        }
+        .totalCost {
+          max-width: 110px;
+        }
+        .profitMargin {
+          max-width: 164px;
+        }
+        .profitValue {
+          max-width: 147px;
+        }
+        .saleValue {
+          max-width: 146px;
+        }
+      }
+
+      .cardsList {
+        margin-top: 16px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        width: 100%;
       }
     }
   }
