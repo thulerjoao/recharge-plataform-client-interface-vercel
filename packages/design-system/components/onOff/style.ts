@@ -7,6 +7,7 @@ interface styleProps {
 
 export const OnOffContainer = styled.div<styleProps>`
   width: 64px;
+  min-width: 64px;
   height: 24px;
   border-radius: 12px;
   background-color: white;
@@ -18,7 +19,9 @@ export const OnOffContainer = styled.div<styleProps>`
   cursor: pointer;
   display: flex;
   align-items: center;
-  justify-content: ${({ onOff }) => (onOff ? "end" : "start")};
+  transition:
+    border 0.5s ease-in-out,
+    box-shadow 0.5s ease-in-out;
 
   .circle {
     height: 24px;
@@ -26,6 +29,10 @@ export const OnOffContainer = styled.div<styleProps>`
     border-radius: 50%;
     background-color: ${({ onOff }) =>
       onOff ? Theme.colors.mainHighlight : Theme.colors.secondaryAction};
-    ${({ onOff }) => (onOff ? "margin-right: -1px" : "margin-left: -1px")}
+    transform: ${({ onOff }) =>
+      onOff ? "translateX(calc(40px))" : "translateX(-1px)"};
+    transition:
+      transform 0.2s ease-in-out,
+      background-color 0.5s ease-in-out;
   }
 `;
