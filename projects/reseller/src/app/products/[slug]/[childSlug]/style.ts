@@ -3,7 +3,7 @@ import styled from "styled-components";
 
 export const ConfigPackagePage = styled.div`
   padding-top: 96px;
-  padding-bottom: 296px;
+  padding-bottom: 56px;
 
   main {
     display: flex;
@@ -116,6 +116,36 @@ export const ConfigPackagePage = styled.div`
         flex-direction: column;
         align-items: center;
         width: 100%;
+      }
+    }
+
+    .bottomContainer {
+      margin-top: 40px;
+      background-color: ${Theme.colors.maindark};
+      width: 100%;
+      border-radius: 16px;
+      padding: 0 16px;
+
+      .paymentMethods {
+        display: flex;
+        justify-content: center;
+        flex-wrap: wrap;
+        padding: 16px 0px;
+        gap: 24px;
+
+        .pix {
+          background-color: ${Theme.colors.mainBbackgroundSolid};
+          border-radius: 8px;
+          padding: 16px 24px;
+          display: flex;
+          flex-direction: column;
+
+          .paymentIcon {
+            display: flex;
+            align-items: center;
+            flex-wrap: nowrap;
+          }
+        }
       }
     }
   }

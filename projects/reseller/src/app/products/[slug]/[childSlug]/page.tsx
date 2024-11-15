@@ -10,8 +10,6 @@ import HeaderEnviroment from "public/components/headerEnviroment";
 import CameraIcon from "../../common/icons/CameraIcon.svg";
 import Pen from "../../common/icons/Pen.svg";
 import BigoCard from "../../common/temp/bigoCard.svg";
-import { ConfigPackagePage } from "./style";
-import PriceCard from "./common/priceCard";
 import Ame from "./common/icons/Ame.svg";
 import Boleto from "./common/icons/Boleto.svg";
 import MercadoPago from "./common/icons/MercadoPago.svg";
@@ -19,6 +17,8 @@ import PayPal from "./common/icons/PayPal.svg";
 import PicPay from "./common/icons/PicPay.svg";
 import Pix from "./common/icons/Pix.svg";
 import Transfer from "./common/icons/Transfer.svg";
+import PriceCard from "./common/priceCard";
+import { ConfigPackagePage } from "./style";
 
 type Props = {
   params: {
@@ -196,6 +196,172 @@ const Page = ({ params }: Props) => {
               title="TRANSFERÊNCIA"
               sellValue={3.9}
             />
+          </div>
+        </section>
+        <Button
+          margin="24px 0 0 0"
+          rounded
+          width={197}
+          height={40}
+          title="Salvar alterações"
+        />
+        <section className="bottomContainer">
+          <Text
+            margin="24px 0 24px 0"
+            align="center"
+            fontName="REGULAR_SEMI_BOLD"
+          >
+            PAZOS PARA SAQUE
+          </Text>
+          <div className="paymentMethods">
+            <span className="pix">
+              <div className="paymentIcon">
+                <span>
+                  <Pix />
+                </span>
+                <Text
+                  margin="0 0 0 10px"
+                  color={Theme.colors.secondaryTextAction}
+                  fontName="REGULAR_MEDIUM"
+                >
+                  PIX
+                </Text>
+              </div>
+              <Text
+                margin="10px 0 0 0"
+                align="center"
+                fontName="REGULAR_SEMI_BOLD"
+              >
+                1 DIA
+              </Text>
+            </span>
+            <span className="pix">
+              <div className="paymentIcon">
+                <span>
+                  <MercadoPago />
+                </span>
+                <Text
+                  margin="0 0 0 10px"
+                  nowrap
+                  color={Theme.colors.secondaryTextAction}
+                  fontName="REGULAR_MEDIUM"
+                >
+                  MERCADO PAGO
+                </Text>
+              </div>
+              <Text
+                margin="10px 0 0 0"
+                align="center"
+                fontName="REGULAR_SEMI_BOLD"
+              >
+                30 DIAS
+              </Text>
+            </span>
+            <span className="pix">
+              <div className="paymentIcon">
+                <span>
+                  <PayPal />
+                </span>
+                <Text
+                  margin="0 0 0 10px"
+                  color={Theme.colors.secondaryTextAction}
+                  fontName="REGULAR_MEDIUM"
+                >
+                  PAYPAL
+                </Text>
+              </div>
+              <Text
+                margin="10px 0 0 0"
+                align="center"
+                fontName="REGULAR_SEMI_BOLD"
+              >
+                2 DIAS
+              </Text>
+            </span>
+            <span className="pix">
+              <div className="paymentIcon">
+                <span>
+                  <PicPay />
+                </span>
+                <Text
+                  margin="0 0 0 10px"
+                  color={Theme.colors.secondaryTextAction}
+                  fontName="REGULAR_MEDIUM"
+                >
+                  PICPAY
+                </Text>
+              </div>
+              <Text
+                margin="10px 0 0 0"
+                align="center"
+                fontName="REGULAR_SEMI_BOLD"
+              >
+                1 DIA
+              </Text>
+            </span>
+            <span className="pix">
+              <div className="paymentIcon">
+                <span>
+                  <Ame />
+                </span>
+                <Text
+                  margin="0 0 0 10px"
+                  color={Theme.colors.secondaryTextAction}
+                  fontName="REGULAR_MEDIUM"
+                >
+                  AME
+                </Text>
+              </div>
+              <Text
+                margin="10px 0 0 0"
+                align="center"
+                fontName="REGULAR_SEMI_BOLD"
+              >
+                1 DIA
+              </Text>
+            </span>
+            <span className="pix">
+              <div className="paymentIcon">
+                <span>
+                  <Boleto />
+                </span>
+                <Text
+                  margin="0 0 0 10px"
+                  color={Theme.colors.secondaryTextAction}
+                  fontName="REGULAR_MEDIUM"
+                >
+                  BOLETO
+                </Text>
+              </div>
+              <Text
+                margin="10px 0 0 0"
+                align="center"
+                fontName="REGULAR_SEMI_BOLD"
+              >
+                1 DIA
+              </Text>
+            </span>
+            <span className="pix">
+              <div className="paymentIcon">
+                <span>
+                  <Transfer />
+                </span>
+                <Text
+                  margin="0 0 0 10px"
+                  color={Theme.colors.secondaryTextAction}
+                  fontName="REGULAR_MEDIUM"
+                >
+                  TRANSFERÊNCIA
+                </Text>
+              </div>
+              <Text
+                margin="10px 0 0 0"
+                align="center"
+                fontName="REGULAR_SEMI_BOLD"
+              >
+                1 DIA
+              </Text>
+            </span>
           </div>
         </section>
       </main>
