@@ -7,6 +7,7 @@ import Text from "@4miga/design-system/components/Text";
 import { Theme } from "@4miga/design-system/theme/theme";
 import DefaultHeader from "public/components/defaultHeader";
 import HeaderEnviroment from "public/components/headerEnviroment";
+import { useState } from "react";
 import CameraIcon from "../../common/icons/CameraIcon.svg";
 import Pen from "../../common/icons/Pen.svg";
 import BigoCard from "../../common/temp/bigoCard.svg";
@@ -19,6 +20,7 @@ import Pix from "./common/icons/Pix.svg";
 import Transfer from "./common/icons/Transfer.svg";
 import PriceCard from "./common/priceCard";
 import { ConfigPackagePage } from "./style";
+import ConfirmModal from "./common/confirmModal";
 
 type Props = {
   params: {
@@ -28,8 +30,11 @@ type Props = {
 };
 
 const Page = ({ params }: Props) => {
+  const [confirmModal, setconfirmModal] = useState<boolean>(false);
+
   return (
     <ConfigPackagePage>
+      {confirmModal && <ConfirmModal setconfirmModal={setconfirmModal} />}
       <HeaderEnviroment>
         <DefaultHeader backWard title="CONFIGURAR PACOTE" />
       </HeaderEnviroment>
@@ -199,6 +204,7 @@ const Page = ({ params }: Props) => {
           </div>
         </section>
         <Button
+          onClick={() => setconfirmModal(true)}
           margin="24px 0 0 0"
           rounded
           width={197}
@@ -211,7 +217,7 @@ const Page = ({ params }: Props) => {
             align="center"
             fontName="REGULAR_SEMI_BOLD"
           >
-            PAZOS PARA SAQUE
+            PRAZOS PARA SAQUE
           </Text>
           <div className="paymentMethods">
             <span className="pix">

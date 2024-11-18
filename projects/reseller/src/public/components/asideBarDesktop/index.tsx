@@ -16,9 +16,9 @@ import Sales from "./icons/Sales.svg";
 import SalesSelected from "./icons/SalesSelected.svg";
 import Wallet from "./icons/Wallet.svg";
 import WalletSelected from "./icons/WalletSelected.svg";
-import { AsideBarContainer } from "./style";
+import { AsideDesktopBarContainer } from "./style";
 
-const AsideBar = () => {
+const AsideBarDesktop = () => {
   const route = useRouter();
   const currentRoute = usePathname();
 
@@ -32,7 +32,7 @@ const AsideBar = () => {
   };
 
   return (
-    <AsideBarContainer>
+    <AsideDesktopBarContainer>
       <section className="CenterContent">
         <aside className="mainContent">
           <Logo />
@@ -138,8 +138,8 @@ const AsideBar = () => {
           </div>
         </aside>
       </section>
-    </AsideBarContainer>
+    </AsideDesktopBarContainer>
   );
 };
 
-export default AsideBar;
+export default AsideBarDesktop;

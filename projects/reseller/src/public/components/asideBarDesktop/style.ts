@@ -1,7 +1,7 @@
 import { Theme } from "@4miga/design-system/theme/theme";
 import styled from "styled-components";
 
-export const AsideBarContainer = styled.div`
+export const AsideDesktopBarContainer = styled.div`
   width: 100%;
   display: flex;
   justify-content: center;
