@@ -15,4 +15,18 @@ export const HeaderEnviromentContainer = styled.div`
     padding-right: 40px;
     padding-left: 304px;
   }
+
+  @media (min-width: 768px) and (max-width: 1024px) {
+    .mainContainer {
+      max-width: 100%;
+      padding-right: 24px;
+      padding-left: 96px;
+    }
+  }
+  @media (max-width: 767px) {
+    .mainContainer {
+      max-width: 100%;
+      padding: 0;
+    }
+  }
 `;

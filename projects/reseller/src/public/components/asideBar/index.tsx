@@ -6,7 +6,8 @@ import Gear from "./icons/Gear.svg";
 import GearSelected from "./icons/GearSelected.svg";
 import Home from "./icons/Home.svg";
 import HomeSelected from "./icons/HomeSelected.svg";
-import Logo from "./icons/Logo.svg";
+import LogoDesktop from "./icons/LogoDesktop.svg";
+import LogoTablet from "./icons/LogoTablet.svg";
 import Logout from "./icons/Logout.svg";
 import Products from "./icons/Products.svg";
 import ProductsSelected from "./icons/ProductsSelected.svg";
@@ -16,9 +17,10 @@ import Sales from "./icons/Sales.svg";
 import SalesSelected from "./icons/SalesSelected.svg";
 import Wallet from "./icons/Wallet.svg";
 import WalletSelected from "./icons/WalletSelected.svg";
-import { AsideDesktopBarContainer } from "./style";
+import { AsideBarContainer } from "./style";
+import { CurrentMobile } from "utils/mobileFunction";
 
-const AsideBarDesktop = () => {
+const AsideBar = () => {
   const route = useRouter();
   const currentRoute = usePathname();
 
@@ -31,24 +33,28 @@ const AsideBarDesktop = () => {
     return currentRoute.slice(0, propLenght + 1) === `/${prop}` ? 1 : 0;
   };
 
+  const device = CurrentMobile();
+
   return (
-    <AsideDesktopBarContainer>
+    <AsideBarContainer>
       <section className="CenterContent">
         <aside className="mainContent">
-          <Logo />
+          {device === "desktop" ? <LogoDesktop /> : <LogoTablet />}
           <div
             onClick={() => handleClick("home")}
             className={`menuOption ${handleCheck("home") && "selected"}`}
             style={{ margin: "40px 0 16px 0" }}
           >
             <span>{handleCheck("home") ? <HomeSelected /> : <Home />}</span>
-            <Text
-              color={handleCheck("home") && Theme.colors.maindark}
-              margin="0 0 0 16px"
-              fontName="REGULAR_SEMI_BOLD"
-            >
-              INÍCIO
-            </Text>
+            {device === "desktop" && (
+              <Text
+                color={handleCheck("home") && Theme.colors.maindark}
+                margin="0 0 0 16px"
+                fontName="REGULAR_SEMI_BOLD"
+              >
+                INÍCIO
+              </Text>
+            )}
           </div>
 
           <div
@@ -56,13 +62,15 @@ const AsideBarDesktop = () => {
             className={`menuOption ${handleCheck("sales") && "selected"}`}
           >
             <span>{handleCheck("sales") ? <SalesSelected /> : <Sales />}</span>
-            <Text
-              color={handleCheck("sales") && Theme.colors.maindark}
-              margin="0 0 0 16px"
-              fontName="REGULAR_SEMI_BOLD"
-            >
-              VENDAS
-            </Text>
+            {device === "desktop" && (
+              <Text
+                color={handleCheck("sales") && Theme.colors.maindark}
+                margin="0 0 0 16px"
+                fontName="REGULAR_SEMI_BOLD"
+              >
+                VENDAS
+              </Text>
+            )}
           </div>
 
           <div
@@ -72,13 +80,15 @@ const AsideBarDesktop = () => {
             <span>
               {handleCheck("products") ? <ProductsSelected /> : <Products />}
             </span>
-            <Text
-              color={handleCheck("products") && Theme.colors.maindark}
-              margin="0 0 0 16px"
-              fontName="REGULAR_SEMI_BOLD"
-            >
-              PRODUTOS
-            </Text>
+            {device === "desktop" && (
+              <Text
+                color={handleCheck("products") && Theme.colors.maindark}
+                margin="0 0 0 16px"
+                fontName="REGULAR_SEMI_BOLD"
+              >
+                PRODUTOS
+              </Text>
+            )}
           </div>
 
           <div
@@ -88,13 +98,15 @@ const AsideBarDesktop = () => {
             <span>
               {handleCheck("recharge") ? <RechargeSelected /> : <Recharge />}
             </span>
-            <Text
-              color={handleCheck("recharge") && Theme.colors.maindark}
-              margin="0 0 0 16px"
-              fontName="REGULAR_SEMI_BOLD"
-            >
-              RECARREGAR
-            </Text>
+            {device === "desktop" && (
+              <Text
+                color={handleCheck("recharge") && Theme.colors.maindark}
+                margin="0 0 0 16px"
+                fontName="REGULAR_SEMI_BOLD"
+              >
+                RECARREGAR
+              </Text>
+            )}
           </div>
 
           <div
@@ -104,13 +116,15 @@ const AsideBarDesktop = () => {
             <span>
               {handleCheck("wallet") ? <WalletSelected /> : <Wallet />}
             </span>
-            <Text
-              color={handleCheck("wallet") && Theme.colors.maindark}
-              margin="0 0 0 16px"
-              fontName="REGULAR_SEMI_BOLD"
-            >
-              CARTEIRA
-            </Text>
+            {device === "desktop" && (
+              <Text
+                color={handleCheck("wallet") && Theme.colors.maindark}
+                margin="0 0 0 16px"
+                fontName="REGULAR_SEMI_BOLD"
+              >
+                CARTEIRA
+              </Text>
+            )}
           </div>
 
           <div className="bottomOptions">
@@ -119,27 +133,31 @@ const AsideBarDesktop = () => {
               className={`menuOption ${handleCheck("config") && "selected"}`}
             >
               <span>{handleCheck("config") ? <GearSelected /> : <Gear />}</span>
-              <Text
-                color={handleCheck("config") && Theme.colors.maindark}
-                margin="0 0 0 16px"
-                fontName="REGULAR_SEMI_BOLD"
-              >
-                CARTEIRA
-              </Text>
+              {device === "desktop" && (
+                <Text
+                  color={handleCheck("config") && Theme.colors.maindark}
+                  margin="0 0 0 16px"
+                  fontName="REGULAR_SEMI_BOLD"
+                >
+                  CARTEIRA
+                </Text>
+              )}
             </div>
             <div className="menuOption" onClick={() => route.replace("/")}>
               <span>
                 <Logout />
               </span>
-              <Text margin="0 0 0 16px" fontName="REGULAR_SEMI_BOLD">
-                SAIR
-              </Text>
+              {device === "desktop" && (
+                <Text margin="0 0 0 16px" fontName="REGULAR_SEMI_BOLD">
+                  SAIR
+                </Text>
+              )}
             </div>
           </div>
         </aside>
       </section>
-    </AsideDesktopBarContainer>
+    </AsideBarContainer>
   );
 };
 
-export default AsideBarDesktop;
+export default AsideBar;
