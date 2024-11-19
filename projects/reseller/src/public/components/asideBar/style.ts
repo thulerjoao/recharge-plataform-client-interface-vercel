@@ -1,7 +1,7 @@
 import { Theme } from "@4miga/design-system/theme/theme";
 import styled from "styled-components";
 
-export const AsideDesktopBarContainer = styled.div`
+export const AsideBarContainer = styled.div`
   width: 100%;
   display: flex;
   justify-content: center;
@@ -46,5 +46,41 @@ export const AsideDesktopBarContainer = styled.div`
         border-radius: 16px;
       }
     }
+  }
+
+  @media (min-width: 768px) and (max-width: 1024px) {
+    width: 96px;
+
+    .CenterContent {
+      padding: 0;
+
+      .mainContent {
+        width: 48px;
+        width: 96px;
+
+        .menuOption {
+          padding: 0;
+          height: 40px;
+          width: 40px;
+          justify-content: center;
+        }
+
+        .bottomOptions {
+          position: fixed;
+          bottom: 0px;
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          width: 96px;
+        }
+
+        .selected {
+          background-color: ${Theme.colors.mainHighlight};
+          border-radius: 16px;
+        }
+      }
+    }
+  }
+  @media (max-width: 767px) {
   }
 `;

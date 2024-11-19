@@ -1,13 +1,11 @@
-import Text from "@4miga/design-system/components/Text";
-import { Theme } from "@4miga/design-system/theme/theme";
 import OrderCard from "public/cards/orderCard/card";
 import HeaderEnviroment from "public/components/headerEnviroment";
-import Card1 from "../common/temp/Card1.png";
-import Card2 from "../common/temp/Card2.png";
-import { SalesContainer } from "./style";
 import Pagination from "public/components/pagination";
 import SalesHeader from "../common/components/salesHeader";
 import SalesTitles from "../common/components/salesTiltes";
+import Card1 from "../common/temp/Card1.png";
+import Card2 from "../common/temp/Card2.png";
+import { SalesContainer } from "./style";
 
 const Sales = () => {
   return (

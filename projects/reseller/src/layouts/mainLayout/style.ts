@@ -24,5 +24,10 @@ export const LayoutStyle = styled.div<LayoutProps>`
     }
   }
   @media (max-width: 767px) {
+    .mainContent {
+      max-width: 100%;
+      padding: 0px 16px;
+      box-sizing: border-box;
+    }
   }
 `;
