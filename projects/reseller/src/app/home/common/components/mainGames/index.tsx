@@ -9,30 +9,32 @@ import { MainGamesContainer } from "./style";
 const MainGames = () => {
   return (
     <MainGamesContainer>
-      <div>
-        <GameCard name="Bigo Live" image={Card1} />
-        <Text margin="16px 0 0 0" align="center" fontName="REGULAR_MEDIUM">
-          530 recargas
-        </Text>
-      </div>
-      <div>
-        <GameCard name="Farlight 84" image={Card2} />
-        <Text margin="16px 0 0 0" align="center" fontName="REGULAR_MEDIUM">
-          430 recargas
-        </Text>
-      </div>
-      <div>
-        <GameCard name="Free Fire" image={Card4} />
-        <Text margin="16px 0 0 0" align="center" fontName="REGULAR_MEDIUM">
-          330 recargas
-        </Text>
-      </div>
-      <div>
-        <GameCard name="Pubg Moblie" image={Card5} />
-        <Text margin="16px 0 0 0" align="center" fontName="REGULAR_MEDIUM">
-          230 recargas
-        </Text>
-      </div>
+      <section className="list">
+        <div className="newCardContainer">
+          <GameCard name="Bigo Live" image={Card1} />
+          <Text margin="16px 0 0 0" align="center" fontName="REGULAR_MEDIUM">
+            530 recargas
+          </Text>
+        </div>
+        <div className="newCardContainer">
+          <GameCard name="Farlight 84" image={Card2} />
+          <Text margin="16px 0 0 0" align="center" fontName="REGULAR_MEDIUM">
+            430 recargas
+          </Text>
+        </div>
+        <div className="newCardContainer">
+          <GameCard name="Free Fire" image={Card4} />
+          <Text margin="16px 0 0 0" align="center" fontName="REGULAR_MEDIUM">
+            330 recargas
+          </Text>
+        </div>
+        <div className="newCardContainer">
+          <GameCard name="Pubg Moblie" image={Card5} />
+          <Text margin="16px 0 0 0" align="center" fontName="REGULAR_MEDIUM">
+            230 recargas
+          </Text>
+        </div>
+      </section>
     </MainGamesContainer>
   );
 };
