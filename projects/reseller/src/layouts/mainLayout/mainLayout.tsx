@@ -1,22 +1,24 @@
 "use client";
 
+import { useDevice } from "context/deviceContext";
 import AsideBar from "public/components/asideBar";
 import React from "react";
 import { StyleSheetManager } from "styled-components";
-import { CurrentMobile } from "utils/mobileFunction";
 import { LayoutStyle } from "./style";
+import MobiletHeader from "public/components/mobileHeader";
 
 interface LayoutProps {
   children: React.ReactNode;
 }
 
 const MainLayout: React.FC<LayoutProps> = ({ children }) => {
-  const device = CurrentMobile();
+  const { device } = useDevice();
   return (
     <StyleSheetManager shouldForwardProp={(prop) => prop !== "device"}>
       <LayoutStyle>
         <section className="mainContent">
-          {device !== "mobile" && <AsideBar />}
+          {(device === "desktop" || device === "tablet") && <AsideBar />}
+          {device === "mobile" && <MobiletHeader />}
           {children}
         </section>
       </LayoutStyle>

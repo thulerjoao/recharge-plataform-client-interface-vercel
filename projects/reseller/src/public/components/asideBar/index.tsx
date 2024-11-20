@@ -1,5 +1,6 @@
 import Text from "@4miga/design-system/components/Text";
 import { Theme } from "@4miga/design-system/theme/theme";
+import { useDevice } from "context/deviceContext";
 import { usePathname, useRouter } from "next/navigation";
 import { AsideSelected } from "types/asideMenu.types";
 import Gear from "./icons/Gear.svg";
@@ -18,7 +19,6 @@ import SalesSelected from "./icons/SalesSelected.svg";
 import Wallet from "./icons/Wallet.svg";
 import WalletSelected from "./icons/WalletSelected.svg";
 import { AsideBarContainer } from "./style";
-import { CurrentMobile } from "utils/mobileFunction";
 
 const AsideBar = () => {
   const route = useRouter();
@@ -33,7 +33,7 @@ const AsideBar = () => {
     return currentRoute.slice(0, propLenght + 1) === `/${prop}` ? 1 : 0;
   };
 
-  const device = CurrentMobile();
+  const { device } = useDevice();
 
   return (
     <AsideBarContainer>
