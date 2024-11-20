@@ -8,6 +8,7 @@ export const DefaultHeaderContainer = styled.header`
   align-items: center;
   background-color: ${Theme.colors.mainTransparent};
   position: relative;
+  z-index: 10;
 
   .backArrow {
     position: absolute;

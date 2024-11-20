@@ -25,6 +25,10 @@ export const DailySalesContainer = styled.section`
       padding-bottom: 32px;
     }
   }
+
+  @media (max-width: 767px) {
+    width: 100%;
+  }
 `;
 
 interface BarProps {

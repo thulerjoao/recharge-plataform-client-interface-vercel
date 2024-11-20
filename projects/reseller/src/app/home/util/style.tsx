@@ -19,5 +19,14 @@ export const HomeContainer = styled.div`
   }
   @media (max-width: 767px) {
     padding-top: 80px;
+    padding-bottom: 56px;
+
+    .bottomContainer {
+      flex-direction: column;
+
+      .monthSales {
+        width: 100%;
+      }
+    }
   }
 `;
