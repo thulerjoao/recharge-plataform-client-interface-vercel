@@ -2,7 +2,7 @@ import { Theme } from "@4miga/design-system/theme/theme";
 import styled from "styled-components";
 
 export const DailySalesContainer = styled.section`
-  width: 50%;
+  width: 100%;
 
   .graphics {
     display: flex;
