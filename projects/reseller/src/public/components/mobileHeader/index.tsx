@@ -8,7 +8,7 @@ import { MobileHeaderContainer } from "./style";
 
 const MobiletHeader = () => {
   const route = useRouter();
-  const [openMenu, setOpenMenu] = useState<boolean>(true);
+  const [openMenu, setOpenMenu] = useState<boolean>(false);
 
   return (
     <MobileHeaderContainer openMenu={openMenu}>

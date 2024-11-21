@@ -3,6 +3,7 @@ import styled from "styled-components";
 export const HomeContainer = styled.div`
   width: 100%;
   padding-top: 32px;
+  padding-bottom: 56px;
 
   .bottomContainer {
     display: flex;
@@ -11,22 +12,20 @@ export const HomeContainer = styled.div`
     gap: 32px;
 
     .monthSales {
-      width: 50%;
+      width: 100%;
     }
   }
 
   @media (min-width: 768px) and (max-width: 1024px) {
+    .bottomContainer {
+      flex-direction: column;
+    }
   }
   @media (max-width: 767px) {
     padding-top: 80px;
-    padding-bottom: 56px;
 
     .bottomContainer {
       flex-direction: column;
-
-      .monthSales {
-        width: 100%;
-      }
     }
   }
 `;

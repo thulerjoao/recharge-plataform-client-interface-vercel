@@ -1,5 +1,7 @@
+import { useDevice } from "context/deviceContext";
 import OrderCard from "public/cards/orderCard/card";
 import HeaderEnviroment from "public/components/headerEnviroment";
+import MobileSecondaryMenu from "public/components/mobileSecondaryMenu";
 import Pagination from "public/components/pagination";
 import SalesHeader from "../common/components/salesHeader";
 import SalesTitles from "../common/components/salesTiltes";
@@ -8,12 +10,19 @@ import Card2 from "../common/temp/Card2.png";
 import { SalesContainer } from "./style";
 
 const Sales = () => {
+  const { device } = useDevice();
+
   return (
     <SalesContainer>
-      <HeaderEnviroment>
-        <SalesHeader />
-      </HeaderEnviroment>
-      <SalesTitles />
+      {(device === "desktop" || device === "tablet") && (
+        <>
+          <HeaderEnviroment>
+            <SalesHeader />
+          </HeaderEnviroment>
+          <SalesTitles />
+        </>
+      )}
+      {device === "mobile" && <MobileSecondaryMenu title="VENDAS" />}
       <div className="cards">
         <OrderCard
           image={Card1}
