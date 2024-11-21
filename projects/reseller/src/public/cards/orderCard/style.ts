@@ -49,4 +49,50 @@ export const OrderCardContainer = styled.article<OrderCardProps>`
 
   .forwardIcon {
   }
+
+  @media (min-width: 768px) and (max-width: 1024px) {
+  }
+  @media (max-width: 767px) {
+    height: 148px;
+    align-items: flex-start;
+    padding-top: 12px;
+
+    position: relative;
+
+    .allInfo {
+      flex-direction: column;
+
+      span {
+        min-width: 100%;
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        justify-content: space-between;
+        height: 18px;
+        margin-bottom: 8px;
+      }
+
+      p {
+        text-align: end;
+      }
+
+      .orderNumber {
+      }
+
+      .orderNumber {
+      }
+
+      .name {
+      }
+
+      .status {
+      }
+    }
+  }
+
+  .seeMore {
+    position: absolute;
+    width: 100%;
+    bottom: 12px;
+  }
 `;
