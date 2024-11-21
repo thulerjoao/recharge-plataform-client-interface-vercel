@@ -16,8 +16,8 @@ export const MobileHeaderContainer = styled.header<Props>`
   z-index: 10;
 
   .topCompoennt {
-    background-color: ${({ openMenu }) =>
-      openMenu ? Theme.colors.maindark : Theme.colors.mainTransparent};
+    z-index: 1;
+    background-color: ${Theme.colors.mainTransparent};
     border-bottom: ${({ openMenu }) =>
       openMenu && `1px solid ${Theme.colors.secondaryAction}`};
     box-sizing: border-box;
@@ -33,5 +33,6 @@ export const MobileHeaderContainer = styled.header<Props>`
   span {
     display: flex;
     align-items: center;
+    cursor: pointer;
   }
 `;
