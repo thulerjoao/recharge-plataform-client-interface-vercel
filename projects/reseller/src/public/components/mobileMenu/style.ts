@@ -8,7 +8,7 @@ interface Props {
 export const MobileMenuContainer = styled.div<Props>`
   width: 100%;
   height: ${({ openMenu }) => openMenu && "100vh"};
-  animation: ${({ openMenu }) => (openMenu ? expand : shrink)} 0.5s forwards;
+  animation: ${({ openMenu }) => openMenu && expand} 0.4s forwards;
   overflow: hidden;
   background-color: ${Theme.colors.maindark};
   padding: 0 16px;
@@ -47,15 +47,5 @@ const expand = keyframes`
 
   to {
     top: 0;
-  }
-`;
-
-const shrink = keyframes`
-  from {
-    top: 0;
-  }
-
-  to {
-    top: -100vh;
   }
 `;

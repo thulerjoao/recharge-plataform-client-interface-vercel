@@ -25,7 +25,7 @@ const MobiletHeader = () => {
           <Menu />
         </span>
       </section>
-      <MobileMenu openMenu={openMenu} setOpenMenu={setOpenMenu} />
+      {openMenu && <MobileMenu openMenu={openMenu} setOpenMenu={setOpenMenu} />}
     </MobileHeaderContainer>
   );
 };

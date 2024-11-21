@@ -29,7 +29,6 @@ const MobileMenu = ({ openMenu, setOpenMenu }: Props) => {
 
   const handleClick = (prop: AsideSelected) => {
     route.push(`/${prop}`);
-    setOpenMenu(false);
   };
 
   const handleCheck = (prop: AsideSelected) => {
