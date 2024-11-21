@@ -1,11 +1,21 @@
 import { Theme } from "@4miga/design-system/theme/theme";
-import styled from "styled-components";
+import styled, { keyframes } from "styled-components";
 
-export const MobileMenuContainer = styled.div`
+interface Props {
+  openMenu: boolean;
+}
+
+export const MobileMenuContainer = styled.div<Props>`
   width: 100%;
-  height: calc(100vh - 48px);
+  height: ${({ openMenu }) => openMenu && "100vh"};
+  animation: ${({ openMenu }) => (openMenu ? expand : shrink)} 0.5s forwards;
+  overflow: hidden;
   background-color: ${Theme.colors.maindark};
   padding: 0 16px;
+  padding-top: 48px;
+  position: fixed;
+  top: 0;
+  left: 0;
 
   .menuOption {
     display: flex;
@@ -27,5 +37,25 @@ export const MobileMenuContainer = styled.div`
   .selected {
     background-color: ${Theme.colors.mainHighlight};
     border-radius: 16px;
+  }
+`;
+
+const expand = keyframes`
+  from {
+    top: -100vh;
+  }
+
+  to {
+    top: 0;
+  }
+`;
+
+const shrink = keyframes`
+  from {
+    top: 0;
+  }
+
+  to {
+    top: -100vh;
   }
 `;

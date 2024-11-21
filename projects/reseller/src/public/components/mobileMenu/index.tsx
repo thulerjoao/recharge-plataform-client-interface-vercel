@@ -19,10 +19,11 @@ import WalletSelected from "../asideBar/icons/WalletSelected.svg";
 import { MobileMenuContainer } from "./style";
 
 interface Props {
+  openMenu: boolean;
   setOpenMenu: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-const MobileMenu = ({ setOpenMenu }: Props) => {
+const MobileMenu = ({ openMenu, setOpenMenu }: Props) => {
   const route = useRouter();
   const currentRoute = usePathname();
 
@@ -37,7 +38,7 @@ const MobileMenu = ({ setOpenMenu }: Props) => {
   };
 
   return (
-    <MobileMenuContainer>
+    <MobileMenuContainer openMenu={openMenu}>
       <div
         onClick={() => handleClick("home")}
         className={`menuOption ${handleCheck("home") && "selected"}`}
