@@ -39,6 +39,8 @@ const MobileMenu = ({ search, openMenu, setOpenMenu }: Props) => {
 
   const handleClick = (prop: AsideSelected) => {
     route.push(`/${prop}`);
+    const propLenght: number = prop.length;
+    currentRoute.slice(0, propLenght + 1) === `/${prop}` && setOpenMenu(false);
   };
 
   const handleCheck = (prop: AsideSelected) => {

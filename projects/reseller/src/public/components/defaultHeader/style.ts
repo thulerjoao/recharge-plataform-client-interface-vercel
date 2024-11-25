@@ -15,4 +15,14 @@ export const DefaultHeaderContainer = styled.header`
     left: 24px;
     cursor: pointer;
   }
+
+  @media (min-width: 768px) and (max-width: 1024px) {
+  }
+  @media (max-width: 767px) {
+    z-index: 0;
+
+    .backArrow {
+      left: 0;
+    }
+  }
 `;

@@ -22,6 +22,7 @@ export const MainGamesContainer = styled.section`
 
     .newCardContainer {
       margin-right: 24px;
+      min-width: 174px;
     }
   }
 `;

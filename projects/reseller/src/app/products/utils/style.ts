@@ -5,6 +5,11 @@ export const ProductsPageContainer = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
+  padding-top: 64px;
+
+  .mainTitle {
+    margin-top: 48px;
+  }
 
   .cardsContainer {
     width: 100%;
@@ -30,6 +35,10 @@ export const ProductsPageContainer = styled.div`
   @media (min-width: 540px) and (max-width: 1024px) {
   }
   @media (max-width: 539px) {
+    .mainTitle {
+      margin-top: 24px;
+    }
+
     .cardsContainer {
       padding: 0 14px;
       box-sizing: border-box;

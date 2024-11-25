@@ -5,6 +5,11 @@ export const SalesInnerPage = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
+  padding-top: 64px;
+
+  .mainTitle {
+    margin-top: 24px;
+  }
 
   main {
     background-color: ${Theme.colors.maindark};
@@ -101,6 +106,22 @@ export const SalesInnerPage = styled.div`
     div {
       display: flex;
       width: 50%;
+    }
+  }
+
+  @media (min-width: 768px) and (max-width: 1024px) {
+    main {
+      max-width: 100%;
+    }
+  }
+  @media (max-width: 767px) {
+    padding-top: 64px;
+
+    .mainTitle {
+      margin-top: 24px;
+    }
+
+    main {
     }
   }
 `;
