@@ -3,9 +3,10 @@
 import Button from "@4miga/design-system/components/button";
 import Text from "@4miga/design-system/components/Text";
 import { Theme } from "@4miga/design-system/theme/theme";
+import { useDevice } from "context/deviceContext";
 import Image from "next/image";
-import HeaderEnviroment from "public/components/headerEnviroment";
 import DefaultHeader from "public/components/defaultHeader";
+import HeaderEnviroment from "public/components/headerEnviroment";
 import Pix from "../common/icons/Pix.svg";
 import Card1 from "../common/temp/Card1.png";
 import Card3 from "../common/temp/Card3.png";
@@ -21,14 +22,20 @@ const Page = ({ params }: Props) => {
   const handleCheck = () => {
     return params.slug == "123456" ? 1 : 0;
   };
+  const { device } = useDevice();
 
   return (
     <SalesInnerPage>
-      <HeaderEnviroment>
+      {(device === "desktop" || device === "tablet") && (
+        <HeaderEnviroment>
+          <DefaultHeader backWard title="DETALHES DA VENDA" />
+        </HeaderEnviroment>
+      )}
+      {device === "mobile" && (
         <DefaultHeader backWard title="DETALHES DA VENDA" />
-      </HeaderEnviroment>
-      <div>
-        <Text margin="96px 0 0 0" align="center" fontName="LARGE_MEDIUM">
+      )}
+      <div className="mainTitle">
+        <Text align="center" fontName="LARGE_MEDIUM">
           BIGO LIVE
         </Text>
       </div>

@@ -30,6 +30,6 @@ export const CardContainer = styled.article`
   }
 
   @media (max-width: 767px) {
-    min-width: 174px;
+    min-width: 0px;
   }
 `;
