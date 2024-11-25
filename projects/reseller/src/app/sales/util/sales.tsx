@@ -1,9 +1,9 @@
 import { useDevice } from "context/deviceContext";
 import OrderCard from "public/cards/orderCard/card";
 import HeaderEnviroment from "public/components/headerEnviroment";
+import HeaderSearch from "public/components/headerSearch";
 import MobileSecondaryMenu from "public/components/mobileSecondaryMenu";
 import Pagination from "public/components/pagination";
-import SalesHeader from "../common/components/salesHeader";
 import SalesTitles from "../common/components/salesTiltes";
 import Card1 from "../common/temp/Card1.png";
 import Card2 from "../common/temp/Card2.png";
@@ -17,7 +17,7 @@ const Sales = () => {
       {(device === "desktop" || device === "tablet") && (
         <>
           <HeaderEnviroment>
-            <SalesHeader />
+            <HeaderSearch />
           </HeaderEnviroment>
           <SalesTitles />
         </>

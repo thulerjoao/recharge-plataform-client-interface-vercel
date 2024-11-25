@@ -1,7 +1,8 @@
+import Input from "@4miga/design-system/components/input";
 import Text from "@4miga/design-system/components/Text";
 import { Theme } from "@4miga/design-system/theme/theme";
 import { usePathname, useRouter } from "next/navigation";
-import React from "react";
+import React, { useState } from "react";
 import { AsideSelected } from "types/asideMenu.types";
 import Gear from "../asideBar/icons/Gear.svg";
 import GearSelected from "../asideBar/icons/GearSelected.svg";
@@ -16,20 +17,29 @@ import Sales from "../asideBar/icons/Sales.svg";
 import SalesSelected from "../asideBar/icons/SalesSelected.svg";
 import Wallet from "../asideBar/icons/Wallet.svg";
 import WalletSelected from "../asideBar/icons/WalletSelected.svg";
+import DownArrow from "./icons/DownArrow.svg";
+import Search from "./icons/Search.svg";
+import Setting from "./icons/Setting.svg";
+import BigUp from "./icons/BigUp.svg";
+import BigDown from "./icons/BigDown.svg";
 import { MobileMenuContainer } from "./style";
+import SearchComponent from "../searchComponent";
 
 interface Props {
+  search: boolean;
   openMenu: boolean;
   setOpenMenu: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-const MobileMenu = ({ openMenu, setOpenMenu }: Props) => {
+const MobileMenu = ({ search, openMenu, setOpenMenu }: Props) => {
   const route = useRouter();
   const currentRoute = usePathname();
 
+  const [searchText, setSearchText] = useState<string>("");
+  const [openSearch, setOpenSearch] = useState<boolean>(false);
+
   const handleClick = (prop: AsideSelected) => {
     route.push(`/${prop}`);
-    setOpenMenu(false);
   };
 
   const handleCheck = (prop: AsideSelected) => {
@@ -39,6 +49,36 @@ const MobileMenu = ({ openMenu, setOpenMenu }: Props) => {
 
   return (
     <MobileMenuContainer openMenu={openMenu}>
+      {search && (
+        <section className="searchContainer">
+          <Input
+            padding="0 44px 0 16px"
+            rightElement={<Search />}
+            placeholder="Pesquisar..."
+            height={40}
+            onChange={(e) => setSearchText(e.target.value)}
+          />
+          <div
+            onClick={() => setOpenSearch(!openSearch)}
+            className={`filter ${openSearch && "opened"}`}
+          >
+            <span>
+              <Setting />
+            </span>
+            <Text margin="0 0 0 16px" align="start" fontName="SMALL">
+              FILTRAR
+            </Text>
+            <span onClick={() => setOpenSearch(!openSearch)}>
+              {openSearch ? <BigUp /> : <BigDown />}
+            </span>
+          </div>
+          {openSearch && (
+            <div className="search">
+              <SearchComponent />
+            </div>
+          )}
+        </section>
+      )}
       <div
         onClick={() => handleClick("home")}
         className={`menuOption ${handleCheck("home") && "selected"}`}
@@ -131,7 +171,7 @@ const MobileMenu = ({ openMenu, setOpenMenu }: Props) => {
             margin="0 0 0 16px"
             fontName="REGULAR_SEMI_BOLD"
           >
-            CARTEIRA
+            CONFIGURAÇÕES
           </Text>
         </div>
         <div className="menuOption" onClick={() => route.replace("/")}>

@@ -7,15 +7,49 @@ interface Props {
 
 export const MobileMenuContainer = styled.div<Props>`
   width: 100%;
-  height: ${({ openMenu }) => openMenu && "100vh"};
-  animation: ${({ openMenu }) => (openMenu ? expand : shrink)} 0.5s forwards;
-  overflow: hidden;
+  min-height: ${({ openMenu }) => openMenu && "100vh"};
+  animation: ${({ openMenu }) => openMenu && expand} 0.5s forwards;
   background-color: ${Theme.colors.maindark};
   padding: 0 16px;
   padding-top: 48px;
-  position: fixed;
+  position: absolute;
   top: 0;
   left: 0;
+  padding-bottom: 128px;
+
+  .searchContainer {
+    padding-top: 32px;
+    border-bottom: 1px solid ${Theme.colors.secondaryAction};
+
+    .filter {
+      width: 100%;
+      height: 48px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 16px;
+      margin-top: 16px;
+      cursor: pointer;
+
+      span {
+        display: flex;
+        align-items: center;
+      }
+
+      p {
+        user-select: none;
+      }
+    }
+
+    .opened {
+      border: 1px solid ${Theme.colors.mainHighlight};
+      border-radius: 16px;
+    }
+
+    .search {
+      padding: 16px 0;
+    }
+  }
 
   .menuOption {
     display: flex;
@@ -32,6 +66,7 @@ export const MobileMenuContainer = styled.div<Props>`
     bottom: 0;
     width: 100%;
     margin-bottom: 16px;
+    height: 128px;
   }
 
   .selected {
@@ -47,15 +82,5 @@ const expand = keyframes`
 
   to {
     top: 0;
-  }
-`;
-
-const shrink = keyframes`
-  from {
-    top: 0;
-  }
-
-  to {
-    top: -100vh;
   }
 `;

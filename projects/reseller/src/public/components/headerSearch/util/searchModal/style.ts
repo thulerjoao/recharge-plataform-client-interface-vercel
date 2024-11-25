@@ -12,34 +12,6 @@ export const SearchModalContainer = styled.div`
   top: 68px;
   padding: 16px;
   padding-bottom: 0;
-  p {
-    user-select: none;
-  }
-
-  .option {
-    display: flex;
-    align-items: center;
-    height: 24px;
-    width: 100%;
-    margin-bottom: 16px;
-    cursor: pointer;
-  }
-
-  .innerList {
-    width: 100%;
-    padding: 0 32px;
-    margin-top: -4px;
-    padding-bottom: 8px;
-
-    .innerOption {
-      display: flex;
-      width: 100%;
-      align-items: center;
-      justify-content: space-between;
-      margin-bottom: 16px;
-      cursor: pointer;
-    }
-  }
 `;
 
 export const CloseModal = styled.div`

@@ -1,14 +1,14 @@
 import Input from "@4miga/design-system/components/input";
 import Text from "@4miga/design-system/components/Text";
+import SearchModal from "public/components/headerSearch/util/searchModal";
 import { useState } from "react";
-import DownArrow from "../../icons/DownArrow.svg";
-import Search from "../../icons/Search.svg";
-import Setting from "../../icons/Setting.svg";
-import UpArrow from "../../icons/UpArrow.svg";
-import SearchModal from "../searchModal";
-import { SalesHeaderContainer } from "./style";
+import DownArrow from "./icons/DownArrow.svg";
+import Search from "./icons/Search.svg";
+import Setting from "./icons/Setting.svg";
+import UpArrow from "./icons/UpArrow.svg";
+import { HeaderSearchContainer } from "./style";
 
-const SalesHeader = () => {
+const HeaderSearch = () => {
   const [openModal, setOpenModal] = useState<boolean>(false);
 
   const handleOpenOrClose = () => {
@@ -16,7 +16,7 @@ const SalesHeader = () => {
   };
 
   return (
-    <SalesHeaderContainer>
+    <HeaderSearchContainer>
       <div className="headerTitle">
         <Text fontName="LARGE_SEMI_BOLD">VENDAS</Text>
       </div>
@@ -43,8 +43,8 @@ const SalesHeader = () => {
         </span>
       </div>
       {openModal && <SearchModal setOpenModal={setOpenModal} />}
-    </SalesHeaderContainer>
+    </HeaderSearchContainer>
   );
 };
 
-export default SalesHeader;
+export default HeaderSearch;
