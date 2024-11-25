@@ -2,12 +2,15 @@ import { Theme } from "@4miga/design-system/theme/theme";
 import styled, { keyframes } from "styled-components";
 
 interface Props {
+  openSearch: boolean;
   openMenu: boolean;
 }
 
 export const MobileMenuContainer = styled.div<Props>`
   width: 100%;
+  max-width: 100%;
   min-height: ${({ openMenu }) => openMenu && "100vh"};
+  max-height: ${({ openMenu }) => openMenu && "100vh"};
   animation: ${({ openMenu }) => openMenu && expand} 0.5s forwards;
   background-color: ${Theme.colors.maindark};
   padding: 0 16px;
@@ -15,7 +18,13 @@ export const MobileMenuContainer = styled.div<Props>`
   position: absolute;
   top: 0;
   left: 0;
-  padding-bottom: 128px;
+  overflow-y: auto;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+
+  &::-webkit-scrollbar {
+    display: none;
+  }
 
   .searchContainer {
     padding-top: 32px;
@@ -60,13 +69,13 @@ export const MobileMenuContainer = styled.div<Props>`
     margin-bottom: 16px;
     cursor: pointer;
   }
-
   .bottomOptions {
-    position: absolute;
-    bottom: 0;
+    margin-top: 84px;
     width: 100%;
     margin-bottom: 16px;
     height: 128px;
+    ${({ openSearch }) => !openSearch && "position: absolute"};
+    ${({ openSearch }) => !openSearch && "bottom: 0"};
   }
 
   .selected {

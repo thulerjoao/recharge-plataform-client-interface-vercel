@@ -17,13 +17,12 @@ import Sales from "../asideBar/icons/Sales.svg";
 import SalesSelected from "../asideBar/icons/SalesSelected.svg";
 import Wallet from "../asideBar/icons/Wallet.svg";
 import WalletSelected from "../asideBar/icons/WalletSelected.svg";
-import DownArrow from "./icons/DownArrow.svg";
+import SearchComponent from "../searchComponent";
+import BigDown from "./icons/BigDown.svg";
+import BigUp from "./icons/BigUp.svg";
 import Search from "./icons/Search.svg";
 import Setting from "./icons/Setting.svg";
-import BigUp from "./icons/BigUp.svg";
-import BigDown from "./icons/BigDown.svg";
 import { MobileMenuContainer } from "./style";
-import SearchComponent from "../searchComponent";
 
 interface Props {
   search: boolean;
@@ -48,7 +47,7 @@ const MobileMenu = ({ search, openMenu, setOpenMenu }: Props) => {
   };
 
   return (
-    <MobileMenuContainer openMenu={openMenu}>
+    <MobileMenuContainer openSearch={openSearch} openMenu={openMenu}>
       {search && (
         <section className="searchContainer">
           <Input
@@ -178,7 +177,6 @@ const MobileMenu = ({ search, openMenu, setOpenMenu }: Props) => {
           <span>
             <Logout />
           </span>
-
           <Text margin="0 0 0 16px" fontName="REGULAR_SEMI_BOLD">
             SAIR
           </Text>
