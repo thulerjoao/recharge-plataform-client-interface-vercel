@@ -1,11 +1,11 @@
 import Input from "@4miga/design-system/components/input";
 import Text from "@4miga/design-system/components/Text";
+import SearchModal from "public/components/searchModal";
 import { useState } from "react";
 import DownArrow from "../../icons/DownArrow.svg";
 import Search from "../../icons/Search.svg";
 import Setting from "../../icons/Setting.svg";
 import UpArrow from "../../icons/UpArrow.svg";
-import SearchModal from "../searchModal";
 import { SalesHeaderContainer } from "./style";
 
 const SalesHeader = () => {

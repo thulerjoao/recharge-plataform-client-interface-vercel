@@ -16,14 +16,16 @@ import Sales from "../asideBar/icons/Sales.svg";
 import SalesSelected from "../asideBar/icons/SalesSelected.svg";
 import Wallet from "../asideBar/icons/Wallet.svg";
 import WalletSelected from "../asideBar/icons/WalletSelected.svg";
+import SearchModal from "../searchModal";
 import { MobileMenuContainer } from "./style";
 
 interface Props {
+  search: boolean;
   openMenu: boolean;
   setOpenMenu: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-const MobileMenu = ({ openMenu, setOpenMenu }: Props) => {
+const MobileMenu = ({ search, openMenu, setOpenMenu }: Props) => {
   const route = useRouter();
   const currentRoute = usePathname();
 
@@ -38,6 +40,9 @@ const MobileMenu = ({ openMenu, setOpenMenu }: Props) => {
 
   return (
     <MobileMenuContainer openMenu={openMenu}>
+      <div className="search">
+        <SearchModal />
+      </div>
       <div
         onClick={() => handleClick("home")}
         className={`menuOption ${handleCheck("home") && "selected"}`}
@@ -130,7 +135,7 @@ const MobileMenu = ({ openMenu, setOpenMenu }: Props) => {
             margin="0 0 0 16px"
             fontName="REGULAR_SEMI_BOLD"
           >
-            CARTEIRA
+            CONFIGURAÇÕES
           </Text>
         </div>
         <div className="menuOption" onClick={() => route.replace("/")}>

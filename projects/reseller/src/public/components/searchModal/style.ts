@@ -12,6 +12,7 @@ export const SearchModalContainer = styled.div`
   top: 68px;
   padding: 16px;
   padding-bottom: 0;
+
   p {
     user-select: none;
   }
@@ -39,6 +40,18 @@ export const SearchModalContainer = styled.div`
       margin-bottom: 16px;
       cursor: pointer;
     }
+  }
+
+  @media (min-width: 768px) and (max-width: 1024px) {
+  }
+  @media (max-width: 767px) {
+    z-index: 0;
+    max-width: 100%;
+    border-radius: 0;
+    border: none;
+    position: relative;
+    top: 0;
+    padding: 0 16px;
   }
 `;
 

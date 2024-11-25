@@ -1,14 +1,21 @@
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { scrollToTop } from "utils/scrollToTopFunction";
+import useDisableScroll from "utils/useDisableScroll";
 import MobileMenu from "../mobileMenu";
 import Logo from "./icons/Logo.svg";
 import Menu from "./icons/Menu.svg";
 import { MobileHeaderContainer } from "./style";
 
-const MobiletHeader = () => {
+interface Props {
+  search?: boolean;
+}
+
+const MobiletHeader = ({ search }: Props) => {
   const route = useRouter();
   const [openMenu, setOpenMenu] = useState<boolean>(false);
+
+  useDisableScroll({ isOpen: openMenu });
 
   return (
     <MobileHeaderContainer openMenu={openMenu}>
@@ -25,7 +32,13 @@ const MobiletHeader = () => {
           <Menu />
         </span>
       </section>
-      {openMenu && <MobileMenu openMenu={openMenu} setOpenMenu={setOpenMenu} />}
+      {openMenu && (
+        <MobileMenu
+          search={search}
+          openMenu={openMenu}
+          setOpenMenu={setOpenMenu}
+        />
+      )}
     </MobileHeaderContainer>
   );
 };

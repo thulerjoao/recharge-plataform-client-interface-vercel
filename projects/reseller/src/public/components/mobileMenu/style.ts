@@ -7,15 +7,20 @@ interface Props {
 
 export const MobileMenuContainer = styled.div<Props>`
   width: 100%;
-  height: ${({ openMenu }) => openMenu && "100vh"};
-  animation: ${({ openMenu }) => openMenu && expand} 0.4s forwards;
-  overflow: hidden;
+  min-height: ${({ openMenu }) => openMenu && "100vh"};
+  animation: ${({ openMenu }) => openMenu && expand} 0.5s forwards;
   background-color: ${Theme.colors.maindark};
   padding: 0 16px;
   padding-top: 48px;
-  position: fixed;
+  position: absolute;
   top: 0;
   left: 0;
+  padding-bottom: 128px;
+
+  .search {
+    position: relative;
+    max-width: 100vw;
+  }
 
   .menuOption {
     display: flex;
@@ -32,6 +37,7 @@ export const MobileMenuContainer = styled.div<Props>`
     bottom: 0;
     width: 100%;
     margin-bottom: 16px;
+    height: 128px;
   }
 
   .selected {
