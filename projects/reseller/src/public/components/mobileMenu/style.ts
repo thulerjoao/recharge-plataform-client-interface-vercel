@@ -17,9 +17,38 @@ export const MobileMenuContainer = styled.div<Props>`
   left: 0;
   padding-bottom: 128px;
 
-  .search {
-    position: relative;
-    max-width: 100vw;
+  .searchContainer {
+    padding-top: 32px;
+    border-bottom: 1px solid ${Theme.colors.secondaryAction};
+
+    .filter {
+      width: 100%;
+      height: 48px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 16px;
+      margin-top: 16px;
+      cursor: pointer;
+
+      span {
+        display: flex;
+        align-items: center;
+      }
+
+      p {
+        user-select: none;
+      }
+    }
+
+    .opened {
+      border: 1px solid ${Theme.colors.mainHighlight};
+      border-radius: 16px;
+    }
+
+    .search {
+      padding: 16px 0;
+    }
   }
 
   .menuOption {

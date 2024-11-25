@@ -1,6 +1,6 @@
 import Input from "@4miga/design-system/components/input";
 import Text from "@4miga/design-system/components/Text";
-import SearchModal from "public/components/searchModal";
+import SearchModal from "public/components/headerSearch/util/searchModal";
 import { useState } from "react";
 import DownArrow from "./icons/DownArrow.svg";
 import Search from "./icons/Search.svg";
