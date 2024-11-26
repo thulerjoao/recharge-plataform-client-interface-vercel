@@ -151,7 +151,68 @@ export const ConfigPackagePage = styled.div`
   }
 
   @media (min-width: 768px) and (max-width: 1024px) {
+    main {
+      .packageSettings {
+        flex-direction: column;
+
+        .leftContainer {
+          width: 100%;
+          height: auto;
+        }
+        .rightContainer {
+          width: 100%;
+          height: auto;
+        }
+      }
+
+      .packageValues {
+        background-color: transparent;
+
+        .topText {
+          padding: 24px 0;
+          border-top: 1px solid ${Theme.colors.secondaryAction};
+        }
+
+        .cardsList {
+          flex-direction: row;
+          flex-wrap: wrap;
+          justify-content: space-between;
+        }
+      }
+    }
   }
   @media (max-width: 767px) {
+    padding-top: 64px;
+    main {
+      .topContainer {
+        margin-top: 24px;
+      }
+
+      .packageSettings {
+        flex-direction: column;
+
+        .leftContainer {
+          width: 100%;
+          height: auto;
+        }
+        .rightContainer {
+          width: 100%;
+          height: auto;
+        }
+      }
+
+      .packageValues {
+        background-color: transparent;
+        padding: 0;
+
+        .topText {
+          padding: 24px 0;
+          border-top: 1px solid ${Theme.colors.secondaryAction};
+        }
+
+        .cardsList {
+        }
+      }
+    }
   }
 `;

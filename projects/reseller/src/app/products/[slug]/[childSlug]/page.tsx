@@ -5,12 +5,14 @@ import Input from "@4miga/design-system/components/input";
 import OnOff from "@4miga/design-system/components/onOff";
 import Text from "@4miga/design-system/components/Text";
 import { Theme } from "@4miga/design-system/theme/theme";
+import { useDevice } from "context/deviceContext";
 import DefaultHeader from "public/components/defaultHeader";
 import HeaderEnviroment from "public/components/headerEnviroment";
 import { useState } from "react";
 import CameraIcon from "../../common/icons/CameraIcon.svg";
 import Pen from "../../common/icons/Pen.svg";
 import BigoCard from "../../common/temp/bigoCard.svg";
+import ConfirmModal from "./common/confirmModal";
 import Ame from "./common/icons/Ame.svg";
 import Boleto from "./common/icons/Boleto.svg";
 import MercadoPago from "./common/icons/MercadoPago.svg";
@@ -20,7 +22,7 @@ import Pix from "./common/icons/Pix.svg";
 import Transfer from "./common/icons/Transfer.svg";
 import PriceCard from "./common/priceCard";
 import { ConfigPackagePage } from "./style";
-import ConfirmModal from "./common/confirmModal";
+import PriceCardMobile from "./common/priceCardMobile";
 
 type Props = {
   params: {
@@ -31,13 +33,19 @@ type Props = {
 
 const Page = ({ params }: Props) => {
   const [confirmModal, setconfirmModal] = useState<boolean>(false);
+  const { device } = useDevice();
 
   return (
     <ConfigPackagePage>
       {confirmModal && <ConfirmModal setconfirmModal={setconfirmModal} />}
-      <HeaderEnviroment>
+      {(device === "desktop" || device === "tablet") && (
+        <HeaderEnviroment>
+          <DefaultHeader backWard title="CONFIGURAR PACOTE" />
+        </HeaderEnviroment>
+      )}
+      {device === "mobile" && (
         <DefaultHeader backWard title="CONFIGURAR PACOTE" />
-      </HeaderEnviroment>
+      )}
       <main>
         <div className="topContainer">
           <Text fontName="LARGE_MEDIUM">BIGO LIVE</Text>
@@ -94,12 +102,12 @@ const Page = ({ params }: Props) => {
         </section>
         <section className="packageValues">
           <div className="topText">
-            <Text nowrap fontName="REGULAR_SEMI_BOLD">
+            <Text nowrap={device !== "mobile"} fontName="REGULAR_SEMI_BOLD">
               CONFIGURAÇÕES DE PREÇO
             </Text>
             <div>
               <Text
-                nowrap
+                nowrap={device !== "mobile"}
                 color={Theme.colors.secondaryTextAction}
                 fontName="REGULAR_SEMI_BOLD"
               >
@@ -110,97 +118,170 @@ const Page = ({ params }: Props) => {
               </Text>
             </div>
           </div>
-          <div className="scales">
-            <span className="tax">
-              <Text align="center" nowrap fontName="REGULAR_MEDIUM">
-                TAXAS
-              </Text>
-            </span>
-            <span className="totalCost">
-              <Text align="center" nowrap fontName="REGULAR_MEDIUM">
-                CUSTO TOTAL
-              </Text>
-            </span>
-            <span className="profitMargin">
-              <Text align="center" nowrap fontName="REGULAR_MEDIUM">
-                MARGEM DE LUCRO
-              </Text>
-            </span>
-            <span className="profitValue">
-              <Text align="center" nowrap fontName="REGULAR_MEDIUM">
-                VALOR DO LUCRO
-              </Text>
-            </span>
-            <span className="saleValue">
-              <Text align="center" nowrap fontName="REGULAR_MEDIUM">
-                VALOR DE VENDA
-              </Text>
-            </span>
-          </div>
+          {device === "desktop" && (
+            <div className="scales">
+              <span className="tax">
+                <Text align="center" nowrap fontName="REGULAR_MEDIUM">
+                  TAXAS
+                </Text>
+              </span>
+              <span className="totalCost">
+                <Text align="center" nowrap fontName="REGULAR_MEDIUM">
+                  CUSTO TOTAL
+                </Text>
+              </span>
+              <span className="profitMargin">
+                <Text align="center" nowrap fontName="REGULAR_MEDIUM">
+                  MARGEM DE LUCRO
+                </Text>
+              </span>
+              <span className="profitValue">
+                <Text align="center" nowrap fontName="REGULAR_MEDIUM">
+                  VALOR DO LUCRO
+                </Text>
+              </span>
+              <span className="saleValue">
+                <Text align="center" nowrap fontName="REGULAR_MEDIUM">
+                  VALOR DE VENDA
+                </Text>
+              </span>
+            </div>
+          )}
           <div className="cardsList">
-            <PriceCard
-              image={<Pix />}
-              tax="1%"
-              totalCost={1.92}
-              profitMargin={50}
-              profitValue={1.9}
-              title="PIX"
-              sellValue={3.9}
-            />
-            <PriceCard
-              image={<MercadoPago />}
-              tax="1%"
-              totalCost={1.92}
-              profitMargin={50}
-              profitValue={1.9}
-              title="Mercado Pago"
-              sellValue={3.9}
-            />
-            <PriceCard
-              image={<PayPal />}
-              tax="1%"
-              totalCost={1.92}
-              profitMargin={50}
-              profitValue={1.9}
-              title="PayPal"
-              sellValue={3.9}
-            />
-            <PriceCard
-              image={<PicPay />}
-              tax="1,5%"
-              totalCost={1.92}
-              profitMargin={50}
-              profitValue={1.9}
-              title="PicPay"
-              sellValue={3.9}
-            />
-            <PriceCard
-              image={<Ame />}
-              tax="0,99%"
-              totalCost={1.92}
-              profitMargin={50}
-              profitValue={1.9}
-              title="Ame"
-              sellValue={3.9}
-            />
-            <PriceCard
-              image={<Boleto />}
-              tax="3,99% + R$ 1,90"
-              totalCost={1.92}
-              profitMargin={50}
-              profitValue={1.9}
-              title="Boleto"
-              sellValue={3.9}
-            />
-            <PriceCard
-              image={<Transfer />}
-              tax="1,99%"
-              totalCost={1.92}
-              profitMargin={50}
-              profitValue={1.9}
-              title="TRANSFERÊNCIA"
-              sellValue={3.9}
-            />
+            {device === "desktop" && (
+              <>
+                <PriceCard
+                  image={<Pix />}
+                  tax="1%"
+                  totalCost={1.92}
+                  profitMargin={50}
+                  profitValue={1.9}
+                  title="PIX"
+                  sellValue={3.9}
+                />
+                <PriceCard
+                  image={<MercadoPago />}
+                  tax="1%"
+                  totalCost={1.92}
+                  profitMargin={50}
+                  profitValue={1.9}
+                  title="Mercado Pago"
+                  sellValue={3.9}
+                />
+                <PriceCard
+                  image={<PayPal />}
+                  tax="1%"
+                  totalCost={1.92}
+                  profitMargin={50}
+                  profitValue={1.9}
+                  title="PayPal"
+                  sellValue={3.9}
+                />
+                <PriceCard
+                  image={<PicPay />}
+                  tax="1,5%"
+                  totalCost={1.92}
+                  profitMargin={50}
+                  profitValue={1.9}
+                  title="PicPay"
+                  sellValue={3.9}
+                />
+                <PriceCard
+                  image={<Ame />}
+                  tax="0,99%"
+                  totalCost={1.92}
+                  profitMargin={50}
+                  profitValue={1.9}
+                  title="Ame"
+                  sellValue={3.9}
+                />
+                <PriceCard
+                  image={<Boleto />}
+                  tax="3,99% + R$ 1,90"
+                  totalCost={1.92}
+                  profitMargin={50}
+                  profitValue={1.9}
+                  title="Boleto"
+                  sellValue={3.9}
+                />
+                <PriceCard
+                  image={<Transfer />}
+                  tax="1,99%"
+                  totalCost={1.92}
+                  profitMargin={50}
+                  profitValue={1.9}
+                  title="TRANSFERÊNCIA"
+                  sellValue={3.9}
+                />
+              </>
+            )}
+            {(device === "mobile" || device === "tablet") && (
+              <>
+                <PriceCardMobile
+                  image={<Pix />}
+                  tax="1%"
+                  totalCost={1.92}
+                  profitMargin={50}
+                  profitValue={1.9}
+                  title="PIX"
+                  sellValue={3.9}
+                />
+                <PriceCardMobile
+                  image={<MercadoPago />}
+                  tax="1%"
+                  totalCost={1.92}
+                  profitMargin={50}
+                  profitValue={1.9}
+                  title="Mercado Pago"
+                  sellValue={3.9}
+                />
+                <PriceCardMobile
+                  image={<PayPal />}
+                  tax="1%"
+                  totalCost={1.92}
+                  profitMargin={50}
+                  profitValue={1.9}
+                  title="PayPal"
+                  sellValue={3.9}
+                />
+                <PriceCardMobile
+                  image={<PicPay />}
+                  tax="1,5%"
+                  totalCost={1.92}
+                  profitMargin={50}
+                  profitValue={1.9}
+                  title="PicPay"
+                  sellValue={3.9}
+                />
+                <PriceCardMobile
+                  image={<Ame />}
+                  tax="0,99%"
+                  totalCost={1.92}
+                  profitMargin={50}
+                  profitValue={1.9}
+                  title="Ame"
+                  sellValue={3.9}
+                />
+                <PriceCardMobile
+                  image={<Boleto />}
+                  tax="3,99% + R$ 1,90"
+                  totalCost={1.92}
+                  profitMargin={50}
+                  profitValue={1.9}
+                  title="Boleto"
+                  sellValue={3.9}
+                />
+                <PriceCardMobile
+                  image={<Transfer />}
+                  tax="1,99%"
+                  totalCost={1.92}
+                  profitMargin={50}
+                  profitValue={1.9}
+                  title="TRANSFERÊNCIA"
+                  sellValue={3.9}
+                />
+              </>
+            )}
           </div>
         </section>
         <Button
