@@ -8,7 +8,7 @@ export const SalesInnerPage = styled.div`
   padding-top: 64px;
 
   .mainTitle {
-    margin-top: 24px;
+    margin-top: 32px;
   }
 
   main {
@@ -115,7 +115,7 @@ export const SalesInnerPage = styled.div`
     }
   }
   @media (max-width: 767px) {
-    padding-top: 64px;
+    padding-top: 48px;
 
     .mainTitle {
       margin-top: 24px;

@@ -19,6 +19,7 @@ export const DefaultHeaderContainer = styled.header`
   @media (min-width: 768px) and (max-width: 1024px) {
   }
   @media (max-width: 767px) {
+    height: 48px;
     z-index: 0;
 
     .backArrow {
