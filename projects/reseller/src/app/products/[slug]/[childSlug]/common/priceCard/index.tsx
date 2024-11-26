@@ -57,19 +57,3 @@ const PriceCard = ({
 };
 
 export default PriceCard;
-
-// . {
-//   max-width: 234px;
-// }
-// .totalCost {
-//   max-width: 110px;
-// }
-// .profitMargin {
-//   max-width: 164px;
-// }
-// .profitValue {
-//   max-width: 147px;
-// }
-// .saleValue {
-//   max-width: 146px;
-// }
