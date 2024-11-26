@@ -21,8 +21,8 @@ import PicPay from "./common/icons/PicPay.svg";
 import Pix from "./common/icons/Pix.svg";
 import Transfer from "./common/icons/Transfer.svg";
 import PriceCard from "./common/priceCard";
-import { ConfigPackagePage } from "./style";
 import PriceCardMobile from "./common/priceCardMobile";
+import { ConfigPackagePage } from "./style";
 
 type Props = {
   params: {
