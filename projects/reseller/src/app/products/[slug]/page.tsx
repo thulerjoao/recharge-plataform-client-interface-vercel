@@ -14,6 +14,7 @@ import BigoCard1 from "../common/temp/BigoCard.png";
 import BigoCard from "../common/temp/bigoCard.svg";
 import { ProductsInnerPage } from "./style";
 import { useRouter } from "next/navigation";
+import { useDevice } from "context/deviceContext";
 
 type Props = {
   params: {
@@ -30,6 +31,7 @@ const Page = ({ params }: Props) => {
   const [aboutProduct, setAboutProduct] = useState<string>(initialProduct);
   const [instructions, setInstructions] = useState<string>(initialInstructions);
   const [ischanged, setIsChanged] = useState<boolean>(false);
+  const { device } = useDevice();
 
   useEffect(() => {
     if (
@@ -44,9 +46,14 @@ const Page = ({ params }: Props) => {
 
   return (
     <ProductsInnerPage>
-      <HeaderEnviroment>
-        <DefaultHeader backWard title="CONFIGURAR PRODUTO" />
-      </HeaderEnviroment>
+      {(device === "desktop" || device === "tablet") && (
+        <HeaderEnviroment>
+          <DefaultHeader backWard title="CONFIGURAR PRODUTOS" />
+        </HeaderEnviroment>
+      )}
+      {device === "mobile" && (
+        <DefaultHeader backWard title="CONFIGURAR PRODUTOS" />
+      )}
       <main>
         <div className="topContainer">
           <Text fontName="LARGE_MEDIUM">BIGO LIVE</Text>

@@ -19,13 +19,13 @@ export const ProductsInnerPage = styled.div`
     }
 
     .cardsContainer {
+      width: 100%;
       display: flex;
+      justify-content: center;
+      align-items: center;
       flex-wrap: wrap;
-      min-width: 100%;
-      max-width: 628px;
-      justify-content: space-between;
-      padding: 0 14px;
       margin-top: 24px;
+      padding: 0 14px;
 
       .cardEnviroment {
         height: auto;
@@ -34,6 +34,8 @@ export const ProductsInnerPage = styled.div`
         align-items: center;
         justify-content: center;
         width: 100%;
+        min-width: 174px;
+        margin: 0 8px;
         margin-bottom: 24px;
       }
     }
@@ -79,6 +81,12 @@ export const ProductsInnerPage = styled.div`
         flex-direction: column;
         align-items: center;
         position: relative;
+
+        img {
+          width: 100%;
+          max-width: 178px;
+          height: auto;
+        }
       }
 
       .rightContainer {
@@ -129,15 +137,103 @@ export const ProductsInnerPage = styled.div`
   }
 
   @media (min-width: 768px) and (max-width: 1024px) {
-    .cardsContainer {
-      padding: 0;
+    main {
+      .cardsContainer {
+        padding: 0;
+        align-items: center;
+        justify-content: center;
+
+        .cardEnviroment {
+          flex: 0 1 calc(33.33% - 16px);
+        }
+      }
+
+      .bannerImages {
+        flex-direction: column;
+        gap: 40px;
+
+        .leftContainer {
+          width: 100%;
+          height: auto;
+        }
+
+        .rightContainer {
+          width: 100%;
+          height: auto;
+        }
+      }
+
+      .descriptions {
+        flex-direction: column;
+        height: 680px;
+        gap: 40px;
+
+        .leftContainer {
+          width: 100%;
+          min-height: 260px;
+        }
+
+        .rightContainer {
+          width: 100%;
+          min-height: 260px;
+        }
+      }
     }
   }
   @media (max-width: 767px) {
-    .cardsContainer {
-      padding: 0;
-      .cardEnviroment {
-        flex: 0 1 calc(50% - 10px);
+    padding-top: 64px;
+
+    main {
+      .topContainer {
+        margin-top: 24px;
+      }
+      .cardsContainer {
+        padding: 0;
+        justify-content: space-between;
+
+        .cardEnviroment {
+          flex: 0 1 calc(50% - 10px);
+          margin: 0;
+          margin-bottom: 24px;
+          min-width: 150px;
+        }
+      }
+
+      .bannerImages {
+        flex-direction: column;
+        padding: 24px 16px;
+        gap: 40px;
+
+        .leftContainer {
+          width: 100%;
+          height: auto;
+
+          img {
+            width: 100%;
+            height: auto;
+          }
+        }
+
+        .rightContainer {
+          width: 100%;
+          height: auto;
+        }
+      }
+
+      .descriptions {
+        flex-direction: column;
+        height: 760px;
+        gap: 40px;
+
+        .leftContainer {
+          width: 100%;
+          min-height: 300px;
+        }
+
+        .rightContainer {
+          width: 100%;
+          min-height: 300px;
+        }
       }
     }
   }
