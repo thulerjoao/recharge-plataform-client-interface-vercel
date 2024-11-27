@@ -1,3 +1,4 @@
+import { Theme } from "@4miga/design-system/theme/theme";
 import styled from "styled-components";
 
 export const ResellerContainer = styled.div`
@@ -31,6 +32,49 @@ export const ResellerContainer = styled.div`
       margin-bottom: 24px;
     }
   }
+
+  .fixRecharge {
+    height: 18px;
+    position: relative;
+    width: 100%;
+    margin-bottom: 120px;
+    margin-top: 60px;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+
+    .fixText {
+      position: relative;
+      cursor: pointer;
+
+      .ball {
+        position: absolute;
+        background-color: ${Theme.colors.refused};
+        border-radius: 9px;
+        min-width: 18px;
+        height: 18px;
+        padding: 0 3px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        right: -8px;
+        top: -18px;
+      }
+    }
+  }
+
+  /* <div className="fixRecharge">
+        <span className="fixText">
+          <Text underline align="end" fontName="REGULAR">
+            Corrigir recarga não concluída
+          </Text>
+          <span className="ball">
+            <Text color={Theme.colors.maindark} fontName="SMALL_SEMI_BOLD">
+              3
+            </Text>
+          </span>
+        </span>
+      </div> */
 
   @media (min-width: 540px) and (max-width: 1024px) {
   }
