@@ -41,24 +41,26 @@ const Page = ({ params }: Props) => {
           </section>
         )}
         <section className="rechargeDatas">
-          <Input
-            placeholder="Insira o ID de usuário"
-            margin="0 0 24px 0"
-            height={48}
-            title="Id do usuário *"
-          />
-          <Input
-            placeholder="Insira o e-mail do usuário"
-            margin="0 0 24px 0"
-            height={48}
-            title="E-mail do usuário"
-          />
-          <Input
-            placeholder="Telefone do usuário"
-            margin="0 0 24px 0"
-            height={48}
-            title="Telefone do usuário"
-          />
+          <div className="inputsContainer">
+            <Input
+              placeholder="Insira o ID de usuário"
+              margin="0 0 24px 0"
+              height={48}
+              title="Id do usuário *"
+            />
+            <Input
+              placeholder="Insira o e-mail do usuário"
+              margin="0 0 24px 0"
+              height={48}
+              title="E-mail do usuário"
+            />
+            <Input
+              placeholder="Telefone do usuário"
+              margin="0 0 24px 0"
+              height={48}
+              title="Telefone do usuário"
+            />
+          </div>
           <div className="bottomContainer">
             <Text align="center" fontName="REGULAR_SEMI_BOLD">
               Selecione o Pacote para Recarga
