@@ -40,7 +40,7 @@ export const ResellerContainer = styled.div`
     }
 
     .cardsContainer {
-      padding: 0 14px;
+      padding: 0;
       box-sizing: border-box;
 
       .cardEnviroment {
