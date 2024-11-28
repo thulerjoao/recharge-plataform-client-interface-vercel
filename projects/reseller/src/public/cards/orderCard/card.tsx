@@ -13,9 +13,11 @@ interface OrderCardProps {
   packageName: string;
   paymentStatus: "approved";
   rechargeStatus: "processing";
+  pushTo: string;
 }
 
 const OrderCard = ({
+  pushTo,
   image,
   orderNumber,
   clientName,
@@ -43,7 +45,7 @@ const OrderCard = ({
   };
 
   return (
-    <OrderCardContainer onClick={() => route.push(`/sales/${orderNumber}`)}>
+    <OrderCardContainer onClick={() => route.push(pushTo)}>
       {(device === "desktop" || device === "tablet") && (
         <Image src={image} alt="Imagem do jogo" />
       )}

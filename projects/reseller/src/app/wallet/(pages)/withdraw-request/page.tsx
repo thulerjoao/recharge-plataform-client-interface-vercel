@@ -1,28 +1,27 @@
+"use client";
+
 import { useDevice } from "context/deviceContext";
 import OrderCard from "public/cards/orderCard/card";
+import DefaultHeader from "public/components/defaultHeader";
 import HeaderEnviroment from "public/components/headerEnviroment";
-import HeaderSearch from "public/components/headerSearch";
-import MobileSecondaryMenu from "public/components/mobileSecondaryMenu";
 import Pagination from "public/components/pagination";
-import SalesTitles from "../common/components/salesTiltes";
-import Card1 from "../common/temp/Card1.png";
-import Card2 from "../common/temp/Card2.png";
-import { SalesContainer } from "./style";
+import { WithDrawRequestContainer } from "./style";
+import Card1 from "./temp/Card1.png";
+import Card2 from "./temp/Card2.png";
 
-const Sales = () => {
+const WithDrawRequest = () => {
   const { device } = useDevice();
 
   return (
-    <SalesContainer>
+    <WithDrawRequestContainer>
       {(device === "desktop" || device === "tablet") && (
-        <>
-          <HeaderEnviroment>
-            <HeaderSearch />
-          </HeaderEnviroment>
-          <SalesTitles />
-        </>
+        <HeaderEnviroment>
+          <DefaultHeader backWard title="SOLICITAÇÕES DE SAQUE" />
+        </HeaderEnviroment>
       )}
-      {device === "mobile" && <MobileSecondaryMenu title="VENDAS" />}
+      {device === "mobile" && (
+        <DefaultHeader backWard title="SOLICITAÇÕES DE SAQUE" />
+      )}
       <div className="cards">
         <OrderCard
           image={Card1}
@@ -31,7 +30,7 @@ const Sales = () => {
           packageName="Bigo 3000 Diamantes"
           paymentStatus="approved"
           rechargeStatus="processing"
-          pushTo={`/sales/${123456}`}
+          pushTo={`/wallet/withdraw-request/${123456}`}
         />
         <OrderCard
           image={Card2}
@@ -40,7 +39,7 @@ const Sales = () => {
           packageName="Farlight 84 5000 diamantes"
           paymentStatus="approved"
           rechargeStatus="processing"
-          pushTo={`/sales/${898989}`}
+          pushTo={`/wallet/withdraw-request/${898989}`}
         />
         <OrderCard
           image={Card1}
@@ -49,7 +48,7 @@ const Sales = () => {
           packageName="Bigo 3000 Diamantes"
           paymentStatus="approved"
           rechargeStatus="processing"
-          pushTo={`/sales/${123456}`}
+          pushTo={`/wallet/withdraw-request/${123456}`}
         />
         <OrderCard
           image={Card2}
@@ -58,7 +57,7 @@ const Sales = () => {
           packageName="Farlight 84 5000 diamantes"
           paymentStatus="approved"
           rechargeStatus="processing"
-          pushTo={`/sales/${898989}`}
+          pushTo={`/wallet/withdraw-request/${898989}`}
         />
         <OrderCard
           image={Card1}
@@ -67,7 +66,7 @@ const Sales = () => {
           packageName="Bigo 3000 Diamantes"
           paymentStatus="approved"
           rechargeStatus="processing"
-          pushTo={`/sales/${123456}`}
+          pushTo={`/wallet/withdraw-request/${123456}`}
         />
         <OrderCard
           image={Card1}
@@ -76,7 +75,7 @@ const Sales = () => {
           packageName="Bigo 3000 Diamantes"
           paymentStatus="approved"
           rechargeStatus="processing"
-          pushTo={`/sales/${123456}`}
+          pushTo={`/wallet/withdraw-request/${123456}`}
         />
         <OrderCard
           image={Card1}
@@ -85,7 +84,7 @@ const Sales = () => {
           packageName="Bigo 3000 Diamantes"
           paymentStatus="approved"
           rechargeStatus="processing"
-          pushTo={`/sales/${123456}`}
+          pushTo={`/wallet/withdraw-request/${123456}`}
         />
         <OrderCard
           image={Card2}
@@ -94,7 +93,7 @@ const Sales = () => {
           packageName="Farlight 84 5000 diamantes"
           paymentStatus="approved"
           rechargeStatus="processing"
-          pushTo={`/sales/${898989}`}
+          pushTo={`/wallet/withdraw-request/${898989}`}
         />
         <OrderCard
           image={Card2}
@@ -103,7 +102,7 @@ const Sales = () => {
           packageName="Farlight 84 5000 diamantes"
           paymentStatus="approved"
           rechargeStatus="processing"
-          pushTo={`/sales/${898989}`}
+          pushTo={`/wallet/withdraw-request/${898989}`}
         />
         <OrderCard
           image={Card1}
@@ -112,12 +111,12 @@ const Sales = () => {
           packageName="Bigo 3000 Diamantes"
           paymentStatus="approved"
           rechargeStatus="processing"
-          pushTo={`/sales/${123456}`}
+          pushTo={`/wallet/withdraw-request/${123456}`}
         />
       </div>
       <Pagination />
-    </SalesContainer>
+    </WithDrawRequestContainer>
   );
 };
 
-export default Sales;
+export default WithDrawRequest;
