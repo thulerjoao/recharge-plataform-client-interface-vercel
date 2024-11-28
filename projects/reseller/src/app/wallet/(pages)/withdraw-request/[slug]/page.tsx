@@ -1,13 +1,15 @@
 "use client";
 
-import Button from "@4miga/design-system/components/button";
 import Text from "@4miga/design-system/components/Text";
 import { Theme } from "@4miga/design-system/theme/theme";
 import { useDevice } from "context/deviceContext";
 import Image from "next/image";
 import DefaultHeader from "public/components/defaultHeader";
 import HeaderEnviroment from "public/components/headerEnviroment";
-
+import { useState } from "react";
+import Pix from "../icons/Pix.svg";
+import Withdraw from "../icons/Withdraw.svg";
+import receipt from "../temp/receipt.png";
 import { SalesInnerPage } from "./style";
 
 type Props = {
@@ -17,10 +19,8 @@ type Props = {
 };
 
 const Page = ({ params }: Props) => {
-  const handleCheck = () => {
-    return params.slug == "123456" ? 1 : 0;
-  };
   const { device } = useDevice();
+  const [showReceipt, setShowReceipt] = useState<boolean>(true);
 
   return (
     <SalesInnerPage>
@@ -32,150 +32,93 @@ const Page = ({ params }: Props) => {
       {device === "mobile" && (
         <DefaultHeader backWard title="SOLICITAÇÃO DE SAQUE" />
       )}
-      <div className="mainTitle">
-        <Text align="center" fontName="LARGE_MEDIUM">
-          BIGO LIVE
-        </Text>
-      </div>
       <main>
-        <section className="top">
-          <div className="leftTop">
-            {/* <Image src={Card1} alt="Card do jogo" /> */}
-            <Text margin="24px 0 0 0" fontName="SMALL_MEDIUM">
-              Número do pedido
-            </Text>
-            <Text fontName="SMALL_MEDIUM">ID de usuário</Text>
-            <Text fontName="SMALL_MEDIUM">Nome</Text>
-            <Text fontName="SMALL_MEDIUM">E-mail</Text>
-            <Text fontName="SMALL_MEDIUM">Telefone</Text>
+        <section className="topContainer">
+          <div className="topValue">
+            <span>
+              <Withdraw />
+            </span>
+            <div>
+              <Text align="end" fontName="REGULAR_SEMI_BOLD">
+                R$ 10.000,00
+              </Text>
+              <Text
+                align="end"
+                color={Theme.colors.secondaryText}
+                fontName="TINY"
+              >
+                10/10/2024, 11:23
+              </Text>
+            </div>
           </div>
-          <div className="rightTop">
-            <Text tag="h2" align="end" fontName="REGULAR_MEDIUM">
-              Bigo 3000 diamantes
-            </Text>
-            <Text
-              tag="h3"
-              align="end"
-              fontName="TINY"
-              color={Theme.colors.secondaryText}
-            >
-              Hoje, 11:23
-            </Text>
+
+          <div className="orderParams">
+            <Text fontName="SMALL_MEDIUM">Número da solicitação</Text>
             <Text align="end" fontName="SMALL_MEDIUM">
               4321-12345
             </Text>
+          </div>
+          <div className="orderParams">
+            <Text fontName="SMALL_MEDIUM">Saldo para estoque na data</Text>
             <Text align="end" fontName="SMALL_MEDIUM">
-              12345
+              R$ 30.000,00
+            </Text>
+          </div>
+          <div className="orderParams">
+            <Text fontName="SMALL_MEDIUM">
+              Valor disponível para saque na data
             </Text>
             <Text align="end" fontName="SMALL_MEDIUM">
-              Maria Silva Santos
+              R$ 15.000,00
             </Text>
+          </div>
+          <div className="orderParams">
+            <Text fontName="SMALL_MEDIUM">Valor total na carteira na data</Text>
             <Text align="end" fontName="SMALL_MEDIUM">
-              maria_silva@gmail.com
-            </Text>
-            <Text align="end" fontName="SMALL_MEDIUM">
-              (11) 9 9988-9900
+              R$ 50.000,00
             </Text>
           </div>
         </section>
-        <Text margin="24px 0 16px 0" fontName="REGULAR_MEDIUM">
-          Detalhes do pagamento
-        </Text>
-        <section className="medium">
-          <span>{/* <Pix /> */}</span>
-          <section>
-            <div className="leftMedium">
-              <Text fontName="SMALL_MEDIUM">Pix</Text>
-              <Text fontName="TINY" color={Theme.colors.approved}>
-                Pagamento aprovado
+        <section className="mediumContainer">
+          <Text fontName="REGULAR_MEDIUM">Detalhes do pagamento</Text>
+          <div className="paymentSpecs">
+            <span>
+              <Pix />
+            </span>
+            <div className="paymentSpecsText">
+              <Text fontName="SMALL_MEDIUM">Chave Pix: 12.122.122/0001-12</Text>
+              <Text color={Theme.colors.approved} fontName="TINY">
+                Pagamento concluído
               </Text>
             </div>
-            <div className="rightMedium">
+            <div className="paymentSpecsText">
               <Text align="end" fontName="SMALL_SEMI_BOLD">
-                R$ 29,90
+                R$ 10.000,00
               </Text>
               <Text
                 align="end"
-                fontName="TINY"
                 color={Theme.colors.secondaryText}
+                fontName="TINY"
               >
-                Hoje 11:25
+                11/10/2024, 11:25
               </Text>
             </div>
-          </section>
+          </div>
         </section>
-        <Text margin="24px 0 16px 0" fontName="REGULAR_MEDIUM">
-          Detalhes da recarga
-        </Text>
-        <section className="bottom">
-          {/* <Image src={Card3} alt="Imagem do pacote" /> */}
-          <section>
-            <div className="leftMedium">
-              <Text fontName="SMALL_MEDIUM">Bigo Live</Text>
-              <Text
-                fontName="TINY"
-                color={
-                  handleCheck() ? Theme.colors.approved : Theme.colors.refused
-                }
-              >
-                {handleCheck() ? "Recarga realizada" : "Cancelada"}
-              </Text>
-            </div>
-            <div className="rightMedium">
-              <Text align="end" fontName="SMALL_SEMI_BOLD">
-                3000 Diamantes
-              </Text>
-              <Text
-                align="end"
-                fontName="TINY"
-                color={Theme.colors.secondaryText}
-              >
-                Hoje 11:26
-              </Text>
-            </div>
-          </section>
+        <section className="bottomContainer">
+          <Text fontName="REGULAR_MEDIUM">Comprovante de pagamento</Text>
+          <span className="imageContainer">
+            <Image src={receipt} alt="recibo de pagamento" />
+          </span>
         </section>
       </main>
-      {handleCheck() ? (
-        <div className="bottomContainer">
-          <div>
-            <Text
-              nowrap
-              color={Theme.colors.secondaryTextAction}
-              align="end"
-              fontName="SMALL_MEDIUM"
-            >
-              Custo total:
-            </Text>
-            <Text margin="0 0 0 8px" nowrap fontName="SMALL_MEDIUM">
-              R$ 19,32
-            </Text>
-          </div>
-          <div>
-            <Text
-              nowrap
-              color={Theme.colors.secondaryTextAction}
-              align="end"
-              fontName="SMALL_MEDIUM"
-            >
-              Lucro:
-            </Text>
-            <Text margin="0 0 0 8px" nowrap fontName="SMALL_MEDIUM">
-              R$ 10,58
-            </Text>
-          </div>
+      {/* {showReceipt && (
+        <div className="receiptModal">
+          <span className="mainContent">
+            <Image src={receipt} alt="recibo de pagamento" />
+          </span>
         </div>
-      ) : (
-        <span>
-          <Button
-            margin="40px 0 97px 0"
-            width={188}
-            rounded
-            height={40}
-            title="Corrigir recarga"
-          />
-        </span>
-      )}
+      )} */}
     </SalesInnerPage>
   );
 };
