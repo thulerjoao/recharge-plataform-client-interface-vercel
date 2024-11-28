@@ -12,9 +12,9 @@ const ValueCard = ({ title, value }: CardProps) => {
       <Text nowrap fontName="REGULAR_MEDIUM">
         {title}
       </Text>
-      <Text align="end" fontName="REGULAR_MEDIUM">
-        R$ {value.toFixed(2)}
-      </Text>
+      <span>
+        <Text fontName="REGULAR_SEMI_BOLD">R$ {value.toFixed(2)}</Text>
+      </span>
     </ValueCardContainer>
   );
 };
