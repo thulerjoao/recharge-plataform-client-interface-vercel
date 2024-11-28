@@ -41,7 +41,31 @@ export const WalletContainer = styled.div`
   }
 
   @media (min-width: 768px) and (max-width: 1024px) {
+    main {
+      flex-direction: column;
+
+      .leftTopContainer {
+        width: 100%;
+        padding-right: 0;
+      }
+      .rightBottomContainer {
+        width: 100%;
+        padding-left: 0;
+      }
+    }
   }
   @media (max-width: 767px) {
+    main {
+      flex-direction: column;
+
+      .leftTopContainer {
+        width: 100%;
+        padding-right: 0;
+      }
+      .rightBottomContainer {
+        width: 100%;
+        padding-left: 0;
+      }
+    }
   }
 `;

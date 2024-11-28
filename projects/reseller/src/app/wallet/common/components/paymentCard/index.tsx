@@ -18,7 +18,6 @@ const PaymentCard = ({ icon, title, isOn }: CardProps) => {
       <div>
         {<span>{icon}</span>}
         <Text
-          nowrap
           color={Theme.colors.secondaryTextAction}
           fontName="REGULAR_MEDIUM"
         >
