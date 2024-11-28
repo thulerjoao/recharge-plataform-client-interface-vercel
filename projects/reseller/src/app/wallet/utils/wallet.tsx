@@ -2,6 +2,7 @@ import Button from "@4miga/design-system/components/button";
 import Input from "@4miga/design-system/components/input";
 import Text from "@4miga/design-system/components/Text";
 import { useDevice } from "context/deviceContext";
+import { useRouter } from "next/navigation";
 import DefaultHeader from "public/components/defaultHeader";
 import HeaderEnviroment from "public/components/headerEnviroment";
 import PaymentCard from "../common/components/paymentCard";
@@ -18,6 +19,7 @@ import { WalletContainer } from "./style";
 
 const Wallet = () => {
   const { device } = useDevice();
+  const route = useRouter();
 
   return (
     <WalletContainer>
@@ -29,7 +31,10 @@ const Wallet = () => {
       {device === "mobile" && <DefaultHeader backWard title="CARTEIRA" />}
       <main>
         <section className="leftTopContainer">
-          <div className="topOption">
+          <div
+            className="topOption"
+            onClick={() => route.push("/wallet/withdraw-request")}
+          >
             <Text fontName="REGULAR_MEDIUM">Solicitações de saque</Text>
             <span>
               <Forward />

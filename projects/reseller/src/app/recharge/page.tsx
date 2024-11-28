@@ -1,6 +1,6 @@
 "use client";
 
-import Reseller from "./util/sales";
+import Reseller from "./util/recharge";
 
 const Page = () => {
   return <Reseller />;
