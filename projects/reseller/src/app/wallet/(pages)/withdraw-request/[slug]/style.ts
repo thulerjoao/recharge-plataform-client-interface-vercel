@@ -84,33 +84,6 @@ export const SalesInnerPage = styled.div`
     }
   }
 
-  .receiptModal {
-    position: absolute;
-    background-color: pink;
-    height: 100%;
-    width: 100%;
-    left: 0;
-    top: 0;
-    display: flex;
-    justify-content: center;
-
-    .mainContent {
-      background-color: green;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-
-      width: 0;
-
-      image {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-      }
-
-    }
-  }
-
   @media (min-width: 768px) and (max-width: 1024px) {
     main {
       max-width: 100%;
@@ -120,6 +93,57 @@ export const SalesInnerPage = styled.div`
     padding-top: 48px;
 
     main {
+    }
+  }
+`;
+
+export const ReceiptModal = styled.div`
+  background-color: ${Theme.colors.mainTransparent};
+  width: 100%;
+  height: 100%;
+  min-height: 100vh;
+  position: absolute;
+  top: 0;
+  left: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 99;
+
+  div {
+    height: 80%;
+    width: 100%;
+    max-width: 628px;
+    display: flex;
+    justify-content: center;
+    position: relative;
+
+    img {
+      height: 100%;
+      width: auto;
+    }
+
+    .close {
+      position: absolute;
+      right: 0;
+      top: -39px;
+      cursor: pointer;
+    }
+  }
+
+  @media (min-width: 768px) and (max-width: 1024px) {
+  }
+  @media (max-width: 767px) {
+    div {
+      height: 90%;
+
+      .close {
+        position: absolute;
+        right: 0;
+        top: -39px;
+        cursor: pointer;
+        padding: 24px;
+      }
     }
   }
 `;
