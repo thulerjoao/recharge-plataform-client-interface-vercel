@@ -79,6 +79,7 @@ export const SalesInnerPage = styled.div`
         align-items: start;
         overflow: hidden;
         margin-top: 16px;
+        margin-bottom: 16px;
         cursor: pointer;
       }
     }
