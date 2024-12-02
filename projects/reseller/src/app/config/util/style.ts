@@ -8,6 +8,15 @@ export const SettingsPageContainer = styled.div`
   align-items: center;
   padding-top: 64px;
 
+  .buttons {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    justify-content: center;
+    gap: 32px;
+    margin-top: 24px;
+  }
+
   .topContainer {
     display: flex;
     flex-direction: column;
@@ -29,6 +38,26 @@ export const SettingsPageContainer = styled.div`
         width: 100%;
         max-width: 304px;
       }
+    }
+  }
+
+  .secondContainer {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 24px;
+    background-color: ${Theme.colors.maindark};
+    width: 100%;
+    border-radius: 8px;
+    margin-top: 32px;
+
+    .mainBannerImage {
+      width: 100%;
+      height: auto;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      margin-top: 16px;
     }
   }
 
