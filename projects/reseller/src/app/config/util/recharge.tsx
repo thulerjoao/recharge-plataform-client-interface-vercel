@@ -102,22 +102,24 @@ const Settings = () => {
           3/5
         </Text>
         <div className="buttons">
-          <Button
-            style={{ color: "white" }}
-            isNotSelected
-            height={32}
-            width={183}
-            rounded
-            leftElement={<Close />}
-            title="Remover imagem"
-          />
-          <Button
-            height={32}
-            width={181}
-            rounded
-            leftElement={<Camera />}
-            title="Remover imagem"
-          />
+          <span className="buttonEnviroment">
+            <Button
+              style={{ color: "white" }}
+              isNotSelected
+              height={32}
+              rounded
+              leftElement={<Close />}
+              title="Remover imagem"
+            />
+          </span>
+          <span className="buttonEnviroment">
+            <Button
+              height={32}
+              rounded
+              leftElement={<Camera />}
+              title="Remover imagem"
+            />
+          </span>
         </div>
       </section>
       <section className="thirdContainer">
@@ -132,22 +134,24 @@ const Settings = () => {
           <Image src={SecondaryBanner} alt="banner superior" />
         </span>
         <div className="buttons">
-          <Button
-            style={{ color: "white" }}
-            isNotSelected
-            height={32}
-            width={183}
-            rounded
-            leftElement={<Close />}
-            title="Remover imagem"
-          />
-          <Button
-            height={32}
-            width={181}
-            rounded
-            leftElement={<Camera />}
-            title="Remover imagem"
-          />
+          <span className="buttonEnviroment">
+            <Button
+              style={{ color: "white" }}
+              isNotSelected
+              height={32}
+              rounded
+              leftElement={<Close />}
+              title="Remover imagem"
+            />
+          </span>
+          <span className="buttonEnviroment">
+            <Button
+              height={32}
+              rounded
+              leftElement={<Camera />}
+              title="Remover imagem"
+            />
+          </span>
         </div>
       </section>
       <section className="bottomContainer">
@@ -162,22 +166,24 @@ const Settings = () => {
           <Image src={Logo} alt="banner superior" />
         </span>
         <div className="buttons">
-          <Button
-            style={{ color: "white" }}
-            isNotSelected
-            height={32}
-            width={183}
-            rounded
-            leftElement={<Close />}
-            title="Remover imagem"
-          />
-          <Button
-            height={32}
-            width={181}
-            rounded
-            leftElement={<Camera />}
-            title="Remover imagem"
-          />
+          <span className="buttonEnviroment">
+            <Button
+              style={{ color: "white" }}
+              isNotSelected
+              height={32}
+              rounded
+              leftElement={<Close />}
+              title="Remover imagem"
+            />
+          </span>
+          <span className="buttonEnviroment">
+            <Button
+              height={32}
+              rounded
+              leftElement={<Camera />}
+              title="Remover imagem"
+            />
+          </span>
         </div>
       </section>
     </SettingsPageContainer>

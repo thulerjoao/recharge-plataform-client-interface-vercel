@@ -16,6 +16,10 @@ export const SettingsPageContainer = styled.div`
     justify-content: center;
     gap: 32px;
     margin-top: 24px;
+
+    .buttonEnviroment {
+      width: 183px;
+    }
   }
 
   .topContainer {
@@ -23,6 +27,7 @@ export const SettingsPageContainer = styled.div`
     flex-direction: column;
     align-items: center;
     padding: 24px;
+    margin-top: 32px;
     background-color: ${Theme.colors.maindark};
     width: 100%;
     border-radius: 8px;
@@ -61,6 +66,11 @@ export const SettingsPageContainer = styled.div`
       flex-direction: column;
       align-items: center;
       margin-top: 16px;
+
+      img {
+        max-width: 100%;
+        height: auto;
+      }
     }
   }
 
@@ -72,7 +82,43 @@ export const SettingsPageContainer = styled.div`
   }
 
   @media (min-width: 540px) and (max-width: 1024px) {
+    .topContainer {
+      .socialList {
+        flex-direction: column;
+        width: 100%;
+        .cardsEnviroment {
+          max-width: 100%;
+        }
+      }
+    }
   }
   @media (max-width: 539px) {
+    .buttons {
+      flex-direction: column;
+      gap: 16px;
+
+      .buttonEnviroment {
+        width: 100%;
+      }
+    }
+
+    .topContainer {
+      margin-top: 24px;
+      padding: 24px 16px;
+      .socialList {
+        flex-direction: column;
+        width: 100%;
+
+        .cardsEnviroment {
+          max-width: 100%;
+        }
+      }
+    }
+
+    .secondContainer,
+    .thirdContainer,
+    .bottomContainer {
+      padding: 24px 16px;
+    }
   }
 `;
