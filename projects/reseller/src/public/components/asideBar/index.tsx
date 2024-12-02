@@ -45,7 +45,9 @@ const AsideBar = () => {
             className={`menuOption ${handleCheck("home") && "selected"}`}
             style={{ margin: "40px 0 16px 0" }}
           >
-            <span>{handleCheck("home") ? <HomeSelected /> : <Home />}</span>
+            <span className="inconEnviroment">
+              {handleCheck("home") ? <HomeSelected /> : <Home />}
+            </span>
             {device === "desktop" && (
               <Text
                 color={handleCheck("home") && Theme.colors.maindark}
@@ -61,7 +63,9 @@ const AsideBar = () => {
             onClick={() => handleClick("sales")}
             className={`menuOption ${handleCheck("sales") && "selected"}`}
           >
-            <span>{handleCheck("sales") ? <SalesSelected /> : <Sales />}</span>
+            <span className="inconEnviroment">
+              {handleCheck("sales") ? <SalesSelected /> : <Sales />}
+            </span>
             {device === "desktop" && (
               <Text
                 color={handleCheck("sales") && Theme.colors.maindark}
@@ -77,7 +81,7 @@ const AsideBar = () => {
             onClick={() => handleClick("products")}
             className={`menuOption ${handleCheck("products") && "selected"}`}
           >
-            <span>
+            <span className="inconEnviroment">
               {handleCheck("products") ? <ProductsSelected /> : <Products />}
             </span>
             {device === "desktop" && (
@@ -95,7 +99,7 @@ const AsideBar = () => {
             onClick={() => handleClick("recharge")}
             className={`menuOption ${handleCheck("recharge") && "selected"}`}
           >
-            <span>
+            <span className="inconEnviroment">
               {handleCheck("recharge") ? <RechargeSelected /> : <Recharge />}
             </span>
             {device === "desktop" && (
@@ -113,7 +117,7 @@ const AsideBar = () => {
             onClick={() => handleClick("wallet")}
             className={`menuOption ${handleCheck("wallet") && "selected"}`}
           >
-            <span>
+            <span className="inconEnviroment">
               {handleCheck("wallet") ? <WalletSelected /> : <Wallet />}
             </span>
             {device === "desktop" && (
@@ -132,7 +136,9 @@ const AsideBar = () => {
               onClick={() => handleClick("config")}
               className={`menuOption ${handleCheck("config") && "selected"}`}
             >
-              <span>{handleCheck("config") ? <GearSelected /> : <Gear />}</span>
+              <span className="inconEnviroment">
+                {handleCheck("config") ? <GearSelected /> : <Gear />}
+              </span>
               {device === "desktop" && (
                 <Text
                   color={handleCheck("config") && Theme.colors.maindark}
@@ -144,7 +150,7 @@ const AsideBar = () => {
               )}
             </div>
             <div className="menuOption" onClick={() => route.replace("/")}>
-              <span>
+              <span className="inconEnviroment">
                 <Logout />
               </span>
               {device === "desktop" && (

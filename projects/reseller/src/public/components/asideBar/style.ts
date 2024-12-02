@@ -10,6 +10,11 @@ export const AsideBarContainer = styled.div`
   left: 0;
   height: 0;
 
+  .inconEnviroment {
+    display: flex;
+    align-items: center;
+  }
+
   .CenterContent {
     width: 100%;
     max-width: 85.5rem;
