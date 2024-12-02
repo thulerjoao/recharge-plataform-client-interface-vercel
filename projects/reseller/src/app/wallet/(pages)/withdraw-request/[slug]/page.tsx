@@ -7,10 +7,11 @@ import Image from "next/image";
 import DefaultHeader from "public/components/defaultHeader";
 import HeaderEnviroment from "public/components/headerEnviroment";
 import { useState } from "react";
+import Close from "../icons/Close.svg";
 import Pix from "../icons/Pix.svg";
 import Withdraw from "../icons/Withdraw.svg";
 import receipt from "../temp/receipt.png";
-import { SalesInnerPage } from "./style";
+import { ReceiptModal, SalesInnerPage } from "./style";
 
 type Props = {
   params: {
@@ -107,18 +108,25 @@ const Page = ({ params }: Props) => {
         </section>
         <section className="bottomContainer">
           <Text fontName="REGULAR_MEDIUM">Comprovante de pagamento</Text>
-          <span className="imageContainer">
+          <span onClick={() => setShowReceipt(true)} className="imageContainer">
             <Image src={receipt} alt="recibo de pagamento" />
           </span>
         </section>
       </main>
-      {/* {showReceipt && (
-        <div className="receiptModal">
-          <span className="mainContent">
-            <Image src={receipt} alt="recibo de pagamento" />
-          </span>
-        </div>
-      )} */}
+      {showReceipt && (
+        <ReceiptModal onClick={() => setShowReceipt(false)}>
+          <div>
+            <Image
+              onClick={(e) => e.stopPropagation()}
+              src={receipt}
+              alt="recibo de pagamento"
+            />
+            <span className="close">
+              <Close />
+            </span>
+          </div>
+        </ReceiptModal>
+      )}
     </SalesInnerPage>
   );
 };

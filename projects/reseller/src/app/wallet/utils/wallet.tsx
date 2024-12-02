@@ -63,7 +63,10 @@ const Wallet = () => {
           </div>
         </section>
         <section className="rightBottomContainer">
-          <div className="topOption">
+          <div
+            className="topOption"
+            onClick={() => route.push("/wallet/new-request")}
+          >
             <Text fontName="REGULAR_MEDIUM">Novo saque</Text>
             <span>
               <Forward />
