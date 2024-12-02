@@ -63,19 +63,6 @@ export const ResellerContainer = styled.div`
     }
   }
 
-  /* <div className="fixRecharge">
-        <span className="fixText">
-          <Text underline align="end" fontName="REGULAR">
-            Corrigir recarga não concluída
-          </Text>
-          <span className="ball">
-            <Text color={Theme.colors.maindark} fontName="SMALL_SEMI_BOLD">
-              3
-            </Text>
-          </span>
-        </span>
-      </div> */
-
   @media (min-width: 540px) and (max-width: 1024px) {
   }
   @media (max-width: 539px) {

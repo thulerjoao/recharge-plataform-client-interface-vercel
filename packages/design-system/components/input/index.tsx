@@ -20,6 +20,7 @@ interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
   maxCharacters?: number;
   text?: string;
   title?: string;
+  titleIcon?: ReactElement;
   margin?: string;
   padding?: string;
 }
@@ -33,6 +34,7 @@ const Input: React.FC<InputProps> = ({
   height,
   text,
   title,
+  titleIcon,
   margin,
   padding,
   ...props
@@ -51,13 +53,12 @@ const Input: React.FC<InputProps> = ({
     >
       <ExternalComponent margin={margin}>
         {title && (
-          <Text
-            margin="0 0 8px 16px"
-            fontName="SMALL_MEDIUM"
-            color={Theme.colors.mainlight}
-          >
-            {title}
-          </Text>
+          <div className="titleContainer">
+            {titleIcon && <span>{titleIcon}</span>}
+            <Text fontName="SMALL_MEDIUM" color={Theme.colors.mainlight}>
+              {title}
+            </Text>
+          </div>
         )}
         {leftElement && <LeftElement>{leftElement}</LeftElement>}
         {rightElement && <RightElement>{rightElement}</RightElement>}

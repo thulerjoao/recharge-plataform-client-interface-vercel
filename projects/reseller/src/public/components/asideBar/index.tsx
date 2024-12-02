@@ -139,7 +139,7 @@ const AsideBar = () => {
                   margin="0 0 0 16px"
                   fontName="REGULAR_SEMI_BOLD"
                 >
-                  CARTEIRA
+                  CONFIGURAÇÕES
                 </Text>
               )}
             </div>

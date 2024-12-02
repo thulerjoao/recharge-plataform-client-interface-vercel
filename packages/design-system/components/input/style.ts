@@ -37,6 +37,20 @@ export const ExternalComponent = styled.div<ExternalProps>`
   width: 100%;
   height: auto;
   ${({ margin }) => `margin: ${margin}`};
+
+  .titleContainer {
+    display: flex;
+    align-items: center;
+    margin-bottom: 6px;
+
+    padding-left: 16px;
+
+    svg {
+      margin-right: 10px;
+      height: 16px;
+      width: 16px;
+    }
+  }
 `;
 
 export const LeftElement = styled.div`
