@@ -7,6 +7,7 @@ export const SettingsPageContainer = styled.div`
   flex-direction: column;
   align-items: center;
   padding-top: 64px;
+  padding-bottom: 56px;
 
   .buttons {
     display: flex;
@@ -41,7 +42,9 @@ export const SettingsPageContainer = styled.div`
     }
   }
 
-  .secondContainer {
+  .secondContainer,
+  .thirdContainer,
+  .bottomContainer {
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -58,6 +61,13 @@ export const SettingsPageContainer = styled.div`
       flex-direction: column;
       align-items: center;
       margin-top: 16px;
+    }
+  }
+
+  .bottomContainer {
+    .mainBannerImage {
+      margin-top: 40px;
+      margin-bottom: 24px;
     }
   }
 

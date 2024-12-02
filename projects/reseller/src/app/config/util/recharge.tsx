@@ -13,7 +13,9 @@ import Facebook from "../common/icons/Facebook.svg";
 import Instagram from "../common/icons/Instagram.svg";
 import Tiktok from "../common/icons/TikTok.svg";
 import Wpp from "../common/icons/Wpp.svg";
+import Logo from "../common/temp/Logo.png";
 import MainBanner from "../common/temp/MainBanner.png";
+import SecondaryBanner from "../common/temp/SeconderyBanner.png";
 import { SettingsPageContainer } from "./style";
 
 const Settings = () => {
@@ -118,7 +120,66 @@ const Settings = () => {
           />
         </div>
       </section>
-      <section className="thirdContainer"></section>
+      <section className="thirdContainer">
+        <Text align="center" fontName="REGULAR_SEMI_BOLD">
+          BANNER INFERIOR PÁGINA HOME
+        </Text>
+        <Text margin="16px 0 0 0" align="center" fontName="TINY_MEDIUM">
+          A imagem deve estar no formato .png, .jpg ou .jpeg, ter uma resolução
+          mínima de 1280 x 540 e uma proporção de 21:9
+        </Text>
+        <span className="mainBannerImage">
+          <Image src={SecondaryBanner} alt="banner superior" />
+        </span>
+        <div className="buttons">
+          <Button
+            style={{ color: "white" }}
+            isNotSelected
+            height={32}
+            width={183}
+            rounded
+            leftElement={<Close />}
+            title="Remover imagem"
+          />
+          <Button
+            height={32}
+            width={181}
+            rounded
+            leftElement={<Camera />}
+            title="Remover imagem"
+          />
+        </div>
+      </section>
+      <section className="bottomContainer">
+        <Text align="center" fontName="REGULAR_SEMI_BOLD">
+          LOGO
+        </Text>
+        <Text margin="16px 0 0 0" align="center" fontName="TINY_MEDIUM">
+          O logo deve estar no formato .png e ter uma resolução mínima de 720 x
+          480
+        </Text>
+        <span className="mainBannerImage">
+          <Image src={Logo} alt="banner superior" />
+        </span>
+        <div className="buttons">
+          <Button
+            style={{ color: "white" }}
+            isNotSelected
+            height={32}
+            width={183}
+            rounded
+            leftElement={<Close />}
+            title="Remover imagem"
+          />
+          <Button
+            height={32}
+            width={181}
+            rounded
+            leftElement={<Camera />}
+            title="Remover imagem"
+          />
+        </div>
+      </section>
     </SettingsPageContainer>
   );
 };
