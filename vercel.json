@@ -1,0 +1,24 @@
+{
+  "projects": [
+    {
+      "name": "store",
+      "path": "projects/store"
+    },
+    {
+      "name": "reseller",
+      "path": "projects/reseller"
+    }
+  ],
+  "redirects": [
+    {
+      "source": "/store/(.*)",
+      "destination": "/projects/store/$1",
+      "permanent": true
+    },
+    {
+      "source": "/reseller/(.*)",
+      "destination": "/projects/reseller/$1",
+      "permanent": true
+    }
+  ]
+}
