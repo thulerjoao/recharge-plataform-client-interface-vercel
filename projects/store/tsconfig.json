@@ -1,0 +1,19 @@
+{
+  "extends": "@4miga/tsconfig-commons/base.json",
+  "include": [
+    "next-env.d.ts",
+    ".next/types/**/*.ts",
+    "**/*.ts",
+    "**/*.tsx",
+    "src/app/404.js"
+  ],
+  "compilerOptions": {
+    "plugins": [
+      {
+        "name": "next"
+      }
+    ],
+    "forceConsistentCasingInFileNames": true,
+    "baseUrl": "src"
+  }
+}

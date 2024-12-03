@@ -8,12 +8,17 @@
     ]
   },
   "scripts": {
-    "web-public": "yarn workspace @4miga/web-public",
-    "dev:web-public": "yarn web-public dev",
-    "build:web-public": "yarn web-public build",
-    "start": "yarn web-public start",
     "lint": "yarn workspaces run lint",
-    "lint:web-public": "yarn web-public lint",
+    "store": "yarn workspace @4miga/store",
+    "dev:store": "yarn store dev",
+    "build:store": "yarn store build",
+    "start:store": "yarn store start",
+    "lint:store": "yarn store lint",
+    "reseller": "yarn workspace @4miga/reseller",
+    "dev:reseller": "yarn reseller dev",
+    "build:reseller": "yarn reseller build",
+    "start:reseller": "yarn reseller start",
+    "lint:reseller": "yarn reseller lint",
     "services": "yarn workspace @4miga/services",
     "test:services": "yarn services test",
     "design-system": "yarn workspace @4miga/design-system",
@@ -22,7 +27,7 @@
   },
   "dependencies": {
     "styled-components": "6.1.8",
-    "react-input-mask" : "2.0.4"
+    "react-input-mask": "2.0.4"
   },
   "devDependencies": {
     "@svgr/webpack": "8.1.0",

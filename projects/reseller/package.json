@@ -1,0 +1,33 @@
+{
+  "name": "@4miga/reseller",
+  "version": "1.0.0",
+  "main": "index.js",
+  "license": "MIT",
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "test": "jest",
+    "lint": "eslint ./src/app/**/*.{ts,tsx}"
+  },
+  "dependencies": {
+    "dayjs": "1.11.13",
+    "next": "^14.2.13",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
+    "react-calendar":"5.1.0",
+    "@mui/x-date-pickers":"7.22.2",
+    "@mui/material":"6.1.6",
+    "@emotion/react":"11.13.3",
+    "@emotion/styled":"11.13.0",
+
+    "@4miga/design-system": "*",
+    "@4miga/services": "*"
+  },
+  "devDependencies": {
+
+    "@4miga/test-commons": "*",
+    "@4miga/tsconfig-commons": "*",
+    "@4miga/eslint-commons": "*"
+  }
+}

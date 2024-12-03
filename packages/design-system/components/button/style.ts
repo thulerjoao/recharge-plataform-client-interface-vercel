@@ -13,7 +13,7 @@ interface ButtonInputProps {
 
 export const ButtonInput = styled.button<ButtonInputProps>`
   color: ${({ isNotSelected }) =>
-    isNotSelected ? Theme.colors.mainlight : Theme.colors.mainBbackgroundSolid};
+    isNotSelected ? Theme.colors.maindark : Theme.colors.mainBbackgroundSolid};
   user-select: none;
   font-size: ${({ height }) => (height >= 40 ? "16px;" : "14px;")};
   font-weight: 600;
@@ -49,4 +49,12 @@ export const Spinner = styled.div`
   height: 18px;
   margin-left: 0px;
   animation: ${spin} 0.8s linear infinite;
+`;
+
+export const LeftElement = styled.div`
+  width: auto;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  margin-right: 8px;
 `;
