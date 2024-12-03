@@ -31,6 +31,11 @@ const Page = ({ params }: Props) => {
         </HeaderEnviroment>
       )}
       {device === "mobile" && <DefaultHeader backWard title="RECARREGAR" />}
+      {(device === "mobile" || device === "tablet") && (
+        <Text margin="24px 0 24px 0" align="center" fontName="LARGE_MEDIUM">
+          BIGO LIVE
+        </Text>
+      )}
       <main>
         {device === "desktop" && (
           <section className="bannerContainer">
@@ -67,7 +72,7 @@ const Page = ({ params }: Props) => {
             </Text>
             <section className="cardsList">
               <div
-                onClick={() => route.push(`/recharge/${params.slug}/731263932`)}
+                // onClick={() => route.push(`/recharge/${params.slug}/731263932`)}
                 className="cardEnviroment"
               >
                 <PackageCard
@@ -78,7 +83,7 @@ const Page = ({ params }: Props) => {
                 />
               </div>
               <div
-                onClick={() => route.push(`/recharge/${params.slug}/731263932`)}
+                // onClick={() => route.push(`/recharge/${params.slug}/731263932`)}
                 className="cardEnviroment"
               >
                 <PackageCard
@@ -89,7 +94,7 @@ const Page = ({ params }: Props) => {
                 />
               </div>
               <div
-                onClick={() => route.push(`/recharge/${params.slug}/731263932`)}
+                // onClick={() => route.push(`/recharge/${params.slug}/731263932`)}
                 className="cardEnviroment"
               >
                 <PackageCard
@@ -100,7 +105,7 @@ const Page = ({ params }: Props) => {
                 />
               </div>
               <div
-                onClick={() => route.push(`/recharge/${params.slug}/731263932`)}
+                // onClick={() => route.push(`/recharge/${params.slug}/731263932`)}
                 className="cardEnviroment"
               >
                 <PackageCard
@@ -111,7 +116,7 @@ const Page = ({ params }: Props) => {
                 />
               </div>
               <div
-                onClick={() => route.push(`/recharge/${params.slug}/731263932`)}
+                // onClick={() => route.push(`/recharge/${params.slug}/731263932`)}
                 className="cardEnviroment"
               >
                 <PackageCard
@@ -122,7 +127,7 @@ const Page = ({ params }: Props) => {
                 />
               </div>
               <div
-                onClick={() => route.push(`/recharge/${params.slug}/731263932`)}
+                // onClick={() => route.push(`/recharge/${params.slug}/731263932`)}
                 className="cardEnviroment"
               >
                 <PackageCard

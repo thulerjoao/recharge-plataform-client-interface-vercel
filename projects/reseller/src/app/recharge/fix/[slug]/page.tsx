@@ -33,6 +33,11 @@ const Page = ({ params }: Props) => {
       {device === "mobile" && (
         <DefaultHeader backWard title="Corrigir recarga" />
       )}
+      {(device === "mobile" || device === "tablet") && (
+        <Text margin="24px 0 24px 0" align="center" fontName="LARGE_MEDIUM">
+          BIGO LIVE
+        </Text>
+      )}
       <main>
         {device === "desktop" && (
           <section className="bannerContainer">
