@@ -70,7 +70,6 @@ export const MobileMenuContainer = styled.div<Props>`
     cursor: pointer;
   }
   .bottomOptions {
-    margin-top: 84px;
     width: 100%;
     margin-bottom: 16px;
     height: 128px;
