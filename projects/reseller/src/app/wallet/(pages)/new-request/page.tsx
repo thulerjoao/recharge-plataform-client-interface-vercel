@@ -23,7 +23,7 @@ const Page = ({ params }: Props) => {
           <DefaultHeader backWard title="NOVO SAQUE" />
         </HeaderEnviroment>
       )}
-      {device === "mobile" && <DefaultHeader backWard title="NOVO SAQQUE" />}
+      {device === "mobile" && <DefaultHeader backWard title="NOVO SAQUE" />}
       <main>
         <div className="availableValue">
           <Text fontName="REGULAR_MEDIUM">SALDO PARA ESTOQUE</Text>
