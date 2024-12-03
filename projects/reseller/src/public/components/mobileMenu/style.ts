@@ -9,8 +9,7 @@ interface Props {
 export const MobileMenuContainer = styled.div<Props>`
   width: 100%;
   max-width: 100%;
-  min-height: ${({ openMenu }) => openMenu && "100vh"};
-  max-height: ${({ openMenu }) => openMenu && "100vh"};
+  height: 100vh;
   animation: ${({ openMenu }) => openMenu && expand} 0.5s forwards;
   background-color: ${Theme.colors.maindark};
   padding: 0 16px;
