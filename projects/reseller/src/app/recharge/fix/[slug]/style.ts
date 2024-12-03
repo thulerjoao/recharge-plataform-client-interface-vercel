@@ -45,6 +45,8 @@ export const FixRechargePage = styled.div`
     }
   }
   @media (max-width: 767px) {
+    padding-top: 64px;
+
     main {
       .rechargeDatas {
         .inputsContainer {
