@@ -47,7 +47,7 @@ const LoginModal = ({
   // }, [loginModal]);
 
   const closeModal = () => {
-    setLoginModal(false);
+    setLoginModal && setLoginModal(false);
   };
 
   const handleBackward = () => {
