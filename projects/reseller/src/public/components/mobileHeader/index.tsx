@@ -19,7 +19,12 @@ const MobiletHeader = ({ search }: Props) => {
 
   return (
     <MobileHeaderContainer openMenu={openMenu}>
-      <section className="topCompoennt">
+      <section
+        className="topCompoennt"
+        onClick={() => {
+          openMenu && setOpenMenu(false);
+        }}
+      >
         <span onClick={() => scrollToTop()}>
           <Logo />
         </span>

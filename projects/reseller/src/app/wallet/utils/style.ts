@@ -98,6 +98,7 @@ export const WalletContainer = styled.div`
     padding-top: 64px;
 
     main {
+      margin-top: 24px;
       .topContainer {
         flex-direction: column;
         gap: 24px;

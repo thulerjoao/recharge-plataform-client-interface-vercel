@@ -42,10 +42,11 @@ export const NewRequestPageContainer = styled.div`
     }
   }
   @media (max-width: 767px) {
-    padding-top: 48px;
+    padding-top: 64px;
 
     main {
       padding: 24px 16px;
+      margin-top: 24px;
       .availableValue {
         height: 88px;
         flex-direction: column;

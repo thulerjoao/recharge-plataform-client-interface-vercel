@@ -115,7 +115,7 @@ export const SalesInnerPage = styled.div`
     }
   }
   @media (max-width: 767px) {
-    padding-top: 48px;
+    padding-top: 64px;
 
     .mainTitle {
       margin-top: 24px;
