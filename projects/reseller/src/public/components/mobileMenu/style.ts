@@ -73,7 +73,7 @@ export const MobileMenuContainer = styled.div<Props>`
     bottom: 0;
     left: 0;
     width: 100%;
-    margin-bottom: 16px;
+    margin-bottom: 48px;
     padding: 0 16px;
     height: 128px;
     ${({ openSearch }) => !openSearch && "position: absolute"};
