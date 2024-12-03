@@ -30,7 +30,7 @@ const Wallet = () => {
       )}
       {device === "mobile" && <DefaultHeader backWard title="CARTEIRA" />}
       <main>
-        <section className="leftTopContainer">
+        <section className="topContainer">
           <div
             className="topOption"
             onClick={() => route.push("/wallet/withdraw-request")}
@@ -40,29 +40,6 @@ const Wallet = () => {
               <Forward />
             </span>
           </div>
-          <div className="bottomContainer">
-            <Text
-              margin="0 0 24px 0"
-              align="center"
-              fontName="REGULAR_SEMI_BOLD"
-            >
-              VALORES
-            </Text>
-            <ValueCard title="SALDO PARA ESTOQUE" value={40000} />
-            <ValueCard title="VALOR DISPONÍVEL PARA SAQUE" value={12000} />
-            <ValueCard title="VALOR TOTAL VENDIDO" value={21000} />
-            <ValueCard title="TOTAL NA CARTEIRA" value={73000} />
-            <ValueCard title="VALOR MÍNIMO PARA SAQUE" value={5000} />
-            <Input
-              value={"10.204.300/0001-10"}
-              margin="40px 0 24px 0"
-              height={48}
-              title="Chave PIX"
-            />
-            <Button rounded width={199} height={40} title="Alterar chave PIX" />
-          </div>
-        </section>
-        <section className="rightBottomContainer">
           <div
             className="topOption"
             onClick={() => route.push("/wallet/new-request")}
@@ -72,7 +49,39 @@ const Wallet = () => {
               <Forward />
             </span>
           </div>
-          <div className="bottomContainer">
+        </section>
+        <section className="bottomContainer">
+          <div className="leftTopContainer">
+            <div className="inner">
+              <Text
+                margin="0 0 24px 0"
+                align="center"
+                fontName="REGULAR_SEMI_BOLD"
+              >
+                VALORES
+              </Text>
+              <ValueCard title="SALDO PARA ESTOQUE" value={40000} />
+              <ValueCard title="VALOR DISPONÍVEL PARA SAQUE" value={12000} />
+              <ValueCard title="VALOR TOTAL VENDIDO" value={21000} />
+              <ValueCard title="TOTAL NA CARTEIRA" value={73000} />
+              <ValueCard title="VALOR MÍNIMO PARA SAQUE" value={5000} />
+            </div>
+            <div className="pixKey">
+              <Input
+                value={"10.204.300/0001-10"}
+                height={48}
+                title="Chave PIX"
+              />
+              <Button
+                margin="24px 0 0 0"
+                rounded
+                width={199}
+                height={40}
+                title="Alterar chave PIX"
+              />
+            </div>
+          </div>
+          <div className="rightBottomContainer">
             <Text
               margin="0 0 24px 0"
               align="center"
@@ -87,7 +96,13 @@ const Wallet = () => {
             <PaymentCard title="AME" icon={<Ame />} isOn />
             <PaymentCard title="BOLETO" icon={<Boleto />} isOn />
             <PaymentCard title="TRANSFERÊNCIA" icon={<Transfer />} isOn />
-            <Button rounded width={197} height={40} title="Salvar alterações" />
+            <Button
+              margin="16px 0 0 0"
+              rounded
+              width={197}
+              height={40}
+              title="Salvar alterações"
+            />
           </div>
         </section>
       </main>
