@@ -159,8 +159,29 @@ const MobileMenu = ({ search, openMenu, setOpenMenu }: Props) => {
           CARTEIRA
         </Text>
       </div>
+      <div
+        onClick={() => handleClick("config")}
+        className={`menuOption ${handleCheck("config") && "selected"}`}
+      >
+        <span>{handleCheck("config") ? <GearSelected /> : <Gear />}</span>
 
-      <div className="bottomOptions">
+        <Text
+          color={handleCheck("config") && Theme.colors.maindark}
+          margin="0 0 0 16px"
+          fontName="REGULAR_SEMI_BOLD"
+        >
+          CONFIGURAÇÕES
+        </Text>
+      </div>
+      <div className="menuOption" onClick={() => route.replace("/")}>
+        <span>
+          <Logout />
+        </span>
+        <Text margin="0 0 0 16px" fontName="REGULAR_SEMI_BOLD">
+          SAIR
+        </Text>
+      </div>
+      {/* <div className="bottomOptions">
         <div
           onClick={() => handleClick("config")}
           className={`menuOption ${handleCheck("config") && "selected"}`}
@@ -183,7 +204,7 @@ const MobileMenu = ({ search, openMenu, setOpenMenu }: Props) => {
             SAIR
           </Text>
         </div>
-      </div>
+      </div> */}
     </MobileMenuContainer>
   );
 };
