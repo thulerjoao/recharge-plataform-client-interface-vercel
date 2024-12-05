@@ -39,7 +39,15 @@ const AsideBar = () => {
     <AsideBarContainer>
       <section className="CenterContent">
         <aside className="mainContent">
-          {device === "desktop" ? <LogoDesktop /> : <LogoTablet />}
+          {device === "desktop" ? (
+            <span onClick={() => route.push("/home")}>
+              <LogoDesktop />
+            </span>
+          ) : (
+            <span onClick={() => route.push("/home")}>
+              <LogoTablet />
+            </span>
+          )}
           <div
             onClick={() => handleClick("home")}
             className={`menuOption ${handleCheck("home") && "selected"}`}
