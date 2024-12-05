@@ -17,15 +17,14 @@ const MobiletHeader = ({ search }: Props) => {
 
   useDisableScroll({ isOpen: openMenu });
 
+  const handleBarClick = () => {
+    openMenu ? setOpenMenu(false) : scrollToTop();
+  };
+
   return (
     <MobileHeaderContainer openMenu={openMenu}>
-      <section
-        className="topCompoennt"
-        onClick={() => {
-          openMenu && setOpenMenu(false);
-        }}
-      >
-        <span onClick={() => scrollToTop()}>
+      <section className="topCompoennt" onClick={() => handleBarClick()}>
+        <span onClick={() => route.push("/home")}>
           <Logo />
         </span>
         <span
