@@ -16,7 +16,7 @@ export const SearchComponentContainer = styled.div`
     margin-bottom: 16px;
     cursor: pointer;
   }
-
+  
   .innerList {
     width: 100%;
     padding: 0 32px;
@@ -29,6 +29,7 @@ export const SearchComponentContainer = styled.div`
       align-items: center;
       justify-content: space-between;
       margin-bottom: 16px;
+      height: 24px;
       cursor: pointer;
     }
   }
