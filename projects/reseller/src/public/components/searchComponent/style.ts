@@ -1,4 +1,3 @@
-import { Theme } from "@4miga/design-system/theme/theme";
 import styled from "styled-components";
 
 export const SearchComponentContainer = styled.div`
@@ -16,7 +15,7 @@ export const SearchComponentContainer = styled.div`
     margin-bottom: 16px;
     cursor: pointer;
   }
-  
+
   .innerList {
     width: 100%;
     padding: 0 32px;

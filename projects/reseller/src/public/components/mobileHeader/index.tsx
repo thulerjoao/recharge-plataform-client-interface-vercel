@@ -13,16 +13,16 @@ interface Props {
 
 const MobiletHeader = ({ search }: Props) => {
   const route = useRouter();
-  const [openMenu, setOpenMenu] = useState<boolean>(false);
+  const [openmenu, setOpenmenu] = useState<boolean>(false);
 
-  useDisableScroll({ isOpen: openMenu });
+  useDisableScroll({ isOpen: openmenu });
 
   const handleBarClick = () => {
-    openMenu ? setOpenMenu(false) : scrollToTop();
+    openmenu ? setOpenmenu(false) : scrollToTop();
   };
 
   return (
-    <MobileHeaderContainer openMenu={openMenu}>
+    <MobileHeaderContainer openMenu={openmenu}>
       <section className="topCompoennt" onClick={() => handleBarClick()}>
         <span onClick={() => route.push("/home")}>
           <Logo />
@@ -30,17 +30,17 @@ const MobiletHeader = ({ search }: Props) => {
         <span
           onClick={(event) => {
             event.preventDefault();
-            setOpenMenu(!openMenu);
+            setOpenmenu(!openmenu);
           }}
         >
           <Menu />
         </span>
       </section>
-      {openMenu && (
+      {openmenu && (
         <MobileMenu
           search={search}
-          openMenu={openMenu}
-          setOpenMenu={setOpenMenu}
+          openMenu={openmenu}
+          setOpenMenu={setOpenmenu}
         />
       )}
     </MobileHeaderContainer>
