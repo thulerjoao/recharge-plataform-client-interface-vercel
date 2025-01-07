@@ -1,4 +1,3 @@
-/* eslint-disable jest/expect-expect */
 import axios from "axios";
 import MockAdapter from "axios-mock-adapter";
 import {
@@ -10,24 +9,26 @@ import {
 } from "./connection";
 
 describe("Connection API", () => {
-  let mock: MockAdapter;
+  let mockAxios: MockAdapter;
 
   beforeEach(() => {
-    mock = new MockAdapter(axios);
+    mockAxios = new MockAdapter(axios);
   });
 
   afterEach(() => {
-    mock.restore();
+    mockAxios.restore();
   });
 
-  const url = "/test";
+  const mockUrl = "http://mocked-url/api";
 
   it("should successfully perform a GET request", async () => {
     const responseData = { data: "success" };
+    const spyAxios = jest.spyOn(axios, "get");
 
-    mock.onGet(url).reply(200, "success");
+    mockAxios.onGet(mockUrl).reply(200, "success");
 
-    const result = await connectionAPIGet<typeof responseData>(url);
+    const result = await connectionAPIGet<typeof responseData>(mockUrl);
+    console.log(result);
     expect(result).toEqual(responseData);
   });
 
@@ -35,10 +36,10 @@ describe("Connection API", () => {
     const requestBody = { name: "test" };
     const responseData = { id: 1, ...requestBody };
 
-    mock.onPost(url).reply(201, responseData);
+    mockAxios.onPost(mockUrl).reply(201, responseData);
 
     const result = await connectionAPIPost<typeof responseData>(
-      url,
+      mockUrl,
       requestBody,
     );
 
@@ -49,10 +50,10 @@ describe("Connection API", () => {
     const requestBody = { name: "Updated test" };
     const responseData = { id: 1, ...requestBody };
 
-    mock.onPut(url).reply(200, responseData);
+    mockAxios.onPut(mockUrl).reply(200, responseData);
 
     const result = await connectionAPIPut<typeof responseData>(
-      url,
+      mockUrl,
       requestBody,
     );
 
@@ -63,10 +64,10 @@ describe("Connection API", () => {
     const requestBody = { name: "Partial update" };
     const responseData = { id: 1, ...requestBody };
 
-    mock.onPut(url).reply(200, responseData);
+    mockAxios.onPut(mockUrl).reply(200, responseData);
 
     const result = await connectionAPIPatch<typeof responseData>(
-      url,
+      mockUrl,
       requestBody,
     );
 
@@ -74,19 +75,21 @@ describe("Connection API", () => {
   });
 
   it("should handle a delete request", async () => {
-    mock.onDelete(url).reply(204);
+    mockAxios.onDelete(mockUrl).reply(204);
 
-    const result = await connectionAPIDelete<null>(url);
+    const result = await connectionAPIDelete<null>(mockUrl);
     expect(result).toBeNull();
   });
 
   it("should throw an error for unauthorized access", async () => {
-    mock.onGet(url).reply(401);
-    await expect(connectionAPIGet(url)).rejects.toThrow("Acesso negado");
+    mockAxios.onGet(mockUrl).reply(401);
+    await expect(connectionAPIGet(mockUrl)).rejects.toThrow("Acesso negado");
   });
 
   it("should throw a generic error for other status codes", async () => {
-    mock.onGet(url).reply(500);
-    await expect(connectionAPIGet(url)).rejects.toThrow("Falha ao carregar");
+    mockAxios.onGet(mockUrl).reply(500);
+    await expect(connectionAPIGet(mockUrl)).rejects.toThrow(
+      "Falha ao carregar",
+    );
   });
 });
