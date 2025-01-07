@@ -1,4 +1,7 @@
 import styled from "styled-components";
+import "swiper/css";
+import "swiper/css/navigation";
+import "swiper/css/pagination";
 
 export const HomeContainer = styled.div`
   width: 100%;
@@ -8,12 +11,12 @@ export const HomeContainer = styled.div`
   justify-content: flex-start;
   height: auto;
 
-  .mainBanner {
-    margin-top: 32px;
-    width: 100%;
-    max-width: 696px;
-    object-fit: contain;
-    height: auto;
+  .slide {
+    max-width: 50rem;
+
+    .slidePic {
+      background-color: green;
+    }
   }
 
   main {
@@ -45,17 +48,8 @@ export const HomeContainer = styled.div`
   }
 
   @media (min-width: 540px) and (max-width: 1024px) {
-    .mainBanner {
-      margin-top: 0px;
-      max-width: 100%;
-      padding: 0 24px;
-    }
   }
   @media (max-width: 539px) {
-    .mainBanner {
-      margin-top: 0px;
-      max-width: 100%;
-    }
     main {
       .cardsContainer {
         padding: 0 14px;

@@ -16,6 +16,10 @@ const config: Config.InitialOptions = {
     moduleNameMapper: {
       '^axios$': require.resolve('axios'),
     },
+    testMatch: [
+      '**/__tests__/**/*.[jt]s?(x)',
+      '**/?(*.)+(spec|test).[tj]s?(x)',
+    ],
 }
 export default config
 

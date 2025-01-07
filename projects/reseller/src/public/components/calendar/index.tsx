@@ -11,8 +11,14 @@ const CalendarComponent = () => {
         height: "280px",
         backgroundColor: "black",
         marginBottom: "16px",
+        color: "white ",
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center",
       }}
-    />
+    >
+      calendar selector
+    </div>
   );
 };
 
