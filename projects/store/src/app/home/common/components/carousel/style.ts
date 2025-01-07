@@ -6,7 +6,7 @@ import "swiper/css/pagination";
 
 export const SwiperContainer = styled.div`
   width: 100%;
-  max-width: 800px;
+  max-width: 696px;
   margin: 0 auto;
 
   .swiper {
@@ -18,12 +18,9 @@ export const SwiperContainer = styled.div`
     display: flex;
     justify-content: center;
     align-items: center;
-    font-size: 1.5rem;
-    font-weight: bold;
-    border-radius: 10px;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    color: #333;
     margin-top: 32px;
+    width: auto;
 
     .mainBanner {
       cursor: pointer;
@@ -45,6 +42,7 @@ export const SwiperContainer = styled.div`
   }
 
   @media (min-width: 540px) and (max-width: 1024px) {
+    max-width: 744px;
     .swiper-slide {
       margin-top: 0px;
       .mainBanner {
@@ -55,6 +53,7 @@ export const SwiperContainer = styled.div`
   }
 
   @media (max-width: 539px) {
+    max-width: 100%;
     .swiper-slide {
       margin-top: 0px;
       .mainBanner {
