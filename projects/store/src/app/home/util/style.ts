@@ -1,4 +1,7 @@
 import styled from "styled-components";
+import "swiper/css";
+import "swiper/css/navigation";
+import "swiper/css/pagination";
 
 export const HomeContainer = styled.div`
   width: 100%;
@@ -7,6 +10,14 @@ export const HomeContainer = styled.div`
   align-items: center;
   justify-content: flex-start;
   height: auto;
+
+  .slide {
+    max-width: 50rem;
+
+    .slidePic {
+      background-color: green;
+    }
+  }
 
   .mainBanner {
     margin-top: 32px;
