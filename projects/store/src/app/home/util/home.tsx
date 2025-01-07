@@ -1,7 +1,7 @@
 "use client";
 
 import Text from "@4miga/design-system/components/Text";
-import Carousel from "app/common/carousel/carousel";
+import Carousel from "app/home/common/components/carousel/carousel";
 import Image from "next/image";
 import BottomOffer from "public/components/bottomOffer/bottomOffer";
 import SecurityAdvertise from "public/components/securityAdvertise/securityAdvertise";
@@ -19,8 +19,7 @@ import { HomeContainer } from "./style";
 const Home = () => {
   return (
     <HomeContainer>
-      <Carousel />
-      <Image className="mainBanner" src={mainBanner} alt="main banner" />
+      <Carousel imagesList={[mainBanner, mainBanner, mainBanner]} />
       <Lines />
       <main>
         <Text
