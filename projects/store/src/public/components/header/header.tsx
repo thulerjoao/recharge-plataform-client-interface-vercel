@@ -4,7 +4,7 @@ import Button from "@4miga/design-system/components/button";
 import LoginModal from "@4miga/design-system/components/loginModal";
 import Text from "@4miga/design-system/components/Text";
 import { useAuth } from "contexts/auth";
-import { baseUrl } from "globalConfig/baseUrl";
+import { baseUrl } from "service/baseUrl";
 import { useRouter } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
 import Exit from "./icons/Exit.svg";

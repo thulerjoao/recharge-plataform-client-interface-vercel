@@ -1,7 +1,6 @@
 "use client";
 
 import { connectionAPIGet } from "@4miga/services/connectionAPI/connection";
-import { baseUrl } from "service/baseUrl";
 import { useRouter } from "next/navigation";
 import {
   createContext,
@@ -10,7 +9,8 @@ import {
   useEffect,
   useState,
 } from "react";
-import { UserType } from "types/interfaces";
+import { baseUrl } from "service/baseUrl";
+import { UserType } from "types/globalTypes";
 
 interface AuthProviderProps {
   children: ReactNode;

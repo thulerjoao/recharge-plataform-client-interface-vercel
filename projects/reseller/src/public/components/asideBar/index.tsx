@@ -2,7 +2,7 @@ import Text from "@4miga/design-system/components/Text";
 import { Theme } from "@4miga/design-system/theme/theme";
 import { useDevice } from "context/deviceContext";
 import { usePathname, useRouter } from "next/navigation";
-import { AsideSelected } from "types/interfaces";
+import { AsideSelected } from "types/globalTypes";
 import Gear from "./icons/Gear.svg";
 import GearSelected from "./icons/GearSelected.svg";
 import Home from "./icons/Home.svg";
