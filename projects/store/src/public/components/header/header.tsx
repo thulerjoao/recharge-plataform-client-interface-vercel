@@ -1,12 +1,11 @@
 "use client";
 
 import Button from "@4miga/design-system/components/button";
-import LoginModal from "@4miga/design-system/components/loginModal";
 import Text from "@4miga/design-system/components/Text";
 import { useAuth } from "contexts/auth";
-import { baseUrl } from "service/baseUrl";
 import { useRouter } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
+import LoginModal from "../loginModal";
 import Exit from "./icons/Exit.svg";
 import HeaderLogo from "./icons/HeaderLogo.svg";
 import Product from "./icons/Products.svg";
@@ -17,7 +16,7 @@ const Header = () => {
   const [loginModal, setLoginModal] = useState<boolean>(false);
   const [openInNewAccount, setOpenInNewAccount] = useState<boolean>(false);
   const [openMenu, setOpenMenu] = useState<boolean>(false);
-  const { logged, handleLogout, handleLogin } = useAuth();
+  const { logged, logout, login } = useAuth();
   const route = useRouter();
   const modalRef = useRef(null);
 
@@ -95,7 +94,7 @@ const Header = () => {
             </div>
             <div
               onClick={() => {
-                handleLogout();
+                logout();
                 route.push("/home");
                 setOpenMenu(false);
               }}
@@ -110,9 +109,7 @@ const Header = () => {
       </div>
       {loginModal && (
         <LoginModal
-          handleLogin={handleLogin}
           openInNewAccount={openInNewAccount}
-          loginModal={loginModal}
           setLoginModal={setLoginModal}
         />
       )}

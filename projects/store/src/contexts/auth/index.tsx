@@ -11,16 +11,10 @@ import {
 } from "react";
 import { baseUrl } from "service/baseUrl";
 
-import { UserType } from "types/globalTypes";
+import { loginParams, UserType } from "types/globalTypes";
 
 interface AuthProviderProps {
   children: ReactNode;
-}
-
-interface loginParams {
-  token: string;
-  user: UserType;
-  isChecked: Boolean;
 }
 
 interface AuthProviderData {
@@ -34,7 +28,7 @@ const AuthContext = createContext<AuthProviderData>({} as AuthProviderData);
 
 export const AuthProvider = ({ children }: AuthProviderProps) => {
   const route = useRouter();
-  const [logged, setLogged] = useState<boolean>(true);
+  const [logged, setLogged] = useState<boolean>(false);
   const [userStorage, setUserStorage] = useState<UserType>({
     id: "",
     name: "",
