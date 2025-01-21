@@ -1,11 +1,12 @@
 "use client";
 
 import Button from "@4miga/design-system/components/button";
+import LoginModal from "@4miga/design-system/components/loginModal";
 import Text from "@4miga/design-system/components/Text";
 import { useAuth } from "contexts/auth";
+import { baseUrl } from "globalConfig/baseUrl";
 import { useRouter } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
-import LoginModal from "@4miga/design-system/components/loginModal";
 import Exit from "./icons/Exit.svg";
 import HeaderLogo from "./icons/HeaderLogo.svg";
 import Product from "./icons/Products.svg";

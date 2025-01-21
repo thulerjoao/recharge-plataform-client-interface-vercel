@@ -3,7 +3,7 @@ import Text from "@4miga/design-system/components/Text";
 import { Theme } from "@4miga/design-system/theme/theme";
 import { usePathname, useRouter } from "next/navigation";
 import React, { useState } from "react";
-import { AsideSelected } from "types/asideMenu.types";
+import { AsideSelected } from "types/interfaces";
 import Gear from "../asideBar/icons/Gear.svg";
 import GearSelected from "../asideBar/icons/GearSelected.svg";
 import Home from "../asideBar/icons/Home.svg";
