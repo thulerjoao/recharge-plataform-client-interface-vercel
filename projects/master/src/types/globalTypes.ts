@@ -4,7 +4,7 @@ export type AsideSelected =
   | "home"
   | "sales"
   | "products"
-  | "recharge"
+  | "resellers"
   | "wallet"
   | "config";
 

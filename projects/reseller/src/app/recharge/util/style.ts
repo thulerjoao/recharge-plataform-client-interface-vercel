@@ -1,7 +1,7 @@
 import { Theme } from "@4miga/design-system/theme/theme";
 import styled from "styled-components";
 
-export const ResellerContainer = styled.div`
+export const RechargeContainer = styled.div`
   width: 100%;
   display: flex;
   flex-direction: column;
