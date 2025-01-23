@@ -11,8 +11,8 @@ import HomeSelected from "../asideBar/icons/HomeSelected.svg";
 import Logout from "../asideBar/icons/Logout.svg";
 import Products from "../asideBar/icons/Products.svg";
 import ProductsSelected from "../asideBar/icons/ProductsSelected.svg";
-import Recharge from "../asideBar/icons/Recharge.svg";
-import RechargeSelected from "../asideBar/icons/RechargeSelected.svg";
+import Resellers from "../asideBar/icons/Resellers.svg";
+import ResellersSelected from "../asideBar/icons/ResellersSelected.svg";
 import Sales from "../asideBar/icons/Sales.svg";
 import SalesSelected from "../asideBar/icons/SalesSelected.svg";
 import Wallet from "../asideBar/icons/Wallet.svg";
@@ -133,7 +133,7 @@ const MobileMenu = ({ search, openMenu, setOpenMenu }: Props) => {
         className={`menuOption ${handleCheck("recharge") && "selected"}`}
       >
         <span>
-          {handleCheck("recharge") ? <RechargeSelected /> : <Recharge />}
+          {handleCheck("recharge") ? <ResellersSelected /> : <Resellers />}
         </span>
 
         <Text

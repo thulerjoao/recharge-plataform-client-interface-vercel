@@ -9,6 +9,8 @@ export const ProductsPageContainer = styled.div`
 
   .mainTitle {
     margin-top: 48px;
+    background-color: pink;
+    height: 19.2px;
   }
 
   .cardsContainer {

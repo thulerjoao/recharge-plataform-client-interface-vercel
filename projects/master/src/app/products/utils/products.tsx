@@ -24,9 +24,9 @@ const ProductsPage = () => {
       )}
       {device === "mobile" && <DefaultHeader backWard title="PRODUTOS" />}
       <div className="mainTitle">
-        <Text align="center" fontName="REGULAR_SEMI_BOLD">
+        {/* <Text align="center" fontName="REGULAR_SEMI_BOLD">
           CONFIGURE SEUS PRODUTOS
-        </Text>
+        </Text> */}
       </div>
       <main className="cardsContainer">
         <div

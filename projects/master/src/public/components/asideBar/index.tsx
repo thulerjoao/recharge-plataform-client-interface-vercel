@@ -12,8 +12,8 @@ import LogoTablet from "./icons/LogoTablet.svg";
 import Logout from "./icons/Logout.svg";
 import Products from "./icons/Products.svg";
 import ProductsSelected from "./icons/ProductsSelected.svg";
-import Recharge from "./icons/Recharge.svg";
-import RechargeSelected from "./icons/RechargeSelected.svg";
+import Resellers from "./icons/Resellers.svg";
+import ResellersSelected from "./icons/ResellersSelected.svg";
 import Sales from "./icons/Sales.svg";
 import SalesSelected from "./icons/SalesSelected.svg";
 import Wallet from "./icons/Wallet.svg";
@@ -108,7 +108,7 @@ const AsideBar = () => {
             className={`menuOption ${handleCheck("recharge") && "selected"}`}
           >
             <span className="inconEnviroment">
-              {handleCheck("recharge") ? <RechargeSelected /> : <Recharge />}
+              {handleCheck("recharge") ? <ResellersSelected /> : <Resellers />}
             </span>
             {device === "desktop" && (
               <Text
@@ -116,7 +116,7 @@ const AsideBar = () => {
                 margin="0 0 0 16px"
                 fontName="REGULAR_SEMI_BOLD"
               >
-                RECARREGAR
+                REVENDEDORES
               </Text>
             )}
           </div>

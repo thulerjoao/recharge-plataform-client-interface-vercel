@@ -46,23 +46,29 @@ export const ProductsInnerPage = styled.div`
       border-radius: 8px;
       background-color: ${Theme.colors.maindark};
       padding: 24px;
-      gap: 24px;
       display: flex;
+      justify-content: center;
 
-      .leftContainer {
-        width: 50%;
-        height: 100%;
+      .centerComponent {
         display: flex;
-        flex-direction: column;
+        justify-content: space-between;
         align-items: center;
-      }
+        width: 100%;
+        max-width: 770px;
 
-      .rightContainer {
-        width: 50%;
-        height: 100%;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
+        .leftContainer {
+          height: 100%;
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+        }
+
+        .rightContainer {
+          height: 100%;
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+        }
       }
     }
 
@@ -70,6 +76,7 @@ export const ProductsInnerPage = styled.div`
       width: 100%;
       height: 320px;
       margin-top: 32px;
+      margin-bottom: 72px;
       padding: 24px;
       gap: 24px;
       display: flex;
@@ -152,14 +159,19 @@ export const ProductsInnerPage = styled.div`
         flex-direction: column;
         gap: 40px;
 
-        .leftContainer {
-          width: 100%;
-          height: auto;
-        }
+        .centerComponent {
+          flex-direction: column;
 
-        .rightContainer {
-          width: 100%;
-          height: auto;
+          .leftContainer {
+            width: 100%;
+            height: auto;
+          }
+
+          .rightContainer {
+            width: 100%;
+            height: auto;
+            margin-top: 24px;
+          }
         }
       }
 
@@ -204,13 +216,21 @@ export const ProductsInnerPage = styled.div`
         padding: 24px 16px;
         gap: 40px;
 
-        .leftContainer {
-          width: 100%;
-          height: auto;
+        .centerComponent {
+          flex-direction: column;
 
           img {
+            max-width: 100%;
+          }
+          .leftContainer {
             width: 100%;
             height: auto;
+          }
+
+          .rightContainer {
+            width: 100%;
+            height: auto;
+            margin-top: 24px;
           }
         }
 
