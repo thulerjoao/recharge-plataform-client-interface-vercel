@@ -1,28 +1,32 @@
 import axios, { AxiosInstance } from "axios";
 
-const Api: AxiosInstance = axios.create({
-  baseURL: "http://192.168.1.107:3333/",
-});
+const createApiInstance = (baseURL: string): AxiosInstance => {
+  const api = axios.create({
+    baseURL,
+  });
 
-Api.interceptors.request.use(async (config: any) => {
-  try {
-    const getToken = async () => {
-      return sessionStorage.getItem("token");
-    };
-    const token = await getToken();
+  api.interceptors.request.use(async (config: any) => {
+    try {
+      const getToken = async () => {
+        return sessionStorage.getItem("token");
+      };
+      const token = await getToken();
 
-    if (token) {
-      config.headers.Authorization = `Bearer ${token}`;
-      config.headers.contentType = "application/json";
+      if (token) {
+        config.headers.Authorization = `Bearer ${token}`;
+        config.headers.contentType = "application/json";
+      }
+
+      return config;
+    } catch (error) {
+      /* empty */
     }
+  });
 
-    return config;
-  } catch (error) {
-    /* empty */
-  }
-});
+  return api;
+};
 
-export default Api;
+export default createApiInstance;
 
 // type Body = {
 //   accessToken?: string

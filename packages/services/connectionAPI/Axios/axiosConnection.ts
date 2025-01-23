@@ -8,16 +8,18 @@ export default class ConnectionAPI {
     url: string,
     method: MethodType,
     body?: unknown,
+    baseUrl?: string,
   ): Promise<T> {
+    const apiInstance = Api(baseUrl);
     switch (method) {
       case MethodEnum.DELETE:
       case MethodEnum.GET:
-        return (await Api[method]<T>(url)).data;
+        return (await apiInstance[method]<T>(url)).data;
       case MethodEnum.POST:
       case MethodEnum.PUT:
       case MethodEnum.PATCH:
       default:
-        return (await Api[method]<T>(url, body)).data;
+        return (await apiInstance[method]<T>(url, body)).data;
     }
   }
 
@@ -25,8 +27,9 @@ export default class ConnectionAPI {
     url: string,
     method: MethodType,
     body?: unknown,
+    baseUrl?: string,
   ): Promise<T> {
-    return this.call<T>(url, method, body).catch((error) => {
+    return this.call<T>(url, method, body, baseUrl).catch((error) => {
       if (error.response) {
         switch (error.response.status) {
           case 401:
