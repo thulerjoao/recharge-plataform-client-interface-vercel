@@ -1,20 +1,17 @@
 "use client";
 
-import Button from "@4miga/design-system/components/button";
 import Text from "@4miga/design-system/components/Text";
+import { useDevice } from "context/deviceContext";
 import Image from "next/image";
+import { useRouter } from "next/navigation";
 import PackageCard from "public/cards/packageCard/card";
 import DefaultHeader from "public/components/defaultHeader";
 import HeaderEnviroment from "public/components/headerEnviroment";
 import { useEffect, useState } from "react";
-import CameraIcon from "../common/icons/CameraIcon.svg";
-import Pen from "../common/icons/Pen.svg";
 import BigoBanner from "../common/temp/BigoBanner.png";
 import BigoCard1 from "../common/temp/BigoCard.png";
 import BigoCard from "../common/temp/bigoCard.svg";
 import { ProductsInnerPage } from "./style";
-import { useRouter } from "next/navigation";
-import { useDevice } from "context/deviceContext";
 
 type Props = {
   params: {
@@ -147,49 +144,33 @@ const Page = ({ params }: Props) => {
           </div>
         </section>
         <section className="bannerImages">
-          <div className="leftContainer">
-            <Text align="center" fontName="REGULAR_SEMI_BOLD">
-              IMAGEM DO BANNER DO PRODUTO
-            </Text>
-            <Text margin="16PX 0 16px 0" align="center" fontName="TINY_MEDIUM">
-              A imagem deve estar no formato .png, .jpg ou .jpeg, ter uma
-              resolução mínima de 1280 x 540 e uma proporção de 21:9
-            </Text>
-            <Image src={BigoBanner} alt="Imagem de banner" />
-            <Button
-              leftElement={<CameraIcon />}
-              rounded
-              margin="24px 0 0 0"
-              height={32}
-              width={181}
-              title="Atualizar imagem"
-            />
-          </div>
+          <div className="centerComponent">
+            <div className="leftContainer">
+              <Text
+                margin="0PX 0 16px 0"
+                align="center"
+                fontName="REGULAR_SEMI_BOLD"
+              >
+                IMAGEM DO BANNER DO PRODUTO
+              </Text>
 
-          <div className="rightContainer">
-            <Text align="center" fontName="REGULAR_SEMI_BOLD">
-              IMAGEM DO CARD
-            </Text>
-            <Text margin="16PX 0 16px 0" align="center" fontName="TINY_MEDIUM">
-              A imagem deve estar no formato .png, .jpg ou .jpeg, ter uma
-              resolução mínima de 720 x 720 e uma proporção de 1:1
-            </Text>
-            <Image src={BigoCard1} alt="Imagem de card" />
-            <Button
-              leftElement={<CameraIcon />}
-              rounded
-              margin="24px 0 0 0"
-              height={32}
-              width={181}
-              title="Atualizar imagem"
-            />
+              <Image src={BigoBanner} alt="Imagem de banner" />
+            </div>
+            <div className="rightContainer">
+              <Text
+                margin="0PX 0 16px 0"
+                align="center"
+                fontName="REGULAR_SEMI_BOLD"
+              >
+                IMAGEM DO CARD
+              </Text>
+
+              <Image src={BigoCard1} alt="Imagem de card" />
+            </div>
           </div>
         </section>
         <section className="descriptions">
           <div className="leftContainer">
-            <span className="pen">
-              <Pen />
-            </span>
             <Text fontName="REGULAR_SEMI_BOLD">SOBRE BIGO LIVE</Text>
             <textarea
               value={aboutProduct}
@@ -198,9 +179,6 @@ const Page = ({ params }: Props) => {
             />
           </div>
           <div className="rightContainer">
-            <span className="pen">
-              <Pen />
-            </span>
             <Text fontName="REGULAR_SEMI_BOLD">INSTRUÇÕES</Text>
             <textarea
               value={instructions}
@@ -209,15 +187,6 @@ const Page = ({ params }: Props) => {
             />
           </div>
         </section>
-        <Button
-          rounded
-          isNotSelected={!ischanged}
-          disabled={!ischanged}
-          margin="8px 0 72px 0"
-          height={40}
-          width={197}
-          title="Salvar alterações"
-        />
       </main>
     </ProductsInnerPage>
   );
