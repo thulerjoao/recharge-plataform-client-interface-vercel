@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 "use client";
 
 import { connectionAPIGet } from "@4miga/services/connectionAPI/connection";
