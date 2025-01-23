@@ -11,14 +11,14 @@ import Card3 from "../common/temp/Card3.png";
 import Card4 from "../common/temp/Card4.png";
 import Card5 from "../common/temp/Card5.png";
 import Card6 from "../common/temp/Card6.png";
-import { ResellerContainer } from "./style";
+import { RechargeContainer } from "./style";
 
 const Reseller = () => {
   const { device } = useDevice();
   const route = useRouter();
 
   return (
-    <ResellerContainer>
+    <RechargeContainer>
       {(device === "desktop" || device === "tablet") && (
         <HeaderEnviroment>
           <DefaultHeader backWard title="RECARGA" />
@@ -88,7 +88,7 @@ const Reseller = () => {
           </span>
         </span>
       </div>
-    </ResellerContainer>
+    </RechargeContainer>
   );
 };
 

@@ -129,15 +129,15 @@ const MobileMenu = ({ search, openMenu, setOpenMenu }: Props) => {
       </div>
 
       <div
-        onClick={() => handleClick("recharge")}
-        className={`menuOption ${handleCheck("recharge") && "selected"}`}
+        onClick={() => handleClick("resellers")}
+        className={`menuOption ${handleCheck("resellers") && "selected"}`}
       >
         <span>
-          {handleCheck("recharge") ? <ResellersSelected /> : <Resellers />}
+          {handleCheck("resellers") ? <ResellersSelected /> : <Resellers />}
         </span>
 
         <Text
-          color={handleCheck("recharge") && Theme.colors.maindark}
+          color={handleCheck("resellers") && Theme.colors.maindark}
           margin="0 0 0 16px"
           fontName="REGULAR_SEMI_BOLD"
         >
