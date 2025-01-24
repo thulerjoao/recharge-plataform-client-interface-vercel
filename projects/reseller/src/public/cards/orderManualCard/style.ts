@@ -1,9 +1,9 @@
 import { Theme } from "@4miga/design-system/theme/theme";
 import styled from "styled-components";
 
-interface OrderCardProps {}
+interface OrderManualCardProps {}
 
-export const OrderCardContainer = styled.article<OrderCardProps>`
+export const OrderManualCardContainer = styled.article<OrderManualCardProps>`
   height: 64px;
   background-color: ${Theme.colors.maindark};
   margin-bottom: 16px;
@@ -92,8 +92,8 @@ export const OrderCardContainer = styled.article<OrderCardProps>`
 
   .seeMore {
     position: absolute;
+    left: 0;
     width: 100%;
     bottom: 12px;
-    left: 0;
   }
 `;

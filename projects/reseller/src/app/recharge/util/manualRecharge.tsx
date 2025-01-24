@@ -1,123 +1,123 @@
 import { useDevice } from "context/deviceContext";
-import OrderCard from "public/cards/orderCard/card";
+import ManualOrderCard from "public/cards/orderManualCard/card";
 import HeaderEnviroment from "public/components/headerEnviroment";
 import HeaderSearch from "public/components/headerSearch";
 import MobileSecondaryMenu from "public/components/mobileSecondaryMenu";
 import Pagination from "public/components/pagination";
-import SalesTitles from "../common/components/salesTiltes";
+import ManualRechargeTitles from "../common/components/salesTiltes";
 import Card1 from "../common/temp/Card1.png";
 import Card2 from "../common/temp/Card2.png";
-import { SalesContainer } from "./style";
+import { ManualRechargeContainer } from "./style";
 
-const Sales = () => {
+const ManualRecharge = () => {
   const { device } = useDevice();
 
   return (
-    <SalesContainer>
+    <ManualRechargeContainer>
       {(device === "desktop" || device === "tablet") && (
         <>
           <HeaderEnviroment>
-            <HeaderSearch title="vendas" />
+            <HeaderSearch title="RECARGAS" />
           </HeaderEnviroment>
-          <SalesTitles />
+          <ManualRechargeTitles />
         </>
       )}
-      {device === "mobile" && <MobileSecondaryMenu title="VENDAS" />}
+      {device === "mobile" && <MobileSecondaryMenu title="RECARGAS MANUAIS" />}
       <div className="cards">
-        <OrderCard
+        <ManualOrderCard
           image={Card1}
           orderNumber={123456}
-          clientName="Maria Luiza Silva Santos"
+          orderDate="Hoje, 11:23"
           packageName="Bigo 3000 Diamantes"
-          paymentStatus="approved"
+          plataform="Bigo Live"
           rechargeStatus="processing"
           pushTo={`/sales/${123456}`}
         />
-        <OrderCard
+        <ManualOrderCard
           image={Card2}
           orderNumber={898989}
-          clientName="Luiz Santos Silva"
+          orderDate="Hoje, 11:23"
           packageName="Farlight 84 5000 diamantes"
-          paymentStatus="approved"
+          plataform="Bigo Live"
           rechargeStatus="processing"
           pushTo={`/sales/${898989}`}
         />
-        <OrderCard
+        <ManualOrderCard
           image={Card1}
           orderNumber={123456}
-          clientName="Maria Luiza Silva Santos"
+          orderDate="Hoje, 11:23"
           packageName="Bigo 3000 Diamantes"
-          paymentStatus="approved"
+          plataform="Bigo Live"
           rechargeStatus="processing"
           pushTo={`/sales/${123456}`}
         />
-        <OrderCard
+        <ManualOrderCard
           image={Card2}
           orderNumber={898989}
-          clientName="Luiz Santos Silva"
+          plataform="Bigo Live"
           packageName="Farlight 84 5000 diamantes"
-          paymentStatus="approved"
-          rechargeStatus="processing"
+          orderDate="Hoje, 11:23"
+          rechargeStatus="approved"
           pushTo={`/sales/${898989}`}
         />
-        <OrderCard
+        <ManualOrderCard
           image={Card1}
           orderNumber={123456}
-          clientName="Maria Luiza Silva Santos"
+          orderDate="Hoje, 11:23"
           packageName="Bigo 3000 Diamantes"
-          paymentStatus="approved"
-          rechargeStatus="processing"
+          plataform="Bigo Live"
+          rechargeStatus="approved"
           pushTo={`/sales/${123456}`}
         />
-        <OrderCard
+        <ManualOrderCard
           image={Card1}
           orderNumber={123456}
-          clientName="Maria Luiza Silva Santos"
+          orderDate="Hoje, 11:23"
           packageName="Bigo 3000 Diamantes"
-          paymentStatus="approved"
-          rechargeStatus="processing"
+          plataform="Bigo Live"
+          rechargeStatus="approved"
           pushTo={`/sales/${123456}`}
         />
-        <OrderCard
+        <ManualOrderCard
           image={Card1}
           orderNumber={123456}
-          clientName="Maria Luiza Silva Santos"
+          orderDate="Hoje, 11:23"
           packageName="Bigo 3000 Diamantes"
-          paymentStatus="approved"
-          rechargeStatus="processing"
+          plataform="Bigo Live"
+          rechargeStatus="approved"
           pushTo={`/sales/${123456}`}
         />
-        <OrderCard
+        <ManualOrderCard
           image={Card2}
           orderNumber={898989}
-          clientName="Luiz Santos Silva"
+          orderDate="Hoje, 11:23"
           packageName="Farlight 84 5000 diamantes"
-          paymentStatus="approved"
-          rechargeStatus="processing"
+          plataform="Bigo Live"
+          rechargeStatus="approved"
           pushTo={`/sales/${898989}`}
         />
-        <OrderCard
+        <ManualOrderCard
           image={Card2}
           orderNumber={898989}
-          clientName="Luiz Santos Silva"
+          orderDate="Hoje, 11:23"
           packageName="Farlight 84 5000 diamantes"
-          paymentStatus="approved"
-          rechargeStatus="processing"
+          plataform="Bigo Live"
+          rechargeStatus="approved"
           pushTo={`/sales/${898989}`}
         />
-        <OrderCard
+        <ManualOrderCard
           image={Card1}
           orderNumber={123456}
-          clientName="Maria Luiza Silva Santos"
+          orderDate="Hoje, 11:23"
           packageName="Bigo 3000 Diamantes"
-          paymentStatus="approved"
-          rechargeStatus="processing"
+          plataform="Bigo Live"
+          rechargeStatus="approved"
           pushTo={`/sales/${123456}`}
         />
       </div>
       <Pagination />
-    </SalesContainer>
+    </ManualRechargeContainer>
   );
 };
 
-export default Sales;
+export default ManualRecharge;

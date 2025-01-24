@@ -8,7 +8,11 @@ import Setting from "./icons/Setting.svg";
 import UpArrow from "./icons/UpArrow.svg";
 import { HeaderSearchContainer } from "./style";
 
-const HeaderSearch = () => {
+interface HeaderSerachProps {
+  title: string;
+}
+
+const HeaderSearch = ({ title }: HeaderSerachProps) => {
   const [openModal, setOpenModal] = useState<boolean>(false);
 
   const handleOpenOrClose = () => {
@@ -18,7 +22,7 @@ const HeaderSearch = () => {
   return (
     <HeaderSearchContainer>
       <div className="headerTitle">
-        <Text fontName="LARGE_SEMI_BOLD">VENDAS</Text>
+        <Text fontName="LARGE_SEMI_BOLD">{title.toUpperCase()}</Text>
       </div>
       <div className="searchInput">
         <Input
