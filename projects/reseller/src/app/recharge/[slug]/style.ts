@@ -16,7 +16,7 @@ export const ManualRechargeInnerPage = styled.div`
     background-color: ${Theme.colors.maindark};
     margin-top: 24px;
     width: 100%;
-    max-width: 400px;
+    max-width: 500px;
 
     .top {
       display: flex;
@@ -58,7 +58,7 @@ export const ManualRechargeInnerPage = styled.div`
         border: 2px solid ${Theme.colors.mainHighlight};
         border-radius: 16px;
         width: 100%;
-        max-width: 326px;
+        max-width: 400px;
         cursor: pointer;
 
         span {
@@ -69,11 +69,27 @@ export const ManualRechargeInnerPage = styled.div`
     }
     .confirmButton {
       width: 100%;
-      max-width: 326px;
+      max-width: 400px;
     }
     .seeMore {
       cursor: pointer;
       margin-top: 40px;
+    }
+  }
+
+  @media (min-width: 768px) and (max-width: 1024px) {
+  }
+  @media (max-width: 767px) {
+    main {
+      .copyArea {
+        .newButton {
+          max-width: 100%;
+        }
+      }
+      .confirmButton {
+        width: 100%;
+        max-width: 100%;
+      }
     }
   }
 `;
