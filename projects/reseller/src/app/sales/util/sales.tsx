@@ -17,7 +17,7 @@ const Sales = () => {
       {(device === "desktop" || device === "tablet") && (
         <>
           <HeaderEnviroment>
-            <HeaderSearch />
+            <HeaderSearch title="vendas" />
           </HeaderEnviroment>
           <SalesTitles />
         </>

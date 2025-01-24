@@ -4,48 +4,48 @@ import { useDevice } from "context/deviceContext";
 import Image, { StaticImageData } from "next/image";
 import { useRouter } from "next/navigation";
 import ForwardArrow from ".//icons/ForwardArrow.svg";
-import { OrderCardContainer } from "./style";
+import { OrderManualCardContainer } from "./style";
 
-interface OrderCardProps {
+interface OrderManualCardProps {
   image: StaticImageData;
   orderNumber: number;
-  clientName: string;
+  orderDate: string;
   packageName: string;
-  paymentStatus: "approved";
-  rechargeStatus: "processing";
+  plataform: string;
+  rechargeStatus: "approved" | "processing";
   pushTo: string;
 }
 
-const OrderCard = ({
+const OrderManualCard = ({
   pushTo,
   image,
   orderNumber,
-  clientName,
+  orderDate,
   packageName,
-  paymentStatus,
+  plataform,
   rechargeStatus,
-}: OrderCardProps) => {
+}: OrderManualCardProps) => {
   const route = useRouter();
   const { device } = useDevice();
 
-  const handlePaymentStatus = () => {
-    if (paymentStatus === "approved") return "Aprovado";
-  };
-
-  const handlePaymentStatusColor = () => {
-    if (paymentStatus === "approved") return Theme.colors.approved;
-  };
-
   const handleRechargeStatus = () => {
-    if (rechargeStatus === "processing") return "Processando";
+    if (rechargeStatus === "processing") {
+      return "Pendente";
+    } else {
+      return "Confirmado";
+    }
   };
 
   const handleRechargeStatusColor = () => {
-    if (rechargeStatus === "processing") return Theme.colors.pending;
+    if (rechargeStatus === "processing") {
+      return Theme.colors.pending;
+    } else {
+      return Theme.colors.approved;
+    }
   };
 
   return (
-    <OrderCardContainer onClick={() => route.push(pushTo)}>
+    <OrderManualCardContainer onClick={() => route.push(pushTo)}>
       {(device === "desktop" || device === "tablet") && (
         <Image src={image} alt="Imagem do jogo" />
       )}
@@ -63,16 +63,16 @@ const OrderCard = ({
         <span className="name">
           {device === "mobile" && (
             <Text tag="h3" fontName="SMALL">
-              Cliente
+              Data
             </Text>
           )}
           <Text nowrap align="center" fontName="SMALL">
-            {clientName}
+            {orderDate}
           </Text>
         </span>
-        {(device === "desktop" || device === "tablet") && (
+        {device === "desktop" && (
           <span className="name">
-            <Text nowrap align="center" fontName="SMALL">
+            <Text nowrap align="center" fontName="SMALL_MEDIUM">
               {packageName}
             </Text>
           </span>
@@ -80,16 +80,11 @@ const OrderCard = ({
         <span className="status">
           {device === "mobile" && (
             <Text tag="h3" fontName="SMALL">
-              Pagamento
+              Plataforma
             </Text>
           )}
-          <Text
-            nowrap
-            align="center"
-            color={handlePaymentStatusColor()}
-            fontName="SMALL"
-          >
-            {handlePaymentStatus()}
+          <Text nowrap align="center" fontName="SMALL">
+            {plataform}
           </Text>
         </span>
         <span className="status">
@@ -125,8 +120,8 @@ const OrderCard = ({
           </Text>
         </span>
       )}
-    </OrderCardContainer>
+    </OrderManualCardContainer>
   );
 };
 
-export default OrderCard;
+export default OrderManualCard;

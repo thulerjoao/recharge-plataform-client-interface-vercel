@@ -1,92 +1,94 @@
+import { Theme } from "@4miga/design-system/theme/theme";
 import styled from "styled-components";
 
-export const RechargeInnerPage = styled.div`
-  padding-top: 96px;
+export const ManualRechargeInnerPage = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding-top: 64px;
 
   main {
     display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 16px;
+    border-radius: 8px;
+    background-color: ${Theme.colors.maindark};
+    margin-top: 24px;
     width: 100%;
+    max-width: 500px;
 
-    .bannerContainer {
-      width: 42%;
-      padding-right: 40px;
+    .top {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      height: 72px;
+      width: 100%;
+
       img {
-        max-width: 100%;
-        height: auto;
+        height: 100%;
+        width: auto;
+        border-radius: 8px;
+      }
+
+      .packageInfo {
+        height: 100%;
       }
     }
 
-    .rechargeDatas {
-      width: 58%;
+    .copyArea {
+      width: 100%;
+      margin-top: 24px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
 
-      .inputsContainer {
-        width: 100%;
-      }
-
-      .bottomContainer {
-        margin-top: 40px;
+      .title {
         display: flex;
-        flex-direction: column;
         align-items: center;
         width: 100%;
+        justify-content: space-between;
+      }
 
-        .cardsList {
-          width: 100%;
+      .newButton {
+        margin: 16px 0;
+        display: flex;
+        justify-content: center;
+        height: 32px;
+        border: 2px solid ${Theme.colors.mainHighlight};
+        border-radius: 16px;
+        width: 100%;
+        max-width: 400px;
+        cursor: pointer;
+
+        span {
           display: flex;
-          justify-content: space-between;
           align-items: center;
-          flex-wrap: wrap;
-          margin-top: 24px;
-
-          .cardEnviroment {
-            height: auto;
-            flex: 0 1 calc(33.33% - 16px);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            width: 100%;
-            margin: 0 8px;
-            margin-bottom: 16px;
-          }
         }
       }
+    }
+    .confirmButton {
+      width: 100%;
+      max-width: 400px;
+    }
+    .seeMore {
+      cursor: pointer;
+      margin-top: 40px;
     }
   }
 
   @media (min-width: 768px) and (max-width: 1024px) {
-    main {
-      .rechargeDatas {
-        .inputsContainer {
-        }
-
-        width: 100%;
-        padding: 0 24px;
-      }
-    }
   }
   @media (max-width: 767px) {
-    padding-top: 64px;
-
     main {
-      .rechargeDatas {
-        .inputsContainer {
+      .copyArea {
+        .newButton {
+          max-width: 100%;
         }
-
-        .bottomContainer {
-          .cardsList {
-            padding: 0;
-            box-sizing: border-box;
-
-            .cardEnviroment {
-              flex: 0 1 calc(50% - 10px);
-              margin: 0;
-              margin-bottom: 24px;
-            }
-          }
-        }
-
+      }
+      .confirmButton {
         width: 100%;
-        padding: 0;
+        max-width: 100%;
       }
     }
   }
