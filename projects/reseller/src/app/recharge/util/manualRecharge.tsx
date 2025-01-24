@@ -31,7 +31,7 @@ const ManualRecharge = () => {
           packageName="Bigo 3000 Diamantes"
           plataform="Bigo Live"
           rechargeStatus="processing"
-          pushTo={`/sales/${123456}`}
+          pushTo={`/recharge/${123456}`}
         />
         <ManualOrderCard
           image={Card2}
@@ -40,7 +40,7 @@ const ManualRecharge = () => {
           packageName="Farlight 84 5000 diamantes"
           plataform="Bigo Live"
           rechargeStatus="processing"
-          pushTo={`/sales/${898989}`}
+          pushTo={`/recharge/${898989}`}
         />
         <ManualOrderCard
           image={Card1}
@@ -49,7 +49,7 @@ const ManualRecharge = () => {
           packageName="Bigo 3000 Diamantes"
           plataform="Bigo Live"
           rechargeStatus="processing"
-          pushTo={`/sales/${123456}`}
+          pushTo={`/recharge/${123456}`}
         />
         <ManualOrderCard
           image={Card2}
@@ -58,7 +58,7 @@ const ManualRecharge = () => {
           packageName="Farlight 84 5000 diamantes"
           orderDate="Hoje, 11:23"
           rechargeStatus="approved"
-          pushTo={`/sales/${898989}`}
+          pushTo={`/recharge/${898989}`}
         />
         <ManualOrderCard
           image={Card1}
@@ -67,7 +67,7 @@ const ManualRecharge = () => {
           packageName="Bigo 3000 Diamantes"
           plataform="Bigo Live"
           rechargeStatus="approved"
-          pushTo={`/sales/${123456}`}
+          pushTo={`/recharge/${123456}`}
         />
         <ManualOrderCard
           image={Card1}
@@ -76,7 +76,7 @@ const ManualRecharge = () => {
           packageName="Bigo 3000 Diamantes"
           plataform="Bigo Live"
           rechargeStatus="approved"
-          pushTo={`/sales/${123456}`}
+          pushTo={`/recharge/${123456}`}
         />
         <ManualOrderCard
           image={Card1}
@@ -85,7 +85,7 @@ const ManualRecharge = () => {
           packageName="Bigo 3000 Diamantes"
           plataform="Bigo Live"
           rechargeStatus="approved"
-          pushTo={`/sales/${123456}`}
+          pushTo={`/recharge/${123456}`}
         />
         <ManualOrderCard
           image={Card2}
@@ -94,7 +94,7 @@ const ManualRecharge = () => {
           packageName="Farlight 84 5000 diamantes"
           plataform="Bigo Live"
           rechargeStatus="approved"
-          pushTo={`/sales/${898989}`}
+          pushTo={`/recharge/${898989}`}
         />
         <ManualOrderCard
           image={Card2}
@@ -103,7 +103,7 @@ const ManualRecharge = () => {
           packageName="Farlight 84 5000 diamantes"
           plataform="Bigo Live"
           rechargeStatus="approved"
-          pushTo={`/sales/${898989}`}
+          pushTo={`/recharge/${898989}`}
         />
         <ManualOrderCard
           image={Card1}
@@ -112,7 +112,7 @@ const ManualRecharge = () => {
           packageName="Bigo 3000 Diamantes"
           plataform="Bigo Live"
           rechargeStatus="approved"
-          pushTo={`/sales/${123456}`}
+          pushTo={`/recharge/${123456}`}
         />
       </div>
       <Pagination />
