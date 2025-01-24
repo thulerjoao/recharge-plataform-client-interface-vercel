@@ -16,7 +16,7 @@ const MainLayout: React.FC<LayoutProps> = ({ children }) => {
   const { device } = useDevice();
   const currentRoute = usePathname();
   const handleSearch = () => {
-    const pagesWithSearch = ["/sales"];
+    const pagesWithSearch = ["/sales", "/recharge"];
     return pagesWithSearch.includes(currentRoute);
   };
 

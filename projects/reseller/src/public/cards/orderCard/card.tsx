@@ -56,7 +56,7 @@ const OrderCard = ({
               Nº do Pedido
             </Text>
           )}
-          <Text nowrap align="center" fontName="SMALL_MEDIUM">
+          <Text nowrap align="center" fontName="SMALL">
             {orderNumber}
           </Text>
         </span>
@@ -66,13 +66,13 @@ const OrderCard = ({
               Cliente
             </Text>
           )}
-          <Text nowrap align="center" fontName="SMALL_MEDIUM">
+          <Text nowrap align="center" fontName="SMALL">
             {clientName}
           </Text>
         </span>
         {(device === "desktop" || device === "tablet") && (
           <span className="name">
-            <Text nowrap align="center" fontName="SMALL_MEDIUM">
+            <Text nowrap align="center" fontName="SMALL">
               {packageName}
             </Text>
           </span>
@@ -87,7 +87,7 @@ const OrderCard = ({
             nowrap
             align="center"
             color={handlePaymentStatusColor()}
-            fontName="SMALL_MEDIUM"
+            fontName="SMALL"
           >
             {handlePaymentStatus()}
           </Text>
@@ -102,7 +102,7 @@ const OrderCard = ({
             nowrap
             align="center"
             color={handleRechargeStatusColor()}
-            fontName="SMALL_MEDIUM"
+            fontName="SMALL"
           >
             {handleRechargeStatus()}
           </Text>

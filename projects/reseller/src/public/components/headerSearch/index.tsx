@@ -15,10 +15,6 @@ interface HeaderSerachProps {
 const HeaderSearch = ({ title }: HeaderSerachProps) => {
   const [openModal, setOpenModal] = useState<boolean>(false);
 
-  const handleOpenOrClose = () => {
-    setOpenModal(!openModal);
-  };
-
   return (
     <HeaderSearchContainer>
       <div className="headerTitle">
