@@ -7,8 +7,10 @@ import { useDevice } from "context/deviceContext";
 import Image from "next/image";
 import DefaultHeader from "public/components/defaultHeader";
 import HeaderEnviroment from "public/components/headerEnviroment";
-import Copy from "./icons/Copy.svg";
+import { useState } from "react";
+import ConfirmModal from "./confirmModal";
 import Bigo from "./icons/Bigo.png";
+import Copy from "./icons/Copy.svg";
 import { ManualRechargeInnerPage } from "./style";
 type Props = {
   params: {
@@ -17,6 +19,7 @@ type Props = {
 };
 const Page = ({ params }: Props) => {
   const { device } = useDevice();
+  const [openmodal, setOpenModal] = useState<boolean>(false);
 
   return (
     <ManualRechargeInnerPage>
@@ -80,6 +83,7 @@ const Page = ({ params }: Props) => {
         </section>
         <span className="confirmButton">
           <Button
+            onClick={() => setOpenModal(true)}
             margin="24px 0 0 0"
             height={40}
             title="Confirmar Recarga"
@@ -92,6 +96,7 @@ const Page = ({ params }: Props) => {
           </Text>
         </span>
       </main>
+      {openmodal && <ConfirmModal setconfirmModal={setOpenModal} />}
     </ManualRechargeInnerPage>
   );
 };
