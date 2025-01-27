@@ -12,6 +12,7 @@ import ConfirmModal from "./confirmModal";
 import Bigo from "./icons/Bigo.png";
 import Copy from "./icons/Copy.svg";
 import { ManualRechargeInnerPage } from "./style";
+import { useRouter } from "next/navigation";
 type Props = {
   params: {
     slug: string;
@@ -20,7 +21,7 @@ type Props = {
 const Page = ({ params }: Props) => {
   const { device } = useDevice();
   const [openmodal, setOpenModal] = useState<boolean>(false);
-
+  const route = useRouter();
   return (
     <ManualRechargeInnerPage>
       {(device === "desktop" || device === "tablet") && (
@@ -91,7 +92,12 @@ const Page = ({ params }: Props) => {
           />
         </span>
         <span className="seeMore">
-          <Text underline color={Theme.colors.secondaryText} fontName="SMALL">
+          <Text
+            onClick={() => route.push(`/recharge/${params.slug}/details`)}
+            underline
+            color={Theme.colors.secondaryText}
+            fontName="SMALL"
+          >
             ver detalhes
           </Text>
         </span>
