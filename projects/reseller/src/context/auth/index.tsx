@@ -2,7 +2,7 @@
 "use client";
 
 import { connectionAPIGet } from "@4miga/services/connectionAPI/connection";
-import { useRouter } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import {
   createContext,
   ReactNode,
@@ -33,8 +33,10 @@ interface AuthProviderData {
 const AuthContext = createContext<AuthProviderData>({} as AuthProviderData);
 
 export const AuthProvider = ({ children }: AuthProviderProps) => {
+  const router = useRouter();
+  const currentPath = usePathname();
   const route = useRouter();
-  const [logged, setLogged] = useState<boolean>(true);
+  const [logged, setLogged] = useState<boolean>(false);
   const [userStorage, setUserStorage] = useState<UserType>({
     id: "",
     name: "",

@@ -1,4 +1,5 @@
 import Providers from "context/providers";
+import ClientWrapper from "guard/ClientWrapper";
 import StyledComponentsRegistry from "lib/registry";
 import React from "react";
 import "./globals.css";
@@ -29,7 +30,9 @@ export default function RootLayout({
     <html lang="pt-br">
       <body>
         <Providers>
-          <StyledComponentsRegistry>{children}</StyledComponentsRegistry>
+          <StyledComponentsRegistry>
+            <ClientWrapper>{children}</ClientWrapper>
+          </StyledComponentsRegistry>
         </Providers>
       </body>
     </html>

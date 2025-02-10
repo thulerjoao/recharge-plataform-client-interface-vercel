@@ -1,9 +1,8 @@
 "use client";
 
-import LoginModal from "@4miga/design-system/components/loginModal";
 import { useRouter } from "next/navigation";
-import "./globals.css";
 import Login from "public/components/login";
+import "./globals.css";
 
 const Page = () => {
   const route = useRouter();

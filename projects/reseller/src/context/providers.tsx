@@ -1,4 +1,5 @@
 import { ReactNode } from "react";
+import { AuthProvider } from "./auth";
 import { DeviceProvider } from "./deviceContext";
 
 interface ProviderProps {
@@ -6,7 +7,11 @@ interface ProviderProps {
 }
 
 const Providers = ({ children }: ProviderProps) => {
-  return <DeviceProvider>{children}</DeviceProvider>;
+  return (
+    <DeviceProvider>
+      <AuthProvider>{children}</AuthProvider>
+    </DeviceProvider>
+  );
 };
 
 export default Providers;
