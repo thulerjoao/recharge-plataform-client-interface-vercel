@@ -2,6 +2,8 @@ import Button from "@4miga/design-system/components/button";
 import Input from "@4miga/design-system/components/input";
 import Text from "@4miga/design-system/components/Text";
 import { Theme } from "@4miga/design-system/theme/theme";
+import { useAuth } from "context/auth";
+import { useRouter } from "next/navigation";
 import React, { useState } from "react";
 import Email from "../../icons/Email.svg";
 import Password from "../../icons/Password.svg";
@@ -13,9 +15,19 @@ interface Props {
 }
 
 const LoginComponent = ({ setStep }: Props) => {
-  const [email, setEmail] = useState<string>("");
-  const [password, setPassword] = useState<string>("");
+  const [email, setEmail] = useState<string>("email@email.com");
+  const [password, setPassword] = useState<string>("Abcd@1234");
   const [check, setIsCheck] = useState<boolean>(true);
+  const route = useRouter();
+  const { login } = useAuth();
+
+  const handleLogin = () => {
+    const body = {
+      email,
+      password,
+    };
+    login(body);
+  };
 
   return (
     <LoginComponentContainer>
@@ -62,7 +74,7 @@ const LoginComponent = ({ setStep }: Props) => {
         </span>
       </div>
       <Button
-        onClick={() => {}}
+        onClick={() => handleLogin()}
         margin="24px 0 0 0"
         width={310}
         height={40}

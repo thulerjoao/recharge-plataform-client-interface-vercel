@@ -1,15 +1,9 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 "use client";
 
-import { connectionAPIGet } from "@4miga/services/connectionAPI/connection";
+import { connectionAPIPost } from "@4miga/services/connectionAPI/connection";
 import { usePathname, useRouter } from "next/navigation";
-import {
-  createContext,
-  ReactNode,
-  useContext,
-  useEffect,
-  useState,
-} from "react";
+import { createContext, ReactNode, useContext, useState } from "react";
 import { baseUrl } from "service/baseUrl";
 import { UserType } from "types/globalTypes";
 
@@ -18,9 +12,9 @@ interface AuthProviderProps {
 }
 
 interface loginParams {
-  token: string;
-  user: UserType;
-  isChecked: Boolean;
+  email: string;
+  password: string;
+  // isChecked: Boolean;
 }
 
 interface AuthProviderData {
@@ -44,34 +38,55 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
     password: "",
   });
 
-  const checkTokenExpiration = () => {
-    const token = localStorage.getItem("token");
-    token && sessionStorage.setItem("token", token);
+  // useEffect(() => {
+  //   const checkAuth = async () => {
+  //     try {
+  //       const res = await fetch("/api/auth/token/route");
+  //       if (res.ok) {
+  //         const data = await res.json();
+  //         console.log(data);
+  //         login(data);
+  //       }
+  //     } catch (error) {
+  //       logout();
+  //     }
+  //   };
+  //   checkAuth();
+  // }, []);
 
-    connectionAPIGet<{ data: UserType }>("/user/myself", baseUrl)
+  const login = async (body: loginParams) => {
+    const loginResponse = await connectionAPIPost<{
+      token: string;
+      user: UserType;
+    }>("/auth", body, baseUrl)
       .then((res) => {
-        setUserStorage(res.data);
-        setLogged(true);
-        route.replace("/home");
+        return res;
       })
-      .catch(() => {
-        logout();
+      .catch((err) => {
+        throw new Error("Acesso negado");
       });
-  };
-  useEffect(() => {
-    const token = localStorage.getItem("token");
-    if (token) checkTokenExpiration();
-  }, []);
 
-  const login = ({ token, user, isChecked }: loginParams) => {
-    if (isChecked) {
-      localStorage.setItem("token", token);
+    const { token, user } = loginResponse;
+
+    try {
+      const res = await fetch("/api/session", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ token, user }),
+        credentials: "include",
+      });
+      console.log(res);
+      if (!res.ok) throw new Error("Falha ao realizar login");
+      setLogged(true);
+      const data = await res.json();
+      user && setUserStorage(data.user);
+      console.log(data.user);
+      return true;
+    } catch (error) {
+      console.error(error);
+      return false;
     }
-    sessionStorage.setItem("token", token);
-    setLogged(true);
-    user && setUserStorage(user);
   };
-
   const logout = () => {
     localStorage.clear();
     sessionStorage.clear();
@@ -85,5 +100,4 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
     </AuthContext.Provider>
   );
 };
-
 export const useAuth = () => useContext(AuthContext);

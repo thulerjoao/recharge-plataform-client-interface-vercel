@@ -10,7 +10,7 @@ import {
   useEffect,
   useState,
 } from "react";
-import { baseUrl } from "service/baseUrl";
+import { baseUrl } from "api/apiUrl";
 
 import { loginParams, UserType } from "types/globalTypes";
 

@@ -32,7 +32,8 @@
   },
   "dependencies": {
     "styled-components": "6.1.8",
-    "react-input-mask": "2.0.4"
+    "react-input-mask": "2.0.4",
+    "zod": "3.24.2"
   },
   "devDependencies": {
     "@svgr/webpack": "8.1.0",
