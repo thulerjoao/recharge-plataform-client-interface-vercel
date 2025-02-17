@@ -12,6 +12,8 @@ export async function POST(req: Request) {
       );
     }
 
+    console.log({ token, user });
+
     const cookieStore = cookies();
 
     cookieStore.set("token", token, {
@@ -30,15 +32,4 @@ export async function POST(req: Request) {
   } catch (error) {
     return NextResponse.json({ error: "Invalid request" }, { status: 400 });
   }
-}
-
-export async function GET() {
-  const cookieStore = cookies();
-  const token = cookieStore.get("token")?.value;
-  const user = cookieStore.get("user")?.value;
-
-  return NextResponse.json({
-    token,
-    user: user ? JSON.parse(user) : null,
-  });
 }

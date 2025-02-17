@@ -3,7 +3,13 @@
 
 import { connectionAPIPost } from "@4miga/services/connectionAPI/connection";
 import { usePathname, useRouter } from "next/navigation";
-import { createContext, ReactNode, useContext, useState } from "react";
+import {
+  createContext,
+  ReactNode,
+  useContext,
+  useEffect,
+  useState,
+} from "react";
 import { baseUrl } from "service/baseUrl";
 import { UserType } from "types/globalTypes";
 
@@ -38,21 +44,24 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
     password: "",
   });
 
-  // useEffect(() => {
-  //   const checkAuth = async () => {
-  //     try {
-  //       const res = await fetch("/api/auth/token/route");
-  //       if (res.ok) {
-  //         const data = await res.json();
-  //         console.log(data);
-  //         login(data);
-  //       }
-  //     } catch (error) {
-  //       logout();
-  //     }
-  //   };
-  //   checkAuth();
-  // }, []);
+  const [user, setUser] = useState(null);
+  const [token, setToken] = useState(null);
+
+  console.log({ token, user });
+
+  useEffect(() => {
+    const checkAuth = async () => {
+      try {
+        const res = await fetch("/api/auth");
+        const data = await res.json();
+        setUser(data.user);
+        setToken(data.token);
+      } catch (error) {
+        logout();
+      }
+    };
+    checkAuth();
+  }, []);
 
   const login = async (body: loginParams) => {
     const loginResponse = await connectionAPIPost<{
@@ -69,7 +78,7 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
     const { token, user } = loginResponse;
 
     try {
-      const res = await fetch("/api/session", {
+      const res = await fetch("/api/login", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ token, user }),
@@ -80,10 +89,9 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
       setLogged(true);
       const data = await res.json();
       user && setUserStorage(data.user);
-      console.log(data.user);
+      route.push("/home");
       return true;
     } catch (error) {
-      console.error(error);
       return false;
     }
   };
