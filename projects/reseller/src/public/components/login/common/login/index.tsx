@@ -22,11 +22,12 @@ const LoginComponent = ({ setStep }: Props) => {
   const { login } = useAuth();
 
   const handleLogin = () => {
-    const body = {
+    const data = {
       email,
       password,
+      isChecked: check,
     };
-    login(body);
+    login(data);
   };
 
   return (

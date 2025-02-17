@@ -19,6 +19,7 @@ import SalesSelected from "./icons/SalesSelected.svg";
 import Wallet from "./icons/Wallet.svg";
 import WalletSelected from "./icons/WalletSelected.svg";
 import { AsideBarContainer } from "./style";
+import { useAuth } from "context/auth";
 
 const AsideBar = () => {
   const route = useRouter();
@@ -34,6 +35,7 @@ const AsideBar = () => {
   };
 
   const { device } = useDevice();
+  const { logout } = useAuth();
 
   return (
     <AsideBarContainer>
@@ -162,7 +164,11 @@ const AsideBar = () => {
                 <Logout />
               </span>
               {device === "desktop" && (
-                <Text margin="0 0 0 16px" fontName="REGULAR_SEMI_BOLD">
+                <Text
+                  onClick={() => logout()}
+                  margin="0 0 0 16px"
+                  fontName="REGULAR_SEMI_BOLD"
+                >
                   SAIR
                 </Text>
               )}

@@ -20,42 +20,34 @@ interface AuthProviderProps {
 interface loginParams {
   email: string;
   password: string;
-  // isChecked: Boolean;
+  isChecked: Boolean;
 }
 
 interface AuthProviderData {
   logged: boolean;
   login: (param: loginParams) => void;
   logout: () => void;
-  userStorage: UserType;
+  user: UserType;
 }
 
 const AuthContext = createContext<AuthProviderData>({} as AuthProviderData);
 
 export const AuthProvider = ({ children }: AuthProviderProps) => {
-  const router = useRouter();
   const currentPath = usePathname();
   const route = useRouter();
   const [logged, setLogged] = useState<boolean>(false);
-  const [userStorage, setUserStorage] = useState<UserType>({
-    id: "",
-    name: "",
-    email: "",
-    password: "",
-  });
 
-  const [user, setUser] = useState(null);
-  const [token, setToken] = useState(null);
-
-  console.log({ token, user });
+  const [user, setUser] = useState<UserType>(null);
 
   useEffect(() => {
     const checkAuth = async () => {
       try {
         const res = await fetch("/api/auth");
         const data = await res.json();
-        setUser(data.user);
-        setToken(data.token);
+        if (data.token) {
+          setLogged(true);
+          route.replace("/home");
+        }
       } catch (error) {
         logout();
       }
@@ -63,7 +55,11 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
     checkAuth();
   }, []);
 
-  const login = async (body: loginParams) => {
+  const login = async (data: loginParams) => {
+    const body = {
+      email: data.email,
+      password: data.password,
+    };
     const loginResponse = await connectionAPIPost<{
       token: string;
       user: UserType;
@@ -77,33 +73,40 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
 
     const { token, user } = loginResponse;
 
-    try {
-      const res = await fetch("/api/login", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ token, user }),
-        credentials: "include",
-      });
-      console.log(res);
-      if (!res.ok) throw new Error("Falha ao realizar login");
-      setLogged(true);
-      const data = await res.json();
-      user && setUserStorage(data.user);
-      route.push("/home");
-      return true;
-    } catch (error) {
-      return false;
+    if (data.isChecked) {
+      try {
+        const res = await fetch("/api/login", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ token, user }),
+          credentials: "include",
+        });
+        if (!res.ok) throw new Error("Falha ao realizar login");
+        setLogged(true);
+        const data = await res.json();
+        user && setUser(data.user);
+        route.push("/home");
+      } catch (error) {
+        return false;
+      }
+    } else {
+      return;
     }
   };
-  const logout = () => {
-    localStorage.clear();
-    sessionStorage.clear();
-    setLogged(false);
-    route.replace("/");
+  const logout = async () => {
+    try {
+      await fetch("api/logout", {
+        method: "DELETE",
+      });
+      setLogged(false);
+      route.replace("/");
+    } catch (error) {
+      console.error("Erro ao fazer logout:", error);
+    }
   };
 
   return (
-    <AuthContext.Provider value={{ logged, login, logout, userStorage }}>
+    <AuthContext.Provider value={{ logged, login, logout, user }}>
       {children}
     </AuthContext.Provider>
   );

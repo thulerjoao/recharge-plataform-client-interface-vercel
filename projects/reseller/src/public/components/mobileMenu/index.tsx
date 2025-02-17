@@ -23,6 +23,7 @@ import BigUp from "./icons/BigUp.svg";
 import Search from "./icons/Search.svg";
 import Setting from "./icons/Setting.svg";
 import { MobileMenuContainer } from "./style";
+import { useAuth } from "context/auth";
 
 interface Props {
   search: boolean;
@@ -31,6 +32,7 @@ interface Props {
 }
 
 const MobileMenu = ({ search, openMenu, setOpenMenu }: Props) => {
+  const { logout } = useAuth();
   const route = useRouter();
   const currentRoute = usePathname();
 
@@ -177,7 +179,11 @@ const MobileMenu = ({ search, openMenu, setOpenMenu }: Props) => {
         <span>
           <Logout />
         </span>
-        <Text margin="0 0 0 16px" fontName="REGULAR_SEMI_BOLD">
+        <Text
+          onClick={() => logout()}
+          margin="0 0 0 16px"
+          fontName="REGULAR_SEMI_BOLD"
+        >
           SAIR
         </Text>
       </div>
