@@ -1,7 +1,10 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 "use client";
 
-import { connectionAPIPost } from "@4miga/services/connectionAPI/connection";
+import {
+  connectionAPIGet,
+  connectionAPIPost,
+} from "@4miga/services/connectionAPI/connection";
 import { usePathname, useRouter } from "next/navigation";
 import {
   createContext,
@@ -12,6 +15,7 @@ import {
 } from "react";
 import { baseUrl } from "service/baseUrl";
 import { UserType } from "types/globalTypes";
+import { apiUrl } from "utils/apiUrl";
 
 interface AuthProviderProps {
   children: ReactNode;
@@ -40,17 +44,34 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
   const [user, setUser] = useState<UserType>(null);
 
   useEffect(() => {
+    // const checkAuth = async () => {
+    //   try {
+    //     const res = await fetch("/api/token");
+    //     const data = await res.json();
+    //     if (data.token) {
+    //       connectionAPIGet<{ user: UserType }>(`/auth`, apiUrl)
+    //         .then((res) => {
+    //           setUser(res.user);
+    //           setLogged(true);
+    //           route.replace("/home");
+    //           console.log(res.user);
+    //         })
+    //         .then((err) => {
+    //           console.log(err);
+    //         });
+    //     }
+    //   } catch (error) {
+    //     logout();
+    //   }
+    // };
     const checkAuth = async () => {
-      try {
-        const res = await fetch("/api/auth");
-        const data = await res.json();
-        if (data.token) {
+      await connectionAPIGet<{ user: UserType }>(`/auth`, apiUrl).then(
+        (res) => {
+          setUser(res.user);
           setLogged(true);
           route.replace("/home");
-        }
-      } catch (error) {
-        logout();
-      }
+        },
+      );
     };
     checkAuth();
   }, []);
@@ -63,36 +84,28 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
     const loginResponse = await connectionAPIPost<{
       token: string;
       user: UserType;
-    }>("/auth", body, baseUrl)
-      .then((res) => {
-        return res;
-      })
-      .catch((err) => {
-        throw new Error("Acesso negado");
-      });
+    }>("/auth", body, baseUrl).catch((err) => {
+      throw new Error("Acesso negado");
+    });
 
     const { token, user } = loginResponse;
 
-    if (data.isChecked) {
-      try {
-        const res = await fetch("/api/login", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ token, user }),
-          credentials: "include",
-        });
-        if (!res.ok) throw new Error("Falha ao realizar login");
-        setLogged(true);
-        const data = await res.json();
-        user && setUser(data.user);
-        route.push("/home");
-      } catch (error) {
-        return false;
-      }
-    } else {
-      return;
+    try {
+      const res = await fetch("/api/login", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ token, rememberMe: data.isChecked }),
+        credentials: "include",
+      });
+      if (!res.ok) throw new Error("Falha ao realizar login");
+      setLogged(true);
+      setUser(user);
+      route.replace("/home");
+    } catch (error) {
+      return false;
     }
   };
+
   const logout = async () => {
     try {
       await fetch("api/logout", {
@@ -101,7 +114,7 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
       setLogged(false);
       route.replace("/");
     } catch (error) {
-      console.error("Erro ao fazer logout:", error);
+      return;
     }
   };
 

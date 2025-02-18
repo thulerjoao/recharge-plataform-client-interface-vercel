@@ -3,29 +3,23 @@ import { NextResponse } from "next/server";
 
 export async function POST(req: Request) {
   try {
-    const { token, user } = await req.json();
+    const { token, rememberMe } = await req.json();
 
-    if (!token || !user) {
+    if (!token) {
       return NextResponse.json(
         { error: "Missing token or user" },
         { status: 400 },
       );
     }
 
-    console.log({ token, user });
-
     const cookieStore = cookies();
 
     cookieStore.set("token", token, {
       httpOnly: true,
       secure: process.env.NODE_ENV === "production",
+      sameSite: "strict",
       path: "/",
-    });
-
-    cookieStore.set("user", JSON.stringify(user), {
-      httpOnly: false, // O usuário pode precisar desse dado no client
-      secure: process.env.NODE_ENV === "production",
-      path: "/",
+      ...(rememberMe && { maxAge: 60 * 60 * 24 * 365 * 10 }),
     });
 
     return NextResponse.json({ success: true });

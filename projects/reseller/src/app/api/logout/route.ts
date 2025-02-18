@@ -5,7 +5,6 @@ export async function DELETE() {
   const cookieStore = cookies();
 
   cookieStore.set("token", "", { expires: new Date(0), path: "/" });
-  cookieStore.set("user", "", { expires: new Date(0), path: "/" });
 
   return NextResponse.json({
     success: true,
