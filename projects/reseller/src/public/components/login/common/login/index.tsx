@@ -3,7 +3,8 @@ import Input from "@4miga/design-system/components/input";
 import Text from "@4miga/design-system/components/Text";
 import { Theme } from "@4miga/design-system/theme/theme";
 import { useAuth } from "context/auth";
-import React, { useState } from "react";
+import React from "react";
+import { useForm } from "react-hook-form";
 import Email from "../../icons/Email.svg";
 import Password from "../../icons/Password.svg";
 import { LoginSteps } from "../../types/types";
@@ -14,32 +15,30 @@ interface Props {
 }
 
 interface LoginProps {
-  e?: React.FormEvent<HTMLFormElement>;
   email: string;
   password: string;
   isChecked: boolean;
 }
 
 const LoginComponent = ({ setStep }: Props) => {
-  const [email, setEmail] = useState<string>("");
-  const [password, setPassword] = useState<string>("");
-  const [isChecked, setIsChecked] = useState<boolean>(true);
   const { login } = useAuth();
+  const { handleSubmit, watch, setValue } = useForm<LoginProps>({
+    defaultValues: {
+      email: "",
+      password: "",
+      isChecked: true,
+    },
+  });
 
-  const handleLogin = ({ e, email, password, isChecked }: LoginProps) => {
-    e && e.preventDefault();
-    const data = {
-      email,
-      password,
-      isChecked,
-    };
-    return login(data);
+  const isChecked = watch("isChecked");
+
+  const onSubmit = (data: LoginProps) => {
+    console.log("Dados do formulário:", data);
+    login(data);
   };
 
   return (
-    <LoginComponentContainer
-      onSubmit={(e) => handleLogin({ e, email, password, isChecked })}
-    >
+    <LoginComponentContainer onSubmit={handleSubmit(onSubmit)}>
       <Text margin="24px 0 0 0" align="center" fontName="REGULAR_MEDIUM">
         Entre para acessar sua conta
       </Text>
@@ -49,7 +48,8 @@ const LoginComponent = ({ setStep }: Props) => {
         height={40}
         placeholder="E-mail"
         leftElement={<Email />}
-        onChange={(e) => setEmail(e.target.value)}
+        value={watch("email")}
+        onChange={(e) => setValue("email", e.target.value)}
       />
       <Input
         margin="24px 0 0 0"
@@ -57,10 +57,15 @@ const LoginComponent = ({ setStep }: Props) => {
         height={40}
         placeholder="Senha"
         leftElement={<Password />}
-        onChange={(e) => setPassword(e.target.value)}
+        type="password"
+        value={watch("password")}
+        onChange={(e) => setValue("password", e.target.value)}
       />
       <div className="keepConnected">
-        <div className="check" onClick={() => setIsChecked(!isChecked)}>
+        <div
+          className="check"
+          onClick={() => setValue("isChecked", !isChecked)}
+        >
           <span className="checkIcon">
             <span className={isChecked && "fill"} />
           </span>
