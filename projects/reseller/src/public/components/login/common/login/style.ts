@@ -1,7 +1,7 @@
 import { Theme } from "@4miga/design-system/theme/theme";
 import styled from "styled-components";
 
-export const LoginComponentContainer = styled.div`
+export const LoginComponentContainer = styled.form`
   display: flex;
   flex-direction: column;
   padding: 0 24px;

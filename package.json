@@ -33,7 +33,9 @@
   "dependencies": {
     "styled-components": "6.1.8",
     "react-input-mask": "2.0.4",
-    "zod": "3.24.2"
+    "zod": "3.24.2",
+    "react-hook-form": "7.54.2",
+    "@hookform/resolvers": "4.1.0"
   },
   "devDependencies": {
     "@svgr/webpack": "8.1.0",

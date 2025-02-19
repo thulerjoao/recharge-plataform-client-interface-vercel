@@ -44,26 +44,6 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
   const [user, setUser] = useState<UserType>(null);
 
   useEffect(() => {
-    // const checkAuth = async () => {
-    //   try {
-    //     const res = await fetch("/api/token");
-    //     const data = await res.json();
-    //     if (data.token) {
-    //       connectionAPIGet<{ user: UserType }>(`/auth`, apiUrl)
-    //         .then((res) => {
-    //           setUser(res.user);
-    //           setLogged(true);
-    //           route.replace("/home");
-    //           console.log(res.user);
-    //         })
-    //         .then((err) => {
-    //           console.log(err);
-    //         });
-    //     }
-    //   } catch (error) {
-    //     logout();
-    //   }
-    // };
     const checkAuth = async () => {
       await connectionAPIGet<{ user: UserType }>(`/auth`, apiUrl).then(
         (res) => {

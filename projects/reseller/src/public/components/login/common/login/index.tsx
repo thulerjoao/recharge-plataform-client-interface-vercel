@@ -3,7 +3,6 @@ import Input from "@4miga/design-system/components/input";
 import Text from "@4miga/design-system/components/Text";
 import { Theme } from "@4miga/design-system/theme/theme";
 import { useAuth } from "context/auth";
-import { useRouter } from "next/navigation";
 import React, { useState } from "react";
 import Email from "../../icons/Email.svg";
 import Password from "../../icons/Password.svg";
@@ -14,24 +13,33 @@ interface Props {
   setStep: React.Dispatch<React.SetStateAction<LoginSteps>>;
 }
 
+interface LoginProps {
+  e?: React.FormEvent<HTMLFormElement>;
+  email: string;
+  password: string;
+  isChecked: boolean;
+}
+
 const LoginComponent = ({ setStep }: Props) => {
-  const [email, setEmail] = useState<string>("email@email.com");
-  const [password, setPassword] = useState<string>("Abcd@1234");
-  const [check, setIsCheck] = useState<boolean>(true);
-  const route = useRouter();
+  const [email, setEmail] = useState<string>("");
+  const [password, setPassword] = useState<string>("");
+  const [isChecked, setIsChecked] = useState<boolean>(true);
   const { login } = useAuth();
 
-  const handleLogin = () => {
+  const handleLogin = ({ e, email, password, isChecked }: LoginProps) => {
+    e && e.preventDefault();
     const data = {
       email,
       password,
-      isChecked: check,
+      isChecked,
     };
-    login(data);
+    return login(data);
   };
 
   return (
-    <LoginComponentContainer>
+    <LoginComponentContainer
+      onSubmit={(e) => handleLogin({ e, email, password, isChecked })}
+    >
       <Text margin="24px 0 0 0" align="center" fontName="REGULAR_MEDIUM">
         Entre para acessar sua conta
       </Text>
@@ -52,9 +60,9 @@ const LoginComponent = ({ setStep }: Props) => {
         onChange={(e) => setPassword(e.target.value)}
       />
       <div className="keepConnected">
-        <div className="check" onClick={() => setIsCheck(!check)}>
+        <div className="check" onClick={() => setIsChecked(!isChecked)}>
           <span className="checkIcon">
-            <span className={check && "fill"} />
+            <span className={isChecked && "fill"} />
           </span>
           <Text margin="0 0 0 4px" nowrap fontName="TINY">
             Continuar conectado
@@ -75,7 +83,7 @@ const LoginComponent = ({ setStep }: Props) => {
         </span>
       </div>
       <Button
-        onClick={() => handleLogin()}
+        type="submit"
         margin="24px 0 0 0"
         width={310}
         height={40}
