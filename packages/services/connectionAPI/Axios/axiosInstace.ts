@@ -7,16 +7,17 @@ const createApiInstance = (baseURL: string): AxiosInstance => {
 
   api.interceptors.request.use(async (config: any) => {
     try {
-      const getToken = async () => {
-        return sessionStorage.getItem("token");
-      };
-      const token = await getToken();
+      const response = await axios.get("http://localhost:3000/api/token", {
+        withCredentials: true,
+      });
+
+      const token = response.data?.token;
 
       if (token) {
         config.headers.Authorization = `Bearer ${token}`;
-        config.headers.contentType = "application/json";
       }
 
+      config.headers["Content-Type"] = "application/json";
       return config;
     } catch (error) {
       /* empty */
@@ -27,23 +28,3 @@ const createApiInstance = (baseURL: string): AxiosInstance => {
 };
 
 export default createApiInstance;
-
-// type Body = {
-//   accessToken?: string
-//   refreshToken?: string
-// }
-
-// type HttpResponse = {
-//   statusCode: number
-//   body: Body
-// }
-
-// const httpDecorator = (response: HttpResponse): HttpResponse => {
-//   if (response.body.accessToken) {
-//     setLocalStorage('accessToken', response.body.accessToken)
-//   }
-//   if (response.body.refreshToken) {
-//     setCookie('refreshToken', response.body.refreshToken)
-//   }
-//   return response
-// }

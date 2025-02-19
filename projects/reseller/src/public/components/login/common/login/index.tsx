@@ -2,6 +2,7 @@ import Button from "@4miga/design-system/components/button";
 import Input from "@4miga/design-system/components/input";
 import Text from "@4miga/design-system/components/Text";
 import { Theme } from "@4miga/design-system/theme/theme";
+import { useAuth } from "context/auth";
 import React, { useState } from "react";
 import Email from "../../icons/Email.svg";
 import Password from "../../icons/Password.svg";
@@ -12,13 +13,33 @@ interface Props {
   setStep: React.Dispatch<React.SetStateAction<LoginSteps>>;
 }
 
+interface LoginProps {
+  e?: React.FormEvent<HTMLFormElement>;
+  email: string;
+  password: string;
+  isChecked: boolean;
+}
+
 const LoginComponent = ({ setStep }: Props) => {
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
-  const [check, setIsCheck] = useState<boolean>(true);
+  const [isChecked, setIsChecked] = useState<boolean>(true);
+  const { login } = useAuth();
+
+  const handleLogin = ({ e, email, password, isChecked }: LoginProps) => {
+    e && e.preventDefault();
+    const data = {
+      email,
+      password,
+      isChecked,
+    };
+    return login(data);
+  };
 
   return (
-    <LoginComponentContainer>
+    <LoginComponentContainer
+      onSubmit={(e) => handleLogin({ e, email, password, isChecked })}
+    >
       <Text margin="24px 0 0 0" align="center" fontName="REGULAR_MEDIUM">
         Entre para acessar sua conta
       </Text>
@@ -39,9 +60,9 @@ const LoginComponent = ({ setStep }: Props) => {
         onChange={(e) => setPassword(e.target.value)}
       />
       <div className="keepConnected">
-        <div className="check" onClick={() => setIsCheck(!check)}>
+        <div className="check" onClick={() => setIsChecked(!isChecked)}>
           <span className="checkIcon">
-            <span className={check && "fill"} />
+            <span className={isChecked && "fill"} />
           </span>
           <Text margin="0 0 0 4px" nowrap fontName="TINY">
             Continuar conectado
@@ -62,7 +83,7 @@ const LoginComponent = ({ setStep }: Props) => {
         </span>
       </div>
       <Button
-        onClick={() => {}}
+        type="submit"
         margin="24px 0 0 0"
         width={310}
         height={40}
