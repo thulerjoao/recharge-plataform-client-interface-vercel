@@ -40,7 +40,6 @@ const LoginComponent = ({ setStep }: Props) => {
       await login(data);
     } catch (error) {
       if (error instanceof Error) {
-        console.log(error);
         setErrorMessage(error.message);
       } else {
         setErrorMessage("Erro ao fazer login");
