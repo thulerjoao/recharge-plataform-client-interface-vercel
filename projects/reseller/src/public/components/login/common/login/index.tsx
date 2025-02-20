@@ -2,27 +2,28 @@ import Button from "@4miga/design-system/components/button";
 import Input from "@4miga/design-system/components/input";
 import Text from "@4miga/design-system/components/Text";
 import { Theme } from "@4miga/design-system/theme/theme";
+import { zodResolver } from "@hookform/resolvers/zod";
 import { useAuth } from "context/auth";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import Email from "../../icons/Email.svg";
 import Password from "../../icons/Password.svg";
 import { LoginSteps } from "../../types/types";
-import { LoginComponentContainer } from "./style";
+import { loginSchema, LoginSchema } from "./schema";
+import { ErrorMessage, LoginComponentContainer } from "./style";
 
 interface Props {
   setStep: React.Dispatch<React.SetStateAction<LoginSteps>>;
 }
 
-interface LoginProps {
-  email: string;
-  password: string;
-  isChecked: boolean;
-}
-
 const LoginComponent = ({ setStep }: Props) => {
-  const { login } = useAuth();
-  const { handleSubmit, watch, setValue } = useForm<LoginProps>({
+  const {
+    handleSubmit,
+    watch,
+    setValue,
+    formState: { errors },
+  } = useForm<LoginSchema>({
+    resolver: zodResolver(loginSchema),
     defaultValues: {
       email: "",
       password: "",
@@ -30,12 +31,28 @@ const LoginComponent = ({ setStep }: Props) => {
     },
   });
 
+  const { login } = useAuth();
   const isChecked = watch("isChecked");
+  const [errorMessage, setErrorMessage] = useState<string>("");
 
-  const onSubmit = (data: LoginProps) => {
+  const onSubmit = (data: LoginSchema) => {
     console.log("Dados do formulário:", data);
     login(data);
   };
+
+  console.log(errorMessage, blur);
+
+  useEffect(() => {
+    setErrorMessage("");
+    if (errors.email) {
+      setErrorMessage(errors.email.message);
+      return;
+    }
+    if (errors.password) {
+      setErrorMessage(errors.password.message);
+      return;
+    }
+  }, [errors]);
 
   return (
     <LoginComponentContainer onSubmit={handleSubmit(onSubmit)}>
@@ -60,6 +77,7 @@ const LoginComponent = ({ setStep }: Props) => {
         type="password"
         value={watch("password")}
         onChange={(e) => setValue("password", e.target.value)}
+        onFocus={() => setErrorMessage("")}
       />
       <div className="keepConnected">
         <div
@@ -95,6 +113,16 @@ const LoginComponent = ({ setStep }: Props) => {
         rounded
         title="Entrar"
       />
+      <ErrorMessage>
+        <Text
+          align="center"
+          margin="14px 0 0px 0"
+          color={Theme.colors.pending}
+          fontName="TINY"
+        >
+          {errorMessage}
+        </Text>
+      </ErrorMessage>
     </LoginComponentContainer>
   );
 };

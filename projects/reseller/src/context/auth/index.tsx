@@ -13,6 +13,7 @@ import {
   useEffect,
   useState,
 } from "react";
+import { LoginSchema } from "schemas/login";
 import { baseUrl } from "service/baseUrl";
 import { UserType } from "types/globalTypes";
 import { apiUrl } from "utils/apiUrl";
@@ -29,7 +30,7 @@ interface loginParams {
 
 interface AuthProviderData {
   logged: boolean;
-  login: (param: loginParams) => void;
+  login: (param: LoginSchema) => void;
   logout: () => void;
   user: UserType;
 }
