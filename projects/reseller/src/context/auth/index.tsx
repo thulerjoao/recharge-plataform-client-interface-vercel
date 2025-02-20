@@ -66,7 +66,7 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
       token: string;
       user: UserType;
     }>("/auth", body, baseUrl).catch((err) => {
-      throw new Error("Acesso negado");
+      throw new Error("Erro ao fazer login");
     });
 
     const { token, user } = loginResponse;
@@ -78,7 +78,7 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
         body: JSON.stringify({ token, rememberMe: data.isChecked }),
         credentials: "include",
       });
-      if (!res.ok) throw new Error("Falha ao realizar login");
+      if (!res.ok) throw new Error("Erro ao fazer login");
       setLogged(true);
       setUser(user);
       route.replace("/home");

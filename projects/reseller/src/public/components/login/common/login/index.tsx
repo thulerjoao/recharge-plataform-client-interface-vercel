@@ -35,12 +35,18 @@ const LoginComponent = ({ setStep }: Props) => {
   const isChecked = watch("isChecked");
   const [errorMessage, setErrorMessage] = useState<string>("");
 
-  const onSubmit = (data: LoginSchema) => {
-    console.log("Dados do formulário:", data);
-    login(data);
+  const onSubmit = async (data: LoginSchema) => {
+    try {
+      await login(data);
+    } catch (error) {
+      if (error instanceof Error) {
+        console.log(error);
+        setErrorMessage(error.message);
+      } else {
+        setErrorMessage("Erro ao fazer login");
+      }
+    }
   };
-
-  console.log(errorMessage, blur);
 
   useEffect(() => {
     setErrorMessage("");
