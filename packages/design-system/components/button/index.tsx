@@ -49,6 +49,7 @@ const Button: React.FC<ButtonProps> = ({
         width={width}
         margin={margin}
         loading={loading}
+        disabled={loading}
         height={height}
         rounded={rounded}
         shadow={shadow}

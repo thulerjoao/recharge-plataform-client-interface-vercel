@@ -6,6 +6,7 @@ import {
   connectionAPIPost,
 } from "@4miga/services/connectionAPI/connection";
 import { usePathname, useRouter } from "next/navigation";
+import { LoginSchema } from "public/components/login/common/login/schema";
 import {
   createContext,
   ReactNode,
@@ -13,6 +14,7 @@ import {
   useEffect,
   useState,
 } from "react";
+
 import { baseUrl } from "service/baseUrl";
 import { UserType } from "types/globalTypes";
 import { apiUrl } from "utils/apiUrl";
@@ -24,12 +26,12 @@ interface AuthProviderProps {
 interface loginParams {
   email: string;
   password: string;
-  isChecked: Boolean;
+  isChecked: boolean;
 }
 
 interface AuthProviderData {
   logged: boolean;
-  login: (param: loginParams) => void;
+  login: (param: LoginSchema) => void;
   logout: () => void;
   user: UserType;
 }
@@ -65,7 +67,7 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
       token: string;
       user: UserType;
     }>("/auth", body, baseUrl).catch((err) => {
-      throw new Error("Acesso negado");
+      throw new Error("Usuário ou senha inválidos");
     });
 
     const { token, user } = loginResponse;
@@ -77,7 +79,7 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
         body: JSON.stringify({ token, rememberMe: data.isChecked }),
         credentials: "include",
       });
-      if (!res.ok) throw new Error("Falha ao realizar login");
+      if (!res.ok) throw new Error("Erro ao fazer login");
       setLogged(true);
       setUser(user);
       route.replace("/home");

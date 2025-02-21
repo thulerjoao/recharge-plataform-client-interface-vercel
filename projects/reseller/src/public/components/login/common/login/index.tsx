@@ -2,44 +2,68 @@ import Button from "@4miga/design-system/components/button";
 import Input from "@4miga/design-system/components/input";
 import Text from "@4miga/design-system/components/Text";
 import { Theme } from "@4miga/design-system/theme/theme";
+import { zodResolver } from "@hookform/resolvers/zod";
 import { useAuth } from "context/auth";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
+import { useForm } from "react-hook-form";
 import Email from "../../icons/Email.svg";
 import Password from "../../icons/Password.svg";
 import { LoginSteps } from "../../types/types";
-import { LoginComponentContainer } from "./style";
+import { loginSchema, LoginSchema } from "./schema";
+import { ErrorMessage, LoginComponentContainer } from "./style";
 
 interface Props {
   setStep: React.Dispatch<React.SetStateAction<LoginSteps>>;
 }
 
-interface LoginProps {
-  e?: React.FormEvent<HTMLFormElement>;
-  email: string;
-  password: string;
-  isChecked: boolean;
-}
-
 const LoginComponent = ({ setStep }: Props) => {
-  const [email, setEmail] = useState<string>("");
-  const [password, setPassword] = useState<string>("");
-  const [isChecked, setIsChecked] = useState<boolean>(true);
-  const { login } = useAuth();
+  const [loading, setLoading] = useState<boolean>(false);
+  const {
+    handleSubmit,
+    watch,
+    setValue,
+    formState: { errors },
+  } = useForm<LoginSchema>({
+    resolver: zodResolver(loginSchema),
+    defaultValues: {
+      email: "",
+      password: "",
+      isChecked: true,
+    },
+  });
 
-  const handleLogin = ({ e, email, password, isChecked }: LoginProps) => {
-    e && e.preventDefault();
-    const data = {
-      email,
-      password,
-      isChecked,
-    };
-    return login(data);
+  const { login } = useAuth();
+  const isChecked = watch("isChecked");
+  const [errorMessage, setErrorMessage] = useState<string>("");
+
+  const onSubmit = async (data: LoginSchema) => {
+    setLoading(true);
+    try {
+      await login(data);
+    } catch (error) {
+      if (error instanceof Error) {
+        setErrorMessage(error.message);
+      } else {
+        setErrorMessage("Erro ao fazer login");
+      }
+    }
+    setLoading(false);
   };
 
+  useEffect(() => {
+    setErrorMessage("");
+    if (errors.email) {
+      setErrorMessage(errors.email.message);
+      return;
+    }
+    if (errors.password) {
+      setErrorMessage(errors.password.message);
+      return;
+    }
+  }, [errors]);
+
   return (
-    <LoginComponentContainer
-      onSubmit={(e) => handleLogin({ e, email, password, isChecked })}
-    >
+    <LoginComponentContainer onSubmit={handleSubmit(onSubmit)}>
       <Text margin="24px 0 0 0" align="center" fontName="REGULAR_MEDIUM">
         Entre para acessar sua conta
       </Text>
@@ -49,7 +73,8 @@ const LoginComponent = ({ setStep }: Props) => {
         height={40}
         placeholder="E-mail"
         leftElement={<Email />}
-        onChange={(e) => setEmail(e.target.value)}
+        value={watch("email")}
+        onChange={(e) => setValue("email", e.target.value)}
       />
       <Input
         margin="24px 0 0 0"
@@ -57,10 +82,16 @@ const LoginComponent = ({ setStep }: Props) => {
         height={40}
         placeholder="Senha"
         leftElement={<Password />}
-        onChange={(e) => setPassword(e.target.value)}
+        type="password"
+        value={watch("password")}
+        onChange={(e) => setValue("password", e.target.value)}
+        onFocus={() => setErrorMessage("")}
       />
       <div className="keepConnected">
-        <div className="check" onClick={() => setIsChecked(!isChecked)}>
+        <div
+          className="check"
+          onClick={() => setValue("isChecked", !isChecked)}
+        >
           <span className="checkIcon">
             <span className={isChecked && "fill"} />
           </span>
@@ -89,7 +120,18 @@ const LoginComponent = ({ setStep }: Props) => {
         height={40}
         rounded
         title="Entrar"
+        loading={loading}
       />
+      <ErrorMessage>
+        <Text
+          align="center"
+          margin="14px 0 0px 0"
+          color={Theme.colors.pending}
+          fontName="TINY"
+        >
+          {errorMessage}
+        </Text>
+      </ErrorMessage>
     </LoginComponentContainer>
   );
 };

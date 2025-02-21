@@ -30,6 +30,16 @@ export const InputElement = styled.input<InputProps>`
     box-shadow: 0px 0px 7px 0px ${Theme.colors.mainHighlight};
     border: 2px solid ${Theme.colors.mainHighlight};
   }
+
+  &::-webkit-outer-spin-button,
+  &::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+  }
+
+  &[type="number"] {
+    -moz-appearance: textfield;
+  }
 `;
 
 export const ExternalComponent = styled.div<ExternalProps>`
