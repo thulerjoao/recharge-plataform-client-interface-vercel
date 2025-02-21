@@ -1,3 +1,4 @@
+import { useAuth } from "context/auth";
 import { useState } from "react";
 import ConfirmCode from "./common/confirmCode";
 import ForgotPassword from "./common/forgotPassword";
@@ -17,6 +18,9 @@ const Login = ({ openInNewAccount }: LoginModalProps) => {
   const [step, setStep] = useState<LoginSteps>(
     openInNewAccount ? "newAccount" : "login",
   );
+  const [newPassRes, setNewPassRes] = useState<{ email: string; code: number }>(
+    null,
+  );
 
   const handleBackward = () => {
     step === "forgotPassword" && setStep("login");
@@ -35,9 +39,13 @@ const Login = ({ openInNewAccount }: LoginModalProps) => {
         <TopLogo />
         {step === "login" && <LoginComponent setStep={setStep} />}
         {step === "newAccount" && <NewAccount />}
-        {step === "forgotPassword" && <ForgotPassword setStep={setStep} />}
-        {step === "confirmCode" && <ConfirmCode setStep={setStep} />}
-        {step === "newPassword" && <NewPassword />}
+        {step === "forgotPassword" && (
+          <ForgotPassword setNewPassRes={setNewPassRes} setStep={setStep} />
+        )}
+        {step === "confirmCode" && (
+          <ConfirmCode newPassRes={newPassRes} setStep={setStep} />
+        )}
+        {step === "newPassword" && <NewPassword newPassRes={newPassRes} />}
 
         {(step === "login" || step === "newAccount") && (
           <span

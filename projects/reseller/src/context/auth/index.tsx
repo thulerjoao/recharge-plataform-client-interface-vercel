@@ -66,7 +66,7 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
       token: string;
       user: UserType;
     }>("/auth", body, baseUrl).catch((err) => {
-      throw new Error("Erro ao fazer login");
+      throw new Error("Usuário ou senha inválidos");
     });
 
     const { token, user } = loginResponse;

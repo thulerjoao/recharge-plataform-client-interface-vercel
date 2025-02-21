@@ -17,6 +17,7 @@ interface Props {
 }
 
 const LoginComponent = ({ setStep }: Props) => {
+  const [loading, setLoading] = useState<boolean>(false);
   const {
     handleSubmit,
     watch,
@@ -36,6 +37,7 @@ const LoginComponent = ({ setStep }: Props) => {
   const [errorMessage, setErrorMessage] = useState<string>("");
 
   const onSubmit = async (data: LoginSchema) => {
+    setLoading(true);
     try {
       await login(data);
     } catch (error) {
@@ -44,6 +46,7 @@ const LoginComponent = ({ setStep }: Props) => {
       } else {
         setErrorMessage("Erro ao fazer login");
       }
+      setLoading(false);
     }
   };
 
@@ -117,6 +120,7 @@ const LoginComponent = ({ setStep }: Props) => {
         height={40}
         rounded
         title="Entrar"
+        loading={loading}
       />
       <ErrorMessage>
         <Text

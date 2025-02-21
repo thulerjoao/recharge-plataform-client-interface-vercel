@@ -4,9 +4,11 @@ import Text from "@4miga/design-system/components/Text";
 import Password from "../../icons/Password.svg";
 import { NewPasswordContainer } from "./style";
 
-interface Props {}
+interface Props {
+  newPassRes: { email: string; code: number };
+}
 
-const NewPassword = () => {
+const NewPassword = ({ newPassRes }: Props) => {
   return (
     <NewPasswordContainer>
       <Text margin="24px 0 0 0" align="center" fontName="REGULAR_MEDIUM">

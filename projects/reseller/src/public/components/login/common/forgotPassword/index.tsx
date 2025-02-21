@@ -1,6 +1,7 @@
 import Button from "@4miga/design-system/components/button";
 import Input from "@4miga/design-system/components/input";
 import Text from "@4miga/design-system/components/Text";
+import { Theme } from "@4miga/design-system/theme/theme";
 import { connectionAPIPost } from "@4miga/services/connectionAPI/connection";
 import { zodResolver } from "@hookform/resolvers/zod";
 import React, { useEffect, useState } from "react";
@@ -10,13 +11,15 @@ import Email from "../../icons/Email.svg";
 import { LoginSteps } from "../../types/types";
 import { forgotPassSchema, ForgotPassSchema } from "./schema";
 import { ErrorMessage, ForgotPasswordContainer } from "./style";
-import { Theme } from "@4miga/design-system/theme/theme";
 
 interface Props {
   setStep: React.Dispatch<React.SetStateAction<LoginSteps>>;
+  setNewPassRes: React.Dispatch<
+    React.SetStateAction<{ email: string; code: number }>
+  >;
 }
 
-const ForgotPassword = ({ setStep }: Props) => {
+const ForgotPassword = ({ setStep, setNewPassRes }: Props) => {
   const {
     handleSubmit,
     watch,
@@ -32,9 +35,14 @@ const ForgotPassword = ({ setStep }: Props) => {
   const [errorMessage, setErrorMessage] = useState<string>("");
 
   const onSubmit = async (data: ForgotPassSchema) => {
-    connectionAPIPost("/user/request-code", data, apiUrl)
+    connectionAPIPost<{ email: string; code: number }>(
+      "/user/request-code",
+      data,
+      apiUrl,
+    )
       .then((res) => {
         console.log("email e código:", res);
+        setNewPassRes(res);
         setStep("confirmCode");
         return;
       })
