@@ -46,8 +46,8 @@ const LoginComponent = ({ setStep }: Props) => {
       } else {
         setErrorMessage("Erro ao fazer login");
       }
-      setLoading(false);
     }
+    setLoading(false);
   };
 
   useEffect(() => {

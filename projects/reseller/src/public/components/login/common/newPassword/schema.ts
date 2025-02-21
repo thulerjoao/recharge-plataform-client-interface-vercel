@@ -1,6 +1,6 @@
 import { z } from "zod";
 
-export const loginSchema = z.object({
+export const newPassSchema = z.object({
   password: z
     .string()
     .min(6, "A senha deve ter no mínimo 6 caracteres")
@@ -12,4 +12,4 @@ export const loginSchema = z.object({
   confirmPassword: z.string(),
 });
 
-export type LoginSchema = z.infer<typeof loginSchema>;
+export type NewPassSchema = z.infer<typeof newPassSchema>;

@@ -33,8 +33,10 @@ const ForgotPassword = ({ setStep, setNewPassRes }: Props) => {
   });
 
   const [errorMessage, setErrorMessage] = useState<string>("");
+  const [loading, setLoading] = useState<boolean>(false);
 
   const onSubmit = async (data: ForgotPassSchema) => {
+    setLoading(true);
     connectionAPIPost<{ email: string; code: number }>(
       "/user/request-code",
       data,
@@ -49,6 +51,7 @@ const ForgotPassword = ({ setStep, setNewPassRes }: Props) => {
       .catch((err) => {
         setErrorMessage("Email inválido");
       });
+    setLoading(false);
   };
 
   useEffect(() => {
@@ -80,6 +83,7 @@ const ForgotPassword = ({ setStep, setNewPassRes }: Props) => {
         rounded
         title="Continuar"
         type="submit"
+        loading={loading}
       />
       <ErrorMessage>
         <Text

@@ -6,6 +6,7 @@ import {
   connectionAPIPost,
 } from "@4miga/services/connectionAPI/connection";
 import { usePathname, useRouter } from "next/navigation";
+import { LoginSchema } from "public/components/login/common/login/schema";
 import {
   createContext,
   ReactNode,
@@ -13,7 +14,7 @@ import {
   useEffect,
   useState,
 } from "react";
-import { LoginSchema } from "schemas/login";
+
 import { baseUrl } from "service/baseUrl";
 import { UserType } from "types/globalTypes";
 import { apiUrl } from "utils/apiUrl";
@@ -25,7 +26,7 @@ interface AuthProviderProps {
 interface loginParams {
   email: string;
   password: string;
-  isChecked: Boolean;
+  isChecked: boolean;
 }
 
 interface AuthProviderData {
