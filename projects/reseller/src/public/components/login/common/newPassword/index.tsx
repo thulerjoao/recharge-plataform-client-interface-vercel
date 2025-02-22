@@ -37,10 +37,6 @@ const NewPassword = ({ newPassRes }: Props) => {
   const confirmPassword = watch("confirmPassword");
 
   const onSubmit = async (data: NewPassSchema) => {
-    if (password !== confirmPassword) {
-      setErrorMessage("As senhas nao coincidem");
-      return;
-    }
     setLoading(true);
     await connectionAPIPost<any>(
       "/user/update-by-code",
@@ -71,11 +67,10 @@ const NewPassword = ({ newPassRes }: Props) => {
       setErrorMessage(errors.password.message);
       return;
     }
-    if (password !== confirmPassword) {
-      setErrorMessage("As senhas nao coincidem");
+    if (errors.confirmPassword) {
+      setErrorMessage(errors.confirmPassword.message);
       return;
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [errors]);
 
   return (

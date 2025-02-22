@@ -22,7 +22,6 @@ interface Props {
 const ForgotPassword = ({ setStep, setNewPassRes }: Props) => {
   const {
     handleSubmit,
-    watch,
     setValue,
     formState: { errors },
   } = useForm<ForgotPassSchema>({
