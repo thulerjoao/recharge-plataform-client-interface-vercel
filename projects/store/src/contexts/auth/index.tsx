@@ -1,7 +1,11 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 "use client";
 
-import { connectionAPIGet } from "@4miga/services/connectionAPI/connection";
+import {
+  connectionAPIGet,
+  connectionAPIPost,
+} from "@4miga/services/connectionAPI/connection";
+
 import { useRouter } from "next/navigation";
 import {
   createContext,
@@ -10,19 +14,26 @@ import {
   useEffect,
   useState,
 } from "react";
-import { baseUrl } from "api/apiUrl";
 
-import { loginParams, UserType } from "types/globalTypes";
+import { LoginSchema } from "public/components/loginModal/common/login/schema";
+import { UserType } from "types/globalTypes";
+import { apiUrl } from "utils/apiUrl";
 
 interface AuthProviderProps {
   children: ReactNode;
 }
 
+interface loginParams {
+  email: string;
+  password: string;
+  isChecked: boolean;
+}
+
 interface AuthProviderData {
   logged: boolean;
-  login: (param: loginParams) => void;
+  login: (param: LoginSchema) => Promise<boolean>;
   logout: () => void;
-  userStorage: UserType;
+  user: UserType;
 }
 
 const AuthContext = createContext<AuthProviderData>({} as AuthProviderData);
@@ -30,49 +41,64 @@ const AuthContext = createContext<AuthProviderData>({} as AuthProviderData);
 export const AuthProvider = ({ children }: AuthProviderProps) => {
   const route = useRouter();
   const [logged, setLogged] = useState<boolean>(false);
-  const [userStorage, setUserStorage] = useState<UserType>({
-    id: "",
-    name: "",
-    email: "",
-    password: "",
-  });
+  const [user, setUser] = useState<UserType>(null);
 
-  const checkTokenExpiration = () => {
-    const token = localStorage.getItem("token");
-    token && sessionStorage.setItem("token", token);
-
-    connectionAPIGet<{ data: UserType }>("/user/myself", baseUrl)
-      .then((res) => {
-        setUserStorage(res.data);
-        setLogged(true);
-      })
-      .catch(() => {
-        logout();
-      });
-  };
   useEffect(() => {
-    const token = localStorage.getItem("token");
-    if (token) checkTokenExpiration();
+    const checkAuth = async () => {
+      await connectionAPIGet<{ user: UserType }>(`/auth`, apiUrl).then(
+        (res) => {
+          setUser(res.user);
+          setLogged(true);
+        },
+      );
+    };
+    checkAuth();
   }, []);
 
-  const login = ({ token, user, isChecked }: loginParams) => {
-    if (isChecked) {
-      localStorage.setItem("token", token);
+  const login = async (data: loginParams) => {
+    const body = {
+      email: data.email,
+      password: data.password,
+    };
+    const loginResponse = await connectionAPIPost<{
+      token: string;
+      user: UserType;
+    }>("/auth", body, apiUrl).catch((err) => {
+      throw new Error("Usuário ou senha inválidos");
+    });
+
+    const { token, user } = loginResponse;
+
+    try {
+      const res = await fetch("/api/login", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ token, rememberMe: data.isChecked }),
+        credentials: "include",
+      });
+      if (!res.ok) throw new Error("Erro ao fazer login");
+      setLogged(true);
+      setUser(user);
+      return true;
+    } catch (error) {
+      return false;
     }
-    sessionStorage.setItem("token", token);
-    setLogged(true);
-    user && setUserStorage(user);
   };
 
-  const logout = () => {
-    localStorage.clear();
-    sessionStorage.clear();
-    setLogged(false);
-    route.replace("/");
+  const logout = async () => {
+    try {
+      await fetch("api/logout", {
+        method: "DELETE",
+      });
+      setLogged(false);
+      route.replace("/");
+    } catch (error) {
+      return;
+    }
   };
 
   return (
-    <AuthContext.Provider value={{ logged, login, logout, userStorage }}>
+    <AuthContext.Provider value={{ logged, login, logout, user }}>
       {children}
     </AuthContext.Provider>
   );

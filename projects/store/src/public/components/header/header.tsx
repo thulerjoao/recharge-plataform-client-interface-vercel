@@ -16,7 +16,7 @@ const Header = () => {
   const [loginModal, setLoginModal] = useState<boolean>(false);
   const [openInNewAccount, setOpenInNewAccount] = useState<boolean>(false);
   const [openMenu, setOpenMenu] = useState<boolean>(false);
-  const { logged, logout, login } = useAuth();
+  const { logged, logout, user } = useAuth();
   const route = useRouter();
   const modalRef = useRef(null);
 
@@ -37,6 +37,13 @@ const Header = () => {
     setOpenInNewAccount(isNewAccount);
     setLoginModal(true);
   };
+
+  function getFirstTwoNames(fullName) {
+    if (!fullName || typeof fullName !== "string") return "";
+
+    const names = fullName.trim().split(/\s+/);
+    return names.slice(0, 2).join(" "); // Pega apenas os dois primeiros nomes
+  }
 
   return (
     <HeaderContainer>
@@ -70,7 +77,7 @@ const Header = () => {
           >
             <span className="loginButton">
               <Text align="start" fontName="SMALL_SEMI_BOLD">
-                Luiz Silva Santos
+                {getFirstTwoNames(user.name)}
               </Text>
             </span>
             <Profile />

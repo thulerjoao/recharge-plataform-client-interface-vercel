@@ -22,6 +22,10 @@ const LoginModal = ({ setLoginModal, openInNewAccount }: LoginModalProps) => {
     openInNewAccount ? "newAccount" : "login",
   );
 
+  const [newPassRes, setNewPassRes] = useState<{ email: string; code: number }>(
+    null,
+  );
+
   const closeModal = () => {
     setLoginModal(false);
   };
@@ -45,12 +49,18 @@ const LoginModal = ({ setLoginModal, openInNewAccount }: LoginModalProps) => {
         </div>
         <TopLogo />
         {step === "login" && (
-        <LoginComponent setStep={setStep} closeModal={closeModal} />
+          <LoginComponent setStep={setStep} closeModal={closeModal} />
         )}
-        {step === "newAccount" && <NewAccount />}
-        {step === "forgotPassword" && <ForgotPassword setStep={setStep} />}
-        {step === "confirmCode" && <ConfirmCode setStep={setStep} />}
-        {step === "newPassword" && <NewPassword closeModal={closeModal} />}
+        {step === "newAccount" && <NewAccount closeModal={closeModal} />}
+        {step === "forgotPassword" && (
+          <ForgotPassword setNewPassRes={setNewPassRes} setStep={setStep} />
+        )}
+        {step === "confirmCode" && (
+          <ConfirmCode newPassRes={newPassRes} setStep={setStep} />
+        )}
+        {step === "newPassword" && (
+          <NewPassword newPassRes={newPassRes} closeModal={closeModal} />
+        )}
 
         {(step === "login" || step === "newAccount") && (
           <span

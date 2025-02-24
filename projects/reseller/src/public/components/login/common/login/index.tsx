@@ -39,7 +39,7 @@ const LoginComponent = ({ setStep }: Props) => {
   const onSubmit = async (data: LoginSchema) => {
     setLoading(true);
     try {
-      await login(data);
+      login(data);
     } catch (error) {
       if (error instanceof Error) {
         setErrorMessage(error.message);

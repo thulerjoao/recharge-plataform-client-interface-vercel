@@ -44,3 +44,8 @@ export const LoginComponentContainer = styled.form`
     }
   }
 `;
+
+export const ErrorMessage = styled.span`
+  height: 0px;
+  width: 100%;
+`;
