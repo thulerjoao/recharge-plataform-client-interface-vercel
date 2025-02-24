@@ -51,7 +51,7 @@ const LoginModal = ({ setLoginModal, openInNewAccount }: LoginModalProps) => {
         {step === "login" && (
           <LoginComponent setStep={setStep} closeModal={closeModal} />
         )}
-        {step === "newAccount" && <NewAccount />}
+        {step === "newAccount" && <NewAccount closeModal={closeModal} />}
         {step === "forgotPassword" && (
           <ForgotPassword setNewPassRes={setNewPassRes} setStep={setStep} />
         )}

@@ -1,6 +1,6 @@
 import styled from "styled-components";
 
-export const NewAccountContainer = styled.div`
+export const NewAccountContainer = styled.form`
   display: flex;
   flex-direction: column;
   padding: 0 24px;
@@ -17,4 +17,9 @@ export const NewAccountContainer = styled.div`
       background-color: pink;
     }
   }
+`;
+
+export const ErrorMessage = styled.span`
+  height: 0px;
+  width: 100%;
 `;
