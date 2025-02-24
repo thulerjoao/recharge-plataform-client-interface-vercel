@@ -5,7 +5,7 @@ import {
   connectionAPIGet,
   connectionAPIPost,
 } from "@4miga/services/connectionAPI/connection";
-import { usePathname, useRouter } from "next/navigation";
+import { useRouter } from "next/navigation";
 import { LoginSchema } from "public/components/login/common/login/schema";
 import {
   createContext,
@@ -15,7 +15,6 @@ import {
   useState,
 } from "react";
 
-import { baseUrl } from "service/baseUrl";
 import { UserType } from "types/globalTypes";
 import { apiUrl } from "utils/apiUrl";
 
@@ -39,7 +38,6 @@ interface AuthProviderData {
 const AuthContext = createContext<AuthProviderData>({} as AuthProviderData);
 
 export const AuthProvider = ({ children }: AuthProviderProps) => {
-  const currentPath = usePathname();
   const route = useRouter();
   const [logged, setLogged] = useState<boolean>(false);
 
@@ -66,7 +64,7 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
     const loginResponse = await connectionAPIPost<{
       token: string;
       user: UserType;
-    }>("/auth", body, baseUrl).catch((err) => {
+    }>("/auth", body, apiUrl).catch((err) => {
       throw new Error("Usuário ou senha inválidos");
     });
 

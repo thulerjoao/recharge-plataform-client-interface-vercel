@@ -45,7 +45,7 @@ const LoginModal = ({ setLoginModal, openInNewAccount }: LoginModalProps) => {
         </div>
         <TopLogo />
         {step === "login" && (
-        <LoginComponent setStep={setStep} closeModal={closeModal} />
+          <LoginComponent setStep={setStep} closeModal={closeModal} />
         )}
         {step === "newAccount" && <NewAccount />}
         {step === "forgotPassword" && <ForgotPassword setStep={setStep} />}
