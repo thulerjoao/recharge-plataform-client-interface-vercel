@@ -19,6 +19,7 @@ const ConfirmCode = ({ setStep, newPassRes }: Props) => {
     handleSubmit,
     watch,
     setValue,
+    setError,
     formState: { errors },
   } = useForm<CodeSchema>({
     resolver: zodResolver(codeSchema),
@@ -34,7 +35,7 @@ const ConfirmCode = ({ setStep, newPassRes }: Props) => {
     if (+code === newPassRes.code) {
       setStep("newPassword");
     } else {
-      setErrorMessage("Código inválido");
+      setError("code", { type: "manual", message: "Código inválido" });
     }
   };
 

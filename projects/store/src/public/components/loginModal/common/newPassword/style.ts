@@ -1,7 +1,7 @@
 import { Theme } from "@4miga/design-system/theme/theme";
 import styled from "styled-components";
 
-export const NewPasswordContainer = styled.div`
+export const NewPasswordContainer = styled.form`
   display: flex;
   flex-direction: column;
   padding: 0 24px;
@@ -43,4 +43,9 @@ export const NewPasswordContainer = styled.div`
       cursor: pointer;
     }
   }
+`;
+
+export const ErrorMessage = styled.span`
+  height: 0px;
+  width: 100%;
 `;
