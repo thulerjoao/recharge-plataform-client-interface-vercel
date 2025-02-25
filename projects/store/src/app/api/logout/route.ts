@@ -1,13 +1,16 @@
-import { cookies } from "next/headers";
-import { NextResponse } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 
-export async function DELETE() {
-  const cookieStore = cookies();
-  cookieStore.set("token", "", { expires: new Date(0), path: "/" });
-  cookieStore.set("logged", "", { expires: new Date(0), path: "/" });
+export async function DELETE(req: NextRequest) {
+  const response = new NextResponse(
+    JSON.stringify({
+      success: true,
+      message: "Logout realizado com sucesso",
+    }),
+    { status: 200 },
+  );
 
-  return NextResponse.json({
-    success: true,
-    message: "Logout realizado com sucesso",
-  });
+  response.cookies.set("token", "", { path: "/", expires: new Date(0) });
+  response.cookies.set("logged", "", { path: "/", expires: new Date(0) });
+
+  return response;
 }

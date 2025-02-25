@@ -68,6 +68,8 @@ const LoginComponent = ({ setStep }: Props) => {
         Entre para acessar sua conta
       </Text>
       <Input
+        id="email"
+        name="email"
         margin="24px 0 0 0"
         padding="0 8px 0px 40px"
         height={40}
@@ -75,8 +77,10 @@ const LoginComponent = ({ setStep }: Props) => {
         leftElement={<Email />}
         value={watch("email")}
         onChange={(e) => setValue("email", e.target.value)}
+        onFocus={() => setErrorMessage("")}
       />
       <Input
+        name="password"
         margin="24px 0 0 0"
         padding="0 8px 0px 40px"
         height={40}

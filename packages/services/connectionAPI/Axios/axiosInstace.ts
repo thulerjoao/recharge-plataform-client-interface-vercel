@@ -7,7 +7,7 @@ const createApiInstance = (baseURL: string): AxiosInstance => {
 
   api.interceptors.request.use(async (config: any) => {
     try {
-      const response = await axios.get("http://localhost:3000/api/token", {
+      const response = await axios.get("/api/token", {
         withCredentials: true,
       });
 
