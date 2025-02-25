@@ -6,10 +6,7 @@ export async function POST(req: Request) {
     const { token, rememberMe } = await req.json();
 
     if (!token) {
-      return NextResponse.json(
-        { error: "Missing token or user" },
-        { status: 400 },
-      );
+      return NextResponse.json({ error: "Missing token" }, { status: 400 });
     }
 
     const cookieStore = cookies();

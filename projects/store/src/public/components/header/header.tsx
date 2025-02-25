@@ -77,7 +77,7 @@ const Header = () => {
           >
             <span className="loginButton">
               <Text align="start" fontName="SMALL_SEMI_BOLD">
-                {getFirstTwoNames(user.name)}
+                {user && getFirstTwoNames(user.name)}
               </Text>
             </span>
             <Profile />
