@@ -87,6 +87,7 @@ const Header = () => {
           <MenuComponent ref={modalRef}>
             <span className="square" />
             <div
+              className="menuOption"
               onClick={() => {
                 route.push("/my-orders");
                 setOpenMenu(false);
@@ -100,6 +101,7 @@ const Header = () => {
               </Text>
             </div>
             <div
+              className="menuOption"
               onClick={() => {
                 logout();
                 route.push("/home");
