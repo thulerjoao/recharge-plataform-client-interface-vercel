@@ -5,6 +5,7 @@ import {
   connectionAPIGet,
   connectionAPIPost,
 } from "@4miga/services/connectionAPI/connection";
+import axios from "axios";
 import { useRouter } from "next/navigation";
 import { LoginSchema } from "public/components/login/common/login/schema";
 import {
@@ -45,13 +46,28 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
 
   useEffect(() => {
     const checkAuth = async () => {
-      await connectionAPIGet<{ user: UserType }>(`/auth`, apiUrl).then(
-        (res) => {
-          setUser(res.user);
-          setLogged(true);
-          route.replace("/home");
-        },
-      );
+      try {
+        const response = await axios.get("/api/token", {
+          withCredentials: true,
+        });
+        const token = response.data?.token;
+        if (!token) throw new Error("Login expirado");
+        await connectionAPIGet<{ user: UserType }>(`/auth`, apiUrl).then(
+          (res) => {
+            setUser(res.user);
+            setLogged(true);
+            axios
+              .post("/api/login", {
+                token: token,
+                rememberMe: true,
+              })
+              .then(() => route.replace("/home"))
+              .catch();
+          },
+        );
+      } catch {
+        return;
+      }
     };
     checkAuth();
   }, []);
@@ -88,11 +104,15 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
 
   const logout = async () => {
     try {
-      await fetch("api/logout", {
-        method: "DELETE",
-      });
-      setLogged(false);
-      route.replace("/");
+      await fetch("/api/logout", { method: "DELETE" });
+      await new Promise((resolve) => setTimeout(resolve, 100));
+      const response = await axios.get("/api/token", { withCredentials: true });
+      if (response.data?.token) {
+        await fetch("/api/logout", { method: "DELETE" });
+      } else {
+        setLogged(false);
+        route.replace("/");
+      }
     } catch (error) {
       return;
     }

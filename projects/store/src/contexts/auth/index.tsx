@@ -15,6 +15,7 @@ import {
   useState,
 } from "react";
 
+import axios from "axios";
 import { LoginSchema } from "public/components/loginModal/common/login/schema";
 import { UserType } from "types/globalTypes";
 import { apiUrl } from "utils/apiUrl";
@@ -43,14 +44,39 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
   const [logged, setLogged] = useState<boolean>(false);
   const [user, setUser] = useState<UserType>(null);
 
+  // useEffect(() => {
+  //   const checkAuth = async () => {
+  //     await connectionAPIGet<{ user: UserType }>(`/auth`, apiUrl).then(
+  //       (res) => {
+  //         setUser(res.user);
+  //         setLogged(true);
+  //       },
+  //     );
+  //   };
+  //   checkAuth();
+  // }, []);
+
   useEffect(() => {
     const checkAuth = async () => {
-      await connectionAPIGet<{ user: UserType }>(`/auth`, apiUrl).then(
-        (res) => {
-          setUser(res.user);
-          setLogged(true);
-        },
-      );
+      try {
+        const response = await axios.get("/api/token", {
+          withCredentials: true,
+        });
+        const token = response.data?.token;
+        if (!token) throw new Error("Login expirado");
+        await connectionAPIGet<{ user: UserType }>(`/auth`, apiUrl).then(
+          (res) => {
+            setUser(res.user);
+            setLogged(true);
+            axios.post("/api/login", {
+              token: token,
+              rememberMe: true,
+            });
+          },
+        );
+      } catch {
+        return;
+      }
     };
     checkAuth();
   }, []);
@@ -87,11 +113,15 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
 
   const logout = async () => {
     try {
-      await fetch("api/logout", {
-        method: "DELETE",
-      });
-      setLogged(false);
-      route.replace("/");
+      await fetch("/api/logout", { method: "DELETE" });
+      await new Promise((resolve) => setTimeout(resolve, 100));
+      const response = await axios.get("/api/token", { withCredentials: true });
+      if (response.data?.token) {
+        await fetch("/api/logout", { method: "DELETE" });
+      } else {
+        setLogged(false);
+        route.replace("/");
+      }
     } catch (error) {
       return;
     }

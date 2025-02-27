@@ -86,6 +86,9 @@ export const MenuComponent = styled.div`
     right: 16px;
     transform: rotate(45deg);
   }
+  .menuOption {
+    width: 100%;
+  }
 
   div {
     width: 1rem;

@@ -6,10 +6,7 @@ export async function POST(req: Request) {
     const { token, rememberMe } = await req.json();
 
     if (!token) {
-      return NextResponse.json(
-        { error: "Missing token or user" },
-        { status: 400 },
-      );
+      return NextResponse.json({ error: "Missing token" }, { status: 400 });
     }
 
     const cookieStore = cookies();
@@ -20,6 +17,13 @@ export async function POST(req: Request) {
       sameSite: "strict",
       path: "/",
       ...(rememberMe && { maxAge: 60 * 60 * 24 * 365 * 10 }),
+    });
+
+    cookieStore.set("logged", "true", {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === "production",
+      sameSite: "strict",
+      path: "/",
     });
 
     return NextResponse.json({ success: true });

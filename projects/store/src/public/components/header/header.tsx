@@ -77,7 +77,7 @@ const Header = () => {
           >
             <span className="loginButton">
               <Text align="start" fontName="SMALL_SEMI_BOLD">
-                {getFirstTwoNames(user.name)}
+                {user && getFirstTwoNames(user.name)}
               </Text>
             </span>
             <Profile />
@@ -87,6 +87,7 @@ const Header = () => {
           <MenuComponent ref={modalRef}>
             <span className="square" />
             <div
+              className="menuOption"
               onClick={() => {
                 route.push("/my-orders");
                 setOpenMenu(false);
@@ -100,6 +101,7 @@ const Header = () => {
               </Text>
             </div>
             <div
+              className="menuOption"
               onClick={() => {
                 logout();
                 route.push("/home");

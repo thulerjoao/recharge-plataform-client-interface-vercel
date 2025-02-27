@@ -79,6 +79,7 @@ const LoginComponent = ({ setStep, closeModal }: Props) => {
         leftElement={<Email />}
         value={watch("email")}
         onChange={(e) => setValue("email", e.target.value)}
+        onFocus={() => setErrorMessage("")}
       />
       <Input
         name="password"
