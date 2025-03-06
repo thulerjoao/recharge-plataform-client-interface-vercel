@@ -3,7 +3,7 @@ import path from 'path'
 
 //Sync object
 const config: Config.InitialOptions = {
-    testEnvironment: 'jsdom',
+    testEnvironment: 'node',
     verbose: true,
     setupFilesAfterEnv: [
         path.resolve(__dirname, 'src', 'setupTests.js')

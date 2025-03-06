@@ -3,15 +3,19 @@ import { NextResponse } from "next/server";
 
 export async function POST(req: Request) {
   try {
-    const { token, rememberMe } = await req.json();
+    const { accessToken, refreshToken, rememberMe } = await req.json();
 
-    if (!token) {
+    if (!accessToken) {
+      return NextResponse.json({ error: "Missing token" }, { status: 400 });
+    }
+
+    if (!refreshToken) {
       return NextResponse.json({ error: "Missing token" }, { status: 400 });
     }
 
     const cookieStore = cookies();
 
-    cookieStore.set("token", token, {
+    cookieStore.set("token", accessToken, {
       httpOnly: true,
       secure: process.env.NODE_ENV === "production",
       sameSite: "strict",
@@ -19,7 +23,7 @@ export async function POST(req: Request) {
       ...(rememberMe && { maxAge: 60 * 60 * 24 * 365 * 10 }),
     });
 
-    cookieStore.set("logged", "true", {
+    cookieStore.set("inSession", "true", {
       httpOnly: true,
       secure: process.env.NODE_ENV === "production",
       sameSite: "strict",
