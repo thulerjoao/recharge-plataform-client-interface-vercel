@@ -34,8 +34,6 @@ export const ProductProvider = ({ children }: { children: ReactNode }) => {
     updateProducts;
   }, []);
 
-  console.log(products);
-
   return (
     <ProductContext.Provider
       value={{
