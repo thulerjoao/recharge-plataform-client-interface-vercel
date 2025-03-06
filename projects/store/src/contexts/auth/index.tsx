@@ -43,42 +43,42 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
   const route = useRouter();
   const [logged, setLogged] = useState<boolean>(false);
   const [user, setUser] = useState<UserType>(null);
+  const [products, setProducts] = useState<any>(null);
+  const [expiresIn, setExpiresIn] = useState<number>(null);
 
   // useEffect(() => {
   //   const checkAuth = async () => {
-  //     await connectionAPIGet<{ user: UserType }>(`/auth`, apiUrl).then(
-  //       (res) => {
-  //         setUser(res.user);
-  //         setLogged(true);
-  //       },
-  //     );
+  //     try {
+  //       const response = await axios.get("/api/token", {
+  //         withCredentials: true,
+  //       });
+  //       const token = response.data?.token;
+  //       if (!token) throw new Error("Login expirado");
+  //       await connectionAPIGet<{ user: UserType }>(`/auth`, apiUrl).then(
+  //         (res) => {
+  //           setUser(res.user);
+  //           setLogged(true);
+  //           axios.post("/api/login", {
+  //             token: token,
+  //             rememberMe: true,
+  //           });
+  //         },
+  //       );
+  //     } catch {
+  //       return;
+  //     }
   //   };
   //   checkAuth();
   // }, []);
 
   useEffect(() => {
-    const checkAuth = async () => {
-      try {
-        const response = await axios.get("/api/token", {
-          withCredentials: true,
-        });
-        const token = response.data?.token;
-        if (!token) throw new Error("Login expirado");
-        await connectionAPIGet<{ user: UserType }>(`/auth`, apiUrl).then(
-          (res) => {
-            setUser(res.user);
-            setLogged(true);
-            axios.post("/api/login", {
-              token: token,
-              rememberMe: true,
-            });
-          },
-        );
-      } catch {
-        return;
-      }
-    };
-    checkAuth();
+    connectionAPIGet<any>("/product", apiUrl)
+      .then((res) => {
+        console.log(res);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   }, []);
 
   const login = async (data: loginParams) => {
@@ -87,24 +87,37 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
       password: data.password,
     };
     const loginResponse = await connectionAPIPost<{
-      token: string;
-      user: UserType;
-    }>("/auth", body, apiUrl).catch((err) => {
+      accessToken: string;
+      refreshToken: string;
+      expiresIn: number;
+      // user: UserType; => mocked for while
+    }>("/customer/login", body, apiUrl).catch((err) => {
       throw new Error("Usuário ou senha inválidos");
     });
 
-    const { token, user } = loginResponse;
+    console.log(loginResponse);
+    const { accessToken, refreshToken, expiresIn } = loginResponse;
+    const user: UserType = {
+      email: data.email,
+      name: "João Pedro Thuler Lima",
+      cpf: "15019718750",
+    };
 
     try {
       const res = await fetch("/api/login", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ token, rememberMe: data.isChecked }),
+        body: JSON.stringify({
+          accessToken,
+          refreshToken,
+          rememberMe: data.isChecked,
+        }),
         credentials: "include",
       });
       if (!res.ok) throw new Error("Erro ao fazer login");
       setLogged(true);
       setUser(user);
+      setExpiresIn(expiresIn);
       return true;
     } catch (error) {
       return false;

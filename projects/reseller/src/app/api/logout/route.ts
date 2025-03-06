@@ -10,7 +10,7 @@ export async function DELETE(req: NextRequest) {
   );
 
   response.cookies.set("token", "", { path: "/", expires: new Date(0) });
-  response.cookies.set("logged", "", { path: "/", expires: new Date(0) });
+  response.cookies.set("inSession", "", { path: "/", expires: new Date(0) });
 
   return response;
 }
