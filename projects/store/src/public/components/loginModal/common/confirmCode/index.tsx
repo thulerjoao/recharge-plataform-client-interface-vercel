@@ -1,16 +1,13 @@
 import Button from "@4miga/design-system/components/button";
-import Input from "@4miga/design-system/components/input";
 import Text from "@4miga/design-system/components/Text";
 import { Theme } from "@4miga/design-system/theme/theme";
 import { connectionAPIPost } from "@4miga/services/connectionAPI/connection";
-import { zodResolver } from "@hookform/resolvers/zod";
 import { useAuth } from "contexts/auth";
-import React, { useEffect, useState } from "react";
-import { useForm } from "react-hook-form";
+import InputCode from "public/components/inputCode";
+import React, { useState } from "react";
 import { loginParams, UserType } from "types/globalTypes";
 import { apiUrl } from "utils/apiUrl";
 import { LoginSteps } from "../../types/types";
-import { codeSchema, CodeSchema } from "./schema";
 import { ConfirmCodeContainer, ErrorMessage } from "./style";
 
 interface Props {
@@ -22,24 +19,14 @@ interface Props {
 
 const ConfirmCode = ({ user, previousStep, setStep, closeModal }: Props) => {
   const { login } = useAuth();
-  const {
-    handleSubmit,
-    watch,
-    setValue,
-    setError,
-    formState: { errors },
-  } = useForm<CodeSchema>({
-    resolver: zodResolver(codeSchema),
-    defaultValues: {
-      code: "",
-    },
-  });
 
   const [errorMessage, setErrorMessage] = useState<string>("");
+  const [code, setCode] = useState<number>(null);
 
-  const onSubmit = async (data: CodeSchema) => {
-    const code = watch("code");
-    if (previousStep === "newAccount") {
+  const onSubmit = async () => {
+    // if (previousStep === "newAccount") {
+    // eslint-disable-next-line no-constant-condition
+    if (true) {
       const data = {
         email: user.email,
         code,
@@ -52,49 +39,36 @@ const ConfirmCode = ({ user, previousStep, setStep, closeModal }: Props) => {
             rememberMe: true,
           };
           login(data);
-          closeModal();
+          // closeModal();
         })
         .catch(() => {
-          setError("code", { type: "manual", message: "Código inválido" });
+          setErrorMessage("Código inválido");
         });
     } else if (previousStep === "newPassword") {
       return;
     }
   };
 
-  useEffect(() => {
-    setErrorMessage("");
-    if (errors.code) {
-      setErrorMessage(errors.code.message);
-      return;
-    }
-  }, [errors]);
+  const handleDisabled = () => {
+    if (!code) return true;
+    if (code.toString().length != 6) return true;
+  };
 
   return (
-    <ConfirmCodeContainer onSubmit={handleSubmit(onSubmit)}>
+    <ConfirmCodeContainer>
       <Text margin="24px 0 0 0" align="center" fontName="REGULAR_MEDIUM">
         Confirme o código que foi enviado para seu e-mail
       </Text>
-      <Input
-        type="number"
-        onInput={(e) => {
-          const target = e.target as HTMLInputElement;
-          target.value = target.value.replace(/[^0-9-]/g, "");
-        }}
-        style={{ textAlign: "center" }}
-        margin="24px 0 0 0"
-        padding="0 8px 0px 40px"
-        height={40}
-        onChange={(e) => setValue("code", e.target.value)}
-        onFocus={() => setErrorMessage("")}
-      />
+      <InputCode code={code} setCode={setCode} />
       <Button
         margin="24px 0 0 0"
         width={310}
         height={40}
         rounded
         title="Enviar"
-        type="submit"
+        onClick={() => onSubmit()}
+        isNotSelected={handleDisabled()}
+        disabled={handleDisabled()}
       />
       <ErrorMessage>
         <Text
