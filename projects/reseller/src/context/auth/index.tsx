@@ -26,7 +26,7 @@ interface AuthProviderProps {
 interface loginParams {
   email: string;
   password: string;
-  isChecked: boolean;
+  rememberMe: boolean;
 }
 
 interface AuthProviderData {
@@ -90,7 +90,7 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
       const res = await fetch("/api/login", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ token, rememberMe: data.isChecked }),
+        body: JSON.stringify({ token, rememberMe: data.rememberMe }),
         credentials: "include",
       });
       if (!res.ok) throw new Error("Erro ao fazer login");

@@ -27,14 +27,14 @@ interface AuthProviderProps {
 interface loginParams {
   email: string;
   password: string;
-  isChecked: boolean;
+  rememberMe: boolean;
 }
 
 interface AuthProviderData {
   logged: boolean;
   login: (param: LoginSchema) => Promise<boolean>;
   logout: () => void;
-  user: UserType;
+  user: Partial<UserType>;
 }
 
 const AuthContext = createContext<AuthProviderData>({} as AuthProviderData);
@@ -42,8 +42,7 @@ const AuthContext = createContext<AuthProviderData>({} as AuthProviderData);
 export const AuthProvider = ({ children }: AuthProviderProps) => {
   const route = useRouter();
   const [logged, setLogged] = useState<boolean>(false);
-  const [user, setUser] = useState<UserType>(null);
-  const [products, setProducts] = useState<any>(null);
+  const [user, setUser] = useState<Partial<UserType>>(null);
   const [expiresIn, setExpiresIn] = useState<number>(null);
 
   // useEffect(() => {
@@ -97,10 +96,13 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
 
     console.log(loginResponse);
     const { accessToken, refreshToken, expiresIn } = loginResponse;
-    const user: UserType = {
+    const user: Partial<UserType> = {
       email: data.email,
       name: "João Pedro Thuler Lima",
-      cpf: "15019718750",
+      individualIdentification: {
+        type: "CPF",
+        value: "494.745.670-18",
+      },
     };
 
     try {
@@ -110,7 +112,7 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
         body: JSON.stringify({
           accessToken,
           refreshToken,
-          rememberMe: data.isChecked,
+          rememberMe: data.rememberMe,
         }),
         credentials: "include",
       });

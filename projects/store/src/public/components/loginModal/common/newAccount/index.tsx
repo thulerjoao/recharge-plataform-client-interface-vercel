@@ -4,24 +4,29 @@ import Text from "@4miga/design-system/components/Text";
 import { Theme } from "@4miga/design-system/theme/theme";
 import { connectionAPIPost } from "@4miga/services/connectionAPI/connection";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useAuth } from "contexts/auth";
 import React, { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import InputMask from "react-input-mask";
+import { UserType } from "types/globalTypes";
 import { apiUrl } from "utils/apiUrl";
 import CPFicon from "../../icons/CPFicon.svg";
 import Email from "../../icons/Email.svg";
 import Name from "../../icons/Name.svg";
 import Password from "../../icons/Password.svg";
 import Phone from "../../icons/Phone.svg";
+import { LoginSteps } from "../../types/types";
 import { registerSchema, RegisterSchema } from "./schema";
 import { ErrorMessage, NewAccountContainer } from "./style";
 
 interface Props {
-  closeModal: () => void;
+  setNewUser: React.Dispatch<React.SetStateAction<UserType>>;
+  setStep: React.Dispatch<React.SetStateAction<LoginSteps>>;
+  setPreviousStep: React.Dispatch<
+    React.SetStateAction<"newAccount" | "newPassword" | null>
+  >;
 }
 
-const NewAccount = ({ closeModal }: Props) => {
+const NewAccount = ({ setNewUser, setStep, setPreviousStep }: Props) => {
   const [loading, setLoading] = useState<boolean>(false);
   const {
     handleSubmit,
@@ -37,25 +42,25 @@ const NewAccount = ({ closeModal }: Props) => {
       password: "",
     },
   });
-  const { login } = useAuth();
   const [errorMessage, setErrorMessage] = useState<string>("");
 
   const onSubmit = async (data: RegisterSchema) => {
     setLoading(true);
-    const body = {
+    const body: UserType = {
       name: data.name,
       email: data.email,
+      phone: data.phone,
       password: data.password,
-      confirmPassword: data.password,
+      individualIdentification: {
+        type: "CPF",
+        value: data.password,
+      },
     };
-    await connectionAPIPost<any>("/user", body, apiUrl)
+    await connectionAPIPost<null>("/customer", body, apiUrl)
       .then(() => {
-        login({
-          email: data.email,
-          password: data.password,
-          isChecked: true,
-        });
-        closeModal();
+        setNewUser(body);
+        setPreviousStep("newAccount");
+        setStep("confirmCode");
       })
       .catch((err) => {
         setErrorMessage("Erro ao cadastrar usuário");

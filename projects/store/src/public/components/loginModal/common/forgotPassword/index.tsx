@@ -14,12 +14,9 @@ import { ErrorMessage, ForgotPasswordContainer } from "./style";
 
 interface Props {
   setStep: React.Dispatch<React.SetStateAction<LoginSteps>>;
-  setNewPassRes: React.Dispatch<
-    React.SetStateAction<{ email: string; code: number }>
-  >;
 }
 
-const ForgotPassword = ({ setStep, setNewPassRes }: Props) => {
+const ForgotPassword = ({ setStep }: Props) => {
   const {
     handleSubmit,
     setValue,
@@ -43,8 +40,6 @@ const ForgotPassword = ({ setStep, setNewPassRes }: Props) => {
       apiUrl,
     )
       .then((res) => {
-        console.log("email e código:", res);
-        setNewPassRes(res);
         setStep("confirmCode");
         return;
       })

@@ -14,10 +14,9 @@ import { Theme } from "@4miga/design-system/theme/theme";
 
 interface Props {
   closeModal: () => void;
-  newPassRes: { email: string; code: number };
 }
 
-const NewPassword = ({ closeModal, newPassRes }: Props) => {
+const NewPassword = ({ closeModal }: Props) => {
   const [loading, setLoading] = useState<boolean>(false);
   const {
     handleSubmit,
@@ -42,8 +41,8 @@ const NewPassword = ({ closeModal, newPassRes }: Props) => {
     await connectionAPIPost<any>(
       "/user/update-by-code",
       {
-        email: newPassRes.email,
-        code: newPassRes.code,
+        // email: newPassRes.email,
+        // code: newPassRes.code,
         password,
         confirmPassword,
       },
@@ -51,9 +50,9 @@ const NewPassword = ({ closeModal, newPassRes }: Props) => {
     )
       .then(() => {
         login({
-          email: newPassRes.email,
+          // email: newPassRes.email,
           password,
-          isChecked: true,
+          rememberMe: true,
         });
         closeModal();
       })

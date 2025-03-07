@@ -52,7 +52,7 @@ const NewPassword = ({ newPassRes }: Props) => {
         return login({
           email: newPassRes.email,
           password,
-          isChecked: true,
+          rememberMe: true,
         });
       })
       .catch((err) => {

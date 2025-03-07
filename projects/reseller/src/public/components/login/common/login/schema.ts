@@ -10,7 +10,7 @@ export const loginSchema = z.object({
       /[^a-zA-Z0-9]/,
       "A senha deve conter ao menos um caractere especial",
     ),
-  isChecked: z.boolean().default(true),
+  rememberMe: z.boolean().default(true),
 });
 
 export type LoginSchema = z.infer<typeof loginSchema>;
