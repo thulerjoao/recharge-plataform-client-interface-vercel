@@ -2,19 +2,26 @@ import Button from "@4miga/design-system/components/button";
 import Input from "@4miga/design-system/components/input";
 import Text from "@4miga/design-system/components/Text";
 import { Theme } from "@4miga/design-system/theme/theme";
+import { connectionAPIPost } from "@4miga/services/connectionAPI/connection";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useAuth } from "contexts/auth";
 import React, { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
+import { loginParams, UserType } from "types/globalTypes";
+import { apiUrl } from "utils/apiUrl";
 import { LoginSteps } from "../../types/types";
 import { codeSchema, CodeSchema } from "./schema";
 import { ConfirmCodeContainer, ErrorMessage } from "./style";
 
 interface Props {
+  user: UserType;
+  previousStep: "newAccount" | "newPassword" | null;
   setStep: React.Dispatch<React.SetStateAction<LoginSteps>>;
-  newPassRes: { email: string; code: number };
+  closeModal: () => void;
 }
 
-const ConfirmCode = ({ setStep, newPassRes }: Props) => {
+const ConfirmCode = ({ user, previousStep, setStep, closeModal }: Props) => {
+  const { login } = useAuth();
   const {
     handleSubmit,
     watch,
@@ -32,10 +39,26 @@ const ConfirmCode = ({ setStep, newPassRes }: Props) => {
 
   const onSubmit = async (data: CodeSchema) => {
     const code = watch("code");
-    if (+code === newPassRes.code) {
-      setStep("newPassword");
-    } else {
-      setError("code", { type: "manual", message: "Código inválido" });
+    if (previousStep === "newAccount") {
+      const data = {
+        email: user.email,
+        code,
+      };
+      connectionAPIPost("/customer/confirm-email", data, apiUrl)
+        .then(() => {
+          const data: loginParams = {
+            email: user.email,
+            password: user.password,
+            rememberMe: true,
+          };
+          login(data);
+          closeModal();
+        })
+        .catch(() => {
+          setError("code", { type: "manual", message: "Código inválido" });
+        });
+    } else if (previousStep === "newPassword") {
+      return;
     }
   };
 

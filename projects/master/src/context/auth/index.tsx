@@ -20,7 +20,7 @@ interface AuthProviderProps {
 interface loginParams {
   token: string;
   user: UserType;
-  isChecked: Boolean;
+  rememberMe: Boolean;
 }
 
 interface AuthProviderData {
@@ -61,8 +61,8 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
     if (token) checkTokenExpiration();
   }, []);
 
-  const login = ({ token, user, isChecked }: loginParams) => {
-    if (isChecked) {
+  const login = ({ token, user, rememberMe }: loginParams) => {
+    if (rememberMe) {
       localStorage.setItem("token", token);
     }
     sessionStorage.setItem("token", token);

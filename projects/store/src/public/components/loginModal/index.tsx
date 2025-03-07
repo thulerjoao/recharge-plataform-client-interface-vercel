@@ -1,6 +1,7 @@
 import Text from "@4miga/design-system/components/Text";
 import { Theme } from "@4miga/design-system/theme/theme";
 import React, { useState } from "react";
+import { UserType } from "types/globalTypes";
 import ConfirmCode from "./common/confirmCode";
 import ForgotPassword from "./common/forgotPassword";
 import LoginComponent from "./common/login";
@@ -21,10 +22,10 @@ const LoginModal = ({ setLoginModal, openInNewAccount }: LoginModalProps) => {
   const [step, setStep] = useState<LoginSteps>(
     openInNewAccount ? "newAccount" : "login",
   );
-
-  const [newPassRes, setNewPassRes] = useState<{ email: string; code: number }>(
-    null,
-  );
+  const [previousStep, setPreviousStep] = useState<
+    "newAccount" | "newPassword" | null
+  >(null);
+  const [newUser, setNewUser] = useState<UserType>(null);
 
   const closeModal = () => {
     setLoginModal(false);
@@ -51,16 +52,23 @@ const LoginModal = ({ setLoginModal, openInNewAccount }: LoginModalProps) => {
         {step === "login" && (
           <LoginComponent setStep={setStep} closeModal={closeModal} />
         )}
-        {step === "newAccount" && <NewAccount closeModal={closeModal} />}
-        {step === "forgotPassword" && (
-          <ForgotPassword setNewPassRes={setNewPassRes} setStep={setStep} />
+        {step === "newAccount" && (
+          <NewAccount
+            setNewUser={setNewUser}
+            setStep={setStep}
+            setPreviousStep={setPreviousStep}
+          />
         )}
+        {step === "forgotPassword" && <ForgotPassword setStep={setStep} />}
         {step === "confirmCode" && (
-          <ConfirmCode newPassRes={newPassRes} setStep={setStep} />
+          <ConfirmCode
+            user={newUser}
+            previousStep={previousStep}
+            closeModal={closeModal}
+            setStep={setStep}
+          />
         )}
-        {step === "newPassword" && (
-          <NewPassword newPassRes={newPassRes} closeModal={closeModal} />
-        )}
+        {step === "newPassword" && <NewPassword closeModal={closeModal} />}
 
         {(step === "login" || step === "newAccount") && (
           <span

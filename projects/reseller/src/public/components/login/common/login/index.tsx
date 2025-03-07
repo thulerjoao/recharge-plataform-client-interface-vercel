@@ -28,12 +28,12 @@ const LoginComponent = ({ setStep }: Props) => {
     defaultValues: {
       email: "",
       password: "",
-      isChecked: true,
+      rememberMe: true,
     },
   });
 
   const { login } = useAuth();
-  const isChecked = watch("isChecked");
+  const rememberMe = watch("rememberMe");
   const [errorMessage, setErrorMessage] = useState<string>("");
 
   const onSubmit = async (data: LoginSchema) => {
@@ -94,10 +94,10 @@ const LoginComponent = ({ setStep }: Props) => {
       <div className="keepConnected">
         <div
           className="check"
-          onClick={() => setValue("isChecked", !isChecked)}
+          onClick={() => setValue("rememberMe", !rememberMe)}
         >
           <span className="checkIcon">
-            <span className={isChecked && "fill"} />
+            <span className={rememberMe && "fill"} />
           </span>
           <Text margin="0 0 0 4px" nowrap fontName="TINY">
             Continuar conectado
