@@ -2,21 +2,23 @@
 
 import Text from "@4miga/design-system/components/Text";
 import Carousel from "app/home/common/components/carousel/carousel";
-import Image from "next/image";
 import BottomOffer from "public/components/bottomOffer/bottomOffer";
 import SecurityAdvertise from "public/components/securityAdvertise/securityAdvertise";
 import GameCard from "../../../public/cards/gameCard/card";
 import Lines from "../common/components/lines/lines";
-import Card1 from "../common/temp/Card1.png";
-import Card2 from "../common/temp/Card2.png";
-import Card3 from "../common/temp/Card3.png";
-import Card4 from "../common/temp/Card4.png";
-import Card5 from "../common/temp/Card5.png";
-import Card6 from "../common/temp/Card6.png";
+// import Card1 from "../common/temp/Card1.png";
+// import Card2 from "../common/temp/Card2.png";
+// import Card3 from "../common/temp/Card3.png";
+// import Card4 from "../common/temp/Card4.png";
+// import Card5 from "../common/temp/Card5.png";
+// import Card6 from "../common/temp/Card6.png";
+import { useProduct } from "contexts/product";
 import mainBanner from "../common/temp/mainBanner.png";
 import { HomeContainer } from "./style";
 
 const Home = () => {
+  const { products } = useProduct();
+
   return (
     <HomeContainer>
       <Carousel imagesList={[mainBanner, mainBanner, mainBanner]} />
@@ -39,24 +41,18 @@ const Home = () => {
           Texto de exemplo
         </Text>
         <section className="cardsContainer">
-          <div className="cardEnviroment">
-            <GameCard image={Card1} name="Bigo Live" />
-          </div>
-          <div className="cardEnviroment">
-            <GameCard image={Card2} name="Farlight 84" />
-          </div>
-          <div className="cardEnviroment">
-            <GameCard image={Card3} name="8 Ball Pool" />
-          </div>
-          <div className="cardEnviroment">
-            <GameCard image={Card4} name="Free Fire" />
-          </div>
-          <div className="cardEnviroment">
-            <GameCard image={Card5} name="Pubg Mobile" />
-          </div>
-          <div className="cardEnviroment">
-            <GameCard image={Card6} name="Mobile Legends" />
-          </div>
+          {products &&
+            products.map((product) => (
+              <div key={product.id} className="cardEnviroment">
+                <GameCard
+                  imageUrl={
+                    product.imgCardUrl
+                    // "https://upload.wikimedia.org/wikipedia/commons/thumb/1/15/Red_Apple.jpg/280px-Red_Apple.jpg"
+                  }
+                  name={product.name}
+                />
+              </div>
+            ))}
         </section>
       </main>
       <SecurityAdvertise />

@@ -21,18 +21,19 @@ const ProductContext = createContext<ProductContextProps | undefined>(
 );
 
 export const ProductProvider = ({ children }: { children: ReactNode }) => {
-  const [products, setProducts] = useState<ProductType[]>(null);
+  const [products, setProducts] = useState<ProductType[]>([]);
 
   const updateProducts = () => {
     connectionAPIGet<ProductType[]>("/product", apiUrl).then((res) => {
-      if (!res) throw new Error("Erro ao busca produtos");
       setProducts(res);
     });
   };
 
   useEffect(() => {
-    updateProducts;
+    updateProducts();
   }, []);
+
+  console.log(products);
 
   return (
     <ProductContext.Provider

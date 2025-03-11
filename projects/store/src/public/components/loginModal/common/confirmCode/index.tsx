@@ -22,8 +22,10 @@ const ConfirmCode = ({ user, previousStep, setStep, closeModal }: Props) => {
 
   const [errorMessage, setErrorMessage] = useState<string>("");
   const [code, setCode] = useState<number>(null);
+  const [loading, setLoading] = useState<boolean>(false);
 
   const onSubmit = async () => {
+    setLoading(true);
     // if (previousStep === "newAccount") {
     // eslint-disable-next-line no-constant-condition
     if (true) {
@@ -44,6 +46,7 @@ const ConfirmCode = ({ user, previousStep, setStep, closeModal }: Props) => {
         .catch(() => {
           setErrorMessage("Código inválido");
         });
+      setLoading(false);
     } else if (previousStep === "newPassword") {
       return;
     }
@@ -69,6 +72,7 @@ const ConfirmCode = ({ user, previousStep, setStep, closeModal }: Props) => {
         onClick={() => onSubmit()}
         isNotSelected={handleDisabled()}
         disabled={handleDisabled()}
+        loading={loading}
       />
       <ErrorMessage>
         <Text

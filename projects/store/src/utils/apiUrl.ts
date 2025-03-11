@@ -1,3 +1,3 @@
 // export const apiUrl: string = "http://127.0.0.11:3333";
 export const apiUrl: string =
-  "https://44fc-2804-30c-2c27-df00-21df-426f-97f4-9713.ngrok-free.app";
+  "https://744a-2804-30c-2c27-df00-9472-d0b3-ce02-bc86.ngrok-free.app";

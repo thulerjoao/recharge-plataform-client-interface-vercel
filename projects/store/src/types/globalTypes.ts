@@ -19,6 +19,7 @@ export type IndividualIdentificationType = {
 //* Product and packages
 
 export type ProductType = {
+  id: string;
   name: string;
   about: string;
   instructions: string;
