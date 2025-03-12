@@ -70,16 +70,6 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
   //   checkAuth();
   // }, []);
 
-  useEffect(() => {
-    connectionAPIGet<any>("/product", apiUrl)
-      .then((res) => {
-        console.log(res);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  }, []);
-
   const login = async (data: loginParams) => {
     const body = {
       email: data.email,

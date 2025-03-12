@@ -19,15 +19,16 @@ export type IndividualIdentificationType = {
 //* Product and packages
 
 export type ProductType = {
+  id: string;
   name: string;
   about: string;
   instructions: string;
   imgBannerUrl: string;
   imgCardUrl: string;
-  packages: PackagesType[];
+  packages: PackageType[];
 };
 
-export type PackagesType = {
+export type PackageType = {
   name: string;
   amountCredits: number;
   imgCardUrl: string;
@@ -37,7 +38,13 @@ export type PackagesType = {
 };
 
 export type PaymentMethodsType = {
-  name: string;
+  name:
+    | "pix"
+    | "mercado pago"
+    | "picpay"
+    | "paypal"
+    | "boleto"
+    | "transferencia";
   rate: number;
 };
 
