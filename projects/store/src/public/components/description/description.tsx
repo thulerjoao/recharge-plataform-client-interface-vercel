@@ -1,25 +1,55 @@
 import Text from "@4miga/design-system/components/Text";
 import { Theme } from "@4miga/design-system/theme/theme";
 import { useDevice } from "contexts/deviceContext";
+import { useProduct } from "contexts/product";
 import Image from "next/image";
+import DefaultBanner from "public/img/DefaultBanner.jpg";
 import { useEffect, useState } from "react";
 import { DescriptionContainer } from "./style";
-import bigo from "./temp/bigo.png";
 
 const Description = () => {
   const [seeMore, setSeeMore] = useState<boolean>(false);
   const { device } = useDevice();
+  const { currentProduct } = useProduct();
 
   useEffect(() => {
     device === "desktop" ? setSeeMore(true) : setSeeMore(false);
   }, [device]);
 
+  const [isImageValid, setIsImageValid] = useState<boolean>(false);
+
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  const isValidImageUrl = async (): Promise<boolean> => {
+    try {
+      const response = await fetch(currentProduct.imgBannerUrl, {
+        method: "HEAD",
+      });
+      const contentType = response.headers.get("content-type");
+      return response.ok && contentType?.startsWith("image");
+    } catch {
+      return false;
+    }
+  };
+  useEffect(() => {
+    const checkImage = async () => {
+      const valid = await isValidImageUrl();
+      setIsImageValid(valid);
+    };
+
+    checkImage();
+  }, [currentProduct, isValidImageUrl]);
+
   return (
     <DescriptionContainer>
-      <Image src={bigo} alt="General product image" />
+      <Image
+        src={isImageValid ? currentProduct.imgBannerUrl : DefaultBanner}
+        alt={`Imagem do pacote ${currentProduct && currentProduct.name}`}
+        height={600}
+        width={1000}
+      />
       <div className="centerContent">
         <Text margin="24px 0 0 0 " fontName="BIG_SEMI_BOLD">
-          BIGO LIVE
+          {currentProduct && currentProduct.name.toUpperCase()}
         </Text>
         {!seeMore && (
           <span style={{ cursor: "pointer" }} onClick={() => setSeeMore(true)}>
@@ -45,20 +75,7 @@ const Description = () => {
               Instruções
             </Text>
             <Text margin="24px 0 0 0 " fontName="REGULAR">
-              Lorem ipsum dolor sit amet consectetur. Egestas egestas nec
-              elementum eleifend ac. Enim enim sit morbi pulvinar velit dictum
-              venenatis erat. Vitae mi eget donec nisl id.
-            </Text>
-            <Text margin="24px 0 0 0 " fontName="REGULAR">
-              Nulla suspendisse ut quis lorem sit vivamus adipiscing lobortis
-              id. At vitae velit lectus non felis. Id molestie venenatis mi sed
-              amet nunc. Mattis lectus dis urna massa vitae duis. Phasellus
-              varius mauris morbi sit leo parturient.
-            </Text>
-            <Text margin="24px 0 0 0 " fontName="REGULAR">
-              Lorem ipsum dolor sit amet consectetur. Egestas egestas nec
-              elementum eleifend ac. Enim enim sit morbi pulvinar velit dictum
-              venenatis erat. Vitae mi eget donec nisl id.
+              {currentProduct && currentProduct.instructions}
             </Text>
           </div>
           <div className="instructions">
@@ -67,18 +84,10 @@ const Description = () => {
               color={Theme.colors.secondaryText}
               fontName="REGULAR_SEMI_BOLD"
             >
-              Instruções
+              Sobre {currentProduct && currentProduct.name}
             </Text>
             <Text margin="24px 0 0 0 " fontName="REGULAR">
-              Lorem ipsum dolor sit amet consectetur. Egestas egestas nec
-              elementum eleifend ac. Enim enim sit morbi pulvinar velit dictum
-              venenatis erat. Vitae mi eget donec nisl id.
-            </Text>
-            <Text margin="24px 0 0 0 " fontName="REGULAR">
-              Nulla suspendisse ut quis lorem sit vivamus adipiscing lobortis
-              id. At vitae velit lectus non felis. Id molestie venenatis mi sed
-              amet nunc. Mattis lectus dis urna massa vitae duis. Phasellus
-              varius mauris morbi sit leo parturient.
+              {currentProduct && currentProduct.instructions}
             </Text>
           </div>
           {seeMore && device !== "desktop" && (

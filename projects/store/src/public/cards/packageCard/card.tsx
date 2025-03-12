@@ -36,10 +36,6 @@ const PackageCard = ({ item, selected }: PackageCardProps) => {
     checkImage();
   }, [item.imgCardUrl, isValidImageUrl]);
 
-  const handleProductClick = (id: string) => {
-    route.push(`/product/${id}`);
-  };
-
   return (
     <PackageCardContainer selected={selected}>
       <Text

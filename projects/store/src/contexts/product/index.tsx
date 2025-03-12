@@ -1,7 +1,7 @@
 "use client";
 
 import { connectionAPIGet } from "@4miga/services/connectionAPI/connection";
-import {
+import React, {
   createContext,
   ReactNode,
   useContext,
@@ -13,6 +13,8 @@ import { apiUrl } from "utils/apiUrl";
 
 interface ProductContextProps {
   products: ProductType[];
+  currentProduct: ProductType;
+  setCurrentProduct: React.Dispatch<React.SetStateAction<ProductType>>;
   updateProducts: () => void;
 }
 
@@ -22,6 +24,7 @@ const ProductContext = createContext<ProductContextProps | undefined>(
 
 export const ProductProvider = ({ children }: { children: ReactNode }) => {
   const [products, setProducts] = useState<ProductType[]>([]);
+  const [currentProduct, setCurrentProduct] = useState<ProductType>(null);
 
   const updateProducts = () => {
     connectionAPIGet<ProductType[]>("/product", apiUrl).then((res) => {
@@ -40,6 +43,8 @@ export const ProductProvider = ({ children }: { children: ReactNode }) => {
       value={{
         products,
         updateProducts,
+        currentProduct,
+        setCurrentProduct,
       }}
     >
       {children}

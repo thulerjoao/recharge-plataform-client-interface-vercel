@@ -10,6 +10,7 @@ import PixCard from "app/common/payment/pixCard/pixCard";
 
 type Props = {
   params: {
+    slug: string;
     secondarySlug: string;
   };
 };
@@ -29,13 +30,13 @@ const Page = ({ params }: Props) => {
         PACOTE PARA RECARGA
       </Text>
       <div className="cardEnviroment">
-        <PackageCard
+        {/* <PackageCard
           selected
           bestOffer
           title="BIGO 300"
           image={<BigoCard />}
           price={9.9}
-        />
+        /> */}
       </div>
       <Text margin="32px 0 0 0" align="center" fontName="REGULAR_SEMI_BOLD">
         FORMAS DE PAGAMENTO

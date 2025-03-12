@@ -5,7 +5,7 @@ import Button from "@4miga/design-system/components/button";
 import Input from "@4miga/design-system/components/input";
 import { useProduct } from "contexts/product";
 import { useRouter } from "next/navigation";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import PackageCard from "../../../public/cards/packageCard/card";
 import PaymentCard from "../../../public/cards/paymentCard/card";
 // import BigoCard from "../common/temp/bigoCard.svg";
@@ -22,13 +22,17 @@ type Props = {
 const ProductPage = ({ params }: Props) => {
   const route = useRouter();
 
-  const id = params.slug;
-  const { products } = useProduct();
-  const product = products.find((product) => product.id === id);
+  const slug = params.slug;
+  const { products, setCurrentProduct } = useProduct();
+  const product = products.find((product) => product.name === slug);
 
   const [selected, setSelected] = useState<number>(0);
   const [paymentMethod, setPaymentMethod] = useState<number>(0);
   const currentePackage: PackageType = product && product.packages[selected];
+
+  useEffect(() => {
+    setCurrentProduct(product);
+  }, [product, setCurrentProduct]);
 
   return (
     <ProductContainer>
@@ -105,7 +109,7 @@ const ProductPage = ({ params }: Props) => {
         )}
       </section>
       <Button
-        onClick={() => route.push("/products/bigo300")}
+        onClick={() => route.push(`/products/${slug}/${currentePackage.id}`)}
         margin="32px 0 80px 0"
         width={185}
         rounded
