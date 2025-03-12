@@ -38,7 +38,13 @@ export type PackageType = {
 };
 
 export type PaymentMethodsType = {
-  name: string;
+  name:
+    | "pix"
+    | "mercado pago"
+    | "picpay"
+    | "paypal"
+    | "boleto"
+    | "transferencia";
   rate: number;
 };
 

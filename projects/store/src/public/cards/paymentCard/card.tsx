@@ -24,7 +24,7 @@ interface Props {
 
 const PaymentCard = ({ selected, method, price }: Props) => {
   const RenderedComponent = useMemo(() => {
-    switch (method) {
+    switch (method.toLocaleLowerCase()) {
       case "pix":
         return [<Pix />, "pix"];
       case "mercado pago":
