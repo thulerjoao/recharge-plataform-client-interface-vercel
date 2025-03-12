@@ -29,10 +29,19 @@ const ProductPage = ({ params }: Props) => {
   const [selected, setSelected] = useState<number>(0);
   const [paymentMethod, setPaymentMethod] = useState<number>(0);
   const currentePackage: PackageType = product && product.packages[selected];
+  const [userId, setUserId] = useState<string>("");
+  console.log(userId);
 
   useEffect(() => {
     setCurrentProduct(product);
   }, [product, setCurrentProduct]);
+
+  const handleOnClick = () => {
+    const selectedPayment = currentePackage.paymentMethods[paymentMethod].name;
+    sessionStorage.setItem("paymentMethod", selectedPayment);
+    sessionStorage.setItem("userId", userId);
+    route.push(`/product/${slug}/${currentePackage.id}`);
+  };
 
   return (
     <ProductContainer>
@@ -43,6 +52,7 @@ const ProductPage = ({ params }: Props) => {
         placeholder="Insira o ID de usuário"
         margin="16px 0 0 0"
         height={48}
+        onChange={(e) => setUserId(e.target.value)}
       />
       <Text
         tag="h2"
@@ -109,12 +119,14 @@ const ProductPage = ({ params }: Props) => {
         )}
       </section>
       <Button
-        onClick={() => route.push(`/product/${slug}/${currentePackage.id}`)}
+        onClick={() => handleOnClick()}
         margin="32px 0 80px 0"
         width={185}
         rounded
         height={40}
         title="Compre Agora"
+        disabled={!userId}
+        isNotSelected={!userId}
       />
     </ProductContainer>
   );

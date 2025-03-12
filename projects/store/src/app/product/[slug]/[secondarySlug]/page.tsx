@@ -15,6 +15,9 @@ type Props = {
 };
 
 const Page = ({ params }: Props) => {
+  const userId = sessionStorage.getItem("userId");
+  const paymentMethod = sessionStorage.getItem("paymentMethod");
+
   const { products, setCurrentProduct } = useProduct();
   const id = params.secondarySlug;
   const slug = params.slug;
@@ -33,6 +36,7 @@ const Page = ({ params }: Props) => {
         placeholder="Insira seu ID de usuário"
         margin="16px 0 0 0"
         height={48}
+        value={userId && userId}
       />
       <Text margin="32px 0 0 0" align="center" fontName="REGULAR_SEMI_BOLD">
         PACOTE PARA RECARGA
