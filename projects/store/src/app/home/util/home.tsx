@@ -44,13 +44,7 @@ const Home = () => {
           {products &&
             products.map((product) => (
               <div key={product.id} className="cardEnviroment">
-                <GameCard
-                  imageUrl={
-                    product.imgCardUrl
-                    // "https://upload.wikimedia.org/wikipedia/commons/thumb/1/15/Red_Apple.jpg/280px-Red_Apple.jpg"
-                  }
-                  name={product.name}
-                />
+                <GameCard product={product} />
               </div>
             ))}
         </section>

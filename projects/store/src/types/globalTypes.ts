@@ -25,10 +25,10 @@ export type ProductType = {
   instructions: string;
   imgBannerUrl: string;
   imgCardUrl: string;
-  packages: PackagesType[];
+  packages: PackageType[];
 };
 
-export type PackagesType = {
+export type PackageType = {
   name: string;
   amountCredits: number;
   imgCardUrl: string;

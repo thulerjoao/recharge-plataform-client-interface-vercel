@@ -7,12 +7,21 @@ interface PackageCardProps {
 
 export const PackageCardContainer = styled.article<PackageCardProps>`
   background: ${Theme.colors.maindark};
+  ${({ selected }) =>
+    selected &&
+    `background: linear-gradient(
+    176deg,
+    rgb(36, 98, 113) 5%,
+    rgba(1, 11, 14, 1) 55%
+  );`};
+
   -webkit-box-shadow: 0px 0px 5px 0px rgba(7, 29, 35, 1);
   -moz-box-shadow: 0px 0px 5px 0px rgba(7, 29, 35, 1);
   box-shadow: 0px 0px 5px 0px rgba(7, 29, 35, 1);
   height: 232px;
   width: 100%;
   max-width: 174px;
+  min-height: 232px;
   border-radius: 8px;
   overflow: hidden;
   cursor: pointer;
@@ -27,11 +36,15 @@ export const PackageCardContainer = styled.article<PackageCardProps>`
     selected && `0px 0px 10px 0px ${Theme.colors.mainHighlight}`};
 
   figure {
+  }
+
+  img {
     height: 80px;
     width: 80px;
     margin-top: 12px;
     border-radius: 8px;
     overflow: hidden;
+    object-fit: fill;
   }
 
   .bestPrice {

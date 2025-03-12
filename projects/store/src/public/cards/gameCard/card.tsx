@@ -1,24 +1,23 @@
 import Text from "@4miga/design-system/components/Text";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
-import { useEffect, useState } from "react";
 import ImageNotFound from "public/img/ImageNotFound.jpg";
+import { useEffect, useState } from "react";
+import { ProductType } from "types/globalTypes";
 import { CardContainer } from "./style";
 
 interface CardProps {
-  // image: StaticImageData;
-  imageUrl: string;
-  name: string;
+  product: ProductType;
 }
 
-const GameCard = ({ imageUrl, name }: CardProps) => {
+const GameCard = ({ product }: CardProps) => {
   const route = useRouter();
   const [isImageValid, setIsImageValid] = useState<boolean>(false);
 
   // eslint-disable-next-line react-hooks/exhaustive-deps
   const isValidImageUrl = async (): Promise<boolean> => {
     try {
-      const response = await fetch(imageUrl, { method: "HEAD" });
+      const response = await fetch(product.imgCardUrl, { method: "HEAD" });
       const contentType = response.headers.get("content-type");
       return response.ok && contentType?.startsWith("image");
     } catch {
@@ -32,12 +31,16 @@ const GameCard = ({ imageUrl, name }: CardProps) => {
     };
 
     checkImage();
-  }, [imageUrl, isValidImageUrl]);
+  }, [product.imgCardUrl, isValidImageUrl]);
+
+  const handleProductClick = (id: string) => {
+    route.push(`/product/${id}`);
+  };
 
   return (
-    <CardContainer onClick={() => route.push("/products")}>
+    <CardContainer onClick={() => handleProductClick(product.id)}>
       <Image
-        src={isImageValid ? imageUrl : ImageNotFound}
+        src={isImageValid ? product.imgCardUrl : ImageNotFound}
         alt={`Imagem do jogo ${name}`}
         height={200}
         width={200}
@@ -48,7 +51,7 @@ const GameCard = ({ imageUrl, name }: CardProps) => {
         fontName="REGULAR_MEDIUM"
         margin="16px 0 0 0"
       >
-        {name}
+        {product.name}
       </Text>
     </CardContainer>
   );

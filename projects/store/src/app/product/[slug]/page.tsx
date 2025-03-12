@@ -3,18 +3,32 @@
 import Text from "@4miga/design-system/components/Text";
 import Button from "@4miga/design-system/components/button";
 import Input from "@4miga/design-system/components/input";
+import { useProduct } from "contexts/product";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import PackageCard from "../../../public/cards/packageCard/card";
 import PaymentCard from "../../../public/cards/paymentCard/card";
-import BigoCard from "../common/temp/bigoCard.svg";
+// import BigoCard from "../common/temp/bigoCard.svg";
+import { Theme } from "@4miga/design-system/theme/theme";
 import { ProductContainer } from "./style";
 
-const ProductPage = () => {
-  const [selected, setSelected] = useState<number>(1);
+type Props = {
+  params: {
+    slug: string;
+  };
+};
+
+const ProductPage = ({ params }: Props) => {
+  const id = params.slug;
+  const { products } = useProduct();
+  const product = products.find((product) => product.id === id);
+  console.log(product);
+
+  const [selected, setSelected] = useState<number>(0);
   const [paymentMethod, setPaymentMethod] = useState<number>(1);
 
   const route = useRouter();
+
   return (
     <ProductContainer>
       <Text tag="h2" align="center" fontName="REGULAR_SEMI_BOLD">
@@ -34,57 +48,26 @@ const ProductPage = () => {
         SELECIONE O PACOTE PARA RECARGA
       </Text>
       <section className="cardsContainer">
-        <div className="cardEnviroment" onClick={() => setSelected(1)}>
-          <PackageCard
-            selected={selected === 1}
-            bestOffer
-            title="BIGO 30"
-            image={<BigoCard />}
-            price={3.9}
-          />
-        </div>
-        <div className="cardEnviroment" onClick={() => setSelected(2)}>
-          <PackageCard
-            selected={selected === 2}
-            bestOffer
-            title="BIGO 100"
-            image={<BigoCard />}
-            price={6.9}
-          />
-        </div>
-        <div className="cardEnviroment" onClick={() => setSelected(3)}>
-          <PackageCard
-            selected={selected === 3}
-            title="BIGO 300"
-            image={<BigoCard />}
-            price={9.9}
-          />
-        </div>
-        <div className="cardEnviroment" onClick={() => setSelected(4)}>
-          <PackageCard
-            selected={selected === 4}
-            title="BIGO 500"
-            image={<BigoCard />}
-            price={14.9}
-          />
-        </div>
-        <div className="cardEnviroment" onClick={() => setSelected(5)}>
-          <PackageCard
-            selected={selected === 5}
-            title="BIGO 1000"
-            image={<BigoCard />}
-            price={24.9}
-          />
-        </div>
-        <div className="cardEnviroment" onClick={() => setSelected(6)}>
-          <PackageCard
-            selected={selected === 6}
-            bestOffer
-            title="BIGO 5000"
-            image={<BigoCard />}
-            price={89.9}
-          />
-        </div>
+        {!product ? (
+          <Text
+            color={Theme.colors.pending}
+            align="center"
+            fontName="SMALL"
+            margin="32px 0 48px 0"
+          >
+            Não há pacotes disponíveis
+          </Text>
+        ) : (
+          product.packages.map((item, index) => (
+            <div
+              key={index}
+              className="cardEnviroment"
+              onClick={() => setSelected(index)}
+            >
+              <PackageCard item={item} selected={selected === index} />
+            </div>
+          ))
+        )}
       </section>
       <Text
         tag="h2"

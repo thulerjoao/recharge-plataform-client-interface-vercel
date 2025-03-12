@@ -1,25 +1,44 @@
 import Text from "@4miga/design-system/components/Text";
 import { Theme } from "@4miga/design-system/theme/theme";
 import { useRouter } from "next/navigation";
-import { ReactElement } from "react";
+import { useEffect, useState } from "react";
+import { PackageType } from "types/globalTypes";
 import { PackageCardContainer } from "./style";
+import Image from "next/image";
+import ImageNotFound from "public/img/ImageNotFound.jpg";
 
 interface PackageCardProps {
-  title: string;
-  image: ReactElement;
-  bestOffer?: boolean;
-  price: number;
-  selected?: boolean;
+  item: PackageType;
+  selected: boolean;
 }
 
-const PackageCard = ({
-  title,
-  image,
-  bestOffer,
-  price,
-  selected,
-}: PackageCardProps) => {
+const PackageCard = ({ item, selected }: PackageCardProps) => {
   const route = useRouter();
+
+  const [isImageValid, setIsImageValid] = useState<boolean>(false);
+
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  const isValidImageUrl = async (): Promise<boolean> => {
+    try {
+      const response = await fetch(item.imgCardUrl, { method: "HEAD" });
+      const contentType = response.headers.get("content-type");
+      return response.ok && contentType?.startsWith("image");
+    } catch {
+      return false;
+    }
+  };
+  useEffect(() => {
+    const checkImage = async () => {
+      const valid = await isValidImageUrl();
+      setIsImageValid(valid);
+    };
+
+    checkImage();
+  }, [item.imgCardUrl, isValidImageUrl]);
+
+  const handleProductClick = (id: string) => {
+    route.push(`/product/${id}`);
+  };
 
   return (
     <PackageCardContainer selected={selected}>
@@ -29,13 +48,18 @@ const PackageCard = ({
         fontName="REGULAR_SEMI_BOLD"
         margin="12px 0 0 0"
       >
-        {title}
+        Bigo {item.amountCredits}
       </Text>
       <Text tag="h2" align="center" fontName="REGULAR_SEMI_BOLD">
-        DIAMANTES
+        Diamantes
       </Text>
-      <figure>{image}</figure>
-      {bestOffer ? (
+      <Image
+        src={isImageValid ? item.imgCardUrl : ImageNotFound}
+        alt={`Imagem do pacote ${item.name}`}
+        height={100}
+        width={100}
+      />
+      {item.isOffer ? (
         <span className="bestPrice">
           <Text
             align="center"
@@ -62,7 +86,7 @@ const PackageCard = ({
         fontName="REGULAR_SEMI_BOLD"
         margin="9px 16px 0 0"
       >
-        R$ ${price.toFixed(2)}
+        R$ {item.amountCredits.toFixed(2)}
       </Text>
     </PackageCardContainer>
   );
