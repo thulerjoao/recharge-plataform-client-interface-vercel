@@ -22,7 +22,7 @@ const ProductContext = createContext<ProductContextProps | undefined>(
 
 export const ProductProvider = ({ children }: { children: ReactNode }) => {
   const [products, setProducts] = useState<ProductType[]>([]);
-  const [currentProduct, setCurrentProduct] = useState<ProductType>(null);
+  const [currentProduct, setCurrentProduct] = useState<ProductType>();
 
   // const updateProducts = () => {
   //   connectionAPIGet<ProductType[]>("/product", apiUrl).then((res) => {
