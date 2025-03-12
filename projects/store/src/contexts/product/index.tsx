@@ -1,6 +1,5 @@
 "use client";
 
-import { connectionAPIGet } from "@4miga/services/connectionAPI/connection";
 import React, {
   createContext,
   ReactNode,
@@ -9,13 +8,12 @@ import React, {
   useState,
 } from "react";
 import { ProductType } from "types/globalTypes";
-import { apiUrl } from "utils/apiUrl";
 
 interface ProductContextProps {
   products: ProductType[];
   currentProduct: ProductType;
   setCurrentProduct: React.Dispatch<React.SetStateAction<ProductType>>;
-  updateProducts: () => void;
+  // updateProducts: () => void;
 }
 
 const ProductContext = createContext<ProductContextProps | undefined>(
@@ -26,14 +24,29 @@ export const ProductProvider = ({ children }: { children: ReactNode }) => {
   const [products, setProducts] = useState<ProductType[]>([]);
   const [currentProduct, setCurrentProduct] = useState<ProductType>(null);
 
-  const updateProducts = () => {
-    connectionAPIGet<ProductType[]>("/product", apiUrl).then((res) => {
-      setProducts(res);
-    });
-  };
+  // const updateProducts = () => {
+  //   connectionAPIGet<ProductType[]>("/product", apiUrl).then((res) => {
+  //     setProducts(res);
+  //   });
+  // };
+
+  // useEffect(() => {
+  //   updateProducts();
+  // }, []);
 
   useEffect(() => {
-    updateProducts();
+    async function fetchProdutos() {
+      try {
+        const res = await fetch("/api/product");
+        if (!res.ok) throw new Error("Erro ao buscar produtos");
+        const data = await res.json();
+        setProducts(data);
+      } catch (error) {
+        console.error(error);
+      }
+    }
+
+    fetchProdutos();
   }, []);
 
   console.log(products);
@@ -42,7 +55,7 @@ export const ProductProvider = ({ children }: { children: ReactNode }) => {
     <ProductContext.Provider
       value={{
         products,
-        updateProducts,
+        // updateProducts,
         currentProduct,
         setCurrentProduct,
       }}
