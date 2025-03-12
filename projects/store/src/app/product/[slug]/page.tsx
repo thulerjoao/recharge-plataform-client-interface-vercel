@@ -109,7 +109,7 @@ const ProductPage = ({ params }: Props) => {
         )}
       </section>
       <Button
-        onClick={() => route.push(`/products/${slug}/${currentePackage.id}`)}
+        onClick={() => route.push(`/product/${slug}/${currentePackage.id}`)}
         margin="32px 0 80px 0"
         width={185}
         rounded

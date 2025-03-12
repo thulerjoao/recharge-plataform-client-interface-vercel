@@ -9,7 +9,11 @@ import Pix from "../../icons/Pix.svg";
 import qrcode from "./qrcode.png";
 import { BottomElement, PixCardContainer } from "./style";
 
-const PixCard = () => {
+interface Props {
+  value: number;
+}
+
+const PixCard = ({ value }: Props) => {
   const [firstExpand, setFirstExpand] = useState<boolean>(false);
   const [secondExpand, setSecondExpand] = useState<boolean>(false);
   const [isRounded, setIsRounded] = useState<boolean>(true);
@@ -70,7 +74,7 @@ const PixCard = () => {
         </div>
         <span className="value">
           <Text fontName="REGULAR_MEDIUM" color={Theme.colors.secondaryAction}>
-            R$: 3,90
+            {value && value.toFixed(2)}
           </Text>
         </span>
       </PixCardContainer>

@@ -2,11 +2,10 @@
 
 import Input from "@4miga/design-system/components/input";
 import Text from "@4miga/design-system/components/Text";
-import CreditcardCard from "app/common/payment/creditcardCard/creditcardCard";
-import PackageCard from "../../../../public/cards/packageCard/card";
-import BigoCard from "../common/temp/bigoCard.svg";
-import { ProductInnerPage } from "./style";
 import PixCard from "app/common/payment/pixCard/pixCard";
+import { useProduct } from "contexts/product";
+import PackageCard from "../../../../public/cards/packageCard/card";
+import { ProductInnerPage } from "./style";
 
 type Props = {
   params: {
@@ -16,6 +15,15 @@ type Props = {
 };
 
 const Page = ({ params }: Props) => {
+  const { products, setCurrentProduct } = useProduct();
+  const id = params.secondarySlug;
+  const slug = params.slug;
+  const currentProduct =
+    products && products.find((item) => item.name === slug);
+  setCurrentProduct(currentProduct);
+  const item =
+    currentProduct && currentProduct.packages.find((item) => item.id === id);
+
   return (
     <ProductInnerPage>
       <Text align="center" fontName="REGULAR_SEMI_BOLD">
@@ -30,20 +38,14 @@ const Page = ({ params }: Props) => {
         PACOTE PARA RECARGA
       </Text>
       <div className="cardEnviroment">
-        {/* <PackageCard
-          selected
-          bestOffer
-          title="BIGO 300"
-          image={<BigoCard />}
-          price={9.9}
-        /> */}
+        {currentProduct && <PackageCard item={item} selected />}
       </div>
       <Text margin="32px 0 0 0" align="center" fontName="REGULAR_SEMI_BOLD">
         FORMAS DE PAGAMENTO
       </Text>
       <section className="paymentMethods">
-        <PixCard />
-        <CreditcardCard />
+        <PixCard value={item && item.amountCredits} />
+        {/* <CreditcardCard /> */}
       </section>
     </ProductInnerPage>
   );
