@@ -4,15 +4,17 @@ import Text from "@4miga/design-system/components/Text";
 import Carousel from "app/home/common/components/carousel/carousel";
 import BottomOffer from "public/components/bottomOffer/bottomOffer";
 import SecurityAdvertise from "public/components/securityAdvertise/securityAdvertise";
+import { ProductType } from "types/globalTypes";
 import GameCard from "../../../public/cards/gameCard/card";
 import Lines from "../common/components/lines/lines";
-import { useProduct } from "contexts/product";
 import mainBanner from "../common/temp/mainBanner.png";
 import { HomeContainer } from "./style";
 
-const Home = () => {
-  const { products } = useProduct();
+interface Props {
+  products: ProductType[];
+}
 
+const Home = ({ products }: Props) => {
   return (
     <HomeContainer>
       <Carousel imagesList={[mainBanner, mainBanner, mainBanner]} />
