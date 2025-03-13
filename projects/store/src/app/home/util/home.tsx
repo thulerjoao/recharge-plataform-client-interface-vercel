@@ -1,10 +1,12 @@
 "use client";
 
 import Text from "@4miga/design-system/components/Text";
+import { connectionAPIGet } from "@4miga/services/connectionAPI/connection";
 import Carousel from "app/home/common/components/carousel/carousel";
 import BottomOffer from "public/components/bottomOffer/bottomOffer";
 import SecurityAdvertise from "public/components/securityAdvertise/securityAdvertise";
 import { ProductType } from "types/globalTypes";
+import { apiUrl } from "utils/apiUrl";
 import GameCard from "../../../public/cards/gameCard/card";
 import Lines from "../common/components/lines/lines";
 import mainBanner from "../common/temp/mainBanner.png";

@@ -84,7 +84,6 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
       throw new Error("Usuário ou senha inválidos");
     });
 
-    console.log(loginResponse);
     const { accessToken, refreshToken, expiresIn } = loginResponse;
     const user: Partial<UserType> = {
       email: data.email,

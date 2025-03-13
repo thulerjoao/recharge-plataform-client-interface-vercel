@@ -42,8 +42,6 @@ const InputCode = ({ code, setCode }: Props) => {
     }
   };
 
-  console.log(code);
-
   return (
     <ValidationContainer>
       <div className="codeBox" onClick={() => focusInput()}>

@@ -12,6 +12,7 @@ import PaymentCard from "../../../public/cards/paymentCard/card";
 import { Theme } from "@4miga/design-system/theme/theme";
 import { PackageType, ProductType } from "types/globalTypes";
 import { ProductContainer } from "./style";
+import { removeSpace } from "utils/removeSpace";
 
 type Props = {
   products: ProductType[];
@@ -36,7 +37,7 @@ const ProductPage = ({ products, product }: Props) => {
     const selectedPayment = currentePackage.paymentMethods[paymentMethod].name;
     sessionStorage.setItem("paymentMethod", selectedPayment);
     sessionStorage.setItem("userId", userId);
-    route.push(`/product/${product.name}/${currentePackage.id}`);
+    route.push(`/product/${removeSpace(product.name)}/${currentePackage.id}`);
   };
 
   return (
