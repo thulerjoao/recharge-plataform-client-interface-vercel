@@ -1,15 +1,15 @@
 import Text from "@4miga/design-system/components/Text";
 import { Theme } from "@4miga/design-system/theme/theme";
-import { useDevice } from "contexts/deviceContext";
 import { useProduct } from "contexts/product";
 import Image from "next/image";
 import DefaultBanner from "public/img/DefaultBanner.jpg";
 import { useEffect, useState } from "react";
 import { DescriptionContainer } from "./style";
+import { getDevice } from "utils/getDevice";
 
 const Description = () => {
   const [seeMore, setSeeMore] = useState<boolean>(false);
-  const { device } = useDevice();
+  const device = getDevice();
   const { currentProduct } = useProduct();
 
   useEffect(() => {

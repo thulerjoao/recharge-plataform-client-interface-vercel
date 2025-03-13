@@ -17,6 +17,4 @@ export const loginApi = async ({ email, password, baseUrl }: loginProps) => {
     body,
     baseUrl,
   );
-
-  console.log(response);
 };

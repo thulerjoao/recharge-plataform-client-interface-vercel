@@ -5,6 +5,7 @@ import ImageNotFound from "public/img/ImageNotFound.jpg";
 import { useEffect, useState } from "react";
 import { ProductType } from "types/globalTypes";
 import { CardContainer } from "./style";
+import { removeSpace } from "utils/removeSpace";
 
 interface CardProps {
   product: ProductType;
@@ -33,8 +34,9 @@ const GameCard = ({ product }: CardProps) => {
     checkImage();
   }, [product.imgCardUrl, isValidImageUrl]);
 
-  const handleProductClick = (id: string) => {
-    route.push(`/product/${id}`);
+  const handleProductClick = (path: string) => {
+    const res = removeSpace(path);
+    route.push(`/product/${res}`);
   };
 
   return (

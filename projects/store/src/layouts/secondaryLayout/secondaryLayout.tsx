@@ -1,5 +1,3 @@
-"use client";
-
 import Contact from "public/components/contact/contact";
 import Description from "public/components/description/description";
 import Footer from "public/components/footer/footer";

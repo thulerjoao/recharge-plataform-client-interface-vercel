@@ -10,7 +10,7 @@ import React, {
 import { ProductType } from "types/globalTypes";
 
 interface ProductContextProps {
-  products: ProductType[];
+  // products: ProductType[];
   currentProduct: ProductType;
   setCurrentProduct: React.Dispatch<React.SetStateAction<ProductType>>;
   // updateProducts: () => void;
@@ -21,7 +21,7 @@ const ProductContext = createContext<ProductContextProps | undefined>(
 );
 
 export const ProductProvider = ({ children }: { children: ReactNode }) => {
-  const [products, setProducts] = useState<ProductType[]>([]);
+  // const [products, setProducts] = useState<ProductType[]>([]);
   const [currentProduct, setCurrentProduct] = useState<ProductType>();
 
   // const updateProducts = () => {
@@ -34,27 +34,27 @@ export const ProductProvider = ({ children }: { children: ReactNode }) => {
   //   updateProducts();
   // }, []);
 
-  useEffect(() => {
-    async function fetchProdutos() {
-      try {
-        const res = await fetch("/api/product");
-        if (!res.ok) throw new Error("Erro ao buscar produtos");
-        const data = await res.json();
-        setProducts(data);
-      } catch (error) {
-        console.error(error);
-      }
-    }
+  // useEffect(() => {
+  //   async function fetchProdutos() {
+  //     try {
+  //       const res = await fetch("/api/product");
+  //       if (!res.ok) throw new Error("Erro ao buscar produtos");
+  //       const data = await res.json();
+  //       setProducts(data);
+  //     } catch (error) {
+  //       console.error(error);
+  //     }
+  //   }
 
-    fetchProdutos();
-  }, []);
+  //   fetchProdutos();
+  // }, []);
 
-  console.log(products);
+  // console.log(products);
 
   return (
     <ProductContext.Provider
       value={{
-        products,
+        // products,
         // updateProducts,
         currentProduct,
         setCurrentProduct,

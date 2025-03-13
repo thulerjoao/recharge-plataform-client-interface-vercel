@@ -20,7 +20,7 @@ interface LoginModalProps {
 
 const LoginModal = ({ setLoginModal, openInNewAccount }: LoginModalProps) => {
   const [step, setStep] = useState<LoginSteps>(
-    openInNewAccount ? "newAccount" : "confirmCode",
+    openInNewAccount ? "newAccount" : "login",
   );
   const [previousStep, setPreviousStep] = useState<
     "newAccount" | "newPassword" | null

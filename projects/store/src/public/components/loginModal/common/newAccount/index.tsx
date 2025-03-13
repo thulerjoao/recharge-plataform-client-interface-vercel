@@ -92,8 +92,6 @@ const NewAccount = ({ setNewUser, setStep, setPreviousStep }: Props) => {
     }
   }, [errors]);
 
-  console.log(errorMessage, errors);
-
   return (
     <NewAccountContainer onSubmit={handleSubmit(onSubmit)}>
       <Text margin="24px 0 0 0" align="center" fontName="REGULAR_MEDIUM">

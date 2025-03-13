@@ -45,6 +45,11 @@ export const HomeContainer = styled.div`
         width: 100%;
         margin-bottom: 24px;
       }
+      .invisibleCard {
+        width: 100%;
+        max-width: 174px;
+        height: 0;
+      }
     }
   }
 
