@@ -1,12 +1,11 @@
 "use client";
 
 import Text from "@4miga/design-system/components/Text";
-import { connectionAPIGet } from "@4miga/services/connectionAPI/connection";
 import Carousel from "app/home/common/components/carousel/carousel";
 import BottomOffer from "public/components/bottomOffer/bottomOffer";
 import SecurityAdvertise from "public/components/securityAdvertise/securityAdvertise";
 import { ProductType } from "types/globalTypes";
-import { apiUrl } from "utils/apiUrl";
+import { invisibleCardsCalc } from "utils/invisibleCardsCalc";
 import GameCard from "../../../public/cards/gameCard/card";
 import Lines from "../common/components/lines/lines";
 import mainBanner from "../common/temp/mainBanner.png";
@@ -45,6 +44,21 @@ const Home = ({ products }: Props) => {
                 <GameCard product={product} />
               </div>
             ))}
+          {invisibleCardsCalc(products) === 1 && (
+            <div className="cardEnviroment">
+              <span className="invisibleCard" />
+            </div>
+          )}
+          {invisibleCardsCalc(products) === 2 && (
+            <div className="cardEnviroment">
+              <span className="invisibleCard" />
+            </div>
+          )}
+          {invisibleCardsCalc(products) === 2 && (
+            <div className="cardEnviroment">
+              <span className="invisibleCard" />
+            </div>
+          )}
         </section>
       </main>
       <SecurityAdvertise />

@@ -11,8 +11,9 @@ import PaymentCard from "../../../public/cards/paymentCard/card";
 // import BigoCard from "../common/temp/bigoCard.svg";
 import { Theme } from "@4miga/design-system/theme/theme";
 import { PackageType, ProductType } from "types/globalTypes";
-import { ProductContainer } from "./style";
+import { invisibleCardsCalc } from "utils/invisibleCardsCalc";
 import { removeSpace } from "utils/removeSpace";
+import { ProductContainer } from "./style";
 
 type Props = {
   products: ProductType[];
@@ -79,6 +80,21 @@ const ProductPage = ({ products, product }: Props) => {
               <PackageCard item={item} selected={selected === index} />
             </div>
           ))
+        )}
+        {invisibleCardsCalc(product.packages) === 1 && (
+          <div className="cardEnviroment">
+            <span className="invisibleCard" />
+          </div>
+        )}
+        {invisibleCardsCalc(product.packages) === 2 && (
+          <div className="cardEnviroment">
+            <span className="invisibleCard" />
+          </div>
+        )}
+        {invisibleCardsCalc(product.packages) === 2 && (
+          <div className="cardEnviroment">
+            <span className="invisibleCard" />
+          </div>
         )}
       </section>
       <Text
