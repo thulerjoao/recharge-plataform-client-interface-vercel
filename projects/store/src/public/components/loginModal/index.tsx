@@ -1,7 +1,6 @@
 import Text from "@4miga/design-system/components/Text";
 import { Theme } from "@4miga/design-system/theme/theme";
 import React, { useState } from "react";
-import { UserType } from "types/globalTypes";
 import ConfirmCode from "./common/confirmCode";
 import ForgotPassword from "./common/forgotPassword";
 import LoginComponent from "./common/login";
@@ -12,6 +11,7 @@ import Close from "./icons/Close.svg";
 import TopLogo from "./icons/topLogo.svg";
 import { LoginModalBackground, LoginModalContainer } from "./style";
 import { LoginSteps } from "./types/types";
+import { UserType } from "types/userTypes";
 
 interface LoginModalProps {
   openInNewAccount?: boolean;

@@ -1,7 +1,8 @@
 import { fetchProducts } from "lib/api";
 import ProductPage from "./index";
-import { ProductType } from "types/globalTypes";
+
 import { removeSpace } from "utils/removeSpace";
+import { ProductType } from "types/productTypes";
 
 type Props = {
   params: {

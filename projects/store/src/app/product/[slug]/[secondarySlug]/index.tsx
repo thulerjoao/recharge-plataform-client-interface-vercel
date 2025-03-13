@@ -5,7 +5,7 @@ import Text from "@4miga/design-system/components/Text";
 import PixCard from "app/common/payment/pixCard/pixCard";
 import { useProduct } from "contexts/product";
 import { useState } from "react";
-import { PackageType, ProductType } from "types/globalTypes";
+import { PackageType, ProductType } from "types/deviceTypes";
 import PackageCard from "../../../../public/cards/packageCard/card";
 import { ProductInnerPage } from "./style";
 

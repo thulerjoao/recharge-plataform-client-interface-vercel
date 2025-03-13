@@ -2,7 +2,7 @@ import Text from "@4miga/design-system/components/Text";
 import { Theme } from "@4miga/design-system/theme/theme";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
-import { PackageType } from "types/globalTypes";
+import { PackageType } from "types/deviceTypes";
 import { PackageCardContainer } from "./style";
 import Image from "next/image";
 import ImageNotFound from "public/img/ImageNotFound.jpg";

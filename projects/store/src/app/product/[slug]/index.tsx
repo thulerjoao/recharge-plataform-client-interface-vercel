@@ -10,10 +10,11 @@ import PackageCard from "../../../public/cards/packageCard/card";
 import PaymentCard from "../../../public/cards/paymentCard/card";
 // import BigoCard from "../common/temp/bigoCard.svg";
 import { Theme } from "@4miga/design-system/theme/theme";
-import { PackageType, ProductType } from "types/globalTypes";
+
 import { invisibleCardsCalc } from "utils/invisibleCardsCalc";
 import { removeSpace } from "utils/removeSpace";
 import { ProductContainer } from "./style";
+import { PackageType, ProductType } from "types/productTypes";
 
 type Props = {
   products: ProductType[];

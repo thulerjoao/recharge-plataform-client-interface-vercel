@@ -7,7 +7,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import React, { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import InputMask from "react-input-mask";
-import { UserType } from "types/globalTypes";
+import { UserType } from "types/userTypes";
 import { apiUrl } from "utils/apiUrl";
 import CPFicon from "../../icons/CPFicon.svg";
 import Email from "../../icons/Email.svg";

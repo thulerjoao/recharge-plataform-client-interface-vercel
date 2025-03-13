@@ -5,7 +5,7 @@ import { connectionAPIPost } from "@4miga/services/connectionAPI/connection";
 import { useAuth } from "contexts/auth";
 import InputCode from "public/components/inputCode";
 import React, { useState } from "react";
-import { loginParams, UserType } from "types/globalTypes";
+import { loginParams, UserType } from "types/deviceTypes";
 import { apiUrl } from "utils/apiUrl";
 import { LoginSteps } from "../../types/types";
 import { ConfirmCodeContainer, ErrorMessage } from "./style";

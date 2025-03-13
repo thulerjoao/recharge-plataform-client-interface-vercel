@@ -1,24 +1,18 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 "use client";
 
-import {
-  connectionAPIGet,
-  connectionAPIPost,
-} from "@4miga/services/connectionAPI/connection";
+import { connectionAPIPost } from "@4miga/services/connectionAPI/connection";
 
 import { useRouter } from "next/navigation";
-import {
-  createContext,
-  ReactNode,
-  useContext,
-  useEffect,
-  useState,
-} from "react";
+import { createContext, ReactNode, useContext, useState } from "react";
 
 import axios from "axios";
 import { LoginSchema } from "public/components/loginModal/common/login/schema";
-import { UserType } from "types/globalTypes";
+
+import { LoginResponse } from "types/loginTypes";
+import { UserType } from "types/userTypes";
 import { apiUrl } from "utils/apiUrl";
+import { date } from "zod";
 
 interface AuthProviderProps {
   children: ReactNode;
@@ -75,22 +69,23 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
       email: data.email,
       password: data.password,
     };
-    const loginResponse = await connectionAPIPost<{
-      accessToken: string;
-      refreshToken: string;
-      expiresIn: number;
-      // user: UserType; => mocked for while
-    }>("/customer/login", body, apiUrl).catch((err) => {
+    const loginResponse = await connectionAPIPost<LoginResponse>(
+      "/customer/login",
+      body,
+      apiUrl,
+    ).catch((err) => {
       throw new Error("Usuário ou senha inválidos");
     });
-
-    const { accessToken, refreshToken, expiresIn } = loginResponse;
+    const accessToken = loginResponse.access.accessToken;
+    const refreshToken = loginResponse.access.refreshToken;
+    const expiresIn = loginResponse.access.expiresIn;
     const user: Partial<UserType> = {
       email: data.email,
-      name: "João Pedro Thuler Lima",
+      name: loginResponse.customer.name,
+      phone: loginResponse.customer.phone,
       individualIdentification: {
-        type: "CPF",
-        value: "494.745.670-18",
+        type: loginResponse.customer.individualIdentification.type,
+        value: loginResponse.customer.individualIdentification.value,
       },
     };
 

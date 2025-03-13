@@ -1,23 +1,3 @@
-//=========== TYPES =============
-export type DeviceType = "mobile" | "tablet" | "desktop";
-
-//* User
-
-export type UserType = {
-  name: string;
-  email: string;
-  phone: string;
-  password: string;
-  individualIdentification: IndividualIdentificationType;
-};
-
-export type IndividualIdentificationType = {
-  type: string;
-  value: string;
-};
-
-//* Product and packages
-
 export type ProductType = {
   id: string;
   name: string;
@@ -48,11 +28,3 @@ export type PaymentMethodsType = {
     | "transferencia";
   rate: number;
 };
-
-//=========== INTERFACES =============
-
-export interface loginParams {
-  email: string;
-  password: string;
-  rememberMe: boolean;
-}
