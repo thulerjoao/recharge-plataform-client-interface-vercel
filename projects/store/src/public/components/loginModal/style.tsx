@@ -44,6 +44,7 @@ export const LoginModalContainer = styled.div`
   }
 
   .newAccountButton {
+    margin-top: 24px;
     cursor: pointer;
   }
 
