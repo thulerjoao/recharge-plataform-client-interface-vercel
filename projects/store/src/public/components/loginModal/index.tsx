@@ -76,7 +76,6 @@ const LoginModal = ({ setLoginModal, openInNewAccount }: LoginModalProps) => {
             onClick={() => setStep(step === "login" ? "newAccount" : "login")}
           >
             <Text
-              margin="24px 0 0 0"
               fontName="SMALL"
               align="center"
               color={Theme.colors.mainHighlight}
