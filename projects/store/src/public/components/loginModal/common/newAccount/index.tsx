@@ -53,7 +53,7 @@ const NewAccount = ({ setNewUser, setStep, setPreviousStep }: Props) => {
       password: data.password,
       individualIdentification: {
         type: "CPF",
-        value: data.password,
+        value: data.cpf,
       },
     };
     await connectionAPIPost<null>("/customer", body, apiUrl)

@@ -5,7 +5,9 @@ import { connectionAPIPost } from "@4miga/services/connectionAPI/connection";
 import { useAuth } from "contexts/auth";
 import InputCode from "public/components/inputCode";
 import React, { useState } from "react";
-import { loginParams, UserType } from "types/deviceTypes";
+
+import { LoginParams } from "types/loginTypes";
+import { UserType } from "types/userTypes";
 import { apiUrl } from "utils/apiUrl";
 import { LoginSteps } from "../../types/types";
 import { ConfirmCodeContainer, ErrorMessage } from "./style";
@@ -35,7 +37,7 @@ const ConfirmCode = ({ user, previousStep, setStep, closeModal }: Props) => {
       };
       connectionAPIPost("/customer/confirm-email", data, apiUrl)
         .then(() => {
-          const data: loginParams = {
+          const data: LoginParams = {
             email: user.email,
             password: user.password,
             rememberMe: true,

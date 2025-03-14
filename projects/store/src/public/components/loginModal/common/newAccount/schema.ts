@@ -6,7 +6,7 @@ export const registerSchema = z.object({
   email: z.string().email("E-mail inválido"),
   phone: z
     .string()
-    .min(14, "Número de telefone inválido")
+    .min(15, "Número de telefone inválido")
     .max(15, "Número de telefone inválido"),
   cpf: z.string().refine((value) => cpf.isValid(value.replace(/\D/g, "")), {
     message: "CPF inválido",
