@@ -20,35 +20,38 @@ interface Props {
 }
 
 const ConfirmCode = ({ user, previousStep, setStep, closeModal }: Props) => {
+  const emailToConfirm = sessionStorage.getItem("emailToConfirm");
   const { login } = useAuth();
 
   const [errorMessage, setErrorMessage] = useState<string>("");
   const [code, setCode] = useState<number>(null);
   const [loading, setLoading] = useState<boolean>(false);
 
-  const onSubmit = async () => {
+  const handleSubmit = () => {
     setLoading(true);
     // if (previousStep === "newAccount") {
     // eslint-disable-next-line no-constant-condition
     if (true) {
       const data = {
-        email: user.email,
+        email: emailToConfirm ? emailToConfirm : user.email,
         code,
       };
+      console.log(data);
       connectionAPIPost("/customer/confirm-email", data, apiUrl)
         .then(() => {
-          const data: LoginParams = {
+          const body: LoginParams = {
             email: user.email,
             password: user.password,
             rememberMe: true,
           };
-          login(data);
-          // closeModal();
+          login(body);
+          setLoading(false);
+          closeModal();
         })
         .catch(() => {
           setErrorMessage("Código inválido");
+          setLoading(false);
         });
-      setLoading(false);
     } else if (previousStep === "newPassword") {
       return;
     }
@@ -71,7 +74,7 @@ const ConfirmCode = ({ user, previousStep, setStep, closeModal }: Props) => {
         height={40}
         rounded
         title="Enviar"
-        onClick={() => onSubmit()}
+        onClick={() => handleSubmit()}
         isNotSelected={handleDisabled()}
         disabled={handleDisabled()}
         loading={loading}

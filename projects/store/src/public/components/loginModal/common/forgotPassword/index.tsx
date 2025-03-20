@@ -21,6 +21,7 @@ const ForgotPassword = ({ setStep }: Props) => {
     handleSubmit,
     setValue,
     setError,
+    watch,
     formState: { errors },
   } = useForm<ForgotPassSchema>({
     resolver: zodResolver(forgotPassSchema),
@@ -29,22 +30,34 @@ const ForgotPassword = ({ setStep }: Props) => {
     },
   });
 
+  const email = watch("email");
   const [errorMessage, setErrorMessage] = useState<string>("");
   const [loading, setLoading] = useState<boolean>(false);
 
+  const saveStorageEmail = (email: string) => {
+    sessionStorage.setItem("emailToRecover", email);
+    setTimeout(() => {
+      sessionStorage.removeItem("emailToRecover");
+      console.log("E-mail removido do sessionStorage.");
+    }, 600000);
+  };
+
   const onSubmit = async (data: ForgotPassSchema) => {
     setLoading(true);
-    connectionAPIPost<{ email: string; code: number }>(
-      "/user/request-code",
+    const IsAnEmail = sessionStorage.getItem("emailToRecover");
+    if (IsAnEmail === email) return setStep("confirmCodePass");
+    connectionAPIPost<null>(
+      "/customer/send-code-to-recover-password",
       data,
       apiUrl,
     )
       .then((res) => {
-        setStep("confirmCode");
+        saveStorageEmail(email);
+        setStep("confirmCodePass");
         return;
       })
       .catch((err) => {
-        setErrorMessage("Email inválido");
+        setErrorMessage("Erro ao realizar o pedido");
       });
     setLoading(false);
   };
@@ -56,6 +69,10 @@ const ForgotPassword = ({ setStep }: Props) => {
       return;
     }
   }, [errors]);
+
+  const handleDisabled = () => {
+    if (!email) return true;
+  };
 
   return (
     <ForgotPasswordContainer onSubmit={handleSubmit(onSubmit)}>
@@ -79,6 +96,8 @@ const ForgotPassword = ({ setStep }: Props) => {
         title="Continuar"
         type="submit"
         loading={loading}
+        isNotSelected={handleDisabled()}
+        disabled={handleDisabled()}
       />
       <ErrorMessage>
         <Text

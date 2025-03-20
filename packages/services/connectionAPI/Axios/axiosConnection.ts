@@ -37,10 +37,10 @@ export default class ConnectionAPI {
             throw new Error("Acesso negado");
 
           default:
-            throw new Error("Falha ao carregar");
+            throw error;
         }
       }
-      throw new Error("Falha ao carregar");
+      throw new Error("Falha na comunicação com o servidor");
     });
   }
 }

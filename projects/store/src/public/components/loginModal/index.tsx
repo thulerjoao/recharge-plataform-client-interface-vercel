@@ -1,7 +1,9 @@
 import Text from "@4miga/design-system/components/Text";
 import { Theme } from "@4miga/design-system/theme/theme";
 import React, { useState } from "react";
+import { UserType } from "types/userTypes";
 import ConfirmCode from "./common/confirmCode";
+import ConfirmCodePass from "./common/confirmCodePass";
 import ForgotPassword from "./common/forgotPassword";
 import LoginComponent from "./common/login";
 import NewAccount from "./common/newAccount";
@@ -11,7 +13,6 @@ import Close from "./icons/Close.svg";
 import TopLogo from "./icons/topLogo.svg";
 import { LoginModalBackground, LoginModalContainer } from "./style";
 import { LoginSteps } from "./types/types";
-import { UserType } from "types/userTypes";
 
 interface LoginModalProps {
   openInNewAccount?: boolean;
@@ -20,7 +21,7 @@ interface LoginModalProps {
 
 const LoginModal = ({ setLoginModal, openInNewAccount }: LoginModalProps) => {
   const [step, setStep] = useState<LoginSteps>(
-    openInNewAccount ? "newAccount" : "confirmCode",
+    openInNewAccount ? "newAccount" : "login",
   );
   const [previousStep, setPreviousStep] = useState<
     "newAccount" | "newPassword" | null
@@ -33,8 +34,8 @@ const LoginModal = ({ setLoginModal, openInNewAccount }: LoginModalProps) => {
 
   const handleBackward = () => {
     step === "forgotPassword" && setStep("login");
-    step === "confirmCode" && setStep("forgotPassword");
-    step === "newPassword" && setStep("confirmCode");
+    step === "confirmCodePass" && setStep("forgotPassword");
+    step === "newPassword" && setStep("confirmCodePass");
   };
 
   return (
@@ -67,6 +68,9 @@ const LoginModal = ({ setLoginModal, openInNewAccount }: LoginModalProps) => {
             closeModal={closeModal}
             setStep={setStep}
           />
+        )}
+        {step === "confirmCodePass" && (
+          <ConfirmCodePass closeModal={closeModal} />
         )}
         {step === "newPassword" && <NewPassword closeModal={closeModal} />}
 

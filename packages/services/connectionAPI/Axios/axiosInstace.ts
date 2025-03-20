@@ -1,4 +1,8 @@
-import axios, { AxiosInstance, InternalAxiosRequestConfig } from "axios";
+import axios, {
+  AxiosError,
+  AxiosInstance,
+  InternalAxiosRequestConfig,
+} from "axios";
 
 const createApiInstance = (baseURL: string): AxiosInstance => {
   const api = axios.create({ baseURL });
@@ -20,11 +24,15 @@ const createApiInstance = (baseURL: string): AxiosInstance => {
 
         return config;
       } catch (error) {
-        console.error("Erro ao obter token:", error);
         return config;
       }
     },
     (error) => Promise.reject(error),
+  );
+
+  api.interceptors.response.use(
+    (response) => response,
+    (error: AxiosError) => Promise.reject(error),
   );
 
   return api;

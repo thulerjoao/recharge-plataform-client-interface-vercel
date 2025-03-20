@@ -3,4 +3,5 @@ export type LoginSteps =
   | "newAccount"
   | "forgotPassword"
   | "confirmCode"
+  | "confirmCodePass"
   | "newPassword";

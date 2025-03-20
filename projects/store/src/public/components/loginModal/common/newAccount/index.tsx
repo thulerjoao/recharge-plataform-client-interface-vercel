@@ -27,6 +27,10 @@ interface Props {
 }
 
 const NewAccount = ({ setNewUser, setStep, setPreviousStep }: Props) => {
+  // sessionStorage.setItem("emailToConfirm", "liminha@email.com");
+  const emailToConfirm = sessionStorage.getItem("emailToConfirm");
+  if (emailToConfirm) setStep("confirmCode");
+
   const [loading, setLoading] = useState<boolean>(false);
   const {
     handleSubmit,
@@ -59,6 +63,7 @@ const NewAccount = ({ setNewUser, setStep, setPreviousStep }: Props) => {
     await connectionAPIPost<null>("/customer", body, apiUrl)
       .then(() => {
         setNewUser(body);
+        sessionStorage.setItem("emailToConfirm", body.email);
         setPreviousStep("newAccount");
         setStep("confirmCode");
       })
