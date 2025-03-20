@@ -1,4 +1,4 @@
-import { ProductType } from "types/globalTypes";
+import { ProductType } from "types/productTypes";
 import { apiUrl } from "utils/apiUrl";
 
 export const revalidate = 86400;

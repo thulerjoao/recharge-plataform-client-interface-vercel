@@ -7,7 +7,7 @@ import React, {
   useEffect,
   useState,
 } from "react";
-import { ProductType } from "types/globalTypes";
+import { ProductType } from "types/deviceTypes";
 
 interface ProductContextProps {
   // products: ProductType[];

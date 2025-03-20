@@ -1,4 +1,4 @@
-import { DeviceType } from "types/globalTypes";
+import { DeviceType } from "types/deviceTypes";
 
 export const getDevice = (): DeviceType => {
   const currentWidth = window.innerWidth;

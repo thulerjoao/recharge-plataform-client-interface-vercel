@@ -3,9 +3,10 @@ import Image from "next/image";
 import { useRouter } from "next/navigation";
 import ImageNotFound from "public/img/ImageNotFound.jpg";
 import { useEffect, useState } from "react";
-import { ProductType } from "types/globalTypes";
+
+import { ProductType } from "types/productTypes";
+import { formatString } from "utils/formatString";
 import { CardContainer } from "./style";
-import { removeSpace } from "utils/removeSpace";
 
 interface CardProps {
   product: ProductType;
@@ -35,7 +36,7 @@ const GameCard = ({ product }: CardProps) => {
   }, [product.imgCardUrl, isValidImageUrl]);
 
   const handleProductClick = (path: string) => {
-    const res = removeSpace(path);
+    const res = formatString(path);
     route.push(`/product/${res}`);
   };
 

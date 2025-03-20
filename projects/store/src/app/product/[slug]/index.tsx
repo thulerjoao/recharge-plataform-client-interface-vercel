@@ -10,9 +10,11 @@ import PackageCard from "../../../public/cards/packageCard/card";
 import PaymentCard from "../../../public/cards/paymentCard/card";
 // import BigoCard from "../common/temp/bigoCard.svg";
 import { Theme } from "@4miga/design-system/theme/theme";
-import { PackageType, ProductType } from "types/globalTypes";
+
 import { invisibleCardsCalc } from "utils/invisibleCardsCalc";
-import { removeSpace } from "utils/removeSpace";
+
+import { PackageType, ProductType } from "types/productTypes";
+import { formatString } from "utils/formatString";
 import { ProductContainer } from "./style";
 
 type Props = {
@@ -38,7 +40,9 @@ const ProductPage = ({ products, product }: Props) => {
     const selectedPayment = currentePackage.paymentMethods[paymentMethod].name;
     sessionStorage.setItem("paymentMethod", selectedPayment);
     sessionStorage.setItem("userId", userId);
-    route.push(`/product/${removeSpace(product.name)}/${currentePackage.id}`);
+    route.push(
+      `/product/${formatString(product.name)}/${formatString(currentePackage.id)}`,
+    );
   };
 
   return (

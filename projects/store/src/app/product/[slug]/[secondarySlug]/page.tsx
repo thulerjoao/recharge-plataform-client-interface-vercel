@@ -1,6 +1,7 @@
 import { fetchProducts } from "lib/api";
-import { PackageType, ProductType } from "types/globalTypes";
-import { removeSpace } from "utils/removeSpace";
+
+import { PackageType, ProductType } from "types/productTypes";
+import { formatString } from "utils/formatString";
 import PaymentPage from "./index";
 
 type Props = {
@@ -15,10 +16,11 @@ const Page = async ({ params }: Props) => {
   const id = params.secondarySlug;
   const slug = params.slug;
   const product = products.find(
-    (item: ProductType) => removeSpace(item.name) === slug,
+    (item: ProductType) => formatString(item.name) === slug,
   );
   const item =
-    product && product.packages.find((item: PackageType) => item.id === id);
+    product &&
+    product.packages.find((item: PackageType) => formatString(item.id) === id);
   return <PaymentPage product={product} item={item} />;
 };
 export default Page;

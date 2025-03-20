@@ -7,7 +7,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import React, { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import InputMask from "react-input-mask";
-import { UserType } from "types/globalTypes";
+import { UserType } from "types/userTypes";
 import { apiUrl } from "utils/apiUrl";
 import CPFicon from "../../icons/CPFicon.svg";
 import Email from "../../icons/Email.svg";
@@ -27,6 +27,10 @@ interface Props {
 }
 
 const NewAccount = ({ setNewUser, setStep, setPreviousStep }: Props) => {
+  // sessionStorage.setItem("emailToConfirm", "liminha@email.com");
+  const emailToConfirm = sessionStorage.getItem("emailToConfirm");
+  if (emailToConfirm) setStep("confirmCode");
+
   const [loading, setLoading] = useState<boolean>(false);
   const {
     handleSubmit,
@@ -53,12 +57,13 @@ const NewAccount = ({ setNewUser, setStep, setPreviousStep }: Props) => {
       password: data.password,
       individualIdentification: {
         type: "CPF",
-        value: data.password,
+        value: data.cpf,
       },
     };
     await connectionAPIPost<null>("/customer", body, apiUrl)
       .then(() => {
         setNewUser(body);
+        sessionStorage.setItem("emailToConfirm", body.email);
         setPreviousStep("newAccount");
         setStep("confirmCode");
       })
