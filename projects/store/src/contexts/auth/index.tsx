@@ -4,15 +4,19 @@
 import { connectionAPIPost } from "@4miga/services/connectionAPI/connection";
 
 import { useRouter } from "next/navigation";
-import { createContext, ReactNode, useContext, useState } from "react";
+import {
+  createContext,
+  ReactNode,
+  useContext,
+  useEffect,
+  useState,
+} from "react";
 
 import axios from "axios";
-import { LoginSchema } from "public/components/loginModal/common/login/schema";
 
 import { LoginResponse } from "types/loginTypes";
 import { UserType } from "types/userTypes";
 import { apiUrl } from "utils/apiUrl";
-import { date } from "zod";
 
 interface AuthProviderProps {
   children: ReactNode;
@@ -26,7 +30,7 @@ interface loginParams {
 
 interface AuthProviderData {
   logged: boolean;
-  login: (param: LoginSchema) => Promise<boolean>;
+  login: (data: LoginResponse, rememberMe: boolean) => Promise<boolean>;
   logout: () => void;
   user: Partial<UserType>;
 }
@@ -39,53 +43,41 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
   const [user, setUser] = useState<Partial<UserType>>(null);
   const [expiresIn, setExpiresIn] = useState<number>(null);
 
-  // useEffect(() => {
-  //   const checkAuth = async () => {
-  //     try {
-  //       const response = await axios.get("/api/token", {
-  //         withCredentials: true,
-  //       });
-  //       const token = response.data?.token;
-  //       if (!token) throw new Error("Login expirado");
-  //       await connectionAPIGet<{ user: UserType }>(`/auth`, apiUrl).then(
-  //         (res) => {
-  //           setUser(res.user);
-  //           setLogged(true);
-  //           axios.post("/api/login", {
-  //             token: token,
-  //             rememberMe: true,
-  //           });
-  //         },
-  //       );
-  //     } catch {
-  //       return;
-  //     }
-  //   };
-  //   checkAuth();
-  // }, []);
-
-  const login = async (data: loginParams) => {
-    const body = {
-      email: data.email,
-      password: data.password,
+  useEffect(() => {
+    const checkAuth = async () => {
+      try {
+        const response = await axios.get("/api/token", {
+          withCredentials: true,
+        });
+        const refreshToken = response.data?.refreshToken;
+        console.log(refreshToken);
+        if (!refreshToken) throw new Error("Login expirado");
+        await connectionAPIPost<LoginResponse>(
+          `/customer/refresh-token`,
+          { refreshToken },
+          apiUrl,
+        ).then((res) => {
+          const rememberMe = true;
+          login(res, rememberMe);
+        });
+      } catch {
+        return;
+      }
     };
-    const loginResponse = await connectionAPIPost<LoginResponse>(
-      "/customer/login",
-      body,
-      apiUrl,
-    ).catch((err) => {
-      throw new Error("Usuário ou senha inválidos");
-    });
-    const accessToken = loginResponse.access.accessToken;
-    const refreshToken = loginResponse.access.refreshToken;
-    const expiresIn = loginResponse.access.expiresIn;
+    checkAuth();
+  }, []);
+
+  const login = async (data: LoginResponse, rememberMe: boolean) => {
+    const accessToken = data.access.accessToken;
+    const refreshToken = data.access.refreshToken;
+    const expiresIn = data.access.expiresIn;
     const user: Partial<UserType> = {
-      email: data.email,
-      name: loginResponse.customer.name,
-      phone: loginResponse.customer.phone,
+      email: data.customer.email,
+      name: data.customer.name,
+      phone: data.customer.phone,
       individualIdentification: {
-        type: loginResponse.customer.individualIdentification.type,
-        value: loginResponse.customer.individualIdentification.value,
+        type: data.customer.individualIdentification.type,
+        value: data.customer.individualIdentification.value,
       },
     };
 
@@ -96,7 +88,7 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
         body: JSON.stringify({
           accessToken,
           refreshToken,
-          rememberMe: data.rememberMe,
+          rememberMe: rememberMe,
         }),
         credentials: "include",
       });

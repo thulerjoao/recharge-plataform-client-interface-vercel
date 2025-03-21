@@ -31,14 +31,15 @@ export default class ConnectionAPI {
   ): Promise<T> {
     return this.call<T>(url, method, body, baseUrl).catch((error) => {
       if (error.response) {
-        switch (error.response.status) {
-          case 401:
-          case 403:
-            throw new Error("Acesso negado");
+        // switch (error.response.status) {
+        //   case 401:
+        //   case 403:
+        //     throw new Error("Acesso negado");
 
-          default:
-            throw error;
-        }
+        //   default:
+        //     throw error;
+        //   }
+        throw error;
       }
       throw new Error("Falha na comunicação com o servidor");
     });

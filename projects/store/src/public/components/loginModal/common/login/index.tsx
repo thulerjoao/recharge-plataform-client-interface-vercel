@@ -2,10 +2,13 @@ import Button from "@4miga/design-system/components/button";
 import Input from "@4miga/design-system/components/input";
 import Text from "@4miga/design-system/components/Text";
 import { Theme } from "@4miga/design-system/theme/theme";
+import { connectionAPIPost } from "@4miga/services/connectionAPI/connection";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useAuth } from "contexts/auth";
 import React, { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
+import { LoginResponse } from "types/loginTypes";
+import { apiUrl } from "utils/apiUrl";
 import Email from "../../icons/Email.svg";
 import Password from "../../icons/Password.svg";
 import { LoginSteps } from "../../types/types";
@@ -39,16 +42,35 @@ const LoginComponent = ({ setStep, closeModal }: Props) => {
 
   const onSubmit = async (data: LoginSchema) => {
     setLoading(true);
-    try {
-      const response = await login(data);
-      if (response) closeModal();
-    } catch (error) {
-      if (error instanceof Error) {
-        setErrorMessage(error.message);
-      } else {
-        setErrorMessage("Erro ao fazer login");
-      }
-    }
+    const body = {
+      email: data.email,
+      password: data.password,
+    };
+    await connectionAPIPost<LoginResponse>("/customer/login", body, apiUrl)
+      .then(async (res) => {
+        try {
+          const rememberMe = true;
+          const response = await login(res, rememberMe);
+          if (response) closeModal();
+        } catch (error) {
+          if (error instanceof Error) {
+            setErrorMessage(error.message);
+          } else {
+            setLoading(false);
+            setErrorMessage("Usuário ou senha inválidos");
+          }
+        }
+      })
+      .catch((error) => {
+        const message: string = error.response.data.message[0];
+        if (message.toLowerCase() === "email not verified") {
+          sessionStorage.setItem("emailToConfirm", data.email);
+          setStep("confirmCode");
+        } else {
+          setLoading(false);
+          setErrorMessage("Usuário ou senha inválidos");
+        }
+      });
     setLoading(false);
   };
 

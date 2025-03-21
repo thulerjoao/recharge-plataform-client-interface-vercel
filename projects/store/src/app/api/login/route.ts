@@ -23,6 +23,14 @@ export async function POST(req: Request) {
       ...(rememberMe && { maxAge: 60 * 60 * 24 * 365 * 10 }),
     });
 
+    cookieStore.set("refreshToken", refreshToken, {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === "production",
+      sameSite: "strict",
+      path: "/",
+      ...(rememberMe && { maxAge: 60 * 60 * 24 * 365 * 10 }),
+    });
+
     cookieStore.set("inSession", "true", {
       httpOnly: true,
       secure: process.env.NODE_ENV === "production",
