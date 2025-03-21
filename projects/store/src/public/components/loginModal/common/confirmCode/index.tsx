@@ -6,7 +6,7 @@ import { useAuth } from "contexts/auth";
 import InputCode from "public/components/inputCode";
 import React, { useState } from "react";
 
-import { LoginParams } from "types/loginTypes";
+import { LoginParams, LoginResponse } from "types/loginTypes";
 import { UserType } from "types/userTypes";
 import { apiUrl } from "utils/apiUrl";
 import { LoginSteps } from "../../types/types";
@@ -38,13 +38,32 @@ const ConfirmCode = ({ user, previousStep, setStep, closeModal }: Props) => {
       };
       console.log(data);
       connectionAPIPost("/customer/confirm-email", data, apiUrl)
-        .then(() => {
+        .then(async () => {
           const body: LoginParams = {
             email: user.email,
             password: user.password,
             rememberMe: true,
           };
-          login(body);
+          await connectionAPIPost<LoginResponse>(
+            "/customer/login",
+            body,
+            apiUrl,
+          )
+            .then(async (res) => {
+              try {
+                const rememberMe = true;
+                const response = await login(res, rememberMe);
+                if (response) closeModal();
+              } catch (error) {
+                if (error instanceof Error) {
+                  setErrorMessage(error.message);
+                } else {
+                  setLoading(false);
+                  setErrorMessage("Usuário ou senha inválidos");
+                }
+              }
+            })
+            .catch((error) => {});
           setLoading(false);
           closeModal();
         })

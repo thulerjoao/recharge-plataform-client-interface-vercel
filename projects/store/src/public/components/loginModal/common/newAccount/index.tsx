@@ -11,6 +11,8 @@ import { UserType } from "types/userTypes";
 import { apiUrl } from "utils/apiUrl";
 import CPFicon from "../../icons/CPFicon.svg";
 import Email from "../../icons/Email.svg";
+import EyeOff from "../../icons/EyeOff.svg";
+import EyeOn from "../../icons/EyeOn.svg";
 import Name from "../../icons/Name.svg";
 import Password from "../../icons/Password.svg";
 import Phone from "../../icons/Phone.svg";
@@ -29,8 +31,6 @@ interface Props {
 const NewAccount = ({ setNewUser, setStep, setPreviousStep }: Props) => {
   // sessionStorage.setItem("emailToConfirm", "liminha@email.com");
   const emailToConfirm = sessionStorage.getItem("emailToConfirm");
-  if (emailToConfirm) setStep("confirmCode");
-
   const [loading, setLoading] = useState<boolean>(false);
   const {
     handleSubmit,
@@ -47,9 +47,15 @@ const NewAccount = ({ setNewUser, setStep, setPreviousStep }: Props) => {
     },
   });
   const [errorMessage, setErrorMessage] = useState<string>("");
+  const [visible, setVisible] = useState<boolean>(false);
+
+  const ChangeVisibilaty = () => {
+    setVisible(!visible);
+  };
 
   const onSubmit = async (data: RegisterSchema) => {
     setLoading(true);
+    if (emailToConfirm === data.email) setStep("confirmCode");
     const body: UserType = {
       name: data.name,
       email: data.email,
@@ -68,7 +74,7 @@ const NewAccount = ({ setNewUser, setStep, setPreviousStep }: Props) => {
         setStep("confirmCode");
       })
       .catch((err) => {
-        setErrorMessage("Erro ao cadastrar usuário");
+        handleErrorResponse(err.response.data.message[0]);
       });
     setLoading(false);
   };
@@ -96,6 +102,16 @@ const NewAccount = ({ setNewUser, setStep, setPreviousStep }: Props) => {
       return;
     }
   }, [errors]);
+
+  const handleErrorResponse = (res: string) => {
+    if (res.toLocaleLowerCase() === "email already exists") {
+      setErrorMessage("Email já cadastrado");
+    } else if (res.toLocaleLowerCase() === "unique data already exists") {
+      setErrorMessage("Usuário já cadastrado");
+    } else {
+      setErrorMessage("Erro ao criar conta");
+    }
+  };
 
   return (
     <NewAccountContainer onSubmit={handleSubmit(onSubmit)}>
@@ -155,12 +171,26 @@ const NewAccount = ({ setNewUser, setStep, setPreviousStep }: Props) => {
         )}
       </InputMask>
       <Input
-        type="password"
+        name="password"
+        type={!visible && "password"}
         margin="24px 0 0 0"
-        padding="0 8px 0px 40px"
+        padding="0 30px 0px 40px"
         height={40}
         placeholder="Senha"
         leftElement={<Password />}
+        rightElement={
+          visible ? (
+            <EyeOn
+              style={{ cursor: "pointer" }}
+              onClick={() => ChangeVisibilaty()}
+            />
+          ) : (
+            <EyeOff
+              style={{ cursor: "pointer" }}
+              onClick={() => ChangeVisibilaty()}
+            />
+          )
+        }
         onFocus={() => setErrorMessage("")}
         onChange={(e) => setValue("password", e.target.value)}
       />

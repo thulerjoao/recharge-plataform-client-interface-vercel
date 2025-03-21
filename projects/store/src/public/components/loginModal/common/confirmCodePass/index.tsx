@@ -14,6 +14,7 @@ import EyeOn from "../../icons/EyeOn.svg";
 import Password from "../../icons/Password.svg";
 import { newPassSchema, NewPassSchema } from "./schema";
 import { ConfirmCodePassContainer, ErrorMessage } from "./style";
+import { LoginResponse } from "types/loginTypes";
 
 interface Props {
   closeModal: () => void;
@@ -49,13 +50,24 @@ const ConfirmCodePass = ({ closeModal }: Props) => {
     };
     console.log(body);
     await connectionAPIPost<any>("/customer/recover-password", body, apiUrl)
-      .then(() => {
+      .then(async () => {
         sessionStorage.removeItem("emailToRecover");
-        login({
-          email,
-          password,
-          rememberMe: true,
-        });
+        await connectionAPIPost<LoginResponse>("/customer/login", body, apiUrl)
+          .then(async (res) => {
+            try {
+              const rememberMe = true;
+              const response = await login(res, rememberMe);
+              if (response) closeModal();
+            } catch (error) {
+              if (error instanceof Error) {
+                setErrorMessage(error.message);
+              } else {
+                setLoading(false);
+                setErrorMessage("Usuário ou senha inválidos");
+              }
+            }
+          })
+          .catch((error) => {});
         closeModal();
       })
       .catch((err) => {
@@ -94,10 +106,6 @@ const ConfirmCodePass = ({ closeModal }: Props) => {
   return (
     <ConfirmCodePassContainer onSubmit={handleSubmit(onSubmit)}>
       <Text margin="24px 0 0 0" align="center" fontName="REGULAR_MEDIUM">
-        Confirme o código que foi enviado para seu e-mail
-      </Text>
-      <InputCode code={code} setCode={setCode} />
-      <Text margin="32px 0 0 0" align="center" fontName="REGULAR_MEDIUM">
         Digite sua nova senha
       </Text>
       <Input
@@ -124,9 +132,13 @@ const ConfirmCodePass = ({ closeModal }: Props) => {
         onChange={(e) => setValue("password", e.target.value)}
         onFocus={() => setErrorMessage("")}
       />
+      <Text margin="32px 0 0 0" align="center" fontName="REGULAR_MEDIUM">
+        Insira o código que foi enviado para seu e-mail
+      </Text>
+      <InputCode code={code} setCode={setCode} />
       <Button
         type="submit"
-        margin="24px 0 0 0"
+        margin="32px 0 0 0"
         width={310}
         height={40}
         rounded

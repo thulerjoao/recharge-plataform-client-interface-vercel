@@ -38,14 +38,17 @@ const ForgotPassword = ({ setStep }: Props) => {
     sessionStorage.setItem("emailToRecover", email);
     setTimeout(() => {
       sessionStorage.removeItem("emailToRecover");
-      console.log("E-mail removido do sessionStorage.");
     }, 600000);
   };
 
   const onSubmit = async (data: ForgotPassSchema) => {
     setLoading(true);
     const IsAnEmail = sessionStorage.getItem("emailToRecover");
-    if (IsAnEmail === email) return setStep("confirmCodePass");
+    if (IsAnEmail === email) {
+      return setStep("confirmCodePass");
+    } else {
+      sessionStorage.removeItem("emailToRecover");
+    }
     connectionAPIPost<null>(
       "/customer/send-code-to-recover-password",
       data,
@@ -56,7 +59,15 @@ const ForgotPassword = ({ setStep }: Props) => {
         setStep("confirmCodePass");
         return;
       })
-      .catch((err) => {
+      .catch((error) => {
+        const message = error.response.data.message[0];
+        if (
+          message.toLowerCase() ===
+          `email: '${email.toLowerCase()}' not verified`
+        ) {
+          sessionStorage.setItem("emailToConfirm", email);
+          setStep("confirmCode");
+        }
         setErrorMessage("Erro ao realizar o pedido");
       });
     setLoading(false);
