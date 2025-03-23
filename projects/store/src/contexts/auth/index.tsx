@@ -41,6 +41,7 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
   const route = useRouter();
   const [logged, setLogged] = useState<boolean>(false);
   const [user, setUser] = useState<Partial<UserType>>(null);
+  const [lastUpdated, setLastUpdated] = useState(Date.now());
   const [expiresIn, setExpiresIn] = useState<number>(null);
 
   useEffect(() => {
@@ -50,8 +51,12 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
           withCredentials: true,
         });
         const refreshToken = response.data?.refreshToken;
-        console.log(refreshToken);
-        if (!refreshToken) throw new Error("Login expirado");
+        if (!refreshToken) {
+          await axios.delete("/api/logout", {
+            withCredentials: true,
+          });
+          throw new Error("Login expirado");
+        }
         await connectionAPIPost<LoginResponse>(
           `/customer/refresh-token`,
           { refreshToken },
@@ -66,6 +71,56 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
     };
     checkAuth();
   }, []);
+
+  useEffect(() => {
+    if (!expiresIn) return;
+
+    const updateToken = async () => {
+      try {
+        const response = await axios.get("/api/token", {
+          withCredentials: true,
+        });
+
+        const refreshToken = response.data?.refreshToken;
+        const rememberMe = response.data?.rememberMe;
+        if (!refreshToken) {
+          await axios.delete("/api/logout", {
+            withCredentials: true,
+          });
+          throw new Error("Token expirado");
+        }
+
+        const refreshResponse = await connectionAPIPost<LoginResponse>(
+          `/customer/refresh-token`,
+          { refreshToken },
+          apiUrl,
+        );
+
+        const newAccessToken = refreshResponse.access.accessToken;
+        const newRefreshToken = refreshResponse.access.refreshToken;
+        const newExpiresIn = refreshResponse.access.expiresIn;
+
+        setExpiresIn(newExpiresIn);
+
+        await axios.post(
+          "/api/login",
+          {
+            accessToken: newAccessToken,
+            refreshToken: newRefreshToken,
+            expiresIn: newExpiresIn,
+            rememberMe: rememberMe,
+          },
+          { withCredentials: true },
+        );
+        setLastUpdated(Date.now());
+      } catch (error) {
+        console.error("Erro ao atualizar token:", error);
+      }
+    };
+
+    const timeout = setTimeout(updateToken, expiresIn * 10 * 0.98);
+    return () => clearTimeout(timeout);
+  }, [lastUpdated, expiresIn]);
 
   const login = async (data: LoginResponse, rememberMe: boolean) => {
     const accessToken = data.access.accessToken;
@@ -88,6 +143,7 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
         body: JSON.stringify({
           accessToken,
           refreshToken,
+          expiresIn,
           rememberMe: rememberMe,
         }),
         credentials: "include",
