@@ -160,7 +160,7 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
       await fetch("/api/logout", { method: "DELETE" });
       await new Promise((resolve) => setTimeout(resolve, 100));
       const response = await axios.get("/api/token", { withCredentials: true });
-      if (response.data?.token) {
+      if (response.data?.accessToken) {
         await fetch("/api/logout", { method: "DELETE" });
       } else {
         setLogged(false);

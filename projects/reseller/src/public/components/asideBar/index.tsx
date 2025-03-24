@@ -1,5 +1,6 @@
 import Text from "@4miga/design-system/components/Text";
 import { Theme } from "@4miga/design-system/theme/theme";
+import { useAuth } from "context/auth";
 import { useDevice } from "context/deviceContext";
 import { usePathname, useRouter } from "next/navigation";
 import { AsideSelected } from "types/globalTypes";
@@ -19,7 +20,6 @@ import SalesSelected from "./icons/SalesSelected.svg";
 import Wallet from "./icons/Wallet.svg";
 import WalletSelected from "./icons/WalletSelected.svg";
 import { AsideBarContainer } from "./style";
-import { useAuth } from "context/auth";
 
 const AsideBar = () => {
   const route = useRouter();
@@ -159,16 +159,12 @@ const AsideBar = () => {
                 </Text>
               )}
             </div>
-            <div className="menuOption" onClick={() => route.replace("/")}>
+            <div className="menuOption" onClick={() => logout()}>
               <span className="inconEnviroment">
                 <Logout />
               </span>
               {device === "desktop" && (
-                <Text
-                  onClick={() => logout()}
-                  margin="0 0 0 16px"
-                  fontName="REGULAR_SEMI_BOLD"
-                >
+                <Text margin="0 0 0 16px" fontName="REGULAR_SEMI_BOLD">
                   SAIR
                 </Text>
               )}
