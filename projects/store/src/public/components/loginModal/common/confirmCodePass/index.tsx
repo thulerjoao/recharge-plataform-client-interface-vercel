@@ -48,7 +48,6 @@ const ConfirmCodePass = ({ closeModal }: Props) => {
       code: code.toString(),
       newPassword: password,
     };
-    console.log(body);
     await connectionAPIPost<any>("/customer/recover-password", body, apiUrl)
       .then(async () => {
         sessionStorage.removeItem("emailToRecover");

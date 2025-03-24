@@ -17,10 +17,6 @@ export async function POST(req: Request) {
       );
     }
 
-    if (!expiresIn) {
-      return NextResponse.json({ error: "Missing expiresIn" }, { status: 400 });
-    }
-
     if (!rememberMe) {
       return NextResponse.json(
         { error: "Missing rememberMe" },
@@ -44,13 +40,6 @@ export async function POST(req: Request) {
       sameSite: "strict",
       path: "/",
       ...(rememberMe && { maxAge: 60 * 60 * 24 * 365 * 10 }),
-    });
-
-    cookieStore.set("expiresIn", expiresIn, {
-      httpOnly: true,
-      secure: process.env.NODE_ENV === "production",
-      sameSite: "strict",
-      path: "/",
     });
 
     cookieStore.set("inSession", "true", {
