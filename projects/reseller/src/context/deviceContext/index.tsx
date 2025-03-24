@@ -7,7 +7,7 @@ import {
   useEffect,
   useState,
 } from "react";
-import { DeviceType } from "types/globalTypes";
+import { DeviceType } from "types/deviceTypes";
 
 interface DeviceContextProps {
   device: DeviceType;

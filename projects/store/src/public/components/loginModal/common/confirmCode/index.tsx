@@ -36,7 +36,6 @@ const ConfirmCode = ({ user, previousStep, setStep, closeModal }: Props) => {
         email: emailToConfirm ? emailToConfirm : user.email,
         code,
       };
-      console.log(data);
       connectionAPIPost("/customer/confirm-email", data, apiUrl)
         .then(async () => {
           const body: LoginParams = {

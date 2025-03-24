@@ -3,8 +3,7 @@ import { NextResponse } from "next/server";
 
 export async function POST(req: Request) {
   try {
-    const { accessToken, refreshToken, expiresIn, rememberMe } =
-      await req.json();
+    const { accessToken, refreshToken, rememberMe } = await req.json();
 
     if (!accessToken) {
       return NextResponse.json({ error: "Missing token" }, { status: 400 });
@@ -15,10 +14,6 @@ export async function POST(req: Request) {
         { error: "Missing refreshToken" },
         { status: 400 },
       );
-    }
-
-    if (!expiresIn) {
-      return NextResponse.json({ error: "Missing expiresIn" }, { status: 400 });
     }
 
     if (!rememberMe) {
@@ -44,13 +39,6 @@ export async function POST(req: Request) {
       sameSite: "strict",
       path: "/",
       ...(rememberMe && { maxAge: 60 * 60 * 24 * 365 * 10 }),
-    });
-
-    cookieStore.set("expiresIn", expiresIn, {
-      httpOnly: true,
-      secure: process.env.NODE_ENV === "production",
-      sameSite: "strict",
-      path: "/",
     });
 
     cookieStore.set("inSession", "true", {

@@ -22,12 +22,6 @@ interface AuthProviderProps {
   children: ReactNode;
 }
 
-interface loginParams {
-  email: string;
-  password: string;
-  rememberMe: boolean;
-}
-
 interface AuthProviderData {
   logged: boolean;
   login: (data: LoginResponse, rememberMe: boolean) => Promise<boolean>;
@@ -55,7 +49,7 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
           await axios.delete("/api/logout", {
             withCredentials: true,
           });
-          throw new Error("Login expirado");
+          return;
         }
         await connectionAPIPost<LoginResponse>(
           `/customer/refresh-token`,
@@ -66,6 +60,9 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
           login(res, rememberMe);
         });
       } catch {
+        await axios.delete("/api/logout", {
+          withCredentials: true,
+        });
         return;
       }
     };
@@ -118,7 +115,7 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
       }
     };
 
-    const timeout = setTimeout(updateToken, expiresIn * 10 * 0.98);
+    const timeout = setTimeout(updateToken, expiresIn * 1000 * 0.98);
     return () => clearTimeout(timeout);
   }, [lastUpdated, expiresIn]);
 
@@ -167,6 +164,8 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
         await fetch("/api/logout", { method: "DELETE" });
       } else {
         setLogged(false);
+        setExpiresIn(null);
+        setUser(null);
         route.replace("/");
       }
     } catch (error) {

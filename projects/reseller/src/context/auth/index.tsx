@@ -1,13 +1,9 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 "use client";
 
-import {
-  connectionAPIGet,
-  connectionAPIPost,
-} from "@4miga/services/connectionAPI/connection";
+import { connectionAPIPost } from "@4miga/services/connectionAPI/connection";
 import axios from "axios";
 import { useRouter } from "next/navigation";
-import { LoginSchema } from "public/components/login/common/login/schema";
 import {
   createContext,
   ReactNode,
@@ -15,25 +11,20 @@ import {
   useEffect,
   useState,
 } from "react";
+import { LoginResponse } from "types/loginTypes";
+import { UserType } from "types/userTypes";
 
-import { UserType } from "types/globalTypes";
 import { apiUrl } from "utils/apiUrl";
 
 interface AuthProviderProps {
   children: ReactNode;
 }
 
-interface loginParams {
-  email: string;
-  password: string;
-  rememberMe: boolean;
-}
-
 interface AuthProviderData {
   logged: boolean;
-  login: (param: LoginSchema) => void;
+  login: (data: LoginResponse, rememberMe: boolean) => Promise<boolean>;
   logout: () => void;
-  user: UserType;
+  user: Partial<UserType>;
 }
 
 const AuthContext = createContext<AuthProviderData>({} as AuthProviderData);
@@ -41,8 +32,9 @@ const AuthContext = createContext<AuthProviderData>({} as AuthProviderData);
 export const AuthProvider = ({ children }: AuthProviderProps) => {
   const route = useRouter();
   const [logged, setLogged] = useState<boolean>(false);
-
-  const [user, setUser] = useState<UserType>(null);
+  const [user, setUser] = useState<Partial<UserType>>(null);
+  const [lastUpdated, setLastUpdated] = useState(Date.now());
+  const [expiresIn, setExpiresIn] = useState<number>(null);
 
   useEffect(() => {
     const checkAuth = async () => {
@@ -50,53 +42,112 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
         const response = await axios.get("/api/token", {
           withCredentials: true,
         });
-        const token = response.data?.token;
-        if (!token) throw new Error("Login expirado");
-        await connectionAPIGet<{ user: UserType }>(`/auth`, apiUrl).then(
-          (res) => {
-            setUser(res.user);
-            setLogged(true);
-            axios
-              .post("/api/login", {
-                token: token,
-                rememberMe: true,
-              })
-              .then(() => route.replace("/home"))
-              .catch();
-          },
-        );
+        const refreshToken = response.data?.refreshToken;
+        if (!refreshToken) {
+          await axios.delete("/api/logout", {
+            withCredentials: true,
+          });
+          return;
+        }
+        await connectionAPIPost<LoginResponse>(
+          `/customer/refresh-token`,
+          { refreshToken },
+          apiUrl,
+        ).then((res) => {
+          const rememberMe = true;
+          login(res, rememberMe);
+        });
       } catch {
+        await axios.delete("/api/logout", {
+          withCredentials: true,
+        });
         return;
       }
     };
     checkAuth();
   }, []);
 
-  const login = async (data: loginParams) => {
-    const body = {
-      email: data.email,
-      password: data.password,
-    };
-    const loginResponse = await connectionAPIPost<{
-      token: string;
-      user: UserType;
-    }>("/auth", body, apiUrl).catch((err) => {
-      throw new Error("Usuário ou senha inválidos");
-    });
+  useEffect(() => {
+    if (!expiresIn) return;
 
-    const { token, user } = loginResponse;
+    const updateToken = async () => {
+      try {
+        const response = await axios.get("/api/token", {
+          withCredentials: true,
+        });
+
+        const refreshToken = response.data?.refreshToken;
+        const rememberMe = response.data?.rememberMe;
+        if (!refreshToken) {
+          await axios.delete("/api/logout", {
+            withCredentials: true,
+          });
+          throw new Error("Token expirado");
+        }
+
+        const refreshResponse = await connectionAPIPost<LoginResponse>(
+          `/customer/refresh-token`,
+          { refreshToken },
+          apiUrl,
+        );
+
+        const newAccessToken = refreshResponse.access.accessToken;
+        const newRefreshToken = refreshResponse.access.refreshToken;
+        const newExpiresIn = refreshResponse.access.expiresIn;
+
+        setExpiresIn(newExpiresIn);
+
+        await axios.post(
+          "/api/login",
+          {
+            accessToken: newAccessToken,
+            refreshToken: newRefreshToken,
+            expiresIn: newExpiresIn,
+            rememberMe: rememberMe,
+          },
+          { withCredentials: true },
+        );
+        setLastUpdated(Date.now());
+      } catch (error) {
+        console.error("Erro ao atualizar token:", error);
+      }
+    };
+
+    const timeout = setTimeout(updateToken, expiresIn * 1000 * 0.98);
+    return () => clearTimeout(timeout);
+  }, [lastUpdated, expiresIn]);
+
+  const login = async (data: LoginResponse, rememberMe: boolean) => {
+    const accessToken = data.access.accessToken;
+    const refreshToken = data.access.refreshToken;
+    const expiresIn = data.access.expiresIn;
+    const user: Partial<UserType> = {
+      email: data.customer.email,
+      name: data.customer.name,
+      phone: data.customer.phone,
+      individualIdentification: {
+        type: data.customer.individualIdentification.type,
+        value: data.customer.individualIdentification.value,
+      },
+    };
 
     try {
       const res = await fetch("/api/login", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ token, rememberMe: data.rememberMe }),
+        body: JSON.stringify({
+          accessToken,
+          refreshToken,
+          expiresIn,
+          rememberMe: rememberMe,
+        }),
         credentials: "include",
       });
       if (!res.ok) throw new Error("Erro ao fazer login");
       setLogged(true);
       setUser(user);
-      route.replace("/home");
+      setExpiresIn(expiresIn);
+      return true;
     } catch (error) {
       return false;
     }
@@ -111,6 +162,8 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
         await fetch("/api/logout", { method: "DELETE" });
       } else {
         setLogged(false);
+        setExpiresIn(null);
+        setUser(null);
         route.replace("/");
       }
     } catch (error) {
