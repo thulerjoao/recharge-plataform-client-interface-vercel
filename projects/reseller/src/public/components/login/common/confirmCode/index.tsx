@@ -1,77 +1,100 @@
 import Button from "@4miga/design-system/components/button";
-import Input from "@4miga/design-system/components/input";
 import Text from "@4miga/design-system/components/Text";
-import { zodResolver } from "@hookform/resolvers/zod";
-import React, { useEffect, useState } from "react";
-import { useForm } from "react-hook-form";
-import { LoginSteps } from "../../types/types";
-import { codeSchema, CodeSchema } from "./schema";
-import { ConfirmCodeContainer, ErrorMessage } from "./style";
 import { Theme } from "@4miga/design-system/theme/theme";
+import { connectionAPIPost } from "@4miga/services/connectionAPI/connection";
+import React, { useState } from "react";
+
+import { LoginParams, LoginResponse } from "types/loginTypes";
+import { UserType } from "types/userTypes";
+import { apiUrl } from "utils/apiUrl";
+import { LoginSteps } from "../../types/types";
+import { ConfirmCodeContainer, ErrorMessage } from "./style";
+import { useAuth } from "context/auth";
+import InputCode from "public/components/inputCode";
 
 interface Props {
+  user: UserType;
+  previousStep: "newAccount" | "newPassword" | null;
   setStep: React.Dispatch<React.SetStateAction<LoginSteps>>;
-  newPassRes: { email: string; code: number };
 }
 
-const ConfirmCode = ({ setStep, newPassRes }: Props) => {
-  const {
-    handleSubmit,
-    watch,
-    setValue,
-    setError,
-    formState: { errors },
-  } = useForm<CodeSchema>({
-    resolver: zodResolver(codeSchema),
-    defaultValues: {
-      code: "",
-    },
-  });
+const ConfirmCode = ({ user, previousStep, setStep }: Props) => {
+  const emailToConfirm = sessionStorage.getItem("emailToConfirm");
+  const { login } = useAuth();
 
   const [errorMessage, setErrorMessage] = useState<string>("");
+  const [code, setCode] = useState<number>(null);
+  const [loading, setLoading] = useState<boolean>(false);
 
-  const onSubmit = async (data: CodeSchema) => {
-    const code = watch("code");
-    if (+code === newPassRes.code) {
-      setStep("newPassword");
-    } else {
-      setError("code", { type: "manual", message: "Código inválido" });
+  const handleSubmit = () => {
+    setLoading(true);
+    // if (previousStep === "newAccount") {
+    // eslint-disable-next-line no-constant-condition
+    if (true) {
+      const data = {
+        email: emailToConfirm ? emailToConfirm : user.email,
+        code,
+      };
+      connectionAPIPost("/customer/confirm-email", data, apiUrl)
+        .then(async () => {
+          const body: LoginParams = {
+            email: user.email,
+            password: user.password,
+            rememberMe: true,
+          };
+          await connectionAPIPost<LoginResponse>(
+            "/customer/login",
+            body,
+            apiUrl,
+          )
+            .then(async (res) => {
+              try {
+                const rememberMe = true;
+                const response = await login(res, rememberMe);
+                // if (response) closeModal();
+              } catch (error) {
+                if (error instanceof Error) {
+                  setErrorMessage(error.message);
+                } else {
+                  setLoading(false);
+                  setErrorMessage("Usuário ou senha inválidos");
+                }
+              }
+            })
+            .catch((error) => {});
+          setLoading(false);
+          // closeModal();
+        })
+        .catch(() => {
+          setErrorMessage("Código inválido");
+          setLoading(false);
+        });
+    } else if (previousStep === "newPassword") {
+      return;
     }
   };
 
-  useEffect(() => {
-    setErrorMessage("");
-    if (errors.code) {
-      setErrorMessage(errors.code.message);
-      return;
-    }
-  }, [errors]);
+  const handleDisabled = () => {
+    if (!code) return true;
+    if (code.toString().length != 6) return true;
+  };
 
   return (
-    <ConfirmCodeContainer onSubmit={handleSubmit(onSubmit)}>
+    <ConfirmCodeContainer>
       <Text margin="24px 0 0 0" align="center" fontName="REGULAR_MEDIUM">
         Confirme o código que foi enviado para seu e-mail
       </Text>
-      <Input
-        type="number"
-        onInput={(e) => {
-          const target = e.target as HTMLInputElement;
-          target.value = target.value.replace(/[^0-9-]/g, "");
-        }}
-        style={{ textAlign: "center" }}
-        margin="24px 0 0 0"
-        padding="0 8px 0px 40px"
-        height={40}
-        onChange={(e) => setValue("code", e.target.value)}
-        onFocus={() => setErrorMessage("")}
-      />
+      <InputCode code={code} setCode={setCode} />
       <Button
         margin="24px 0 0 0"
         width={310}
         height={40}
         rounded
         title="Enviar"
-        type="submit"
+        onClick={() => handleSubmit()}
+        isNotSelected={handleDisabled()}
+        disabled={handleDisabled()}
+        loading={loading}
       />
       <ErrorMessage>
         <Text

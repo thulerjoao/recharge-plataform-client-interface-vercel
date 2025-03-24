@@ -14,12 +14,9 @@ import { ErrorMessage, ForgotPasswordContainer } from "./style";
 
 interface Props {
   setStep: React.Dispatch<React.SetStateAction<LoginSteps>>;
-  setNewPassRes: React.Dispatch<
-    React.SetStateAction<{ email: string; code: number }>
-  >;
 }
 
-const ForgotPassword = ({ setStep, setNewPassRes }: Props) => {
+const ForgotPassword = ({ setStep }: Props) => {
   const {
     handleSubmit,
     setValue,
@@ -47,7 +44,7 @@ const ForgotPassword = ({ setStep, setNewPassRes }: Props) => {
     setLoading(true);
     const IsAnEmail = sessionStorage.getItem("emailToRecover");
     if (IsAnEmail === email) {
-      return setStep("confirmCode");
+      return setStep("confirmCodePass");
     } else {
       sessionStorage.removeItem("emailToRecover");
     }
@@ -58,7 +55,7 @@ const ForgotPassword = ({ setStep, setNewPassRes }: Props) => {
     )
       .then((res) => {
         saveStorageEmail(email);
-        setStep("confirmCode");
+        setStep("confirmCodePass");
         return;
       })
       .catch((error) => {
@@ -68,7 +65,7 @@ const ForgotPassword = ({ setStep, setNewPassRes }: Props) => {
           `email: '${email.toLowerCase()}' not verified`
         ) {
           sessionStorage.setItem("emailToConfirm", email);
-          setStep("confirmCode");
+          setStep("confirmCodePass");
         }
         setErrorMessage("Erro ao realizar o pedido");
       });
