@@ -22,12 +22,6 @@ interface AuthProviderProps {
   children: ReactNode;
 }
 
-interface loginParams {
-  email: string;
-  password: string;
-  rememberMe: boolean;
-}
-
 interface AuthProviderData {
   logged: boolean;
   login: (data: LoginResponse, rememberMe: boolean) => Promise<boolean>;
