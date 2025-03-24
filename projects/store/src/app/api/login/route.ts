@@ -3,8 +3,7 @@ import { NextResponse } from "next/server";
 
 export async function POST(req: Request) {
   try {
-    const { accessToken, refreshToken, expiresIn, rememberMe } =
-      await req.json();
+    const { accessToken, refreshToken, rememberMe } = await req.json();
 
     if (!accessToken) {
       return NextResponse.json({ error: "Missing token" }, { status: 400 });
