@@ -53,9 +53,10 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
           `/customer/refresh-token`,
           { refreshToken },
           apiUrl,
-        ).then((res) => {
+        ).then(async (res) => {
           const rememberMe = true;
-          login(res, rememberMe);
+          const response = await login(res, rememberMe);
+          if (response) route.push("/home");
         });
       } catch {
         await axios.delete("/api/logout", {
@@ -154,11 +155,13 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
   };
 
   const logout = async () => {
+    console.log("aquiii");
     try {
       await fetch("/api/logout", { method: "DELETE" });
       await new Promise((resolve) => setTimeout(resolve, 100));
       const response = await axios.get("/api/token", { withCredentials: true });
-      if (response.data?.token) {
+      console.log(response);
+      if (response.data?.accessToken) {
         await fetch("/api/logout", { method: "DELETE" });
       } else {
         setLogged(false);

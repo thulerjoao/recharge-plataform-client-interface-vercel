@@ -54,6 +54,7 @@ const LoginComponent = ({ setStep, closeModal }: Props) => {
           if (response) closeModal();
         } catch (error) {
           if (error instanceof Error) {
+            setLoading(false);
             setErrorMessage(error.message);
           } else {
             setLoading(false);
@@ -62,7 +63,7 @@ const LoginComponent = ({ setStep, closeModal }: Props) => {
         }
       })
       .catch((error) => {
-        const message: string = error.response.data.message[0];
+        const message: string = error && error.response.data.message[0];
         if (message.toLowerCase() === "email not verified") {
           sessionStorage.setItem("emailToConfirm", data.email);
           setStep("confirmCode");

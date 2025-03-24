@@ -1,6 +1,7 @@
 import Input from "@4miga/design-system/components/input";
 import Text from "@4miga/design-system/components/Text";
 import { Theme } from "@4miga/design-system/theme/theme";
+import { useAuth } from "context/auth";
 import { usePathname, useRouter } from "next/navigation";
 import React, { useState } from "react";
 import { AsideSelected } from "types/globalTypes";
@@ -23,7 +24,6 @@ import BigUp from "./icons/BigUp.svg";
 import Search from "./icons/Search.svg";
 import Setting from "./icons/Setting.svg";
 import { MobileMenuContainer } from "./style";
-import { useAuth } from "context/auth";
 
 interface Props {
   search: boolean;
@@ -175,15 +175,11 @@ const MobileMenu = ({ search, openMenu, setOpenMenu }: Props) => {
           CONFIGURAÇÕES
         </Text>
       </div>
-      <div className="menuOption" onClick={() => route.replace("/")}>
+      <div className="menuOption" onClick={() => logout()}>
         <span>
           <Logout />
         </span>
-        <Text
-          onClick={() => logout()}
-          margin="0 0 0 16px"
-          fontName="REGULAR_SEMI_BOLD"
-        >
+        <Text margin="0 0 0 16px" fontName="REGULAR_SEMI_BOLD">
           SAIR
         </Text>
       </div>
