@@ -20,7 +20,6 @@ const ForgotPassword = ({ setStep }: Props) => {
   const {
     handleSubmit,
     setValue,
-    setError,
     watch,
     formState: { errors },
   } = useForm<ForgotPassSchema>({

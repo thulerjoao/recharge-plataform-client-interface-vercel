@@ -23,6 +23,7 @@ const ForgotPassword = ({ setStep, setNewPassRes }: Props) => {
   const {
     handleSubmit,
     setValue,
+    watch,
     formState: { errors },
   } = useForm<ForgotPassSchema>({
     resolver: zodResolver(forgotPassSchema),
@@ -31,24 +32,45 @@ const ForgotPassword = ({ setStep, setNewPassRes }: Props) => {
     },
   });
 
+  const email = watch("email");
   const [errorMessage, setErrorMessage] = useState<string>("");
   const [loading, setLoading] = useState<boolean>(false);
 
+  const saveStorageEmail = (email: string) => {
+    sessionStorage.setItem("emailToRecover", email);
+    setTimeout(() => {
+      sessionStorage.removeItem("emailToRecover");
+    }, 600000);
+  };
+
   const onSubmit = async (data: ForgotPassSchema) => {
     setLoading(true);
-    connectionAPIPost<{ email: string; code: number }>(
-      "/user/request-code",
+    const IsAnEmail = sessionStorage.getItem("emailToRecover");
+    if (IsAnEmail === email) {
+      return setStep("confirmCode");
+    } else {
+      sessionStorage.removeItem("emailToRecover");
+    }
+    connectionAPIPost<null>(
+      "/customer/send-code-to-recover-password",
       data,
       apiUrl,
     )
       .then((res) => {
-        console.log("email e código:", res);
-        setNewPassRes(res);
+        saveStorageEmail(email);
         setStep("confirmCode");
         return;
       })
-      .catch((err) => {
-        setErrorMessage("Email inválido");
+      .catch((error) => {
+        const message = error.response.data.message[0];
+        if (
+          message.toLowerCase() ===
+          `email: '${email.toLowerCase()}' not verified`
+        ) {
+          sessionStorage.setItem("emailToConfirm", email);
+          setStep("confirmCode");
+        }
+        setErrorMessage("Erro ao realizar o pedido");
       });
     setLoading(false);
   };
@@ -60,6 +82,10 @@ const ForgotPassword = ({ setStep, setNewPassRes }: Props) => {
       return;
     }
   }, [errors]);
+
+  const handleDisabled = () => {
+    if (!email) return true;
+  };
 
   return (
     <ForgotPasswordContainer onSubmit={handleSubmit(onSubmit)}>
@@ -83,6 +109,8 @@ const ForgotPassword = ({ setStep, setNewPassRes }: Props) => {
         title="Continuar"
         type="submit"
         loading={loading}
+        isNotSelected={handleDisabled()}
+        disabled={handleDisabled()}
       />
       <ErrorMessage>
         <Text
