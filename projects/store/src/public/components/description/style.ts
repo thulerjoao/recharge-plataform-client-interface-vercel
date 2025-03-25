@@ -21,6 +21,10 @@ export const DescriptionContainer = styled.div`
       width: 100%;
       max-width: 496px;
     }
+    .seeLess,
+    .seeMore {
+      display: none;
+    }
   }
 
   @media (min-width: 768px) and (max-width: 1024px) {
@@ -37,6 +41,14 @@ export const DescriptionContainer = styled.div`
         width: 100%;
         max-width: 100%;
       }
+      .seeLess,
+      .seeMore {
+        display: flex;
+      }
+    }
+
+    .hiddenContent {
+      display: none;
     }
   }
   @media (max-width: 767px) {
@@ -53,6 +65,14 @@ export const DescriptionContainer = styled.div`
         width: 100%;
         max-width: 100%;
       }
+      .seeLess,
+      .seeMore {
+        display: flex;
+      }
+    }
+
+    .hiddenContent {
+      display: none;
     }
   }
 `;

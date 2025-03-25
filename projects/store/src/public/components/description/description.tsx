@@ -5,17 +5,10 @@ import Image from "next/image";
 import DefaultBanner from "public/img/DefaultBanner.jpg";
 import { useEffect, useState } from "react";
 import { DescriptionContainer } from "./style";
-import { getDevice } from "utils/getDevice";
 
 const Description = () => {
   const [seeMore, setSeeMore] = useState<boolean>(false);
-  const device = getDevice();
   const { currentProduct } = useProduct();
-
-  useEffect(() => {
-    device === "desktop" ? setSeeMore(true) : setSeeMore(false);
-  }, [device]);
-
   const [isImageValid, setIsImageValid] = useState<boolean>(false);
 
   // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -52,7 +45,11 @@ const Description = () => {
           {currentProduct && currentProduct.name.toUpperCase()}
         </Text>
         {!seeMore && (
-          <span style={{ cursor: "pointer" }} onClick={() => setSeeMore(true)}>
+          <div
+            className="seeMore"
+            style={{ cursor: "pointer" }}
+            onClick={() => setSeeMore(true)}
+          >
             <Text
               margin="8px 0 0 0"
               underline
@@ -61,53 +58,50 @@ const Description = () => {
             >
               ver mais informações
             </Text>
-          </span>
+          </div>
         )}
       </div>
-      {seeMore && (
-        <div className="centerContent">
-          <div className="instructions">
-            <Text
-              margin="24px 0 0 0 "
-              color={Theme.colors.secondaryText}
-              fontName="REGULAR_SEMI_BOLD"
-            >
-              Instruções
-            </Text>
-            <Text margin="24px 0 0 0 " fontName="REGULAR">
-              {currentProduct && currentProduct.instructions}
-            </Text>
-          </div>
-          <div className="instructions">
-            <Text
-              margin="24px 0 0 0 "
-              color={Theme.colors.secondaryText}
-              fontName="REGULAR_SEMI_BOLD"
-            >
-              Sobre {currentProduct && currentProduct.name}
-            </Text>
-            <Text margin="24px 0 0 0 " fontName="REGULAR">
-              {currentProduct && currentProduct.instructions}
-            </Text>
-          </div>
-          {seeMore && device !== "desktop" && (
-            <span
-              style={{ cursor: "pointer" }}
-              onClick={() => setSeeMore(false)}
-            >
-              <Text
-                margin="24px 0 0 0"
-                underline
-                fontName="REGULAR"
-                align="center"
-                color={Theme.colors.secondaryText}
-              >
-                ver menos
-              </Text>
-            </span>
-          )}
+      <div className={`centerContent ${!seeMore && "hiddenContent"}`}>
+        <div className="instructions">
+          <Text
+            margin="24px 0 0 0 "
+            color={Theme.colors.secondaryText}
+            fontName="REGULAR_SEMI_BOLD"
+          >
+            Instruções
+          </Text>
+          <Text margin="24px 0 0 0 " fontName="REGULAR">
+            {currentProduct && currentProduct.instructions}
+          </Text>
         </div>
-      )}
+        <div className="instructions">
+          <Text
+            margin="24px 0 0 0 "
+            color={Theme.colors.secondaryText}
+            fontName="REGULAR_SEMI_BOLD"
+          >
+            Sobre {currentProduct && currentProduct.name}
+          </Text>
+          <Text margin="24px 0 0 0 " fontName="REGULAR">
+            {currentProduct && currentProduct.instructions}
+          </Text>
+        </div>
+        <div
+          style={{ cursor: "pointer" }}
+          onClick={() => setSeeMore(false)}
+          className="seeLess"
+        >
+          <Text
+            margin="24px 0 0 0"
+            underline
+            fontName="REGULAR"
+            align="center"
+            color={Theme.colors.secondaryText}
+          >
+            ver menos
+          </Text>
+        </div>
+      </div>
     </DescriptionContainer>
   );
 };
