@@ -16,6 +16,7 @@ import { invisibleCardsCalc } from "utils/invisibleCardsCalc";
 import { PackageType, ProductType } from "types/productTypes";
 import { formatString } from "utils/formatString";
 import { ProductContainer } from "./style";
+import InvisibleCards from "./invisivleCards";
 
 type Props = {
   products: ProductType[];
@@ -85,21 +86,7 @@ const ProductPage = ({ products, product }: Props) => {
             </div>
           ))
         )}
-        {invisibleCardsCalc(product.packages) === 1 && (
-          <div className="cardEnviroment">
-            <span className="invisibleCard" />
-          </div>
-        )}
-        {invisibleCardsCalc(product.packages) === 2 && (
-          <div className="cardEnviroment">
-            <span className="invisibleCard" />
-          </div>
-        )}
-        {invisibleCardsCalc(product.packages) === 2 && (
-          <div className="cardEnviroment">
-            <span className="invisibleCard" />
-          </div>
-        )}
+        {InvisibleCards(product.packages)}
       </section>
       <Text
         tag="h2"

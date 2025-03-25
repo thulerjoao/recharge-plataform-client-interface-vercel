@@ -11,6 +11,7 @@ import Lines from "../common/components/lines/lines";
 import mainBanner from "../common/temp/mainBanner.png";
 import { HomeContainer } from "./style";
 import { ProductType } from "types/productTypes";
+import InvisibleCards from "./invisivleCards";
 
 interface Props {
   products: ProductType[];
@@ -45,21 +46,7 @@ const Home = ({ products }: Props) => {
                 <GameCard product={product} />
               </div>
             ))}
-          {invisibleCardsCalc(products) === 1 && (
-            <div className="cardEnviroment">
-              <span className="invisibleCard" />
-            </div>
-          )}
-          {invisibleCardsCalc(products) === 2 && (
-            <div className="cardEnviroment">
-              <span className="invisibleCard" />
-            </div>
-          )}
-          {invisibleCardsCalc(products) === 2 && (
-            <div className="cardEnviroment">
-              <span className="invisibleCard" />
-            </div>
-          )}
+          {InvisibleCards(products)}
         </section>
       </main>
       <SecurityAdvertise />
