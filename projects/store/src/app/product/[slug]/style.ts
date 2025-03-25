@@ -24,6 +24,12 @@ export const ProductContainer = styled.div`
       justify-content: center;
       width: 100%;
       margin-bottom: 24px;
+
+      .invisibleCard {
+        width: 100%;
+        max-width: 174px;
+        height: 0;
+      }
     }
   }
 
@@ -55,6 +61,10 @@ export const ProductContainer = styled.div`
       padding: 0;
       .cardEnviroment {
         flex: 0 1 calc(50% - 10px);
+      }
+
+      .invisible {
+        display: none;
       }
     }
   }
