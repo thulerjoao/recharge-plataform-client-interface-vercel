@@ -31,48 +31,49 @@ const ConfirmCode = ({ user, previousStep, setStep, closeModal }: Props) => {
     setLoading(true);
     // if (previousStep === "newAccount") {
     // eslint-disable-next-line no-constant-condition
-    if (true) {
-      const data = {
-        email: emailToConfirm ? emailToConfirm : user.email,
-        code,
-      };
-      connectionAPIPost("/customer/confirm-email", data, apiUrl)
-        .then(async () => {
-          const body: LoginParams = {
-            email: user.email,
-            password: user.password,
-            rememberMe: true,
-          };
-          await connectionAPIPost<LoginResponse>(
-            "/customer/login",
-            body,
-            apiUrl,
-          )
-            .then(async (res) => {
-              try {
-                const rememberMe = true;
-                const response = await login(res, rememberMe);
-                if (response) closeModal();
-              } catch (error) {
-                if (error instanceof Error) {
-                  setErrorMessage(error.message);
-                } else {
-                  setLoading(false);
-                  setErrorMessage("Usuário ou senha inválidos");
-                }
+
+    const data = {
+      email: emailToConfirm ? emailToConfirm : user.email,
+      code: code.toString(),
+    };
+    connectionAPIPost("/customer/confirm-email", data, apiUrl)
+      .then(async () => {
+        const body: LoginParams = {
+          email: user.email,
+          password: user.password,
+          rememberMe: true,
+        };
+        await connectionAPIPost<LoginResponse>("/customer/login", body, apiUrl)
+          .then(async (res) => {
+            try {
+              const rememberMe = true;
+              const response = await login(res, rememberMe);
+              if (response) closeModal();
+            } catch (error) {
+              if (error instanceof Error) {
+                setErrorMessage(error.message);
+              } else {
+                setLoading(false);
+                setErrorMessage("Usuário ou senha inválidos");
               }
-            })
-            .catch((error) => {});
-          setLoading(false);
-          closeModal();
-        })
-        .catch(() => {
+            }
+          })
+          .catch(() => {});
+        setLoading(false);
+        closeModal();
+      })
+      .catch((error) => {
+        const message = error.response.data.message[0];
+        console.log(message);
+        if (message === "Code expired") {
+          setErrorMessage("Código expirado");
+        } else if (message === "Invalid code") {
           setErrorMessage("Código inválido");
-          setLoading(false);
-        });
-    } else if (previousStep === "newPassword") {
-      return;
-    }
+        } else {
+          setErrorMessage("Erro ao confirmar código");
+        }
+        setLoading(false);
+      });
   };
 
   const handleDisabled = () => {

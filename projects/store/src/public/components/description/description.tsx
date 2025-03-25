@@ -83,7 +83,7 @@ const Description = () => {
             Sobre {currentProduct && currentProduct.name}
           </Text>
           <Text margin="24px 0 0 0 " fontName="REGULAR">
-            {currentProduct && currentProduct.instructions}
+            {currentProduct && currentProduct.about}
           </Text>
         </div>
         <div

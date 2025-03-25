@@ -10,8 +10,8 @@ import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { LoginResponse } from "types/loginTypes";
 import { apiUrl } from "utils/apiUrl";
-import EyeOff from "../../icons/EyeOff.svg";
-import EyeOn from "../../icons/EyeOn.svg";
+// import EyeOff from "../../icons/EyeOff.svg";
+// import EyeOn from "../../icons/EyeOn.svg";
 import Password from "../../icons/Password.svg";
 import { newPassSchema, NewPassSchema } from "./schema";
 import { ConfirmCodePassContainer, ErrorMessage } from "./style";
@@ -112,19 +112,19 @@ const ConfirmCodePass = () => {
         height={40}
         placeholder="Senha"
         leftElement={<Password />}
-        rightElement={
-          visible ? (
-            <EyeOn
-              style={{ cursor: "pointer" }}
-              onClick={() => ChangeVisibilaty()}
-            />
-          ) : (
-            <EyeOff
-              style={{ cursor: "pointer" }}
-              onClick={() => ChangeVisibilaty()}
-            />
-          )
-        }
+        // rightElement={
+        //   visible ? (
+        //     <EyeOn
+        //       style={{ cursor: "pointer" }}
+        //       onClick={() => ChangeVisibilaty()}
+        //     />
+        //   ) : (
+        //     <EyeOff
+        //       style={{ cursor: "pointer" }}
+        //       onClick={() => ChangeVisibilaty()}
+        //     />
+        //   )
+        // }
         value={watch("password")}
         onChange={(e) => setValue("password", e.target.value)}
         onFocus={() => setErrorMessage("")}
