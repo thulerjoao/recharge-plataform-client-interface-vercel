@@ -3,8 +3,7 @@
 import Input from "@4miga/design-system/components/input";
 import Text from "@4miga/design-system/components/Text";
 import PixCard from "app/common/payment/pixCard/pixCard";
-import { useProduct } from "contexts/product";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { PackageType, ProductType } from "types/productTypes";
 import PackageCard from "../../../../public/cards/packageCard/card";
 import { ProductInnerPage } from "./style";
@@ -15,12 +14,12 @@ type Props = {
 };
 
 const PaymentPage = ({ product, item }: Props) => {
-  const { setCurrentProduct } = useProduct();
-  setCurrentProduct(product);
+  const [userId, setUserId] = useState<string>("");
 
-  const paymentMethod = sessionStorage.getItem("paymentMethod");
-  const memoryUserId = sessionStorage.getItem("userId");
-  const [userId, setUserId] = useState<string>(memoryUserId);
+  useEffect(() => {
+    const memoryUserId = sessionStorage.getItem("userId");
+    setUserId(memoryUserId);
+  }, []);
 
   return (
     <ProductInnerPage>

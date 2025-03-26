@@ -16,6 +16,6 @@ const Page = async ({ params }: Props) => {
   const product = products.find(
     (product: ProductType) => formatString(product.name) === slug,
   );
-  return <ProductPage product={product} products={products} />;
+  return <ProductPage product={product} />;
 };
 export default Page;

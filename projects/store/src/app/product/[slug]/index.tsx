@@ -1,9 +1,9 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 "use client";
 
 import Text from "@4miga/design-system/components/Text";
 import Button from "@4miga/design-system/components/button";
 import Input from "@4miga/design-system/components/input";
-import { useProduct } from "contexts/product";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import PackageCard from "../../../public/cards/packageCard/card";
@@ -11,33 +11,36 @@ import PaymentCard from "../../../public/cards/paymentCard/card";
 // import BigoCard from "../common/temp/bigoCard.svg";
 import { Theme } from "@4miga/design-system/theme/theme";
 
-import { invisibleCardsCalc } from "utils/invisibleCardsCalc";
-
+import { useAuth } from "contexts/auth";
+import LoginModal from "public/components/loginModal";
 import { PackageType, ProductType } from "types/productTypes";
 import { formatString } from "utils/formatString";
-import { ProductContainer } from "./style";
 import InvisibleCards from "./invisivleCards";
+import { ProductContainer } from "./style";
 
 type Props = {
-  products: ProductType[];
   product: ProductType;
 };
 
-const ProductPage = ({ products, product }: Props) => {
+const ProductPage = ({ product }: Props) => {
   const route = useRouter();
-  const { setCurrentProduct } = useProduct();
-
   const [selected, setSelected] = useState<number>(0);
+  const [loginModal, setLoginModal] = useState<boolean>(false);
+  const [clicked, setClicked] = useState<boolean>(false);
   const [paymentMethod, setPaymentMethod] = useState<number>(0);
   const currentePackage: PackageType = product && product.packages[selected];
   const [userId, setUserId] = useState<string>("");
-  console.log(userId);
+  const { logged } = useAuth();
 
   useEffect(() => {
-    setCurrentProduct(product);
-  }, [product, setCurrentProduct]);
+    if (logged && clicked) handleOnClick();
+  }, [logged, clicked]);
 
   const handleOnClick = () => {
+    setClicked(true);
+    if (!logged) {
+      return setLoginModal(true);
+    }
     const selectedPayment = currentePackage.paymentMethods[paymentMethod].name;
     sessionStorage.setItem("paymentMethod", selectedPayment);
     sessionStorage.setItem("userId", userId);
@@ -132,6 +135,9 @@ const ProductPage = ({ products, product }: Props) => {
         disabled={!userId}
         isNotSelected={!userId}
       />
+      {loginModal && (
+        <LoginModal openInNewAccount={false} setLoginModal={setLoginModal} />
+      )}
     </ProductContainer>
   );
 };
