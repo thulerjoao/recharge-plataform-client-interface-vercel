@@ -27,6 +27,8 @@ const LoginModal = ({ setLoginModal, openInNewAccount }: LoginModalProps) => {
     "newAccount" | "newPassword" | null
   >(null);
   const [newUser, setNewUser] = useState<UserType>(null);
+  const [mouseDownTarget, setMouseDownTarget] = useState<EventTarget>(null);
+  console.log("aqui:", mouseDownTarget);
 
   const closeModal = () => {
     setLoginModal(false);
@@ -38,9 +40,22 @@ const LoginModal = ({ setLoginModal, openInNewAccount }: LoginModalProps) => {
     step === "newPassword" && setStep("confirmCodePass");
   };
 
+  const handleMouseDown = (e: React.MouseEvent<HTMLDivElement>) => {
+    setMouseDownTarget(e.target);
+  };
+
+  const handleMouseUp = (e: React.MouseEvent<HTMLDivElement>) => {
+    if (mouseDownTarget === e.target) {
+      closeModal();
+    }
+  };
+
   return (
-    <LoginModalBackground onClick={() => setLoginModal(false)}>
-      <LoginModalContainer onClick={(e) => e.stopPropagation()}>
+    <LoginModalBackground
+      onMouseDown={handleMouseDown}
+      onMouseUp={handleMouseUp}
+    >
+      <LoginModalContainer onMouseDown={(e) => e.stopPropagation()}>
         <div className="close">
           <span onClick={() => handleBackward()}>
             {step !== "login" && step !== "newAccount" && <Backward />}
