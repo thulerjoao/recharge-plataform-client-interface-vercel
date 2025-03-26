@@ -3,7 +3,7 @@
 import Button from "@4miga/design-system/components/button";
 import Text from "@4miga/design-system/components/Text";
 import { useAuth } from "contexts/auth";
-import { useRouter } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
 import LoginModal from "../loginModal";
 import Exit from "./icons/Exit.svg";
@@ -11,6 +11,7 @@ import HeaderLogo from "./icons/HeaderLogo.svg";
 import Product from "./icons/Products.svg";
 import Profile from "./icons/Profile.svg";
 import { HeaderContainer, MenuComponent } from "./style";
+import { scrollToTop } from "utils/scrollToTopFunction";
 
 const Header = () => {
   const [loginModal, setLoginModal] = useState<boolean>(false);
@@ -19,6 +20,8 @@ const Header = () => {
   const { logged, logout, user } = useAuth();
   const route = useRouter();
   const modalRef = useRef(null);
+  const pathname = usePathname();
+  console.log(pathname);
 
   const handleClickOutside = (event: MouseEvent) => {
     if (modalRef.current && !modalRef.current.contains(event.target)) {
@@ -42,13 +45,17 @@ const Header = () => {
     if (!fullName || typeof fullName !== "string") return "";
 
     const names = fullName.trim().split(/\s+/);
-    return names.slice(0, 2).join(" "); // Pega apenas os dois primeiros nomes
+    return names.slice(0, 2).join(" ");
   }
+
+  const handleLogoClick = () => {
+    pathname === "/home" ? scrollToTop() : route.push("/home");
+  };
 
   return (
     <HeaderContainer>
       <div className="centerComponent">
-        <span className="mainLogo" onClick={() => route.push("/home")}>
+        <span className="mainLogo" onClick={() => handleLogoClick()}>
           <HeaderLogo />
         </span>
         {!logged ? (
