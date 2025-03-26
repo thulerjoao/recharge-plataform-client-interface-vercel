@@ -1,20 +1,39 @@
 import Text from "@4miga/design-system/components/Text";
 import { Theme } from "@4miga/design-system/theme/theme";
-import { useProduct } from "contexts/product";
 import Image from "next/image";
+import { usePathname } from "next/navigation";
 import DefaultBanner from "public/img/DefaultBanner.jpg";
 import { useEffect, useState } from "react";
+import { ProductType } from "types/productTypes";
+import { formatString } from "utils/formatString";
 import { DescriptionContainer } from "./style";
 
-const Description = () => {
-  const [seeMore, setSeeMore] = useState<boolean>(false);
-  const { currentProduct } = useProduct();
-  const [isImageValid, setIsImageValid] = useState<boolean>(false);
+interface Props {
+  products: ProductType[];
+}
 
+const Description = async ({ products }: Props) => {
+  const [seeMore, setSeeMore] = useState<boolean>(false);
+  const [isImageValid, setIsImageValid] = useState<boolean>(false);
+  const pathname = usePathname();
+
+  // const pathname = await getCurrentPath();
+  // console.log(pathname);
+
+  const getProductname = () => {
+    const segments = pathname.split("/").filter(Boolean);
+    console.log(segments[1]);
+    return segments.length >= 2 ? segments[1] : null;
+  };
+
+  const productName = getProductname();
+  const product = products.find(
+    (item: ProductType) => formatString(item.name) === productName,
+  );
   // eslint-disable-next-line react-hooks/exhaustive-deps
   const isValidImageUrl = async (): Promise<boolean> => {
     try {
-      const response = await fetch(currentProduct.imgBannerUrl, {
+      const response = await fetch(product.imgBannerUrl, {
         method: "HEAD",
       });
       const contentType = response.headers.get("content-type");
@@ -30,19 +49,19 @@ const Description = () => {
     };
 
     checkImage();
-  }, [currentProduct, isValidImageUrl]);
+  }, [product, isValidImageUrl]);
 
   return (
     <DescriptionContainer>
       <Image
-        src={isImageValid ? currentProduct.imgBannerUrl : DefaultBanner}
-        alt={`Imagem do pacote ${currentProduct && currentProduct.name}`}
+        src={isImageValid ? product.imgBannerUrl : DefaultBanner}
+        alt={`Imagem do pacote ${product.name}`}
         height={600}
         width={1000}
       />
       <div className="centerContent">
         <Text margin="24px 0 0 0 " fontName="BIG_SEMI_BOLD">
-          {currentProduct && currentProduct.name.toUpperCase()}
+          {product.name.toUpperCase()}
         </Text>
         {!seeMore && (
           <div
@@ -71,7 +90,7 @@ const Description = () => {
             Instruções
           </Text>
           <Text margin="24px 0 0 0 " fontName="REGULAR">
-            {currentProduct && currentProduct.instructions}
+            {product.instructions}
           </Text>
         </div>
         <div className="instructions">
@@ -80,10 +99,10 @@ const Description = () => {
             color={Theme.colors.secondaryText}
             fontName="REGULAR_SEMI_BOLD"
           >
-            Sobre {currentProduct && currentProduct.name}
+            Sobre {product.name}
           </Text>
           <Text margin="24px 0 0 0 " fontName="REGULAR">
-            {currentProduct && currentProduct.about}
+            {product.about}
           </Text>
         </div>
         <div

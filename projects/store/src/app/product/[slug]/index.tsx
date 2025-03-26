@@ -4,7 +4,6 @@
 import Text from "@4miga/design-system/components/Text";
 import Button from "@4miga/design-system/components/button";
 import Input from "@4miga/design-system/components/input";
-import { useProduct } from "contexts/product";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import PackageCard from "../../../public/cards/packageCard/card";
@@ -25,7 +24,6 @@ type Props = {
 
 const ProductPage = ({ product }: Props) => {
   const route = useRouter();
-  const { setCurrentProduct } = useProduct();
   const [selected, setSelected] = useState<number>(0);
   const [loginModal, setLoginModal] = useState<boolean>(false);
   const [clicked, setClicked] = useState<boolean>(false);
@@ -33,10 +31,6 @@ const ProductPage = ({ product }: Props) => {
   const currentePackage: PackageType = product && product.packages[selected];
   const [userId, setUserId] = useState<string>("");
   const { logged } = useAuth();
-
-  useEffect(() => {
-    setCurrentProduct(product);
-  }, [product, setCurrentProduct]);
 
   useEffect(() => {
     if (logged && clicked) handleOnClick();
