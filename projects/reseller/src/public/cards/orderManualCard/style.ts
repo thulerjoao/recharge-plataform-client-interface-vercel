@@ -13,6 +13,10 @@ export const OrderManualCardContainer = styled.article<OrderManualCardProps>`
   border-radius: 8px;
   cursor: pointer;
 
+  .mobile {
+    display: none;
+  }
+
   img {
     height: 48px;
     width: 48px;
@@ -56,8 +60,15 @@ export const OrderManualCardContainer = styled.article<OrderManualCardProps>`
     height: 148px;
     align-items: flex-start;
     padding-top: 12px;
-
     position: relative;
+
+    .desktop {
+      display: none;
+    }
+
+    .mobile {
+      display: flex;
+    }
 
     .allInfo {
       flex-direction: column;

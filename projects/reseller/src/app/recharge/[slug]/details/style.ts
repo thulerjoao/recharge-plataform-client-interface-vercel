@@ -7,6 +7,10 @@ export const SalesInnerPage = styled.div`
   align-items: center;
   padding-top: 64px;
 
+  .mobile {
+    display: none;
+  }
+
   .mainTitle {
     margin-top: 32px;
   }
@@ -116,6 +120,14 @@ export const SalesInnerPage = styled.div`
   }
   @media (max-width: 767px) {
     padding-top: 64px;
+
+    .desktop {
+      display: none;
+    }
+    .mobile {
+      display: flex;
+      width: 100%;
+    }
 
     .mainTitle {
       margin-top: 24px;

@@ -1,5 +1,4 @@
 import Text from "@4miga/design-system/components/Text";
-import { useDevice } from "context/deviceContext";
 import { useRouter } from "next/navigation";
 import GameCard from "public/cards/gameCard/card";
 import DefaultHeader from "public/components/defaultHeader";
@@ -14,15 +13,16 @@ import { ProductsPageContainer } from "./style";
 
 const ProductsPage = () => {
   const route = useRouter();
-  const { device } = useDevice();
   return (
     <ProductsPageContainer>
-      {(device === "desktop" || device === "tablet") && (
+      <div className="desktop">
         <HeaderEnviroment>
           <DefaultHeader backWard title="PRODUTOS" />
         </HeaderEnviroment>
-      )}
-      {device === "mobile" && <DefaultHeader backWard title="PRODUTOS" />}
+      </div>
+      <div className="mobile">
+        <DefaultHeader backWard title="PRODUTOS" />
+      </div>
       <div className="mainTitle">
         <Text align="center" fontName="REGULAR_SEMI_BOLD">
           CONFIGURE SEUS PRODUTOS

@@ -1,6 +1,5 @@
 import Text from "@4miga/design-system/components/Text";
 import { Theme } from "@4miga/design-system/theme/theme";
-import { useDevice } from "context/deviceContext";
 import Image, { StaticImageData } from "next/image";
 import { useRouter } from "next/navigation";
 import ForwardArrow from ".//icons/ForwardArrow.svg";
@@ -26,7 +25,6 @@ const OrderManualCard = ({
   rechargeStatus,
 }: OrderManualCardProps) => {
   const route = useRouter();
-  const { device } = useDevice();
 
   const handleRechargeStatus = () => {
     if (rechargeStatus === "processing") {
@@ -46,53 +44,42 @@ const OrderManualCard = ({
 
   return (
     <OrderManualCardContainer onClick={() => route.push(pushTo)}>
-      {(device === "desktop" || device === "tablet") && (
-        <Image src={image} alt="Imagem do jogo" />
-      )}
+      <Image className="desktop" src={image} alt="Imagem do jogo" />
       <section className="allInfo">
         <span className="orderNumber">
-          {device === "mobile" && (
-            <Text tag="h3" fontName="SMALL">
-              Nº do Pedido
-            </Text>
-          )}
+          <Text className="mobile" tag="h3" fontName="SMALL">
+            Nº do Pedido
+          </Text>
+
           <Text nowrap align="center" fontName="SMALL">
             {orderNumber}
           </Text>
         </span>
         <span className="name">
-          {device === "mobile" && (
-            <Text tag="h3" fontName="SMALL">
-              Data
-            </Text>
-          )}
+          <Text className="mobile" tag="h3" fontName="SMALL">
+            Data
+          </Text>
           <Text nowrap align="center" fontName="SMALL">
             {orderDate}
           </Text>
         </span>
-        {device === "desktop" && (
-          <span className="name">
-            <Text nowrap align="center" fontName="SMALL_MEDIUM">
-              {packageName}
-            </Text>
-          </span>
-        )}
+        <div className="name desktop">
+          <Text nowrap align="center" fontName="SMALL_MEDIUM">
+            {packageName}
+          </Text>
+        </div>
         <span className="status">
-          {device === "mobile" && (
-            <Text tag="h3" fontName="SMALL">
-              Plataforma
-            </Text>
-          )}
+          <Text className="mobile" tag="h3" fontName="SMALL">
+            Plataforma
+          </Text>
           <Text nowrap align="center" fontName="SMALL">
             {plataform}
           </Text>
         </span>
         <span className="status">
-          {device === "mobile" && (
-            <Text tag="h3" fontName="SMALL">
-              Recarga
-            </Text>
-          )}
+          <Text className="mobile" tag="h3" fontName="SMALL">
+            Recarga
+          </Text>
           <Text
             nowrap
             align="center"
@@ -103,23 +90,19 @@ const OrderManualCard = ({
           </Text>
         </span>
       </section>
-      {(device === "desktop" || device === "tablet") && (
-        <span className="forwardIcon">
-          <ForwardArrow />
-        </span>
-      )}
-      {device === "mobile" && (
-        <span className="seeMore">
-          <Text
-            underline
-            align="center"
-            color={Theme.colors.secondaryText}
-            fontName="REGULAR"
-          >
-            ver mais
-          </Text>
-        </span>
-      )}
+      <span className="forwardIcon desktop">
+        <ForwardArrow />
+      </span>
+      <span className="seeMore mobile">
+        <Text
+          underline
+          align="center"
+          color={Theme.colors.secondaryText}
+          fontName="REGULAR"
+        >
+          ver mais
+        </Text>
+      </span>
     </OrderManualCardContainer>
   );
 };

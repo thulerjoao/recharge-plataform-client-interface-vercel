@@ -1,4 +1,3 @@
-import { useDevice } from "context/deviceContext";
 import OrderCard from "public/cards/orderCard/card";
 import HeaderEnviroment from "public/components/headerEnviroment";
 import HeaderSearch from "public/components/headerSearch";
@@ -10,19 +9,21 @@ import Card2 from "../common/temp/Card2.png";
 import { SalesContainer } from "./style";
 
 const Sales = () => {
-  const { device } = useDevice();
-
   return (
     <SalesContainer>
-      {(device === "desktop" || device === "tablet") && (
-        <>
-          <HeaderEnviroment>
-            <HeaderSearch title="vendas" />
-          </HeaderEnviroment>
-          <SalesTitles />
-        </>
-      )}
-      {device === "mobile" && <MobileSecondaryMenu title="VENDAS" />}
+      <div className="desktop">
+        <HeaderEnviroment>
+          <HeaderSearch title="vendas" />
+        </HeaderEnviroment>
+      </div>
+      <div className="desktop title">
+        <SalesTitles />
+      </div>
+
+      <div className="mobile">
+        <MobileSecondaryMenu title="VENDAS" />
+      </div>
+
       <div className="cards">
         <OrderCard
           image={Card1}

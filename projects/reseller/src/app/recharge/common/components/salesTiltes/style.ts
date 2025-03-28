@@ -24,4 +24,10 @@ export const SalesTitlesContainer = styled.header`
   .status {
     max-width: 140px;
   }
+
+  @media (max-width: 767px) {
+    .desktop {
+      display: none;
+    }
+  }
 `;

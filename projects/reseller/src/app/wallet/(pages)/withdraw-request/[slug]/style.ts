@@ -8,6 +8,10 @@ export const SalesInnerPage = styled.div`
   padding-top: 96px;
   margin-bottom: 60px;
 
+  .mobile {
+    display: none;
+  }
+
   main {
     background-color: ${Theme.colors.maindark};
     width: 100%;
@@ -92,6 +96,14 @@ export const SalesInnerPage = styled.div`
   }
   @media (max-width: 767px) {
     padding-top: 48px;
+
+    .desktop {
+      display: none;
+    }
+    .mobile {
+      display: flex;
+      width: 100%;
+    }
 
     main {
     }

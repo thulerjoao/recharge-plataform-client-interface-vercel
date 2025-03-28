@@ -1,7 +1,6 @@
 import Button from "@4miga/design-system/components/button";
 import Input from "@4miga/design-system/components/input";
 import Text from "@4miga/design-system/components/Text";
-import { useDevice } from "context/deviceContext";
 import { useRouter } from "next/navigation";
 import DefaultHeader from "public/components/defaultHeader";
 import HeaderEnviroment from "public/components/headerEnviroment";
@@ -18,17 +17,18 @@ import Transfer from "../common/icons/Transfer.svg";
 import { WalletContainer } from "./style";
 
 const Wallet = () => {
-  const { device } = useDevice();
   const route = useRouter();
 
   return (
     <WalletContainer>
-      {(device === "desktop" || device === "tablet") && (
+      <div className="desktop">
         <HeaderEnviroment>
           <DefaultHeader backWard title="CARTEIRA" />
         </HeaderEnviroment>
-      )}
-      {device === "mobile" && <DefaultHeader backWard title="CARTEIRA" />}
+      </div>
+      <div className="mobile">
+        <DefaultHeader backWard title="CARTEIRA" />
+      </div>
       <main>
         <section className="topContainer">
           <div

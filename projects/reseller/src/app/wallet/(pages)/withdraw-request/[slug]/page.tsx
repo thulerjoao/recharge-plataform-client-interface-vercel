@@ -2,7 +2,6 @@
 
 import Text from "@4miga/design-system/components/Text";
 import { Theme } from "@4miga/design-system/theme/theme";
-import { useDevice } from "context/deviceContext";
 import Image from "next/image";
 import DefaultHeader from "public/components/defaultHeader";
 import HeaderEnviroment from "public/components/headerEnviroment";
@@ -20,19 +19,19 @@ type Props = {
 };
 
 const Page = ({ params }: Props) => {
-  const { device } = useDevice();
+  // const { device } = useDevice();
   const [showReceipt, setShowReceipt] = useState<boolean>(false);
 
   return (
     <SalesInnerPage>
-      {(device === "desktop" || device === "tablet") && (
+      <div className="desktop">
         <HeaderEnviroment>
           <DefaultHeader backWard title="SOLICITAÇÃO DE SAQUE" />
         </HeaderEnviroment>
-      )}
-      {device === "mobile" && (
+      </div>
+      <div className="mobile">
         <DefaultHeader backWard title="SOLICITAÇÃO DE SAQUE" />
-      )}
+      </div>
       <main>
         <section className="topContainer">
           <div className="topValue">

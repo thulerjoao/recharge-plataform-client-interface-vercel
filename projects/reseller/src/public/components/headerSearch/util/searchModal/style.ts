@@ -15,6 +15,7 @@ export const SearchModalContainer = styled.div`
 `;
 
 export const CloseModal = styled.div`
+  display: flex;
   background-color: transparent;
   position: fixed;
   width: 100vw;
@@ -22,4 +23,7 @@ export const CloseModal = styled.div`
   top: 0;
   left: 0;
   z-index: 1;
+  @media (max-width: 767px) {
+    display: none;
+  }
 `;
