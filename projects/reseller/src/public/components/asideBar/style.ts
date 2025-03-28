@@ -10,6 +10,10 @@ export const AsideBarContainer = styled.div`
   left: 0;
   height: 0;
 
+  .tablet {
+    display: none;
+  }
+
   .inconEnviroment {
     display: flex;
     align-items: center;
@@ -55,6 +59,14 @@ export const AsideBarContainer = styled.div`
 
   @media (min-width: 768px) and (max-width: 1024px) {
     width: 96px;
+
+    .desktop {
+      display: none;
+    }
+
+    .tablet {
+      display: flex;
+    }
 
     .CenterContent {
       padding: 0;

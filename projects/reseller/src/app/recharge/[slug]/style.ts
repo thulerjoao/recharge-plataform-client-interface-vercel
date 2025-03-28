@@ -7,6 +7,10 @@ export const ManualRechargeInnerPage = styled.div`
   align-items: center;
   padding-top: 64px;
 
+  .mobile {
+    display: none;
+  }
+
   main {
     display: flex;
     flex-direction: column;
@@ -80,6 +84,14 @@ export const ManualRechargeInnerPage = styled.div`
   @media (min-width: 768px) and (max-width: 1024px) {
   }
   @media (max-width: 767px) {
+    .desktop {
+      display: none;
+    }
+    .mobile {
+      display: flex;
+      width: 100%;
+    }
+
     main {
       .copyArea {
         .newButton {

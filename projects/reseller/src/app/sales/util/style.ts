@@ -6,6 +6,13 @@ export const SalesContainer = styled.div`
   flex-direction: column;
   align-items: center;
 
+  .mobile {
+    display: none;
+  }
+  .title {
+    width: 100%;
+  }
+
   .cards {
     width: 100%;
   }
@@ -14,6 +21,14 @@ export const SalesContainer = styled.div`
   }
   @media (max-width: 767px) {
     padding-top: 64px;
+
+    .desktop {
+      display: none;
+    }
+    .mobile {
+      display: flex;
+      width: 100%;
+    }
 
     .cards {
       margin-top: 24px;

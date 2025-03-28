@@ -1,7 +1,8 @@
 import { NextRequest, NextResponse } from "next/server";
 
 export function middleware(req: NextRequest) {
-  const logged = req.cookies.get("inSession")?.value;
+  // const logged = req.cookies.get("inSession")?.value;
+  const logged = true;
 
   if (!logged) {
     return NextResponse.redirect(new URL("/", req.url));

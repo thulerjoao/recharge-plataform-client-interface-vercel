@@ -7,6 +7,10 @@ export const ProductsPageContainer = styled.div`
   align-items: center;
   padding-top: 64px;
 
+  .mobile {
+    display: none;
+  }
+
   .mainTitle {
     margin-top: 48px;
   }
@@ -35,6 +39,14 @@ export const ProductsPageContainer = styled.div`
   @media (min-width: 540px) and (max-width: 1024px) {
   }
   @media (max-width: 539px) {
+    .desktop {
+      display: none;
+    }
+    .mobile {
+      display: flex;
+      width: 100%;
+    }
+
     .mainTitle {
       margin-top: 24px;
     }

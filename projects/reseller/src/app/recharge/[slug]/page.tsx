@@ -3,8 +3,8 @@
 import Button from "@4miga/design-system/components/button";
 import Text from "@4miga/design-system/components/Text";
 import { Theme } from "@4miga/design-system/theme/theme";
-import { useDevice } from "context/deviceContext";
 import Image from "next/image";
+import { useRouter } from "next/navigation";
 import DefaultHeader from "public/components/defaultHeader";
 import HeaderEnviroment from "public/components/headerEnviroment";
 import { useState } from "react";
@@ -12,24 +12,24 @@ import ConfirmModal from "./confirmModal";
 import Bigo from "./icons/Bigo.png";
 import Copy from "./icons/Copy.svg";
 import { ManualRechargeInnerPage } from "./style";
-import { useRouter } from "next/navigation";
 type Props = {
   params: {
     slug: string;
   };
 };
 const Page = ({ params }: Props) => {
-  const { device } = useDevice();
   const [openmodal, setOpenModal] = useState<boolean>(false);
   const route = useRouter();
   return (
     <ManualRechargeInnerPage>
-      {(device === "desktop" || device === "tablet") && (
+      <div className="desktop">
         <HeaderEnviroment>
           <DefaultHeader backWard title="RECARGA" />
         </HeaderEnviroment>
-      )}
-      {device === "mobile" && <DefaultHeader backWard title="RECARGA" />}
+      </div>
+      <div className="mobile">
+        <DefaultHeader backWard title="RECARGA" />
+      </div>
       <Text margin="24px 0 0 0" align="center" fontName="LARGE_MEDIUM">
         BIGO LIVE
       </Text>

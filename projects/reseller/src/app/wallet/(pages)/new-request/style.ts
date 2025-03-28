@@ -9,6 +9,10 @@ export const NewRequestPageContainer = styled.div`
   padding-bottom: 56px;
   margin-bottom: 60px;
 
+  .mobile {
+    display: none;
+  }
+
   main {
     background-color: ${Theme.colors.mainBbackgroundSolid};
     width: 100%;
@@ -44,6 +48,13 @@ export const NewRequestPageContainer = styled.div`
   @media (max-width: 767px) {
     padding-top: 64px;
 
+    .desktop {
+      display: none;
+    }
+    .mobile {
+      display: flex;
+      width: 100%;
+    }
     main {
       padding: 24px 16px;
       margin-top: 24px;

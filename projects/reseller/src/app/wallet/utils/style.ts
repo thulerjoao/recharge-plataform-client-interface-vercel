@@ -4,6 +4,10 @@ import styled from "styled-components";
 export const WalletContainer = styled.div`
   padding-top: 96px;
 
+  .mobile {
+    display: none;
+  }
+
   main {
     display: flex;
     width: 100%;
@@ -96,6 +100,13 @@ export const WalletContainer = styled.div`
   }
   @media (max-width: 767px) {
     padding-top: 64px;
+    .desktop {
+      display: none;
+    }
+
+    .mobile {
+      display: flex;
+    }
 
     main {
       margin-top: 24px;

@@ -13,6 +13,10 @@ export const LayoutStyle = styled.div<LayoutProps>`
     max-width: 85.5rem;
     padding-right: 40px;
     padding-left: 304px;
+
+    .mobileNavbar {
+      display: none;
+    }
   }
 
   @media (min-width: 768px) and (max-width: 1024px) {
@@ -21,6 +25,10 @@ export const LayoutStyle = styled.div<LayoutProps>`
       padding-right: 24px;
       padding-left: 96px;
       box-sizing: border-box;
+
+      .mobileNavbar {
+        display: none;
+      }
     }
   }
   @media (max-width: 767px) {
@@ -28,6 +36,14 @@ export const LayoutStyle = styled.div<LayoutProps>`
       max-width: 100%;
       padding: 0px 16px;
       box-sizing: border-box;
+
+      .mobileNavbar {
+        display: flex;
+      }
+
+      .desktopNavBar {
+        display: none;
+      }
     }
   }
 `;

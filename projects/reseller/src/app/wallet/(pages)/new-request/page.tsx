@@ -3,7 +3,6 @@
 import Button from "@4miga/design-system/components/button";
 import Input from "@4miga/design-system/components/input";
 import Text from "@4miga/design-system/components/Text";
-import { useDevice } from "context/deviceContext";
 import DefaultHeader from "public/components/defaultHeader";
 import HeaderEnviroment from "public/components/headerEnviroment";
 import { NewRequestPageContainer } from "./style";
@@ -15,15 +14,18 @@ type Props = {
 };
 
 const Page = ({ params }: Props) => {
-  const { device } = useDevice();
   return (
     <NewRequestPageContainer>
-      {(device === "desktop" || device === "tablet") && (
+      <div className="desktop">
         <HeaderEnviroment>
           <DefaultHeader backWard title="NOVO SAQUE" />
         </HeaderEnviroment>
-      )}
-      {device === "mobile" && <DefaultHeader backWard title="NOVO SAQUE" />}
+      </div>
+
+      <div className="mobile">
+        <DefaultHeader backWard title="NOVO SAQUE" />
+      </div>
+
       <main>
         <div className="availableValue">
           <Text fontName="REGULAR_MEDIUM">SALDO PARA ESTOQUE</Text>

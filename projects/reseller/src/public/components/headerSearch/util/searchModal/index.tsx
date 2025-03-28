@@ -1,6 +1,5 @@
 "use client";
 
-import { useDevice } from "context/deviceContext";
 import React from "react";
 import SearchComponent from "../../../searchComponent";
 import { CloseModal, SearchModalContainer } from "./style";
@@ -10,16 +9,12 @@ interface Props {
 }
 
 const SearchModal = ({ setOpenModal }: Props) => {
-  const { device } = useDevice();
-
   return (
     <>
       <SearchModalContainer>
         <SearchComponent />
       </SearchModalContainer>
-      {device !== "mobile" && (
-        <CloseModal onClick={() => setOpenModal(false)} />
-      )}
+      <CloseModal onClick={() => setOpenModal(false)} />
     </>
   );
 };

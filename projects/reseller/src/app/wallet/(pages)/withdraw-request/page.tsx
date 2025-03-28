@@ -1,6 +1,5 @@
 "use client";
 
-import { useDevice } from "context/deviceContext";
 import OrderCard from "public/cards/orderCard/card";
 import DefaultHeader from "public/components/defaultHeader";
 import HeaderEnviroment from "public/components/headerEnviroment";
@@ -10,18 +9,16 @@ import Card1 from "./temp/Card1.png";
 import Card2 from "./temp/Card2.png";
 
 const WithDrawRequest = () => {
-  const { device } = useDevice();
-
   return (
     <WithDrawRequestContainer>
-      {(device === "desktop" || device === "tablet") && (
+      <div className="desktop">
         <HeaderEnviroment>
           <DefaultHeader backWard title="SOLICITAÇÕES DE SAQUE" />
         </HeaderEnviroment>
-      )}
-      {device === "mobile" && (
+      </div>
+      <div className="mobile">
         <DefaultHeader backWard title="SOLICITAÇÕES DE SAQUE" />
-      )}
+      </div>
       <div className="cards">
         <OrderCard
           image={Card1}

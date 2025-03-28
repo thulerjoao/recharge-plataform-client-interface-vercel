@@ -1,7 +1,6 @@
 import Text from "@4miga/design-system/components/Text";
 import { Theme } from "@4miga/design-system/theme/theme";
 import { useAuth } from "context/auth";
-import { useDevice } from "context/deviceContext";
 import { usePathname, useRouter } from "next/navigation";
 import { AsideSelected } from "types/globalTypes";
 import Gear from "./icons/Gear.svg";
@@ -34,22 +33,20 @@ const AsideBar = () => {
     return currentRoute.slice(0, propLenght + 1) === `/${prop}` ? 1 : 0;
   };
 
-  const { device } = useDevice();
   const { logout } = useAuth();
 
   return (
     <AsideBarContainer>
       <section className="CenterContent">
         <aside className="mainContent">
-          {device === "desktop" ? (
-            <span onClick={() => route.push("/home")}>
-              <LogoDesktop />
-            </span>
-          ) : (
-            <span onClick={() => route.push("/home")}>
-              <LogoTablet />
-            </span>
-          )}
+          <span className="desktop" onClick={() => route.push("/home")}>
+            <LogoDesktop />
+          </span>
+
+          <span className="tablet" onClick={() => route.push("/home")}>
+            <LogoTablet />
+          </span>
+
           <div
             onClick={() => handleClick("home")}
             className={`menuOption ${handleCheck("home") && "selected"}`}
@@ -58,15 +55,14 @@ const AsideBar = () => {
             <span className="inconEnviroment">
               {handleCheck("home") ? <HomeSelected /> : <Home />}
             </span>
-            {device === "desktop" && (
-              <Text
-                color={handleCheck("home") && Theme.colors.maindark}
-                margin="0 0 0 16px"
-                fontName="REGULAR_SEMI_BOLD"
-              >
-                INÍCIO
-              </Text>
-            )}
+            <Text
+              color={handleCheck("home") && Theme.colors.maindark}
+              margin="0 0 0 16px"
+              fontName="REGULAR_SEMI_BOLD"
+              className="desktop"
+            >
+              INÍCIO
+            </Text>
           </div>
 
           <div
@@ -76,15 +72,15 @@ const AsideBar = () => {
             <span className="inconEnviroment">
               {handleCheck("sales") ? <SalesSelected /> : <Sales />}
             </span>
-            {device === "desktop" && (
-              <Text
-                color={handleCheck("sales") && Theme.colors.maindark}
-                margin="0 0 0 16px"
-                fontName="REGULAR_SEMI_BOLD"
-              >
-                VENDAS
-              </Text>
-            )}
+
+            <Text
+              color={handleCheck("sales") && Theme.colors.maindark}
+              margin="0 0 0 16px"
+              fontName="REGULAR_SEMI_BOLD"
+              className="desktop"
+            >
+              VENDAS
+            </Text>
           </div>
 
           <div
@@ -94,15 +90,14 @@ const AsideBar = () => {
             <span className="inconEnviroment">
               {handleCheck("products") ? <ProductsSelected /> : <Products />}
             </span>
-            {device === "desktop" && (
-              <Text
-                color={handleCheck("products") && Theme.colors.maindark}
-                margin="0 0 0 16px"
-                fontName="REGULAR_SEMI_BOLD"
-              >
-                PRODUTOS
-              </Text>
-            )}
+            <Text
+              color={handleCheck("products") && Theme.colors.maindark}
+              margin="0 0 0 16px"
+              fontName="REGULAR_SEMI_BOLD"
+              className="desktop"
+            >
+              PRODUTOS
+            </Text>
           </div>
 
           <div
@@ -112,15 +107,14 @@ const AsideBar = () => {
             <span className="inconEnviroment">
               {handleCheck("recharge") ? <RechargeSelected /> : <Recharge />}
             </span>
-            {device === "desktop" && (
-              <Text
-                color={handleCheck("recharge") && Theme.colors.maindark}
-                margin="0 0 0 16px"
-                fontName="REGULAR_SEMI_BOLD"
-              >
-                RECARREGAR
-              </Text>
-            )}
+            <Text
+              color={handleCheck("recharge") && Theme.colors.maindark}
+              margin="0 0 0 16px"
+              fontName="REGULAR_SEMI_BOLD"
+              className="desktop"
+            >
+              RECARREGAR
+            </Text>
           </div>
 
           <div
@@ -130,15 +124,14 @@ const AsideBar = () => {
             <span className="inconEnviroment">
               {handleCheck("wallet") ? <WalletSelected /> : <Wallet />}
             </span>
-            {device === "desktop" && (
-              <Text
-                color={handleCheck("wallet") && Theme.colors.maindark}
-                margin="0 0 0 16px"
-                fontName="REGULAR_SEMI_BOLD"
-              >
-                CARTEIRA
-              </Text>
-            )}
+            <Text
+              color={handleCheck("wallet") && Theme.colors.maindark}
+              margin="0 0 0 16px"
+              fontName="REGULAR_SEMI_BOLD"
+              className="desktop"
+            >
+              CARTEIRA
+            </Text>
           </div>
 
           <div className="bottomOptions">
@@ -149,25 +142,26 @@ const AsideBar = () => {
               <span className="inconEnviroment">
                 {handleCheck("config") ? <GearSelected /> : <Gear />}
               </span>
-              {device === "desktop" && (
-                <Text
-                  color={handleCheck("config") && Theme.colors.maindark}
-                  margin="0 0 0 16px"
-                  fontName="REGULAR_SEMI_BOLD"
-                >
-                  CONFIGURAÇÕES
-                </Text>
-              )}
+              <Text
+                color={handleCheck("config") && Theme.colors.maindark}
+                margin="0 0 0 16px"
+                fontName="REGULAR_SEMI_BOLD"
+                className="desktop"
+              >
+                CONFIGURAÇÕES
+              </Text>
             </div>
             <div className="menuOption" onClick={() => logout()}>
               <span className="inconEnviroment">
                 <Logout />
               </span>
-              {device === "desktop" && (
-                <Text margin="0 0 0 16px" fontName="REGULAR_SEMI_BOLD">
-                  SAIR
-                </Text>
-              )}
+              <Text
+                margin="0 0 0 16px"
+                fontName="REGULAR_SEMI_BOLD"
+                className="desktop"
+              >
+                SAIR
+              </Text>
             </div>
           </div>
         </aside>

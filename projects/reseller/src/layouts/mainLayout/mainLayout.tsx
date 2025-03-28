@@ -1,6 +1,5 @@
 "use client";
 
-import { useDevice } from "context/deviceContext";
 import { usePathname } from "next/navigation";
 import AsideBar from "public/components/asideBar";
 import MobiletHeader from "public/components/mobileHeader";
@@ -13,7 +12,6 @@ interface LayoutProps {
 }
 
 const MainLayout: React.FC<LayoutProps> = ({ children }) => {
-  const { device } = useDevice();
   const currentRoute = usePathname();
   const handleSearch = () => {
     const pagesWithSearch = ["/sales", "/recharge"];
@@ -24,8 +22,12 @@ const MainLayout: React.FC<LayoutProps> = ({ children }) => {
     <StyleSheetManager shouldForwardProp={(prop) => prop !== "device"}>
       <LayoutStyle>
         <section className="mainContent">
-          {(device === "desktop" || device === "tablet") && <AsideBar />}
-          {device === "mobile" && <MobiletHeader search={handleSearch()} />}
+          <div className="desktopNavBar">
+            <AsideBar />
+          </div>
+          <div className="mobileNavbar">
+            <MobiletHeader search={handleSearch()} />
+          </div>
           {children}
         </section>
       </LayoutStyle>

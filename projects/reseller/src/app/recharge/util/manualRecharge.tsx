@@ -1,4 +1,3 @@
-import { useDevice } from "context/deviceContext";
 import ManualOrderCard from "public/cards/orderManualCard/card";
 import HeaderEnviroment from "public/components/headerEnviroment";
 import HeaderSearch from "public/components/headerSearch";
@@ -10,19 +9,19 @@ import Card2 from "../common/temp/Card2.png";
 import { ManualRechargeContainer } from "./style";
 
 const ManualRecharge = () => {
-  const { device } = useDevice();
-
   return (
     <ManualRechargeContainer>
-      {(device === "desktop" || device === "tablet") && (
-        <>
-          <HeaderEnviroment>
-            <HeaderSearch title="RECARGAS" />
-          </HeaderEnviroment>
-          <ManualRechargeTitles />
-        </>
-      )}
-      {device === "mobile" && <MobileSecondaryMenu title="RECARGAS MANUAIS" />}
+      <div className="desktop">
+        <HeaderEnviroment>
+          <HeaderSearch title="RECARGAS" />
+        </HeaderEnviroment>
+      </div>
+      <div className="desktop title">
+        <ManualRechargeTitles />
+      </div>
+      <div className="mobile">
+        <MobileSecondaryMenu title="RECARGAS MANUAIS" />
+      </div>
       <div className="cards">
         <ManualOrderCard
           image={Card1}
