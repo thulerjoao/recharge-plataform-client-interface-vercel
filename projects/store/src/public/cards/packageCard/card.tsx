@@ -1,20 +1,19 @@
 import Text from "@4miga/design-system/components/Text";
 import { Theme } from "@4miga/design-system/theme/theme";
-import { useRouter } from "next/navigation";
-import { useEffect, useState } from "react";
-import { PackageType } from "types/deviceTypes";
-import { PackageCardContainer } from "./style";
 import Image from "next/image";
 import ImageNotFound from "public/img/ImageNotFound.jpg";
+import { useEffect, useState } from "react";
+import { PackageType } from "types/productTypes";
+import { formatPrice } from "utils/formatPrice";
+import { PackageCardContainer } from "./style";
 
 interface PackageCardProps {
   item: PackageType;
   selected: boolean;
+  paymentIndex?: number;
 }
 
-const PackageCard = ({ item, selected }: PackageCardProps) => {
-  const route = useRouter();
-
+const PackageCard = ({ item, selected, paymentIndex }: PackageCardProps) => {
   const [isImageValid, setIsImageValid] = useState<boolean>(false);
 
   // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -82,7 +81,10 @@ const PackageCard = ({ item, selected }: PackageCardProps) => {
         fontName="REGULAR_SEMI_BOLD"
         margin="9px 16px 0 0"
       >
-        R$ {item.amountCredits.toFixed(2)}
+        R${" "}
+        {formatPrice(
+          item.paymentMethods[paymentIndex ? paymentIndex : 0].price,
+        )}
       </Text>
     </PackageCardContainer>
   );

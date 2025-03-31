@@ -26,5 +26,5 @@ export type PaymentMethodsType = {
     | "paypal"
     | "boleto"
     | "transferencia";
-  rate: number;
+  price: number;
 };

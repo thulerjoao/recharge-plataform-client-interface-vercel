@@ -15,11 +15,16 @@ type Props = {
 
 const PaymentPage = ({ product, item }: Props) => {
   const [userId, setUserId] = useState<string>("");
+  const [paymentIndex, setPaymentIndex] = useState<number>();
 
   useEffect(() => {
+    const paymentIndex = sessionStorage.getItem("paymentMethod");
+    setPaymentIndex(+paymentIndex);
     const memoryUserId = sessionStorage.getItem("userId");
     setUserId(memoryUserId);
   }, []);
+
+  const handleGeneratePix = () => {};
 
   return (
     <ProductInnerPage>
@@ -37,13 +42,20 @@ const PaymentPage = ({ product, item }: Props) => {
         PACOTE PARA RECARGA
       </Text>
       <div className="cardEnviroment">
-        {product && <PackageCard item={item} selected />}
+        {product && (
+          <PackageCard paymentIndex={paymentIndex} item={item} selected />
+        )}
       </div>
       <Text margin="32px 0 0 0" align="center" fontName="REGULAR_SEMI_BOLD">
         FORMAS DE PAGAMENTO
       </Text>
       <section className="paymentMethods">
-        <PixCard value={item && item.amountCredits} />
+        <PixCard
+          userId={userId}
+          packageId={item.id}
+          paymentMethodName={item.paymentMethods[0].name}
+          price={item && item.paymentMethods[0].price}
+        />
         {/* <CreditcardCard /> */}
       </section>
     </ProductInnerPage>

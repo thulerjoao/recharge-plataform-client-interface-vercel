@@ -64,7 +64,6 @@ const ConfirmCode = ({ user, previousStep, setStep, closeModal }: Props) => {
       })
       .catch((error) => {
         const message = error.response.data.message[0];
-        console.log(message);
         if (message === "Code expired") {
           setErrorMessage("Código expirado");
         } else if (message === "Invalid code") {

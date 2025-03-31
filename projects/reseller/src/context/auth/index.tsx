@@ -155,12 +155,10 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
   };
 
   const logout = async () => {
-    console.log("aquiii");
     try {
       await fetch("/api/logout", { method: "DELETE" });
       await new Promise((resolve) => setTimeout(resolve, 100));
       const response = await axios.get("/api/token", { withCredentials: true });
-      console.log(response);
       if (response.data?.accessToken) {
         await fetch("/api/logout", { method: "DELETE" });
       } else {

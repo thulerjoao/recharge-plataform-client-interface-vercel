@@ -22,7 +22,6 @@ const Description = async ({ products }: Props) => {
 
   const getProductname = () => {
     const segments = pathname.split("/").filter(Boolean);
-    console.log(segments[1]);
     return segments.length >= 2 ? segments[1] : null;
   };
 

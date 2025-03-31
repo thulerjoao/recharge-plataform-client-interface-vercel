@@ -13,13 +13,11 @@ const createApiInstance = (baseURL: string): AxiosInstance => {
         const response = await axios.get("/api/token", {
           withCredentials: true,
         });
-
-        const token = response.data?.token;
-
-        if (token) {
-          config.headers.set("Authorization", `Bearer ${token}`);
-          config.headers.set("Content-Type", "application/json");
+        const accessToken = response.data?.accessToken;
+        if (accessToken) {
+          config.headers.set("Authorization", `Bearer ${accessToken}`);
         }
+        config.headers.set("Content-Type", "application/json");
         config.headers.set("ngrok-skip-browser-warning", "true");
 
         return config;

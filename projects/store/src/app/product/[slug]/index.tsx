@@ -36,13 +36,18 @@ const ProductPage = ({ product }: Props) => {
     if (logged && clicked) handleOnClick();
   }, [logged, clicked]);
 
+  useEffect(() => {
+    sessionStorage.removeItem("qrCode");
+    sessionStorage.removeItem("copyAndPaste");
+  }, []);
+
   const handleOnClick = () => {
     setClicked(true);
     if (!logged) {
       return setLoginModal(true);
     }
     const selectedPayment = currentePackage.paymentMethods[paymentMethod].name;
-    sessionStorage.setItem("paymentMethod", selectedPayment);
+    sessionStorage.setItem("paymentMethod", paymentMethod.toString());
     sessionStorage.setItem("userId", userId);
     route.push(
       `/product/${formatString(product.name)}/${formatString(currentePackage.id)}`,
@@ -119,7 +124,7 @@ const ProductPage = ({ product }: Props) => {
               <PaymentCard
                 selected={paymentMethod === index}
                 method={item.name}
-                price={currentePackage.amountCredits}
+                price={item.price}
               />
             </div>
           ))

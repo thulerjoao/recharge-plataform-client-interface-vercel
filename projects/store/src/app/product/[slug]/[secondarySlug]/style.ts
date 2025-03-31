@@ -2,6 +2,9 @@ import styled from "styled-components";
 
 export const ProductInnerPage = styled.div`
   width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 
   .cardEnviroment {
     width: 100%;
@@ -13,6 +16,7 @@ export const ProductInnerPage = styled.div`
 
   .paymentMethods {
     width: 100%;
+    max-width: 628px;
     min-height: 420px;
     margin-bottom: 80px;
   }
