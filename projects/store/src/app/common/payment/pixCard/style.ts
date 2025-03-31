@@ -100,6 +100,25 @@ export const BottomElement = styled.div<AnimationProps>`
     animation: 0.5s easy-in-out;
     background-color: ${Theme.colors.mainlight};
     margin-top: 16px;
+    padding: 0 16px;
+
+    input {
+      text-decoration: none;
+      width: 100%;
+      border: none;
+      font-weight: 400;
+      font-size: 16px;
+
+      &:focus {
+        outline: none;
+      }
+
+      &::-webkit-outer-spin-button,
+      &::-webkit-inner-spin-button {
+        -webkit-appearance: none;
+        margin: 0;
+      }
+    }
   }
 
   .bottomButton {
@@ -117,11 +136,15 @@ export const BottomElement = styled.div<AnimationProps>`
     align-items: center;
     justify-content: space-between;
     overflow: hidden;
-    height: ${({ secondExpand }) => (secondExpand ? "281px" : "0")};
+    height: ${({ secondExpand }) => (secondExpand ? "396px" : "0")};
     animation: 0.5s easy-in-out;
 
     img {
       margin-top: 16px;
+      width: 100%;
+      max-width: 320px;
+      height: auto;
+      object-fit: contain;
     }
   }
 
@@ -155,13 +178,13 @@ const expandSecondStep = keyframes`
     height: 136px;
   }
   to {
-    height: 420px;
+    height: 520px;
   }
 `;
 
 const shrinkSecondStep = keyframes`
   from {
-    height: 420px;
+    height: 520px;
   }
   to {
     height: 0px;

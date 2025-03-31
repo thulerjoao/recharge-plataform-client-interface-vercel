@@ -28,7 +28,6 @@ const LoginModal = ({ setLoginModal, openInNewAccount }: LoginModalProps) => {
   >(null);
   const [newUser, setNewUser] = useState<UserType>(null);
   const [mouseDownTarget, setMouseDownTarget] = useState<EventTarget>(null);
-  console.log("aqui:", mouseDownTarget);
 
   const closeModal = () => {
     setLoginModal(false);

@@ -21,7 +21,6 @@ const Header = () => {
   const route = useRouter();
   const modalRef = useRef(null);
   const pathname = usePathname();
-  console.log(pathname);
 
   const handleClickOutside = (event: MouseEvent) => {
     if (modalRef.current && !modalRef.current.contains(event.target)) {
