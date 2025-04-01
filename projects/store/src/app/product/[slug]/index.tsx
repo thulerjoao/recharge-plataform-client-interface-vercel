@@ -1,4 +1,3 @@
-/* eslint-disable react-hooks/exhaustive-deps */
 "use client";
 
 import Text from "@4miga/design-system/components/Text";
@@ -10,8 +9,8 @@ import PackageCard from "../../../public/cards/packageCard/card";
 import PaymentCard from "../../../public/cards/paymentCard/card";
 // import BigoCard from "../common/temp/bigoCard.svg";
 import { Theme } from "@4miga/design-system/theme/theme";
-
 import { useAuth } from "contexts/auth";
+import { useProducts } from "contexts/products/ProductsProvider";
 import LoginModal from "public/components/loginModal";
 import { PackageType, ProductType } from "types/productTypes";
 import { formatString } from "utils/formatString";
@@ -19,10 +18,14 @@ import InvisibleCards from "./invisivleCards";
 import { ProductContainer } from "./style";
 
 type Props = {
-  product: ProductType;
+  slug: string;
 };
 
-const ProductPage = ({ product }: Props) => {
+const ProductPage = ({ slug }: Props) => {
+  const products = useProducts();
+  const product = products.find(
+    (product: ProductType) => formatString(product.name) === slug,
+  );
   const route = useRouter();
   const [selected, setSelected] = useState<number>(0);
   const [loginModal, setLoginModal] = useState<boolean>(false);
@@ -34,6 +37,7 @@ const ProductPage = ({ product }: Props) => {
 
   useEffect(() => {
     if (logged && clicked) handleOnClick();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [logged, clicked]);
 
   useEffect(() => {

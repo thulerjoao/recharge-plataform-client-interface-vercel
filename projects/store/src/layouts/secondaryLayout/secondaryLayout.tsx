@@ -7,20 +7,18 @@ import Header from "public/components/header/header";
 import SecurityAdvertise from "public/components/securityAdvertise/securityAdvertise";
 import React from "react";
 import { StyleSheetManager } from "styled-components";
-import { ProductType } from "types/productTypes";
 import { LayoutStyle } from "./style";
 interface LayoutProps {
   children: React.ReactNode;
-  products: ProductType[];
 }
 
-const Layout: React.FC<LayoutProps> = ({ children, products }) => {
+const Layout: React.FC<LayoutProps> = ({ children }) => {
   return (
     <StyleSheetManager shouldForwardProp={(prop) => prop !== "device"}>
       <LayoutStyle>
         <Header />
         <section className="mainContent">
-          <Description products={products} />
+          <Description />
           {children}
         </section>
         <SecurityAdvertise />
