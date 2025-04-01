@@ -1,5 +1,8 @@
+"use client";
+
 import Text from "@4miga/design-system/components/Text";
 import { Theme } from "@4miga/design-system/theme/theme";
+import { useProducts } from "contexts/products/ProductsProvider";
 import Image from "next/image";
 import { usePathname } from "next/navigation";
 import DefaultBanner from "public/img/DefaultBanner.jpg";
@@ -8,18 +11,11 @@ import { ProductType } from "types/productTypes";
 import { formatString } from "utils/formatString";
 import { DescriptionContainer } from "./style";
 
-interface Props {
-  products: ProductType[];
-}
-
-const Description = async ({ products }: Props) => {
+const Description = () => {
+  const products = useProducts();
   const [seeMore, setSeeMore] = useState<boolean>(false);
   const [isImageValid, setIsImageValid] = useState<boolean>(false);
   const pathname = usePathname();
-
-  // const pathname = await getCurrentPath();
-  // console.log(pathname);
-
   const getProductname = () => {
     const segments = pathname.split("/").filter(Boolean);
     return segments.length >= 2 ? segments[1] : null;

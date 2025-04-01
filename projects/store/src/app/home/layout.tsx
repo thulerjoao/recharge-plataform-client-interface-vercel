@@ -1,5 +1,3 @@
-"use client";
-
 import PrimaryLayout from "layouts/primaryLayout/primaryLayout";
 import React from "react";
 

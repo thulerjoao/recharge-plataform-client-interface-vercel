@@ -5,19 +5,15 @@ import Carousel from "app/home/common/components/carousel/carousel";
 import BottomOffer from "public/components/bottomOffer/bottomOffer";
 import SecurityAdvertise from "public/components/securityAdvertise/securityAdvertise";
 
-import { invisibleCardsCalc } from "utils/invisibleCardsCalc";
+import { useProducts } from "contexts/products/ProductsProvider";
 import GameCard from "../../../public/cards/gameCard/card";
 import Lines from "../common/components/lines/lines";
 import mainBanner from "../common/temp/mainBanner.png";
-import { HomeContainer } from "./style";
-import { ProductType } from "types/productTypes";
 import InvisibleCards from "./invisivleCards";
+import { HomeContainer } from "./style";
 
-interface Props {
-  products: ProductType[];
-}
-
-const Home = ({ products }: Props) => {
+const Home = () => {
+  const products = useProducts();
   return (
     <HomeContainer>
       <Carousel imagesList={[mainBanner, mainBanner, mainBanner]} />
