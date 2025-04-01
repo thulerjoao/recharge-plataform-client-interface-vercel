@@ -19,6 +19,13 @@ export const ProductInnerPage = styled.div`
     max-width: 628px;
     min-height: 420px;
     margin-bottom: 80px;
+
+    .errorMessage {
+      background-color: pink;
+      margin-top: 16px;
+      margin-bottom: -16px;
+      height: 0;
+    }
   }
 
   @media (min-width: 768px) and (max-width: 1024px) {
