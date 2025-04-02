@@ -43,6 +43,7 @@ const ProductPage = ({ slug }: Props) => {
   useEffect(() => {
     sessionStorage.removeItem("qrCode");
     sessionStorage.removeItem("copyAndPaste");
+    sessionStorage.removeItem("orderId");
   }, []);
 
   const handleOnClick = () => {
