@@ -35,9 +35,6 @@ const PixCard = ({
   const [qrCode, setQrCode] = useState<string>(undefined);
   const [copyAndPaste, setCopyAndPaste] = useState<string>(undefined);
 
-  // console.log(qrCode);
-  // console.log(copyAndPaste);
-
   const route = useRouter();
 
   const handleFirstExpand = () => {
@@ -99,7 +96,6 @@ const PixCard = ({
         setLoading(false);
         return;
       } else if (firstExpand) {
-        const test = "cartao";
         const body = {
           userIdForRecharge: userId,
           packageId,
@@ -110,8 +106,8 @@ const PixCard = ({
           .then((res) => {
             setQrCode(res.qrCode);
             setCopyAndPaste(res.qrCodetextCopyPaste);
-            sessionStorage.setItem("qrCode", qrCode);
-            sessionStorage.setItem("copyAndPaste", copyAndPaste);
+            sessionStorage.setItem("qrCode", res.qrCode);
+            sessionStorage.setItem("copyAndPaste", res.qrCodetextCopyPaste);
             setLoading(false);
             setSecondExpand(true);
           })
@@ -127,6 +123,7 @@ const PixCard = ({
     }
   };
 
+  // Package with id: e5866dd3-e5f9-4392-9296-87f4f10af5b1 not found
   // userIdForRecharge must be longer than or equal to 1 characters
   // userIdForRecharge must be a string
   // "Invalid UUID: 'e5866dd3-e5f9-4392-9296-87f4f10af5b'"
@@ -144,7 +141,9 @@ const PixCard = ({
     ) {
       setError("ID de usuário inválido");
     } else if (
-      text.toLowerCase() === `invalid uuid: '${packageId.toLowerCase()}'`
+      text.toLowerCase() === `invalid uuid: '${packageId.toLowerCase()}'` ||
+      text.toLowerCase() ===
+        `package with id: ${packageId.toLowerCase()} not found`
     ) {
       setError("Pacote indisponível");
     } else if (
