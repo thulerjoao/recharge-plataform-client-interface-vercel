@@ -2,10 +2,14 @@
 import Button from "@4miga/design-system/components/button";
 import Text from "@4miga/design-system/components/Text";
 import { Theme } from "@4miga/design-system/theme/theme";
-import { connectionAPIPost } from "@4miga/services/connectionAPI/connection";
+import {
+  connectionAPIGet,
+  connectionAPIPost,
+} from "@4miga/services/connectionAPI/connection";
 import { useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";
 import { StyleSheetManager } from "styled-components";
+import { OrderType } from "types/orderType";
 import { PixPaymentResponse } from "types/paymentType";
 import { apiUrl } from "utils/apiUrl";
 import { formatPrice } from "utils/formatPrice";
@@ -34,9 +38,7 @@ const PixCard = ({
   const [initialized, setInitialized] = useState<boolean>(false);
   const [qrCode, setQrCode] = useState<string>(undefined);
   const [copyAndPaste, setCopyAndPaste] = useState<string>(undefined);
-
-  // console.log(qrCode);
-  // console.log(copyAndPaste);
+  const [orderId, setOrderId] = useState<string>(undefined);
 
   const route = useRouter();
 
@@ -68,15 +70,6 @@ const PixCard = ({
     }
   }, [firstExpand]);
 
-  // const handleGeneratePix = () => {
-  //   setLoading(true);
-  //   setTimeout(() => {
-  //     setSecondExpand(true);
-  //     setLoading(false);
-  //     secondExpand && route.push("/order");
-  //   }, 1300);
-  // };
-
   const handleCopy = async () => {
     if (!copyAndPaste) {
       alert("Nenhum código para copiar.");
@@ -99,7 +92,6 @@ const PixCard = ({
         setLoading(false);
         return;
       } else if (firstExpand) {
-        const test = "cartao";
         const body = {
           userIdForRecharge: userId,
           packageId,
@@ -110,8 +102,10 @@ const PixCard = ({
           .then((res) => {
             setQrCode(res.qrCode);
             setCopyAndPaste(res.qrCodetextCopyPaste);
-            sessionStorage.setItem("qrCode", qrCode);
-            sessionStorage.setItem("copyAndPaste", copyAndPaste);
+            setOrderId(res.orderId);
+            sessionStorage.setItem("qrCode", res.qrCode);
+            sessionStorage.setItem("copyAndPaste", res.qrCodetextCopyPaste);
+            sessionStorage.setItem("orderID", res.orderId);
             setLoading(false);
             setSecondExpand(true);
           })
@@ -127,6 +121,30 @@ const PixCard = ({
     }
   };
 
+  useEffect(() => {
+    if (!qrCode || !copyAndPaste || !orderId) return;
+
+    const interval = setInterval(() => {
+      connectionAPIGet<OrderType>(`/order/${orderId}/customer`, apiUrl)
+        .then((res) => {
+          if (res.paymentStatus === "PAYMENT_APPROVED") {
+            sessionStorage.setItem("order", JSON.stringify(res));
+            route.push("/order");
+            clearInterval(interval);
+          } else {
+            return;
+          }
+        })
+        .catch(() => {
+          setError("Verifique o pagamento em meus pedidos.");
+          clearInterval(interval);
+        });
+    }, 30000);
+
+    return () => clearInterval(interval);
+  }, [qrCode, copyAndPaste, orderId, setError, route]);
+
+  // Package with id: e5866dd3-e5f9-4392-9296-87f4f10af5b1 not found
   // userIdForRecharge must be longer than or equal to 1 characters
   // userIdForRecharge must be a string
   // "Invalid UUID: 'e5866dd3-e5f9-4392-9296-87f4f10af5b'"
@@ -144,7 +162,9 @@ const PixCard = ({
     ) {
       setError("ID de usuário inválido");
     } else if (
-      text.toLowerCase() === `invalid uuid: '${packageId.toLowerCase()}'`
+      text.toLowerCase() === `invalid uuid: '${packageId.toLowerCase()}'` ||
+      text.toLowerCase() ===
+        `package with id: ${packageId.toLowerCase()} not found`
     ) {
       setError("Pacote indisponível");
     } else if (
