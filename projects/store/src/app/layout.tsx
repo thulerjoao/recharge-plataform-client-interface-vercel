@@ -1,6 +1,6 @@
 import Providers from "contexts/providers";
 import StyledComponentsRegistry from "lib/registry";
-import React from "react";
+import React, { useEffect } from "react";
 import "./globals.css";
 
 export const metadata = {
