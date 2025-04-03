@@ -32,12 +32,12 @@ const PixCard = ({
   price,
   setError,
 }: Props) => {
+  const [initialized, setInitialized] = useState<boolean>(false);
   const [firstExpand, setFirstExpand] = useState<boolean>(false);
   const [secondExpand, setSecondExpand] = useState<boolean>(false);
   const [isRounded, setIsRounded] = useState<boolean>(true);
   const [pixLoading, setPixLoading] = useState<boolean>(false);
   const [orderLoading, setOrderLoading] = useState<boolean>(false);
-  const [initialized, setInitialized] = useState<boolean>(false);
   const [qrCode, setQrCode] = useState<string>(undefined);
   const [copyAndPaste, setCopyAndPaste] = useState<string>(undefined);
   const [orderId, setOrderId] = useState<string>(undefined);
@@ -77,6 +77,9 @@ const PixCard = ({
         setFirstExpand(true);
         setInitialized(true);
         setSecondExpand(true);
+      } else {
+        setFirstExpand(true);
+        setInitialized(true);
       }
     }
   }, [logged]);
@@ -153,8 +156,7 @@ const PixCard = ({
     const interval = setInterval(() => {
       connectionAPIGet<OrderType>(`/order/${orderId}/customer`, apiUrl)
         .then((res) => {
-          // if (res.paymentStatus === "PAYMENT_APPROVED") {
-          if (res.paymentStatus === "PAYMENT_PENDING") {
+          if (res.paymentStatus === "PAYMENT_APPROVED") {
             sessionStorage.setItem("order", JSON.stringify(res));
             route.push("/order");
             clearInterval(interval);
