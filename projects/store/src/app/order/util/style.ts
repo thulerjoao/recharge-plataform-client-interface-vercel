@@ -41,6 +41,7 @@ export const OrderContainer = styled.div`
         img {
           height: 72px;
           width: 72px;
+          border-radius: 8px;
         }
       }
       .secondaryRow {
@@ -63,6 +64,12 @@ export const OrderContainer = styled.div`
         display: flex;
         width: 100%;
         margin-top: 16px;
+
+        img {
+          height: 40px;
+          width: 40px;
+          border-radius: 6px;
+        }
 
         svg {
           border-radius: 8px;

@@ -5,6 +5,7 @@ import ImageNotFound from "public/img/ImageNotFound.jpg";
 import { useEffect, useState } from "react";
 
 import { ProductType } from "types/productTypes";
+import { checkImageUrl } from "utils/checkImageUrl";
 import { formatString } from "utils/formatString";
 import { CardContainer } from "./style";
 
@@ -16,24 +17,14 @@ const GameCard = ({ product }: CardProps) => {
   const route = useRouter();
   const [isImageValid, setIsImageValid] = useState<boolean>(false);
 
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  const isValidImageUrl = async (): Promise<boolean> => {
-    try {
-      const response = await fetch(product.imgCardUrl, { method: "HEAD" });
-      const contentType = response.headers.get("content-type");
-      return response.ok && contentType?.startsWith("image");
-    } catch {
-      return false;
-    }
-  };
   useEffect(() => {
     const checkImage = async () => {
-      const valid = await isValidImageUrl();
+      const valid = await checkImageUrl(product.imgCardUrl);
       setIsImageValid(valid);
     };
 
     checkImage();
-  }, [product.imgCardUrl, isValidImageUrl]);
+  }, [product.imgCardUrl]);
 
   const handleProductClick = (path: string) => {
     const res = formatString(path);

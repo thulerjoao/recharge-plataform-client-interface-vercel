@@ -2,11 +2,8 @@ export interface OrderType {
   orderId: string;
   orderNumber: string;
   totalAmount: number;
-  paymentStatus: "PAYMENT_PENDING" | "PAYMENT_APPROVED" | "PAYMENT_REJECTED";
-  rechargeStatus:
-    | "RECHARGE_PENDING"
-    | "RECHARGE_APPROVED"
-    | "RECHARGE_REJECTED";
+  paymentStatus: PaymentStatus;
+  rechargeStatus: RechargeStatus;
   paymentMethodName: string;
   createdAt: string;
   package: {
@@ -16,3 +13,13 @@ export interface OrderType {
     imgCardUrl: string;
   };
 }
+
+export type PaymentStatus =
+  | "PAYMENT_PENDING"
+  | "PAYMENT_APPROVED"
+  | "PAYMENT_REJECTED";
+
+export type RechargeStatus =
+  | "RECHARGE_PENDING"
+  | "RECHARGE_APPROVED"
+  | "RECHARGE_REJECTED";
