@@ -10,6 +10,7 @@ import { PackageType, ProductType } from "types/productTypes";
 import { formatString } from "utils/formatString";
 import PackageCard from "../../../../public/cards/packageCard/card";
 import { ProductInnerPage } from "./style";
+import Button from "@4miga/design-system/components/button";
 
 type Props = {
   id: string;

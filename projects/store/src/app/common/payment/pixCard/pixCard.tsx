@@ -6,6 +6,7 @@ import {
   connectionAPIGet,
   connectionAPIPost,
 } from "@4miga/services/connectionAPI/connection";
+import { useAuth } from "contexts/auth";
 import { useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";
 import { StyleSheetManager } from "styled-components";
@@ -34,12 +35,13 @@ const PixCard = ({
   const [firstExpand, setFirstExpand] = useState<boolean>(false);
   const [secondExpand, setSecondExpand] = useState<boolean>(false);
   const [isRounded, setIsRounded] = useState<boolean>(true);
-  const [loading, setLoading] = useState<boolean>(false);
+  const [pixLoading, setPixLoading] = useState<boolean>(false);
+  const [orderLoading, setOrderLoading] = useState<boolean>(false);
   const [initialized, setInitialized] = useState<boolean>(false);
   const [qrCode, setQrCode] = useState<string>(undefined);
   const [copyAndPaste, setCopyAndPaste] = useState<string>(undefined);
   const [orderId, setOrderId] = useState<string>(undefined);
-
+  const logged = useAuth();
   const route = useRouter();
 
   const handleFirstExpand = () => {
@@ -54,13 +56,6 @@ const PixCard = ({
   };
 
   useEffect(() => {
-    const qrCode = sessionStorage.getItem("qrCode");
-    if (qrCode) setQrCode(qrCode);
-    const copyAndPaste = sessionStorage.getItem("copyAndPaste");
-    if (copyAndPaste) setCopyAndPaste(copyAndPaste);
-  }, []);
-
-  useEffect(() => {
     if (firstExpand === false) {
       setTimeout(() => {
         setIsRounded(true);
@@ -69,6 +64,22 @@ const PixCard = ({
       setIsRounded(false);
     }
   }, [firstExpand]);
+
+  useEffect(() => {
+    if (logged) {
+      const qrCode = sessionStorage.getItem("qrCode");
+      if (qrCode) setQrCode(qrCode);
+      const copyAndPaste = sessionStorage.getItem("copyAndPaste");
+      if (copyAndPaste) setCopyAndPaste(copyAndPaste);
+      const orderId = sessionStorage.getItem("orderId");
+      if (orderId) setOrderId(orderId);
+      if (qrCode && copyAndPaste && orderId) {
+        setFirstExpand(true);
+        setInitialized(true);
+        setSecondExpand(true);
+      }
+    }
+  }, [logged]);
 
   const handleCopy = async () => {
     if (!copyAndPaste) {
@@ -86,10 +97,10 @@ const PixCard = ({
 
   const handleClick = () => {
     if (userId) {
-      setLoading(true);
+      setPixLoading(true);
       if (secondExpand) {
         handleCopy();
-        setLoading(false);
+        setPixLoading(false);
         return;
       } else if (firstExpand) {
         const body = {
@@ -105,20 +116,35 @@ const PixCard = ({
             setOrderId(res.orderId);
             sessionStorage.setItem("qrCode", res.qrCode);
             sessionStorage.setItem("copyAndPaste", res.qrCodetextCopyPaste);
-            sessionStorage.setItem("orderID", res.orderId);
-            setLoading(false);
+            sessionStorage.setItem("orderId", res.orderId);
+            setPixLoading(false);
             setSecondExpand(true);
           })
           .catch((error) => {
             const message = error.response.data.message[0];
             console.log(message);
-            setLoading(false);
+            setPixLoading(false);
             handleResponse(message);
           });
       }
     } else {
       setError("ID de usuário inválido");
     }
+  };
+
+  console.log("aqui", orderId);
+
+  const handleCheckOrder = () => {
+    setOrderLoading(true);
+    connectionAPIGet<OrderType>(`/order/${orderId}/customer`, apiUrl)
+      .then((res) => {
+        sessionStorage.setItem("order", JSON.stringify(res));
+        route.push("/order");
+      })
+      .catch((error) => {
+        setError("Erro ao verificar o pedido");
+        setOrderLoading(false);
+      });
   };
 
   useEffect(() => {
@@ -230,7 +256,8 @@ const PixCard = ({
         <div className="bottomButton">
           <Button
             onClick={() => handleClick()}
-            loading={loading}
+            loading={pixLoading}
+            disabled={pixLoading}
             height={40}
             rounded
             title={secondExpand ? "Copiar código Pix" : "Gerar Pix"}
@@ -247,6 +274,25 @@ const PixCard = ({
             alt="QR Code"
           />
         </div>
+        {qrCode && (
+          <>
+            <Text margin="24px 0 0 0" align="center" fontName="SMALL_MEDIUM">
+              {
+                "Após o pagamento, clique no botão abaixo para confirmar o andamento do seu pedido!"
+              }
+            </Text>
+            <div className="confirmButton">
+              <Button
+                onClick={() => handleCheckOrder()}
+                height={40}
+                rounded
+                title="Confirmar pagamento"
+                disabled={orderLoading}
+                loading={orderLoading}
+              />
+            </div>
+          </>
+        )}
       </BottomElement>
     </StyleSheetManager>
   );
