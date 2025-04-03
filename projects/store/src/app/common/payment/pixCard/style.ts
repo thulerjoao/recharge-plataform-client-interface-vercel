@@ -128,6 +128,13 @@ export const BottomElement = styled.div<AnimationProps>`
     z-index: 10;
     margin-top: 16px;
   }
+  .confirmButton {
+    width: 100%;
+    max-width: 400px;
+    overflow: hidden;
+    z-index: 10;
+    margin-top: 24px;
+  }
 
   .pixImage {
     width: 100%;
@@ -149,7 +156,8 @@ export const BottomElement = styled.div<AnimationProps>`
   }
 
   @media (max-width: 767px) {
-    .bottomButton {
+    .bottomButton,
+    .confirmButton {
       max-width: 100%;
     }
   }
@@ -178,13 +186,13 @@ const expandSecondStep = keyframes`
     height: 136px;
   }
   to {
-    height: 520px;
+    height: 645px;
   }
 `;
 
 const shrinkSecondStep = keyframes`
   from {
-    height: 520px;
+    height: 645px;
   }
   to {
     height: 0px;
