@@ -3,16 +3,42 @@
 import Button from "@4miga/design-system/components/button";
 import Text from "@4miga/design-system/components/Text";
 import { Theme } from "@4miga/design-system/theme/theme";
+import { useProducts } from "contexts/products/ProductsProvider";
 import Image from "next/image";
-import BackArrow from "../../common/icons/BackArrow.svg";
-import MiniBigo from "../common/icons/MiniBigo.svg";
-import Pix from "../common/icons/Pix.svg";
-import cardIcon from "../common/temp/cardIcon.png";
-import { OrderContainer } from "./style";
 import { useRouter } from "next/navigation";
+import ImageNotFound from "public/img/ImageNotFound.jpg";
+import { useEffect, useState } from "react";
+import { OrderType } from "types/orderType";
+import { checkImageUrl } from "utils/checkImageUrl";
+import { formatDate } from "utils/formatDate";
+import {
+  handlePaymentStatus,
+  handleRechargeStatus,
+  handleStatusColor,
+} from "utils/handleStatus";
+import BackArrow from "../../common/icons/BackArrow.svg";
+import Pix from "../common/icons/Pix.svg";
+import { OrderContainer } from "./style";
 
 const Order = () => {
   const route = useRouter();
+  const order: OrderType = JSON.parse(sessionStorage.getItem("order"));
+  const products = useProducts();
+  // const product = products.find((item) => item === order.)
+  const [isImageValid, setIsImageValid] = useState<boolean>(false);
+
+  useEffect(() => {
+    const checkImage = async () => {
+      const valid = await checkImageUrl(order.package.imgCardUrl);
+      setIsImageValid(valid);
+    };
+
+    checkImage();
+  }, [order.package.imgCardUrl]);
+
+  const handleBuyAgain = () => {
+    route.push(`/product/Product_1`);
+  };
 
   return (
     <OrderContainer>
@@ -27,10 +53,13 @@ const Order = () => {
       <main>
         <section className="fisrtSection">
           <div className="fisrtRow">
-            <Image src={cardIcon} alt="imagem do card" />
+            <Image
+              src={isImageValid ? order.package.imgCardUrl : ImageNotFound}
+              alt="imagem do card"
+            />
             <div>
               <Text align="end" fontName="REGULAR_MEDIUM" tag="h2">
-                Bigo 3000 diamantes
+                {order.package.name.toUpperCase()}
               </Text>
               <Text
                 margin="8px 0 0 0"
@@ -39,20 +68,20 @@ const Order = () => {
                 fontName="TINY"
                 tag="h3"
               >
-                Hoje, 11:23
+                {formatDate(order.createdAt)}
               </Text>
             </div>
           </div>
           <div className="secondaryRow">
             <Text fontName="SMALL_MEDIUM">Número do pedido</Text>
             <Text fontName="SMALL_MEDIUM" align="end">
-              4321-12345
+              {order.orderNumber}
             </Text>
           </div>
           <div className="secondaryRow third">
             <Text fontName="SMALL_MEDIUM">ID de usuário</Text>
             <Text fontName="SMALL_MEDIUM" align="end">
-              12345
+              {order.package.userIdForRecharge}
             </Text>
           </div>
         </section>
@@ -62,18 +91,21 @@ const Order = () => {
           </Text>
           <div className="outside">
             <span>
-              <Pix />
+              {order.paymentMethodName.toUpperCase() === "PIX" && <Pix />}
             </span>
             <div className="allInfos">
               <div className="innerContent">
-                <Text fontName="SMALL_MEDIUM">Pix</Text>
+                <Text fontName="SMALL_MEDIUM">{order.paymentMethodName}</Text>
                 <Text fontName="SMALL_SEMI_BOLD" align="end">
-                  R$ 29,90
+                  R$ {order.totalAmount}
                 </Text>
               </div>
               <div className="innerContent">
-                <Text fontName="TINY" color={Theme.colors.approved}>
-                  Pagamento aprovado
+                <Text
+                  fontName="TINY"
+                  color={handleStatusColor(order.paymentStatus)}
+                >
+                  {handlePaymentStatus(order.paymentStatus)}
                 </Text>
                 <Text
                   align="end"
@@ -81,7 +113,7 @@ const Order = () => {
                   fontName="TINY"
                   tag="h3"
                 >
-                  Hoje, 11:25
+                  {formatDate(order.createdAt)}
                 </Text>
               </div>
             </div>
@@ -93,18 +125,25 @@ const Order = () => {
           </Text>
           <div className="outside">
             <span>
-              <MiniBigo />
+              <Image
+                src={isImageValid ? order.package.imgCardUrl : ImageNotFound}
+                alt="imagem do card"
+              />
+              {/* <MiniBigo />{order.package.imgCardUrl} */}
             </span>
             <div className="allInfos">
               <div className="innerContent">
                 <Text fontName="SMALL_MEDIUM">Bigo Live</Text>
                 <Text fontName="SMALL_SEMI_BOLD" align="end">
-                  3000 Diamantes
+                  {order.package.amountCredits} DIAMANTES
                 </Text>
               </div>
               <div className="innerContent">
-                <Text fontName="TINY" color={Theme.colors.approved}>
-                  Recarga realizada
+                <Text
+                  fontName="TINY"
+                  color={handleStatusColor(order.rechargeStatus)}
+                >
+                  {handleRechargeStatus(order.rechargeStatus)}
                 </Text>
                 <Text
                   align="end"
@@ -112,7 +151,7 @@ const Order = () => {
                   fontName="TINY"
                   tag="h3"
                 >
-                  Hoje, 11:26
+                  {formatDate(order.createdAt)}
                 </Text>
               </div>
             </div>
@@ -125,6 +164,7 @@ const Order = () => {
         rounded
         height={40}
         title="Comprar novamente"
+        onClick={() => handleBuyAgain()}
       />
     </OrderContainer>
   );

@@ -8,6 +8,7 @@ import { usePathname } from "next/navigation";
 import DefaultBanner from "public/img/DefaultBanner.jpg";
 import { useEffect, useState } from "react";
 import { ProductType } from "types/productTypes";
+import { checkImageUrl } from "utils/checkImageUrl";
 import { formatString } from "utils/formatString";
 import { DescriptionContainer } from "./style";
 
@@ -25,26 +26,16 @@ const Description = () => {
   const product = products.find(
     (item: ProductType) => formatString(item.name) === productName,
   );
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  const isValidImageUrl = async (): Promise<boolean> => {
-    try {
-      const response = await fetch(product.imgBannerUrl, {
-        method: "HEAD",
-      });
-      const contentType = response.headers.get("content-type");
-      return response.ok && contentType?.startsWith("image");
-    } catch {
-      return false;
-    }
-  };
+
   useEffect(() => {
     const checkImage = async () => {
-      const valid = await isValidImageUrl();
+      const valid = await checkImageUrl(product.imgBannerUrl);
+      console.log(valid);
       setIsImageValid(valid);
     };
 
     checkImage();
-  }, [product, isValidImageUrl]);
+  }, [product]);
 
   return (
     <DescriptionContainer>
