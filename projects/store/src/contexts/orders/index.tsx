@@ -20,6 +20,7 @@ interface OrdersProviderProps {
 
 interface OrdersProviderData {
   orders: OrderType[];
+  getOrders: (page: number) => OrderType[];
 }
 
 const OrdersContext = createContext<OrdersProviderData>(
@@ -38,10 +39,14 @@ export const OrdersProvider = ({ children }: OrdersProviderProps) => {
     }
   }, [logged]);
 
-  console.log(orders);
+  const getOrders = (page: number) => {
+    const start = (page - 1) * 6;
+    const end = start + 6;
+    return orders.slice(start, end);
+  };
 
   return (
-    <OrdersContext.Provider value={{ orders }}>
+    <OrdersContext.Provider value={{ orders, getOrders }}>
       {children}
     </OrdersContext.Provider>
   );

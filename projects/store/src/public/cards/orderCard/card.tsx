@@ -14,27 +14,34 @@ import {
 import { OrderCardContainer } from "./style";
 
 interface OrderCardProps {
-  item: OrderType;
+  order: OrderType;
 }
 
-const OrderCard = ({ item }: OrderCardProps) => {
+const OrderCard = ({ order }: OrderCardProps) => {
   const route = useRouter();
   const [isImageValid, setIsImageValid] = useState<boolean>(false);
 
   useEffect(() => {
     const checkImage = async () => {
-      const valid = await checkImageUrl(item.orderItem.package.imgCardUrl);
+      const valid = await checkImageUrl(order.orderItem.package.imgCardUrl);
       setIsImageValid(valid);
     };
 
     checkImage();
-  }, [item.orderItem.package.imgCardUrl]);
+  }, [order.orderItem.package.imgCardUrl]);
+
+  const handleSeeMore = () => {
+    sessionStorage.clear();
+    sessionStorage.setItem("order", JSON.stringify(order));
+
+    route.push("/order");
+  };
 
   return (
     <OrderCardContainer status={status}>
       <Image
         src={isImageValid ? ImageNotFound : ImageNotFound}
-        alt={`Imagem do pacote ${item.orderItem.package.name}`}
+        alt={`Imagem do pacote ${order.orderItem.package.name}`}
         height={64}
         width={64}
         style={{ borderRadius: "8px" }}
@@ -43,25 +50,25 @@ const OrderCard = ({ item }: OrderCardProps) => {
       <section className="allInfo">
         <div className="rowInfos">
           <Text nowrap fontName="SMALL">
-            {item.orderItem.package.name}
+            {order.orderItem.package.name}
           </Text>
           <Text align="end" fontName="SMALL_MEDIUM">
-            R$ {item.totalAmount.toFixed(2)}
+            R$ {order.totalAmount.toFixed(2)}
           </Text>
         </div>
         <div className="rowInfos">
           <Text color={Theme.colors.secondaryText} fontName="TINY">
-            {formatDate(item.createdAt)}
+            {formatDate(order.createdAt)}
           </Text>
           <Text
-            color={handleStatusColor(item.payment.status)}
+            color={handleStatusColor(order.payment.status)}
             align="end"
             fontName="TINY"
           >
-            {handlePaymentStatusShort(item.payment.status)}
+            {handlePaymentStatusShort(order.payment.status)}
           </Text>
         </div>
-        <div className="seeDetails" onClick={() => route.push("/order")}>
+        <div className="seeDetails" onClick={() => handleSeeMore()}>
           <Text
             align="center"
             underline

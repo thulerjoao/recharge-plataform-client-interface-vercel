@@ -12,7 +12,8 @@ import { MyOrderContainer } from "./style";
 const MyOrders = () => {
   const [page, setPage] = useState<number>(1);
   const route = useRouter();
-  const { orders } = useOrders();
+  const { orders, getOrders } = useOrders();
+  const totalPages = Math.ceil(orders.length / 6);
 
   return (
     <MyOrderContainer>
@@ -25,11 +26,11 @@ const MyOrders = () => {
         </Text>
       </div>
       <section className="cardsSection">
-        {orders.map((item, index) => {
-          return <OrderCard key={index} item={item} />;
+        {getOrders(page).map((order, index) => {
+          return <OrderCard key={index} order={order} />;
         })}
       </section>
-      <Pagination page={page} setPage={setPage} totalPages={55} />
+      <Pagination page={page} setPage={setPage} totalPages={totalPages} />
     </MyOrderContainer>
   );
 };
