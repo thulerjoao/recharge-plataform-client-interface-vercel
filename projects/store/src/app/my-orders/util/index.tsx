@@ -9,6 +9,7 @@ import BackArrow from "../../common/icons/BackArrow.svg";
 import Bigo from "../common/temp/Bigo.svg";
 import Freefire from "../common/temp/Freefire.svg";
 import { MyOrderContainer } from "./style";
+import Pagination from "../components/pagination";
 
 const MyOrders = () => {
   const [page, setPage] = useState<number>(1);
@@ -68,54 +69,7 @@ const MyOrders = () => {
           image={<Bigo />}
         />
       </section>
-      <div className="pagination">
-        <Text align="center" fontName="REGULAR_SEMI_BOLD">
-          1
-        </Text>
-        <Text
-          align="center"
-          color={Theme.colors.secondaryText}
-          fontName="REGULAR_SEMI_BOLD"
-        >
-          2
-        </Text>
-        <Text
-          align="center"
-          color={Theme.colors.secondaryText}
-          fontName="REGULAR_SEMI_BOLD"
-        >
-          3
-        </Text>
-        <Text
-          align="center"
-          color={Theme.colors.secondaryText}
-          fontName="REGULAR_SEMI_BOLD"
-        >
-          4
-        </Text>
-        <Text
-          align="center"
-          color={Theme.colors.secondaryText}
-          fontName="REGULAR_SEMI_BOLD"
-        >
-          5
-        </Text>
-        <Text
-          className="dots"
-          align="center"
-          color={Theme.colors.secondaryText}
-          fontName="REGULAR_SEMI_BOLD"
-        >
-          ...
-        </Text>
-        <Text
-          align="center"
-          color={Theme.colors.secondaryText}
-          fontName="REGULAR_SEMI_BOLD"
-        >
-          55
-        </Text>
-      </div>
+      <Pagination page={page} setPage={setPage} totalPages={55} />
     </MyOrderContainer>
   );
 };

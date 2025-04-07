@@ -30,24 +30,6 @@ export const MyOrderContainer = styled.div`
     margin-top: 8px;
   }
 
-  .pagination {
-    display: flex;
-    width: 100%;
-    max-width: 270px;
-    flex-direction: row;
-    justify-content: center;
-    margin-top: 32px;
-
-    p {
-      margin: 0 16px;
-      cursor: pointer;
-    }
-
-    .dots {
-      cursor: default;
-    }
-  }
-
   @media (min-width: 768px) and (max-width: 1024px) {
     padding: 0 72px;
   }

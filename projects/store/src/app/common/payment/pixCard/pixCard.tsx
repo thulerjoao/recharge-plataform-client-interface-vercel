@@ -184,7 +184,6 @@ const PixCard = ({
           }
         })
         .catch(() => {
-          setError("Verifique o pagamento em meus pedidos.");
           clearInterval(interval);
         });
     }, 30000);
@@ -287,7 +286,7 @@ const PixCard = ({
         <div className="pixImage">
           <Text margin="24px 0 0 0" align="center" fontName="SMALL_MEDIUM">
             {`Por gentileza, utilize a opção "Copiar e Colar" do PIX em seu
-            aplicativo bancário.`}
+            aplicativo bancário`}
           </Text>
           <img
             className="qrCode"
@@ -299,7 +298,7 @@ const PixCard = ({
           <>
             <Text margin="24px 0 0 0" align="center" fontName="SMALL_MEDIUM">
               {
-                "Após o pagamento, clique no botão abaixo para confirmar o andamento do seu pedido!"
+                "Após o pagamento, clique no botão abaixo para confirmar o andamento do seu pedido"
               }
             </Text>
             <div className="confirmButton">
