@@ -11,6 +11,16 @@ export const handlePaymentStatus = (status: PaymentStatus) => {
   }
 };
 
+export const handlePaymentStatusShort = (status: PaymentStatus) => {
+  if (status === "PAYMENT_APPROVED") {
+    return "Aprovado";
+  } else if (status === "PAYMENT_PENDING") {
+    return "Pendente";
+  } else if (status === "PAYMENT_REJECTED") {
+    return "Cancelado";
+  }
+};
+
 export const handleRechargeStatus = (status: RechargeStatus) => {
   if (status === "RECHARGE_APPROVED") {
     return "Recarga realizada";
