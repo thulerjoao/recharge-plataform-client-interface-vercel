@@ -44,6 +44,8 @@ const PixCard = ({
   const logged = useAuth();
   const route = useRouter();
 
+  console.log(orderId);
+
   const handleFirstExpand = () => {
     if (typeof qrCode === "string" && typeof copyAndPaste === "string") {
       setInitialized(true);
@@ -67,19 +69,37 @@ const PixCard = ({
 
   useEffect(() => {
     if (logged) {
-      const qrCode = sessionStorage.getItem("qrCode");
-      if (qrCode) setQrCode(qrCode);
-      const copyAndPaste = sessionStorage.getItem("copyAndPaste");
-      if (copyAndPaste) setCopyAndPaste(copyAndPaste);
       const orderId = sessionStorage.getItem("orderId");
-      if (orderId) setOrderId(orderId);
-      if (qrCode && copyAndPaste && orderId) {
-        setFirstExpand(true);
-        setInitialized(true);
-        setSecondExpand(true);
-      } else {
-        setFirstExpand(true);
-        setInitialized(true);
+      if (orderId) {
+        setPixLoading(true);
+        connectionAPIGet<OrderType>(`/order/${orderId}/customer`, apiUrl)
+          .then((res) => {
+            if (res.payment.status === "PAYMENT_APPROVED") {
+              sessionStorage.removeItem("orderId");
+              sessionStorage.removeItem("qrCode");
+              sessionStorage.removeItem("copyAndPaste");
+              setFirstExpand(true);
+              setInitialized(true);
+            } else {
+              setOrderId(orderId);
+              const qrCode = sessionStorage.getItem("qrCode");
+              if (qrCode) setQrCode(qrCode);
+              const copyAndPaste = sessionStorage.getItem("copyAndPaste");
+              if (copyAndPaste) setCopyAndPaste(copyAndPaste);
+              if (qrCode && copyAndPaste && orderId) {
+                setFirstExpand(true);
+                setInitialized(true);
+                setSecondExpand(true);
+              }
+            }
+            setPixLoading(false);
+          })
+          .catch(() => {
+            sessionStorage.removeItem("orderId");
+            sessionStorage.removeItem("qrCode");
+            sessionStorage.removeItem("copyAndPaste");
+            setPixLoading(false);
+          });
       }
     }
   }, [logged]);
@@ -143,6 +163,7 @@ const PixCard = ({
         route.push("/order");
       })
       .catch((error) => {
+        console.log(error);
         setError("Erro ao verificar o pedido");
         setOrderLoading(false);
       });
