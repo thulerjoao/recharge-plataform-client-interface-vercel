@@ -1,15 +1,14 @@
 "use client";
 
 import Text from "@4miga/design-system/components/Text";
-import { Theme } from "@4miga/design-system/theme/theme";
 import { useRouter } from "next/navigation";
-import { useState } from "react";
 import OrderCard from "public/cards/orderCard/card";
+import Pagination from "public/components/pagination";
+import { useState } from "react";
 import BackArrow from "../../common/icons/BackArrow.svg";
 import Bigo from "../common/temp/Bigo.svg";
 import Freefire from "../common/temp/Freefire.svg";
 import { MyOrderContainer } from "./style";
-import Pagination from "../components/pagination";
 
 const MyOrders = () => {
   const [page, setPage] = useState<number>(1);
