@@ -11,6 +11,7 @@ import { useEffect, useState } from "react";
 import { OrderType } from "types/orderType";
 import { checkImageUrl } from "utils/checkImageUrl";
 import { formatDate } from "utils/formatDate";
+import { formatString } from "utils/formatString";
 import {
   handlePaymentStatus,
   handleRechargeStatus,
@@ -24,20 +25,28 @@ const Order = () => {
   const route = useRouter();
   const order: OrderType = JSON.parse(sessionStorage.getItem("order"));
   const products = useProducts();
-  // const product = products.find((item) => item === order.)
+  const product = products.find(
+    (item) => item.id === order.orderItem.productId,
+  );
   const [isImageValid, setIsImageValid] = useState<boolean>(false);
+  console.log(order);
 
   useEffect(() => {
     const checkImage = async () => {
-      const valid = await checkImageUrl(order.package.imgCardUrl);
+      const valid = await checkImageUrl(order.orderItem.package.imgCardUrl);
       setIsImageValid(valid);
     };
 
     checkImage();
-  }, [order.package.imgCardUrl]);
+  }, [order.orderItem.package.imgCardUrl]);
 
   const handleBuyAgain = () => {
-    route.push(`/product/Product_1`);
+    sessionStorage.removeItem("qrCode");
+    sessionStorage.removeItem("copyAndPaste");
+    sessionStorage.removeItem("orderId");
+    route.push(
+      `/product/${formatString(product.name)}/${order.orderItem.package.packageId}`,
+    );
   };
 
   return (
@@ -54,12 +63,12 @@ const Order = () => {
         <section className="fisrtSection">
           <div className="fisrtRow">
             <Image
-              src={isImageValid ? order.package.imgCardUrl : ImageNotFound}
+              src={isImageValid ? product.imgCardUrl : ImageNotFound}
               alt="imagem do card"
             />
             <div>
               <Text align="end" fontName="REGULAR_MEDIUM" tag="h2">
-                {order.package.name.toUpperCase()}
+                {order.orderItem.package.name.toUpperCase()}
               </Text>
               <Text
                 margin="8px 0 0 0"
@@ -81,7 +90,7 @@ const Order = () => {
           <div className="secondaryRow third">
             <Text fontName="SMALL_MEDIUM">ID de usuário</Text>
             <Text fontName="SMALL_MEDIUM" align="end">
-              {order.package.userIdForRecharge}
+              {order.orderItem.package.userIdForRecharge}
             </Text>
           </div>
         </section>
@@ -90,12 +99,10 @@ const Order = () => {
             Detalhes do pagamento
           </Text>
           <div className="outside">
-            <span>
-              {order.paymentMethodName.toUpperCase() === "PIX" && <Pix />}
-            </span>
+            <span>{order.payment.name.toUpperCase() === "PIX" && <Pix />}</span>
             <div className="allInfos">
               <div className="innerContent">
-                <Text fontName="SMALL_MEDIUM">{order.paymentMethodName}</Text>
+                <Text fontName="SMALL_MEDIUM">{order.payment.name}</Text>
                 <Text fontName="SMALL_SEMI_BOLD" align="end">
                   R$ {order.totalAmount}
                 </Text>
@@ -103,9 +110,9 @@ const Order = () => {
               <div className="innerContent">
                 <Text
                   fontName="TINY"
-                  color={handleStatusColor(order.paymentStatus)}
+                  color={handleStatusColor(order.payment.status)}
                 >
-                  {handlePaymentStatus(order.paymentStatus)}
+                  {handlePaymentStatus(order.payment.status)}
                 </Text>
                 <Text
                   align="end"
@@ -126,7 +133,11 @@ const Order = () => {
           <div className="outside">
             <span>
               <Image
-                src={isImageValid ? order.package.imgCardUrl : ImageNotFound}
+                src={
+                  isImageValid
+                    ? order.orderItem.package.imgCardUrl
+                    : ImageNotFound
+                }
                 alt="imagem do card"
               />
               {/* <MiniBigo />{order.package.imgCardUrl} */}
@@ -135,15 +146,15 @@ const Order = () => {
               <div className="innerContent">
                 <Text fontName="SMALL_MEDIUM">Bigo Live</Text>
                 <Text fontName="SMALL_SEMI_BOLD" align="end">
-                  {order.package.amountCredits} DIAMANTES
+                  {order.orderItem.recharge.amountCredits} DIAMANTES
                 </Text>
               </div>
               <div className="innerContent">
                 <Text
                   fontName="TINY"
-                  color={handleStatusColor(order.rechargeStatus)}
+                  color={handleStatusColor(order.orderItem.recharge.status)}
                 >
-                  {handleRechargeStatus(order.rechargeStatus)}
+                  {handleRechargeStatus(order.orderItem.recharge.status)}
                 </Text>
                 <Text
                   align="end"

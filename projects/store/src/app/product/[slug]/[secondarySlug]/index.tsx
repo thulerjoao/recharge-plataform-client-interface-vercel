@@ -40,14 +40,6 @@ const PaymentPage = ({ id, slug }: Props) => {
     setError("");
   };
 
-  useEffect(() => {
-    if (error) {
-      setTimeout(() => {
-        setError("");
-      }, 5000);
-    }
-  }, [error]);
-
   return (
     <ProductInnerPage onMouseDown={handleMouseDown}>
       <Text align="center" fontName="REGULAR_SEMI_BOLD">

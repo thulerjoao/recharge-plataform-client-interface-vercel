@@ -135,8 +135,6 @@ const PixCard = ({
     }
   };
 
-  console.log("aqui", orderId);
-
   const handleCheckOrder = () => {
     setOrderLoading(true);
     connectionAPIGet<OrderType>(`/order/${orderId}/customer`, apiUrl)
@@ -156,7 +154,7 @@ const PixCard = ({
     const interval = setInterval(() => {
       connectionAPIGet<OrderType>(`/order/${orderId}/customer`, apiUrl)
         .then((res) => {
-          if (res.paymentStatus === "PAYMENT_APPROVED") {
+          if (res.payment.status === "PAYMENT_APPROVED") {
             sessionStorage.setItem("order", JSON.stringify(res));
             route.push("/order");
             clearInterval(interval);
