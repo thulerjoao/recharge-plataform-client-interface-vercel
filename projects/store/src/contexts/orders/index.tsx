@@ -21,6 +21,7 @@ interface OrdersProviderProps {
 interface OrdersProviderData {
   orders: OrderType[];
   getOrders: (page: number) => OrderType[];
+  updateOrders: () => void;
 }
 
 const OrdersContext = createContext<OrdersProviderData>(
@@ -31,11 +32,15 @@ export const OrdersProvider = ({ children }: OrdersProviderProps) => {
   const [orders, setOrders] = useState<OrderType[]>([]);
   const { logged } = useAuth();
 
+  const updateOrders = () => {
+    connectionAPIGet<OrderType[]>("/order/customer", apiUrl).then((res) => {
+      setOrders(res);
+    });
+  };
+
   useEffect(() => {
     if (logged) {
-      connectionAPIGet<OrderType[]>("/order/customer", apiUrl).then((res) => {
-        setOrders(res);
-      });
+      updateOrders();
     }
   }, [logged]);
 
@@ -46,7 +51,7 @@ export const OrdersProvider = ({ children }: OrdersProviderProps) => {
   };
 
   return (
-    <OrdersContext.Provider value={{ orders, getOrders }}>
+    <OrdersContext.Provider value={{ orders, getOrders, updateOrders }}>
       {children}
     </OrdersContext.Provider>
   );

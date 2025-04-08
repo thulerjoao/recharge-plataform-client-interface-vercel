@@ -90,6 +90,9 @@ const Order = () => {
               </Text>
             </div>
           </div>
+          <Text style={{ marginTop: "8px" }} fontName="REGULAR_MEDIUM">
+            {order.orderItem.productName}
+          </Text>
           <div className="secondaryRow">
             <Text fontName="SMALL_MEDIUM">Número do pedido</Text>
             <Text fontName="SMALL_MEDIUM" align="end">

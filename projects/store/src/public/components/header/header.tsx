@@ -12,6 +12,7 @@ import Product from "./icons/Products.svg";
 import Profile from "./icons/Profile.svg";
 import { HeaderContainer, MenuComponent } from "./style";
 import { scrollToTop } from "utils/scrollToTopFunction";
+import { useOrders } from "contexts/orders";
 
 const Header = () => {
   const [loginModal, setLoginModal] = useState<boolean>(false);
@@ -21,6 +22,7 @@ const Header = () => {
   const route = useRouter();
   const modalRef = useRef(null);
   const pathname = usePathname();
+  const { updateOrders } = useOrders();
 
   const handleClickOutside = (event: MouseEvent) => {
     if (modalRef.current && !modalRef.current.contains(event.target)) {
@@ -95,6 +97,7 @@ const Header = () => {
             <div
               className="menuOption"
               onClick={() => {
+                updateOrders();
                 route.push("/my-orders");
                 setOpenMenu(false);
               }}
