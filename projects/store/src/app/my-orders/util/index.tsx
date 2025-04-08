@@ -1,19 +1,27 @@
 "use client";
 
 import Text from "@4miga/design-system/components/Text";
+import { useAuth } from "contexts/auth";
 import { useOrders } from "contexts/orders";
 import { useRouter } from "next/navigation";
 import OrderCard from "public/cards/orderCard/card";
 import Pagination from "public/components/pagination";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import BackArrow from "../../common/icons/BackArrow.svg";
 import { MyOrderContainer } from "./style";
 
 const MyOrders = () => {
   const [page, setPage] = useState<number>(1);
   const route = useRouter();
-  const { orders, getOrders } = useOrders();
+  const { orders, getOrders, updateOrders } = useOrders();
+  const { logged } = useAuth();
   const totalPages = Math.ceil(orders.length / 6);
+
+  useEffect(() => {
+    if (logged) {
+      updateOrders();
+    }
+  }, [logged, updateOrders]);
 
   return (
     <MyOrderContainer>

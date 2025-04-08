@@ -138,17 +138,6 @@ const Order = () => {
               </div>
             </div>
           </div>
-          {order.payment.status === "PAYMENT_PENDING" && (
-            <div onClick={() => goToPayment()} className="paymentPending">
-              <Text
-                color={Theme.colors.approved}
-                fontName="SMALL"
-                align="center"
-              >
-                Continuar para o pagamento
-              </Text>
-            </div>
-          )}
         </section>
         <section className="thirdSection">
           <Text fontName="REGULAR_MEDIUM" tag="h2">
@@ -194,14 +183,25 @@ const Order = () => {
           </div>
         </section>
       </main>
-      <Button
-        margin="32px 0 0 0"
-        width={228}
-        rounded
-        height={40}
-        title="Comprar novamente"
-        onClick={() => handleBuyAgain()}
-      />
+      {order.payment.status !== "PAYMENT_PENDING" ? (
+        <Button
+          margin="32px 0 0 0"
+          width={228}
+          rounded
+          height={40}
+          title="Comprar novamente"
+          onClick={() => handleBuyAgain()}
+        />
+      ) : (
+        <Button
+          margin="32px 0 0 0"
+          width={248}
+          rounded
+          height={40}
+          title="Prosseguir para pagamento"
+          onClick={() => goToPayment()}
+        />
+      )}
     </OrderContainer>
   );
 };
