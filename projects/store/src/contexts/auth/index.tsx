@@ -24,6 +24,7 @@ interface AuthProviderProps {
 
 interface AuthProviderData {
   logged: boolean;
+  checkingToken: boolean;
   login: (data: LoginResponse, rememberMe: boolean) => Promise<boolean>;
   logout: () => void;
   user: Partial<UserType>;
@@ -34,6 +35,7 @@ const AuthContext = createContext<AuthProviderData>({} as AuthProviderData);
 export const AuthProvider = ({ children }: AuthProviderProps) => {
   const route = useRouter();
   const [logged, setLogged] = useState<boolean>(false);
+  const [checkingToken, setCheckingToken] = useState<boolean>(true);
   const [user, setUser] = useState<Partial<UserType>>(null);
   const [lastUpdated, setLastUpdated] = useState(Date.now());
   const [expiresIn, setExpiresIn] = useState<number>(null);
@@ -46,6 +48,7 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
         });
         const refreshToken = response.data?.refreshToken;
         if (!refreshToken) {
+          setCheckingToken(false);
           await axios.delete("/api/logout", {
             withCredentials: true,
           });
@@ -58,12 +61,13 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
         ).then((res) => {
           const rememberMe = true;
           login(res, rememberMe);
+          setCheckingToken(false);
         });
       } catch {
         await axios.delete("/api/logout", {
           withCredentials: true,
         });
-        return;
+        setCheckingToken(false);
       }
     };
     checkAuth();
@@ -174,7 +178,9 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
   };
 
   return (
-    <AuthContext.Provider value={{ logged, login, logout, user }}>
+    <AuthContext.Provider
+      value={{ logged, checkingToken, login, logout, user }}
+    >
       {children}
     </AuthContext.Provider>
   );

@@ -3,16 +3,16 @@
 import Button from "@4miga/design-system/components/button";
 import Text from "@4miga/design-system/components/Text";
 import { useAuth } from "contexts/auth";
+import { useOrders } from "contexts/orders";
 import { usePathname, useRouter } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
+import { scrollToTop } from "utils/scrollToTopFunction";
 import LoginModal from "../loginModal";
 import Exit from "./icons/Exit.svg";
 import HeaderLogo from "./icons/HeaderLogo.svg";
 import Product from "./icons/Products.svg";
 import Profile from "./icons/Profile.svg";
 import { HeaderContainer, MenuComponent } from "./style";
-import { scrollToTop } from "utils/scrollToTopFunction";
-import { useOrders } from "contexts/orders";
 
 const Header = () => {
   const [loginModal, setLoginModal] = useState<boolean>(false);
@@ -98,8 +98,8 @@ const Header = () => {
               className="menuOption"
               onClick={() => {
                 updateOrders();
-                route.push("/my-orders");
                 setOpenMenu(false);
+                route.push("/my-orders");
               }}
             >
               <span>

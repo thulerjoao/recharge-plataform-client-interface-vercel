@@ -1,7 +1,8 @@
 import Providers from "contexts/providers";
 import StyledComponentsRegistry from "lib/registry";
-import React, { useEffect } from "react";
+import React from "react";
 import "./globals.css";
+import Loading from "./loading";
 
 export const metadata = {
   title: {
@@ -27,7 +28,9 @@ export default function RootLayout({
     <html lang="pt-br">
       <body>
         <Providers>
-          <StyledComponentsRegistry>{children}</StyledComponentsRegistry>
+          <StyledComponentsRegistry>
+            <Loading>{children}</Loading>
+          </StyledComponentsRegistry>
         </Providers>
       </body>
     </html>
