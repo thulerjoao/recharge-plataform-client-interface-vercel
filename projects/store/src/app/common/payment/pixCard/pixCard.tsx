@@ -44,8 +44,6 @@ const PixCard = ({
   const logged = useAuth();
   const route = useRouter();
 
-  console.log(orderId);
-
   const handleFirstExpand = () => {
     if (typeof qrCode === "string" && typeof copyAndPaste === "string") {
       setInitialized(true);
@@ -100,6 +98,9 @@ const PixCard = ({
             sessionStorage.removeItem("copyAndPaste");
             setPixLoading(false);
           });
+      } else {
+        setFirstExpand(true);
+        setInitialized(true);
       }
     }
   }, [logged]);
@@ -119,13 +120,13 @@ const PixCard = ({
   };
 
   const handleClick = () => {
-    if (userId) {
-      setPixLoading(true);
-      if (secondExpand) {
-        handleCopy();
-        setPixLoading(false);
-        return;
-      } else if (firstExpand) {
+    setPixLoading(true);
+    if (secondExpand) {
+      handleCopy();
+      setPixLoading(false);
+      return;
+    } else if (firstExpand) {
+      if (userId) {
         const body = {
           userIdForRecharge: userId,
           packageId,
@@ -149,9 +150,9 @@ const PixCard = ({
             setPixLoading(false);
             handleResponse(message);
           });
+      } else {
+        setError("ID de usuário inválido");
       }
-    } else {
-      setError("ID de usuário inválido");
     }
   };
 
@@ -280,7 +281,7 @@ const PixCard = ({
             disabled={pixLoading}
             height={40}
             rounded
-            title={secondExpand ? "Copiar código Pix" : "Gerar Pix"}
+            title={secondExpand ? "Copiar código Pix" : "Gerar pedido"}
           />
         </div>
         <div className="pixImage">

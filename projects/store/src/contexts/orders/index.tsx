@@ -3,13 +3,7 @@
 
 import { connectionAPIGet } from "@4miga/services/connectionAPI/connection";
 import { useAuth } from "contexts/auth";
-import {
-  createContext,
-  ReactNode,
-  useContext,
-  useEffect,
-  useState,
-} from "react";
+import { createContext, ReactNode, useContext, useState } from "react";
 
 import { OrderType } from "types/orderType";
 import { apiUrl } from "utils/apiUrl";
@@ -21,6 +15,7 @@ interface OrdersProviderProps {
 interface OrdersProviderData {
   orders: OrderType[];
   getOrders: (page: number) => OrderType[];
+  updateOrders: () => void;
 }
 
 const OrdersContext = createContext<OrdersProviderData>(
@@ -31,13 +26,13 @@ export const OrdersProvider = ({ children }: OrdersProviderProps) => {
   const [orders, setOrders] = useState<OrderType[]>([]);
   const { logged } = useAuth();
 
-  useEffect(() => {
+  const updateOrders = () => {
     if (logged) {
       connectionAPIGet<OrderType[]>("/order/customer", apiUrl).then((res) => {
         setOrders(res);
       });
     }
-  }, [logged]);
+  };
 
   const getOrders = (page: number) => {
     const start = (page - 1) * 6;
@@ -46,7 +41,7 @@ export const OrdersProvider = ({ children }: OrdersProviderProps) => {
   };
 
   return (
-    <OrdersContext.Provider value={{ orders, getOrders }}>
+    <OrdersContext.Provider value={{ orders, getOrders, updateOrders }}>
       {children}
     </OrdersContext.Provider>
   );

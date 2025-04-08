@@ -3,6 +3,7 @@
 import { useRouter } from "next/navigation";
 import { useEffect } from "react";
 import "./globals.css";
+import { useAuth } from "contexts/auth";
 
 const Page = () => {
   const route = useRouter();
