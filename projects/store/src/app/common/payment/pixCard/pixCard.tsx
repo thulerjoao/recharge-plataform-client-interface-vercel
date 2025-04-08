@@ -120,13 +120,13 @@ const PixCard = ({
   };
 
   const handleClick = () => {
-    if (userId) {
-      setPixLoading(true);
-      if (secondExpand) {
-        handleCopy();
-        setPixLoading(false);
-        return;
-      } else if (firstExpand) {
+    setPixLoading(true);
+    if (secondExpand) {
+      handleCopy();
+      setPixLoading(false);
+      return;
+    } else if (firstExpand) {
+      if (userId) {
         const body = {
           userIdForRecharge: userId,
           packageId,
@@ -150,9 +150,9 @@ const PixCard = ({
             setPixLoading(false);
             handleResponse(message);
           });
+      } else {
+        setError("ID de usuário inválido");
       }
-    } else {
-      setError("ID de usuário inválido");
     }
   };
 

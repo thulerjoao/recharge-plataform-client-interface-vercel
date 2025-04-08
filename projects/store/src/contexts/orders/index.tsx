@@ -34,12 +34,6 @@ export const OrdersProvider = ({ children }: OrdersProviderProps) => {
     }
   };
 
-  // useEffect(() => {
-  //   if (logged) {
-  //     updateOrders();
-  //   }
-  // }, [logged]);
-
   const getOrders = (page: number) => {
     const start = (page - 1) * 6;
     const end = start + 6;

@@ -53,6 +53,10 @@ const Order = () => {
     sessionStorage.setItem("qrCode", order.payment.qrCode);
     sessionStorage.setItem("copyAndPaste", order.payment.qrCodetextCopyPaste);
     sessionStorage.setItem("orderId", order.orderId);
+    sessionStorage.setItem(
+      "userId",
+      order.orderItem.recharge.userIdForRecharge,
+    );
     route.push(
       `product/${formatString(order.orderItem.productName)}/${order.orderItem.package.packageId}`,
     );
