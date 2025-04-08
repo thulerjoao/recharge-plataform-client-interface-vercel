@@ -49,6 +49,15 @@ const Order = () => {
     );
   };
 
+  const goToPayment = () => {
+    sessionStorage.setItem("qrCode", order.payment.qrCode);
+    sessionStorage.setItem("copyAndPaste", order.payment.qrCodetextCopyPaste);
+    sessionStorage.setItem("orderId", order.orderId);
+    route.push(
+      `product/${formatString(order.orderItem.productName)}/${order.orderItem.package.packageId}`,
+    );
+  };
+
   return (
     <OrderContainer>
       <div className="topMessage">
@@ -90,7 +99,7 @@ const Order = () => {
           <div className="secondaryRow third">
             <Text fontName="SMALL_MEDIUM">ID de usuário</Text>
             <Text fontName="SMALL_MEDIUM" align="end">
-              {order.orderItem.package.userIdForRecharge}
+              {order.orderItem.recharge.userIdForRecharge}
             </Text>
           </div>
         </section>
@@ -109,6 +118,7 @@ const Order = () => {
               </div>
               <div className="innerContent">
                 <Text
+                  nowrap
                   fontName="TINY"
                   color={handleStatusColor(order.payment.status)}
                 >
@@ -120,11 +130,22 @@ const Order = () => {
                   fontName="TINY"
                   tag="h3"
                 >
-                  {formatDate(order.createdAt)}
+                  {formatDate(order.payment.statusUpdatedAt)}
                 </Text>
               </div>
             </div>
           </div>
+          {order.payment.status === "PAYMENT_PENDING" && (
+            <div onClick={() => goToPayment()} className="paymentPending">
+              <Text
+                color={Theme.colors.approved}
+                fontName="SMALL"
+                align="center"
+              >
+                Continuar para o pagamento
+              </Text>
+            </div>
+          )}
         </section>
         <section className="thirdSection">
           <Text fontName="REGULAR_MEDIUM" tag="h2">
@@ -151,6 +172,7 @@ const Order = () => {
               </div>
               <div className="innerContent">
                 <Text
+                  nowrap
                   fontName="TINY"
                   color={handleStatusColor(order.orderItem.recharge.status)}
                 >
@@ -162,7 +184,7 @@ const Order = () => {
                   fontName="TINY"
                   tag="h3"
                 >
-                  {formatDate(order.createdAt)}
+                  {formatDate(order.orderItem.recharge.statusUpdatedAt)}
                 </Text>
               </div>
             </div>

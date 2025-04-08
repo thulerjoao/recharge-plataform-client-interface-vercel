@@ -40,7 +40,7 @@ const OrderCard = ({ order }: OrderCardProps) => {
   return (
     <OrderCardContainer status={status}>
       <Image
-        src={isImageValid ? ImageNotFound : ImageNotFound}
+        src={isImageValid ? order.orderItem.package.imgCardUrl : ImageNotFound}
         alt={`Imagem do pacote ${order.orderItem.package.name}`}
         height={64}
         width={64}

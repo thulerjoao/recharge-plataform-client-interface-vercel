@@ -7,9 +7,12 @@ export interface OrderType {
     name: string;
     status: PaymentStatus;
     statusUpdatedAt: string | null;
+    qrCode: string;
+    qrCodetextCopyPaste: string;
   };
   orderItem: {
     productId: string;
+    productName: string;
     recharge: {
       userIdForRecharge: string;
       status: RechargeStatus;

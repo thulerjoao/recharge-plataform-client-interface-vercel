@@ -59,6 +59,9 @@ export const OrderContainer = styled.div`
       margin-top: 24px;
       border-bottom: 1px solid ${Theme.colors.secondaryAction};
       padding-bottom: 16px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
 
       .outside {
         display: flex;
@@ -87,6 +90,16 @@ export const OrderContainer = styled.div`
             display: flex;
           }
         }
+      }
+
+      .paymentPending {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        width: auto;
+        padding: 2px 5px;
+        cursor: pointer;
+        margin-top: 10px;
       }
     }
 
