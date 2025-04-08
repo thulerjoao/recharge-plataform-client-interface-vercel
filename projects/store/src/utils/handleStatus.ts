@@ -5,9 +5,19 @@ export const handlePaymentStatus = (status: PaymentStatus) => {
   if (status === "PAYMENT_APPROVED") {
     return "Pagamento aprovado";
   } else if (status === "PAYMENT_PENDING") {
-    return "Pagamento pendente";
+    return "Aguardando pagamento";
   } else if (status === "PAYMENT_REJECTED") {
     return "Pagamento cancelado";
+  }
+};
+
+export const handlePaymentStatusShort = (status: PaymentStatus) => {
+  if (status === "PAYMENT_APPROVED") {
+    return "Aprovado";
+  } else if (status === "PAYMENT_PENDING") {
+    return "Pendente";
+  } else if (status === "PAYMENT_REJECTED") {
+    return "Cancelado";
   }
 };
 

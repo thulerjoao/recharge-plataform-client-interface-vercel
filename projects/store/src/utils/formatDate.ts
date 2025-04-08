@@ -1,4 +1,5 @@
-export const formatDate = (dateString: string): string => {
+export const formatDate = (dateString: string | null): string => {
+  if (dateString === null) return;
   const dateParts = dateString.split(" - ");
   const [day, month, year] = dateParts[0].split("/").map(Number);
   const time = dateParts[1];

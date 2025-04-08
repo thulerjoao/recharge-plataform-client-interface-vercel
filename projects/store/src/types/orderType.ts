@@ -2,15 +2,29 @@ export interface OrderType {
   orderId: string;
   orderNumber: string;
   totalAmount: number;
-  paymentStatus: PaymentStatus;
-  rechargeStatus: RechargeStatus;
-  paymentMethodName: string;
   createdAt: string;
-  package: {
+  payment: {
     name: string;
-    userIdForRecharge: string;
-    amountCredits: number;
-    imgCardUrl: string;
+    status: PaymentStatus;
+    statusUpdatedAt: string | null;
+    qrCode: string;
+    qrCodetextCopyPaste: string;
+  };
+  orderItem: {
+    productId: string;
+    productName: string;
+    recharge: {
+      userIdForRecharge: string;
+      status: RechargeStatus;
+      amountCredits: number;
+      statusUpdatedAt: string | null;
+    };
+    package: {
+      packageId: string;
+      name: string;
+      userIdForRecharge: string;
+      imgCardUrl: string;
+    };
   };
 }
 

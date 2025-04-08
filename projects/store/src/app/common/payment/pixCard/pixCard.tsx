@@ -44,6 +44,8 @@ const PixCard = ({
   const logged = useAuth();
   const route = useRouter();
 
+  console.log(orderId);
+
   const handleFirstExpand = () => {
     if (typeof qrCode === "string" && typeof copyAndPaste === "string") {
       setInitialized(true);
@@ -67,19 +69,37 @@ const PixCard = ({
 
   useEffect(() => {
     if (logged) {
-      const qrCode = sessionStorage.getItem("qrCode");
-      if (qrCode) setQrCode(qrCode);
-      const copyAndPaste = sessionStorage.getItem("copyAndPaste");
-      if (copyAndPaste) setCopyAndPaste(copyAndPaste);
       const orderId = sessionStorage.getItem("orderId");
-      if (orderId) setOrderId(orderId);
-      if (qrCode && copyAndPaste && orderId) {
-        setFirstExpand(true);
-        setInitialized(true);
-        setSecondExpand(true);
-      } else {
-        setFirstExpand(true);
-        setInitialized(true);
+      if (orderId) {
+        setPixLoading(true);
+        connectionAPIGet<OrderType>(`/order/${orderId}/customer`, apiUrl)
+          .then((res) => {
+            if (res.payment.status === "PAYMENT_APPROVED") {
+              sessionStorage.removeItem("orderId");
+              sessionStorage.removeItem("qrCode");
+              sessionStorage.removeItem("copyAndPaste");
+              setFirstExpand(true);
+              setInitialized(true);
+            } else {
+              setOrderId(orderId);
+              const qrCode = sessionStorage.getItem("qrCode");
+              if (qrCode) setQrCode(qrCode);
+              const copyAndPaste = sessionStorage.getItem("copyAndPaste");
+              if (copyAndPaste) setCopyAndPaste(copyAndPaste);
+              if (qrCode && copyAndPaste && orderId) {
+                setFirstExpand(true);
+                setInitialized(true);
+                setSecondExpand(true);
+              }
+            }
+            setPixLoading(false);
+          })
+          .catch(() => {
+            sessionStorage.removeItem("orderId");
+            sessionStorage.removeItem("qrCode");
+            sessionStorage.removeItem("copyAndPaste");
+            setPixLoading(false);
+          });
       }
     }
   }, [logged]);
@@ -135,8 +155,6 @@ const PixCard = ({
     }
   };
 
-  console.log("aqui", orderId);
-
   const handleCheckOrder = () => {
     setOrderLoading(true);
     connectionAPIGet<OrderType>(`/order/${orderId}/customer`, apiUrl)
@@ -145,6 +163,7 @@ const PixCard = ({
         route.push("/order");
       })
       .catch((error) => {
+        console.log(error);
         setError("Erro ao verificar o pedido");
         setOrderLoading(false);
       });
@@ -156,7 +175,7 @@ const PixCard = ({
     const interval = setInterval(() => {
       connectionAPIGet<OrderType>(`/order/${orderId}/customer`, apiUrl)
         .then((res) => {
-          if (res.paymentStatus === "PAYMENT_APPROVED") {
+          if (res.payment.status === "PAYMENT_APPROVED") {
             sessionStorage.setItem("order", JSON.stringify(res));
             route.push("/order");
             clearInterval(interval);
@@ -165,7 +184,6 @@ const PixCard = ({
           }
         })
         .catch(() => {
-          setError("Verifique o pagamento em meus pedidos.");
           clearInterval(interval);
         });
     }, 30000);
@@ -268,7 +286,7 @@ const PixCard = ({
         <div className="pixImage">
           <Text margin="24px 0 0 0" align="center" fontName="SMALL_MEDIUM">
             {`Por gentileza, utilize a opção "Copiar e Colar" do PIX em seu
-            aplicativo bancário.`}
+            aplicativo bancário`}
           </Text>
           <img
             className="qrCode"
@@ -280,7 +298,7 @@ const PixCard = ({
           <>
             <Text margin="24px 0 0 0" align="center" fontName="SMALL_MEDIUM">
               {
-                "Após o pagamento, clique no botão abaixo para confirmar o andamento do seu pedido!"
+                "Após o pagamento, clique no botão abaixo para confirmar o andamento do seu pedido"
               }
             </Text>
             <div className="confirmButton">

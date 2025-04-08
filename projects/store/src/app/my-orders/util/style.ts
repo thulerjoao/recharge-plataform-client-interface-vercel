@@ -25,27 +25,11 @@ export const MyOrderContainer = styled.div`
   .cardsSection {
     width: 100%;
     display: flex;
-    flex-direction: column;
+    flex-direction: column-reverse;
+    justify-content: start;
     align-items: center;
     margin-top: 8px;
-  }
-
-  .pagination {
-    display: flex;
-    width: 100%;
-    max-width: 270px;
-    flex-direction: row;
-    justify-content: center;
-    margin-top: 32px;
-
-    p {
-      margin: 0 16px;
-      cursor: pointer;
-    }
-
-    .dots {
-      cursor: default;
-    }
+    min-height: 636px;
   }
 
   @media (min-width: 768px) and (max-width: 1024px) {
@@ -54,5 +38,9 @@ export const MyOrderContainer = styled.div`
   @media (max-width: 767px) {
     padding: 0 16px;
     margin-top: 16px;
+
+    .cardsSection {
+      min-height: 436px;
+    }
   }
 `;
