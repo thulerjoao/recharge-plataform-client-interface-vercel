@@ -170,6 +170,7 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
         setLogged(false);
         setExpiresIn(null);
         setUser(null);
+        sessionStorage.clear();
         route.replace("/");
       }
     } catch (error) {

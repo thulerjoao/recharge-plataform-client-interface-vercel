@@ -27,6 +27,7 @@ export const LoginModalContainer = styled.div`
   align-items: center;
   border-radius: 8px;
   padding-bottom: 48px;
+  margin-bottom: 12%;
 
   .close {
     width: 100%;

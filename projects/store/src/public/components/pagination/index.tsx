@@ -38,7 +38,7 @@ const Pagination = ({ page, setPage, totalPages }: Props) => {
   };
 
   return (
-    <PaginationContainer>
+    <PaginationContainer totalPages={totalPages}>
       {createPageArray().map((element, index) =>
         typeof element === "number" ? (
           <Text
