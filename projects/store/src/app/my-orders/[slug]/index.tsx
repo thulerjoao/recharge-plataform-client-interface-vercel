@@ -5,6 +5,7 @@ import { useAuth } from "contexts/auth";
 import { useOrders } from "contexts/orders";
 import { useRouter } from "next/navigation";
 import OrderCard from "public/cards/orderCard/card";
+import LoadingDots from "public/components/loadingDots";
 import Pagination from "public/components/pagination";
 import { useEffect, useState } from "react";
 import BackArrow from "../../common/icons/BackArrow.svg";
@@ -16,7 +17,7 @@ interface Props {
 
 const MyOrders = ({ currentPage }: Props) => {
   const route = useRouter();
-  const { orders, getOrders, updateOrders } = useOrders();
+  const { loadingOrders, orders, getOrders, updateOrders } = useOrders();
   const { logged } = useAuth();
   const totalPages: number = Math.ceil(orders.length / 6);
   const initialPage = () => {
@@ -35,7 +36,8 @@ const MyOrders = ({ currentPage }: Props) => {
     if (logged) {
       updateOrders();
     }
-  }, [logged, updateOrders]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [logged]);
 
   return (
     <MyOrderContainer>
@@ -48,6 +50,20 @@ const MyOrders = ({ currentPage }: Props) => {
         </Text>
       </div>
       <section className="cardsSection">
+        {loadingOrders && orders.length === 0 && (
+          <div className="ordersAlert">
+            <Text style={{ width: "110px" }} nowrap fontName="REGULAR">
+              Carregando{<LoadingDots />}
+            </Text>
+          </div>
+        )}
+        {!loadingOrders && orders.length === 0 && (
+          <div className="ordersAlert">
+            <Text align="center" fontName="REGULAR">
+              Você ainda não realizou nenhum pedido
+            </Text>
+          </div>
+        )}
         {getOrders(page).map((order, index) => {
           return <OrderCard key={index} order={order} />;
         })}

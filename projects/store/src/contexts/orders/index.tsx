@@ -13,6 +13,7 @@ interface OrdersProviderProps {
 }
 
 interface OrdersProviderData {
+  loadingOrders: boolean;
   orders: OrderType[];
   getOrders: (page: number) => OrderType[];
   updateOrders: () => void;
@@ -23,14 +24,21 @@ const OrdersContext = createContext<OrdersProviderData>(
 );
 
 export const OrdersProvider = ({ children }: OrdersProviderProps) => {
+  const [loadingOrders, setLoadingOrders] = useState<boolean>(false);
   const [orders, setOrders] = useState<OrderType[]>([]);
   const { logged } = useAuth();
 
   const updateOrders = () => {
+    setLoadingOrders(true);
     if (logged) {
-      connectionAPIGet<OrderType[]>("/order/customer", apiUrl).then((res) => {
-        setOrders(res);
-      });
+      connectionAPIGet<OrderType[]>("/order/customer", apiUrl)
+        .then((res) => {
+          setOrders(res);
+          setLoadingOrders(false);
+        })
+        .then(() => {
+          setLoadingOrders(false);
+        });
     }
   };
 
@@ -41,7 +49,9 @@ export const OrdersProvider = ({ children }: OrdersProviderProps) => {
   };
 
   return (
-    <OrdersContext.Provider value={{ orders, getOrders, updateOrders }}>
+    <OrdersContext.Provider
+      value={{ loadingOrders, orders, getOrders, updateOrders }}
+    >
       {children}
     </OrdersContext.Provider>
   );

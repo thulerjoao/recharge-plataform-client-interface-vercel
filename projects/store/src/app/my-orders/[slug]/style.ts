@@ -30,6 +30,13 @@ export const MyOrderContainer = styled.div`
     align-items: center;
     margin-top: 8px;
     min-height: 636px;
+
+    .ordersAlert {
+      width: 100%;
+      display: flex;
+      justify-content: center;
+      padding-top: 80px;
+    }
   }
 
   @media (min-width: 768px) and (max-width: 1024px) {
