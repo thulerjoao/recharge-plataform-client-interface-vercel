@@ -4,13 +4,14 @@ import Input from "@4miga/design-system/components/input";
 import Text from "@4miga/design-system/components/Text";
 import { Theme } from "@4miga/design-system/theme/theme";
 import PixCard from "app/common/payment/pixCard/pixCard";
+import { useAuth } from "contexts/auth";
 import { useProducts } from "contexts/products/ProductsProvider";
+import LoginModal from "public/components/loginModal";
 import React, { useEffect, useState } from "react";
 import { PackageType, ProductType } from "types/productTypes";
 import { formatString } from "utils/formatString";
 import PackageCard from "../../../../public/cards/packageCard/card";
 import { ProductInnerPage } from "./style";
-import Button from "@4miga/design-system/components/button";
 
 type Props = {
   id: string;
@@ -28,6 +29,7 @@ const PaymentPage = ({ id, slug }: Props) => {
   const [userId, setUserId] = useState<string>("");
   const [paymentIndex, setPaymentIndex] = useState<number>();
   const [error, setError] = useState<string>();
+  const { logged } = useAuth();
 
   useEffect(() => {
     const paymentIndex = sessionStorage.getItem("paymentMethod");
@@ -82,6 +84,7 @@ const PaymentPage = ({ id, slug }: Props) => {
           </Text>
         </div>
       </section>
+      {!logged && <LoginModal />}
     </ProductInnerPage>
   );
 };

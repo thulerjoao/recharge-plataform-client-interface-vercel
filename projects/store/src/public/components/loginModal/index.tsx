@@ -16,7 +16,7 @@ import { LoginSteps } from "./types/types";
 
 interface LoginModalProps {
   openInNewAccount?: boolean;
-  setLoginModal: React.Dispatch<React.SetStateAction<boolean>>;
+  setLoginModal?: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 const LoginModal = ({ setLoginModal, openInNewAccount }: LoginModalProps) => {
@@ -30,7 +30,7 @@ const LoginModal = ({ setLoginModal, openInNewAccount }: LoginModalProps) => {
   const [mouseDownTarget, setMouseDownTarget] = useState<EventTarget>(null);
 
   const closeModal = () => {
-    setLoginModal(false);
+    setLoginModal && setLoginModal(false);
   };
 
   const handleBackward = () => {
@@ -59,9 +59,11 @@ const LoginModal = ({ setLoginModal, openInNewAccount }: LoginModalProps) => {
           <span onClick={() => handleBackward()}>
             {step !== "login" && step !== "newAccount" && <Backward />}
           </span>
-          <span onClick={() => setLoginModal(false)}>
-            <Close />
-          </span>
+          {setLoginModal && (
+            <span onClick={() => setLoginModal(false)}>
+              <Close />
+            </span>
+          )}
         </div>
         <TopLogo />
         {step === "login" && (

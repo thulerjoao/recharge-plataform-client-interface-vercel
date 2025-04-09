@@ -6,6 +6,7 @@ import { useOrders } from "contexts/orders";
 import { useRouter } from "next/navigation";
 import OrderCard from "public/cards/orderCard/card";
 import LoadingDots from "public/components/loadingDots";
+import LoginModal from "public/components/loginModal";
 import Pagination from "public/components/pagination";
 import { useEffect, useState } from "react";
 import BackArrow from "../../common/icons/BackArrow.svg";
@@ -17,6 +18,7 @@ interface Props {
 
 const MyOrders = ({ currentPage }: Props) => {
   const route = useRouter();
+  const [loginModal, setLoginModal] = useState<boolean>(false);
   const { loadingOrders, orders, getOrders, updateOrders } = useOrders();
   const { logged } = useAuth();
   const totalPages: number = Math.ceil(orders.length / 6);
@@ -69,6 +71,7 @@ const MyOrders = ({ currentPage }: Props) => {
         })}
       </section>
       <Pagination page={page} setPage={setPage} totalPages={totalPages} />
+      {!logged && <LoginModal />}
     </MyOrderContainer>
   );
 };
