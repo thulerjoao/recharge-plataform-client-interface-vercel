@@ -10,12 +10,26 @@ import { useEffect, useState } from "react";
 import BackArrow from "../../common/icons/BackArrow.svg";
 import { MyOrderContainer } from "./style";
 
-const MyOrders = () => {
-  const [page, setPage] = useState<number>(1);
+interface Props {
+  currentPage: number;
+}
+
+const MyOrders = ({ currentPage }: Props) => {
   const route = useRouter();
   const { orders, getOrders, updateOrders } = useOrders();
   const { logged } = useAuth();
-  const totalPages = Math.ceil(orders.length / 6);
+  const totalPages: number = Math.ceil(orders.length / 6);
+  const initialPage = () => {
+    if (currentPage > totalPages) {
+      return 1;
+    } else {
+      return currentPage;
+    }
+  };
+  const [page, setPage] = useState<number>(initialPage());
+  useEffect(() => {
+    route.push(`/my-orders/${page}`);
+  }, [page, route]);
 
   useEffect(() => {
     if (logged) {
