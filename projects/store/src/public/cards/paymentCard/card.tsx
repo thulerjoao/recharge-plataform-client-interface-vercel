@@ -9,6 +9,7 @@ import PicPay from "./icons/picpay.svg";
 import Pix from "./icons/pix.svg";
 import Transfer from "./icons/transfer.svg";
 import { PaymentCardContainer } from "./style";
+import { formatPrice } from "utils/formatPrice";
 
 interface Props {
   selected?: boolean;
@@ -53,7 +54,7 @@ const PaymentCard = ({ selected, method, price }: Props) => {
         color={Theme.colors.maindark}
         fontName="REGULAR_SEMI_BOLD"
       >
-        R$ {price.toFixed(2)}
+        R$ {formatPrice(price)}
       </Text>
     </PaymentCardContainer>
   );

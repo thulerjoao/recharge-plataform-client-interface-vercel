@@ -11,6 +11,7 @@ import { useEffect, useState } from "react";
 import { OrderType } from "types/orderType";
 import { checkImageUrl } from "utils/checkImageUrl";
 import { formatDate } from "utils/formatDate";
+import { formatPrice } from "utils/formatPrice";
 import { formatString } from "utils/formatString";
 import {
   handlePaymentStatus,
@@ -120,7 +121,7 @@ const Order = () => {
               <div className="innerContent">
                 <Text fontName="SMALL_MEDIUM">{order.payment.name}</Text>
                 <Text fontName="SMALL_SEMI_BOLD" align="end">
-                  R$ {order.totalAmount}
+                  R$ {formatPrice(order.totalAmount)}
                 </Text>
               </div>
               <div className="innerContent">
