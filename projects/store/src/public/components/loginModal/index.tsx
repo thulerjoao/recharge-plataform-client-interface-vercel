@@ -13,6 +13,7 @@ import Close from "./icons/Close.svg";
 import TopLogo from "./icons/topLogo.svg";
 import { LoginModalBackground, LoginModalContainer } from "./style";
 import { LoginSteps } from "./types/types";
+import { useRouter } from "next/navigation";
 
 interface LoginModalProps {
   openInNewAccount?: boolean;
@@ -20,6 +21,7 @@ interface LoginModalProps {
 }
 
 const LoginModal = ({ setLoginModal, openInNewAccount }: LoginModalProps) => {
+  const route = useRouter();
   const [step, setStep] = useState<LoginSteps>(
     openInNewAccount ? "newAccount" : "login",
   );
@@ -59,11 +61,13 @@ const LoginModal = ({ setLoginModal, openInNewAccount }: LoginModalProps) => {
           <span onClick={() => handleBackward()}>
             {step !== "login" && step !== "newAccount" && <Backward />}
           </span>
-          {setLoginModal && (
-            <span onClick={() => setLoginModal(false)}>
-              <Close />
-            </span>
-          )}
+          <span
+            onClick={() =>
+              setLoginModal ? setLoginModal(false) : route.replace("/home")
+            }
+          >
+            <Close />
+          </span>
         </div>
         <TopLogo />
         {step === "login" && (
