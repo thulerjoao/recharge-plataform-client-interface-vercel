@@ -146,7 +146,6 @@ const PixCard = ({
           })
           .catch((error) => {
             const message = error.response.data.message[0];
-            console.log(message);
             setPixLoading(false);
             handleResponse(message);
           });

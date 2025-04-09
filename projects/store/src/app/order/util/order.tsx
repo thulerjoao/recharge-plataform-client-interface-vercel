@@ -3,6 +3,7 @@
 import Button from "@4miga/design-system/components/button";
 import Text from "@4miga/design-system/components/Text";
 import { Theme } from "@4miga/design-system/theme/theme";
+import { useAuth } from "contexts/auth";
 import { useProducts } from "contexts/products/ProductsProvider";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
@@ -11,6 +12,7 @@ import { useEffect, useState } from "react";
 import { OrderType } from "types/orderType";
 import { checkImageUrl } from "utils/checkImageUrl";
 import { formatDate } from "utils/formatDate";
+import { formatPrice } from "utils/formatPrice";
 import { formatString } from "utils/formatString";
 import {
   handlePaymentStatus,
@@ -24,21 +26,33 @@ import { OrderContainer } from "./style";
 const Order = () => {
   const route = useRouter();
   const order: OrderType = JSON.parse(sessionStorage.getItem("order"));
+  const { logged } = useAuth();
+  useEffect(() => {
+    if (!order) {
+      route.replace("/home");
+    }
+    if (!logged) {
+      sessionStorage.clear();
+      route.replace("/home");
+    }
+  }, [order, logged, route]);
+
   const products = useProducts();
-  const product = products.find(
-    (item) => item.id === order.orderItem.productId,
-  );
+  const product = order
+    ? products.find((item) => item.id === order.orderItem.productId)
+    : null;
+
   const [isImageValid, setIsImageValid] = useState<boolean>(false);
-  console.log(order);
 
   useEffect(() => {
     const checkImage = async () => {
-      const valid = await checkImageUrl(order.orderItem.package.imgCardUrl);
-      setIsImageValid(valid);
+      if (order?.orderItem?.package?.imgCardUrl) {
+        const valid = await checkImageUrl(order.orderItem.package.imgCardUrl);
+        setIsImageValid(valid);
+      }
     };
-
     checkImage();
-  }, [order.orderItem.package.imgCardUrl]);
+  }, [order]);
 
   const handleBuyAgain = () => {
     sessionStorage.removeItem("qrCode");
@@ -81,7 +95,7 @@ const Order = () => {
             />
             <div>
               <Text align="end" fontName="REGULAR_MEDIUM" tag="h2">
-                {order.orderItem.package.name.toUpperCase()}
+                {order && order.orderItem.package.name.toUpperCase()}
               </Text>
               <Text
                 margin="8px 0 0 0"
@@ -90,23 +104,23 @@ const Order = () => {
                 fontName="TINY"
                 tag="h3"
               >
-                {formatDate(order.createdAt)}
+                {formatDate(order && order.createdAt)}
               </Text>
             </div>
           </div>
           <Text style={{ marginTop: "8px" }} fontName="REGULAR_MEDIUM">
-            {order.orderItem.productName}
+            {order && order.orderItem.productName}
           </Text>
           <div className="secondaryRow">
             <Text fontName="SMALL_MEDIUM">Número do pedido</Text>
             <Text fontName="SMALL_MEDIUM" align="end">
-              {order.orderNumber}
+              {order && order.orderNumber}
             </Text>
           </div>
           <div className="secondaryRow third">
             <Text fontName="SMALL_MEDIUM">ID de usuário</Text>
             <Text fontName="SMALL_MEDIUM" align="end">
-              {order.orderItem.recharge.userIdForRecharge}
+              {order && order.orderItem.recharge.userIdForRecharge}
             </Text>
           </div>
         </section>
@@ -115,21 +129,25 @@ const Order = () => {
             Detalhes do pagamento
           </Text>
           <div className="outside">
-            <span>{order.payment.name.toUpperCase() === "PIX" && <Pix />}</span>
+            <span>
+              {order && order.payment.name.toUpperCase() === "PIX" && <Pix />}
+            </span>
             <div className="allInfos">
               <div className="innerContent">
-                <Text fontName="SMALL_MEDIUM">{order.payment.name}</Text>
+                <Text fontName="SMALL_MEDIUM">
+                  {order && order.payment.name}
+                </Text>
                 <Text fontName="SMALL_SEMI_BOLD" align="end">
-                  R$ {order.totalAmount}
+                  R$ {formatPrice(order && order.totalAmount)}
                 </Text>
               </div>
               <div className="innerContent">
                 <Text
                   nowrap
                   fontName="TINY"
-                  color={handleStatusColor(order.payment.status)}
+                  color={order && handleStatusColor(order.payment.status)}
                 >
-                  {handlePaymentStatus(order.payment.status)}
+                  {order && handlePaymentStatus(order.payment.status)}
                 </Text>
                 <Text
                   align="end"
@@ -137,7 +155,7 @@ const Order = () => {
                   fontName="TINY"
                   tag="h3"
                 >
-                  {formatDate(order.payment.statusUpdatedAt)}
+                  {formatDate(order && order.payment.statusUpdatedAt)}
                 </Text>
               </div>
             </div>
@@ -163,16 +181,19 @@ const Order = () => {
               <div className="innerContent">
                 <Text fontName="SMALL_MEDIUM">Bigo Live</Text>
                 <Text fontName="SMALL_SEMI_BOLD" align="end">
-                  {order.orderItem.recharge.amountCredits} DIAMANTES
+                  {order && order.orderItem.recharge.amountCredits} DIAMANTES
                 </Text>
               </div>
               <div className="innerContent">
                 <Text
                   nowrap
                   fontName="TINY"
-                  color={handleStatusColor(order.orderItem.recharge.status)}
+                  color={
+                    order && handleStatusColor(order.orderItem.recharge.status)
+                  }
                 >
-                  {handleRechargeStatus(order.orderItem.recharge.status)}
+                  {order &&
+                    handleRechargeStatus(order.orderItem.recharge.status)}
                 </Text>
                 <Text
                   align="end"
@@ -180,14 +201,15 @@ const Order = () => {
                   fontName="TINY"
                   tag="h3"
                 >
-                  {formatDate(order.orderItem.recharge.statusUpdatedAt)}
+                  {order &&
+                    formatDate(order.orderItem.recharge.statusUpdatedAt)}
                 </Text>
               </div>
             </div>
           </div>
         </section>
       </main>
-      {order.payment.status !== "PAYMENT_PENDING" ? (
+      {order && order.payment.status !== "PAYMENT_PENDING" ? (
         <Button
           margin="32px 0 0 0"
           width={228}

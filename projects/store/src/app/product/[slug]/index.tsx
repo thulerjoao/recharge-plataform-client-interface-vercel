@@ -16,6 +16,7 @@ import { PackageType, ProductType } from "types/productTypes";
 import { formatString } from "utils/formatString";
 import InvisibleCards from "./invisivleCards";
 import { ProductContainer } from "./style";
+import { formatPrice } from "utils/formatPrice";
 
 type Props = {
   slug: string;
