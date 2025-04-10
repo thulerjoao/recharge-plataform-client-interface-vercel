@@ -4,15 +4,19 @@ import { apiUrl } from "utils/apiUrl";
 export async function GET() {
   const getUrl = async () => {
     try {
-      const response = await axios.get("/api/apiurl", {
-        withCredentials: true,
+      const res = await fetch("/api/apiurl", {
+        method: "GET",
+        credentials: "include",
       });
-      return response.data?.apiUrl ?? null;
+
+      if (!res.ok) return null;
+
+      const data = await res.json();
+      return data?.apiUrl ?? null;
     } catch {
       return null;
     }
   };
-
   const cookiesApiUrl = await getUrl();
   const chosenUrl = cookiesApiUrl ? `https://${cookiesApiUrl}` : apiUrl;
 
