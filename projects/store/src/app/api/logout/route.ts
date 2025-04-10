@@ -9,7 +9,6 @@ export async function DELETE(req: NextRequest) {
     { status: 200 },
   );
 
-  response.cookies.set("accessToken", "", { path: "/", expires: new Date(0) });
   response.cookies.set("refreshToken", "", { path: "/", expires: new Date(0) });
   response.cookies.set("inSession", "", { path: "/", expires: new Date(0) });
   response.cookies.set("rememberMe", "", { path: "/", expires: new Date(0) });

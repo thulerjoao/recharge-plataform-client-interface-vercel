@@ -10,7 +10,8 @@ export default class ConnectionAPI {
     body?: unknown,
     baseUrl?: string,
   ): Promise<T> {
-    const apiInstance = Api(baseUrl);
+    // const apiInstance = Api(baseUrl);
+    const apiInstance = await Api(baseUrl);
     switch (method) {
       case MethodEnum.DELETE:
       case MethodEnum.GET:

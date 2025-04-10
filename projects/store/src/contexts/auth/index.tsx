@@ -102,11 +102,10 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
         const newExpiresIn = refreshResponse.access.expiresIn;
 
         setExpiresIn(newExpiresIn);
-
+        sessionStorage.setItem("accessToken", newAccessToken);
         await axios.post(
           "/api/login",
           {
-            accessToken: newAccessToken,
             refreshToken: newRefreshToken,
             expiresIn: newExpiresIn,
             rememberMe: rememberMe,
@@ -125,6 +124,7 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
 
   const login = async (data: LoginResponse, rememberMe: boolean) => {
     const accessToken = data.access.accessToken;
+    sessionStorage.setItem("accessToken", accessToken);
     const refreshToken = data.access.refreshToken;
     const expiresIn = data.access.expiresIn;
     const user: Partial<UserType> = {
@@ -142,7 +142,6 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          accessToken,
           refreshToken,
           expiresIn,
           rememberMe: rememberMe,
@@ -164,7 +163,7 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
       await fetch("/api/logout", { method: "DELETE" });
       await new Promise((resolve) => setTimeout(resolve, 100));
       const response = await axios.get("/api/token", { withCredentials: true });
-      if (response.data?.accessToken) {
+      if (response.data?.refreshToken) {
         await fetch("/api/logout", { method: "DELETE" });
       } else {
         setLogged(false);
