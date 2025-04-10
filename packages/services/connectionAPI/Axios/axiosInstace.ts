@@ -18,7 +18,6 @@ const createApiInstance = async (baseURL: string): Promise<AxiosInstance> => {
 
   const cookiesApiUrl = await getUrl();
   const chosenUrl = cookiesApiUrl ? `https://${cookiesApiUrl}` : baseURL;
-  console.log(chosenUrl);
   const api = axios.create({ baseURL: chosenUrl });
 
   api.interceptors.request.use(

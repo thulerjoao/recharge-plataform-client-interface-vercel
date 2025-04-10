@@ -2,9 +2,22 @@ import { ProductType } from "types/productTypes";
 import { apiUrl } from "utils/apiUrl";
 
 export async function GET() {
-  try {
-    const res = await fetch(`${apiUrl}/product`);
+  const getUrl = async () => {
+    try {
+      const response = await axios.get("/api/apiurl", {
+        withCredentials: true,
+      });
+      return response.data?.apiUrl ?? null;
+    } catch {
+      return null;
+    }
+  };
 
+  const cookiesApiUrl = await getUrl();
+  const chosenUrl = cookiesApiUrl ? `https://${cookiesApiUrl}` : apiUrl;
+
+  try {
+    const res = await fetch(`${chosenUrl}/product`);
     if (!res.ok) {
       console.warn(`API externa respondeu com status ${res.status}`);
       return Response.json([], {
