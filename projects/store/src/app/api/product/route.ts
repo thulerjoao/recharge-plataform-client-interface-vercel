@@ -3,7 +3,7 @@ import { apiUrl } from "utils/apiUrl";
 
 export async function GET() {
   try {
-    const res = await fetch(`${apiUrl}/product`); 
+    const res = await fetch(`${apiUrl}/product`);
 
     if (!res.ok) {
       console.warn(`API externa respondeu com status ${res.status}`);
