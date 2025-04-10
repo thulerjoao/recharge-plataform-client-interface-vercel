@@ -24,10 +24,7 @@ const createApiInstance = async (baseURL: string): Promise<AxiosInstance> => {
   api.interceptors.request.use(
     async (config: InternalAxiosRequestConfig) => {
       try {
-        const response = await axios.get("/api/token", {
-          withCredentials: true,
-        });
-        const accessToken = response.data?.accessToken;
+        const accessToken = sessionStorage.getItem("accessToken");
         if (accessToken) {
           config.headers.set("Authorization", `Bearer ${accessToken}`);
         }
