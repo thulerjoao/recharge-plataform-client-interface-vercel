@@ -1,11 +1,7 @@
 import { Theme } from "@4miga/design-system/theme/theme";
 import styled from "styled-components";
 
-interface OrderCardProps {
-  status: string;
-}
-
-export const OrderCardContainer = styled.article<OrderCardProps>`
+export const OrderCardContainer = styled.article`
   height: 90px;
   width: 100%;
   display: flex;
