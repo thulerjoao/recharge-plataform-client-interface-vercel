@@ -25,7 +25,7 @@ export const MyOrderContainer = styled.div`
   .cardsSection {
     width: 100%;
     display: flex;
-    flex-direction: column-reverse;
+    flex-direction: column;
     justify-content: start;
     align-items: center;
     margin-top: 8px;

@@ -1,5 +1,4 @@
 import { ProductType } from "types/productTypes";
-import { apiUrl } from "utils/apiUrl";
 
 export async function GET() {
   const getUrl = async () => {
@@ -49,8 +48,7 @@ export async function GET() {
     return Response.json(products, {
       status: 200,
       headers: {
-        // "Cache-Control": `s-maxage=86400, stale-while-revalidate=59`,
-        "Cache-Control": `s-maxage=1, stale-while-revalidate=59`,
+        "Cache-Control": `s-maxage=86400, stale-while-revalidate=59`,
       },
     });
   } catch (error) {

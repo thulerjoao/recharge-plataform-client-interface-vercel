@@ -31,7 +31,6 @@ const OrderCard = ({ order }: OrderCardProps) => {
   }, [order.orderItem.package.imgCardUrl]);
 
   const handleSeeMore = () => {
-    sessionStorage.clear();
     sessionStorage.setItem("order", JSON.stringify(order));
 
     route.push("/order");
