@@ -16,6 +16,8 @@ export const OrderCardContainer = styled.article<OrderCardProps>`
   margin-top: 16px;
   border-radius: 8px;
   background-color: ${Theme.colors.maindark};
+  box-shadow: 0px 0px 1.2px 0px rgba(2, 36, 46, 1);
+  cursor: pointer;
 
   .allInfo {
     height: 66px;
@@ -31,7 +33,6 @@ export const OrderCardContainer = styled.article<OrderCardProps>`
     }
 
     .seeDetails {
-      cursor: pointer;
       width: 6rem;
     }
   }
