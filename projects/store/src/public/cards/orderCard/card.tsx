@@ -37,7 +37,7 @@ const OrderCard = ({ order }: OrderCardProps) => {
   };
 
   return (
-    <OrderCardContainer onClick={() => handleSeeMore()}>
+    <OrderCardContainer>
       <Image
         src={isImageValid ? order.orderItem.package.imgCardUrl : ImageNotFound}
         alt={`Imagem do pacote ${order.orderItem.package.name}`}
@@ -67,7 +67,7 @@ const OrderCard = ({ order }: OrderCardProps) => {
             {handlePaymentStatusShort(order.payment.status)}
           </Text>
         </div>
-        <div className="seeDetails">
+        <div className="seeDetails" onClick={() => handleSeeMore()}>
           <Text
             align="center"
             underline

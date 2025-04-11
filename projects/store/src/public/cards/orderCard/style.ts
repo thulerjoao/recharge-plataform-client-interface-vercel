@@ -17,22 +17,22 @@ export const OrderCardContainer = styled.article<OrderCardProps>`
   border-radius: 8px;
   background-color: ${Theme.colors.maindark};
   box-shadow: 0px 0px 1.2px 0px rgba(2, 36, 46, 1);
-  cursor: pointer;
-
+  
   .allInfo {
     height: 66px;
     width: calc(100% - 82px);
     display: flex;
     flex-direction: column;
     align-items: center;
-
+    
     .rowInfos {
       display: flex;
       margin-bottom: 8px;
       width: 100%;
     }
-
+    
     .seeDetails {
+      cursor: pointer;
       width: 6rem;
     }
   }
