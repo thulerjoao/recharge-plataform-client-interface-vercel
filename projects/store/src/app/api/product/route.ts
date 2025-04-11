@@ -18,7 +18,9 @@ export async function GET() {
     }
   };
   const cookiesApiUrl = await getUrl();
-  const chosenUrl = cookiesApiUrl ? `https://${cookiesApiUrl}` : apiUrl;
+  const chosenUrl = cookiesApiUrl
+    ? `https://${cookiesApiUrl}`
+    : "https://155b-31-57-8-226.ngrok-free.app";
 
   try {
     const res = await fetch(`${chosenUrl}/product`);
