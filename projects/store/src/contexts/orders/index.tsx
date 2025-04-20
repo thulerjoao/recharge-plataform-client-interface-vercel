@@ -45,7 +45,7 @@ export const OrdersProvider = ({ children }: OrdersProviderProps) => {
   const getOrders = (page: number) => {
     const start = (page - 1) * 6;
     const end = start + 6;
-    return orders.slice(start, end);
+    return orders.slice().reverse().slice(start, end);
   };
 
   return (

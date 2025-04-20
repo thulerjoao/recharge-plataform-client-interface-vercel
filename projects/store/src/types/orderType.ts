@@ -2,6 +2,7 @@ export interface OrderType {
   orderId: string;
   orderNumber: string;
   totalAmount: number;
+  orderStats: OrderStatus;
   createdAt: string;
   payment: {
     name: string;
@@ -37,3 +38,10 @@ export type RechargeStatus =
   | "RECHARGE_PENDING"
   | "RECHARGE_APPROVED"
   | "RECHARGE_REJECTED";
+
+export type OrderStatus =
+  | "CREATED"
+  | "PROCESSING"
+  | "COMPLETED"
+  | "EXPIRED"
+  | "REFOUNDED";

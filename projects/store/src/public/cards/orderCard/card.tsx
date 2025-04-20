@@ -31,14 +31,13 @@ const OrderCard = ({ order }: OrderCardProps) => {
   }, [order.orderItem.package.imgCardUrl]);
 
   const handleSeeMore = () => {
-    sessionStorage.clear();
     sessionStorage.setItem("order", JSON.stringify(order));
 
     route.push("/order");
   };
 
   return (
-    <OrderCardContainer status={status}>
+    <OrderCardContainer onClick={() => handleSeeMore()}>
       <Image
         src={isImageValid ? order.orderItem.package.imgCardUrl : ImageNotFound}
         alt={`Imagem do pacote ${order.orderItem.package.name}`}
@@ -68,7 +67,7 @@ const OrderCard = ({ order }: OrderCardProps) => {
             {handlePaymentStatusShort(order.payment.status)}
           </Text>
         </div>
-        <div className="seeDetails" onClick={() => handleSeeMore()}>
+        <div className="seeDetails">
           <Text
             align="center"
             underline
