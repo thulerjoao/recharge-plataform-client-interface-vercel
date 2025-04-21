@@ -193,16 +193,19 @@ const Order = () => {
                 </Text>
               </div>
               <div className="innerContent">
-                <Text
-                  nowrap
-                  fontName="TINY"
-                  color={
-                    order && handleStatusColor(order.orderItem.recharge.status)
-                  }
-                >
-                  {order &&
-                    handleRechargeStatus(order.orderItem.recharge.status)}
-                </Text>
+                {order && order.payment.status === "PAYMENT_APPROVED" && (
+                  <Text
+                    nowrap
+                    fontName="TINY"
+                    color={
+                      order &&
+                      handleStatusColor(order.orderItem.recharge.status)
+                    }
+                  >
+                    {order &&
+                      handleRechargeStatus(order.orderItem.recharge.status)}
+                  </Text>
+                )}
                 <Text
                   align="end"
                   color={Theme.colors.secondaryText}
@@ -215,6 +218,13 @@ const Order = () => {
               </div>
             </div>
           </div>
+          {order &&
+            order.payment.status === "PAYMENT_APPROVED" &&
+            order.orderItem.recharge.status === "RECHARGE_PENDING" && (
+              <Text margin="12px 0 -18px 0" align="center" fontName="TINY">
+                O prazo para recarga é de até 24 horas
+              </Text>
+            )}
         </section>
       </main>
       {order && order.payment.status !== "PAYMENT_PENDING" ? (

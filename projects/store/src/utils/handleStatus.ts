@@ -5,7 +5,7 @@ export const handlePaymentStatus = (status: PaymentStatus) => {
   if (status === "PAYMENT_APPROVED") {
     return "Pagamento aprovado";
   } else if (status === "PAYMENT_PENDING") {
-    return "Aguardando pagamento";
+    return "Pagamento pendente";
   } else if (status === "PAYMENT_REJECTED") {
     return "Pagamento cancelado";
   }
@@ -41,7 +41,7 @@ export const handleRechargeStatus = (status: RechargeStatus) => {
   if (status === "RECHARGE_APPROVED") {
     return "Recarga realizada";
   } else if (status === "RECHARGE_PENDING") {
-    return "Recarga pendente";
+    return "Recarga em andamento";
   } else if (status === "RECHARGE_REJECTED") {
     return "Recarga realizada";
   }
