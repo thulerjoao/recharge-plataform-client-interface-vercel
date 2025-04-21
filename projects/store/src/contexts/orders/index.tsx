@@ -28,15 +28,26 @@ export const OrdersProvider = ({ children }: OrdersProviderProps) => {
   const [orders, setOrders] = useState<OrderType[]>([]);
   const { logged } = useAuth();
 
+  const parseCreatedAt = (createdAt: string): Date => {
+    const [datePart, timePart] = createdAt.split(" - ");
+    const [day, month, year] = datePart.split("/").map(Number);
+    const [hours, minutes] = timePart.split(":").map(Number);
+    return new Date(year, month - 1, day, hours, minutes);
+  };
+
   const updateOrders = () => {
     setLoadingOrders(true);
     if (logged) {
       connectionAPIGet<OrderType[]>("/order/customer", apiUrl)
         .then((res) => {
-          setOrders(res);
-          setLoadingOrders(false);
+          const sorted = res.sort((a, b) => {
+            const dateA = parseCreatedAt(a.createdAt);
+            const dateB = parseCreatedAt(b.createdAt);
+            return dateB.getTime() - dateA.getTime();
+          });
+          setOrders(sorted);
         })
-        .then(() => {
+        .finally(() => {
           setLoadingOrders(false);
         });
     }
@@ -45,8 +56,28 @@ export const OrdersProvider = ({ children }: OrdersProviderProps) => {
   const getOrders = (page: number) => {
     const start = (page - 1) * 6;
     const end = start + 6;
-    return orders.slice().reverse().slice(start, end);
+    return orders.slice(start, end);
   };
+
+  // const updateOrders = () => {
+  //   setLoadingOrders(true);
+  //   if (logged) {
+  //     connectionAPIGet<OrderType[]>("/order/customer", apiUrl)
+  //       .then((res) => {
+  //         setOrders(res);
+  //         setLoadingOrders(false);
+  //       })
+  //       .then(() => {
+  //         setLoadingOrders(false);
+  //       });
+  //   }
+  // };
+
+  // const getOrders = (page: number) => {
+  //   const start = (page - 1) * 6;
+  //   const end = start + 6;
+  //   return orders.slice().reverse().slice(start, end);
+  // };
 
   return (
     <OrdersContext.Provider

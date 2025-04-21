@@ -18,7 +18,6 @@ interface Props {
 
 const MyOrders = ({ currentPage }: Props) => {
   const route = useRouter();
-  const [loginModal, setLoginModal] = useState<boolean>(false);
   const { loadingOrders, orders, getOrders, updateOrders } = useOrders();
   const { logged } = useAuth();
   const totalPages: number = Math.ceil(orders.length / 6);

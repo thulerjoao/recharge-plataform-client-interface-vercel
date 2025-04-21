@@ -7,10 +7,7 @@ import { useEffect, useState } from "react";
 import { OrderType } from "types/orderType";
 import { checkImageUrl } from "utils/checkImageUrl";
 import { formatDate } from "utils/formatDate";
-import {
-  handlePaymentStatusShort,
-  handleStatusColor,
-} from "utils/handleStatus";
+import { handleOrderStatus, handleStatusColor } from "utils/handleStatus";
 import { OrderCardContainer } from "./style";
 
 interface OrderCardProps {
@@ -32,7 +29,6 @@ const OrderCard = ({ order }: OrderCardProps) => {
 
   const handleSeeMore = () => {
     sessionStorage.setItem("order", JSON.stringify(order));
-
     route.push("/order");
   };
 
@@ -60,11 +56,11 @@ const OrderCard = ({ order }: OrderCardProps) => {
             {formatDate(order.createdAt)}
           </Text>
           <Text
-            color={handleStatusColor(order.payment.status)}
+            color={handleStatusColor(order.orderStatus)}
             align="end"
             fontName="TINY"
           >
-            {handlePaymentStatusShort(order.payment.status)}
+            {handleOrderStatus(order.orderStatus)}
           </Text>
         </div>
         <div className="seeDetails">

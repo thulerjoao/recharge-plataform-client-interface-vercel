@@ -3,6 +3,7 @@
 import Button from "@4miga/design-system/components/button";
 import Text from "@4miga/design-system/components/Text";
 import { Theme } from "@4miga/design-system/theme/theme";
+import { connectionAPIGet } from "@4miga/services/connectionAPI/connection";
 import { useAuth } from "contexts/auth";
 import { useProducts } from "contexts/products/ProductsProvider";
 import Image from "next/image";
@@ -10,6 +11,7 @@ import { useRouter } from "next/navigation";
 import ImageNotFound from "public/img/ImageNotFound.jpg";
 import { useEffect, useState } from "react";
 import { OrderType } from "types/orderType";
+import { apiUrl } from "utils/apiUrl";
 import { checkImageUrl } from "utils/checkImageUrl";
 import { formatDate } from "utils/formatDate";
 import { formatPrice } from "utils/formatPrice";
@@ -24,6 +26,7 @@ import Pix from "../common/icons/Pix.svg";
 import { OrderContainer } from "./style";
 
 const Order = () => {
+  const [loading, setLoading] = useState<boolean>(false);
   const route = useRouter();
   const order: OrderType = JSON.parse(sessionStorage.getItem("order"));
   const { logged } = useAuth();
@@ -64,16 +67,21 @@ const Order = () => {
   };
 
   const goToPayment = () => {
-    sessionStorage.setItem("qrCode", order.payment.qrCode);
-    sessionStorage.setItem("copyAndPaste", order.payment.qrCodetextCopyPaste);
-    sessionStorage.setItem("orderId", order.orderId);
-    sessionStorage.setItem(
-      "userId",
-      order.orderItem.recharge.userIdForRecharge,
-    );
-    route.push(
-      `product/${formatString(order.orderItem.productName)}/${order.orderItem.package.packageId}`,
-    );
+    setLoading(true);
+    connectionAPIGet<OrderType>(`/order/${order.orderId}/customer`, apiUrl)
+      .then((res) => {
+        sessionStorage.setItem("qrCode", res.payment.qrCode);
+        sessionStorage.setItem("copyAndPaste", res.payment.qrCodetextCopyPaste);
+        sessionStorage.setItem("orderId", res.orderId);
+        sessionStorage.setItem(
+          "userId",
+          res.orderItem.recharge.userIdForRecharge,
+        );
+        route.push(
+          `product/${formatString(res.orderItem.productName)}/${res.orderItem.package.packageId}`,
+        );
+      })
+      .then(() => {});
   };
 
   return (
@@ -220,6 +228,8 @@ const Order = () => {
         />
       ) : (
         <Button
+          loading={loading}
+          disabled={loading}
           margin="32px 0 0 0"
           width={248}
           rounded

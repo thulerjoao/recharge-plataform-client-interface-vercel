@@ -2,14 +2,14 @@ export interface OrderType {
   orderId: string;
   orderNumber: string;
   totalAmount: number;
-  orderStats: OrderStatus;
+  orderStatus: OrderStatus;
   createdAt: string;
   payment: {
     name: string;
     status: PaymentStatus;
     statusUpdatedAt: string | null;
-    qrCode: string;
-    qrCodetextCopyPaste: string;
+    qrCode?: string;
+    qrCodetextCopyPaste?: string;
   };
   orderItem: {
     productId: string;
