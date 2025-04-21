@@ -1,18 +1,37 @@
 export const formatDate = (dateString: string | null): string => {
-  if (dateString === null) return;
-  const dateParts = dateString.split(" - ");
-  const [day, month, year] = dateParts[0].split("/").map(Number);
-  const time = dateParts[1];
+  if (!dateString) return "";
 
-  const date = new Date(year, month - 1, day);
+  const [datePart, timePart] = dateString.split(" - ");
+  const [day, month, year] = datePart.split("/").map(Number);
+  const [hour, minute] = timePart.split(":").map(Number);
+
+  const utcDate = new Date(Date.UTC(year, month - 1, day, hour, minute));
+
   const now = new Date();
+  const yesterday = new Date();
+  yesterday.setDate(now.getDate() - 1);
 
-  const isToday = date.toDateString() === now.toDateString();
-  now.setDate(now.getDate() - 1);
-  const isYesterday = date.toDateString() === now.toDateString();
+  const isSameDate = (d1: Date, d2: Date) =>
+    d1.getFullYear() === d2.getFullYear() &&
+    d1.getMonth() === d2.getMonth() &&
+    d1.getDate() === d2.getDate();
 
-  if (isToday) return `Hoje, ${time}`;
-  if (isYesterday) return `Ontem, ${time}`;
+  const isToday = isSameDate(utcDate, now);
+  const isYesterday = isSameDate(utcDate, yesterday);
 
-  return dateString;
+  const timeFormatted = utcDate.toLocaleTimeString("pt-BR", {
+    hour: "2-digit",
+    minute: "2-digit",
+  });
+
+  if (isToday) return `Hoje, ${timeFormatted}`;
+  if (isYesterday) return `Ontem, ${timeFormatted}`;
+
+  return utcDate.toLocaleString("pt-BR", {
+    day: "2-digit",
+    month: "2-digit",
+    year: "numeric",
+    hour: "2-digit",
+    minute: "2-digit",
+  });
 };
