@@ -55,7 +55,7 @@ const LoginComponent = ({ setStep, closeModal }: Props) => {
         } catch (error) {
           if (error instanceof Error) {
             setLoading(false);
-            setErrorMessage(error.message);
+            setErrorMessage("Erro ao realizar login");
           } else {
             setLoading(false);
             setErrorMessage("Usuário ou senha inválidos");

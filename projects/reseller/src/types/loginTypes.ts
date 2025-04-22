@@ -1,5 +1,3 @@
-import { UserType } from "./userTypes";
-
 export type LoginParams = {
   email: string;
   password: string;
@@ -7,10 +5,16 @@ export type LoginParams = {
 };
 
 export type LoginResponse = {
-  access: {
-    accessToken: string;
-    refreshToken: string;
-    expiresIn: number;
-  };
-  customer: UserType;
+  accessToken: string;
+  refreshToken: string;
+  expiresIn: number;
 };
+
+// export type LoginResponse = {
+//   access: {
+//     accessToken: string;
+//     refreshToken: string;
+//     expiresIn: number;
+//   };
+//   customer: UserType;
+// };

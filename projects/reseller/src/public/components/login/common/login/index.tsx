@@ -47,12 +47,12 @@ const LoginComponent = ({ setStep }: Props) => {
       email: data.email,
       password: data.password,
     };
-    await connectionAPIPost<LoginResponse>("/customer/login", body, apiUrl)
+    await connectionAPIPost<LoginResponse>("/reseller/login", body, apiUrl)
       .then(async (res) => {
         try {
           const rememberMe = true;
           const response = await login(res, rememberMe);
-          if (response) route.push("/home");
+          if (response) route.replace("/home");
         } catch (error) {
           if (error instanceof Error) {
             setLoading(false);

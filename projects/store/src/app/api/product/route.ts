@@ -8,8 +8,6 @@ export async function GET() {
     const res = await fetch(`${apiUrl}/product`, {
       next: { revalidate },
     });
-
-    // Se a resposta foi recebida, mas não é 2xx
     if (!res.ok) {
       console.warn(`Falha na resposta da API externa: ${res.statusText}`);
       return Response.json([], { status: 200 });
@@ -19,7 +17,6 @@ export async function GET() {
 
     return Response.json(products, { status: 200 });
   } catch (error: any) {
-    // Erros como ECONNREFUSED, URL inválida, timeout etc.
     console.error(
       "Erro de conexão com a API externa:",
       error?.message || error,

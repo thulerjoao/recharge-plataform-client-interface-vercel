@@ -183,7 +183,6 @@ const Order = () => {
                 }
                 alt="imagem do card"
               />
-              {/* <MiniBigo />{order.package.imgCardUrl} */}
             </span>
             <div className="allInfos">
               <div className="innerContent">
