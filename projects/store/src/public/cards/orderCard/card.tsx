@@ -41,7 +41,6 @@ const OrderCard = ({ order }: OrderCardProps) => {
         width={64}
         style={{ borderRadius: "8px" }}
       />
-      <div style={{ width: "40px" }}></div>
       <section className="allInfo">
         <div className="rowInfos">
           <Text nowrap fontName="SMALL">

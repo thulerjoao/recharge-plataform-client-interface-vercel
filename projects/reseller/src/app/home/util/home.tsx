@@ -1,6 +1,5 @@
 import Text from "@4miga/design-system/components/Text";
 
-import { useDevice } from "context/deviceContext";
 import DailySales from "../common/components/dailySales";
 import MainGames from "../common/components/mainGames";
 import MonthCard from "../common/components/monthCard";
@@ -10,8 +9,6 @@ import Card4 from "../common/temp/Card4.png";
 import { HomeContainer } from "./style";
 
 const Home = () => {
-  const { device } = useDevice();
-
   return (
     <HomeContainer>
       <Text fontName="LARGE_SEMI_BOLD">Mais recarregados</Text>

@@ -3,6 +3,7 @@
 import Button from "@4miga/design-system/components/button";
 import Text from "@4miga/design-system/components/Text";
 import Image from "next/image";
+import { useRouter } from "next/navigation";
 import PackageCard from "public/cards/packageCard/card";
 import DefaultHeader from "public/components/defaultHeader";
 import HeaderEnviroment from "public/components/headerEnviroment";
@@ -13,8 +14,6 @@ import BigoBanner from "../common/temp/BigoBanner.png";
 import BigoCard1 from "../common/temp/BigoCard.png";
 import BigoCard from "../common/temp/bigoCard.svg";
 import { ProductsInnerPage } from "./style";
-import { useRouter } from "next/navigation";
-import { useDevice } from "context/deviceContext";
 
 type Props = {
   params: {
@@ -31,7 +30,6 @@ const Page = ({ params }: Props) => {
   const [aboutProduct, setAboutProduct] = useState<string>(initialProduct);
   const [instructions, setInstructions] = useState<string>(initialInstructions);
   const [ischanged, setIsChanged] = useState<boolean>(false);
-  const { device } = useDevice();
 
   useEffect(() => {
     if (
@@ -46,14 +44,14 @@ const Page = ({ params }: Props) => {
 
   return (
     <ProductsInnerPage>
-      {(device === "desktop" || device === "tablet") && (
+      <div className="desktop tablet">
         <HeaderEnviroment>
           <DefaultHeader backWard title="CONFIGURAR PRODUTOS" />
         </HeaderEnviroment>
-      )}
-      {device === "mobile" && (
+      </div>
+      <div className="mobile">
         <DefaultHeader backWard title="CONFIGURAR PRODUTOS" />
-      )}
+      </div>
       <main>
         <div className="topContainer">
           <Text fontName="LARGE_MEDIUM">BIGO LIVE</Text>
@@ -224,8 +222,3 @@ const Page = ({ params }: Props) => {
 };
 
 export default Page;
-
-// example of use with \n
-// <div className="tutorial-output" style={{ whiteSpace: "pre-wrap" }}>
-//   {tutorialText}
-// </div>

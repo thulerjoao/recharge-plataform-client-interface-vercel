@@ -4,6 +4,14 @@ import styled from "styled-components";
 export const ProductsInnerPage = styled.div`
   padding-top: 96px;
 
+  .tablet,
+  .mobile {
+    display: none;
+  }
+  .desktop {
+    display: flex;
+  }
+
   main {
     display: flex;
     flex-direction: column;
@@ -136,7 +144,15 @@ export const ProductsInnerPage = styled.div`
     }
   }
 
-  @media (min-width: 768px) and (max-width: 1024px) {
+  @media (min-width: 768px) and (max-width: 1025px) {
+    .desktop,
+    .mobile {
+      display: none;
+    }
+    .tablet {
+      display: flex;
+    }
+
     main {
       .cardsContainer {
         padding: 0;
@@ -182,6 +198,14 @@ export const ProductsInnerPage = styled.div`
   }
   @media (max-width: 767px) {
     padding-top: 64px;
+
+    .tablet,
+    .desktop {
+      display: none;
+    }
+    .mobile {
+      display: flex;
+    }
 
     main {
       .topContainer {

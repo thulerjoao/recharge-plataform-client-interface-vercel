@@ -1,6 +1,5 @@
 import Text from "@4miga/design-system/components/Text";
 import { Theme } from "@4miga/design-system/theme/theme";
-import { useDevice } from "context/deviceContext";
 import { useRouter } from "next/navigation";
 import GameCard from "public/cards/gameCard/card";
 import DefaultHeader from "public/components/defaultHeader";
@@ -14,17 +13,18 @@ import Card6 from "../common/temp/Card6.png";
 import { RechargeContainer } from "./style";
 
 const Reseller = () => {
-  const { device } = useDevice();
   const route = useRouter();
 
   return (
     <RechargeContainer>
-      {(device === "desktop" || device === "tablet") && (
+      <div className="desktop tablet">
         <HeaderEnviroment>
           <DefaultHeader backWard title="RECARGA" />
         </HeaderEnviroment>
-      )}
-      {device === "mobile" && <DefaultHeader backWard title="RECARGA" />}
+      </div>
+      <div className="mobile">
+        <DefaultHeader backWard title="RECARGA" />
+      </div>
       <div className="mainTitle">
         <Text align="center" fontName="REGULAR_SEMI_BOLD">
           Selecione o jogo que deseja fazer uma nova recarga
