@@ -24,7 +24,7 @@ const OrdersContext = createContext<OrdersProviderData>(
 );
 
 export const OrdersProvider = ({ children }: OrdersProviderProps) => {
-  const [loadingOrders, setLoadingOrders] = useState<boolean>(false);
+  const [loadingOrders, setLoadingOrders] = useState<boolean>(true);
   const [orders, setOrders] = useState<OrderType[]>([]);
   const { logged } = useAuth();
 

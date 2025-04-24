@@ -58,11 +58,18 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
           `/customer/refresh-token`,
           { refreshToken },
           apiUrl,
-        ).then(async (res) => {
-          const rememberMe = true;
-          const response = await login(res, rememberMe);
-          if (response) route.push("/home");
-        });
+        )
+          .then(async (res) => {
+            const rememberMe = true;
+            await login(res, rememberMe);
+            setCheckingToken(false);
+          })
+          .catch(async () => {
+            await axios.delete("/api/logout", {
+              withCredentials: true,
+            });
+            setCheckingToken(false);
+          });
       } catch {
         await axios.delete("/api/logout", {
           withCredentials: true,
