@@ -1,16 +1,6 @@
 "use client";
 
-import Button from "@4miga/design-system/components/button";
-import Input from "@4miga/design-system/components/input";
-import Text from "@4miga/design-system/components/Text";
-import { useDevice } from "context/deviceContext";
-import Image from "next/image";
 import { useRouter } from "next/navigation";
-import PackageCard from "public/cards/packageCard/card";
-import DefaultHeader from "public/components/defaultHeader";
-import HeaderEnviroment from "public/components/headerEnviroment";
-import BigoBanner from "../../common/temp/BigoBanner.png";
-import BigoCard from "../../common/temp/bigoCard.svg";
 import { FixRechargePage } from "./style";
 
 type Props = {
@@ -20,12 +10,11 @@ type Props = {
 };
 
 const Page = ({ params }: Props) => {
-  const { device } = useDevice();
   const route = useRouter();
 
   return (
     <FixRechargePage>
-      {(device === "desktop" || device === "tablet") && (
+      {/* {(device === "desktop" || device === "tablet") && (
         <HeaderEnviroment>
           <DefaultHeader backWard title="Corrigir recarga" />
         </HeaderEnviroment>
@@ -98,7 +87,7 @@ const Page = ({ params }: Props) => {
             />
           </div>
         </section>
-      </main>
+      </main> */}
     </FixRechargePage>
   );
 };

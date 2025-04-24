@@ -8,6 +8,14 @@ export const RechargeContainer = styled.div`
   align-items: center;
   padding-top: 64px;
 
+  .tablet,
+  .mobile {
+    display: none;
+  }
+  .desktop {
+    display: flex;
+  }
+
   .mainTitle {
     margin-top: 48px;
   }
@@ -64,8 +72,23 @@ export const RechargeContainer = styled.div`
   }
 
   @media (min-width: 540px) and (max-width: 1024px) {
+    .desktop,
+    .mobile {
+      display: none;
+    }
+    .tablet {
+      display: flex;
+    }
   }
   @media (max-width: 539px) {
+    .tablet,
+    .desktop {
+      display: none;
+    }
+    .mobile {
+      display: flex;
+    }
+
     .mainTitle {
       margin-top: 24px;
     }

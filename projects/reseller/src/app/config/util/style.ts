@@ -2,12 +2,19 @@ import { Theme } from "@4miga/design-system/theme/theme";
 import styled from "styled-components";
 
 export const SettingsPageContainer = styled.div`
-  width: 100%;
   display: flex;
   flex-direction: column;
   align-items: center;
   padding-top: 64px;
   padding-bottom: 56px;
+
+  .tablet,
+  .mobile {
+    display: none;
+  }
+  .desktop {
+    display: flex;
+  }
 
   .buttons {
     display: flex;
@@ -81,7 +88,15 @@ export const SettingsPageContainer = styled.div`
     }
   }
 
-  @media (min-width: 540px) and (max-width: 1024px) {
+  @media (min-width: 540px) and (max-width: 1025px) {
+    .desktop,
+    .mobile {
+      display: none;
+    }
+    .tablet {
+      display: flex;
+    }
+
     .topContainer {
       .socialList {
         flex-direction: column;
@@ -93,6 +108,15 @@ export const SettingsPageContainer = styled.div`
     }
   }
   @media (max-width: 539px) {
+    .tablet,
+    .desktop {
+      display: none;
+    }
+    .mobile {
+      display: flex;
+      width: 100%;
+    }
+
     .buttons {
       flex-direction: column;
       gap: 16px;

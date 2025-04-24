@@ -1,9 +1,7 @@
 import Button from "@4miga/design-system/components/button";
 import Input from "@4miga/design-system/components/input";
 import Text from "@4miga/design-system/components/Text";
-import { useDevice } from "context/deviceContext";
 import Image from "next/image";
-import { useRouter } from "next/navigation";
 import DefaultHeader from "public/components/defaultHeader";
 import HeaderEnviroment from "public/components/headerEnviroment";
 import Camera from "../common/icons/Camera.svg";
@@ -19,17 +17,16 @@ import SecondaryBanner from "../common/temp/SeconderyBanner.png";
 import { SettingsPageContainer } from "./style";
 
 const Settings = () => {
-  const { device } = useDevice();
-  const route = useRouter();
-
   return (
     <SettingsPageContainer>
-      {(device === "desktop" || device === "tablet") && (
+      <div className="desktop tablet">
         <HeaderEnviroment>
           <DefaultHeader backWard title="CONFIGURAÇÕES" />
         </HeaderEnviroment>
-      )}
-      {device === "mobile" && <DefaultHeader backWard title="CONFIGURAÇÕES" />}
+      </div>
+      <div className="mobile">
+        <DefaultHeader backWard title="CONFIGURAÇÕES" />
+      </div>
       <section className="topContainer">
         <Text align="center" fontName="REGULAR_SEMI_BOLD">
           REDES SOCIAIS E CONTATO

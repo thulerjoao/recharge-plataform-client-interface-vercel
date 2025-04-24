@@ -3,7 +3,6 @@
 import Button from "@4miga/design-system/components/button";
 import Input from "@4miga/design-system/components/input";
 import Text from "@4miga/design-system/components/Text";
-import { useDevice } from "context/deviceContext";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import PackageCard from "public/cards/packageCard/card";
@@ -20,12 +19,11 @@ type Props = {
 };
 
 const Page = ({ params }: Props) => {
-  const { device } = useDevice();
   const route = useRouter();
 
   return (
     <RechargeInnerPage>
-      {(device === "desktop" || device === "tablet") && (
+      {/* {(device === "desktop" || device === "tablet") && (
         <HeaderEnviroment>
           <DefaultHeader backWard title="RECARREGAR" />
         </HeaderEnviroment>
@@ -147,7 +145,7 @@ const Page = ({ params }: Props) => {
             />
           </div>
         </section>
-      </main>
+      </main> */}
     </RechargeInnerPage>
   );
 };

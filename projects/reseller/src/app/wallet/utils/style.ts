@@ -75,7 +75,7 @@ export const WalletContainer = styled.div`
     }
   }
 
-  @media (min-width: 768px) and (max-width: 1024px) {
+  @media (min-width: 768px) and (max-width: 1025px) {
     main {
       .topContainer {
         flex-direction: column;
