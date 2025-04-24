@@ -5,7 +5,7 @@ import { useAuth } from "contexts/auth";
 import { useOrders } from "contexts/orders";
 import { useRouter } from "next/navigation";
 import OrderCard from "public/cards/orderCard/card";
-import LoadingDots from "public/components/loadingDots";
+import SkeletonOrderCard from "public/cards/orderCard/skeletonOrderCard";
 import LoginModal from "public/components/loginModal";
 import Pagination from "public/components/pagination";
 import { useEffect, useState } from "react";
@@ -51,13 +51,7 @@ const MyOrders = ({ currentPage }: Props) => {
         </Text>
       </div>
       <section className="cardsSection">
-        {loadingOrders && orders.length === 0 && (
-          <div className="ordersAlert">
-            <Text style={{ width: "110px" }} nowrap fontName="REGULAR">
-              Carregando{<LoadingDots />}
-            </Text>
-          </div>
-        )}
+        {loadingOrders && orders.length === 0 && <SkeletonOrderCard />}
         {!loadingOrders && orders.length === 0 && (
           <div className="ordersAlert">
             <Text align="center" fontName="REGULAR">
