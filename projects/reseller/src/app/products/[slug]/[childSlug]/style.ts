@@ -5,6 +5,14 @@ export const ConfigPackagePage = styled.div`
   padding-top: 96px;
   padding-bottom: 56px;
 
+  .tablet,
+  .mobile {
+    display: none;
+  }
+  .desktop {
+    display: flex;
+  }
+
   main {
     display: flex;
     flex-direction: column;
@@ -112,10 +120,13 @@ export const ConfigPackagePage = styled.div`
 
       .cardsList {
         margin-top: 16px;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
         width: 100%;
+
+        .list {
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+        }
       }
     }
 
@@ -150,7 +161,15 @@ export const ConfigPackagePage = styled.div`
     }
   }
 
-  @media (min-width: 768px) and (max-width: 1024px) {
+  @media (min-width: 768px) and (max-width: 1025px) {
+    .mobile,
+    .desktop {
+      display: none;
+    }
+    .tablet {
+      display: flex;
+    }
+
     main {
       .packageSettings {
         flex-direction: column;
@@ -168,21 +187,39 @@ export const ConfigPackagePage = styled.div`
       .packageValues {
         background-color: transparent;
 
+        .scales {
+          display: none;
+        }
+
         .topText {
           padding: 24px 0;
           border-top: 1px solid ${Theme.colors.secondaryAction};
         }
 
         .cardsList {
-          flex-direction: row;
-          flex-wrap: wrap;
-          justify-content: space-between;
+          .list {
+            flex-direction: row;
+            flex-wrap: wrap;
+            justify-content: space-between;
+          }
+          .desktop {
+            display: none;
+          }
         }
       }
     }
   }
   @media (max-width: 767px) {
     padding-top: 64px;
+
+    .desktop,
+    .tablet {
+      display: none;
+    }
+    .mobile {
+      display: flex;
+    }
+
     main {
       .topContainer {
         margin-top: 24px;
@@ -205,12 +242,19 @@ export const ConfigPackagePage = styled.div`
         background-color: transparent;
         padding: 0;
 
+        .scales {
+          display: none;
+        }
+
         .topText {
           padding: 24px 0;
           border-top: 1px solid ${Theme.colors.secondaryAction};
         }
 
         .cardsList {
+          .desktop {
+            display: none;
+          }
         }
       }
     }

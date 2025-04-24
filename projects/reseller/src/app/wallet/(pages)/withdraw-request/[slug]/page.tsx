@@ -19,7 +19,6 @@ type Props = {
 };
 
 const Page = ({ params }: Props) => {
-  // const { device } = useDevice();
   const [showReceipt, setShowReceipt] = useState<boolean>(false);
 
   return (
