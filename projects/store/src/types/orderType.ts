@@ -2,13 +2,14 @@ export interface OrderType {
   orderId: string;
   orderNumber: string;
   totalAmount: number;
+  orderStatus: OrderStatus;
   createdAt: string;
   payment: {
     name: string;
     status: PaymentStatus;
     statusUpdatedAt: string | null;
-    qrCode: string;
-    qrCodetextCopyPaste: string;
+    qrCode?: string;
+    qrCodetextCopyPaste?: string;
   };
   orderItem: {
     productId: string;
@@ -37,3 +38,10 @@ export type RechargeStatus =
   | "RECHARGE_PENDING"
   | "RECHARGE_APPROVED"
   | "RECHARGE_REJECTED";
+
+export type OrderStatus =
+  | "CREATED"
+  | "PROCESSING"
+  | "COMPLETED"
+  | "EXPIRED"
+  | "REFOUNDED";

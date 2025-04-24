@@ -58,10 +58,10 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
           `/customer/refresh-token`,
           { refreshToken },
           apiUrl,
-        ).then((res) => {
+        ).then(async (res) => {
           const rememberMe = true;
-          login(res, rememberMe);
-          setCheckingToken(false);
+          const response = await login(res, rememberMe);
+          if (response) route.push("/home");
         });
       } catch {
         await axios.delete("/api/logout", {

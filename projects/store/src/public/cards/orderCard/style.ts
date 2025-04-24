@@ -1,11 +1,7 @@
 import { Theme } from "@4miga/design-system/theme/theme";
 import styled from "styled-components";
 
-interface OrderCardProps {
-  status: string;
-}
-
-export const OrderCardContainer = styled.article<OrderCardProps>`
+export const OrderCardContainer = styled.article`
   height: 90px;
   width: 100%;
   display: flex;
@@ -16,6 +12,8 @@ export const OrderCardContainer = styled.article<OrderCardProps>`
   margin-top: 16px;
   border-radius: 8px;
   background-color: ${Theme.colors.maindark};
+  box-shadow: 0px 0px 1.2px 0px rgba(2, 36, 46, 1);
+  cursor: pointer;
 
   .allInfo {
     height: 66px;
@@ -31,7 +29,6 @@ export const OrderCardContainer = styled.article<OrderCardProps>`
     }
 
     .seeDetails {
-      cursor: pointer;
       width: 6rem;
     }
   }

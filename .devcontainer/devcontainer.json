@@ -19,8 +19,11 @@
 	"workspaceFolder": "/home/node/app/recharge-plataform",
 	"features": {
 		"ghcr.io/devcontainers/features/common-utils:2": {},
-		"ghcr.io/stuartleeks/dev-container-features/shell-history:0": {},
-		"ghcr.io/nils-geistmann/devcontainers-features/zsh:0": {}
+		"ghcr.io/devcontainers-contrib/features/zsh-plugins:0": {
+			"plugins": "git git-flow zsh-autosuggestions zsh-syntax-highlighting fast-syntax-highlighting zsh-autocomplete",
+			"omzPlugins": "https://github.com/zsh-users/zsh-autosuggestions https://github.com/zsh-users/zsh-syntax-highlighting https://github.com/zdharma-continuum/fast-syntax-highlighting https://github.com/marlonrichert/zsh-autocomplete"
+		},
+		"ghcr.io/stuartleeks/dev-container-features/shell-history:0": {}
 	},
 
 	"customizations": {

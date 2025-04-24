@@ -49,11 +49,11 @@ const NewPassword = ({ closeModal }: Props) => {
       apiUrl,
     )
       .then(() => {
-        login({
-          // email: newPassRes.email,
-          password,
-          rememberMe: true,
-        });
+        // login({
+        //   // email: newPassRes.email,
+        //   password,
+        //   rememberMe: true,
+        // });
         closeModal();
       })
       .catch((err) => {
