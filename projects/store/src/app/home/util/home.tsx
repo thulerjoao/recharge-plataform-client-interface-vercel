@@ -4,7 +4,6 @@ import Text from "@4miga/design-system/components/Text";
 import Carousel from "app/home/common/components/carousel/carousel";
 import BottomOffer from "public/components/bottomOffer/bottomOffer";
 import SecurityAdvertise from "public/components/securityAdvertise/securityAdvertise";
-
 import { useProducts } from "contexts/products/ProductsProvider";
 import GameCard from "../../../public/cards/gameCard/card";
 import Lines from "../common/components/lines/lines";

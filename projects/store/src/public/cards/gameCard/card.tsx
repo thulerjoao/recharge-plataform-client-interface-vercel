@@ -3,7 +3,6 @@ import Image from "next/image";
 import { useRouter } from "next/navigation";
 import ImageNotFound from "public/img/ImageNotFound.jpg";
 import { useEffect, useState } from "react";
-
 import { ProductType } from "types/productTypes";
 import { checkImageUrl } from "utils/checkImageUrl";
 import { formatString } from "utils/formatString";
