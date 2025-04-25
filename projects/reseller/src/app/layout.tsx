@@ -1,4 +1,5 @@
 import Providers from "context/providers";
+import PrivateRoute from "guard/PrivateRoute";
 import StyledComponentsRegistry from "lib/registry";
 import React from "react";
 import "./globals.css";
@@ -18,8 +19,6 @@ export const viewport = {
   maximumScale: 1.0,
 };
 
-// export const themeColor = "#00C8FF";
-
 export default function RootLayout({
   children,
 }: {
@@ -30,8 +29,7 @@ export default function RootLayout({
       <body>
         <Providers>
           <StyledComponentsRegistry>
-            {children}
-            {/* <ClientWrapper></ClientWrapper> */}
+            <PrivateRoute>{children}</PrivateRoute>
           </StyledComponentsRegistry>
         </Providers>
       </body>
