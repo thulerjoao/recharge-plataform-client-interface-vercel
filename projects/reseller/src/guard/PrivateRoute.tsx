@@ -1,10 +1,11 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 "use client";
 
 import { useAuth } from "context/auth";
 import { usePathname, useRouter } from "next/navigation";
 import React, { useEffect } from "react";
 
-export default function ClientWrapper({
+export default function PrivateRoute({
   children,
 }: {
   children: React.ReactNode;
@@ -12,12 +13,13 @@ export default function ClientWrapper({
   const { logged } = useAuth();
   const route = useRouter();
   const currentPath = usePathname();
+  const publicRoutes = ["/"];
 
   useEffect(() => {
-    if (!logged && currentPath !== "/") {
+    if (!logged && !publicRoutes.includes(currentPath)) {
       route.replace("/");
     }
-  }, [logged, currentPath, route]);
+  }, [currentPath, logged, publicRoutes, route]);
 
   if (!logged && currentPath !== "/") {
     return null;

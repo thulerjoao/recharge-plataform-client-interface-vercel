@@ -1,7 +1,7 @@
 import { fetchProducts } from "lib/api";
+import React from "react";
 import { ProductType } from "types/productTypes";
 import { ProductsProvider } from "./ProductsProvider";
-import React from "react";
 
 const ProductsProviderWrapper = async ({
   children,

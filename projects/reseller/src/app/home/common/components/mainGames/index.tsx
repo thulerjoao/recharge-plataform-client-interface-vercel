@@ -1,39 +1,53 @@
 import Text from "@4miga/design-system/components/Text";
 import GameCard from "public/cards/gameCard/card";
-import Card1 from "../../temp/Card1.png";
-import Card2 from "../../temp/Card2.png";
-import Card4 from "../../temp/Card4.png";
-import Card5 from "../../temp/Card5.png";
 import { MainGamesContainer } from "./style";
 
 const MainGames = () => {
+  const Products = [
+    {
+      id: "1",
+      name: "Bigo Live",
+      imgCardUrl: "http://imagecard",
+      recharges: 530,
+    },
+    {
+      id: "2",
+      name: "Farlight 84",
+      imgCardUrl: "http://imagecard",
+      recharges: 430,
+    },
+    {
+      id: "3",
+      name: "Free Fire",
+      imgCardUrl: "http://imagecard",
+      recharges: 330,
+    },
+    {
+      id: "4",
+      name: "Pubg Moblie",
+      imgCardUrl: "http://imagecard",
+      recharges: 230,
+    },
+  ];
+
   return (
     <MainGamesContainer>
       <section className="list">
-        <div className="newCardContainer">
-          <GameCard name="Bigo Live" image={Card1} />
-          <Text margin="16px 0 0 0" align="center" fontName="REGULAR_MEDIUM">
-            530 recargas
-          </Text>
-        </div>
-        <div className="newCardContainer">
-          <GameCard name="Farlight 84" image={Card2} />
-          <Text margin="16px 0 0 0" align="center" fontName="REGULAR_MEDIUM">
-            430 recargas
-          </Text>
-        </div>
-        <div className="newCardContainer">
-          <GameCard name="Free Fire" image={Card4} />
-          <Text margin="16px 0 0 0" align="center" fontName="REGULAR_MEDIUM">
-            330 recargas
-          </Text>
-        </div>
-        <div className="newCardContainer">
-          <GameCard name="Pubg Moblie" image={Card5} />
-          <Text margin="16px 0 0 0" align="center" fontName="REGULAR_MEDIUM">
-            230 recargas
-          </Text>
-        </div>
+        {Products &&
+          Products.map((product) => {
+            return (
+              <div key={product.id} className="newCardContainer">
+                <GameCard product={product} />
+                <Text
+                  margin="16px 0 0 0"
+                  align="center"
+                  fontName="REGULAR_MEDIUM"
+                >
+                  {`${product.recharges} recargas`}
+                </Text>
+              </div>
+            );
+          })}
       </section>
     </MainGamesContainer>
   );

@@ -1,18 +1,22 @@
+"use client";
+
 import Text from "@4miga/design-system/components/Text";
 import { useRouter } from "next/navigation";
 import GameCard from "public/cards/gameCard/card";
 import DefaultHeader from "public/components/defaultHeader";
 import HeaderEnviroment from "public/components/headerEnviroment";
-import Card1 from "../common/temp/Card1.png";
-import Card2 from "../common/temp/Card2.png";
-import Card3 from "../common/temp/Card3.png";
-import Card4 from "../common/temp/Card4.png";
-import Card5 from "../common/temp/Card5.png";
-import Card6 from "../common/temp/Card6.png";
+// import Card1 from "../common/temp/Card1.png";
+// import Card2 from "../common/temp/Card2.png";
+// import Card3 from "../common/temp/Card3.png";
+// import Card4 from "../common/temp/Card4.png";
+// import Card5 from "../common/temp/Card5.png";
+// import Card6 from "../common/temp/Card6.png";
+import { useProducts } from "context/products/ProductsProvider";
 import { ProductsPageContainer } from "./style";
 
 const ProductsPage = () => {
   const route = useRouter();
+  const products = useProducts();
   return (
     <ProductsPageContainer>
       <div className="desktop">
@@ -29,13 +33,15 @@ const ProductsPage = () => {
         </Text>
       </div>
       <main className="cardsContainer">
-        <div
-          className="cardEnviroment"
-          onClick={() => route.push("/products/bigo")}
-        >
-          <GameCard image={Card1} name="Bigo Live" />
-        </div>
-        <div
+        {products &&
+          products.map((product) => {
+            return (
+              <div key={product.id} className="cardEnviroment">
+                <GameCard product={product} />
+              </div>
+            );
+          })}
+        {/* <div
           className="cardEnviroment"
           onClick={() => route.push("/products/bigo")}
         >
@@ -64,7 +70,7 @@ const ProductsPage = () => {
           onClick={() => route.push("/products/bigo")}
         >
           <GameCard image={Card6} name="Mobile Legends" />
-        </div>
+        </div> */}
       </main>
     </ProductsPageContainer>
   );
