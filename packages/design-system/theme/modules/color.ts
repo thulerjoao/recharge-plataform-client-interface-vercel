@@ -5,6 +5,7 @@ export const colors = {
   secondaryAction: "#525F63",
   mainBbackgroundSolid: "#071D23",
   mainTransparent: "#010a0e99",
+  modalBackground: "#00000099",
   secondaryText: "#76B4C3",
   secondaryTextAction: "#8A979B",
   approved: "#01FF0B",
