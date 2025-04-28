@@ -29,7 +29,6 @@ const PaymentPage = ({ slug }: Props) => {
   const [userId, setUserId] = useState<string>("");
   const [paymentIndex, setPaymentIndex] = useState<number>();
   const [error, setError] = useState<string>();
-  const { logged } = useAuth();
 
   useEffect(() => {
     const paymentIndex = sessionStorage.getItem("paymentMethod");
@@ -82,7 +81,6 @@ const PaymentPage = ({ slug }: Props) => {
           </Text>
         </div>
       </section>
-      {!logged && <LoginModal />}
     </ProductInnerPage>
   );
 };

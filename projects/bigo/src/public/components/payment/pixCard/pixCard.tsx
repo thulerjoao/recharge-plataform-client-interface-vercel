@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable @next/next/no-img-element */
 import Button from "@4miga/design-system/components/button";
 import Text from "@4miga/design-system/components/Text";
@@ -8,6 +9,7 @@ import {
 } from "@4miga/services/connectionAPI/connection";
 import { useAuth } from "contexts/auth";
 import { useRouter } from "next/navigation";
+import LoginModal from "public/components/loginModal";
 import Pix from "public/icons/Pix.svg";
 import React, { useEffect, useState } from "react";
 import { StyleSheetManager } from "styled-components";
@@ -41,7 +43,9 @@ const PixCard = ({
   const [qrCode, setQrCode] = useState<string>(undefined);
   const [copyAndPaste, setCopyAndPaste] = useState<string>(undefined);
   const [orderId, setOrderId] = useState<string>(undefined);
-  const logged = useAuth();
+  const [modal, setModal] = useState<boolean>(false);
+  const [clicked, setClicked] = useState<boolean>(false);
+  const { logged } = useAuth();
   const route = useRouter();
 
   const handleFirstExpand = () => {
@@ -120,6 +124,8 @@ const PixCard = ({
   };
 
   const handleClick = () => {
+    setClicked(true);
+    if (!logged) return setModal(true);
     setPixLoading(true);
     if (secondExpand) {
       handleCopy();
@@ -155,6 +161,12 @@ const PixCard = ({
       }
     }
   };
+
+  useEffect(() => {
+    if (logged && clicked) {
+      handleClick();
+    }
+  }, [logged, clicked]);
 
   const handleCheckOrder = () => {
     setOrderLoading(true);
@@ -315,6 +327,7 @@ const PixCard = ({
           </>
         )}
       </BottomElement>
+      {modal && <LoginModal setLoginModal={() => setModal(false)} />}
     </StyleSheetManager>
   );
 };
