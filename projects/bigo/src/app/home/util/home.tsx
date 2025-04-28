@@ -12,13 +12,14 @@ import mainBanner from "../common/temp/mainBanner.png";
 import InvisibleCards from "./invisivleCards";
 import { HomeContainer } from "./style";
 import PackageCard from "public/cards/packageCard/card";
+import { formatString } from "utils/formatString";
 
 const Home = () => {
   const route = useRouter();
   const products = useProducts();
   const handleClick = (item: PackageType) => {
     sessionStorage.setItem("package", JSON.stringify(item));
-    route.push(`/home`);
+    route.push(`/package/${formatString(item.id)}`);
   };
 
   return (
@@ -63,13 +64,3 @@ const Home = () => {
 };
 
 export default Home;
-
-// product.packages.map((item, index) => (
-//   <div
-//     key={index}
-//     className="cardEnviroment"
-//     onClick={() => setSelected(index)}
-//   >
-//     <PackageCard item={item} selected={selected === index} />
-//   </div>
-// ))

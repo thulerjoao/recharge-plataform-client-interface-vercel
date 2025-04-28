@@ -8,24 +8,24 @@ import { useAuth } from "contexts/auth";
 import { useProducts } from "contexts/products/ProductsProvider";
 import LoginModal from "public/components/loginModal";
 import React, { useEffect, useState } from "react";
-import { PackageType, ProductType } from "types/productTypes";
+import { PackageType } from "types/productTypes";
 import { formatString } from "utils/formatString";
-import PackageCard from "../../../../public/cards/packageCard/card";
+import PackageCard from "../../../public/cards/packageCard/card";
 import { ProductInnerPage } from "./style";
 
 type Props = {
-  id: string;
   slug: string;
 };
 
-const PaymentPage = ({ id, slug }: Props) => {
+const PaymentPage = ({ slug }: Props) => {
   const products = useProducts();
-  const product = products.find(
-    (item: ProductType) => formatString(item.name) === slug,
-  );
+  const product = products[0];
+
   const item =
     product &&
-    product.packages.find((item: PackageType) => formatString(item.id) === id);
+    product.packages.find(
+      (item: PackageType) => formatString(item.id) === slug,
+    );
   const [userId, setUserId] = useState<string>("");
   const [paymentIndex, setPaymentIndex] = useState<number>();
   const [error, setError] = useState<string>();
@@ -34,8 +34,6 @@ const PaymentPage = ({ id, slug }: Props) => {
   useEffect(() => {
     const paymentIndex = sessionStorage.getItem("paymentMethod");
     setPaymentIndex(+paymentIndex);
-    const memoryUserId = sessionStorage.getItem("userId");
-    setUserId(memoryUserId);
   }, []);
 
   const handleMouseDown = (e: React.MouseEvent<HTMLDivElement>) => {
