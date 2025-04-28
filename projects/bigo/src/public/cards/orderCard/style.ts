@@ -12,7 +12,9 @@ export const OrderCardContainer = styled.article`
   margin-top: 16px;
   border-radius: 8px;
   background-color: ${Theme.colors.maindark};
-  box-shadow: 0px 0px 1.2px 0px rgba(2, 36, 46, 1);
+  -webkit-box-shadow: 0px 0px 5px 1px rgba(7, 29, 35, 1);
+  -moz-box-shadow: 0px 0px 5px 1px rgba(7, 29, 35, 1);
+  box-shadow: 0px 0px 5px 1px rgba(7, 29, 35, 1);
   cursor: pointer;
 
   .allInfo {
@@ -63,6 +65,9 @@ export const SkeletonContainer = styled.div<SkeletonProps>`
   background-size: 250% 100%;
   animation: ${shimmer} 1.5s steps(60) infinite;
   opacity: ${({ opacity }) => opacity ?? 1};
+  -webkit-box-shadow: 0px 0px 5px 1px rgba(7, 29, 35, 1);
+  -moz-box-shadow: 0px 0px 5px 1px rgba(7, 29, 35, 1);
+  box-shadow: 0px 0px 5px 1px rgba(7, 29, 35, 1);
 
   div {
     background-color: #00000030;

@@ -15,9 +15,9 @@ export const PackageCardContainer = styled.article<PackageCardProps>`
     rgba(1, 11, 14, 1) 55%
   );`};
 
-  -webkit-box-shadow: 0px 0px 5px 0px rgba(7, 29, 35, 1);
-  -moz-box-shadow: 0px 0px 5px 0px rgba(7, 29, 35, 1);
-  box-shadow: 0px 0px 5px 0px rgba(7, 29, 35, 1);
+  -webkit-box-shadow: 0px 0px 5px 2px rgba(7, 29, 35, 1);
+  -moz-box-shadow: 0px 0px 5px 2px rgba(7, 29, 35, 1);
+  box-shadow: 0px 0px 5px 2px rgba(7, 29, 35, 1);
   height: 232px;
   width: 100%;
   max-width: 174px;
