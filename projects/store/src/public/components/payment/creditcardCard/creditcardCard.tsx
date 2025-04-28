@@ -3,10 +3,10 @@ import { Theme } from "@4miga/design-system/theme/theme";
 import Button from "@4miga/design-system/components/button";
 import Input from "@4miga/design-system/components/input";
 import Text from "@4miga/design-system/components/Text";
+import CreditCard from "public/icons/CreditCard.svg";
 import { InputHTMLAttributes, useEffect, useState } from "react";
 import InputMask from "react-input-mask";
 import { StyleSheetManager } from "styled-components";
-import CreditCard from "../../icons/CreditCard.svg";
 import { BottomElement, CreditCardContainer } from "./style";
 
 const CreditcardCard = () => {
