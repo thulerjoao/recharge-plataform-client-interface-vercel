@@ -1,7 +1,11 @@
+"use client";
+
 import Text from "@4miga/design-system/components/Text";
 import { Theme } from "@4miga/design-system/theme/theme";
-import React, { useState } from "react";
+import { useRouter } from "next/navigation";
+import React, { useEffect, useState } from "react";
 import { UserType } from "types/userTypes";
+import { disableScroll } from "utils/disableScroll";
 import ConfirmCode from "./common/confirmCode";
 import ConfirmCodePass from "./common/confirmCodePass";
 import ForgotPassword from "./common/forgotPassword";
@@ -13,7 +17,6 @@ import Close from "./icons/Close.svg";
 import TopLogo from "./icons/topLogo.svg";
 import { LoginModalBackground, LoginModalContainer } from "./style";
 import { LoginSteps } from "./types/types";
-import { useRouter } from "next/navigation";
 
 interface LoginModalProps {
   openInNewAccount?: boolean;
@@ -50,6 +53,13 @@ const LoginModal = ({ setLoginModal, openInNewAccount }: LoginModalProps) => {
       closeModal();
     }
   };
+
+  useEffect(() => {
+    disableScroll(true);
+    return () => {
+      disableScroll(false);
+    };
+  }, []);
 
   return (
     <LoginModalBackground
