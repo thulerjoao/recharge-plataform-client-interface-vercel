@@ -2,17 +2,25 @@
 
 import Text from "@4miga/design-system/components/Text";
 import Carousel from "app/home/common/components/carousel/carousel";
+import { useProducts } from "contexts/products/ProductsProvider";
+import { useRouter } from "next/navigation";
 import BottomOffer from "public/components/bottomOffer/bottomOffer";
 import SecurityAdvertise from "public/components/securityAdvertise/securityAdvertise";
-import { useProducts } from "contexts/products/ProductsProvider";
-import GameCard from "../../../public/cards/gameCard/card";
+import { PackageType } from "types/productTypes";
 import Lines from "../common/components/lines/lines";
 import mainBanner from "../common/temp/mainBanner.png";
 import InvisibleCards from "./invisivleCards";
 import { HomeContainer } from "./style";
+import PackageCard from "public/cards/packageCard/card";
 
 const Home = () => {
+  const route = useRouter();
   const products = useProducts();
+  const handleClick = (item: PackageType) => {
+    sessionStorage.setItem("package", JSON.stringify(item));
+    route.push(`/home`);
+  };
+
   return (
     <HomeContainer>
       <Carousel imagesList={[mainBanner, mainBanner, mainBanner]} />
@@ -36,9 +44,13 @@ const Home = () => {
         </Text>
         <section className="cardsContainer">
           {products &&
-            products.map((product) => (
-              <div key={product.id} className="cardEnviroment">
-                <GameCard product={product} />
+            products[0].packages.map((packageItem) => (
+              <div
+                key={packageItem.id}
+                className="cardEnviroment"
+                onClick={() => handleClick(packageItem)}
+              >
+                <PackageCard item={packageItem} selected={false} />
               </div>
             ))}
           {InvisibleCards(products)}
@@ -51,3 +63,13 @@ const Home = () => {
 };
 
 export default Home;
+
+// product.packages.map((item, index) => (
+//   <div
+//     key={index}
+//     className="cardEnviroment"
+//     onClick={() => setSelected(index)}
+//   >
+//     <PackageCard item={item} selected={selected === index} />
+//   </div>
+// ))
