@@ -17,15 +17,8 @@ const Description = () => {
   const [seeMore, setSeeMore] = useState<boolean>(false);
   const [isImageValid, setIsImageValid] = useState<boolean>(false);
   const pathname = usePathname();
-  const getProductname = () => {
-    const segments = pathname.split("/").filter(Boolean);
-    return segments.length >= 2 ? segments[1] : null;
-  };
 
-  const productName = getProductname();
-  const product = products.find(
-    (item: ProductType) => formatString(item.name) === productName,
-  );
+  const product = products[0];
 
   useEffect(() => {
     const checkImage = async () => {

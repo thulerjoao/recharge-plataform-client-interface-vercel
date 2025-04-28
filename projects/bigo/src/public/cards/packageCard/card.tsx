@@ -9,12 +9,13 @@ import { PackageCardContainer } from "./style";
 
 interface PackageCardProps {
   item: PackageType;
-  selected: boolean;
+  selected?: boolean;
   paymentIndex?: number;
 }
 
 const PackageCard = ({ item, selected, paymentIndex }: PackageCardProps) => {
   const [isImageValid, setIsImageValid] = useState<boolean>(false);
+  const [hover, setHover] = useState<boolean>(false);
 
   // eslint-disable-next-line react-hooks/exhaustive-deps
   const isValidImageUrl = async (): Promise<boolean> => {
@@ -36,7 +37,13 @@ const PackageCard = ({ item, selected, paymentIndex }: PackageCardProps) => {
   }, [item.imgCardUrl, isValidImageUrl]);
 
   return (
-    <PackageCardContainer selected={selected}>
+    <PackageCardContainer
+      onMouseEnter={() => setHover(true)}
+      onMouseLeave={() => {
+        setHover(false);
+      }}
+      selected={selected ? selected : hover}
+    >
       <Text
         tag="h2"
         align="center"

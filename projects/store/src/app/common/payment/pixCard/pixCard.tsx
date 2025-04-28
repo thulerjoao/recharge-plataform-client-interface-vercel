@@ -151,6 +151,7 @@ const PixCard = ({
           });
       } else {
         setError("ID de usuário inválido");
+        setPixLoading(false);
       }
     }
   };
