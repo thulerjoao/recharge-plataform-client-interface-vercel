@@ -14,7 +14,7 @@ import { OrderType } from "types/orderType";
 import { PixPaymentResponse } from "types/paymentType";
 import { apiUrl } from "utils/apiUrl";
 import { formatPrice } from "utils/formatPrice";
-import Pix from "../../icons/Pix.svg";
+import Pix from "public/icons/Pix.svg";
 import { BottomElement, PixCardContainer } from "./style";
 
 interface Props {
