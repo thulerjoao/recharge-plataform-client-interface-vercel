@@ -21,7 +21,7 @@ import {
   handleRechargeStatus,
   handleStatusColor,
 } from "utils/handleStatus";
-import BackArrow from "../../common/icons/BackArrow.svg";
+import BackArrow from "public/icons/BackArrow.svg";
 import Pix from "../common/icons/Pix.svg";
 import { OrderContainer } from "./style";
 

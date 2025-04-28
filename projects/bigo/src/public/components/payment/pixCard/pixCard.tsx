@@ -8,13 +8,13 @@ import {
 } from "@4miga/services/connectionAPI/connection";
 import { useAuth } from "contexts/auth";
 import { useRouter } from "next/navigation";
+import Pix from "public/icons/Pix.svg";
 import React, { useEffect, useState } from "react";
 import { StyleSheetManager } from "styled-components";
 import { OrderType } from "types/orderType";
 import { PixPaymentResponse } from "types/paymentType";
 import { apiUrl } from "utils/apiUrl";
 import { formatPrice } from "utils/formatPrice";
-import Pix from "../../icons/Pix.svg";
 import { BottomElement, PixCardContainer } from "./style";
 
 interface Props {

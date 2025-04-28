@@ -9,7 +9,7 @@ import SkeletonOrderCard from "public/cards/orderCard/skeletonOrderCard";
 import LoginModal from "public/components/loginModal";
 import Pagination from "public/components/pagination";
 import { useEffect, useState } from "react";
-import BackArrow from "../../common/icons/BackArrow.svg";
+import BackArrow from "public/icons/BackArrow.svg";
 import { MyOrderContainer } from "./style";
 
 interface Props {

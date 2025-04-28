@@ -3,7 +3,7 @@
 import Input from "@4miga/design-system/components/input";
 import Text from "@4miga/design-system/components/Text";
 import { Theme } from "@4miga/design-system/theme/theme";
-import PixCard from "app/common/payment/pixCard/pixCard";
+import PixCard from "public/components/payment/pixCard/pixCard";
 import { useAuth } from "contexts/auth";
 import { useProducts } from "contexts/products/ProductsProvider";
 import LoginModal from "public/components/loginModal";

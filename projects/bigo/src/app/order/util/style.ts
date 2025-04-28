@@ -30,6 +30,9 @@ export const OrderContainer = styled.div`
     border-radius: 8px;
     padding: 16px;
     box-sizing: border-box;
+    -webkit-box-shadow: 0px 0px 5px 1px rgba(7, 29, 35, 1);
+    -moz-box-shadow: 0px 0px 5px 1px rgba(7, 29, 35, 1);
+    box-shadow: 0px 0px 5px 1px rgba(7, 29, 35, 1);
 
     .fisrtSection {
       border-bottom: 1px solid ${Theme.colors.secondaryAction};

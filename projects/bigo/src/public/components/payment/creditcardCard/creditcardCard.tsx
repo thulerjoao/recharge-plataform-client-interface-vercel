@@ -6,7 +6,7 @@ import Text from "@4miga/design-system/components/Text";
 import { InputHTMLAttributes, useEffect, useState } from "react";
 import InputMask from "react-input-mask";
 import { StyleSheetManager } from "styled-components";
-import CreditCard from "../../icons/CreditCard.svg";
+import CreditCard from "public/icons/CreditCard.svg";
 import { BottomElement, CreditCardContainer } from "./style";
 
 const CreditcardCard = () => {
