@@ -1,5 +1,5 @@
 {
-  "name": "@4miga/store",
+  "name": "@4miga/bigo",
   "version": "1.0.0",
   "main": "index.js",
   "license": "MIT",
@@ -22,6 +22,5 @@
     "@4miga/test-commons": "*",
     "@4miga/tsconfig-commons": "*",
     "@4miga/eslint-commons": "*"
-
   }
 }
