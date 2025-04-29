@@ -12,6 +12,7 @@ import BackArrow from "public/icons/BackArrow.svg";
 import ImageNotFound from "public/img/ImageNotFound.jpg";
 import { useEffect, useState } from "react";
 import { OrderType } from "types/orderType";
+import { PackageType } from "types/productTypes";
 import { apiUrl } from "utils/apiUrl";
 import { checkImageUrl } from "utils/checkImageUrl";
 import { formatDate } from "utils/formatDate";
@@ -40,9 +41,7 @@ const Order = () => {
   }, [order, logged, route]);
 
   const products = useProducts();
-  const product = order
-    ? products.find((item) => item.id === order.orderItem.productId)
-    : null;
+  const product = order ? products[0] : null;
 
   const [isImageValid, setIsImageValid] = useState<boolean>(false);
 
@@ -60,11 +59,22 @@ const Order = () => {
     sessionStorage.removeItem("qrCode");
     sessionStorage.removeItem("copyAndPaste");
     sessionStorage.removeItem("orderId");
-    sessionStorage.setItem(
-      "userId",
-      order.orderItem.recharge.userIdForRecharge,
+    const currentPackage = product.packages.find(
+      (item: PackageType) => (item.id = order.orderItem.package.packageId),
     );
-    route.push(`/package/${order.orderItem.package.packageId}`);
+    if (currentPackage) {
+      sessionStorage.setItem(
+        "userId",
+        order.orderItem.recharge.userIdForRecharge,
+      );
+      route.push(`/package/${order.orderItem.package.packageId}`);
+    } else {
+      sessionStorage.setItem(
+        "userId",
+        order.orderItem.recharge.userIdForRecharge,
+      );
+      route.push(`/home`);
+    }
   };
 
   const goToPayment = () => {
