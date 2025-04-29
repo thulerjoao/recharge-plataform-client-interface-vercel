@@ -10,6 +10,7 @@ import { PackageType } from "types/productTypes";
 import { formatString } from "utils/formatString";
 import PackageCard from "../../../public/cards/packageCard/card";
 import { ProductInnerPage } from "./style";
+import CreditcardCard from "public/components/payment/creditcardCard/creditcardCard";
 
 type Props = {
   slug: string;

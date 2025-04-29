@@ -125,14 +125,13 @@ const PixCard = ({
 
   const handleClick = () => {
     setClicked(true);
-    if (!logged) return setModal(true);
-    setPixLoading(true);
     if (secondExpand) {
       handleCopy();
-      setPixLoading(false);
       return;
     } else if (firstExpand) {
       if (userId) {
+        if (!logged) return setModal(true);
+        setPixLoading(true);
         const body = {
           userIdForRecharge: userId,
           packageId,
