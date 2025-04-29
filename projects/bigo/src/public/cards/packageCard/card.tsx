@@ -1,7 +1,7 @@
 import Text from "@4miga/design-system/components/Text";
 import { Theme } from "@4miga/design-system/theme/theme";
 import Image from "next/image";
-import ImageNotFound from "public/img/ImageNotFound.jpg";
+import DefaultPackage from "public/img/DefaultPackage.jpg";
 import { useEffect, useState } from "react";
 import { PackageType } from "types/productTypes";
 import { formatPrice } from "utils/formatPrice";
@@ -56,7 +56,7 @@ const PackageCard = ({ item, selected, paymentIndex }: PackageCardProps) => {
         Diamantes
       </Text>
       <Image
-        src={isImageValid ? item.imgCardUrl : ImageNotFound}
+        src={isImageValid ? item.imgCardUrl : DefaultPackage}
         alt={`Imagem do pacote ${item.name}`}
         height={100}
         width={100}

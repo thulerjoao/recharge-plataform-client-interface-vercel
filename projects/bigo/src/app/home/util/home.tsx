@@ -18,6 +18,7 @@ const Home = () => {
   const route = useRouter();
   const products = useProducts();
   const handleClick = (item: PackageType) => {
+    sessionStorage.removeItem("userId");
     sessionStorage.setItem("package", JSON.stringify(item));
     route.push(`/package/${formatString(item.id)}`);
   };

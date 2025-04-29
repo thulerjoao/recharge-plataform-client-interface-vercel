@@ -34,8 +34,8 @@ const PixCard = ({
   price,
   setError,
 }: Props) => {
-  const [initialized, setInitialized] = useState<boolean>(false);
-  const [firstExpand, setFirstExpand] = useState<boolean>(false);
+  const [initialized, setInitialized] = useState<boolean>(true);
+  const [firstExpand, setFirstExpand] = useState<boolean>(true);
   const [secondExpand, setSecondExpand] = useState<boolean>(false);
   const [isRounded, setIsRounded] = useState<boolean>(true);
   const [pixLoading, setPixLoading] = useState<boolean>(false);
