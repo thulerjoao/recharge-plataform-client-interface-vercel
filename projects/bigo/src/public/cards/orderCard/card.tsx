@@ -2,7 +2,7 @@ import Text from "@4miga/design-system/components/Text";
 import { Theme } from "@4miga/design-system/theme/theme";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
-import ImageNotFound from "public/img/ImageNotFound.jpg";
+import DefaultPackage from "public/img/DefaultPackage.jpg";
 import { useEffect, useState } from "react";
 import { OrderType } from "types/orderType";
 import { checkImageUrl } from "utils/checkImageUrl";
@@ -35,7 +35,7 @@ const OrderCard = ({ order }: OrderCardProps) => {
   return (
     <OrderCardContainer onClick={() => handleSeeMore()}>
       <Image
-        src={isImageValid ? order.orderItem.package.imgCardUrl : ImageNotFound}
+        src={isImageValid ? order.orderItem.package.imgCardUrl : DefaultPackage}
         alt={`Imagem do pacote ${order.orderItem.package.name}`}
         height={64}
         width={64}

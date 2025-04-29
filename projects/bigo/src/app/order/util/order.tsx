@@ -9,9 +9,11 @@ import { useProducts } from "contexts/products/ProductsProvider";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import BackArrow from "public/icons/BackArrow.svg";
-import ImageNotFound from "public/img/ImageNotFound.jpg";
+import DefaultPackage from "public/img/DefaultPackage.jpg";
+import DefaultBigo from "public/img/DefaultBigo.jpg";
 import { useEffect, useState } from "react";
 import { OrderType } from "types/orderType";
+import { PackageType } from "types/productTypes";
 import { apiUrl } from "utils/apiUrl";
 import { checkImageUrl } from "utils/checkImageUrl";
 import { formatDate } from "utils/formatDate";
@@ -21,7 +23,7 @@ import {
   handleRechargeStatus,
   handleStatusColor,
 } from "utils/handleStatus";
-import Pix from "../common/icons/Pix.svg";
+import Pix from "public/icons/PixBig.svg";
 import { OrderContainer } from "./style";
 
 const Order = () => {
@@ -29,6 +31,7 @@ const Order = () => {
   const route = useRouter();
   const order: OrderType = JSON.parse(sessionStorage.getItem("order"));
   const { logged } = useAuth();
+
   useEffect(() => {
     if (!order) {
       route.replace("/home");
@@ -40,9 +43,7 @@ const Order = () => {
   }, [order, logged, route]);
 
   const products = useProducts();
-  const product = order
-    ? products.find((item) => item.id === order.orderItem.productId)
-    : null;
+  const product = order ? products[0] : null;
 
   const [isImageValid, setIsImageValid] = useState<boolean>(false);
 
@@ -60,11 +61,22 @@ const Order = () => {
     sessionStorage.removeItem("qrCode");
     sessionStorage.removeItem("copyAndPaste");
     sessionStorage.removeItem("orderId");
-    sessionStorage.setItem(
-      "userId",
-      order.orderItem.recharge.userIdForRecharge,
+    const currentPackage = product.packages.find(
+      (item: PackageType) => (item.id = order.orderItem.package.packageId),
     );
-    route.push(`/package/${order.orderItem.package.packageId}`);
+    if (currentPackage) {
+      sessionStorage.setItem(
+        "userId",
+        order.orderItem.recharge.userIdForRecharge,
+      );
+      route.push(`/package/${order.orderItem.package.packageId}`);
+    } else {
+      sessionStorage.setItem(
+        "userId",
+        order.orderItem.recharge.userIdForRecharge,
+      );
+      route.push(`/home`);
+    }
   };
 
   const goToPayment = () => {
@@ -97,7 +109,7 @@ const Order = () => {
         <section className="fisrtSection">
           <div className="fisrtRow">
             <Image
-              src={isImageValid ? product.imgCardUrl : ImageNotFound}
+              src={isImageValid ? product.imgCardUrl : DefaultBigo}
               alt="imagem do card"
             />
             <div>
@@ -178,7 +190,7 @@ const Order = () => {
                 src={
                   isImageValid
                     ? order.orderItem.package.imgCardUrl
-                    : ImageNotFound
+                    : DefaultPackage
                 }
                 alt="imagem do card"
               />

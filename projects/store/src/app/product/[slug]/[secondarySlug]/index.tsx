@@ -3,10 +3,10 @@
 import Input from "@4miga/design-system/components/input";
 import Text from "@4miga/design-system/components/Text";
 import { Theme } from "@4miga/design-system/theme/theme";
-import PixCard from "public/components/payment/pixCard/pixCard";
 import { useAuth } from "contexts/auth";
 import { useProducts } from "contexts/products/ProductsProvider";
 import LoginModal from "public/components/loginModal";
+import PixCard from "public/components/payment/pixCard/pixCard";
 import React, { useEffect, useState } from "react";
 import { PackageType, ProductType } from "types/productTypes";
 import { formatString } from "utils/formatString";
@@ -26,7 +26,10 @@ const PaymentPage = ({ id, slug }: Props) => {
   const item =
     product &&
     product.packages.find((item: PackageType) => formatString(item.id) === id);
-  const [userId, setUserId] = useState<string>("");
+  const initialUserId = sessionStorage.getItem("userId");
+  const [userId, setUserId] = useState<string>(
+    initialUserId ? initialUserId : "",
+  );
   const [paymentIndex, setPaymentIndex] = useState<number>();
   const [error, setError] = useState<string>();
   const { logged } = useAuth();
