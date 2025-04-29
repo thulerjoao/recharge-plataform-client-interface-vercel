@@ -8,6 +8,7 @@ import { useAuth } from "contexts/auth";
 import { useProducts } from "contexts/products/ProductsProvider";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
+import BackArrow from "public/icons/BackArrow.svg";
 import ImageNotFound from "public/img/ImageNotFound.jpg";
 import { useEffect, useState } from "react";
 import { OrderType } from "types/orderType";
@@ -15,13 +16,11 @@ import { apiUrl } from "utils/apiUrl";
 import { checkImageUrl } from "utils/checkImageUrl";
 import { formatDate } from "utils/formatDate";
 import { formatPrice } from "utils/formatPrice";
-import { formatString } from "utils/formatString";
 import {
   handlePaymentStatus,
   handleRechargeStatus,
   handleStatusColor,
 } from "utils/handleStatus";
-import BackArrow from "public/icons/BackArrow.svg";
 import Pix from "../common/icons/Pix.svg";
 import { OrderContainer } from "./style";
 
@@ -61,9 +60,11 @@ const Order = () => {
     sessionStorage.removeItem("qrCode");
     sessionStorage.removeItem("copyAndPaste");
     sessionStorage.removeItem("orderId");
-    route.push(
-      `/product/${formatString(product.name)}/${order.orderItem.package.packageId}`,
+    sessionStorage.setItem(
+      "userId",
+      order.orderItem.recharge.userIdForRecharge,
     );
+    route.push(`/package/${order.orderItem.package.packageId}`);
   };
 
   const goToPayment = () => {
@@ -77,9 +78,7 @@ const Order = () => {
           "userId",
           res.orderItem.recharge.userIdForRecharge,
         );
-        route.push(
-          `product/${formatString(res.orderItem.productName)}/${res.orderItem.package.packageId}`,
-        );
+        route.push(`package/${res.orderItem.package.packageId}`);
       })
       .then(() => {});
   };
