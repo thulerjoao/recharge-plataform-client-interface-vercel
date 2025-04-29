@@ -9,7 +9,8 @@ import { useProducts } from "contexts/products/ProductsProvider";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import BackArrow from "public/icons/BackArrow.svg";
-import ImageNotFound from "public/img/ImageNotFound.jpg";
+import DefaultPackage from "public/img/DefaultPackage.jpg";
+import DefaultBigo from "public/img/DefaultBigo.jpg";
 import { useEffect, useState } from "react";
 import { OrderType } from "types/orderType";
 import { PackageType } from "types/productTypes";
@@ -22,7 +23,7 @@ import {
   handleRechargeStatus,
   handleStatusColor,
 } from "utils/handleStatus";
-import Pix from "../common/icons/Pix.svg";
+import Pix from "public/icons/PixBig.svg";
 import { OrderContainer } from "./style";
 
 const Order = () => {
@@ -30,6 +31,7 @@ const Order = () => {
   const route = useRouter();
   const order: OrderType = JSON.parse(sessionStorage.getItem("order"));
   const { logged } = useAuth();
+
   useEffect(() => {
     if (!order) {
       route.replace("/home");
@@ -107,7 +109,7 @@ const Order = () => {
         <section className="fisrtSection">
           <div className="fisrtRow">
             <Image
-              src={isImageValid ? product.imgCardUrl : ImageNotFound}
+              src={isImageValid ? product.imgCardUrl : DefaultBigo}
               alt="imagem do card"
             />
             <div>
@@ -188,7 +190,7 @@ const Order = () => {
                 src={
                   isImageValid
                     ? order.orderItem.package.imgCardUrl
-                    : ImageNotFound
+                    : DefaultPackage
                 }
                 alt="imagem do card"
               />
