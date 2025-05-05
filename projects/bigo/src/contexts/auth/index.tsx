@@ -155,6 +155,7 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
         }),
         credentials: "include",
       });
+      console.log(res);
       if (!res.ok) throw new Error("Erro ao fazer login");
       setLogged(true);
       setUser(user);

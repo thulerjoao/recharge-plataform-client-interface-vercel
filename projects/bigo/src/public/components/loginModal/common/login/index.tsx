@@ -49,7 +49,6 @@ const LoginComponent = ({ setStep, closeModal }: Props) => {
     await connectionAPIPost<LoginResponse>("/customer/login", body, apiUrl)
       .then(async (res) => {
         try {
-          const rememberMe = true;
           const response = await login(res, rememberMe);
           if (response) closeModal();
         } catch (error) {
