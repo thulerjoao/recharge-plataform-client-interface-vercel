@@ -44,6 +44,9 @@ const Order = () => {
 
   const products = useProducts();
   const product = order ? products[0] : null;
+  const currentPackage = product.packages.find(
+    (item: PackageType) => (item.id = order.orderItem.package.packageId),
+  );
 
   const [isImageValid, setIsImageValid] = useState<boolean>(false);
 
@@ -61,9 +64,6 @@ const Order = () => {
     sessionStorage.removeItem("qrCode");
     sessionStorage.removeItem("copyAndPaste");
     sessionStorage.removeItem("orderId");
-    const currentPackage = product.packages.find(
-      (item: PackageType) => (item.id = order.orderItem.package.packageId),
-    );
     if (currentPackage) {
       sessionStorage.setItem(
         "userId",

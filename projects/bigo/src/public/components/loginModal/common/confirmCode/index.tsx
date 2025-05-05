@@ -80,6 +80,25 @@ const ConfirmCode = ({ user, previousStep, setStep, closeModal }: Props) => {
     if (code.toString().length != 6) return true;
   };
 
+  const handleSendCode = () => {
+    setLoading(true);
+    connectionAPIPost(
+      "/customer/create-new-code-for-email-verification",
+      {
+        email: emailToConfirm,
+      },
+      apiUrl,
+    )
+      .then(() => {
+        setLoading(false);
+        alert("Um novo código foi enviado para seu e-mail");
+      })
+      .catch(() => {
+        setLoading(false);
+        setErrorMessage("Não foi possível enviar um novo código");
+      });
+  };
+
   return (
     <ConfirmCodeContainer>
       <Text margin="24px 0 0 0" align="center" fontName="REGULAR_MEDIUM">
@@ -97,6 +116,16 @@ const ConfirmCode = ({ user, previousStep, setStep, closeModal }: Props) => {
         disabled={handleDisabled()}
         loading={loading}
       />
+      <div style={{ cursor: "pointer" }} onClick={() => handleSendCode()}>
+        <Text
+          align="center"
+          margin="12px 0 0px 0"
+          color={Theme.colors.mainHighlight}
+          fontName="SMALL"
+        >
+          Enviar um novo código
+        </Text>
+      </div>
       <ErrorMessage>
         <Text
           align="center"

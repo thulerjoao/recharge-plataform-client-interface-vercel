@@ -75,8 +75,8 @@ const NewAccount = ({ setNewUser, setStep, setPreviousStep }: Props) => {
       })
       .catch((err) => {
         handleErrorResponse(err.response.data.message[0]);
+        setLoading(false);
       });
-    setLoading(false);
   };
 
   useEffect(() => {
@@ -106,10 +106,19 @@ const NewAccount = ({ setNewUser, setStep, setPreviousStep }: Props) => {
   const handleErrorResponse = (res: string) => {
     if (res.toLocaleLowerCase() === "email already exists") {
       setErrorMessage("Email já cadastrado");
+      setLoading(false);
     } else if (res.toLocaleLowerCase() === "unique data already exists") {
       setErrorMessage("Usuário já cadastrado");
+      setLoading(false);
+    } else if (
+      res.toLocaleLowerCase() ===
+      "name cannot contain numbers and special characters"
+    ) {
+      setErrorMessage("Nome inválido");
+      setLoading(false);
     } else {
       setErrorMessage("Erro ao criar conta");
+      setLoading(false);
     }
   };
 
