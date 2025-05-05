@@ -1,12 +1,13 @@
 "use client";
 
 import Text from "@4miga/design-system/components/Text";
-import Carousel from "public/components/carousel/carousel";
 import { useProducts } from "contexts/products/ProductsProvider";
 import { useRouter } from "next/navigation";
 import PackageCard from "public/cards/packageCard/card";
 import BottomOffer from "public/components/bottomOffer/bottomOffer";
+import Carousel from "public/components/carousel/carousel";
 import SecurityAdvertise from "public/components/securityAdvertise/securityAdvertise";
+import { useEffect } from "react";
 import { PackageType } from "types/productTypes";
 import { formatString } from "utils/formatString";
 import Lines from "../../../public/components/lines/lines";
@@ -19,6 +20,9 @@ const Home = () => {
   const products = useProducts();
   const handleClick = (item: PackageType) => {
     sessionStorage.removeItem("userId");
+    sessionStorage.removeItem("orderId");
+    sessionStorage.removeItem("qrCode");
+    sessionStorage.removeItem("copyAndPaste");
     sessionStorage.setItem("package", JSON.stringify(item));
     route.push(`/package/${formatString(item.id)}`);
   };

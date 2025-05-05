@@ -4,11 +4,11 @@ import Input from "@4miga/design-system/components/input";
 import Text from "@4miga/design-system/components/Text";
 import { Theme } from "@4miga/design-system/theme/theme";
 import { useProducts } from "contexts/products/ProductsProvider";
+import PackageCard from "public/cards/packageCard/card";
+import PixCard from "public/components/payment/pixCard/pixCard";
 import React, { useEffect, useState } from "react";
 import { PackageType } from "types/productTypes";
 import { ProductInnerPage } from "./style";
-import PixCard from "public/components/payment/pixCard/pixCard";
-import PackageCard from "public/cards/packageCard/card";
 
 type Props = {
   slug: string;
@@ -18,6 +18,7 @@ const PaymentPage = ({ slug }: Props) => {
   const products = useProducts();
   const product = products[0];
   const initialUserId = sessionStorage.getItem("userId");
+  const [blockId, setBlockId] = useState<boolean>(false);
 
   const item =
     product && product.packages.find((item: PackageType) => item.id === slug);
@@ -46,7 +47,7 @@ const PaymentPage = ({ slug }: Props) => {
         margin="16px 0 0 0"
         height={48}
         value={userId && userId}
-        onChange={(e) => setUserId(e.target.value)}
+        onChange={(e) => !blockId && setUserId(e.target.value)}
       />
       <Text margin="32px 0 0 0" align="center" fontName="REGULAR_SEMI_BOLD">
         PACOTE PARA RECARGA
@@ -67,6 +68,7 @@ const PaymentPage = ({ slug }: Props) => {
             paymentMethodName={item.paymentMethods[0].name}
             price={item && item.paymentMethods[0].price}
             setError={setError}
+            setBlockId={setBlockId}
           />
         )}
         {/* <CreditcardCard /> */}
