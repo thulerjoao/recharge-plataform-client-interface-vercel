@@ -1,31 +1,35 @@
 "use client";
 
 import Text from "@4miga/design-system/components/Text";
-import Carousel from "app/home/common/components/carousel/carousel";
 import { useProducts } from "contexts/products/ProductsProvider";
 import { useRouter } from "next/navigation";
+import PackageCard from "public/cards/packageCard/card";
 import BottomOffer from "public/components/bottomOffer/bottomOffer";
+import Carousel from "public/components/carousel/carousel";
 import SecurityAdvertise from "public/components/securityAdvertise/securityAdvertise";
+import { useEffect } from "react";
 import { PackageType } from "types/productTypes";
-import Lines from "../common/components/lines/lines";
-import mainBanner from "../common/temp/mainBanner.png";
+import { formatString } from "utils/formatString";
+import Lines from "../../../public/components/lines/lines";
+import banner01 from "../temp/banner01.png";
 import InvisibleCards from "./invisivleCards";
 import { HomeContainer } from "./style";
-import PackageCard from "public/cards/packageCard/card";
-import { formatString } from "utils/formatString";
 
 const Home = () => {
   const route = useRouter();
   const products = useProducts();
   const handleClick = (item: PackageType) => {
     sessionStorage.removeItem("userId");
+    sessionStorage.removeItem("orderId");
+    sessionStorage.removeItem("qrCode");
+    sessionStorage.removeItem("copyAndPaste");
     sessionStorage.setItem("package", JSON.stringify(item));
     route.push(`/package/${formatString(item.id)}`);
   };
 
   return (
     <HomeContainer>
-      <Carousel imagesList={[mainBanner, mainBanner, mainBanner]} />
+      <Carousel imagesList={[banner01, banner01, banner01]} />
       <Lines />
       <main>
         <Text
@@ -46,13 +50,13 @@ const Home = () => {
         </Text>
         <section className="cardsContainer">
           {products &&
-            products[0].packages.map((packageItem) => (
+            products[0].packages.map((packageItem, index) => (
               <div
                 key={packageItem.id}
                 className="cardEnviroment"
                 onClick={() => handleClick(packageItem)}
               >
-                <PackageCard item={packageItem} selected={false} />
+                <PackageCard selected={false} item={packageItem} />
               </div>
             ))}
           {InvisibleCards(products)}

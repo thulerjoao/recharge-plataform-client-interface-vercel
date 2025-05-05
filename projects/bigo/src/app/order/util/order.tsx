@@ -9,13 +9,11 @@ import { useProducts } from "contexts/products/ProductsProvider";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import BackArrow from "public/icons/BackArrow.svg";
-import DefaultPackage from "public/img/DefaultPackage.jpg";
-import DefaultBigo from "public/img/DefaultBigo.jpg";
+import Pix from "public/icons/PixBig.svg";
 import { useEffect, useState } from "react";
 import { OrderType } from "types/orderType";
 import { PackageType } from "types/productTypes";
 import { apiUrl } from "utils/apiUrl";
-import { checkImageUrl } from "utils/checkImageUrl";
 import { formatDate } from "utils/formatDate";
 import { formatPrice } from "utils/formatPrice";
 import {
@@ -23,7 +21,6 @@ import {
   handleRechargeStatus,
   handleStatusColor,
 } from "utils/handleStatus";
-import Pix from "public/icons/PixBig.svg";
 import { OrderContainer } from "./style";
 
 const Order = () => {
@@ -44,26 +41,26 @@ const Order = () => {
 
   const products = useProducts();
   const product = order ? products[0] : null;
+  const currentPackage = product.packages.find(
+    (item: PackageType) => (item.id = order.orderItem.package.packageId),
+  );
 
-  const [isImageValid, setIsImageValid] = useState<boolean>(false);
+  // const [isImageValid, setIsImageValid] = useState<boolean>(false);
 
-  useEffect(() => {
-    const checkImage = async () => {
-      if (order?.orderItem?.package?.imgCardUrl) {
-        const valid = await checkImageUrl(order.orderItem.package.imgCardUrl);
-        setIsImageValid(valid);
-      }
-    };
-    checkImage();
-  }, [order]);
+  // useEffect(() => {
+  //   const checkImage = async () => {
+  //     if (order?.orderItem?.package?.imgCardUrl) {
+  //       const valid = await checkImageUrl(order.orderItem.package.imgCardUrl);
+  //       setIsImageValid(valid);
+  //     }
+  //   };
+  //   checkImage();
+  // }, [order]);
 
   const handleBuyAgain = () => {
     sessionStorage.removeItem("qrCode");
     sessionStorage.removeItem("copyAndPaste");
     sessionStorage.removeItem("orderId");
-    const currentPackage = product.packages.find(
-      (item: PackageType) => (item.id = order.orderItem.package.packageId),
-    );
     if (currentPackage) {
       sessionStorage.setItem(
         "userId",
@@ -109,7 +106,9 @@ const Order = () => {
         <section className="fisrtSection">
           <div className="fisrtRow">
             <Image
-              src={isImageValid ? product.imgCardUrl : DefaultBigo}
+              height={72}
+              width={72}
+              src={product.imgCardUrl}
               alt="imagem do card"
             />
             <div>
@@ -187,11 +186,9 @@ const Order = () => {
           <div className="outside">
             <span>
               <Image
-                src={
-                  isImageValid
-                    ? order.orderItem.package.imgCardUrl
-                    : DefaultPackage
-                }
+                height={40}
+                width={40}
+                src={order.orderItem.package.imgCardUrl}
                 alt="imagem do card"
               />
             </span>

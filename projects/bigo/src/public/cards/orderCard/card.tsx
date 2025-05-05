@@ -2,10 +2,7 @@ import Text from "@4miga/design-system/components/Text";
 import { Theme } from "@4miga/design-system/theme/theme";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
-import DefaultPackage from "public/img/DefaultPackage.jpg";
-import { useEffect, useState } from "react";
 import { OrderType } from "types/orderType";
-import { checkImageUrl } from "utils/checkImageUrl";
 import { formatDate } from "utils/formatDate";
 import { handleOrderStatus, handleStatusColor } from "utils/handleStatus";
 import { OrderCardContainer } from "./style";
@@ -16,16 +13,16 @@ interface OrderCardProps {
 
 const OrderCard = ({ order }: OrderCardProps) => {
   const route = useRouter();
-  const [isImageValid, setIsImageValid] = useState<boolean>(false);
+  // const [isImageValid, setIsImageValid] = useState<boolean>(false);
 
-  useEffect(() => {
-    const checkImage = async () => {
-      const valid = await checkImageUrl(order.orderItem.package.imgCardUrl);
-      setIsImageValid(valid);
-    };
+  // useEffect(() => {
+  //   const checkImage = async () => {
+  //     const valid = await checkImageUrl(order.orderItem.package.imgCardUrl);
+  //     setIsImageValid(valid);
+  //   };
 
-    checkImage();
-  }, [order.orderItem.package.imgCardUrl]);
+  //   checkImage();
+  // }, [order.orderItem.package.imgCardUrl]);
 
   const handleSeeMore = () => {
     sessionStorage.setItem("order", JSON.stringify(order));
@@ -35,7 +32,7 @@ const OrderCard = ({ order }: OrderCardProps) => {
   return (
     <OrderCardContainer onClick={() => handleSeeMore()}>
       <Image
-        src={isImageValid ? order.orderItem.package.imgCardUrl : DefaultPackage}
+        src={order.orderItem.package.imgCardUrl}
         alt={`Imagem do pacote ${order.orderItem.package.name}`}
         height={64}
         width={64}

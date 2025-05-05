@@ -56,20 +56,22 @@ const ForgotPassword = ({ setStep }: Props) => {
       .then((res) => {
         saveStorageEmail(email);
         setStep("confirmCodePass");
-        return;
+        setLoading(false);
       })
       .catch((error) => {
-        const message = error.response.data.message[0];
-        if (
-          message.toLowerCase() ===
-          `email: '${email.toLowerCase()}' not verified`
-        ) {
-          sessionStorage.setItem("emailToConfirm", email);
-          setStep("confirmCode");
-        }
-        setErrorMessage("Erro ao realizar o pedido");
+        // const message = error.response.data.message[0];
+        // if (
+        //   message.toLowerCase() ===
+        //   `email: '${email.toLowerCase()}' not verified`
+        // ) {
+        //   sessionStorage.setItem("emailToConfirm", email);
+        //   setStep("confirmCode");
+        // }
+        // setErrorMessage("Erro ao realizar o pedido");
+        saveStorageEmail(email);
+        setStep("confirmCodePass");
+        setLoading(false);
       });
-    setLoading(false);
   };
 
   useEffect(() => {

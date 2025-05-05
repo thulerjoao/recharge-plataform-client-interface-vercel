@@ -25,6 +25,7 @@ interface Props {
   paymentMethodName: string;
   price: number;
   setError: React.Dispatch<React.SetStateAction<string>>;
+  setBlockId: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 const PixCard = ({
@@ -33,6 +34,7 @@ const PixCard = ({
   paymentMethodName,
   price,
   setError,
+  setBlockId,
 }: Props) => {
   const [initialized, setInitialized] = useState<boolean>(true);
   const [firstExpand, setFirstExpand] = useState<boolean>(true);
@@ -73,6 +75,7 @@ const PixCard = ({
     if (logged) {
       const orderId = sessionStorage.getItem("orderId");
       if (orderId) {
+        setBlockId(true);
         setPixLoading(true);
         connectionAPIGet<OrderType>(`/order/${orderId}/customer`, apiUrl)
           .then((res) => {
@@ -82,6 +85,7 @@ const PixCard = ({
               sessionStorage.removeItem("copyAndPaste");
               setFirstExpand(true);
               setInitialized(true);
+              setBlockId(false);
             } else {
               setOrderId(orderId);
               const qrCode = sessionStorage.getItem("qrCode");
@@ -101,6 +105,7 @@ const PixCard = ({
             sessionStorage.removeItem("qrCode");
             sessionStorage.removeItem("copyAndPaste");
             setPixLoading(false);
+            setBlockId(false);
           });
       } else {
         setFirstExpand(true);

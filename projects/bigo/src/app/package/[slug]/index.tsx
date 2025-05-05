@@ -4,11 +4,10 @@ import Input from "@4miga/design-system/components/input";
 import Text from "@4miga/design-system/components/Text";
 import { Theme } from "@4miga/design-system/theme/theme";
 import { useProducts } from "contexts/products/ProductsProvider";
+import PackageCard from "public/cards/packageCard/card";
 import PixCard from "public/components/payment/pixCard/pixCard";
 import React, { useEffect, useState } from "react";
 import { PackageType } from "types/productTypes";
-import { formatString } from "utils/formatString";
-import PackageCard from "../../../public/cards/packageCard/card";
 import { ProductInnerPage } from "./style";
 
 type Props = {
@@ -19,12 +18,10 @@ const PaymentPage = ({ slug }: Props) => {
   const products = useProducts();
   const product = products[0];
   const initialUserId = sessionStorage.getItem("userId");
+  const [blockId, setBlockId] = useState<boolean>(false);
 
   const item =
-    product &&
-    product.packages.find(
-      (item: PackageType) => formatString(item.id) === slug,
-    );
+    product && product.packages.find((item: PackageType) => item.id === slug);
   const [userId, setUserId] = useState<string>(
     initialUserId ? initialUserId : "",
   );
@@ -50,13 +47,13 @@ const PaymentPage = ({ slug }: Props) => {
         margin="16px 0 0 0"
         height={48}
         value={userId && userId}
-        onChange={(e) => setUserId(e.target.value)}
+        onChange={(e) => !blockId && setUserId(e.target.value)}
       />
       <Text margin="32px 0 0 0" align="center" fontName="REGULAR_SEMI_BOLD">
         PACOTE PARA RECARGA
       </Text>
       <div className="cardEnviroment">
-        {product && (
+        {product && item && (
           <PackageCard paymentIndex={paymentIndex} item={item} selected />
         )}
       </div>
@@ -64,13 +61,16 @@ const PaymentPage = ({ slug }: Props) => {
         FORMAS DE PAGAMENTO
       </Text>
       <section className="paymentMethods">
-        <PixCard
-          userId={userId}
-          packageId={item.id}
-          paymentMethodName={item.paymentMethods[0].name}
-          price={item && item.paymentMethods[0].price}
-          setError={setError}
-        />
+        {item && (
+          <PixCard
+            userId={userId}
+            packageId={item.id}
+            paymentMethodName={item.paymentMethods[0].name}
+            price={item && item.paymentMethods[0].price}
+            setError={setError}
+            setBlockId={setBlockId}
+          />
+        )}
         {/* <CreditcardCard /> */}
         <div className="errorMessage">
           <Text
