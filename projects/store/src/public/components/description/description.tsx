@@ -5,17 +5,14 @@ import { Theme } from "@4miga/design-system/theme/theme";
 import { useProducts } from "contexts/products/ProductsProvider";
 import Image from "next/image";
 import { usePathname } from "next/navigation";
-import DefaultBanner from "public/img/DefaultBanner.jpg";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { ProductType } from "types/productTypes";
-import { checkImageUrl } from "utils/checkImageUrl";
 import { formatString } from "utils/formatString";
 import { DescriptionContainer } from "./style";
 
 const Description = () => {
   const products = useProducts();
   const [seeMore, setSeeMore] = useState<boolean>(false);
-  const [isImageValid, setIsImageValid] = useState<boolean>(false);
   const pathname = usePathname();
   const getProductname = () => {
     const segments = pathname.split("/").filter(Boolean);
@@ -27,20 +24,10 @@ const Description = () => {
     (item: ProductType) => formatString(item.name) === productName,
   );
 
-  useEffect(() => {
-    const checkImage = async () => {
-      const valid = await checkImageUrl(product.imgBannerUrl);
-      console.log(valid);
-      setIsImageValid(valid);
-    };
-
-    checkImage();
-  }, [product]);
-
   return (
     <DescriptionContainer>
       <Image
-        src={isImageValid ? product.imgBannerUrl : DefaultBanner}
+        src={product.imgBannerUrl}
         alt={`Imagem do pacote ${product.name}`}
         height={600}
         width={1000}

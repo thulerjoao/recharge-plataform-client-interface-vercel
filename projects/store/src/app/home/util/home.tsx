@@ -1,13 +1,14 @@
 "use client";
 
 import Text from "@4miga/design-system/components/Text";
-import Carousel from "app/home/common/components/carousel/carousel";
-import BottomOffer from "public/components/bottomOffer/bottomOffer";
-import SecurityAdvertise from "public/components/securityAdvertise/securityAdvertise";
 import { useProducts } from "contexts/products/ProductsProvider";
+import BottomOffer from "public/components/bottomOffer/bottomOffer";
+import Carousel from "public/components/carousel/carousel";
+import SecurityAdvertise from "public/components/securityAdvertise/securityAdvertise";
 import GameCard from "../../../public/cards/gameCard/card";
-import Lines from "../common/components/lines/lines";
-import mainBanner from "../common/temp/mainBanner.png";
+import Lines from "../../../public/components/lines/lines";
+import banner01 from "../temp/banner01.png";
+import mainBanner from "../temp/mainBanner.png";
 import InvisibleCards from "./invisivleCards";
 import { HomeContainer } from "./style";
 
@@ -15,7 +16,7 @@ const Home = () => {
   const products = useProducts();
   return (
     <HomeContainer>
-      <Carousel imagesList={[mainBanner, mainBanner, mainBanner]} />
+      <Carousel imagesList={[mainBanner, banner01, mainBanner, banner01]} />
       <Lines />
       <main>
         <Text

@@ -29,7 +29,6 @@ interface Props {
 }
 
 const NewAccount = ({ setNewUser, setStep, setPreviousStep }: Props) => {
-  // sessionStorage.setItem("emailToConfirm", "liminha@email.com");
   const emailToConfirm = sessionStorage.getItem("emailToConfirm");
   const [loading, setLoading] = useState<boolean>(false);
   const {

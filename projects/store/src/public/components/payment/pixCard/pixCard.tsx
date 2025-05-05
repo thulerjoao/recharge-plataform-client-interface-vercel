@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable @next/next/no-img-element */
 import Button from "@4miga/design-system/components/button";
 import Text from "@4miga/design-system/components/Text";
@@ -23,6 +24,7 @@ interface Props {
   paymentMethodName: string;
   price: number;
   setError: React.Dispatch<React.SetStateAction<string>>;
+  setBlockId: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 const PixCard = ({
@@ -31,6 +33,7 @@ const PixCard = ({
   paymentMethodName,
   price,
   setError,
+  setBlockId,
 }: Props) => {
   const [initialized, setInitialized] = useState<boolean>(false);
   const [firstExpand, setFirstExpand] = useState<boolean>(false);
@@ -41,7 +44,7 @@ const PixCard = ({
   const [qrCode, setQrCode] = useState<string>(undefined);
   const [copyAndPaste, setCopyAndPaste] = useState<string>(undefined);
   const [orderId, setOrderId] = useState<string>(undefined);
-  const logged = useAuth();
+  const { logged } = useAuth();
   const route = useRouter();
 
   const handleFirstExpand = () => {
@@ -69,6 +72,7 @@ const PixCard = ({
     if (logged) {
       const orderId = sessionStorage.getItem("orderId");
       if (orderId) {
+        setBlockId(true);
         setPixLoading(true);
         connectionAPIGet<OrderType>(`/order/${orderId}/customer`, apiUrl)
           .then((res) => {
@@ -78,6 +82,7 @@ const PixCard = ({
               sessionStorage.removeItem("copyAndPaste");
               setFirstExpand(true);
               setInitialized(true);
+              setBlockId(false);
             } else {
               setOrderId(orderId);
               const qrCode = sessionStorage.getItem("qrCode");
@@ -97,6 +102,7 @@ const PixCard = ({
             sessionStorage.removeItem("qrCode");
             sessionStorage.removeItem("copyAndPaste");
             setPixLoading(false);
+            setBlockId(false);
           });
       } else {
         setFirstExpand(true);

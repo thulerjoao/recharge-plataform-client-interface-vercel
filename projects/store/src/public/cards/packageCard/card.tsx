@@ -1,8 +1,6 @@
 import Text from "@4miga/design-system/components/Text";
 import { Theme } from "@4miga/design-system/theme/theme";
 import Image from "next/image";
-import ImageNotFound from "public/img/ImageNotFound.jpg";
-import { useEffect, useState } from "react";
 import { PackageType } from "types/productTypes";
 import { formatPrice } from "utils/formatPrice";
 import { PackageCardContainer } from "./style";
@@ -14,27 +12,6 @@ interface PackageCardProps {
 }
 
 const PackageCard = ({ item, selected, paymentIndex }: PackageCardProps) => {
-  const [isImageValid, setIsImageValid] = useState<boolean>(false);
-
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  const isValidImageUrl = async (): Promise<boolean> => {
-    try {
-      const response = await fetch(item.imgCardUrl, { method: "HEAD" });
-      const contentType = response.headers.get("content-type");
-      return response.ok && contentType?.startsWith("image");
-    } catch {
-      return false;
-    }
-  };
-  useEffect(() => {
-    const checkImage = async () => {
-      const valid = await isValidImageUrl();
-      setIsImageValid(valid);
-    };
-
-    checkImage();
-  }, [item.imgCardUrl, isValidImageUrl]);
-
   return (
     <PackageCardContainer selected={selected}>
       <Text
@@ -49,7 +26,7 @@ const PackageCard = ({ item, selected, paymentIndex }: PackageCardProps) => {
         Diamantes
       </Text>
       <Image
-        src={isImageValid ? item.imgCardUrl : ImageNotFound}
+        src={item.imgCardUrl}
         alt={`Imagem do pacote ${item.name}`}
         height={100}
         width={100}
