@@ -12,7 +12,7 @@ export async function POST(req: Request) {
       );
     }
 
-    if (!rememberMe) {
+    if (rememberMe === undefined || rememberMe === null) {
       return NextResponse.json(
         { error: "Missing rememberMe" },
         { status: 400 },
