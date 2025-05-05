@@ -9,12 +9,10 @@ import { useProducts } from "contexts/products/ProductsProvider";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import BackArrow from "public/icons/BackArrow.svg";
-import ImageNotFound from "public/img/ImageNotFound.jpg";
 import { useEffect, useState } from "react";
 import { OrderType } from "types/orderType";
 import { PackageType } from "types/productTypes";
 import { apiUrl } from "utils/apiUrl";
-import { checkImageUrl } from "utils/checkImageUrl";
 import { formatDate } from "utils/formatDate";
 import { formatPrice } from "utils/formatPrice";
 import { formatString } from "utils/formatString";
@@ -45,18 +43,6 @@ const Order = () => {
   const product = order
     ? products.find((item) => item.id === order.orderItem.productId)
     : null;
-
-  const [isImageValid, setIsImageValid] = useState<boolean>(false);
-
-  useEffect(() => {
-    const checkImage = async () => {
-      if (order?.orderItem?.package?.imgCardUrl) {
-        const valid = await checkImageUrl(order.orderItem.package.imgCardUrl);
-        setIsImageValid(valid);
-      }
-    };
-    checkImage();
-  }, [order]);
 
   const handleBuyAgain = () => {
     sessionStorage.removeItem("qrCode");
@@ -114,7 +100,9 @@ const Order = () => {
         <section className="fisrtSection">
           <div className="fisrtRow">
             <Image
-              src={isImageValid ? product.imgCardUrl : ImageNotFound}
+              height={72}
+              width={72}
+              src={product.imgCardUrl}
               alt="imagem do card"
             />
             <div>
@@ -192,12 +180,10 @@ const Order = () => {
           <div className="outside">
             <span>
               <Image
-                src={
-                  isImageValid
-                    ? order.orderItem.package.imgCardUrl
-                    : ImageNotFound
-                }
+                src={order.orderItem.package.imgCardUrl}
                 alt="imagem do card"
+                height={40}
+                width={40}
               />
             </span>
             <div className="allInfos">

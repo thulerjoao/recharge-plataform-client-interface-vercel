@@ -29,7 +29,6 @@ interface Props {
 }
 
 const NewAccount = ({ setNewUser, setStep, setPreviousStep }: Props) => {
-  // sessionStorage.setItem("emailToConfirm", "liminha@email.com");
   const emailToConfirm = sessionStorage.getItem("emailToConfirm");
   const [loading, setLoading] = useState<boolean>(false);
   const {
@@ -106,10 +105,19 @@ const NewAccount = ({ setNewUser, setStep, setPreviousStep }: Props) => {
   const handleErrorResponse = (res: string) => {
     if (res.toLocaleLowerCase() === "email already exists") {
       setErrorMessage("Email já cadastrado");
+      setLoading(false);
     } else if (res.toLocaleLowerCase() === "unique data already exists") {
       setErrorMessage("Usuário já cadastrado");
+      setLoading(false);
+    } else if (
+      res.toLocaleLowerCase() ===
+      "name cannot contain numbers and special characters"
+    ) {
+      setErrorMessage("Nome inválido");
+      setLoading(false);
     } else {
       setErrorMessage("Erro ao criar conta");
+      setLoading(false);
     }
   };
 

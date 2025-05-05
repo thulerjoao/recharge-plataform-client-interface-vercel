@@ -27,6 +27,7 @@ const PaymentPage = ({ id, slug }: Props) => {
     product &&
     product.packages.find((item: PackageType) => formatString(item.id) === id);
   const initialUserId = sessionStorage.getItem("userId");
+  const [blockId, setBlockId] = useState<boolean>(false);
   const [userId, setUserId] = useState<string>(
     initialUserId ? initialUserId : "",
   );
@@ -55,7 +56,7 @@ const PaymentPage = ({ id, slug }: Props) => {
         margin="16px 0 0 0"
         height={48}
         value={userId && userId}
-        onChange={(e) => setUserId(e.target.value)}
+        onChange={(e) => !blockId && setUserId(e.target.value)}
       />
       <Text margin="32px 0 0 0" align="center" fontName="REGULAR_SEMI_BOLD">
         PACOTE PARA RECARGA
@@ -75,6 +76,7 @@ const PaymentPage = ({ id, slug }: Props) => {
           paymentMethodName={item.paymentMethods[0].name}
           price={item && item.paymentMethods[0].price}
           setError={setError}
+          setBlockId={setBlockId}
         />
         {/* <CreditcardCard /> */}
         <div className="errorMessage">
