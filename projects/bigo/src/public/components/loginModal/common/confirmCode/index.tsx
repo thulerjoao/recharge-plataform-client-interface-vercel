@@ -26,7 +26,7 @@ const ConfirmCode = ({ user, previousStep, setStep, closeModal }: Props) => {
   const [errorMessage, setErrorMessage] = useState<string>("");
   const [code, setCode] = useState<number>(null);
   const [loading, setLoading] = useState<boolean>(false);
-  const [seconds, setSeconds] = useState<number>(59);
+  const [seconds, setSeconds] = useState<number>(60);
   const [sendCode, setSendCode] = useState<boolean>(false);
 
   const handleSubmit = () => {
@@ -139,7 +139,7 @@ const ConfirmCode = ({ user, previousStep, setStep, closeModal }: Props) => {
         width={310}
         height={40}
         rounded
-        title="Enviar"
+        title="Confirmar"
         onClick={() => handleSubmit()}
         isNotSelected={handleDisabled()}
         disabled={handleDisabled()}
