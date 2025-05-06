@@ -40,6 +40,7 @@ const LoginModal = ({ setLoginModal, openInNewAccount }: LoginModalProps) => {
 
   const handleBackward = () => {
     step === "forgotPassword" && setStep("login");
+    step === "confirmCode" && setStep("login");
     step === "confirmCodePass" && setStep("forgotPassword");
     step === "newPassword" && setStep("confirmCodePass");
   };
