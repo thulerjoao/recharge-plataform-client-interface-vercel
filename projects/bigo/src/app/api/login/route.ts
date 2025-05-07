@@ -20,6 +20,7 @@ export async function POST(req: Request) {
     }
 
     const cookieStore = cookies();
+    console.log("rememberMe", rememberMe);
 
     cookieStore.set("refreshToken", refreshToken, {
       httpOnly: true,
@@ -27,20 +28,6 @@ export async function POST(req: Request) {
       sameSite: "strict",
       path: "/",
       ...(rememberMe && { maxAge: 60 * 60 * 24 * 365 * 10 }),
-    });
-
-    cookieStore.set("inSession", "true", {
-      httpOnly: true,
-      secure: process.env.NODE_ENV === "production",
-      sameSite: "strict",
-      path: "/",
-    });
-
-    cookieStore.set("rememberMe", rememberMe, {
-      httpOnly: true,
-      secure: process.env.NODE_ENV === "production",
-      sameSite: "strict",
-      path: "/",
     });
 
     return NextResponse.json({ success: true });

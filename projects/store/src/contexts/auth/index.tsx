@@ -42,38 +42,43 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
 
   useEffect(() => {
     const checkAuth = async () => {
-      try {
-        const response = await axios.get("/api/token", {
-          withCredentials: true,
-        });
-        const refreshToken = response.data?.refreshToken;
-        if (!refreshToken) {
-          setCheckingToken(false);
-          await axios.delete("/api/logout", {
+      const accessToken = localStorage.getItem("accessToken");
+      if (accessToken) {
+        try {
+          const response = await axios.get("/api/token", {
             withCredentials: true,
           });
-          return;
-        }
-        await connectionAPIPost<LoginResponse>(
-          `/customer/refresh-token`,
-          { refreshToken },
-          apiUrl,
-        )
-          .then(async (res) => {
-            const rememberMe = true;
-            await login(res, rememberMe);
+          const refreshToken = response.data?.refreshToken;
+          if (!refreshToken) {
             setCheckingToken(false);
-          })
-          .catch(async () => {
             await axios.delete("/api/logout", {
               withCredentials: true,
             });
-            setCheckingToken(false);
+            return;
+          }
+          await connectionAPIPost<LoginResponse>(
+            `/customer/refresh-token`,
+            { refreshToken },
+            apiUrl,
+          )
+            .then(async (res) => {
+              const rememberMe = true;
+              await login(res, rememberMe);
+              setCheckingToken(false);
+            })
+            .catch(async () => {
+              await axios.delete("/api/logout", {
+                withCredentials: true,
+              });
+              setCheckingToken(false);
+            });
+        } catch {
+          await axios.delete("/api/logout", {
+            withCredentials: true,
           });
-      } catch {
-        await axios.delete("/api/logout", {
-          withCredentials: true,
-        });
+          setCheckingToken(false);
+        }
+      } else {
         setCheckingToken(false);
       }
     };
@@ -132,6 +137,9 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
   const login = async (data: LoginResponse, rememberMe: boolean) => {
     const accessToken = data.access.accessToken;
     sessionStorage.setItem("accessToken", accessToken);
+    rememberMe
+      ? localStorage.setItem("accessToken", accessToken)
+      : localStorage.removeItem("accessToken");
     const refreshToken = data.access.refreshToken;
     const expiresIn = data.access.expiresIn;
     const user: Partial<UserType> = {
@@ -150,11 +158,11 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           refreshToken,
-          expiresIn,
           rememberMe: rememberMe,
         }),
         credentials: "include",
       });
+      console.log(res);
       if (!res.ok) throw new Error("Erro ao fazer login");
       setLogged(true);
       setUser(user);
@@ -177,6 +185,7 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
         setExpiresIn(null);
         setUser(null);
         sessionStorage.clear();
+        localStorage.clear();
         route.replace("/");
       }
     } catch (error) {
