@@ -87,7 +87,6 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
 
   useEffect(() => {
     if (!expiresIn) return;
-
     const updateToken = async () => {
       try {
         const response = await axios.get("/api/token", {

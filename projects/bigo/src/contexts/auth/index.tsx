@@ -114,7 +114,6 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
 
         setExpiresIn(newExpiresIn);
         sessionStorage.setItem("accessToken", newAccessToken);
-        localStorage.setItem("accessToken", newAccessToken);
         await axios.post(
           "/api/login",
           {
