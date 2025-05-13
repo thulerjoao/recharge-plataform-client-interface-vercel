@@ -4,7 +4,7 @@ import { Theme } from "@4miga/design-system/theme/theme";
 import { useAuth } from "context/auth";
 import { usePathname, useRouter } from "next/navigation";
 import React, { useState } from "react";
-import { AsideSelected } from "types/globalTypes";
+import { AsideSelected } from "types/asideSelectedType";
 import Gear from "../asideBar/icons/Gear.svg";
 import GearSelected from "../asideBar/icons/GearSelected.svg";
 import Home from "../asideBar/icons/Home.svg";
@@ -183,6 +183,7 @@ const MobileMenu = ({ search, openMenu, setOpenMenu }: Props) => {
           SAIR
         </Text>
       </div>
+      <div className="close" onClick={() => setOpenMenu(false)} />
       {/* <div className="bottomOptions">
         <div
           onClick={() => handleClick("config")}

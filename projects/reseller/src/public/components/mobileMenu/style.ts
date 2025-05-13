@@ -83,6 +83,12 @@ export const MobileMenuContainer = styled.div<Props>`
   .selected {
     background-color: ${Theme.colors.mainHighlight};
     border-radius: 16px;
+    cursor: pointer;
+  }
+
+  .close {
+    width: 100%;
+    height: 100%;
   }
 `;
 
