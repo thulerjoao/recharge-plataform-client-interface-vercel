@@ -58,13 +58,13 @@ export const FooterContainer = styled.footer`
         align-items: center;
         justify-content: center;
         gap: 8px;
+        margin-bottom: 4px;
       }
 
       .bottomPhrase {
         display: flex;
         align-items: center;
         justify-content: center;
-        gap: 8px;
       }
     }
   }
