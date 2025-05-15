@@ -3,7 +3,6 @@ import styled from "styled-components";
 
 export const FooterContainer = styled.footer`
   width: 100%;
-  height: 238px;
   display: flex;
   align-items: start;
   justify-content: center;
@@ -13,16 +12,16 @@ export const FooterContainer = styled.footer`
 
   .centerComponent {
     width: 100%;
-    height: 100%;
+    height: 220px;
     max-width: 55.5rem;
     display: flex;
     flex-direction: column;
-    align-items: center;
+    justify-content: space-between;
     margin: 0 80px;
 
     .upperComponent {
       width: 100%;
-      height: 82px;
+      min-height: 82px;
       margin-top: 24px;
       display: flex;
       align-items: center;
@@ -51,7 +50,7 @@ export const FooterContainer = styled.footer`
       align-items: center;
       justify-content: space-between;
       min-height: 48px;
-      margin-top: 68px;
+      margin-bottom: 8px;
 
       .topPhrase {
         display: flex;
@@ -65,7 +64,6 @@ export const FooterContainer = styled.footer`
         display: flex;
         align-items: center;
         justify-content: center;
-        margin-bottom: 4px;
       }
     }
   }
@@ -73,11 +71,19 @@ export const FooterContainer = styled.footer`
   @media (min-width: 768px) and (max-width: 1024px) {
     .centerComponent {
       margin: 0 80px;
+
+      .bottomComponent {
+        margin-bottom: 16px;
+      }
     }
   }
   @media (max-width: 767px) {
     .centerComponent {
       margin: 0 16px;
+
+      .bottomComponent {
+        margin-bottom: 20px;
+      }
     }
   }
 `;
