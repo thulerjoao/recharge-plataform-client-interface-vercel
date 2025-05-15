@@ -39,7 +39,7 @@ const Footer = () => {
         </div>
         <div className="bottomComponent">
           <div className="topPhrase">
-            <Text nowrap align="center" fontName="TINY">
+            {/* <Text nowrap align="center" fontName="TINY">
               Termos de uso
             </Text>
             <Text align="center" fontName="BIG_SEMI_BOLD">
@@ -47,9 +47,7 @@ const Footer = () => {
             </Text>
             <Text nowrap fontName="TINY">
               Política de privacidade
-            </Text>
-          </div>
-          <div className="bottomPhrase">
+            </Text> */}
             <Text nowrap align="center" fontName="TINY">
               Desenvolvido por
             </Text>
@@ -65,6 +63,13 @@ const Footer = () => {
               4MIGA GAMES
             </Text>
           </div>
+          <div className="bottomPhrase">
+            <Text align="center" fontName="TINY">
+              Este site é operado por empresas distintas e independentes, não
+              sendo responsáveis pelos serviços umas das outras
+            </Text>
+          </div>
+          <div className="topPhrase"></div>
         </div>
       </div>
     </FooterContainer>

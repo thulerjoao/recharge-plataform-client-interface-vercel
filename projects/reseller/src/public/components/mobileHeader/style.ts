@@ -17,7 +17,7 @@ export const MobileHeaderContainer = styled.header<Props>`
 
   .topCompoennt {
     z-index: 1;
-    background-color: ${Theme.colors.mainTransparent};
+    background-color: ${Theme.colors.modalBackground};
     border-bottom: ${({ openMenu }) =>
       openMenu && `1px solid ${Theme.colors.secondaryAction}`};
     box-sizing: border-box;
@@ -28,6 +28,23 @@ export const MobileHeaderContainer = styled.header<Props>`
     height: 48px;
     height: ${({ openMenu }) => openMenu && "49px"};
     padding: 0 16px;
+  }
+
+  .navBar {
+    width: 100%;
+    height: 48px;
+    height: ${({ openMenu }) => openMenu && "0px"};
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    background-color: ${Theme.colors.modalBackground};
+    border-bottom: 1px solid ${Theme.colors.secondaryTextAction};
+
+    span {
+      background-color: ${Theme.colors.mainHighlight};
+      border-radius: 8px;
+      padding: 4px;
+    }
   }
 
   span {

@@ -2,6 +2,11 @@ import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { scrollToTop } from "utils/scrollToTopFunction";
 import useDisableScroll from "utils/useDisableScroll";
+import Home from "../asideBar/icons/Home.svg";
+import Products from "../asideBar/icons/Products.svg";
+import Recharge from "../asideBar/icons/Recharge.svg";
+import Sales from "../asideBar/icons/Sales.svg";
+import Wallet from "../asideBar/icons/Wallet.svg";
 import MobileMenu from "../mobileMenu";
 import Logo from "./icons/Logo.svg";
 import Menu from "./icons/Menu.svg";
@@ -13,16 +18,16 @@ interface Props {
 
 const MobiletHeader = ({ search }: Props) => {
   const route = useRouter();
-  const [openmenu, setOpenmenu] = useState<boolean>(false);
+  const [openMenu, setOpenmenu] = useState<boolean>(false);
 
-  useDisableScroll({ isOpen: openmenu });
+  useDisableScroll({ isOpen: openMenu });
 
   const handleBarClick = () => {
-    openmenu ? setOpenmenu(false) : scrollToTop();
+    openMenu ? setOpenmenu(false) : scrollToTop();
   };
 
   return (
-    <MobileHeaderContainer openMenu={openmenu}>
+    <MobileHeaderContainer openMenu={openMenu}>
       <section className="topCompoennt" onClick={() => handleBarClick()}>
         <span onClick={() => route.push("/home")}>
           <Logo />
@@ -30,16 +35,33 @@ const MobiletHeader = ({ search }: Props) => {
         <span
           onClick={(event) => {
             event.preventDefault();
-            setOpenmenu(!openmenu);
+            setOpenmenu(!openMenu);
           }}
         >
           <Menu />
         </span>
       </section>
-      {openmenu && (
+      <section className="navBar">
+        <span>
+          <Home />
+        </span>
+        <span>
+          <Sales />
+        </span>
+        <span>
+          <Products />
+        </span>
+        <span>
+          <Recharge />
+        </span>
+        <span>
+          <Wallet />
+        </span>
+      </section>
+      {openMenu && (
         <MobileMenu
           search={search}
-          openMenu={openmenu}
+          openMenu={openMenu}
           setOpenMenu={setOpenmenu}
         />
       )}
