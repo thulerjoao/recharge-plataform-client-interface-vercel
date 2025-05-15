@@ -50,7 +50,7 @@ export const FooterContainer = styled.footer`
       flex-direction: column;
       align-items: center;
       justify-content: space-between;
-      height: 48px;
+      min-height: 48px;
       margin-top: 68px;
 
       .topPhrase {
@@ -65,6 +65,7 @@ export const FooterContainer = styled.footer`
         display: flex;
         align-items: center;
         justify-content: center;
+        margin-bottom: 4px;
       }
     }
   }
