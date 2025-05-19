@@ -28,13 +28,27 @@ const SearchComponent = ({ setOpenModal }: Props) => {
   const [rechargeInAnalysis, setRechargeInAnalysis] = useState<boolean>(false);
   const [rechargeRefused, setRechargeRefused] = useState<boolean>(false);
 
+  const [startDate, setStartDate] = useState<Date | undefined>(undefined);
+  const [endDate, setEndDate] = useState<Date | undefined>(undefined);
+  const handleDateChange = ({ from, to }) => {
+    setStartDate(from);
+    setEndDate(to);
+    console.log("Data início:", from, "Data fim:", to);
+  };
+
   return (
     <SearchComponentContainer>
       <div onClick={() => setOpenDate(!openDate)} className="option">
         <Text fontName="SMALL_MEDIUM">Data</Text>
         {openDate ? <UpArrow /> : <DownArrow />}
       </div>
-      {openDate && <CalendarComponent />}
+      {openDate && (
+        <CalendarComponent
+          startDate={startDate}
+          endDate={endDate}
+          onDateChange={handleDateChange}
+        />
+      )}
       <div onClick={() => setOpenPayment(!openPayment)} className="option">
         <Text fontName="SMALL_MEDIUM">Status de pagamento</Text>
         {openPayment ? <UpArrow /> : <DownArrow />}
