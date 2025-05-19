@@ -11,7 +11,7 @@
     "lint": "eslint ./src/app/**/*.{ts,tsx}"
   },
   "dependencies": {
-    "dayjs": "1.11.13",
+    "react-day-picker": "9.7.0",
     "next": "^14.2.13",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
@@ -23,7 +23,7 @@
     "@4miga/services": "*"
   },
   "devDependencies": {
-
+    "@types/react-day-picker": "5.3.0",
     "@4miga/test-commons": "*",
     "@4miga/tsconfig-commons": "*",
     "@4miga/eslint-commons": "*"

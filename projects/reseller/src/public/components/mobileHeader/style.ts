@@ -30,23 +30,6 @@ export const MobileHeaderContainer = styled.header<Props>`
     padding: 0 16px;
   }
 
-  .navBar {
-    width: 100%;
-    height: 48px;
-    height: ${({ openMenu }) => openMenu && "0px"};
-    display: flex;
-    justify-content: space-around;
-    align-items: center;
-    background-color: ${Theme.colors.modalBackground};
-    border-bottom: 1px solid ${Theme.colors.secondaryTextAction};
-
-    span {
-      background-color: ${Theme.colors.mainHighlight};
-      border-radius: 8px;
-      padding: 4px;
-    }
-  }
-
   span {
     display: flex;
     align-items: center;
