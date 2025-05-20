@@ -4,12 +4,6 @@ import { useRouter } from "next/navigation";
 import GameCard from "public/cards/gameCard/card";
 import DefaultHeader from "public/components/defaultHeader";
 import HeaderEnviroment from "public/components/headerEnviroment";
-import Card1 from "../common/temp/Card1.png";
-import Card2 from "../common/temp/Card2.png";
-import Card3 from "../common/temp/Card3.png";
-import Card4 from "../common/temp/Card4.png";
-import Card5 from "../common/temp/Card5.png";
-import Card6 from "../common/temp/Card6.png";
 import { RechargeContainer } from "./style";
 
 const Reseller = () => {
@@ -17,7 +11,7 @@ const Reseller = () => {
 
   return (
     <RechargeContainer>
-      {/* <div className="desktop tablet">
+      <div className="desktop tablet">
         <HeaderEnviroment>
           <DefaultHeader backWard title="RECARGA" />
         </HeaderEnviroment>
@@ -31,42 +25,12 @@ const Reseller = () => {
         </Text>
       </div>
       <main className="cardsContainer">
-        <div
+        {/* <div
           className="cardEnviroment"
           onClick={() => route.push("/recharge/bigo")}
         >
-          <GameCard image={Card1} name="Bigo Live" />
-        </div>
-        <div
-          className="cardEnviroment"
-          onClick={() => route.push("/recharge/bigo")}
-        >
-          <GameCard image={Card2} name="Farlight 84" />
-        </div>
-        <div
-          className="cardEnviroment"
-          onClick={() => route.push("/recharge/bigo")}
-        >
-          <GameCard image={Card3} name="8 Ball Pool" />
-        </div>
-        <div
-          className="cardEnviroment"
-          onClick={() => route.push("/recharge/bigo")}
-        >
-          <GameCard image={Card4} name="Free Fire" />
-        </div>
-        <div
-          className="cardEnviroment"
-          onClick={() => route.push("/recharge/bigo")}
-        >
-          <GameCard image={Card5} name="Pubg Mobile" />
-        </div>
-        <div
-          className="cardEnviroment"
-          onClick={() => route.push("/recharge/bigo")}
-        >
-          <GameCard image={Card6} name="Mobile Legends" />
-        </div>
+          <GameCard product={{}} />
+        </div> */}
       </main>
 
       <div className="fixRecharge">
@@ -87,7 +51,7 @@ const Reseller = () => {
             </Text>
           </span>
         </span>
-      </div> */}
+      </div>
     </RechargeContainer>
   );
 };
