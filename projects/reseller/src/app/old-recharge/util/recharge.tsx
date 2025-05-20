@@ -17,7 +17,7 @@ const Reseller = () => {
 
   return (
     <RechargeContainer>
-      <div className="desktop tablet">
+      {/* <div className="desktop tablet">
         <HeaderEnviroment>
           <DefaultHeader backWard title="RECARGA" />
         </HeaderEnviroment>
@@ -87,7 +87,7 @@ const Reseller = () => {
             </Text>
           </span>
         </span>
-      </div>
+      </div> */}
     </RechargeContainer>
   );
 };
