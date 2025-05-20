@@ -14,26 +14,15 @@ interface CardProps {
 
 const GameCard = ({ product }: CardProps) => {
   const route = useRouter();
-  const [isImageValid, setIsImageValid] = useState<boolean>(false);
-
-  useEffect(() => {
-    const checkImage = async () => {
-      const valid = await checkImageUrl(product.imgCardUrl);
-      setIsImageValid(valid);
-    };
-
-    checkImage();
-  }, [product.imgCardUrl]);
-
   const handleProductClick = (path: string) => {
     const res = formatString(path);
-    route.push(`/product/${res}`);
+    route.push(`/products/${res}`);
   };
 
   return (
     <CardContainer onClick={() => handleProductClick(product.name)}>
       <Image
-        src={isImageValid ? product.imgCardUrl : ImageNotFound}
+        src={product.imgCardUrl}
         alt={`Imagem do jogo ${product.name}`}
         height={200}
         width={200}
