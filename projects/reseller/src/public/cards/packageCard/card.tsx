@@ -1,12 +1,12 @@
 import Text from "@4miga/design-system/components/Text";
 import { Theme } from "@4miga/design-system/theme/theme";
+import Image from "next/image";
 import { useRouter } from "next/navigation";
-import { ReactElement } from "react";
 import { PackageCardContainer } from "./style";
 
 interface PackageCardProps {
   title: string;
-  image: ReactElement;
+  imageUrl: string;
   bestOffer?: boolean;
   price: number;
   selected?: boolean;
@@ -14,7 +14,7 @@ interface PackageCardProps {
 
 const PackageCard = ({
   title,
-  image,
+  imageUrl,
   bestOffer,
   price,
   selected,
@@ -34,7 +34,9 @@ const PackageCard = ({
       <Text tag="h2" align="center" fontName="REGULAR_SEMI_BOLD">
         DIAMANTES
       </Text>
-      <figure>{image}</figure>
+      <figure>
+        <Image src={imageUrl} alt="Imagem do pacote" width={80} height={80} />
+      </figure>
       {bestOffer ? (
         <span className="bestPrice">
           <Text

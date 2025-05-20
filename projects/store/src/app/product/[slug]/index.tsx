@@ -23,11 +23,11 @@ type Props = {
 };
 
 const ProductPage = ({ slug }: Props) => {
+  const route = useRouter();
   const products = useProducts();
   const product = products.find(
     (product: ProductType) => formatString(product.name) === slug,
   );
-  const route = useRouter();
   const [selected, setSelected] = useState<number>(0);
   const [loginModal, setLoginModal] = useState<boolean>(false);
   const [clicked, setClicked] = useState<boolean>(false);

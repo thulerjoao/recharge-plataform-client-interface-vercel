@@ -63,6 +63,11 @@ export const ProductsInnerPage = styled.div`
         display: flex;
         flex-direction: column;
         align-items: center;
+
+        img {
+          max-width: 100%;
+          height: auto;
+        }
       }
 
       .rightContainer {
@@ -71,6 +76,11 @@ export const ProductsInnerPage = styled.div`
         display: flex;
         flex-direction: column;
         align-items: center;
+
+        img {
+          max-width: 178px;
+          height: auto;
+        }
       }
     }
 
