@@ -17,6 +17,10 @@ export const LayoutStyle = styled.div<LayoutProps>`
     .mobileNavbar {
       display: none;
     }
+
+    .mobileBottomSpace {
+      height: 0px;
+    }
   }
 
   @media (min-width: 768px) and (max-width: 1024px) {
@@ -43,6 +47,10 @@ export const LayoutStyle = styled.div<LayoutProps>`
 
       .desktopNavBar {
         display: none;
+      }
+
+      .mobileBottomSpace {
+        height: 72px;
       }
     }
   }

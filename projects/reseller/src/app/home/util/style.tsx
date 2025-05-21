@@ -22,8 +22,7 @@ export const HomeContainer = styled.div`
     }
   }
   @media (max-width: 767px) {
-    /* padding-top: 80px; */
-    padding-top: 120px;
+    padding-top: 80px;
 
     .bottomContainer {
       flex-direction: column;
