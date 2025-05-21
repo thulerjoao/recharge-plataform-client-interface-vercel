@@ -3,6 +3,7 @@ import { Theme } from "@4miga/design-system/theme/theme";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { PackageCardContainer } from "./style";
+import { formatPrice } from "utils/formatPrice";
 
 interface PackageCardProps {
   title: string;
@@ -64,7 +65,7 @@ const PackageCard = ({
         fontName="REGULAR_SEMI_BOLD"
         margin="9px 16px 0 0"
       >
-        R$ ${price.toFixed(2)}
+        R$ {formatPrice(price)}
       </Text>
     </PackageCardContainer>
   );

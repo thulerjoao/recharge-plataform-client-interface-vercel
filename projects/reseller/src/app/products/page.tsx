@@ -1,6 +1,6 @@
 "use client";
 
-import ProductsPage from ".";
+import ProductsPage from "./util";
 
 const Page = () => {
   return <ProductsPage />;

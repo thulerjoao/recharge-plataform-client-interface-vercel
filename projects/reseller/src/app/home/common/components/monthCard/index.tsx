@@ -1,6 +1,7 @@
 import Text from "@4miga/design-system/components/Text";
 import Image, { StaticImageData } from "next/image";
 import { MonthCardContainer } from "./style";
+import { formatPrice } from "utils/formatPrice";
 
 interface CardProps {
   image: StaticImageData;
@@ -23,13 +24,13 @@ const MonthCard = ({ image, sold, invoicing, profit }: CardProps) => {
         <div>
           <Text fontName="REGULAR">Faturamento</Text>
           <Text margin="10px 0 0 0" fontName="REGULAR_MEDIUM">
-            {invoicing.toFixed(2)}
+            {formatPrice(invoicing)}
           </Text>
         </div>
         <div>
           <Text fontName="REGULAR">Lucro</Text>
           <Text margin="10px 0 0 0" fontName="REGULAR_MEDIUM">
-            {profit.toFixed(2)}
+            {formatPrice(profit)}
           </Text>
         </div>
       </section>
