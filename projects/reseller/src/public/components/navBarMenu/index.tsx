@@ -1,17 +1,16 @@
 import { usePathname, useRouter } from "next/navigation";
 import { AsideSelected } from "types/asideSelectedType";
-import Home from "../../asideBar/icons/Home.svg";
-import HomeSelected from "../../asideBar/icons/HomeSelected.svg";
-import Products from "../../asideBar/icons/Products.svg";
-import ProductsSelected from "../../asideBar/icons/ProductsSelected.svg";
-import Recharge from "../../asideBar/icons/Recharge.svg";
-import RechargeSelected from "../../asideBar/icons/RechargeSelected.svg";
-import Sales from "../../asideBar/icons/Sales.svg";
-import SalesSelected from "../../asideBar/icons/SalesSelected.svg";
-import Wallet from "../../asideBar/icons/Wallet.svg";
-import WalletSelected from "../../asideBar/icons/WalletSelected.svg";
+import ProductsSelected from "../asideBar/icons/ProductsSelected.svg";
+import RechargeSelected from "../asideBar/icons/RechargeSelected.svg";
+import SalesSelected from "../asideBar/icons/SalesSelected.svg";
+import Home from "../asideBar/icons/Home.svg";
+import HomeSelected from "../asideBar/icons/HomeSelected.svg";
+import Products from "../asideBar/icons/Products.svg";
+import Recharge from "../asideBar/icons/Recharge.svg";
+import Sales from "../asideBar/icons/Sales.svg";
+import Wallet from "../asideBar/icons/Wallet.svg";
+import WalletSelected from "../asideBar/icons/WalletSelected.svg";
 import { MobileNavBar } from "./style";
-import { routeModule } from "next/dist/build/templates/app-page";
 
 interface Props {
   openMenu: boolean;

@@ -5,7 +5,7 @@ import useDisableScroll from "utils/useDisableScroll";
 import MobileMenu from "../mobileMenu";
 import Logo from "./icons/Logo.svg";
 import Menu from "./icons/Menu.svg";
-import MobileNavbar from "./navBarMenu";
+import MobileNavbar from "../navBarMenu";
 import { MobileHeaderContainer } from "./style";
 
 interface Props {

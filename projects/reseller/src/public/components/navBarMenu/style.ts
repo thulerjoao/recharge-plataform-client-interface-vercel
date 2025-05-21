@@ -7,7 +7,7 @@ interface Props {
 
 export const MobileNavBar = styled.div<Props>`
   width: 100%;
-  height: 56px;
+  padding: 12px 0px 28px 0px;
   height: ${({ openMenu }) => openMenu && "0px"};
   display: flex;
   justify-content: space-around;
