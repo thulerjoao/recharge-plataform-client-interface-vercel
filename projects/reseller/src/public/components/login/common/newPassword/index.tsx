@@ -49,11 +49,8 @@ const NewPassword = ({ newPassRes }: Props) => {
       apiUrl,
     )
       .then((res) => {
-        return login({
-          email: newPassRes.email,
-          password,
-          rememberMe: true,
-        });
+        return;
+        // login here
       })
       .catch((err) => {
         setErrorMessage("Erro ao atualizar senha");
