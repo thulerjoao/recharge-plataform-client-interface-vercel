@@ -3,6 +3,7 @@ import Input from "@4miga/design-system/components/input";
 import OnOff from "@4miga/design-system/components/onOff";
 import Text from "@4miga/design-system/components/Text";
 import { Theme } from "@4miga/design-system/theme/theme";
+import { useProducts } from "context/products/ProductsProvider";
 import DefaultHeader from "public/components/defaultHeader";
 import HeaderEnviroment from "public/components/headerEnviroment";
 import { useState } from "react";
@@ -20,6 +21,8 @@ import Transfer from "./common/icons/Transfer.svg";
 import PriceCard from "./common/priceCard";
 import PriceCardMobile from "./common/priceCardMobile";
 import { ConfigPackagePage } from "./style";
+import { ProductType } from "types/productTypes";
+import { formatString } from "utils/formatString";
 
 type Props = {
   slug: string;
@@ -28,6 +31,10 @@ type Props = {
 
 const SecondaryProductPage = ({ slug, childSlug }: Props) => {
   const [confirmModal, setconfirmModal] = useState<boolean>(false);
+  const products = useProducts();
+  const product = products.find(
+    (product: ProductType) => formatString(product.name) === slug,
+  );
 
   return (
     <ConfigPackagePage>

@@ -37,6 +37,11 @@ const Productpage = ({ slug }: Props) => {
     }
   }, [aboutProduct, initialAbout, initialInstructions, instructions]);
 
+  const handlePackageClick = (slug: string, packag: PackageType) => {
+    sessionStorage.setItem("CurrentPackage", JSON.stringify(packag));
+    route.push(`/products/${slug}/${packag.id}`);
+  };
+
   return (
     <ProductsInnerPage>
       <div className="desktop tablet">
@@ -63,7 +68,7 @@ const Productpage = ({ slug }: Props) => {
             return (
               <div
                 key={packag.id}
-                onClick={() => route.push(`/products/${slug}/${packag.id}`)}
+                onClick={() => handlePackageClick(slug, packag)}
                 className="cardEnviroment"
               >
                 <PackageCard
