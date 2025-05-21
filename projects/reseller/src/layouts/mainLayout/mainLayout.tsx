@@ -29,6 +29,7 @@ const MainLayout: React.FC<LayoutProps> = ({ children }) => {
             <MobiletHeader search={handleSearch()} />
           </div>
           {children}
+          <div className="mobileBottomSpace" />
         </section>
       </LayoutStyle>
     </StyleSheetManager>
