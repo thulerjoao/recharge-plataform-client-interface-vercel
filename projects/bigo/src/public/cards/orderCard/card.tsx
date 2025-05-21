@@ -6,6 +6,7 @@ import { OrderType } from "types/orderType";
 import { formatDate } from "utils/formatDate";
 import { handleOrderStatus, handleStatusColor } from "utils/handleStatus";
 import { OrderCardContainer } from "./style";
+import { formatPrice } from "utils/formatPrice";
 
 interface OrderCardProps {
   order: OrderType;
@@ -44,7 +45,7 @@ const OrderCard = ({ order }: OrderCardProps) => {
             {order.orderItem.package.name}
           </Text>
           <Text align="end" fontName="SMALL_MEDIUM">
-            R$ {order.totalAmount.toFixed(2)}
+            R$ {formatPrice(order.totalAmount)}
           </Text>
         </div>
         <div className="rowInfos">

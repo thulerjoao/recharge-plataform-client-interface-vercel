@@ -127,6 +127,11 @@ export const ConfigPackagePage = styled.div`
           flex-direction: column;
           align-items: center;
         }
+
+        .tablet,
+        .mobile {
+          display: none;
+        }
       }
     }
 
@@ -205,6 +210,10 @@ export const ConfigPackagePage = styled.div`
           .desktop {
             display: none;
           }
+
+          .tablet {
+            display: flex;
+          }
         }
       }
     }
@@ -254,6 +263,10 @@ export const ConfigPackagePage = styled.div`
         .cardsList {
           .desktop {
             display: none;
+          }
+
+          .mobile {
+            display: flex;
           }
         }
       }

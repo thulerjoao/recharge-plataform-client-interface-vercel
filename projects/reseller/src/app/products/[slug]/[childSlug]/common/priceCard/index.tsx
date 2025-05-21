@@ -2,6 +2,7 @@ import Input from "@4miga/design-system/components/input";
 import Text from "@4miga/design-system/components/Text";
 import { Theme } from "@4miga/design-system/theme/theme";
 import { ReactElement } from "react";
+import { formatPrice } from "utils/formatPrice";
 import { PriceCardContainer } from "./style";
 
 interface CardProps {
@@ -40,17 +41,17 @@ const PriceCard = ({
       </span>
       <span className="totalCost">
         <Text align="center" fontName="REGULAR_SEMI_BOLD">
-          R$ {totalCost.toFixed(2)}
+          R$ {formatPrice(totalCost)}
         </Text>
       </span>
       <span className="profitMargin">
         <Input height={32} value={`${profitMargin}%`} />
       </span>
       <span className="profitValue">
-        <Input height={32} value={`R$ ${profitValue.toFixed(2)}`} />
+        <Input height={32} value={`R$ ${formatPrice(profitValue)}`} />
       </span>
       <span className="saleValue">
-        <Input height={32} value={`R$ ${sellValue.toFixed(2)}`} />
+        <Input height={32} value={`R$ ${formatPrice(sellValue)}`} />
       </span>
     </PriceCardContainer>
   );
