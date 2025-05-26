@@ -11,6 +11,7 @@ import Sales from "../asideBar/icons/Sales.svg";
 import Wallet from "../asideBar/icons/Wallet.svg";
 import WalletSelected from "../asideBar/icons/WalletSelected.svg";
 import { MobileNavBar } from "./style";
+import { scrollToTop } from "utils/scrollToTopFunction";
 
 interface Props {
   openMenu: boolean;
@@ -18,6 +19,7 @@ interface Props {
 
 const MobileNavbar = ({ openMenu }: Props) => {
   const currentRoute = usePathname();
+  const pathName = usePathname();
   const route = useRouter();
 
   const handleCheck = (prop: AsideSelected) => {
@@ -25,34 +27,39 @@ const MobileNavbar = ({ openMenu }: Props) => {
     return currentRoute.slice(0, propLenght + 1) === `/${prop}` ? 1 : 0;
   };
 
+  const handleClick = (prop: AsideSelected) => {
+    if (pathName === `/${prop}`) return scrollToTop();
+    route.push(`/${prop}`);
+  };
+
   return (
     <MobileNavBar openMenu={openMenu}>
       <span
-        onClick={() => route.push("/home")}
+        onClick={() => handleClick("home")}
         className={handleCheck("home") && "selected"}
       >
         {handleCheck("home") ? <HomeSelected /> : <Home />}
       </span>
       <span
-        onClick={() => route.push("/sales")}
+        onClick={() => handleClick("sales")}
         className={handleCheck("sales") && "selected"}
       >
         {handleCheck("sales") ? <SalesSelected /> : <Sales />}
       </span>
       <span
-        onClick={() => route.push("/products")}
+        onClick={() => handleClick("products")}
         className={handleCheck("products") && "selected"}
       >
         {handleCheck("products") ? <ProductsSelected /> : <Products />}
       </span>
       <span
-        onClick={() => route.push("/recharge")}
+        onClick={() => handleClick("recharge")}
         className={handleCheck("recharge") && "selected"}
       >
         {handleCheck("recharge") ? <RechargeSelected /> : <Recharge />}
       </span>
       <span
-        onClick={() => route.push("/wallet")}
+        onClick={() => handleClick("wallet")}
         className={handleCheck("wallet") && "selected"}
       >
         {handleCheck("wallet") ? <WalletSelected /> : <Wallet />}
