@@ -51,9 +51,16 @@ const MobileMenu = ({ search, openMenu, setOpenMenu }: Props) => {
   };
 
   return (
-    <MobileMenuContainer openSearch={openSearch} openMenu={openMenu}>
+    <MobileMenuContainer
+      openSearch={openSearch}
+      openMenu={openMenu}
+      onClick={() => setOpenMenu(false)}
+    >
       {search && (
-        <section className="searchContainer">
+        <section
+          className="searchContainer"
+          onClick={(e) => e.stopPropagation()}
+        >
           <Input
             padding="0 44px 0 16px"
             rightElement={<Search />}
@@ -83,7 +90,10 @@ const MobileMenu = ({ search, openMenu, setOpenMenu }: Props) => {
         </section>
       )}
       <div
-        onClick={() => handleClick("home")}
+        onClick={(e) => {
+          e.stopPropagation();
+          handleClick("home");
+        }}
         className={`menuOption ${handleCheck("home") && "selected"}`}
         style={{ margin: "32px 0 16px 0" }}
       >
@@ -97,9 +107,11 @@ const MobileMenu = ({ search, openMenu, setOpenMenu }: Props) => {
           INÍCIO
         </Text>
       </div>
-
       <div
-        onClick={() => handleClick("sales")}
+        onClick={(e) => {
+          e.stopPropagation();
+          handleClick("sales");
+        }}
         className={`menuOption ${handleCheck("sales") && "selected"}`}
       >
         <span>{handleCheck("sales") ? <SalesSelected /> : <Sales />}</span>
@@ -114,7 +126,10 @@ const MobileMenu = ({ search, openMenu, setOpenMenu }: Props) => {
       </div>
 
       <div
-        onClick={() => handleClick("products")}
+        onClick={(e) => {
+          e.stopPropagation();
+          handleClick("products");
+        }}
         className={`menuOption ${handleCheck("products") && "selected"}`}
       >
         <span>
@@ -131,7 +146,10 @@ const MobileMenu = ({ search, openMenu, setOpenMenu }: Props) => {
       </div>
 
       <div
-        onClick={() => handleClick("recharge")}
+        onClick={(e) => {
+          e.stopPropagation();
+          handleClick("recharge");
+        }}
         className={`menuOption ${handleCheck("recharge") && "selected"}`}
       >
         <span>
@@ -148,7 +166,10 @@ const MobileMenu = ({ search, openMenu, setOpenMenu }: Props) => {
       </div>
 
       <div
-        onClick={() => handleClick("wallet")}
+        onClick={(e) => {
+          e.stopPropagation();
+          handleClick("wallet");
+        }}
         className={`menuOption ${handleCheck("wallet") && "selected"}`}
       >
         <span>{handleCheck("wallet") ? <WalletSelected /> : <Wallet />}</span>
@@ -162,7 +183,10 @@ const MobileMenu = ({ search, openMenu, setOpenMenu }: Props) => {
         </Text>
       </div>
       <div
-        onClick={() => handleClick("config")}
+        onClick={(e) => {
+          e.stopPropagation();
+          handleClick("config");
+        }}
         className={`menuOption ${handleCheck("config") && "selected"}`}
       >
         <span>{handleCheck("config") ? <GearSelected /> : <Gear />}</span>
@@ -183,7 +207,6 @@ const MobileMenu = ({ search, openMenu, setOpenMenu }: Props) => {
           SAIR
         </Text>
       </div>
-      <div className="close" onClick={() => setOpenMenu(false)} />
       {/* <div className="bottomOptions">
         <div
           onClick={() => handleClick("config")}

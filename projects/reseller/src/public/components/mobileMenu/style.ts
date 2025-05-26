@@ -9,7 +9,7 @@ interface Props {
 export const MobileMenuContainer = styled.div<Props>`
   width: 100%;
   max-width: 100%;
-  min-height: 100vh;
+  height: 100vh;
   max-height: 100vh;
   animation: ${({ openMenu }) => openMenu && expand} 0.5s forwards;
   background-color: ${Theme.colors.maindark};
@@ -29,6 +29,7 @@ export const MobileMenuContainer = styled.div<Props>`
   .searchContainer {
     padding-top: 32px;
     border-bottom: 1px solid ${Theme.colors.secondaryAction};
+    background-color: pink;
 
     .filter {
       width: 100%;
@@ -85,11 +86,6 @@ export const MobileMenuContainer = styled.div<Props>`
     background-color: ${Theme.colors.mainHighlight};
     border-radius: 16px;
     cursor: pointer;
-  }
-
-  .close {
-    width: 100%;
-    height: 100%;
   }
 `;
 
