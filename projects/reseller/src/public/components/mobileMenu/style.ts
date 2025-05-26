@@ -29,7 +29,6 @@ export const MobileMenuContainer = styled.div<Props>`
   .searchContainer {
     padding-top: 32px;
     border-bottom: 1px solid ${Theme.colors.secondaryAction};
-    background-color: pink;
 
     .filter {
       width: 100%;
