@@ -1,0 +1,16 @@
+{
+  "name": "@4miga/hooks",
+  "version": "1.0.0",
+  "main": "index.js",
+  "license": "MIT",
+  "scripts": {
+    "test": "jest",
+    "lint": "eslint ./**/*.{ts,tsx}"
+  },
+  "dependencies": {},
+  "devDependencies": {
+    "@4miga/test-commons": "*",
+    "@4miga/tsconfig-commons": "*",
+    "@4miga/eslint-commons": "*"
+  }
+}
