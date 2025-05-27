@@ -2,7 +2,9 @@
 
 import Text from "@4miga/design-system/components/Text";
 import { Theme } from "@4miga/design-system/theme/theme";
-import React, { useEffect, useState } from "react";
+import { useDisableScroll } from "@4miga/hooks/useDisableScroll";
+import { useRouter } from "next/navigation";
+import React, { useState } from "react";
 import { UserType } from "types/userTypes";
 import ConfirmCode from "./common/confirmCode";
 import ConfirmCodePass from "./common/confirmCodePass";
@@ -15,8 +17,6 @@ import Close from "./icons/Close.svg";
 import TopLogo from "./icons/topLogo.svg";
 import { LoginModalBackground, LoginModalContainer } from "./style";
 import { LoginSteps } from "./types/types";
-import { useRouter } from "next/navigation";
-import { disableScroll } from "utils/disableScroll";
 
 interface LoginModalProps {
   openInNewAccount?: boolean;
@@ -24,6 +24,7 @@ interface LoginModalProps {
 }
 
 const LoginModal = ({ setLoginModal, openInNewAccount }: LoginModalProps) => {
+  useDisableScroll(true);
   const route = useRouter();
   const [step, setStep] = useState<LoginSteps>(
     openInNewAccount ? "newAccount" : "login",
@@ -54,13 +55,6 @@ const LoginModal = ({ setLoginModal, openInNewAccount }: LoginModalProps) => {
       closeModal();
     }
   };
-
-  useEffect(() => {
-    disableScroll(true);
-    return () => {
-      disableScroll(false);
-    };
-  }, []);
 
   return (
     <LoginModalBackground

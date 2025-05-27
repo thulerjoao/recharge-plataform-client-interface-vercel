@@ -1,7 +1,7 @@
+import { useDisableScroll } from "@4miga/hooks/useDisableScroll";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { scrollToTop } from "utils/scrollToTopFunction";
-import useDisableScroll from "utils/useDisableScroll";
 import MobileMenu from "../mobileMenu";
 import Logo from "./icons/Logo.svg";
 import Menu from "./icons/Menu.svg";
@@ -15,7 +15,7 @@ const MobiletHeader = ({ search }: Props) => {
   const route = useRouter();
   const [openmenu, setOpenmenu] = useState<boolean>(false);
 
-  useDisableScroll({ isOpen: openmenu });
+  useDisableScroll(openmenu);
 
   const handleBarClick = () => {
     openmenu ? setOpenmenu(false) : scrollToTop();
