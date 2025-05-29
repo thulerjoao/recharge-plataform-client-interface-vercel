@@ -52,7 +52,6 @@ export const ExternalComponent = styled.div<ExternalProps>`
     display: flex;
     align-items: center;
     margin-bottom: 6px;
-
     padding-left: 16px;
 
     svg {
