@@ -19,8 +19,18 @@ exports[`Global input snapshot test matches snapshot with height 40 1`] = `
 
 .c1:focus {
   outline: none;
-  box-shadow: 0px 0px 10px 0px #00C8FF;
+  box-shadow: 0px 0px 7px 0px #00C8FF;
   border: 2px solid #00C8FF;
+}
+
+.c1::-webkit-outer-spin-button,
+.c1::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+.c1[type="number"] {
+  -moz-appearance: textfield;
 }
 
 .c0 {
@@ -28,6 +38,19 @@ exports[`Global input snapshot test matches snapshot with height 40 1`] = `
   width: 100%;
   height: auto;
   margin: undefined;
+}
+
+.c0 .titleContainer {
+  display: flex;
+  align-items: center;
+  margin-bottom: 6px;
+  padding-left: 16px;
+}
+
+.c0 .titleContainer svg {
+  margin-right: 10px;
+  height: 16px;
+  width: 16px;
 }
 
 <div
@@ -61,8 +84,18 @@ exports[`Global input snapshot test matches snapshot with height 48 1`] = `
 
 .c1:focus {
   outline: none;
-  box-shadow: 0px 0px 10px 0px #00C8FF;
+  box-shadow: 0px 0px 7px 0px #00C8FF;
   border: 2px solid #00C8FF;
+}
+
+.c1::-webkit-outer-spin-button,
+.c1::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+.c1[type="number"] {
+  -moz-appearance: textfield;
 }
 
 .c0 {
@@ -70,6 +103,19 @@ exports[`Global input snapshot test matches snapshot with height 48 1`] = `
   width: 100%;
   height: auto;
   margin: undefined;
+}
+
+.c0 .titleContainer {
+  display: flex;
+  align-items: center;
+  margin-bottom: 6px;
+  padding-left: 16px;
+}
+
+.c0 .titleContainer svg {
+  margin-right: 10px;
+  height: 16px;
+  width: 16px;
 }
 
 <div
@@ -103,8 +149,18 @@ exports[`Global input snapshot test matches the snapshot when loading 1`] = `
 
 .c1:focus {
   outline: none;
-  box-shadow: 0px 0px 10px 0px #00C8FF;
+  box-shadow: 0px 0px 7px 0px #00C8FF;
   border: 2px solid #00C8FF;
+}
+
+.c1::-webkit-outer-spin-button,
+.c1::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+.c1[type="number"] {
+  -moz-appearance: textfield;
 }
 
 .c0 {
@@ -112,6 +168,19 @@ exports[`Global input snapshot test matches the snapshot when loading 1`] = `
   width: 100%;
   height: auto;
   margin: undefined;
+}
+
+.c0 .titleContainer {
+  display: flex;
+  align-items: center;
+  margin-bottom: 6px;
+  padding-left: 16px;
+}
+
+.c0 .titleContainer svg {
+  margin-right: 10px;
+  height: 16px;
+  width: 16px;
 }
 
 <div
@@ -144,8 +213,18 @@ exports[`Global input snapshot test matches the snapshot with a left element 1`]
 
 .c2:focus {
   outline: none;
-  box-shadow: 0px 0px 10px 0px #00C8FF;
+  box-shadow: 0px 0px 7px 0px #00C8FF;
   border: 2px solid #00C8FF;
+}
+
+.c2::-webkit-outer-spin-button,
+.c2::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+.c2[type="number"] {
+  -moz-appearance: textfield;
 }
 
 .c0 {
@@ -155,11 +234,24 @@ exports[`Global input snapshot test matches the snapshot with a left element 1`]
   margin: undefined;
 }
 
+.c0 .titleContainer {
+  display: flex;
+  align-items: center;
+  margin-bottom: 6px;
+  padding-left: 16px;
+}
+
+.c0 .titleContainer svg {
+  margin-right: 10px;
+  height: 16px;
+  width: 16px;
+}
+
 .c1 {
   position: absolute;
   left: 8px;
   top: 0;
-  width: 16px;
+  width: auto;
   height: 100%;
   z-index: 1;
   display: flex;
@@ -205,8 +297,18 @@ exports[`Global input snapshot test matches the snapshot with custom margin and 
 
 .c1:focus {
   outline: none;
-  box-shadow: 0px 0px 10px 0px #00C8FF;
+  box-shadow: 0px 0px 7px 0px #00C8FF;
   border: 2px solid #00C8FF;
+}
+
+.c1::-webkit-outer-spin-button,
+.c1::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+.c1[type="number"] {
+  -moz-appearance: textfield;
 }
 
 .c0 {
@@ -214,6 +316,19 @@ exports[`Global input snapshot test matches the snapshot with custom margin and 
   width: 100%;
   height: auto;
   margin: 10px;
+}
+
+.c0 .titleContainer {
+  display: flex;
+  align-items: center;
+  margin-bottom: 6px;
+  padding-left: 16px;
+}
+
+.c0 .titleContainer svg {
+  margin-right: 10px;
+  height: 16px;
+  width: 16px;
 }
 
 <div

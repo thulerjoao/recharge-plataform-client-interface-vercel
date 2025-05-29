@@ -7,6 +7,12 @@
       "setup/*"
     ]
   },
+  "resolutions": {
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "@types/react": "^18.2.46",
+    "@types/react-dom": "^18.2.4"
+  },
   "scripts": {
     "lint": "yarn workspaces run lint",
     "store": "yarn workspace @4miga/store",
