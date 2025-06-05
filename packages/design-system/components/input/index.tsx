@@ -58,8 +58,7 @@ const Input = forwardRef<HTMLInputElement, InputProps>(
         <ExternalComponent margin={margin}>
           {title && (
             <div className="titleContainer">
-              {/* {titleIcon && <span>{titleIcon}</span>} */}
-              {titleIcon && (<span>{titleIcon}</span>)}
+              {titleIcon && <span>{titleIcon}</span>}
               <Text fontName="SMALL_MEDIUM" color={Theme.colors.mainlight}>
                 {title}
               </Text>
