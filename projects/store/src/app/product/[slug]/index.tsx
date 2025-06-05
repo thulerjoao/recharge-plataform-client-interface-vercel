@@ -4,19 +4,18 @@ import Text from "@4miga/design-system/components/Text";
 import Button from "@4miga/design-system/components/button";
 import Input from "@4miga/design-system/components/input";
 import { useRouter } from "next/navigation";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import PackageCard from "../../../public/cards/packageCard/card";
 import PaymentCard from "../../../public/cards/paymentCard/card";
-// import BigoCard from "../common/temp/bigoCard.svg";
 import { Theme } from "@4miga/design-system/theme/theme";
 import { useAuth } from "contexts/auth";
 import { useProducts } from "contexts/products/ProductsProvider";
 import LoginModal from "public/components/loginModal";
 import { PackageType, ProductType } from "types/productTypes";
 import { formatString } from "utils/formatString";
+import { scrollToTop } from "utils/scrollToTopFunction";
 import InvisibleCards from "./invisivleCards";
 import { ProductContainer } from "./style";
-import { formatPrice } from "utils/formatPrice";
 
 type Props = {
   slug: string;
@@ -28,6 +27,7 @@ const ProductPage = ({ slug }: Props) => {
   const product = products.find(
     (product: ProductType) => formatString(product.name) === slug,
   );
+  const userIdInputRef = useRef<HTMLInputElement>(null);
   const [selected, setSelected] = useState<number>(0);
   const [loginModal, setLoginModal] = useState<boolean>(false);
   const [clicked, setClicked] = useState<boolean>(false);
@@ -47,8 +47,19 @@ const ProductPage = ({ slug }: Props) => {
     sessionStorage.removeItem("orderId");
   }, []);
 
+  useEffect(() => {
+    setClicked(false);
+  }, [userId]);
+
   const handleOnClick = () => {
     setClicked(true);
+    if (!userId) {
+      scrollToTop();
+      setTimeout(() => {
+        userIdInputRef.current?.focus();
+      }, 500);
+      return;
+    }
     if (!logged) {
       return setLoginModal(true);
     }
@@ -66,6 +77,7 @@ const ProductPage = ({ slug }: Props) => {
         INSIRA SEU ID DE USUÁRIO
       </Text>
       <Input
+        ref={userIdInputRef}
         placeholder="Insira o ID de usuário"
         margin="16px 0 0 0"
         height={48}
@@ -143,9 +155,17 @@ const ProductPage = ({ slug }: Props) => {
         rounded
         height={40}
         title="Compre Agora"
-        disabled={!userId}
-        isNotSelected={!userId}
       />
+      {!userId && clicked && (
+        <Text
+          color={Theme.colors.pending}
+          align="center"
+          fontName="SMALL"
+          margin="-64px 0 46px 0"
+        >
+          Insira o ID de usuário
+        </Text>
+      )}
       {loginModal && (
         <LoginModal openInNewAccount={false} setLoginModal={setLoginModal} />
       )}

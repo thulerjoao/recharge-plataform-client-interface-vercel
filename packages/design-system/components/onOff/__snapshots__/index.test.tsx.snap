@@ -1,0 +1,70 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<OnOff /> snapshot tests onOff in off position 1`] = `
+.c0 {
+  width: 64px;
+  min-width: 64px;
+  height: 24px;
+  border-radius: 12px;
+  background-color: white;
+  border: 1px solid #525F63;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  transition: border 0.5s ease-in-out,box-shadow 0.5s ease-in-out;
+}
+
+.c0 .circle {
+  height: 24px;
+  width: 24px;
+  border-radius: 50%;
+  background-color: #525F63;
+  transform: translateX(-1px);
+  transition: transform 0.2s ease-in-out,background-color 0.5s ease-in-out;
+}
+
+<div>
+  <div
+    class="c0"
+  >
+    <div
+      class="circle"
+    />
+  </div>
+</div>
+`;
+
+exports[`<OnOff /> snapshot tests onOff in on position 1`] = `
+.c0 {
+  width: 64px;
+  min-width: 64px;
+  height: 24px;
+  border-radius: 12px;
+  background-color: white;
+  box-shadow: 0px 0px 7px 0px #00C8FF;
+  border: 1px solid #00C8FF;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  transition: border 0.5s ease-in-out,box-shadow 0.5s ease-in-out;
+}
+
+.c0 .circle {
+  height: 24px;
+  width: 24px;
+  border-radius: 50%;
+  background-color: #00C8FF;
+  transform: translateX(calc(40px));
+  transition: transform 0.2s ease-in-out,background-color 0.5s ease-in-out;
+}
+
+<div>
+  <div
+    class="c0"
+  >
+    <div
+      class="circle"
+    />
+  </div>
+</div>
+`;
