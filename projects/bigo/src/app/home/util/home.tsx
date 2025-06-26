@@ -27,6 +27,8 @@ const Home = () => {
     route.push(`/package/${formatString(item.id)}`);
   };
 
+  console.log(products[0].packages);
+
   return (
     <HomeContainer>
       <Carousel imagesList={[banner01, banner01, banner01]} />
@@ -52,7 +54,7 @@ const Home = () => {
           {products &&
             products[0].packages.map((packageItem, index) => (
               <div
-                key={packageItem.id}
+                key={index}
                 className="cardEnviroment"
                 onClick={() => handleClick(packageItem)}
               >
