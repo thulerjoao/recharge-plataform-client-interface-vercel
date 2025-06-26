@@ -15,7 +15,7 @@ export const MockedProductsList: ProductType[] = [
         amountCredits: 50,
         id: "db4a90cf-28c4-4c6a-86f2-3e5d76f9c890",
         imgCardUrl: "https://i.imgur.com/0CEHULk.png",
-        isOffer: false,
+        isOffer: true,
         name: "50 Diamonds Bigo",
         paymentMethods: [
           {
@@ -29,7 +29,7 @@ export const MockedProductsList: ProductType[] = [
         amountCredits: 100,
         id: "db4a90cf-28c4-4c6a-86f2-3e5d76f9c890",
         imgCardUrl: "https://i.imgur.com/0CEHULk.png",
-        isOffer: false,
+        isOffer: true,
         name: "100 Diamonds Bigo",
         paymentMethods: [
           {
@@ -85,7 +85,7 @@ export const MockedProductsList: ProductType[] = [
         amountCredits: 2000,
         id: "db4a90cf-28c4-4c6a-86f2-3e5d76f9c890",
         imgCardUrl: "https://i.imgur.com/0CEHULk.png",
-        isOffer: false,
+        isOffer: true,
         name: "2000 Diamonds Bigo",
         paymentMethods: [
           {
