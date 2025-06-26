@@ -40,98 +40,98 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
   const [lastUpdated, setLastUpdated] = useState(Date.now());
   const [expiresIn, setExpiresIn] = useState<number>(null);
 
-  useEffect(() => {
-    const checkAuth = async () => {
-      const accessToken = localStorage.getItem("accessToken");
-      if (accessToken) {
-        try {
-          const response = await axios.get("/api/token", {
-            withCredentials: true,
-          });
-          const refreshToken = response.data?.refreshToken;
-          if (!refreshToken) {
-            setCheckingToken(false);
-            await axios.delete("/api/logout", {
-              withCredentials: true,
-            });
-            return;
-          }
-          await connectionAPIPost<LoginResponse>(
-            `/customer/refresh-token`,
-            { refreshToken },
-            apiUrl,
-          )
-            .then(async (res) => {
-              const rememberMe = true;
-              await login(res, rememberMe);
-              setCheckingToken(false);
-            })
-            .catch(async () => {
-              await axios.delete("/api/logout", {
-                withCredentials: true,
-              });
-              setCheckingToken(false);
-            });
-        } catch {
-          await axios.delete("/api/logout", {
-            withCredentials: true,
-          });
-          setCheckingToken(false);
-        }
-      } else {
-        setCheckingToken(false);
-      }
-    };
-    checkAuth();
-  }, []);
+  // useEffect(() => {
+  //   const checkAuth = async () => {
+  //     const accessToken = localStorage.getItem("accessToken");
+  //     if (accessToken) {
+  //       try {
+  //         const response = await axios.get("/api/token", {
+  //           withCredentials: true,
+  //         });
+  //         const refreshToken = response.data?.refreshToken;
+  //         if (!refreshToken) {
+  //           setCheckingToken(false);
+  //           await axios.delete("/api/logout", {
+  //             withCredentials: true,
+  //           });
+  //           return;
+  //         }
+  //         await connectionAPIPost<LoginResponse>(
+  //           `/customer/refresh-token`,
+  //           { refreshToken },
+  //           apiUrl,
+  //         )
+  //           .then(async (res) => {
+  //             const rememberMe = true;
+  //             await login(res, rememberMe);
+  //             setCheckingToken(false);
+  //           })
+  //           .catch(async () => {
+  //             await axios.delete("/api/logout", {
+  //               withCredentials: true,
+  //             });
+  //             setCheckingToken(false);
+  //           });
+  //       } catch {
+  //         await axios.delete("/api/logout", {
+  //           withCredentials: true,
+  //         });
+  //         setCheckingToken(false);
+  //       }
+  //     } else {
+  //       setCheckingToken(false);
+  //     }
+  //   };
+  //   checkAuth();
+  // }, []);
 
-  useEffect(() => {
-    if (!expiresIn) return;
-    const updateToken = async () => {
-      try {
-        const response = await axios.get("/api/token", {
-          withCredentials: true,
-        });
+  // useEffect(() => {
+  //   if (!expiresIn) return;
+  //   const updateToken = async () => {
+  //     try {
+  //       const response = await axios.get("/api/token", {
+  //         withCredentials: true,
+  //       });
 
-        const refreshToken = response.data?.refreshToken;
-        const rememberMe = response.data?.rememberMe;
-        if (!refreshToken) {
-          await axios.delete("/api/logout", {
-            withCredentials: true,
-          });
-          throw new Error("Token expirado");
-        }
+  //       const refreshToken = response.data?.refreshToken;
+  //       const rememberMe = response.data?.rememberMe;
+  //       if (!refreshToken) {
+  //         await axios.delete("/api/logout", {
+  //           withCredentials: true,
+  //         });
+  //         throw new Error("Token expirado");
+  //       }
 
-        const refreshResponse = await connectionAPIPost<LoginResponse>(
-          `/customer/refresh-token`,
-          { refreshToken },
-          apiUrl,
-        );
+  //       const refreshResponse = await connectionAPIPost<LoginResponse>(
+  //         `/customer/refresh-token`,
+  //         { refreshToken },
+  //         apiUrl,
+  //       );
 
-        const newAccessToken = refreshResponse.access.accessToken;
-        const newRefreshToken = refreshResponse.access.refreshToken;
-        const newExpiresIn = refreshResponse.access.expiresIn;
+  //       const newAccessToken = refreshResponse.access.accessToken;
+  //       const newRefreshToken = refreshResponse.access.refreshToken;
+  //       const newExpiresIn = refreshResponse.access.expiresIn;
 
-        setExpiresIn(newExpiresIn);
-        sessionStorage.setItem("accessToken", newAccessToken);
-        await axios.post(
-          "/api/login",
-          {
-            refreshToken: newRefreshToken,
-            expiresIn: newExpiresIn,
-            rememberMe: rememberMe,
-          },
-          { withCredentials: true },
-        );
-        setLastUpdated(Date.now());
-      } catch (error) {
-        console.error("Erro ao atualizar token:", error);
-      }
-    };
+  //       setExpiresIn(newExpiresIn);
+  //       sessionStorage.setItem("accessToken", newAccessToken);
+  //       await axios.post(
+  //         "/api/login",
+  //         {
+  //           refreshToken: newRefreshToken,
+  //           expiresIn: newExpiresIn,
+  //           rememberMe: rememberMe,
+  //         },
+  //         { withCredentials: true },
+  //       );
+  //       setLastUpdated(Date.now());
+  //     } catch (error) {
+  //       console.error("Erro ao atualizar token:", error);
+  //     }
+  //   };
 
-    const timeout = setTimeout(updateToken, expiresIn * 1000 * 0.98);
-    return () => clearTimeout(timeout);
-  }, [lastUpdated, expiresIn]);
+  //   const timeout = setTimeout(updateToken, expiresIn * 1000 * 0.98);
+  //   return () => clearTimeout(timeout);
+  // }, [lastUpdated, expiresIn]);
 
   const login = async (data: LoginResponse, rememberMe: boolean) => {
     const accessToken = data.access.accessToken;

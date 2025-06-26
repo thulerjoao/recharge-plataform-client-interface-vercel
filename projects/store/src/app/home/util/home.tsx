@@ -14,6 +14,8 @@ import { HomeContainer } from "./style";
 
 const Home = () => {
   const products = useProducts();
+  console.log(products[1].packages);
+
   return (
     <HomeContainer>
       <Carousel imagesList={[mainBanner, banner01, mainBanner, banner01]} />
