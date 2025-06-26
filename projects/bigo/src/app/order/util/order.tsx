@@ -26,24 +26,24 @@ import { OrderContainer } from "./style";
 const Order = () => {
   const [loading, setLoading] = useState<boolean>(false);
   const route = useRouter();
-  const order: OrderType = JSON.parse(sessionStorage.getItem("order"));
+  // const order: OrderType = JSON.parse(sessionStorage.getItem("order"));
   const { logged } = useAuth();
 
-  useEffect(() => {
-    if (!order) {
-      route.replace("/home");
-    }
-    if (!logged) {
-      sessionStorage.clear();
-      route.replace("/home");
-    }
-  }, [order, logged, route]);
+  // useEffect(() => {
+  //   if (!order) {
+  //     route.replace("/home");
+  //   }
+  //   if (!logged) {
+  //     sessionStorage.clear();
+  //     route.replace("/home");
+  //   }
+  // }, [order, logged, route]);
 
-  const products = useProducts();
-  const product = order ? products[0] : null;
-  const currentPackage = product.packages.find(
-    (item: PackageType) => (item.id = order.orderItem.package.packageId),
-  );
+  // const products = useProducts();
+  // const product = order ? products[0] : null;
+  // const currentPackage = product.packages.find(
+  //   (item: PackageType) => (item.id = order.orderItem.package.packageId),
+  // );
 
   // const [isImageValid, setIsImageValid] = useState<boolean>(false);
 
@@ -57,40 +57,40 @@ const Order = () => {
   //   checkImage();
   // }, [order]);
 
-  const handleBuyAgain = () => {
-    sessionStorage.removeItem("qrCode");
-    sessionStorage.removeItem("copyAndPaste");
-    sessionStorage.removeItem("orderId");
-    if (currentPackage) {
-      sessionStorage.setItem(
-        "userId",
-        order.orderItem.recharge.userIdForRecharge,
-      );
-      route.push(`/package/${order.orderItem.package.packageId}`);
-    } else {
-      sessionStorage.setItem(
-        "userId",
-        order.orderItem.recharge.userIdForRecharge,
-      );
-      route.push(`/home`);
-    }
-  };
+  // const handleBuyAgain = () => {
+  //   sessionStorage.removeItem("qrCode");
+  //   sessionStorage.removeItem("copyAndPaste");
+  //   sessionStorage.removeItem("orderId");
+  //   if (currentPackage) {
+  //     sessionStorage.setItem(
+  //       "userId",
+  //       order.orderItem.recharge.userIdForRecharge,
+  //     );
+  //     route.push(`/package/${order.orderItem.package.packageId}`);
+  //   } else {
+  //     sessionStorage.setItem(
+  //       "userId",
+  //       order.orderItem.recharge.userIdForRecharge,
+  //     );
+  //     route.push(`/home`);
+  //   }
+  // };
 
-  const goToPayment = () => {
-    setLoading(true);
-    connectionAPIGet<OrderType>(`/order/${order.orderId}/customer`, apiUrl)
-      .then((res) => {
-        sessionStorage.setItem("qrCode", res.payment.qrCode);
-        sessionStorage.setItem("copyAndPaste", res.payment.qrCodetextCopyPaste);
-        sessionStorage.setItem("orderId", res.orderId);
-        sessionStorage.setItem(
-          "userId",
-          res.orderItem.recharge.userIdForRecharge,
-        );
-        route.push(`package/${res.orderItem.package.packageId}`);
-      })
-      .then(() => {});
-  };
+  // const goToPayment = () => {
+  //   setLoading(true);
+  //   connectionAPIGet<OrderType>(`/order/${order.orderId}/customer`, apiUrl)
+  //     .then((res) => {
+  //       sessionStorage.setItem("qrCode", res.payment.qrCode);
+  //       sessionStorage.setItem("copyAndPaste", res.payment.qrCodetextCopyPaste);
+  //       sessionStorage.setItem("orderId", res.orderId);
+  //       sessionStorage.setItem(
+  //         "userId",
+  //         res.orderItem.recharge.userIdForRecharge,
+  //       );
+  //       route.push(`package/${res.orderItem.package.packageId}`);
+  //     })
+  //     .then(() => {});
+  // };
 
   return (
     <OrderContainer>
@@ -102,7 +102,7 @@ const Order = () => {
           DETALHES DO PEDIDO
         </Text>
       </div>
-      <main>
+      {/* <main>
         <section className="fisrtSection">
           <div className="fisrtRow">
             <Image
@@ -254,7 +254,7 @@ const Order = () => {
           title="Prosseguir para pagamento"
           onClick={() => goToPayment()}
         />
-      )}
+      )} */}
     </OrderContainer>
   );
 };
