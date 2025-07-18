@@ -1,11 +1,17 @@
 export const formatDate = (dateString: string | null): string => {
   if (!dateString) return "";
 
-  const [datePart, timePart] = dateString.split(" - ");
-  const [day, month, year] = datePart.split("/").map(Number);
-  const [hour, minute] = timePart.split(":").map(Number);
+  const date = new Date(dateString);
 
-  const utcDate = new Date(Date.UTC(year, month - 1, day, hour, minute));
+  const utcDate = new Date(
+    Date.UTC(
+      date.getFullYear(),
+      date.getMonth(),
+      date.getDate(),
+      date.getHours(),
+      date.getMinutes(),
+    ),
+  );
 
   const now = new Date();
   const yesterday = new Date();

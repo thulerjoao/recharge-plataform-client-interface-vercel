@@ -35,24 +35,6 @@ export const OrdersProvider = ({ children }: OrdersProviderProps) => {
     return new Date(year, month - 1, day, hours, minutes);
   };
 
-  // const updateOrders = () => {
-  //   setLoadingOrders(true);
-  //   if (logged) {
-  //     connectionAPIGet<OrderType[]>("/orders?page=1&limit=6", apiUrl)
-  //       .then((res) => {
-  //         const sorted = res.sort((a, b) => {
-  //           const dateA = parseCreatedAt(a.createdAt);
-  //           const dateB = parseCreatedAt(b.createdAt);
-  //           return dateB.getTime() - dateA.getTime();
-  //         });
-  //         setOrders(sorted);
-  //       })
-  //       .finally(() => {
-  //         setLoadingOrders(false);
-  //       });
-  //   }
-  // };
-
   const getOrders = (page: number, limit: number) => {
     setLoadingOrders(true);
     connectionAPIGet<OrderResponseType>(

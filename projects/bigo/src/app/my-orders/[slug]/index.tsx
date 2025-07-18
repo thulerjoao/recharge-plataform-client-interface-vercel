@@ -8,8 +8,8 @@ import OrderCard from "public/cards/orderCard/card";
 import SkeletonOrderCard from "public/cards/orderCard/skeletonOrderCard";
 import LoginModal from "public/components/loginModal";
 import Pagination from "public/components/pagination";
-import { useEffect, useState } from "react";
 import BackArrow from "public/icons/BackArrow.svg";
+import { useState, useEffect } from "react";
 import { MyOrderContainer } from "./style";
 
 interface Props {
@@ -18,27 +18,14 @@ interface Props {
 
 const MyOrders = ({ currentPage }: Props) => {
   const route = useRouter();
-  const { loadingOrders, orders, getOrders, updateOrders } = useOrders();
+  const { loadingOrders, orders, getOrders } = useOrders();
   const { logged } = useAuth();
-  const totalPages: number = Math.ceil(orders.length / 6);
-  const initialPage = () => {
-    if (currentPage > totalPages) {
-      return 1;
-    } else {
-      return currentPage;
-    }
-  };
-  const [page, setPage] = useState<number>(initialPage());
-  useEffect(() => {
-    route.push(`/my-orders/${page}`);
-  }, [page, route]);
+  const [page, setPage] = useState<number>(currentPage);
 
   useEffect(() => {
-    if (logged) {
-      updateOrders();
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [logged]);
+    getOrders(page, 6);
+    route.push(`/my-orders/${page}`);
+  }, [page]);
 
   return (
     <MyOrderContainer>
@@ -51,19 +38,25 @@ const MyOrders = ({ currentPage }: Props) => {
         </Text>
       </div>
       <section className="cardsSection">
-        {loadingOrders && orders.length === 0 && <SkeletonOrderCard />}
-        {!loadingOrders && orders.length === 0 && (
+        {loadingOrders && orders?.totalOrders === 0 && <SkeletonOrderCard />}
+        {!loadingOrders && orders?.totalOrders === 0 && (
           <div className="ordersAlert">
             <Text align="center" fontName="REGULAR">
               Você ainda não realizou nenhum pedido
             </Text>
           </div>
         )}
-        {getOrders(page).map((order, index) => {
+        {orders?.data.map((order, index) => {
           return <OrderCard key={index} order={order} />;
         })}
       </section>
-      <Pagination page={page} setPage={setPage} totalPages={totalPages} />
+      {orders && (
+        <Pagination
+          page={orders?.page}
+          setPage={setPage}
+          totalPages={orders?.totalPages}
+        />
+      )}
       {!logged && <LoginModal />}
     </MyOrderContainer>
   );
