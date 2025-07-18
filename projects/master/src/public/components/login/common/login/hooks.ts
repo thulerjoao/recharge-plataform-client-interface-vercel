@@ -13,7 +13,7 @@ export const loginApi = async ({ email, password, baseUrl }: loginProps) => {
   };
 
   const response = await connectionAPIPost<any>(
-    "/customer/login",
+    "/user/login",
     body,
     baseUrl,
   );

@@ -16,5 +16,5 @@ export type LoginResponse = {
 //     refreshToken: string;
 //     expiresIn: number;
 //   };
-//   customer: UserType;
+//   user: UserType;
 // };

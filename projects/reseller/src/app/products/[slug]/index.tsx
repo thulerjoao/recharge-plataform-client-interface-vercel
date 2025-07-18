@@ -23,19 +23,19 @@ const Productpage = ({ slug }: Props) => {
   const product = products.find(
     (product: ProductType) => formatString(product.name) === slug,
   );
-  const initialAbout = product.about;
+  const initialdescription = product.description;
   const initialInstructions = product.instructions;
-  const [aboutProduct, setAboutProduct] = useState<string>(initialAbout);
+  const [descriptionProduct, setdescriptionProduct] = useState<string>(initialdescription);
   const [instructions, setInstructions] = useState<string>(initialInstructions);
   const [ischanged, setIsChanged] = useState<boolean>(false);
 
   useEffect(() => {
-    if (aboutProduct !== initialAbout || instructions !== initialInstructions) {
+    if (descriptionProduct !== initialdescription || instructions !== initialInstructions) {
       setIsChanged(true);
     } else {
       setIsChanged(false);
     }
-  }, [aboutProduct, initialAbout, initialInstructions, instructions]);
+  }, [descriptionProduct, initialdescription, initialInstructions, instructions]);
 
   const handlePackageClick = (slug: string, packag: PackageType) => {
     sessionStorage.setItem("CurrentPackage", JSON.stringify(packag));
@@ -137,8 +137,8 @@ const Productpage = ({ slug }: Props) => {
             </span>
             <Text fontName="REGULAR_SEMI_BOLD">SOBRE BIGO LIVE</Text>
             <textarea
-              value={aboutProduct}
-              onChange={(e) => setAboutProduct(e.target.value)}
+              value={descriptionProduct}
+              onChange={(e) => setdescriptionProduct(e.target.value)}
               placeholder="Descrição do jogo ou plataforma..."
             />
           </div>

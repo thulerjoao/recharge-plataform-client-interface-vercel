@@ -35,7 +35,7 @@ const ConfirmCode = ({ user, previousStep, setStep }: Props) => {
         email: emailToConfirm ? emailToConfirm : user.email,
         code,
       };
-      connectionAPIPost("/customer/confirm-email", data, apiUrl)
+      connectionAPIPost("/user/confirm-email", data, apiUrl)
         .then(async () => {
           const body: LoginParams = {
             email: user.email,
@@ -43,7 +43,7 @@ const ConfirmCode = ({ user, previousStep, setStep }: Props) => {
             rememberMe: true,
           };
           await connectionAPIPost<LoginResponse>(
-            "/customer/login",
+            "/user/login",
             body,
             apiUrl,
           )

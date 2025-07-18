@@ -38,7 +38,7 @@ export const OrdersProvider = ({ children }: OrdersProviderProps) => {
   // const updateOrders = () => {
   //   setLoadingOrders(true);
   //   if (logged) {
-  //     connectionAPIGet<OrderType[]>("/order/customer", apiUrl)
+  //     connectionAPIGet<OrderType[]>("/order/user", apiUrl)
   //       .then((res) => {
   //         const sorted = res.sort((a, b) => {
   //           const dateA = parseCreatedAt(a.createdAt);
@@ -62,7 +62,7 @@ export const OrdersProvider = ({ children }: OrdersProviderProps) => {
   const updateOrders = () => {
     setLoadingOrders(true);
     if (logged) {
-      connectionAPIGet<OrderType[]>("/order/customer", apiUrl)
+      connectionAPIGet<OrderType[]>("/order/user", apiUrl)
         .then((res) => {
           setOrders(res);
           setLoadingOrders(false);

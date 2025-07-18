@@ -49,7 +49,7 @@ const ForgotPassword = ({ setStep }: Props) => {
       sessionStorage.removeItem("emailToRecover");
     }
     connectionAPIPost<null>(
-      "/customer/send-code-to-recover-password",
+      "/user/send-code-to-recover-password",
       data,
       apiUrl,
     )

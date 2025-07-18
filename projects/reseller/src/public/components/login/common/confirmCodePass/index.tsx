@@ -46,10 +46,10 @@ const ConfirmCodePass = () => {
       code: code.toString(),
       newPassword: password,
     };
-    await connectionAPIPost<any>("/customer/recover-password", body, apiUrl)
+    await connectionAPIPost<any>("/user/recover-password", body, apiUrl)
       .then(async () => {
         sessionStorage.removeItem("emailToRecover");
-        await connectionAPIPost<LoginResponse>("/customer/login", body, apiUrl)
+        await connectionAPIPost<LoginResponse>("/user/login", body, apiUrl)
           .then(async (res) => {
             try {
               const rememberMe = true;
