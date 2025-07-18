@@ -14,7 +14,7 @@ import { HomeContainer } from "./style";
 
 const Home = () => {
   const products = useProducts();
-  console.log(products[1].packages);
+  console.log("products", products);
 
   return (
     <HomeContainer>

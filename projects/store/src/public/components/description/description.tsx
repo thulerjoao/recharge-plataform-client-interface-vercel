@@ -75,7 +75,7 @@ const Description = () => {
             Sobre {product.name}
           </Text>
           <Text margin="24px 0 0 0 " fontName="REGULAR">
-            {product.about}
+            {product.description}
           </Text>
         </div>
         <div

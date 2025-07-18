@@ -46,7 +46,7 @@ const LoginComponent = ({ setStep, closeModal }: Props) => {
       email: data.email,
       password: data.password,
     };
-    await connectionAPIPost<LoginResponse>("/customer/login", body, apiUrl)
+    await connectionAPIPost<LoginResponse>("/auth/login", body, apiUrl)
       .then(async (res) => {
         try {
           const response = await login(res, rememberMe);
@@ -62,6 +62,7 @@ const LoginComponent = ({ setStep, closeModal }: Props) => {
         }
       })
       .catch((error) => {
+        console.log("aqui01", error);
         const message: string = error && error.response.data.message[0];
         if (message.toLowerCase() === "email not verified") {
           sessionStorage.setItem("emailToConfirm", data.email);

@@ -1,13 +1,20 @@
 import { ProductType } from "types/productTypes";
-import { apiUrl } from "utils/apiUrl";
+import { apiUrl, storeId } from "utils/apiUrl";
 
-export const revalidate = 86400;
+export const revalidate = 0;
 
 export async function GET() {
+  console.log("aquiiii01");
+  console.log("aqui", apiUrl);
   try {
-    const res = await fetch(`${apiUrl}/product`, {
-      next: { revalidate },
-    });
+    const res = await fetch(
+      // `${apiUrl}/product/packages?storeid=${process.env.STORE_ID}`,
+      `http://172.30.9.160:3333/product/packages?storeid=${storeId}`,
+      {
+        next: { revalidate },
+      },
+    );
+    console.log("aquiiii02", res);
     if (!res.ok) {
       console.warn(`Falha na resposta da API externa: ${res.statusText}`);
       return Response.json([], { status: 200 });

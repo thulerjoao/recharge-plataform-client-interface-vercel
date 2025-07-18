@@ -35,14 +35,14 @@ const ConfirmCode = ({ user, previousStep, setStep, closeModal }: Props) => {
       email: emailToConfirm ? emailToConfirm : user.email,
       code: code.toString(),
     };
-    connectionAPIPost("/customer/confirm-email", data, apiUrl)
+    connectionAPIPost("/user/confirm-email", data, apiUrl)
       .then(async () => {
         const body: LoginParams = {
           email: user.email,
           password: user.password,
           rememberMe: true,
         };
-        await connectionAPIPost<LoginResponse>("/customer/login", body, apiUrl)
+        await connectionAPIPost<LoginResponse>("/user/login", body, apiUrl)
           .then(async (res) => {
             try {
               const rememberMe = true;
@@ -82,7 +82,7 @@ const ConfirmCode = ({ user, previousStep, setStep, closeModal }: Props) => {
   const handleSendCode = () => {
     setLoading(true);
     connectionAPIPost(
-      "/customer/create-new-code-for-email-verification",
+      "/user/create-new-code-for-email-verification",
       {
         email: emailToConfirm,
       },

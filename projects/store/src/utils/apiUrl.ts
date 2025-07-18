@@ -1,1 +1,3 @@
-export const apiUrl: string = "https://cf02-31-57-8-226.ngrok-free.app";
+export const apiUrl: string = "http://localhost:3333";
+
+export const storeId: string = "2c0824d8-e8cd-418c-9f77-558343a1283c";
