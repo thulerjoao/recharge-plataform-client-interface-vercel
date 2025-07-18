@@ -74,7 +74,7 @@ const PixCard = ({
       if (orderId) {
         setBlockId(true);
         setPixLoading(true);
-        connectionAPIGet<OrderType>(`/order/${orderId}/customer`, apiUrl)
+        connectionAPIGet<OrderType>(`/order/${orderId}/user`, apiUrl)
           .then((res) => {
             if (res.payment.status === "PAYMENT_APPROVED") {
               sessionStorage.removeItem("orderId");
@@ -164,7 +164,7 @@ const PixCard = ({
 
   const handleCheckOrder = () => {
     setOrderLoading(true);
-    connectionAPIGet<OrderType>(`/order/${orderId}/customer`, apiUrl)
+    connectionAPIGet<OrderType>(`/order/${orderId}/user`, apiUrl)
       .then((res) => {
         sessionStorage.setItem("order", JSON.stringify(res));
         route.push("/order");
@@ -180,7 +180,7 @@ const PixCard = ({
     if (!qrCode || !copyAndPaste || !orderId) return;
 
     const interval = setInterval(() => {
-      connectionAPIGet<OrderType>(`/order/${orderId}/customer`, apiUrl)
+      connectionAPIGet<OrderType>(`/order/${orderId}/user`, apiUrl)
         .then((res) => {
           if (res.payment.status === "PAYMENT_APPROVED") {
             sessionStorage.setItem("order", JSON.stringify(res));

@@ -2,7 +2,7 @@ import { ProductType } from "types/productTypes";
 
 export const MockedProductsList: ProductType[] = [
   {
-    about:
+    description:
       "A Bigo Live é uma plataforma de transmissões ao vivo onde usuários compartilham momentos, mostram talentos e interagem em tempo real.",
     id: "cf61ff4a-ea1b-4677-8b2d-db167907dbe0",
     imgBannerUrl: "https://i.imgur.com/OqYwlo2.png",
@@ -126,7 +126,7 @@ export const MockedProductsList: ProductType[] = [
     ],
   },
   {
-    about:
+    description:
       "A Poppo Live é uma plataforma de transmissões ao vivo onde usuários compartilham momentos, mostram talentos e interagem em tempo real.",
     id: "2b84a476-ecd7-4769-b67f-e631d8d6c540",
     imgBannerUrl: "https://i.imgur.com/WEcY23E.png",
