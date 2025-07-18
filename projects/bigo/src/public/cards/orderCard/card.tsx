@@ -45,7 +45,7 @@ const OrderCard = ({ order }: OrderCardProps) => {
             {order.orderItem.package.name}
           </Text>
           <Text align="end" fontName="SMALL_MEDIUM">
-            R$ {formatPrice(order.totalAmount)}
+            R$ {formatPrice(order.price)}
           </Text>
         </div>
         <div className="rowInfos">

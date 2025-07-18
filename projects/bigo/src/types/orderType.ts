@@ -1,7 +1,7 @@
 export interface OrderType {
   orderId: string;
   orderNumber: string;
-  totalAmount: number;
+  price: number;
   orderStatus: OrderStatus;
   createdAt: string;
   payment: {
@@ -45,3 +45,10 @@ export type OrderStatus =
   | "COMPLETED"
   | "EXPIRED"
   | "REFOUNDED";
+
+export interface OrderResponseType {
+  data: OrderType[];
+  totalOrders: number;
+  page: number;
+  totalPages: number;
+}

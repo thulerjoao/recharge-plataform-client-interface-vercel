@@ -22,7 +22,7 @@ const Header = () => {
   const route = useRouter();
   const modalRef = useRef(null);
   const pathname = usePathname();
-  const { updateOrders } = useOrders();
+  const { getOrders } = useOrders();
 
   const handleClickOutside = (event: MouseEvent) => {
     if (modalRef.current && !modalRef.current.contains(event.target)) {
@@ -97,7 +97,7 @@ const Header = () => {
             <div
               className="menuOption"
               onClick={() => {
-                updateOrders();
+                getOrders(1, 6);
                 setOpenMenu(false);
                 route.push("/my-orders/1");
               }}
