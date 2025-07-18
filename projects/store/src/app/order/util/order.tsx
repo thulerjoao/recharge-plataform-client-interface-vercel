@@ -27,64 +27,64 @@ import { OrderContainer } from "./style";
 const Order = () => {
   const [loading, setLoading] = useState<boolean>(false);
   const route = useRouter();
-  // const order: OrderType = JSON.parse(sessionStorage.getItem("order"));
+  const order: OrderType = JSON.parse(sessionStorage.getItem("order"));
   const { logged } = useAuth();
-  // useEffect(() => {
-  //   if (!order) {
-  //     route.replace("/home");
-  //   }
-  //   if (!logged) {
-  //     sessionStorage.clear();
-  //     route.replace("/home");
-  //   }
-  // }, [order, logged, route]);
+  useEffect(() => {
+    if (!order) {
+      route.replace("/home");
+    }
+    if (!logged) {
+      sessionStorage.clear();
+      route.replace("/home");
+    }
+  }, [order, logged, route]);
 
-  // const products = useProducts();
-  // const product = order
-  //   ? products.find((item) => item.id === order.orderItem.productId)
-  //   : null;
+  const products = useProducts();
+  const product = order
+    ? products.find((item) => item.id === order.orderItem.productId)
+    : null;
 
-  // const handleBuyAgain = () => {
-  //   sessionStorage.removeItem("qrCode");
-  //   sessionStorage.removeItem("copyAndPaste");
-  //   sessionStorage.removeItem("orderId");
-  //   const currentPackage = product.packages.find(
-  //     (item: PackageType) => (item.id = order.orderItem.package.packageId),
-  //   );
-  //   if (currentPackage) {
-  //     sessionStorage.setItem(
-  //       "userId",
-  //       order.orderItem.recharge.userIdForRecharge,
-  //     );
-  //     route.push(
-  //       `/product/${formatString(product.name)}/${order.orderItem.package.packageId}`,
-  //     );
-  //   } else {
-  //     sessionStorage.setItem(
-  //       "userId",
-  //       order.orderItem.recharge.userIdForRecharge,
-  //     );
-  //     route.push(`/home`);
-  //   }
-  // };
+  const handleBuyAgain = () => {
+    sessionStorage.removeItem("qrCode");
+    sessionStorage.removeItem("copyAndPaste");
+    sessionStorage.removeItem("orderId");
+    const currentPackage = product.packages.find(
+      (item: PackageType) => (item.id = order.orderItem.package.packageId),
+    );
+    if (currentPackage) {
+      sessionStorage.setItem(
+        "userId",
+        order.orderItem.recharge.userIdForRecharge,
+      );
+      route.push(
+        `/product/${formatString(product.name)}/${order.orderItem.package.packageId}`,
+      );
+    } else {
+      sessionStorage.setItem(
+        "userId",
+        order.orderItem.recharge.userIdForRecharge,
+      );
+      route.push(`/home`);
+    }
+  };
 
-  // const goToPayment = () => {
-  //   setLoading(true);
-  //   connectionAPIGet<OrderType>(`/order/${order.orderId}/user`, apiUrl)
-  //     .then((res) => {
-  //       sessionStorage.setItem("qrCode", res.payment.qrCode);
-  //       sessionStorage.setItem("copyAndPaste", res.payment.qrCodetextCopyPaste);
-  //       sessionStorage.setItem("orderId", res.orderId);
-  //       sessionStorage.setItem(
-  //         "userId",
-  //         res.orderItem.recharge.userIdForRecharge,
-  //       );
-  //       route.push(
-  //         `product/${formatString(res.orderItem.productName)}/${res.orderItem.package.packageId}`,
-  //       );
-  //     })
-  //     .then(() => {});
-  // };
+  const goToPayment = () => {
+    setLoading(true);
+    connectionAPIGet<OrderType>(`/order/${order.orderId}/user`, apiUrl)
+      .then((res) => {
+        sessionStorage.setItem("qrCode", res.payment.qrCode);
+        sessionStorage.setItem("copyAndPaste", res.payment.qrCodetextCopyPaste);
+        sessionStorage.setItem("orderId", res.orderId);
+        sessionStorage.setItem(
+          "userId",
+          res.orderItem.recharge.userIdForRecharge,
+        );
+        route.push(
+          `product/${formatString(res.orderItem.productName)}/${res.orderItem.package.packageId}`,
+        );
+      })
+      .then(() => {});
+  };
 
   return (
     <OrderContainer>
@@ -96,7 +96,7 @@ const Order = () => {
           DETALHES DO PEDIDO
         </Text>
       </div>
-      {/* <main>
+      <main>
         <section className="fisrtSection">
           <div className="fisrtRow">
             <Image
@@ -107,7 +107,7 @@ const Order = () => {
             />
             <div>
               <Text align="end" fontName="REGULAR_MEDIUM" tag="h2">
-                {order && order.orderItem.package.name.toUpperCase()}
+                {order?.orderItem.package.name.toUpperCase()}
               </Text>
               <Text
                 margin="8px 0 0 0"
@@ -116,23 +116,23 @@ const Order = () => {
                 fontName="TINY"
                 tag="h3"
               >
-                {formatDate(order && order.createdAt)}
+                {formatDate(order?.createdAt)}
               </Text>
             </div>
           </div>
           <Text style={{ marginTop: "8px" }} fontName="REGULAR_MEDIUM">
-            {order && order.orderItem.productName}
+            {order?.orderItem.productName}
           </Text>
           <div className="secondaryRow">
             <Text fontName="SMALL_MEDIUM">Número do pedido</Text>
             <Text fontName="SMALL_MEDIUM" align="end">
-              {order && order.orderNumber}
+              {order?.orderNumber}
             </Text>
           </div>
           <div className="secondaryRow third">
             <Text fontName="SMALL_MEDIUM">ID de usuário</Text>
             <Text fontName="SMALL_MEDIUM" align="end">
-              {order && order.orderItem.recharge.userIdForRecharge}
+              {order?.orderItem.recharge.userIdForRecharge}
             </Text>
           </div>
         </section>
@@ -142,15 +142,13 @@ const Order = () => {
           </Text>
           <div className="outside">
             <span>
-              {order && order.payment.name.toUpperCase() === "PIX" && <Pix />}
+              {order?.payment.name.toUpperCase() === "PIX" && <Pix />}
             </span>
             <div className="allInfos">
               <div className="innerContent">
-                <Text fontName="SMALL_MEDIUM">
-                  {order && order.payment.name}
-                </Text>
+                <Text fontName="SMALL_MEDIUM">{order?.payment.name}</Text>
                 <Text fontName="SMALL_SEMI_BOLD" align="end">
-                  R$ {formatPrice(order && order.totalAmount)}
+                  R$ {formatPrice(order?.price)}
                 </Text>
               </div>
               <div className="innerContent">
@@ -167,7 +165,7 @@ const Order = () => {
                   fontName="TINY"
                   tag="h3"
                 >
-                  {formatDate(order && order.payment.statusUpdatedAt)}
+                  {formatDate(order?.payment.statusUpdatedAt)}
                 </Text>
               </div>
             </div>
@@ -190,11 +188,11 @@ const Order = () => {
               <div className="innerContent">
                 <Text fontName="SMALL_MEDIUM">Bigo Live</Text>
                 <Text fontName="SMALL_SEMI_BOLD" align="end">
-                  {order && order.orderItem.recharge.amountCredits} DIAMANTES
+                  {order?.orderItem.recharge.amountCredits} DIAMANTES
                 </Text>
               </div>
               <div className="innerContent">
-                {order && order.payment.status === "PAYMENT_APPROVED" && (
+                {order?.payment.status === "PAYMENT_APPROVED" && (
                   <Text
                     nowrap
                     fontName="TINY"
@@ -219,8 +217,7 @@ const Order = () => {
               </div>
             </div>
           </div>
-          {order &&
-            order.payment.status === "PAYMENT_APPROVED" &&
+          {order?.payment.status === "PAYMENT_APPROVED" &&
             order.orderItem.recharge.status === "RECHARGE_PENDING" && (
               <Text margin="12px 0 -18px 0" align="center" fontName="TINY">
                 O prazo para recarga é de até 24 horas
@@ -228,7 +225,7 @@ const Order = () => {
             )}
         </section>
       </main>
-      {order && order.payment.status !== "PAYMENT_PENDING" ? (
+      {order?.payment.status !== "PAYMENT_PENDING" ? (
         <Button
           margin="32px 0 0 0"
           width={228}
@@ -248,7 +245,7 @@ const Order = () => {
           title="Prosseguir para pagamento"
           onClick={() => goToPayment()}
         />
-      )} */}
+      )}
     </OrderContainer>
   );
 };
