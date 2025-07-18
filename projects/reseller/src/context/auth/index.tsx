@@ -127,12 +127,12 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
     const refreshToken = data.refreshToken;
     const expiresIn = data.expiresIn;
     // const user: Partial<UserType> = {
-    //   email: data.customer.email,
-    //   name: data.customer.name,
-    //   phone: data.customer.phone,
+    //   email: data.user.email,
+    //   name: data.user.name,
+    //   phone: data.user.phone,
     //   individualIdentification: {
-    //     type: data.customer.individualIdentification.type,
-    //     value: data.customer.individualIdentification.value,
+    //     type: data.user.individualIdentification.type,
+    //     value: data.user.individualIdentification.value,
     //   },
     // };
 

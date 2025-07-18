@@ -1,7 +1,7 @@
 export interface OrderType {
   orderId: string;
   orderNumber: string;
-  customerName: string;
+  userName: string;
   packageName: string;
   paymentStatus: PaymentStatus;
   rechargeStatus: RechargeStatus;

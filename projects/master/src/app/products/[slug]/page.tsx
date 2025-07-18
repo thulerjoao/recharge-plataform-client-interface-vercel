@@ -25,21 +25,21 @@ const Page = ({ params }: Props) => {
     "Lorem ipsum dolor sit amet consectetur. Egestas egestas nec elementum eleifend ac. Enim enim sit morbi pulvinar velit dictum venenatis erat. Vitae mi eget donec nisl id.\n\nNulla suspendisse ut quis lorem sit vivamus adipiscing lobortis id.";
   const initialInstructions =
     "Lorem ipsum dolor sit amet consectetur. Egestas egestas nec elementum eleifend ac. Enim enim sit morbi pulvinar velit dictum venenatis erat. Vitae mi eget donec nisl id. \n\nNulla suspendisse ut quis lorem sit vivamus adipiscing lobortis id. At vitae velit lectus non felis. Id molestie venenatis mi sed amet nunc. Mattis lectus dis urna massa vitae duis. Phasellus varius mauris morbi sit leo parturient.";
-  const [aboutProduct, setAboutProduct] = useState<string>(initialProduct);
+  const [descriptionProduct, setdescriptionProduct] = useState<string>(initialProduct);
   const [instructions, setInstructions] = useState<string>(initialInstructions);
   const [ischanged, setIsChanged] = useState<boolean>(false);
   const { device } = useDevice();
 
   useEffect(() => {
     if (
-      aboutProduct !== initialProduct ||
+      descriptionProduct !== initialProduct ||
       instructions !== initialInstructions
     ) {
       setIsChanged(true);
     } else {
       setIsChanged(false);
     }
-  }, [aboutProduct, instructions]);
+  }, [descriptionProduct, instructions]);
 
   return (
     <ProductsInnerPage>
@@ -173,8 +173,8 @@ const Page = ({ params }: Props) => {
           <div className="leftContainer">
             <Text fontName="REGULAR_SEMI_BOLD">SOBRE BIGO LIVE</Text>
             <textarea
-              value={aboutProduct}
-              onChange={(e) => setAboutProduct(e.target.value)}
+              value={descriptionProduct}
+              onChange={(e) => setdescriptionProduct(e.target.value)}
               placeholder="Descrição do jogo ou plataforma..."
             />
           </div>
