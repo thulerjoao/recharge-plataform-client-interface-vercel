@@ -1,5 +1,5 @@
 import { ProductType } from "types/productTypes";
-import { apiUrl } from "utils/apiUrl";
+import { apiUrl, storeId } from "utils/apiUrl";
 
 export const revalidate = 0;
 
@@ -9,7 +9,7 @@ export async function GET() {
   try {
     const res = await fetch(
       // `${apiUrl}/product/packages?storeid=${process.env.STORE_ID}`,
-      `http://172.30.9.160:3333/product/packages?storeid=53954e91-1beb-4734-82b1-49745050a7a3`,
+      `http://172.30.9.160:3333/product/packages?storeid=${storeId}`,
       {
         next: { revalidate },
       },
