@@ -65,7 +65,7 @@ const NewAccount = ({ setNewUser, setStep, setPreviousStep }: Props) => {
         value: data.cpf,
       },
     };
-    await connectionAPIPost<null>("/customer", body, apiUrl)
+    await connectionAPIPost<null>("/user", body, apiUrl)
       .then(() => {
         setNewUser(body);
         sessionStorage.setItem("emailToConfirm", body.email);

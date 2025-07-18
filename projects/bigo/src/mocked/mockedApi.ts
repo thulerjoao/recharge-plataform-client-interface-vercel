@@ -2,7 +2,7 @@ import { ProductType } from "types/productTypes";
 
 export const MockedProductsList: ProductType[] = [
   {
-    about:
+    description:
       "A Bigo Live é uma plataforma de transmissões ao vivo onde usuários compartilham momentos, mostram talentos e interagem em tempo real.",
     id: "cf61ff4a-ea1b-4677-8b2d-db167907dbe0",
     imgBannerUrl: "https://i.imgur.com/OqYwlo2.png",

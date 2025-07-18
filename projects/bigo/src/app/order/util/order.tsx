@@ -78,7 +78,7 @@ const Order = () => {
 
   // const goToPayment = () => {
   //   setLoading(true);
-  //   connectionAPIGet<OrderType>(`/order/${order.orderId}/customer`, apiUrl)
+  //   connectionAPIGet<OrderType>(`/order/${order.orderId}/user`, apiUrl)
   //     .then((res) => {
   //       sessionStorage.setItem("qrCode", res.payment.qrCode);
   //       sessionStorage.setItem("copyAndPaste", res.payment.qrCodetextCopyPaste);
