@@ -29,7 +29,7 @@ const Order = () => {
   const route = useRouter();
   const order: OrderType = JSON.parse(sessionStorage.getItem("order"));
   const { logged } = useAuth();
-  
+
   useEffect(() => {
     if (!order) {
       route.replace("/home");
