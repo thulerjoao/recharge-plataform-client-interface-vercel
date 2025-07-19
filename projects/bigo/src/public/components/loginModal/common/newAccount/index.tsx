@@ -19,6 +19,7 @@ import Phone from "../../icons/Phone.svg";
 import { LoginSteps } from "../../types/types";
 import { registerSchema, RegisterSchema } from "./schema";
 import { ErrorMessage, NewAccountContainer } from "./style";
+import { storeId } from "utils/apiUrl";
 
 interface Props {
   setNewUser: React.Dispatch<React.SetStateAction<UserType>>;
@@ -60,22 +61,25 @@ const NewAccount = ({ setNewUser, setStep, setPreviousStep }: Props) => {
       email: data.email,
       phone: data.phone,
       password: data.password,
-      individualIdentification: {
-        type: "CPF",
-        value: data.cpf,
-      },
+      documentType: "cpf",
+      documentValue: data.cpf,
+      role: "USER",
+      storeId,
     };
+    console.log("body", body);
     await connectionAPIPost<null>("/user", body, apiUrl)
-      .then(() => {
+      .then((res) => {
+        console.log("res", res);
         setNewUser(body);
         sessionStorage.setItem("emailToConfirm", body.email);
         setPreviousStep("newAccount");
         setStep("confirmCode");
       })
       .catch((err) => {
+        console.log("err", err.response.data.message);
         handleErrorResponse(err.response.data.message[0]);
-        setLoading(false);
       });
+    setLoading(false);
   };
 
   useEffect(() => {
