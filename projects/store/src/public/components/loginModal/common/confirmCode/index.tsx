@@ -6,72 +6,67 @@ import { useAuth } from "contexts/auth";
 import InputCode from "public/components/inputCode";
 import React, { useEffect, useState } from "react";
 
-import { LoginParams, LoginResponse } from "types/loginTypes";
 import { UserType } from "types/userTypes";
 import { apiUrl } from "utils/apiUrl";
 import { LoginSteps } from "../../types/types";
 import { ConfirmCodeContainer, ErrorMessage, SendCode } from "./style";
 
 interface Props {
+  askToRecover: boolean;
+  timer: number;
+  activateTimer: () => void;
   user: UserType;
   previousStep: "newAccount" | "newPassword" | null;
   setStep: React.Dispatch<React.SetStateAction<LoginSteps>>;
   closeModal: () => void;
 }
 
-const ConfirmCode = ({ user, previousStep, setStep, closeModal }: Props) => {
-  const emailToConfirm = sessionStorage.getItem("emailToConfirm");
+const ConfirmCode = ({
+  askToRecover,
+  timer,
+  activateTimer,
+  user,
+  previousStep,
+  setStep,
+  closeModal,
+}: Props) => {
   const { login } = useAuth();
 
   const [errorMessage, setErrorMessage] = useState<string>("");
   const [code, setCode] = useState<number>(null);
   const [loading, setLoading] = useState<boolean>(false);
-  const [seconds, setSeconds] = useState<number>(60);
-  const [sendCode, setSendCode] = useState<boolean>(false);
+
+  interface VerifyCodeResponse {
+    message: string;
+    valid: boolean;
+  }
 
   const handleSubmit = () => {
-    setLoading(true);
-    const data = {
-      email: emailToConfirm ? emailToConfirm : user.email,
-      code: code.toString(),
-    };
-    connectionAPIPost("/user/confirm-email", data, apiUrl)
-      .then(async () => {
-        const body: LoginParams = {
-          email: user.email,
-          password: user.password,
-          rememberMe: true,
-        };
-        await connectionAPIPost<LoginResponse>("/user/login", body, apiUrl)
-          .then(async (res) => {
-            try {
-              const rememberMe = true;
-              const response = await login(res, rememberMe);
-              if (response) closeModal();
-            } catch (error) {
-              if (error instanceof Error) {
-                setErrorMessage(error.message);
-              } else {
-                setLoading(false);
-                setErrorMessage("Usuário ou senha inválidos");
-              }
-            }
-          })
-          .catch(() => {});
-        setLoading(false);
-        closeModal();
-      })
-      .catch((error) => {
-        const message = error.response.data.message[0];
-        if (message === "Code expired") {
-          setErrorMessage("Código expirado");
-        } else if (message === "Invalid code") {
-          setErrorMessage("Código inválido");
-        } else {
-          setErrorMessage("Erro ao confirmar código");
-        }
-        setLoading(false);
-      });
+    console.log("email");
+    if (previousStep === "newPassword") {
+      const email = sessionStorage.getItem("emailToRecover");
+      const data = {
+        email,
+        code: code.toString(),
+      };
+
+      connectionAPIPost<VerifyCodeResponse>("/auth/verify-code", data, apiUrl)
+        .then((res) => {
+          sessionStorage.setItem("code", data.code);
+          sessionStorage.setItem("emailToRecover", data.email);
+          setStep("newPassword");
+        })
+        .catch((error) => {
+          console.log(error);
+          if (error.response.data.message === "Reset code has expired") {
+            setErrorMessage("Código expirado");
+          } else if (error.response.data.message === "Invalid reset code") {
+            setErrorMessage("Código inválido");
+          } else {
+            setErrorMessage("Erro ao confirmar código");
+          }
+        });
+    }
   };
 
   const handleDisabled = () => {
@@ -80,43 +75,34 @@ const ConfirmCode = ({ user, previousStep, setStep, closeModal }: Props) => {
   };
 
   const handleSendCode = () => {
+    if (askToRecover) {
+      return;
+    }
+
+    const email =
+      previousStep === "newPassword"
+        ? sessionStorage.getItem("emailToRecover")
+        : user.email;
     setLoading(true);
     connectionAPIPost(
-      "/user/create-new-code-for-email-verification",
+      "/auth/forgot-password",
       {
-        email: emailToConfirm,
+        email,
       },
       apiUrl,
     )
       .then(() => {
-        setSeconds(59);
-        setSendCode(false);
         setLoading(false);
+        activateTimer();
         alert("Um novo código foi enviado para seu e-mail");
       })
       .catch(() => {
-        setSeconds(59);
-        setSendCode(false);
         setLoading(false);
         setErrorMessage("Não foi possível enviar um novo código");
       });
   };
 
-  useEffect(() => {
-    const intervalId = setInterval(() => {
-      setSeconds((prevSeconds) => {
-        if (prevSeconds === 0) {
-          clearInterval(intervalId);
-          return 0;
-        }
-        return prevSeconds - 1;
-      });
-    }, 1000);
-    if (seconds <= 1) setSendCode(true);
-    return () => clearInterval(intervalId);
-  }, [seconds]);
-
-  const formattedSeconds = String(seconds - 1).padStart(2, "0");
+  const formattedSeconds = String(timer).padStart(2, "0");
 
   useEffect(() => {
     if (errorMessage !== "") {
@@ -146,8 +132,8 @@ const ConfirmCode = ({ user, previousStep, setStep, closeModal }: Props) => {
         loading={loading}
       />
       <SendCode
-        sendCode={sendCode}
-        onClick={() => sendCode && !loading && handleSendCode()}
+        sendCode={!askToRecover}
+        onClick={() => !askToRecover && !loading && handleSendCode()}
       >
         <Text
           nowrap
@@ -157,14 +143,14 @@ const ConfirmCode = ({ user, previousStep, setStep, closeModal }: Props) => {
         >
           Reenviar código
         </Text>
-        {!sendCode && (
+        {askToRecover && (
           <Text
             tag="h4"
             align="start"
             color={Theme.colors.mainHighlight}
             fontName="SMALL"
           >
-            {seconds > 1 && formattedSeconds}
+            {timer > 1 && formattedSeconds}
           </Text>
         )}
       </SendCode>

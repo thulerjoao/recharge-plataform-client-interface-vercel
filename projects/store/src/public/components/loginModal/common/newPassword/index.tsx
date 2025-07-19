@@ -11,6 +11,7 @@ import Password from "../../icons/Password.svg";
 import { newPassSchema, NewPassSchema } from "./schema";
 import { ErrorMessage, NewPasswordContainer } from "./style";
 import { Theme } from "@4miga/design-system/theme/theme";
+import { LoginResponse } from "types/loginTypes";
 
 interface Props {
   closeModal: () => void;
@@ -38,23 +39,25 @@ const NewPassword = ({ closeModal }: Props) => {
 
   const onSubmit = async (data: NewPassSchema) => {
     setLoading(true);
-    await connectionAPIPost<any>(
-      "/user/update-by-code",
-      {
-        // email: newPassRes.email,
-        // code: newPassRes.code,
-        password,
-        confirmPassword,
-      },
+    const email = sessionStorage.getItem("emailToRecover");
+    const code = sessionStorage.getItem("code");
+    const dataToSend = {
+      email,
+      code,
+      password,
+      confirmPassword,
+    };
+
+    await connectionAPIPost<LoginResponse>(
+      "/auth/reset-password",
+      dataToSend,
       apiUrl,
     )
-      .then(() => {
-        // login({
-        //   // email: newPassRes.email,
-        //   password,
-        //   rememberMe: true,
-        // });
+      .then((res) => {
+        sessionStorage.clear();
+        login(res, true);
         closeModal();
+        alert("Senha atualizada com sucesso");
       })
       .catch((err) => {
         setErrorMessage("Erro ao atualizar senha");
