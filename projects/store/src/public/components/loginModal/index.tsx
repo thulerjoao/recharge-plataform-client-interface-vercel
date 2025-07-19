@@ -6,8 +6,8 @@ import { useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";
 import { UserType } from "types/userTypes";
 
+import { useDisableScroll } from "@4miga/hooks/useDisableScroll";
 import ConfirmCode from "./common/confirmCode";
-import ConfirmCodePass from "./common/confirmCodePass";
 import ForgotPassword from "./common/forgotPassword";
 import LoginComponent from "./common/login";
 import NewAccount from "./common/newAccount";
@@ -17,7 +17,6 @@ import Close from "./icons/Close.svg";
 import TopLogo from "./icons/topLogo.svg";
 import { LoginModalBackground, LoginModalContainer } from "./style";
 import { LoginSteps } from "./types/types";
-import { useDisableScroll } from "@4miga/hooks/useDisableScroll";
 
 interface LoginModalProps {
   openInNewAccount?: boolean;
@@ -153,9 +152,6 @@ const LoginModal = ({ setLoginModal, openInNewAccount }: LoginModalProps) => {
             timer={timer}
           />
         )}
-        {/* {step === "confirmCodePass" && (
-          <ConfirmCodePass closeModal={closeModal} />
-        )} */}
         {step === "newPassword" && <NewPassword closeModal={closeModal} />}
 
         {(step === "login" || step === "newAccount") && (

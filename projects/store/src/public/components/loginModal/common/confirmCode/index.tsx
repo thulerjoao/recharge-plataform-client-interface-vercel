@@ -6,6 +6,7 @@ import { useAuth } from "contexts/auth";
 import InputCode from "public/components/inputCode";
 import React, { useEffect, useState } from "react";
 
+import { LoginResponse } from "types/loginTypes";
 import { UserType } from "types/userTypes";
 import { apiUrl } from "utils/apiUrl";
 import { LoginSteps } from "../../types/types";
@@ -65,6 +66,23 @@ const ConfirmCode = ({
           } else {
             setErrorMessage("Erro ao confirmar código");
           }
+        });
+    }
+    if (previousStep === "newAccount") {
+      const email = sessionStorage.getItem("emailToConfirm");
+      const data = {
+        email,
+        code: code.toString(),
+      };
+      console.log("data", data);
+      connectionAPIPost<LoginResponse>("/auth/verify-email", data, apiUrl)
+        .then((res) => {
+          login(res, true);
+          closeModal();
+          alert("Conta criada com sucesso!");
+        })
+        .catch((err) => {
+          setErrorMessage("Erro ao confirmar código");
         });
     }
   };

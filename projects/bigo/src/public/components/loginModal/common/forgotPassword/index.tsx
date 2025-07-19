@@ -13,10 +13,20 @@ import { forgotPassSchema, ForgotPassSchema } from "./schema";
 import { ErrorMessage, ForgotPasswordContainer } from "./style";
 
 interface Props {
+  askToRecover: boolean;
+  activateTimer: () => void;
   setStep: React.Dispatch<React.SetStateAction<LoginSteps>>;
+  setPreviousStep: React.Dispatch<
+    React.SetStateAction<"newPassword" | "newAccount">
+  >;
 }
 
-const ForgotPassword = ({ setStep }: Props) => {
+const ForgotPassword = ({
+  askToRecover,
+  activateTimer,
+  setStep,
+  setPreviousStep,
+}: Props) => {
   const {
     handleSubmit,
     setValue,
@@ -35,6 +45,7 @@ const ForgotPassword = ({ setStep }: Props) => {
 
   const saveStorageEmail = (email: string) => {
     sessionStorage.setItem("emailToRecover", email);
+
     setTimeout(() => {
       sessionStorage.removeItem("emailToRecover");
     }, 600000);
@@ -42,36 +53,47 @@ const ForgotPassword = ({ setStep }: Props) => {
 
   const onSubmit = async (data: ForgotPassSchema) => {
     setLoading(true);
-    const IsAnEmail = sessionStorage.getItem("emailToRecover");
-    if (IsAnEmail === email) {
-      return setStep("confirmCodePass");
-    } else {
-      sessionStorage.removeItem("emailToRecover");
+    setErrorMessage("");
+
+    const isThereEmail = sessionStorage.getItem("emailToRecover");
+    if (isThereEmail === data.email) {
+      setPreviousStep("newPassword");
+      setStep("confirmCode");
+      setLoading(false);
+      return;
     }
-    connectionAPIPost<null>(
-      "/user/send-code-to-recover-password",
-      data,
-      apiUrl,
-    )
-      .then((res) => {
-        saveStorageEmail(email);
-        setStep("confirmCodePass");
-        setLoading(false);
-      })
-      .catch((error) => {
-        // const message = error.response.data.message[0];
-        // if (
-        //   message.toLowerCase() ===
-        //   `email: '${email.toLowerCase()}' not verified`
-        // ) {
-        //   sessionStorage.setItem("emailToConfirm", email);
-        //   setStep("confirmCode");
-        // }
-        // setErrorMessage("Erro ao realizar o pedido");
-        saveStorageEmail(email);
-        setStep("confirmCodePass");
-        setLoading(false);
-      });
+
+    // If recovery is active, skip API request and just save email
+    if (askToRecover) {
+      saveStorageEmail(data.email);
+      setPreviousStep("newPassword");
+      setStep("confirmCode");
+      setLoading(false);
+      return;
+    }
+
+    try {
+      const response = await connectionAPIPost<null>(
+        "/auth/forgot-password",
+        data,
+        apiUrl,
+      );
+      console.log(response);
+      saveStorageEmail(data.email);
+      activateTimer();
+      setStep("confirmCode");
+    } catch (error: any) {
+      const message = error.response?.data?.message?.[0] || "";
+
+      if (message.toLowerCase().includes("not verified")) {
+        saveStorageEmail(data.email);
+        setStep("confirmCode");
+      } else {
+        setErrorMessage("Erro ao realizar o pedido. Tente novamente.");
+      }
+    } finally {
+      setLoading(false);
+    }
   };
 
   useEffect(() => {

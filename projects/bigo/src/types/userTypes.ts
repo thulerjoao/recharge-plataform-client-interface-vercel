@@ -1,5 +1,5 @@
 export type UserType = {
-  id: string;
+  id?: string;
   name: string;
   email: string;
   phone: string;
@@ -7,7 +7,7 @@ export type UserType = {
   documentType: "cpf" | "cnpj";
   documentValue: string;
   role: "MASTER_ADMIN" | "ADMIN" | "USER";
-  createdAt: Date;
-  updatedAt: Date;
   storeId: string;
+  createdAt?: Date;
+  updatedAt?: Date;
 };

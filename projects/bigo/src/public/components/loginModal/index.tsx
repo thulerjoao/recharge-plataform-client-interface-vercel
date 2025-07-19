@@ -2,12 +2,12 @@
 
 import Text from "@4miga/design-system/components/Text";
 import { Theme } from "@4miga/design-system/theme/theme";
-import { useDisableScroll } from "@4miga/hooks/useDisableScroll";
 import { useRouter } from "next/navigation";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { UserType } from "types/userTypes";
+
+import { useDisableScroll } from "@4miga/hooks/useDisableScroll";
 import ConfirmCode from "./common/confirmCode";
-import ConfirmCodePass from "./common/confirmCodePass";
 import ForgotPassword from "./common/forgotPassword";
 import LoginComponent from "./common/login";
 import NewAccount from "./common/newAccount";
@@ -34,6 +34,55 @@ const LoginModal = ({ setLoginModal, openInNewAccount }: LoginModalProps) => {
   >(null);
   const [newUser, setNewUser] = useState<UserType>(null);
   const [mouseDownTarget, setMouseDownTarget] = useState<EventTarget>(null);
+  const [askToRecover, setAskToRecover] = useState<boolean>(false);
+  const [timer, setTimer] = useState<number>(0);
+
+  // Check localStorage when component renders
+  useEffect(() => {
+    const savedTime = localStorage.getItem("askRecoverTime");
+
+    if (savedTime) {
+      const savedTimestamp = parseInt(savedTime);
+      const currentTime = new Date().getTime();
+      const elapsedSeconds = Math.floor((currentTime - savedTimestamp) / 1000);
+      const remainingSeconds = Math.max(0, 60 - elapsedSeconds);
+
+      if (remainingSeconds > 0) {
+        setAskToRecover(true);
+        setTimer(remainingSeconds);
+      } else {
+        localStorage.removeItem("askRecoverTime");
+        setAskToRecover(false);
+        setTimer(0);
+      }
+    }
+  }, []);
+
+  // Countdown timer
+  useEffect(() => {
+    if (!askToRecover || timer <= 0) return;
+
+    const intervalId = setInterval(() => {
+      setTimer((prevTime) => {
+        if (prevTime <= 1) {
+          clearInterval(intervalId);
+          localStorage.removeItem("askRecoverTime");
+          setAskToRecover(false);
+          return 0; // Return 0 instead of 60
+        }
+        return prevTime - 1;
+      });
+    }, 1000);
+
+    return () => clearInterval(intervalId);
+  }, [askToRecover, timer]);
+
+  // Function to activate recovery
+  const activateTimer = () => {
+    setAskToRecover(true);
+    setTimer(60);
+    localStorage.setItem("askRecoverTime", new Date().getTime().toString());
+  };
 
   const closeModal = () => {
     setLoginModal && setLoginModal(false);
@@ -42,8 +91,7 @@ const LoginModal = ({ setLoginModal, openInNewAccount }: LoginModalProps) => {
   const handleBackward = () => {
     step === "forgotPassword" && setStep("login");
     step === "confirmCode" && setStep("login");
-    step === "confirmCodePass" && setStep("forgotPassword");
-    step === "newPassword" && setStep("confirmCodePass");
+    step === "newPassword" && setStep("confirmCode");
   };
 
   const handleMouseDown = (e: React.MouseEvent<HTMLDivElement>) => {
@@ -85,17 +133,24 @@ const LoginModal = ({ setLoginModal, openInNewAccount }: LoginModalProps) => {
             setPreviousStep={setPreviousStep}
           />
         )}
-        {step === "forgotPassword" && <ForgotPassword setStep={setStep} />}
+        {step === "forgotPassword" && (
+          <ForgotPassword
+            setStep={setStep}
+            setPreviousStep={setPreviousStep}
+            activateTimer={activateTimer}
+            askToRecover={askToRecover}
+          />
+        )}
         {step === "confirmCode" && (
           <ConfirmCode
             user={newUser}
+            askToRecover={askToRecover}
             previousStep={previousStep}
             closeModal={closeModal}
             setStep={setStep}
+            activateTimer={activateTimer}
+            timer={timer}
           />
-        )}
-        {step === "confirmCodePass" && (
-          <ConfirmCodePass closeModal={closeModal} />
         )}
         {step === "newPassword" && <NewPassword closeModal={closeModal} />}
 
