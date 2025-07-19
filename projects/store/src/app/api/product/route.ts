@@ -9,12 +9,12 @@ export async function GET() {
   try {
     const res = await fetch(
       // `${apiUrl}/product/packages?storeid=${process.env.STORE_ID}`,
-      `http://172.30.9.160:3333/product/packages?storeid=${storeId}`,
+      // `http://172.30.9.160:3333/product/packages?storeid=${storeId}`,
+      `${apiUrl}/product/packages?storeid=${storeId}`,
       {
         next: { revalidate },
       },
     );
-    console.log("aquiiii02", res);
     if (!res.ok) {
       console.warn(`Falha na resposta da API externa: ${res.statusText}`);
       return Response.json([], { status: 200 });

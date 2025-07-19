@@ -6,7 +6,8 @@ export const revalidate = 0;
 export async function GET() {
   try {
     const res = await fetch(
-      `http://172.30.9.160:3333/product/packages?storeid=${storeId}`,
+      // `http://172.30.9.160:3333/product/packages?storeid=${storeId}`,
+      `${apiUrl}/product/packages?storeid=${storeId}`,
       {
         next: { revalidate },
       },
