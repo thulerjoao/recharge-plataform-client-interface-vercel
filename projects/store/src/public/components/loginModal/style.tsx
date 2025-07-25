@@ -27,7 +27,6 @@ export const LoginModalContainer = styled.div`
   align-items: center;
   border-radius: 8px;
   padding-bottom: 48px;
-  margin-bottom: 12%;
   -webkit-box-shadow: 0px 0px 5px 2px rgba(7, 29, 35, 1);
   -moz-box-shadow: 0px 0px 5px 2px rgba(7, 29, 35, 1);
   box-shadow: 0px 0px 5px 2px rgba(7, 29, 35, 1);

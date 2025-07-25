@@ -43,7 +43,6 @@ const ConfirmCode = ({
   }
 
   const handleSubmit = () => {
-    console.log("email");
     if (previousStep === "newPassword") {
       const email = sessionStorage.getItem("emailToRecover");
       const data = {
@@ -82,6 +81,7 @@ const ConfirmCode = ({
           alert("Conta criada com sucesso!");
         })
         .catch((err) => {
+          console.log("err", err);
           setErrorMessage("Erro ao confirmar código");
         });
     }
@@ -92,15 +92,17 @@ const ConfirmCode = ({
     if (code.toString().length != 6) return true;
   };
 
+  console.log("previousStep", previousStep);
   const handleSendCode = () => {
     if (askToRecover) {
       return;
     }
-
     const email =
       previousStep === "newPassword"
         ? sessionStorage.getItem("emailToRecover")
-        : user.email;
+        : previousStep === "newAccount"
+          ? sessionStorage.getItem("emailToConfirm")
+          : user.email;
     setLoading(true);
     connectionAPIPost(
       "/auth/forgot-password",

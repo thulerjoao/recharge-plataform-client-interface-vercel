@@ -16,11 +16,14 @@ import { loginSchema, LoginSchema } from "./schema";
 import { ErrorMessage, LoginComponentContainer } from "./style";
 
 interface Props {
+  setPreviousStep: React.Dispatch<
+    React.SetStateAction<"newAccount" | "newPassword">
+  >;
   setStep: React.Dispatch<React.SetStateAction<LoginSteps>>;
   closeModal?: () => void;
 }
 
-const LoginComponent = ({ setStep, closeModal }: Props) => {
+const LoginComponent = ({ setPreviousStep, setStep, closeModal }: Props) => {
   const [loading, setLoading] = useState<boolean>(false);
   const {
     handleSubmit,
@@ -62,9 +65,10 @@ const LoginComponent = ({ setStep, closeModal }: Props) => {
         }
       })
       .catch((error) => {
-        const message: string = error && error.response.data.message[0];
-        if (message.toLowerCase() === "email not verified") {
+        const message: string = error && error.response.data.message;
+        if (message === "Email not verified") {
           sessionStorage.setItem("emailToConfirm", data.email);
+          setPreviousStep("newAccount");
           setStep("confirmCode");
         } else {
           setLoading(false);
