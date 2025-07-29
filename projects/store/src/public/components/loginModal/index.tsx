@@ -68,7 +68,7 @@ const LoginModal = ({ setLoginModal, openInNewAccount }: LoginModalProps) => {
           clearInterval(intervalId);
           localStorage.removeItem("askRecoverTime");
           setAskToRecover(false);
-          return 0; // Return 0 instead of 60
+          return 0;
         }
         return prevTime - 1;
       });
@@ -141,7 +141,6 @@ const LoginModal = ({ setLoginModal, openInNewAccount }: LoginModalProps) => {
           <ForgotPassword
             setStep={setStep}
             setPreviousStep={setPreviousStep}
-            activateTimer={activateTimer}
             askToRecover={askToRecover}
           />
         )}

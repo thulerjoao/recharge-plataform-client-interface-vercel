@@ -66,18 +66,16 @@ const NewAccount = ({ setNewUser, setStep, setPreviousStep }: Props) => {
       role: "USER",
       storeId,
     };
-    console.log("body", body);
     await connectionAPIPost<null>("/user", body, apiUrl)
       .then((res) => {
-        console.log("res", res);
         setNewUser(body);
         sessionStorage.setItem("emailToConfirm", body.email);
         setPreviousStep("newAccount");
         setStep("confirmCode");
       })
       .catch((err) => {
-        console.log("err", err.response.data.message);
-        handleErrorResponse(err.response.data.message[0]);
+        handleErrorResponse(err.response.data.message);
+        sessionStorage.removeItem("emailToConfirm");
       });
     setLoading(false);
   };
@@ -107,16 +105,13 @@ const NewAccount = ({ setNewUser, setStep, setPreviousStep }: Props) => {
   }, [errors]);
 
   const handleErrorResponse = (res: string) => {
-    if (res.toLocaleLowerCase() === "email already exists") {
+    if (res === "User with this email already exists") {
       setErrorMessage("Email já cadastrado");
       setLoading(false);
-    } else if (res.toLocaleLowerCase() === "unique data already exists") {
-      setErrorMessage("Usuário já cadastrado");
+    } else if (res === "User with this document already exists") {
+      setErrorMessage("CPF já cadastrado");
       setLoading(false);
-    } else if (
-      res.toLocaleLowerCase() ===
-      "name cannot contain numbers and special characters"
-    ) {
+    } else if (res.toLocaleLowerCase() === "Name is required") {
       setErrorMessage("Nome inválido");
       setLoading(false);
     } else {

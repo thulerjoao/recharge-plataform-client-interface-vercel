@@ -8,7 +8,7 @@ import { useAuth } from "contexts/auth";
 import React, { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { LoginResponse } from "types/loginTypes";
-import { apiUrl } from "utils/apiUrl";
+import { apiUrl, storeId } from "utils/apiUrl";
 import Email from "../../icons/Email.svg";
 import Password from "../../icons/Password.svg";
 import { LoginSteps } from "../../types/types";
@@ -16,11 +16,14 @@ import { loginSchema, LoginSchema } from "./schema";
 import { ErrorMessage, LoginComponentContainer } from "./style";
 
 interface Props {
+  setPreviousStep: React.Dispatch<
+    React.SetStateAction<"newAccount" | "newPassword">
+  >;
   setStep: React.Dispatch<React.SetStateAction<LoginSteps>>;
   closeModal?: () => void;
 }
 
-const LoginComponent = ({ setStep, closeModal }: Props) => {
+const LoginComponent = ({ setPreviousStep, setStep, closeModal }: Props) => {
   const [loading, setLoading] = useState<boolean>(false);
   const {
     handleSubmit,
@@ -45,6 +48,7 @@ const LoginComponent = ({ setStep, closeModal }: Props) => {
     const body = {
       email: data.email,
       password: data.password,
+      storeId: storeId,
     };
     await connectionAPIPost<LoginResponse>("/auth/login", body, apiUrl)
       .then(async (res) => {
@@ -62,10 +66,10 @@ const LoginComponent = ({ setStep, closeModal }: Props) => {
         }
       })
       .catch((error) => {
-        console.log("aqui01", error);
-        const message: string = error && error.response.data.message[0];
-        if (message.toLowerCase() === "email not verified") {
+        const message = error.response.data.message;
+        if (message === "Email not verified") {
           sessionStorage.setItem("emailToConfirm", data.email);
+          setPreviousStep("newAccount");
           setStep("confirmCode");
         } else {
           setLoading(false);

@@ -6,7 +6,7 @@ import { connectionAPIPost } from "@4miga/services/connectionAPI/connection";
 import { zodResolver } from "@hookform/resolvers/zod";
 import React, { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
-import { apiUrl } from "utils/apiUrl";
+import { apiUrl, storeId } from "utils/apiUrl";
 import Email from "../../icons/Email.svg";
 import { LoginSteps } from "../../types/types";
 import { forgotPassSchema, ForgotPassSchema } from "./schema";
@@ -14,19 +14,13 @@ import { ErrorMessage, ForgotPasswordContainer } from "./style";
 
 interface Props {
   askToRecover: boolean;
-  activateTimer: () => void;
   setStep: React.Dispatch<React.SetStateAction<LoginSteps>>;
   setPreviousStep: React.Dispatch<
     React.SetStateAction<"newPassword" | "newAccount">
   >;
 }
 
-const ForgotPassword = ({
-  askToRecover,
-  activateTimer,
-  setStep,
-  setPreviousStep,
-}: Props) => {
+const ForgotPassword = ({ askToRecover, setStep, setPreviousStep }: Props) => {
   const {
     handleSubmit,
     setValue,
@@ -45,7 +39,6 @@ const ForgotPassword = ({
 
   const saveStorageEmail = (email: string) => {
     sessionStorage.setItem("emailToRecover", email);
-
     setTimeout(() => {
       sessionStorage.removeItem("emailToRecover");
     }, 600000);
@@ -55,45 +48,49 @@ const ForgotPassword = ({
     setLoading(true);
     setErrorMessage("");
 
-    const isThereEmail = sessionStorage.getItem("emailToRecover");
-    if (isThereEmail === data.email) {
+    const emailToRecover = sessionStorage.getItem("emailToRecover");
+    if (emailToRecover === data.email) {
       setPreviousStep("newPassword");
       setStep("confirmCode");
       setLoading(false);
       return;
+    } else {
+      sessionStorage.removeItem("emailToRecover");
     }
 
-    // If recovery is active, skip API request and just save email
-    if (askToRecover) {
-      saveStorageEmail(data.email);
-      setPreviousStep("newPassword");
+    const emailToConfirm = sessionStorage.getItem("emailToConfirm");
+    if (emailToConfirm === data.email) {
+      setPreviousStep("newAccount");
       setStep("confirmCode");
       setLoading(false);
       return;
+    } else {
+      sessionStorage.removeItem("emailToConfirm");
     }
 
-    try {
-      const response = await connectionAPIPost<null>(
-        "/auth/forgot-password",
-        data,
-        apiUrl,
-      );
-      console.log(response);
-      saveStorageEmail(data.email);
-      activateTimer();
-      setStep("confirmCode");
-    } catch (error: any) {
-      const message = error.response?.data?.message?.[0] || "";
-
-      if (message.toLowerCase().includes("not verified")) {
+    const body = {
+      email: data.email,
+      storeId: storeId,
+    };
+    connectionAPIPost<null>("/auth/forgot-password", body, apiUrl)
+      .then((res) => {
+        setPreviousStep("newPassword");
         saveStorageEmail(data.email);
         setStep("confirmCode");
-      } else {
-        setErrorMessage("Erro ao realizar o pedido. Tente novamente.");
-      }
-    } finally {
-      setLoading(false);
-    }
+      })
+      .catch((error) => {
+        const message: string = error && error.response.data.message;
+        if (message === "Email not verified") {
+          setPreviousStep("newAccount");
+          saveStorageEmail(data.email);
+          setStep("confirmCode");
+        } else {
+          setErrorMessage("Erro ao realizar o pedido");
+        }
+      })
+      .finally(() => {
+        setLoading(false);
+      });
   };
 
   useEffect(() => {

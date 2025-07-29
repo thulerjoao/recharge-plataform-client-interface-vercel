@@ -8,7 +8,7 @@ import { useAuth } from "contexts/auth";
 import React, { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { LoginResponse } from "types/loginTypes";
-import { apiUrl } from "utils/apiUrl";
+import { apiUrl, storeId } from "utils/apiUrl";
 import Email from "../../icons/Email.svg";
 import Password from "../../icons/Password.svg";
 import { LoginSteps } from "../../types/types";
@@ -48,6 +48,7 @@ const LoginComponent = ({ setPreviousStep, setStep, closeModal }: Props) => {
     const body = {
       email: data.email,
       password: data.password,
+      storeId: storeId,
     };
     await connectionAPIPost<LoginResponse>("/auth/login", body, apiUrl)
       .then(async (res) => {
@@ -65,7 +66,7 @@ const LoginComponent = ({ setPreviousStep, setStep, closeModal }: Props) => {
         }
       })
       .catch((error) => {
-        const message: string = error && error.response.data.message;
+        const message = error.response.data.message;
         if (message === "Email not verified") {
           sessionStorage.setItem("emailToConfirm", data.email);
           setPreviousStep("newAccount");
