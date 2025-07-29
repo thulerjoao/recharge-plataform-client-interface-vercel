@@ -6,7 +6,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useAuth } from "contexts/auth";
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
-import { apiUrl } from "utils/apiUrl";
+import { apiUrl, storeId } from "utils/apiUrl";
 import Password from "../../icons/Password.svg";
 import { newPassSchema, NewPassSchema } from "./schema";
 import { ErrorMessage, NewPasswordContainer } from "./style";
@@ -37,7 +37,7 @@ const NewPassword = ({ closeModal }: Props) => {
   const password = watch("password");
   const confirmPassword = watch("confirmPassword");
 
-  const onSubmit = async (data: NewPassSchema) => {
+  const onSubmit = async () => {
     setLoading(true);
     const email = sessionStorage.getItem("emailToRecover");
     const code = sessionStorage.getItem("code");
@@ -46,6 +46,7 @@ const NewPassword = ({ closeModal }: Props) => {
       code,
       password,
       confirmPassword,
+      storeId,
     };
 
     await connectionAPIPost<LoginResponse>(
@@ -57,12 +58,23 @@ const NewPassword = ({ closeModal }: Props) => {
         sessionStorage.clear();
         login(res, true);
         closeModal();
-        alert("Senha atualizada com sucesso");
+        alert("Senha atualizada com sucesso!");
       })
       .catch((err) => {
-        setErrorMessage("Erro ao atualizar senha");
+        const message = err.response.data.message;
+        if (message === "Passwords do not match") {
+          setErrorMessage("As senhas não coincidem");
+        } else if (message === "Reset code has expired") {
+          setErrorMessage("Código expirado, tente novamente");
+        } else if (message === "Invalid reset code") {
+          setErrorMessage("Código inválido, tente novamente");
+        } else {
+          setErrorMessage("Erro ao atualizar senha");
+        }
+      })
+      .finally(() => {
+        setLoading(false);
       });
-    setLoading(false);
   };
 
   useEffect(() => {

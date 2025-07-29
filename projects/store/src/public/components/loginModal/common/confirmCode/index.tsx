@@ -5,10 +5,9 @@ import { connectionAPIPost } from "@4miga/services/connectionAPI/connection";
 import { useAuth } from "contexts/auth";
 import InputCode from "public/components/inputCode";
 import React, { useEffect, useState } from "react";
-
 import { LoginResponse } from "types/loginTypes";
 import { UserType } from "types/userTypes";
-import { apiUrl } from "utils/apiUrl";
+import { apiUrl, storeId } from "utils/apiUrl";
 import { LoginSteps } from "../../types/types";
 import { ConfirmCodeContainer, ErrorMessage, SendCode } from "./style";
 
@@ -32,7 +31,6 @@ const ConfirmCode = ({
   closeModal,
 }: Props) => {
   const { login } = useAuth();
-
   const [errorMessage, setErrorMessage] = useState<string>("");
   const [code, setCode] = useState<number>(null);
   const [loading, setLoading] = useState<boolean>(false);
@@ -43,46 +41,64 @@ const ConfirmCode = ({
   }
 
   const handleSubmit = () => {
-    console.log("email");
+    setLoading(true);
     if (previousStep === "newPassword") {
       const email = sessionStorage.getItem("emailToRecover");
       const data = {
         email,
         code: code.toString(),
+        storeId,
       };
 
       connectionAPIPost<VerifyCodeResponse>("/auth/verify-code", data, apiUrl)
-        .then((res) => {
+        .then(() => {
           sessionStorage.setItem("code", data.code);
           sessionStorage.setItem("emailToRecover", data.email);
           setStep("newPassword");
         })
         .catch((error) => {
-          console.log(error);
-          if (error.response.data.message === "Reset code has expired") {
+          const message: string = error.response.data.message;
+          if (message === "Reset code has expired") {
             setErrorMessage("Código expirado");
-          } else if (error.response.data.message === "Invalid reset code") {
+          } else if (message === "Invalid reset code") {
             setErrorMessage("Código inválido");
           } else {
             setErrorMessage("Erro ao confirmar código");
           }
+        })
+        .finally(() => {
+          setLoading(false);
         });
     }
+
     if (previousStep === "newAccount") {
       const email = sessionStorage.getItem("emailToConfirm");
       const data = {
         email,
         code: code.toString(),
+        storeId,
       };
-      console.log("data", data);
       connectionAPIPost<LoginResponse>("/auth/verify-email", data, apiUrl)
         .then((res) => {
           login(res, true);
+          sessionStorage.removeItem("emailToConfirm");
           closeModal();
           alert("Conta criada com sucesso!");
         })
-        .catch((err) => {
-          setErrorMessage("Erro ao confirmar código");
+        .catch((error) => {
+          const message: string = error.response.data.message;
+          if (message === "Confirmation code has expired") {
+            setErrorMessage("Código expirado");
+          } else if (message === "Invalid confirmation code") {
+            setErrorMessage("Código inválido");
+          } else if (message === "Email is already verified") {
+            setErrorMessage("Conta já verificada");
+          } else {
+            setErrorMessage("Erro ao confirmar código");
+          }
+        })
+        .finally(() => {
+          setLoading(false);
         });
     }
   };
@@ -93,31 +109,51 @@ const ConfirmCode = ({
   };
 
   const handleSendCode = () => {
-    if (askToRecover) {
+    if (timer > 1) {
       return;
     }
-
-    const email =
-      previousStep === "newPassword"
-        ? sessionStorage.getItem("emailToRecover")
-        : user.email;
     setLoading(true);
-    connectionAPIPost(
-      "/auth/forgot-password",
-      {
+    if (previousStep === "newAccount") {
+      const email = sessionStorage.getItem("emailToConfirm");
+      const data = {
         email,
-      },
-      apiUrl,
-    )
-      .then(() => {
-        setLoading(false);
-        activateTimer();
-        alert("Um novo código foi enviado para seu e-mail");
-      })
-      .catch(() => {
-        setLoading(false);
-        setErrorMessage("Não foi possível enviar um novo código");
-      });
+        storeId,
+      };
+      connectionAPIPost<null>("/auth/resend-email-confirmation", data, apiUrl)
+        .then(() => {
+          activateTimer();
+          alert("Um novo código foi enviado para seu e-mail");
+        })
+        .catch((error) => {
+          const message = error.response.data.message;
+          if (message === "Email is already verified") {
+            setErrorMessage("Conta já verificada");
+          }
+          setErrorMessage("Falha ao enviar novo código");
+        })
+        .finally(() => {
+          setLoading(false);
+        });
+    }
+
+    if (previousStep === "newPassword") {
+      const email = sessionStorage.getItem("emailToRecover");
+      const data = {
+        email,
+        storeId,
+      };
+      connectionAPIPost<null>("/auth/forgot-password", data, apiUrl)
+        .then(() => {
+          activateTimer();
+          alert("Um novo código foi enviado para seu e-mail");
+        })
+        .catch(() => {
+          setErrorMessage("Falha ao enviar novo código");
+        })
+        .finally(() => {
+          setLoading(false);
+        });
+    }
   };
 
   const formattedSeconds = String(timer).padStart(2, "0");
@@ -134,8 +170,13 @@ const ConfirmCode = ({
 
   return (
     <ConfirmCodeContainer>
-      <Text margin="24px 0 0 0" align="center" fontName="REGULAR_MEDIUM">
-        Confirme o código que foi enviado para seu e-mail
+      <Text margin="24px 0 4px 0" align="center" fontName="REGULAR_MEDIUM">
+        {previousStep === "newAccount"
+          ? "Confirmação de conta"
+          : "Recuperação de senha"}
+      </Text>
+      <Text align="center" fontName="REGULAR">
+        Informe o código enviado para seu e-mail
       </Text>
       <InputCode code={code} setCode={setCode} />
       <Button
