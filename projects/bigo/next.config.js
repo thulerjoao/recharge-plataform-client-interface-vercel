@@ -1,5 +1,7 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
+  // Enable standalone mode for Cloud Run deployment
+  output: "standalone",
   compiler: {
     styledComponents: true,
   },
