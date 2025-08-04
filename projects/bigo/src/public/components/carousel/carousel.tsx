@@ -7,6 +7,7 @@ import { SwiperContainer } from "./style";
 interface Props {
   imagesList: StaticImport[];
 }
+
 const Carousel = ({ imagesList }: Props) => {
   return (
     <SwiperContainer>

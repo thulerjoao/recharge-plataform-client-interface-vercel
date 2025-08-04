@@ -1,6 +1,6 @@
+import CdnImage from "@4miga/design-system/components/CdnImage";
 import Text from "@4miga/design-system/components/Text";
 import { Theme } from "@4miga/design-system/theme/theme";
-import Image from "next/image";
 import { useState } from "react";
 import { PackageType } from "types/productTypes";
 import { formatPrice } from "utils/formatPrice";
@@ -15,25 +15,6 @@ interface PackageCardProps {
 const PackageCard = ({ item, selected, paymentIndex }: PackageCardProps) => {
   // const [isImageValid, setIsImageValid] = useState<boolean>(false);
   const [hover, setHover] = useState<boolean>(false);
-
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  // const isValidImageUrl = async (): Promise<boolean> => {
-  //   try {
-  //     const response = await fetch(item.imgCardUrl, { method: "HEAD" });
-  //     const contentType = response.headers.get("content-type");
-  //     return response.ok && contentType?.startsWith("image");
-  //   } catch {
-  //     return false;
-  //   }
-  // };
-  // useEffect(() => {
-  //   const checkImage = async () => {
-  //     const valid = await isValidImageUrl();
-  //     setIsImageValid(valid);
-  //   };
-
-  //   checkImage();
-  // }, [item.imgCardUrl, isValidImageUrl]);
 
   return (
     <PackageCardContainer
@@ -54,7 +35,7 @@ const PackageCard = ({ item, selected, paymentIndex }: PackageCardProps) => {
       <Text tag="h2" align="center" fontName="REGULAR_SEMI_BOLD">
         Diamantes
       </Text>
-      <Image
+      <CdnImage
         src={item.imgCardUrl}
         alt={`Imagem do pacote ${item.name}`}
         height={100}
