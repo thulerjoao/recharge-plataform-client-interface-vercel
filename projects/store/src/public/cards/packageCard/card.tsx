@@ -1,6 +1,6 @@
 import Text from "@4miga/design-system/components/Text";
 import { Theme } from "@4miga/design-system/theme/theme";
-import Image from "next/image";
+import CdnImage from "@4miga/design-system/components/CdnImage";
 import { PackageType } from "types/productTypes";
 import { formatPrice } from "utils/formatPrice";
 import { PackageCardContainer } from "./style";
@@ -25,7 +25,7 @@ const PackageCard = ({ item, selected, paymentIndex }: PackageCardProps) => {
       <Text tag="h2" align="center" fontName="REGULAR_SEMI_BOLD">
         Diamantes
       </Text>
-      <Image
+      <CdnImage
         src={item.imgCardUrl}
         alt={`Imagem do pacote ${item.name}`}
         height={100}

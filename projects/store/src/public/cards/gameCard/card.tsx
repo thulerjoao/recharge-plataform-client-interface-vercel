@@ -1,5 +1,5 @@
+import CdnImage from "@4miga/design-system/components/CdnImage";
 import Text from "@4miga/design-system/components/Text";
-import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { ProductType } from "types/productTypes";
 import { formatString } from "utils/formatString";
@@ -11,16 +11,6 @@ interface CardProps {
 
 const GameCard = ({ product }: CardProps) => {
   const route = useRouter();
-  // const [isImageValid, setIsImageValid] = useState<boolean>(false);
-
-  // useEffect(() => {
-  //   const checkImage = async () => {
-  //     const valid = await checkImageUrl(product.imgCardUrl);
-  //     setIsImageValid(valid);
-  //   };
-
-  //   checkImage();
-  // }, [product.imgCardUrl]);
 
   const handleProductClick = (path: string) => {
     const res = formatString(path);
@@ -29,7 +19,7 @@ const GameCard = ({ product }: CardProps) => {
 
   return (
     <CardContainer onClick={() => handleProductClick(product.name)}>
-      <Image
+      <CdnImage
         src={product.imgCardUrl}
         alt={`Imagem do jogo ${product.name}`}
         height={200}
