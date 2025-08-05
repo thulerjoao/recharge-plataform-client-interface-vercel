@@ -2,6 +2,6 @@
 // export const apiUrl: string =
 //   "https://recharge-plataform-api-production.up.railway.app";
 export const apiUrl: string =
-  "https://recharge-api-241805104636.us-central1.run.app";
+  "https://recharge-api-696345213246.us-central1.run.app";
 
-export const storeId: string = "b7016ab1-88ab-4dde-b103-e1d3b6ccc53c";
+export const storeId: string = "e2880f56-fd02-4cb5-b5ee-b8326c61ed77";
