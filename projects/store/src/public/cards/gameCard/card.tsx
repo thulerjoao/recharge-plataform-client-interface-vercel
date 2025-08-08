@@ -1,5 +1,5 @@
-import CdnImage from "@4miga/design-system/components/CdnImage";
 import Text from "@4miga/design-system/components/Text";
+import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { ProductType } from "types/productTypes";
 import { formatString } from "utils/formatString";
@@ -19,7 +19,7 @@ const GameCard = ({ product }: CardProps) => {
 
   return (
     <CardContainer onClick={() => handleProductClick(product.name)}>
-      <CdnImage
+      <Image
         src={product.imgCardUrl}
         alt={`Imagem do jogo ${product.name}`}
         height={200}

@@ -25,17 +25,26 @@ const Productpage = ({ slug }: Props) => {
   );
   const initialdescription = product.description;
   const initialInstructions = product.instructions;
-  const [descriptionProduct, setdescriptionProduct] = useState<string>(initialdescription);
+  const [descriptionProduct, setdescriptionProduct] =
+    useState<string>(initialdescription);
   const [instructions, setInstructions] = useState<string>(initialInstructions);
   const [ischanged, setIsChanged] = useState<boolean>(false);
 
   useEffect(() => {
-    if (descriptionProduct !== initialdescription || instructions !== initialInstructions) {
+    if (
+      descriptionProduct !== initialdescription ||
+      instructions !== initialInstructions
+    ) {
       setIsChanged(true);
     } else {
       setIsChanged(false);
     }
-  }, [descriptionProduct, initialdescription, initialInstructions, instructions]);
+  }, [
+    descriptionProduct,
+    initialdescription,
+    initialInstructions,
+    instructions,
+  ]);
 
   const handlePackageClick = (slug: string, packag: PackageType) => {
     sessionStorage.setItem("CurrentPackage", JSON.stringify(packag));

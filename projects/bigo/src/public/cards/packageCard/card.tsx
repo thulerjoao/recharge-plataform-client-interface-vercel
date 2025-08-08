@@ -1,10 +1,10 @@
-import CdnImage from "@4miga/design-system/components/CdnImage";
 import Text from "@4miga/design-system/components/Text";
 import { Theme } from "@4miga/design-system/theme/theme";
 import { useState } from "react";
 import { PackageType } from "types/productTypes";
 import { formatPrice } from "utils/formatPrice";
 import { PackageCardContainer } from "./style";
+import Image from "next/image";
 
 interface PackageCardProps {
   item: PackageType;
@@ -35,7 +35,7 @@ const PackageCard = ({ item, selected, paymentIndex }: PackageCardProps) => {
       <Text tag="h2" align="center" fontName="REGULAR_SEMI_BOLD">
         Diamantes
       </Text>
-      <CdnImage
+      <Image
         src={item.imgCardUrl}
         alt={`Imagem do pacote ${item.name}`}
         height={100}
