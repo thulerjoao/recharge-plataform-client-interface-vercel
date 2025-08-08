@@ -25,7 +25,8 @@ const Page = ({ params }: Props) => {
     "Lorem ipsum dolor sit amet consectetur. Egestas egestas nec elementum eleifend ac. Enim enim sit morbi pulvinar velit dictum venenatis erat. Vitae mi eget donec nisl id.\n\nNulla suspendisse ut quis lorem sit vivamus adipiscing lobortis id.";
   const initialInstructions =
     "Lorem ipsum dolor sit amet consectetur. Egestas egestas nec elementum eleifend ac. Enim enim sit morbi pulvinar velit dictum venenatis erat. Vitae mi eget donec nisl id. \n\nNulla suspendisse ut quis lorem sit vivamus adipiscing lobortis id. At vitae velit lectus non felis. Id molestie venenatis mi sed amet nunc. Mattis lectus dis urna massa vitae duis. Phasellus varius mauris morbi sit leo parturient.";
-  const [descriptionProduct, setdescriptionProduct] = useState<string>(initialProduct);
+  const [descriptionProduct, setdescriptionProduct] =
+    useState<string>(initialProduct);
   const [instructions, setInstructions] = useState<string>(initialInstructions);
   const [ischanged, setIsChanged] = useState<boolean>(false);
   const { device } = useDevice();

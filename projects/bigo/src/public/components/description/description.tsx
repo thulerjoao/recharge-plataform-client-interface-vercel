@@ -1,12 +1,12 @@
 "use client";
 
-import CdnImage from "@4miga/design-system/components/CdnImage";
 import Text from "@4miga/design-system/components/Text";
 import { Theme } from "@4miga/design-system/theme/theme";
 import { useProducts } from "contexts/products/ProductsProvider";
 import { usePathname } from "next/navigation";
 import { useState } from "react";
 import { DescriptionContainer } from "./style";
+import Image from "next/image";
 
 const Description = () => {
   const products = useProducts();
@@ -27,7 +27,7 @@ const Description = () => {
 
   return (
     <DescriptionContainer>
-      <CdnImage
+      <Image
         src={product.imgBannerUrl}
         alt={`Imagem do pacote ${product.name}`}
         height={600}
