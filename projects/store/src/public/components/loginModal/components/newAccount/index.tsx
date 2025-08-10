@@ -179,7 +179,7 @@ const NewAccount = ({ setNewUser, setStep, setPreviousStep }: Props) => {
       </InputMask>
       <Input
         name="password"
-        type={!visible && "password"}
+        type={!visible ? "password" : "text"}
         margin="24px 0 0 0"
         padding="0 30px 0px 40px"
         height={40}

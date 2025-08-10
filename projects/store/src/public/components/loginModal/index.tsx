@@ -7,11 +7,11 @@ import React, { useEffect, useState } from "react";
 import { UserType } from "types/userTypes";
 
 import { useDisableScroll } from "@4miga/hooks/useDisableScroll";
-import ConfirmCode from "./common/confirmCode";
-import ForgotPassword from "./common/forgotPassword";
-import LoginComponent from "./common/login";
-import NewAccount from "./common/newAccount";
-import NewPassword from "./common/newPassword";
+import ConfirmCode from "./components/confirmCode";
+import ForgotPassword from "./components/forgotPassword";
+import LoginComponent from "./components/login";
+import NewAccount from "./components/newAccount";
+import NewPassword from "./components/newPassword";
 import Backward from "./icons/Backward.svg";
 import Close from "./icons/Close.svg";
 import TopLogo from "./icons/topLogo.svg";
