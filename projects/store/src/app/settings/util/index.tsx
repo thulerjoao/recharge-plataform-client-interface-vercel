@@ -329,6 +329,12 @@ const Settings = () => {
       }
     };
 
+  const handleWhatsAppRedirect = () => {
+    const phoneNumber = 5522999999999;
+    const url = `https://api.whatsapp.com/send?phone=${phoneNumber}`;
+    window.open(url, "_blank");
+  };
+
   const handleCancel = (
     section: "personal" | "email" | "document" | "security",
   ) => {
@@ -865,6 +871,11 @@ const Settings = () => {
               )}
             </div>
           </form>
+        </div>
+        <div className="support" onClick={handleWhatsAppRedirect}>
+          <Text align="center" fontName="SMALL">
+            Entrar em contato com suporte
+          </Text>
         </div>
       </div>
     </SettingsContainer>

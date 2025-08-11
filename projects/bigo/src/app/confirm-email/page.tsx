@@ -8,7 +8,6 @@ import { LoginResponse } from "types/loginTypes";
 import { apiUrl, storeId as defaultStoreId } from "utils/apiUrl";
 
 const ConfirmEmailPage = () => {
-  console.log("ConfirmEmailPage");
   const route = useRouter();
   const searchParams = useSearchParams();
   const { login } = useAuth();

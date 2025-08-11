@@ -140,6 +140,12 @@ export const SettingsContainer = styled.div`
     }
   }
 
+  .support {
+    width: auto;
+    margin-top: 16px;
+    cursor: pointer;
+  }
+
   @keyframes fadeIn {
     from {
       opacity: 0;
