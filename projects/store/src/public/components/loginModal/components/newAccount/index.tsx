@@ -66,9 +66,9 @@ const NewAccount = ({ setNewUser, setStep, setPreviousStep }: Props) => {
       role: "USER",
       storeId,
     };
-    await connectionAPIPost<null>("/user", body, apiUrl)
+    await connectionAPIPost<UserType>("/user", body, apiUrl)
       .then((res) => {
-        setNewUser(body);
+        setNewUser({ id: res.id, ...body });
         sessionStorage.setItem("emailToConfirm", body.email);
         setPreviousStep("newAccount");
         setStep("confirmCode");
