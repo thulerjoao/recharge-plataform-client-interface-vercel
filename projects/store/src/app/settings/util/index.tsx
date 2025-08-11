@@ -2,7 +2,10 @@
 
 import Button from "@4miga/design-system/components/button";
 import Text from "@4miga/design-system/components/Text";
-import { connectionAPIPatch } from "@4miga/services/connectionAPI/connection";
+import {
+  connectionAPIPatch,
+  connectionAPIPost,
+} from "@4miga/services/connectionAPI/connection";
 import { useAuth } from "contexts/auth";
 import React, { useEffect, useState } from "react";
 import InputMask from "react-input-mask";
@@ -24,6 +27,7 @@ interface FormErrors {
   documentValue?: string;
   password?: string;
   confirmPassword?: string;
+  emailCode?: string;
 }
 
 const Settings = () => {
@@ -51,6 +55,11 @@ const Settings = () => {
     email: false,
     document: false,
     security: false,
+  });
+
+  const [emailVerification, setEmailVerification] = useState({
+    requested: false,
+    code: "",
   });
 
   useEffect(() => {
@@ -84,6 +93,12 @@ const Settings = () => {
         newErrors.email = "Email é obrigatório";
       } else if (!/\S+@\S+\.\S+/.test(formData.email)) {
         newErrors.email = "Email inválido";
+      }
+      if (emailVerification.requested) {
+        const onlyDigits = emailVerification.code.replace(/\D/g, "");
+        if (onlyDigits.length !== 6) {
+          newErrors.emailCode = "Código deve ter 6 dígitos";
+        }
       }
     }
 
@@ -134,7 +149,7 @@ const Settings = () => {
       try {
         // TODO: Implementar chamada da API para atualizar dados por seção
         if (section === "personal") {
-          connectionAPIPatch(
+          await connectionAPIPatch(
             `/user/${user.id}`,
             {
               name: formData.name,
@@ -157,22 +172,58 @@ const Settings = () => {
             });
         }
         if (section === "email") {
-          console.log("Atualizar email:", {
-            email: formData.email,
-          });
+          if (!emailVerification.requested) {
+            // STEP 1
+            await connectionAPIPost(
+              "/auth/request-email-change",
+              { newEmail: formData.email },
+              apiUrl,
+            )
+              .then(() => {
+                setIsEditing((prev) => ({ ...prev, email: true }));
+                setEmailVerification({ requested: true, code: "" });
+                alert("Enviamos um código de confirmação para seu novo e-mail");
+              })
+              .catch((err) => {
+                alert("Falha ao solicitar. Tente novamente mais tarde");
+              });
+          } else {
+            // STEP 2
+            const code = emailVerification.code.replace(/\D/g, "");
+            await connectionAPIPost(
+              `/auth/confirm-email-change`,
+              { newEmail: formData.email, code: code.toString() },
+              apiUrl,
+            )
+              .then(() => {
+                setUser({ ...user, email: formData.email });
+                alert("Email atualizado com sucesso");
+                setIsEditing((prev) => ({ ...prev, email: false }));
+                setEmailVerification({ requested: false, code: "" });
+              })
+              .catch((err) => {
+                setFormData((prev) => ({
+                  ...prev,
+                  email: user.email || "",
+                }));
+                alert("Falha ao confirmar. Tente novamente mais tarde");
+              });
+          }
         }
-        if (section === "document") {
-          console.log("Atualizar documento:", {
-            documentType: formData.documentType,
-            documentValue: formData.documentValue,
-          });
-        }
+        // if (section === "document") {
+        //   console.log("Atualizar documento:", {
+        //     documentType: formData.documentType,
+        //     documentValue: formData.documentValue,
+        //   });
+        // }
         if (section === "security") {
           console.log("Atualizar senha:", { password: securityData.password });
         }
 
         await new Promise((resolve) => setTimeout(resolve, 1000));
-        setIsEditing((prev) => ({ ...prev, [section]: false }));
+        if (section !== "email") {
+          setIsEditing((prev) => ({ ...prev, [section]: false }));
+        }
         if (section === "security") {
           setSecurityData({ password: "", confirmPassword: "" });
         }
@@ -198,6 +249,7 @@ const Settings = () => {
         ...prev,
         email: user.email || "",
       }));
+      setEmailVerification({ requested: false, code: "" });
     }
     if (section === "document" && user) {
       setFormData((prev) => ({
@@ -481,13 +533,39 @@ const Settings = () => {
                 type="email"
                 value={formData.email}
                 onChange={(e) => handleInputChange("email", e.target.value)}
-                disabled={!isEditing.email}
+                disabled={!isEditing.email || emailVerification.requested}
                 className={errors.email ? "error" : ""}
               />
               {errors.email && (
                 <span className="error-message">{errors.email}</span>
               )}
             </div>
+
+            {emailVerification.requested && (
+              <div className="input-group">
+                <label htmlFor="emailCode">Código de verificação</label>
+                <input
+                  id="emailCode"
+                  type="text"
+                  inputMode="numeric"
+                  pattern="[0-9]*"
+                  maxLength={6}
+                  placeholder="6 dígitos"
+                  value={emailVerification.code}
+                  onChange={(e) =>
+                    setEmailVerification((prev) => ({
+                      ...prev,
+                      code: e.target.value.replace(/\D/g, ""),
+                    }))
+                  }
+                  disabled={!isEditing.email}
+                  className={errors.emailCode ? "error" : ""}
+                />
+                {errors.emailCode && (
+                  <span className="error-message">{errors.emailCode}</span>
+                )}
+              </div>
+            )}
 
             <div className="form-actions">
               {!isEditing.email ? (
@@ -515,7 +593,15 @@ const Settings = () => {
                   />
                   <Button
                     type="submit"
-                    title={isLoading.email ? "Salvando..." : "Salvar"}
+                    title={
+                      isLoading.email
+                        ? emailVerification.requested
+                          ? "Confirmando..."
+                          : "Solicitando..."
+                        : emailVerification.requested
+                          ? "Confirmar"
+                          : "Solicitar"
+                    }
                     width={120}
                     height={32}
                     rounded
