@@ -66,9 +66,9 @@ const NewAccount = ({ setNewUser, setStep, setPreviousStep }: Props) => {
       role: "USER",
       storeId,
     };
-    await connectionAPIPost<null>("/user", body, apiUrl)
+    await connectionAPIPost<UserType>("/user", body, apiUrl)
       .then((res) => {
-        setNewUser(body);
+        setNewUser({ id: res.id, ...body });
         sessionStorage.setItem("emailToConfirm", body.email);
         setPreviousStep("newAccount");
         setStep("confirmCode");
@@ -79,6 +79,13 @@ const NewAccount = ({ setNewUser, setStep, setPreviousStep }: Props) => {
       });
     setLoading(false);
   };
+
+  useEffect(() => {
+    const emailToConfirm = sessionStorage.getItem("emailToConfirm");
+    if (emailToConfirm) {
+      sessionStorage.removeItem("emailToConfirm");
+    }
+  }, []);
 
   useEffect(() => {
     setErrorMessage("");
@@ -179,7 +186,7 @@ const NewAccount = ({ setNewUser, setStep, setPreviousStep }: Props) => {
       </InputMask>
       <Input
         name="password"
-        type={!visible && "password"}
+        type={!visible ? "password" : "text"}
         margin="24px 0 0 0"
         padding="0 30px 0px 40px"
         height={40}
