@@ -11,6 +11,7 @@ import LoginModal from "../loginModal";
 import Exit from "./icons/Exit.svg";
 import HeaderLogo from "./icons/HeaderLogo.svg";
 import Product from "./icons/Products.svg";
+import Gear from "./icons/Gear.svg";
 import Profile from "./icons/Profile.svg";
 import { HeaderContainer, MenuComponent } from "./style";
 
@@ -107,6 +108,20 @@ const Header = () => {
               </span>
               <Text nowrap fontName="SMALL">
                 Minhas compras
+              </Text>
+            </div>
+            <div
+              className="menuOption"
+              onClick={() => {
+                setOpenMenu(false);
+                route.push("/settings");
+              }}
+            >
+              <span>
+                <Gear />
+              </span>
+              <Text nowrap fontName="SMALL">
+                Configurações
               </Text>
             </div>
             <div

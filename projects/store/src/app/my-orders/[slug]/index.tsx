@@ -25,6 +25,7 @@ const MyOrders = ({ currentPage }: Props) => {
   useEffect(() => {
     getOrders(page, 6);
     route.push(`/my-orders/${page}`);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [page]);
 
   return (

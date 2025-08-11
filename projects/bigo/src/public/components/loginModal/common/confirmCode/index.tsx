@@ -10,6 +10,7 @@ import { UserType } from "types/userTypes";
 import { apiUrl, storeId } from "utils/apiUrl";
 import { LoginSteps } from "../../types/types";
 import { ConfirmCodeContainer, ErrorMessage, SendCode } from "./style";
+import { io } from "socket.io-client";
 
 interface Props {
   askToRecover: boolean;
@@ -102,6 +103,69 @@ const ConfirmCode = ({
         });
     }
   };
+
+  // WebSocket watcher for email verification (only for new account confirmation)
+  useEffect(() => {
+    if (previousStep !== "newAccount") {
+      return;
+    }
+
+    const socket = io(apiUrl, {
+      transports: ["websocket"],
+    });
+
+    socket.on("connect", () => {
+      if (user?.id) {
+        socket.emit("joinUserRoom", { userId: user.id });
+      }
+    });
+
+    socket.on("emailVerified", async (data: any) => {
+      if (!data) return;
+      if (data.success === true) {
+        try {
+          if (user?.email && user?.password) {
+            const body = {
+              email: user.email,
+              password: user.password,
+              storeId,
+            };
+            const res = await connectionAPIPost<LoginResponse>(
+              "/auth/login",
+              body,
+              apiUrl,
+            );
+            await login(res, true);
+            sessionStorage.removeItem("emailToConfirm");
+            closeModal();
+            return;
+          }
+
+          if (data.access && data.user) {
+            await login(data as LoginResponse, true);
+            sessionStorage.removeItem("emailToConfirm");
+            closeModal();
+            return;
+          }
+
+          setErrorMessage("");
+          setStep("login");
+          alert("Email verificado! Faça login para continuar.");
+        } catch {
+          setStep("login");
+        }
+      }
+    });
+
+    return () => {
+      socket.off("emailVerified");
+      socket.off("connect");
+      socket.off("connect_error");
+      socket.off("disconnect");
+      socket.disconnect();
+    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [previousStep, user?.id, apiUrl]);
 
   const handleDisabled = () => {
     if (!code) return true;

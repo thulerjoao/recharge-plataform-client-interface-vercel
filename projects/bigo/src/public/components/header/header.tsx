@@ -13,6 +13,7 @@ import HeaderLogo from "./icons/HeaderLogo.svg";
 import Product from "./icons/Products.svg";
 import Profile from "./icons/Profile.svg";
 import { HeaderContainer, MenuComponent } from "./style";
+import Gear from "./icons/Gear.svg";
 
 const Header = () => {
   const [loginModal, setLoginModal] = useState<boolean>(false);
@@ -107,6 +108,20 @@ const Header = () => {
               </span>
               <Text nowrap fontName="SMALL">
                 Minhas compras
+              </Text>
+            </div>
+            <div
+              className="menuOption"
+              onClick={() => {
+                setOpenMenu(false);
+                route.push("/settings");
+              }}
+            >
+              <span>
+                <Gear />
+              </span>
+              <Text nowrap fontName="SMALL">
+                Configurações
               </Text>
             </div>
             <div
