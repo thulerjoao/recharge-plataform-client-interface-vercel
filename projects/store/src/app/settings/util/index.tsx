@@ -1,10 +1,12 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
-import InputMask from "react-input-mask";
 import Button from "@4miga/design-system/components/button";
 import Text from "@4miga/design-system/components/Text";
+import { connectionAPIPatch } from "@4miga/services/connectionAPI/connection";
 import { useAuth } from "contexts/auth";
+import React, { useEffect, useState } from "react";
+import InputMask from "react-input-mask";
+import { apiUrl } from "utils/apiUrl";
 import { SettingsContainer } from "./style";
 
 interface FormData {
@@ -25,7 +27,7 @@ interface FormErrors {
 }
 
 const Settings = () => {
-  const { user } = useAuth();
+  const { user, setUser } = useAuth();
   const [formData, setFormData] = useState<FormData>({
     name: "",
     email: "",
@@ -40,11 +42,13 @@ const Settings = () => {
   });
   const [isLoading, setIsLoading] = useState({
     personal: false,
+    email: false,
     document: false,
     security: false,
   });
   const [isEditing, setIsEditing] = useState({
     personal: false,
+    email: false,
     document: false,
     security: false,
   });
@@ -62,7 +66,7 @@ const Settings = () => {
   }, [user]);
 
   const validateForm = (
-    section: "personal" | "document" | "security",
+    section: "personal" | "email" | "document" | "security",
   ): boolean => {
     const newErrors: FormErrors = {};
 
@@ -70,13 +74,16 @@ const Settings = () => {
       if (!formData.name.trim()) {
         newErrors.name = "Nome é obrigatório";
       }
+      if (!formData.phone.trim()) {
+        newErrors.phone = "Telefone é obrigatório";
+      }
+    }
+
+    if (section === "email") {
       if (!formData.email.trim()) {
         newErrors.email = "Email é obrigatório";
       } else if (!/\S+@\S+\.\S+/.test(formData.email)) {
         newErrors.email = "Email inválido";
-      }
-      if (!formData.phone.trim()) {
-        newErrors.phone = "Telefone é obrigatório";
       }
     }
 
@@ -118,7 +125,7 @@ const Settings = () => {
   };
 
   const handleSubmitSection =
-    (section: "personal" | "document" | "security") =>
+    (section: "personal" | "email" | "document" | "security") =>
     async (e: React.FormEvent) => {
       e.preventDefault();
       if (!validateForm(section)) return;
@@ -127,10 +134,31 @@ const Settings = () => {
       try {
         // TODO: Implementar chamada da API para atualizar dados por seção
         if (section === "personal") {
-          console.log("Atualizar pessoais:", {
-            name: formData.name,
+          connectionAPIPatch(
+            `/user/${user.id}`,
+            {
+              name: formData.name,
+              phone: formData.phone,
+            },
+            apiUrl,
+          )
+            .then((res) => {
+              console.log(res);
+              setUser(res);
+              alert("Informações atualizadas com sucesso");
+            })
+            .catch((res) => {
+              setFormData((prev) => ({
+                ...prev,
+                name: user.name || "",
+                phone: user.phone || "",
+              }));
+              alert("Erro ao atualizar informações");
+            });
+        }
+        if (section === "email") {
+          console.log("Atualizar email:", {
             email: formData.email,
-            phone: formData.phone,
           });
         }
         if (section === "document") {
@@ -155,13 +183,20 @@ const Settings = () => {
       }
     };
 
-  const handleCancel = (section: "personal" | "document" | "security") => {
+  const handleCancel = (
+    section: "personal" | "email" | "document" | "security",
+  ) => {
     if (section === "personal" && user) {
       setFormData((prev) => ({
         ...prev,
         name: user.name || "",
-        email: user.email || "",
         phone: user.phone || "",
+      }));
+    }
+    if (section === "email" && user) {
+      setFormData((prev) => ({
+        ...prev,
+        email: user.email || "",
       }));
     }
     if (section === "document" && user) {
@@ -186,9 +221,12 @@ const Settings = () => {
     setIsEditing((prev) => ({ ...prev, [section]: false }));
   };
 
-  const startEditing = (section: "personal" | "document" | "security") => {
-    const sections: Array<"personal" | "document" | "security"> = [
+  const startEditing = (
+    section: "personal" | "email" | "document" | "security",
+  ) => {
+    const sections: Array<"personal" | "email" | "document" | "security"> = [
       "personal",
+      "email",
       "document",
       "security",
     ];
@@ -259,21 +297,6 @@ const Settings = () => {
               />
               {errors.name && (
                 <span className="error-message">{errors.name}</span>
-              )}
-            </div>
-
-            <div className="input-group">
-              <label htmlFor="email">Email</label>
-              <input
-                id="email"
-                type="email"
-                value={formData.email}
-                onChange={(e) => handleInputChange("email", e.target.value)}
-                disabled={!isEditing.personal}
-                className={errors.email ? "error" : ""}
-              />
-              {errors.email && (
-                <span className="error-message">{errors.email}</span>
               )}
             </div>
 
@@ -404,7 +427,7 @@ const Settings = () => {
               )}
             </div>
 
-            <div className="form-actions">
+            {/* <div className="form-actions">
               {!isEditing.document ? (
                 <Button
                   onClick={(e) => {
@@ -414,6 +437,8 @@ const Settings = () => {
                   title="Editar informações"
                   width={200}
                   height={32}
+                  disabled
+                  isNotSelected
                   rounded
                 />
               ) : (
@@ -435,6 +460,66 @@ const Settings = () => {
                     height={32}
                     disabled={isLoading.document}
                     rounded
+                  />
+                </div>
+              )}
+            </div> */}
+          </form>
+        </div>
+
+        {/* Seção: Email */}
+        <div className="form-section">
+          <Text fontName="REGULAR_SEMI_BOLD" className="section-title">
+            Contato
+          </Text>
+
+          <form onSubmit={handleSubmitSection("email")}>
+            <div className="input-group">
+              <label htmlFor="email">Email</label>
+              <input
+                id="email"
+                type="email"
+                value={formData.email}
+                onChange={(e) => handleInputChange("email", e.target.value)}
+                disabled={!isEditing.email}
+                className={errors.email ? "error" : ""}
+              />
+              {errors.email && (
+                <span className="error-message">{errors.email}</span>
+              )}
+            </div>
+
+            <div className="form-actions">
+              {!isEditing.email ? (
+                <Button
+                  onClick={(e) => {
+                    e.preventDefault();
+                    startEditing("email");
+                  }}
+                  title="Editar informações"
+                  width={200}
+                  height={32}
+                  rounded
+                />
+              ) : (
+                <div className="action-buttons">
+                  <Button
+                    onClick={(e) => {
+                      e.preventDefault();
+                      handleCancel("email");
+                    }}
+                    title="Cancelar"
+                    width={120}
+                    height={32}
+                    rounded
+                  />
+                  <Button
+                    type="submit"
+                    title={isLoading.email ? "Salvando..." : "Salvar"}
+                    width={120}
+                    height={32}
+                    rounded
+                    disabled={isLoading.email}
                   />
                 </div>
               )}
