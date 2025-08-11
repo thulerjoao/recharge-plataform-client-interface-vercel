@@ -26,7 +26,7 @@ interface FormErrors {
   phone?: string;
   documentValue?: string;
   password?: string;
-  confirmPassword?: string;
+  oldPassword?: string;
   emailCode?: string;
 }
 
@@ -41,9 +41,10 @@ const Settings = () => {
   });
   const [errors, setErrors] = useState<FormErrors>({});
   const [securityData, setSecurityData] = useState({
+    oldPassword: "",
     password: "",
-    confirmPassword: "",
   });
+  const [showNewPassword, setShowNewPassword] = useState(false);
   const [isLoading, setIsLoading] = useState({
     personal: false,
     email: false,
@@ -119,11 +120,21 @@ const Settings = () => {
     }
 
     if (section === "security") {
-      if (securityData.password && securityData.password.length < 8) {
-        newErrors.password = "Mínimo 8 caracteres";
-      }
-      if (securityData.password !== securityData.confirmPassword) {
-        newErrors.confirmPassword = "Senhas não conferem";
+      const isUpdatingPassword = securityData.password.trim().length > 0;
+
+      if (isUpdatingPassword) {
+        if (!securityData.oldPassword.trim()) {
+          newErrors.oldPassword = "Informe sua senha atual";
+        }
+        if (securityData.password.length < 6) {
+          newErrors.password = "A senha deve ter no mínimo 6 caracteres";
+        } else if (!/[A-Z]/.test(securityData.password)) {
+          newErrors.password =
+            "A senha deve conter ao menos uma letra maiúscula";
+        } else if (!/[^a-zA-Z0-9]/.test(securityData.password)) {
+          newErrors.password =
+            "A senha deve conter ao menos um caractere especial";
+        }
       }
     }
 
@@ -158,7 +169,6 @@ const Settings = () => {
             apiUrl,
           )
             .then((res) => {
-              console.log(res);
               setUser(res);
               alert("Informações atualizadas com sucesso");
             })
@@ -217,7 +227,31 @@ const Settings = () => {
         //   });
         // }
         if (section === "security") {
-          console.log("Atualizar senha:", { password: securityData.password });
+          if (securityData.password.trim().length === 0) {
+            // nada para atualizar
+          } else {
+            await connectionAPIPost(
+              "/auth/change-password",
+              {
+                currentPassword: securityData.oldPassword,
+                newPassword: securityData.password,
+                confirmPassword: securityData.password,
+              },
+              apiUrl,
+            )
+              .then(() => {
+                alert("Senha atualizada com sucesso");
+              })
+              .catch(() => {
+                alert("Falha ao atualizar senha. Tente novamente");
+              })
+              .finally(() => {
+                setIsLoading((prev) => ({ ...prev, security: false }));
+                setIsEditing((prev) => ({ ...prev, security: false }));
+                setSecurityData({ oldPassword: "", password: "" });
+                setShowNewPassword(false);
+              });
+          }
         }
 
         await new Promise((resolve) => setTimeout(resolve, 1000));
@@ -225,7 +259,8 @@ const Settings = () => {
           setIsEditing((prev) => ({ ...prev, [section]: false }));
         }
         if (section === "security") {
-          setSecurityData({ password: "", confirmPassword: "" });
+          setSecurityData({ oldPassword: "", password: "" });
+          setShowNewPassword(false);
         }
       } catch (error) {
         console.error(`Erro ao atualizar ${section}:`, error);
@@ -259,7 +294,7 @@ const Settings = () => {
       }));
     }
     if (section === "security") {
-      setSecurityData({ password: "", confirmPassword: "" });
+      setSecurityData({ oldPassword: "", password: "" });
     }
     setErrors((prev) => ({
       ...prev,
@@ -622,48 +657,73 @@ const Settings = () => {
           <form onSubmit={handleSubmitSection("security")}>
             <div className="input-group">
               <label htmlFor="password">Nova senha</label>
-              <input
-                id="password"
-                type="password"
-                placeholder="Deixe em branco para manter a atual"
-                disabled={!isEditing.security}
-                value={securityData.password}
-                onChange={(e) =>
-                  setSecurityData((prev) => ({
-                    ...prev,
-                    password: e.target.value,
-                  }))
-                }
-                className={errors.password ? "error" : ""}
-              />
+              <div style={{ position: "relative" }}>
+                <input
+                  id="password"
+                  type={showNewPassword ? "text" : "password"}
+                  placeholder="Digite sua nova senha"
+                  disabled={!isEditing.security}
+                  value={securityData.password}
+                  onChange={(e) =>
+                    setSecurityData((prev) => ({
+                      ...prev,
+                      password: e.target.value,
+                    }))
+                  }
+                  className={errors.password ? "error" : ""}
+                  style={{ paddingRight: 40 }}
+                />
+                <button
+                  type="button"
+                  onClick={() => setShowNewPassword((v) => !v)}
+                  style={{
+                    position: "absolute",
+                    right: 8,
+                    top: 0,
+                    bottom: 0,
+                    display: "flex",
+                    alignItems: "center",
+                    background: "transparent",
+                    border: "none",
+                    color: "inherit",
+                    cursor: "pointer",
+                  }}
+                  aria-label={
+                    showNewPassword ? "Ocultar senha" : "Mostrar senha"
+                  }
+                >
+                  {showNewPassword ? "Ocultar" : "Mostrar"}
+                </button>
+              </div>
               <Text fontName="SMALL" color="secondary">
-                Mínimo 8 caracteres
+                Mínimo 6 caracteres, 1 maiúscula e 1 caractere especial
               </Text>
               {errors.password && (
                 <span className="error-message">{errors.password}</span>
               )}
             </div>
-
             <div className="input-group">
-              <label htmlFor="confirmPassword">Confirmar nova senha</label>
+              <label htmlFor="oldPassword">Informe a senha antiga</label>
               <input
-                id="confirmPassword"
+                id="oldPassword"
                 type="password"
-                placeholder="Confirme a nova senha"
+                placeholder="******"
                 disabled={!isEditing.security}
-                value={securityData.confirmPassword}
+                value={securityData.oldPassword}
                 onChange={(e) =>
                   setSecurityData((prev) => ({
                     ...prev,
-                    confirmPassword: e.target.value,
+                    oldPassword: e.target.value,
                   }))
                 }
-                className={errors.confirmPassword ? "error" : ""}
+                className={errors.oldPassword ? "error" : ""}
               />
-              {errors.confirmPassword && (
-                <span className="error-message">{errors.confirmPassword}</span>
+              {errors.oldPassword && (
+                <span className="error-message">{errors.oldPassword}</span>
               )}
             </div>
+
+            {/* Campo de confirmar senha removido conforme novo requisito */}
 
             <div className="form-actions">
               {!isEditing.security ? (
