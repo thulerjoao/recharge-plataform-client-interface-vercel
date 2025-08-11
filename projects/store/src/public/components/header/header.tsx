@@ -113,7 +113,6 @@ const Header = () => {
             <div
               className="menuOption"
               onClick={() => {
-                getOrders(1, 6);
                 setOpenMenu(false);
                 route.push("/settings");
               }}

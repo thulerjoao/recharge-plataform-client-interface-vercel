@@ -28,6 +28,7 @@ interface AuthProviderData {
   login: (data: LoginResponse, rememberMe: boolean) => Promise<boolean>;
   logout: () => void;
   user: Partial<UserType>;
+  setUser: (user: Partial<UserType>) => void;
 }
 
 const AuthContext = createContext<AuthProviderData>({} as AuthProviderData);
@@ -142,6 +143,7 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
     const refreshToken = data.access.refreshToken;
     const expiresIn = data.access.expiresIn;
     const user: Partial<UserType> = {
+      id: data.user.id,
       email: data.user.email,
       name: data.user.name,
       phone: data.user.phone,
@@ -191,7 +193,7 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
 
   return (
     <AuthContext.Provider
-      value={{ logged, checkingToken, login, logout, user }}
+      value={{ logged, checkingToken, login, logout, user, setUser }}
     >
       {children}
     </AuthContext.Provider>
