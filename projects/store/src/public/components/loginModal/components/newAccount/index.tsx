@@ -81,6 +81,13 @@ const NewAccount = ({ setNewUser, setStep, setPreviousStep }: Props) => {
   };
 
   useEffect(() => {
+    const emailToConfirm = sessionStorage.getItem("emailToConfirm");
+    if (emailToConfirm) {
+      sessionStorage.removeItem("emailToConfirm");
+    }
+  }, []);
+
+  useEffect(() => {
     setErrorMessage("");
     if (errors.name) {
       setErrorMessage(errors.name.message);
