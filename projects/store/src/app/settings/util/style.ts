@@ -43,6 +43,9 @@ export const SettingsContainer = styled.div`
       border-radius: 12px;
       padding: 24px;
       border: 1px solid ${Theme.colors.mainTransparent};
+      -webkit-box-shadow: 0px 0px 5px 1px rgba(7, 29, 35, 1);
+      -moz-box-shadow: 0px 0px 5px 1px rgba(7, 29, 35, 1);
+      box-shadow: 0px 0px 5px 1px rgba(7, 29, 35, 1);
 
       .section-title {
         margin-bottom: 24px;
@@ -85,13 +88,13 @@ export const SettingsContainer = styled.div`
           &:disabled {
             opacity: 0.6;
             cursor: not-allowed;
-            background-color: ${Theme.colors.mainTransparent}20;
+            /* background-color: ${Theme.colors.mainTransparent}20; */
           }
 
-          &.error {
-            border-color: #ef4444;
-            box-shadow: 0 0 0 3px #ef444440;
-          }
+          /* &.error {
+            border-color: #${Theme.colors.refused};
+            box-shadow: 0 0 0 3px #${Theme.colors.pending}40;
+          } */
 
           &::placeholder {
             color: ${Theme.colors.mainlight}60;
@@ -109,7 +112,7 @@ export const SettingsContainer = styled.div`
         }
 
         .error-message {
-          color: #ef4444;
+          color: ${Theme.colors.pending};
           font-size: 12px;
           margin-top: 6px;
           display: block;

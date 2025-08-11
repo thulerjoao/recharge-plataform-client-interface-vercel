@@ -2,6 +2,7 @@
 
 import Button from "@4miga/design-system/components/button";
 import Text from "@4miga/design-system/components/Text";
+import Input from "@4miga/design-system/components/input";
 import {
   connectionAPIPatch,
   connectionAPIPost,
@@ -11,6 +12,8 @@ import React, { useEffect, useState } from "react";
 import InputMask from "react-input-mask";
 import { apiUrl } from "utils/apiUrl";
 import { SettingsContainer } from "./style";
+import EyeOff from "../../../public/icons/EyeOff.svg";
+import EyeOn from "../../../public/icons/EyeOn.svg";
 
 interface FormData {
   name: string;
@@ -154,12 +157,58 @@ const Settings = () => {
     (section: "personal" | "email" | "document" | "security") =>
     async (e: React.FormEvent) => {
       e.preventDefault();
+      // Evitar requisições desnecessárias
+      if (section === "personal") {
+        const sameName = (user?.name || "") === formData.name;
+        const samePhone = (user?.phone || "") === formData.phone;
+        if (sameName && samePhone) {
+          setIsEditing((prev) => ({ ...prev, personal: false }));
+          return;
+        }
+      }
+
+      if (section === "email") {
+        const sameEmail = (user?.email || "") === formData.email;
+        if (!emailVerification.requested && sameEmail) {
+          setIsEditing((prev) => ({ ...prev, email: false }));
+          return;
+        }
+        if (emailVerification.requested && sameEmail) {
+          // Não confirmar alteração se o e-mail não mudou
+          setEmailVerification({ requested: false, code: "" });
+          setIsEditing((prev) => ({ ...prev, email: false }));
+          return;
+        }
+      }
+
+      if (section === "security") {
+        const newPassword = securityData.password.trim();
+        const oldPassword = securityData.oldPassword.trim();
+        if (newPassword.length === 0) {
+          setIsEditing((prev) => ({ ...prev, security: false }));
+          return;
+        }
+        if (newPassword === oldPassword) {
+          setErrors((prev) => ({
+            ...prev,
+            password: "A nova senha deve ser diferente da senha atual",
+          }));
+          return;
+        }
+      }
+
       if (!validateForm(section)) return;
 
       setIsLoading((prev) => ({ ...prev, [section]: true }));
       try {
         // TODO: Implementar chamada da API para atualizar dados por seção
         if (section === "personal") {
+          const sameName = (user?.name || "") === formData.name;
+          const samePhone = (user?.phone || "") === formData.phone;
+          if (sameName && samePhone) {
+            setIsEditing((prev) => ({ ...prev, personal: false }));
+            return;
+          }
           await connectionAPIPatch(
             `/user/${user.id}`,
             {
@@ -183,6 +232,11 @@ const Settings = () => {
         }
         if (section === "email") {
           if (!emailVerification.requested) {
+            const sameEmail = (user?.email || "") === formData.email;
+            if (sameEmail) {
+              setIsEditing((prev) => ({ ...prev, email: false }));
+              return;
+            }
             // STEP 1
             await connectionAPIPost(
               "/auth/request-email-change",
@@ -199,6 +253,12 @@ const Settings = () => {
               });
           } else {
             // STEP 2
+            const sameEmail = (user?.email || "") === formData.email;
+            if (sameEmail) {
+              setEmailVerification({ requested: false, code: "" });
+              setIsEditing((prev) => ({ ...prev, email: false }));
+              return;
+            }
             const code = emailVerification.code.replace(/\D/g, "");
             await connectionAPIPost(
               `/auth/confirm-email-change`,
@@ -295,6 +355,11 @@ const Settings = () => {
     }
     if (section === "security") {
       setSecurityData({ oldPassword: "", password: "" });
+      setErrors((prev) => ({
+        ...prev,
+        password: undefined,
+        oldPassword: undefined,
+      }));
     }
     setErrors((prev) => ({
       ...prev,
@@ -355,6 +420,16 @@ const Settings = () => {
     );
   }
 
+  const isPersonalUnchanged =
+    (user?.name || "") === formData.name &&
+    (user?.phone || "") === formData.phone;
+  const isEmailUnchanged = (user?.email || "") === formData.email;
+  const isEmailConfirmDisabled =
+    emailVerification.code.replace(/\D/g, "").length !== 6 || isEmailUnchanged;
+  const isSecurityDisabled =
+    securityData.password.trim().length === 0 ||
+    securityData.password.trim() === securityData.oldPassword.trim();
+
   return (
     <SettingsContainer>
       <div className="settings-header">
@@ -374,9 +449,10 @@ const Settings = () => {
           <form onSubmit={handleSubmitSection("personal")}>
             <div className="input-group">
               <label htmlFor="name">Nome completo</label>
-              <input
+              <Input
                 id="name"
                 type="text"
+                height={40}
                 value={formData.name}
                 onChange={(e) => handleInputChange("name", e.target.value)}
                 disabled={!isEditing.personal}
@@ -397,10 +473,11 @@ const Settings = () => {
                 disabled={!isEditing.personal}
               >
                 {(inputProps: React.ComponentPropsWithoutRef<"input">) => (
-                  <input
+                  <Input
                     {...inputProps}
                     id="phone"
                     type="tel"
+                    height={40}
                     className={errors.phone ? "error" : ""}
                     placeholder="(11) 99999-9999"
                     disabled={!isEditing.personal}
@@ -443,7 +520,16 @@ const Settings = () => {
                     width={120}
                     height={32}
                     rounded
-                    disabled={isLoading.personal}
+                    disabled={
+                      isLoading.personal ||
+                      ((user?.name || "") === formData.name &&
+                        (user?.phone || "") === formData.phone)
+                    }
+                    isNotSelected={
+                      isLoading.personal ||
+                      ((user?.name || "") === formData.name &&
+                        (user?.phone || "") === formData.phone)
+                    }
                   />
                 </div>
               )}
@@ -494,10 +580,11 @@ const Settings = () => {
                 disabled={!isEditing.document}
               >
                 {(inputProps: React.ComponentPropsWithoutRef<"input">) => (
-                  <input
+                  <Input
                     {...inputProps}
                     id="documentValue"
                     type="text"
+                    height={40}
                     className={errors.documentValue ? "error" : ""}
                     placeholder={
                       formData.documentType === "cpf"
@@ -563,9 +650,10 @@ const Settings = () => {
           <form onSubmit={handleSubmitSection("email")}>
             <div className="input-group">
               <label htmlFor="email">Email</label>
-              <input
+              <Input
                 id="email"
                 type="email"
+                height={40}
                 value={formData.email}
                 onChange={(e) => handleInputChange("email", e.target.value)}
                 disabled={!isEditing.email || emailVerification.requested}
@@ -579,12 +667,13 @@ const Settings = () => {
             {emailVerification.requested && (
               <div className="input-group">
                 <label htmlFor="emailCode">Código de verificação</label>
-                <input
+                <Input
                   id="emailCode"
                   type="text"
                   inputMode="numeric"
                   pattern="[0-9]*"
                   maxLength={6}
+                  height={40}
                   placeholder="6 dígitos"
                   value={emailVerification.code}
                   onChange={(e) =>
@@ -640,7 +729,20 @@ const Settings = () => {
                     width={120}
                     height={32}
                     rounded
-                    disabled={isLoading.email}
+                    disabled={
+                      isLoading.email ||
+                      (!emailVerification.requested
+                        ? (user?.email || "") === formData.email
+                        : emailVerification.code.replace(/\D/g, "").length !==
+                            6 || (user?.email || "") === formData.email)
+                    }
+                    isNotSelected={
+                      isLoading.email ||
+                      (!emailVerification.requested
+                        ? (user?.email || "") === formData.email
+                        : emailVerification.code.replace(/\D/g, "").length !==
+                            6 || (user?.email || "") === formData.email)
+                    }
                   />
                 </div>
               )}
@@ -657,44 +759,34 @@ const Settings = () => {
           <form onSubmit={handleSubmitSection("security")}>
             <div className="input-group">
               <label htmlFor="password">Nova senha</label>
-              <div style={{ position: "relative" }}>
-                <input
-                  id="password"
-                  type={showNewPassword ? "text" : "password"}
-                  placeholder="Digite sua nova senha"
-                  disabled={!isEditing.security}
-                  value={securityData.password}
-                  onChange={(e) =>
-                    setSecurityData((prev) => ({
-                      ...prev,
-                      password: e.target.value,
-                    }))
-                  }
-                  className={errors.password ? "error" : ""}
-                  style={{ paddingRight: 40 }}
-                />
-                <button
-                  type="button"
-                  onClick={() => setShowNewPassword((v) => !v)}
-                  style={{
-                    position: "absolute",
-                    right: 8,
-                    top: 0,
-                    bottom: 0,
-                    display: "flex",
-                    alignItems: "center",
-                    background: "transparent",
-                    border: "none",
-                    color: "inherit",
-                    cursor: "pointer",
-                  }}
-                  aria-label={
-                    showNewPassword ? "Ocultar senha" : "Mostrar senha"
-                  }
-                >
-                  {showNewPassword ? "Ocultar" : "Mostrar"}
-                </button>
-              </div>
+              <Input
+                id="password"
+                type={showNewPassword ? "text" : "password"}
+                placeholder="Digite sua nova senha"
+                disabled={!isEditing.security}
+                value={securityData.password}
+                onChange={(e) =>
+                  setSecurityData((prev) => ({
+                    ...prev,
+                    password: e.target.value,
+                  }))
+                }
+                className={errors.password ? "error" : ""}
+                height={40}
+                rightElement={
+                  showNewPassword ? (
+                    <EyeOff
+                      style={{ cursor: "pointer", color: "white" }}
+                      onClick={() => setShowNewPassword((v) => !v)}
+                    />
+                  ) : (
+                    <EyeOn
+                      style={{ cursor: "pointer", color: "white" }}
+                      onClick={() => setShowNewPassword((v) => !v)}
+                    />
+                  )
+                }
+              />
               <Text fontName="SMALL" color="secondary">
                 Mínimo 6 caracteres, 1 maiúscula e 1 caractere especial
               </Text>
@@ -704,7 +796,7 @@ const Settings = () => {
             </div>
             <div className="input-group">
               <label htmlFor="oldPassword">Informe a senha antiga</label>
-              <input
+              <Input
                 id="oldPassword"
                 type="password"
                 placeholder="******"
@@ -717,6 +809,7 @@ const Settings = () => {
                   }))
                 }
                 className={errors.oldPassword ? "error" : ""}
+                height={40}
               />
               {errors.oldPassword && (
                 <span className="error-message">{errors.oldPassword}</span>
@@ -755,7 +848,18 @@ const Settings = () => {
                     width={120}
                     height={32}
                     rounded
-                    disabled={isLoading.security}
+                    disabled={
+                      isLoading.security ||
+                      securityData.password.trim().length === 0 ||
+                      securityData.password.trim() ===
+                        securityData.oldPassword.trim()
+                    }
+                    isNotSelected={
+                      isLoading.security ||
+                      securityData.password.trim().length === 0 ||
+                      securityData.password.trim() ===
+                        securityData.oldPassword.trim()
+                    }
                   />
                 </div>
               )}
