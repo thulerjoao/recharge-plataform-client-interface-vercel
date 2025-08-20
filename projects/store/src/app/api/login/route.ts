@@ -20,7 +20,6 @@ export async function POST(req: Request) {
     }
 
     const cookieStore = cookies();
-    console.log("rememberMe", rememberMe);
 
     cookieStore.set("refreshToken", refreshToken, {
       httpOnly: true,

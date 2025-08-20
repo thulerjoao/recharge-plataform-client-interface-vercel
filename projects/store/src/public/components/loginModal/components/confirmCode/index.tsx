@@ -104,68 +104,97 @@ const ConfirmCode = ({
     }
   };
 
-  // WebSocket watcher for email verification (only for new account confirmation)
+  // SSE watcher for email verification (only for new account confirmation)
   useEffect(() => {
-    if (previousStep !== "newAccount") {
+    const email = user?.email || sessionStorage.getItem("emailToConfirm");
+
+    if (previousStep !== "newAccount" || !email) {
       return;
     }
 
-    const socket = io(apiUrl, {
-      transports: ["websocket"],
-    });
+    const encodedEmail = encodeURIComponent(email);
 
-    socket.on("connect", () => {
-      if (user?.id) {
-        socket.emit("joinUserRoom", { userId: user.id });
-      }
-    });
+    console.log("Connecting to SSE for email:", email); // Debug log
 
-    socket.on("emailVerified", async (data: any) => {
-      if (!data) return;
-      if (data.success === true) {
-        try {
-          if (user?.email && user?.password) {
-            const body = {
-              email: user.email,
-              password: user.password,
-              storeId,
-            };
-            const res = await connectionAPIPost<LoginResponse>(
-              "/auth/login",
-              body,
-              apiUrl,
-            );
-            await login(res, true);
-            sessionStorage.removeItem("emailToConfirm");
-            closeModal();
-            return;
-          }
+    // Create EventSource connection
+    const eventSource = new EventSource(
+      `${apiUrl}/sse/email-verified/${encodedEmail}`,
+    );
 
-          if (data.access && data.user) {
-            await login(data as LoginResponse, true);
-            sessionStorage.removeItem("emailToConfirm");
-            closeModal();
-            return;
-          }
+    // Handle connection established
+    eventSource.onopen = () => {
+      console.log("SSE connection established for:", email);
+    };
 
-          setErrorMessage("");
-          setStep("login");
-          alert("Email verificado! Faça login para continuar.");
-        } catch {
-          setStep("login");
+    // Handle incoming messages
+    eventSource.onmessage = async (event) => {
+      try {
+        const data = JSON.parse(event.data);
+
+        // Handle connection confirmation
+        if (data.type === "connected") {
+          console.log("SSE connected:", data.message);
+          return;
         }
-      }
-    });
 
+        // Handle email verification
+        if (data.type === "emailVerified" && data.success === true) {
+          console.log("Email verified via SSE:", data.user); // Debug log
+          try {
+            if (user?.email && user?.password) {
+              const body = {
+                email: user.email,
+                password: user.password,
+                storeId,
+              };
+              const res = await connectionAPIPost<LoginResponse>(
+                "/auth/login",
+                body,
+                apiUrl,
+              );
+              await login(res, true);
+              sessionStorage.removeItem("emailToConfirm");
+              closeModal();
+              return;
+            }
+
+            if (data.access && data.user) {
+              await login(data as LoginResponse, true);
+              sessionStorage.removeItem("emailToConfirm");
+              closeModal();
+              return;
+            }
+
+            setErrorMessage("");
+            setStep("login");
+            alert("Email verificado! Faça login para continuar.");
+          } catch {
+            setStep("login");
+          }
+        }
+
+        // Handle errors
+        if (data.type === "error") {
+          console.error("SSE Error:", data.message);
+        }
+      } catch (error) {
+        console.error("Error parsing SSE data:", error);
+      }
+    };
+
+    // Handle connection errors
+    eventSource.onerror = (error) => {
+      console.error("SSE connection error:", error);
+      eventSource.close();
+    };
+
+    // Cleanup on unmount
     return () => {
-      socket.off("emailVerified");
-      socket.off("connect");
-      socket.off("connect_error");
-      socket.off("disconnect");
-      socket.disconnect();
+      console.log("Closing SSE connection for:", email); // Debug log
+      eventSource.close();
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [previousStep, user?.id, apiUrl]);
+  }, [previousStep, user?.email, apiUrl]);
 
   const handleDisabled = () => {
     if (!code) return true;
