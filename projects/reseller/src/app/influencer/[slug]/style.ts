@@ -13,26 +13,75 @@ export const InfluencerContainer = styled.div`
     display: none;
   }
 
-  .mainTitle {
-    margin-top: 48px;
-    margin-bottom: 24px;
-  }
-
-  .addButtonContainer {
-    margin: 42px;
-    width: 100%;
-    max-width: 700px;
-  }
-
   .influencersContainer {
     width: 100%;
-    max-width: 800px;
+    max-width: 900px;
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 16px;
-    padding: 0 24px;
-    margin-bottom: 32px;
+    gap: 8px;
+    padding: 24px;
+
+    .headerSection {
+      background-color: pink;
+      width: 100%;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 24px;
+      margin-bottom: 24px;
+      background: ${Theme.colors.maindark};
+      border-radius: 12px;
+      -webkit-box-shadow: 0px 0px 5px 2px rgba(7, 29, 35, 1);
+      -moz-box-shadow: 0px 0px 5px 2px rgba(7, 29, 35, 1);
+      box-shadow: 0px 0px 5px 2px rgba(7, 29, 35, 1);
+
+      .titleSection {
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+      }
+    }
+
+    .filtersSection {
+      width: 100%;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 20px;
+      background: ${Theme.colors.maindark};
+      border-radius: 12px;
+      -webkit-box-shadow: 0px 0px 5px 2px rgba(7, 29, 35, 1);
+      -moz-box-shadow: 0px 0px 5px 2px rgba(7, 29, 35, 1);
+      box-shadow: 0px 0px 5px 2px rgba(7, 29, 35, 1);
+      margin-bottom: 24px;
+
+      .searchSection {
+        width: 300px;
+      }
+
+      .filterControls {
+        display: flex;
+        gap: 16px;
+
+        .filterSelect {
+          padding: 0px 8px;
+          height: 32px;
+          width: 140px;
+          border-radius: 8px;
+          border: 2px solid ${Theme.colors.secondaryAction};
+          background: ${Theme.colors.mainlight};
+          color: ${Theme.colors.secondaryAction};
+          font-size: 14px;
+          cursor: pointer;
+
+          &:focus {
+            outline: none;
+            border-color: ${Theme.colors.mainHighlight};
+          }
+        }
+      }
+    }
 
     .influencerCardWrapper {
       width: 100%;
@@ -89,6 +138,22 @@ export const InfluencerContainer = styled.div`
     .influencersContainer {
       padding: 0 16px;
       gap: 12px;
+
+      .headerSection {
+        flex-direction: column;
+        gap: 16px;
+        text-align: center;
+      }
+
+      .filtersSection {
+        flex-direction: column;
+        gap: 16px;
+
+        .filterControls {
+          width: 100%;
+          justify-content: center;
+        }
+      }
     }
   }
 `;

@@ -3,7 +3,6 @@ import { Theme } from "@4miga/design-system/theme/theme";
 
 export const InfluencerCardContainer = styled.div`
   width: 100%;
-  max-width: 800px;
   background: ${Theme.colors.maindark};
   border-radius: 12px;
   padding: 16px;
@@ -14,7 +13,10 @@ export const InfluencerCardContainer = styled.div`
   align-items: center;
   gap: 16px;
   cursor: pointer;
-  transition: all 0.2s ease;
+
+  &:hover {
+    background: ${Theme.colors.maindark}99;
+  }
 
   .avatar {
     width: 64px;

@@ -199,11 +199,11 @@ const InfluencerDetails = ({ influencerId }: InfluencerDetailsProps) => {
     <InfluencerDetailsContainer>
       <div className="desktop">
         <HeaderEnviroment>
-          <DefaultHeader backWard title="DETALHES DO PARCEIRO" />
+          <DefaultHeader backWard title="DETALHES DO INFLUENCER" />
         </HeaderEnviroment>
       </div>
       <div className="mobile">
-        <DefaultHeader backWard title="DETALHES DO PARCEIRO" />
+        <DefaultHeader backWard title="DETALHES DO INFLUENCER" />
       </div>
 
       <div className="mainContent">
@@ -463,7 +463,9 @@ const InfluencerDetails = ({ influencerId }: InfluencerDetailsProps) => {
             </>
           )}
         </div>
-        <span>
+        <span
+          onClick={() => router.push(`/coupons/influencer/${influencer.id}`)}
+        >
           <Text
             color={Theme.colors.secondaryAction}
             pointer

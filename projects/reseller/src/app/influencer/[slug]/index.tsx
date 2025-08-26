@@ -1,6 +1,7 @@
 "use client";
 
 import Button from "@4miga/design-system/components/button";
+import Input from "@4miga/design-system/components/input";
 import Text from "@4miga/design-system/components/Text";
 import { Theme } from "@4miga/design-system/theme/theme";
 import { useRouter } from "next/navigation";
@@ -12,6 +13,8 @@ import Pagination from "public/components/pagination";
 import { useEffect, useState } from "react";
 import InfluencerCard from "../influencerCard";
 import { InfluencerContainer } from "./style";
+import DefaultHeader from "public/components/defaultHeader";
+import MobileMenu from "public/components/mobileMenu";
 
 interface Influencer {
   id: string;
@@ -165,6 +168,7 @@ const InfluencerPage = ({ currentPage }: InfluencerProps) => {
   const router = useRouter();
   const [page, setPage] = useState<number>(currentPage);
   const [searchTerm, setSearchTerm] = useState("");
+  const [filterStatus, setFilterStatus] = useState<string>("all");
   const [influencersData, setInfluencersData] = useState<InfluencerListData>({
     data: [],
     page: 1,
@@ -175,11 +179,19 @@ const InfluencerPage = ({ currentPage }: InfluencerProps) => {
   const itemsPerPage = 6;
 
   useEffect(() => {
-    const filteredInfluencers = mockInfluencers.filter(
-      (influencer) =>
+    const filteredInfluencers = mockInfluencers.filter((influencer) => {
+      const matchesSearch =
         influencer.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        influencer.email?.toLowerCase().includes(searchTerm.toLowerCase()),
-    );
+        influencer.email?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        influencer.phone?.toLowerCase().includes(searchTerm.toLowerCase());
+
+      const matchesStatus =
+        filterStatus === "all" ||
+        (filterStatus === "active" && influencer.isActive) ||
+        (filterStatus === "inactive" && !influencer.isActive);
+
+      return matchesSearch && matchesStatus;
+    });
 
     const startIndex = (page - 1) * itemsPerPage;
     const endIndex = startIndex + itemsPerPage;
@@ -194,7 +206,7 @@ const InfluencerPage = ({ currentPage }: InfluencerProps) => {
     });
 
     router.push(`/influencer/${page}`);
-  }, [page, searchTerm, router]);
+  }, [page, searchTerm, filterStatus, router]);
 
   const handleInfluencerClick = (influencerId: string) => {
     router.push(`/influencer/details/${influencerId}`);
@@ -216,30 +228,52 @@ const InfluencerPage = ({ currentPage }: InfluencerProps) => {
     <InfluencerContainer>
       <div className="desktop">
         <HeaderEnviroment>
-          <HeaderSearch title="influencers" />
+          <DefaultHeader title="INFLUENCERS" />
         </HeaderEnviroment>
       </div>
       <div className="mobile">
-        <MobileSecondaryMenu title="INFLUENCERS" />
-      </div>
-
-      <div className="mainTitle">
-        <Text align="center" fontName="REGULAR_SEMI_BOLD">
-          GERENCIAR INFLUENCIADORES
-        </Text>
-      </div>
-
-      <div className="addButtonContainer">
-        <Button
-          title="Cadastrar"
-          onClick={handleAddInfluencer}
-          width={200}
-          height={40}
-          rounded
-        />
+        <DefaultHeader title="INFLUENCERS" />
       </div>
 
       <main className="influencersContainer">
+        <div className="headerSection">
+          <div className="titleSection">
+            <Text fontName="LARGE_SEMI_BOLD" color={Theme.colors.mainlight}>
+              Gerenciamento de Influencers
+            </Text>
+            <Text fontName="REGULAR_MEDIUM" color={Theme.colors.secondaryText}>
+              Gerencie todos os influencers de sua loja
+            </Text>
+          </div>
+          <Button
+            onClick={handleAddInfluencer}
+            title="CADASTRAR"
+            width={140}
+            height={32}
+            rounded
+          />
+        </div>
+        <div className="filtersSection">
+          <div className="searchSection">
+            <Input
+              value={searchTerm}
+              onChange={(e) => setSearchTerm(e.target.value)}
+              placeholder="Buscar por nome, email ou telefone..."
+              height={36}
+            />
+          </div>
+          <div className="filterControls">
+            <select
+              value={filterStatus}
+              onChange={(e) => setFilterStatus(e.target.value)}
+              className="filterSelect"
+            >
+              <option value="all">Todos os status</option>
+              <option value="active">Ativos</option>
+              <option value="inactive">Inativos</option>
+            </select>
+          </div>
+        </div>
         {influencersData.data.length > 0 ? (
           influencersData.data.map((influencer) => (
             <div key={influencer.id} className="influencerCardWrapper">
