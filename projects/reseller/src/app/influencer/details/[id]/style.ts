@@ -15,7 +15,7 @@ export const InfluencerDetailsContainer = styled.div`
 
   .mainContent {
     width: 100%;
-    max-width: 800px;
+    max-width: 900px;
     padding: 24px;
     display: flex;
     flex-direction: column;
