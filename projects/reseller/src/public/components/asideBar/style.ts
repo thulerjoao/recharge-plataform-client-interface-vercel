@@ -17,6 +17,11 @@ export const AsideBarContainer = styled.div`
   .inconEnviroment {
     display: flex;
     align-items: center;
+
+    svg {
+      width: 24px;
+      height: 24px;
+    }
   }
 
   .CenterContent {
