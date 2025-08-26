@@ -1,8 +1,8 @@
 "use client";
 
-import Coupons from "./util";
+import { redirect } from "next/navigation";
 
 const Page = () => {
-  return <Coupons />;
+  redirect("/coupons/1");
 };
 export default Page;
