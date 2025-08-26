@@ -3,17 +3,19 @@ import { Theme } from "@4miga/design-system/theme/theme";
 import { useAuth } from "context/auth";
 import { usePathname, useRouter } from "next/navigation";
 import { AsideSelected } from "types/asideSelectedType";
+import Discount from "./icons/Discount.svg";
+import DiscountSelected from "./icons/DiscountSelected.svg";
 import Gear from "./icons/Gear.svg";
 import GearSelected from "./icons/GearSelected.svg";
 import Home from "./icons/Home.svg";
 import HomeSelected from "./icons/HomeSelected.svg";
+import Influencer from "./icons/Influencer.svg";
+import InfluencerSelected from "./icons/InfluencerSelected.svg";
 import LogoDesktop from "./icons/LogoDesktop.svg";
 import LogoTablet from "./icons/LogoTablet.svg";
 import Logout from "./icons/Logout.svg";
 import Products from "./icons/Products.svg";
 import ProductsSelected from "./icons/ProductsSelected.svg";
-import Recharge from "./icons/Recharge.svg";
-import RechargeSelected from "./icons/RechargeSelected.svg";
 import Sales from "./icons/Sales.svg";
 import SalesSelected from "./icons/SalesSelected.svg";
 import Wallet from "./icons/Wallet.svg";
@@ -101,6 +103,44 @@ const AsideBar = () => {
           </div>
 
           <div
+            onClick={() => handleClick("influencer")}
+            className={`menuOption ${handleCheck("influencer") && "selected"}`}
+          >
+            <span className="inconEnviroment">
+              {handleCheck("influencer") ? (
+                <InfluencerSelected />
+              ) : (
+                <Influencer />
+              )}
+            </span>
+            <Text
+              color={handleCheck("influencer") && Theme.colors.maindark}
+              margin="0 0 0 16px"
+              fontName="REGULAR_SEMI_BOLD"
+              className="desktop"
+            >
+              INFLUENCER
+            </Text>
+          </div>
+
+          <div
+            onClick={() => handleClick("coupons")}
+            className={`menuOption ${handleCheck("coupons") && "selected"}`}
+          >
+            <span className="inconEnviroment">
+              {handleCheck("coupons") ? <DiscountSelected /> : <Discount />}
+            </span>
+            <Text
+              color={handleCheck("coupons") && Theme.colors.maindark}
+              margin="0 0 0 16px"
+              fontName="REGULAR_SEMI_BOLD"
+              className="desktop"
+            >
+              CUPONS
+            </Text>
+          </div>
+
+          {/* <div
             onClick={() => handleClick("recharge")}
             className={`menuOption ${handleCheck("recharge") && "selected"}`}
           >
@@ -115,7 +155,7 @@ const AsideBar = () => {
             >
               RECARREGAR
             </Text>
-          </div>
+          </div> */}
 
           <div
             onClick={() => handleClick("wallet")}

@@ -1,7 +1,1 @@
-export type LoginSteps =
-  | "login"
-  | "newAccount"
-  | "forgotPassword"
-  | "confirmCode"
-  | "confirmCodePass"
-  | "newPassword";
+export type LoginSteps = "login" | "newAccount";

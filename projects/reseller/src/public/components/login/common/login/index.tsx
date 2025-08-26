@@ -43,37 +43,42 @@ const LoginComponent = ({ setStep }: Props) => {
 
   const onSubmit = async (data: LoginSchema) => {
     setLoading(true);
+    setErrorMessage("");
+
     const body = {
       email: data.email,
       password: data.password,
     };
-    await connectionAPIPost<LoginResponse>("/reseller/login", body, apiUrl)
-      .then(async (res) => {
-        try {
-          const rememberMe = true;
-          const response = await login(res, rememberMe);
-          if (response) route.replace("/home");
-        } catch (error) {
-          if (error instanceof Error) {
-            setLoading(false);
-            setErrorMessage("Erro ao realizar login");
-          } else {
-            setLoading(false);
-            setErrorMessage("Usuário ou senha inválidos");
-          }
-        }
-      })
-      .catch((error) => {
-        const message: string = error && error.response.data.message[0];
-        if (message.toLowerCase() === "email not verified") {
-          sessionStorage.setItem("emailToConfirm", data.email);
-          setStep("confirmCode");
+
+    try {
+      const res = await connectionAPIPost<LoginResponse>(
+        "/auth/admin/login",
+        body,
+        apiUrl,
+      );
+      const response = await login(res, rememberMe);
+
+      if (response) {
+        route.replace("/home");
+      } else {
+        setErrorMessage("Erro ao realizar login");
+      }
+    } catch (error: any) {
+      if (error?.response?.data?.message) {
+        const message = error.response.data.message;
+        if (Array.isArray(message)) {
+          setErrorMessage(message[0] || "Usuário ou senha inválidos");
         } else {
-          setLoading(false);
-          setErrorMessage("Usuário ou senha inválidos");
+          setErrorMessage(message || "Usuário ou senha inválidos");
         }
-      });
-    setLoading(false);
+      } else if (error instanceof Error) {
+        setErrorMessage("Erro ao realizar login");
+      } else {
+        setErrorMessage("Usuário ou senha inválidos");
+      }
+    } finally {
+      setLoading(false);
+    }
   };
 
   useEffect(() => {
@@ -129,19 +134,6 @@ const LoginComponent = ({ setStep }: Props) => {
             Continuar conectado
           </Text>
         </div>
-        <span
-          className="forgotPassword"
-          onClick={() => setStep("forgotPassword")}
-        >
-          <Text
-            nowrap
-            align="end"
-            color={Theme.colors.mainHighlight}
-            fontName="TINY"
-          >
-            Esqueceu sua senha?
-          </Text>
-        </span>
       </div>
       <Button
         type="submit"

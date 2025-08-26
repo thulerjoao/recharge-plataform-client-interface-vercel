@@ -3,5 +3,7 @@ export type AsideSelected =
   | "sales"
   | "products"
   | "recharge"
+  | "influencer"
+  | "coupons"
   | "wallet"
   | "config";

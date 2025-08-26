@@ -12,7 +12,7 @@ import {
   useState,
 } from "react";
 import { LoginResponse } from "types/loginTypes";
-import { UserType } from "types/userTypes";
+import { StoreType, UserType } from "types/userTypes";
 
 import { apiUrl } from "utils/apiUrl";
 
@@ -22,9 +22,12 @@ interface AuthProviderProps {
 
 interface AuthProviderData {
   logged: boolean;
+  checkingToken: boolean;
   login: (data: LoginResponse, rememberMe: boolean) => Promise<boolean>;
   logout: () => void;
   user: Partial<UserType>;
+  setUser: (user: Partial<UserType>) => void;
+  store: StoreType | null;
 }
 
 const AuthContext = createContext<AuthProviderData>({} as AuthProviderData);
@@ -36,105 +39,136 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
   const [user, setUser] = useState<Partial<UserType>>(null);
   const [lastUpdated, setLastUpdated] = useState(Date.now());
   const [expiresIn, setExpiresIn] = useState<number>(null);
+  const [store, setStore] = useState<StoreType>(null);
 
-  // useEffect(() => {
-  //   const checkAuth = async () => {
-  //     try {
-  //       const response = await axios.get("/api/token", {
-  //         withCredentials: true,
-  //       });
-  //       const refreshToken = response.data?.refreshToken;
-  //       if (!refreshToken) {
-  //         setCheckingToken(false);
-  //         await axios.delete("/api/logout", {
-  //           withCredentials: true,
-  //         });
-  //         return;
-  //       }
-  //       await connectionAPIPost<LoginResponse>(
-  //         `/reseller/refresh-token`,
-  //         { refreshToken },
-  //         apiUrl,
-  //       ).then(async (res) => {
-  //         const rememberMe = true;
-  //         const response = await login(res, rememberMe);
-  //         if (response) route.push("/home");
-  //       });
-  //     } catch {
-  //       await axios.delete("/api/logout", {
-  //         withCredentials: true,
-  //       });
-  //       setCheckingToken(false);
-  //     }
-  //   };
-  //   checkAuth();
-  // }, []);
+  console.log(store);
 
-  // useEffect(() => {
-  //   if (!expiresIn) return;
+  console.log(user);
 
-  //   const updateToken = async () => {
-  //     try {
-  //       const response = await axios.get("/api/token", {
-  //         withCredentials: true,
-  //       });
+  useEffect(() => {
+    const checkAuth = async () => {
+      const accessToken = localStorage.getItem("accessToken");
+      if (accessToken) {
+        try {
+          const response = await axios.get("/api/token", {
+            withCredentials: true,
+          });
+          const refreshToken = response.data?.refreshToken;
+          if (!refreshToken) {
+            setCheckingToken(false);
+            await axios.delete("/api/logout", {
+              withCredentials: true,
+            });
+            return;
+          }
+          await connectionAPIPost<LoginResponse>(
+            `/reseller/refresh-token`,
+            { refreshToken },
+            apiUrl,
+          )
+            .then(async (res) => {
+              const rememberMe = true;
+              await login(res, rememberMe);
+              setCheckingToken(false);
+            })
+            .catch(async () => {
+              await axios.delete("/api/logout", {
+                withCredentials: true,
+              });
+              setCheckingToken(false);
+            });
+        } catch {
+          await axios.delete("/api/logout", {
+            withCredentials: true,
+          });
+          setCheckingToken(false);
+        }
+      } else {
+        setCheckingToken(false);
+      }
+    };
+    checkAuth();
+  }, []);
 
-  //       const refreshToken = response.data?.refreshToken;
-  //       const rememberMe = response.data?.rememberMe;
-  //       if (!refreshToken) {
-  //         await axios.delete("/api/logout", {
-  //           withCredentials: true,
-  //         });
-  //         throw new Error("Token expirado");
-  //       }
+  useEffect(() => {
+    if (!expiresIn) return;
+    const updateToken = async () => {
+      try {
+        const response = await axios.get("/api/token", {
+          withCredentials: true,
+        });
 
-  //       const refreshResponse = await connectionAPIPost<LoginResponse>(
-  //         `/reseller/refresh-token`,
-  //         { refreshToken },
-  //         apiUrl,
-  //       );
+        const refreshToken = response.data?.refreshToken;
+        const rememberMe = response.data?.rememberMe;
+        if (!refreshToken) {
+          await axios.delete("/api/logout", {
+            withCredentials: true,
+          });
+          throw new Error("Token expirado");
+        }
 
-  //       const newAccessToken = refreshResponse.access.accessToken;
-  //       const newRefreshToken = refreshResponse.access.refreshToken;
-  //       const newExpiresIn = refreshResponse.access.expiresIn;
+        const refreshResponse = await connectionAPIPost<LoginResponse>(
+          `/auth/refresh`,
+          { refreshToken },
+          apiUrl,
+        );
 
-  //       setExpiresIn(newExpiresIn);
+        const newAccessToken = refreshResponse.access.accessToken;
+        const newRefreshToken = refreshResponse.access.refreshToken;
+        const newExpiresIn = refreshResponse.access.expiresIn;
 
-  //       await axios.post(
-  //         "/api/login",
-  //         {
-  //           accessToken: newAccessToken,
-  //           refreshToken: newRefreshToken,
-  //           expiresIn: newExpiresIn,
-  //           rememberMe: rememberMe,
-  //         },
-  //         { withCredentials: true },
-  //       );
-  //       setLastUpdated(Date.now());
-  //     } catch (error) {
-  //       console.error("Erro ao atualizar token:", error);
-  //     }
-  //   };
+        // Atualizar dados do usuário e storeId se disponíveis
+        if (refreshResponse.user) {
+          setUser({
+            id: refreshResponse.user.id,
+            email: refreshResponse.user.email,
+            name: refreshResponse.user.name,
+            phone: refreshResponse.user.phone,
+            documentType: refreshResponse.user.documentType,
+            documentValue: refreshResponse.user.documentValue,
+            emailVerified: refreshResponse.user.emailVerified,
+          });
+          setStore(refreshResponse.user.store);
+        }
 
-  //   const timeout = setTimeout(updateToken, expiresIn * 1000 * 0.98);
-  //   return () => clearTimeout(timeout);
-  // }, [lastUpdated, expiresIn]);
+        setExpiresIn(newExpiresIn);
+        sessionStorage.setItem("accessToken", newAccessToken);
+        await axios.post(
+          "/api/login",
+          {
+            refreshToken: newRefreshToken,
+            expiresIn: newExpiresIn,
+            rememberMe: rememberMe,
+          },
+          { withCredentials: true },
+        );
+        setLastUpdated(Date.now());
+      } catch (error) {
+        console.error("Erro ao atualizar token:", error);
+      }
+    };
+
+    const timeout = setTimeout(updateToken, expiresIn * 1000 * 0.98);
+    return () => clearTimeout(timeout);
+  }, [lastUpdated, expiresIn]);
 
   const login = async (data: LoginResponse, rememberMe: boolean) => {
-    console.log(data);
-    const accessToken = data.accessToken;
+    const accessToken = data.access.accessToken;
     sessionStorage.setItem("accessToken", accessToken);
-    const refreshToken = data.refreshToken;
-    const expiresIn = data.expiresIn;
-    // const user: Partial<UserType> = {
-    //   email: data.user.email,
-    //   name: data.user.name,
-    //   phone: data.user.phone,
-    //   individualIdentification: {
-    //     type: data.user.individualIdentification.type,
-    //     value: data.user.individualIdentification.value,
-    //   },
-    // };
+    rememberMe
+      ? localStorage.setItem("accessToken", accessToken)
+      : localStorage.removeItem("accessToken");
+    const refreshToken = data.access.refreshToken;
+    const expiresIn = data.access.expiresIn;
+    const user: Partial<UserType> = {
+      id: data.user?.id,
+      email: data.user?.email,
+      name: data.user?.name,
+      phone: data.user?.phone,
+      documentType: data.user?.documentType,
+      documentValue: data.user?.documentValue,
+      emailVerified: data.user?.emailVerified,
+    };
 
     try {
       const res = await fetch("/api/login", {
@@ -149,7 +183,8 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
       });
       if (!res.ok) throw new Error("Erro ao fazer login");
       setLogged(true);
-      // setUser(user);
+      setUser(user);
+      setStore(data.user.store);
       setExpiresIn(expiresIn);
       return true;
     } catch (error) {
@@ -168,7 +203,9 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
         setLogged(false);
         setExpiresIn(null);
         setUser(null);
+        setStore(null);
         sessionStorage.clear();
+        localStorage.clear();
         route.replace("/");
       }
     } catch (error) {
@@ -177,7 +214,9 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
   };
 
   return (
-    <AuthContext.Provider value={{ logged, login, logout, user }}>
+    <AuthContext.Provider
+      value={{ logged, checkingToken, login, logout, user, setUser, store }}
+    >
       {children}
     </AuthContext.Provider>
   );

@@ -1,3 +1,5 @@
+import { StoreType, UserType } from "./userTypes";
+
 export type LoginParams = {
   email: string;
   password: string;
@@ -5,16 +7,10 @@ export type LoginParams = {
 };
 
 export type LoginResponse = {
-  accessToken: string;
-  refreshToken: string;
-  expiresIn: number;
+  access: {
+    accessToken: string;
+    refreshToken: string;
+    expiresIn: number;
+  };
+  user: UserType;
 };
-
-// export type LoginResponse = {
-//   access: {
-//     accessToken: string;
-//     refreshToken: string;
-//     expiresIn: number;
-//   };
-//   user: UserType;
-// };

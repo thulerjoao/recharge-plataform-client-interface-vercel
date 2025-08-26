@@ -2,7 +2,7 @@ import styled, { keyframes } from "styled-components";
 import { Theme } from "../../theme/theme";
 
 interface ButtonInputProps {
-  height: 28 | 32 | 40 | 48;
+  height: number;
   width: number;
   rounded: boolean;
   loading: boolean;

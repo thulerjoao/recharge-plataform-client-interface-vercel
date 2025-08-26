@@ -1,0 +1,138 @@
+import { Theme } from "@4miga/design-system/theme/theme";
+import styled from "styled-components";
+
+export const CouponsContainer = styled.div`
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding-top: 64px;
+  padding-bottom: 64px;
+
+  .mobile {
+    display: none;
+  }
+
+  .mainContent {
+    width: 100%;
+    max-width: 900px;
+    padding: 24px;
+    display: flex;
+    flex-direction: column;
+    gap: 32px;
+
+    .headerSection {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 24px;
+      background: ${Theme.colors.maindark};
+      border-radius: 12px;
+      -webkit-box-shadow: 0px 0px 5px 2px rgba(7, 29, 35, 1);
+      -moz-box-shadow: 0px 0px 5px 2px rgba(7, 29, 35, 1);
+      box-shadow: 0px 0px 5px 2px rgba(7, 29, 35, 1);
+
+      .titleSection {
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+      }
+    }
+
+    .filtersSection {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 20px;
+      background: ${Theme.colors.maindark};
+      border-radius: 12px;
+      -webkit-box-shadow: 0px 0px 5px 2px rgba(7, 29, 35, 1);
+      -moz-box-shadow: 0px 0px 5px 2px rgba(7, 29, 35, 1);
+      box-shadow: 0px 0px 5px 2px rgba(7, 29, 35, 1);
+
+      .searchSection {
+        width: 300px;
+      }
+
+      .filterControls {
+        display: flex;
+        gap: 16px;
+
+        .filterSelect {
+          padding: 0px 8px;
+          height: 32px;
+          width: 140px;
+          border-radius: 8px;
+          border: 2px solid ${Theme.colors.secondaryAction};
+          background: ${Theme.colors.mainlight};
+          color: ${Theme.colors.secondaryAction};
+          font-size: 14px;
+          cursor: pointer;
+
+          &:focus {
+            outline: none;
+            border-color: ${Theme.colors.mainHighlight};
+          }
+        }
+      }
+    }
+
+    .tableSection {
+      background: ${Theme.colors.maindark};
+      border-radius: 12px;
+      -webkit-box-shadow: 0px 0px 5px 2px rgba(7, 29, 35, 1);
+      -moz-box-shadow: 0px 0px 5px 2px rgba(7, 29, 35, 1);
+      box-shadow: 0px 0px 5px 2px rgba(7, 29, 35, 1);
+      overflow: hidden;
+
+      .tableHeader {
+        display: grid;
+        grid-template-columns: 2fr 2fr 2fr 0.5fr;
+        background: ${Theme.colors.secondaryTextAction};
+        padding: 16px 20px;
+        gap: 16px;
+
+        .tableCell {
+          font-weight: 600;
+          color: ${Theme.colors.mainlight};
+          font-size: 14px;
+        }
+      }
+    }
+  }
+
+  @media (max-width: 539px) {
+    .desktop {
+      display: none;
+    }
+    .mobile {
+      display: flex;
+      width: 100%;
+    }
+
+    .mainContent {
+      padding: 16px;
+      gap: 24px;
+
+      .headerSection {
+        flex-direction: column;
+        gap: 16px;
+        text-align: center;
+      }
+
+      .filtersSection {
+        flex-direction: column;
+        gap: 16px;
+
+        .filterControls {
+          width: 100%;
+          justify-content: center;
+        }
+      }
+
+      .paginationSection {
+        padding: 16px;
+      }
+    }
+  }
+`;
