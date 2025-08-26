@@ -6,7 +6,7 @@ import { ButtonInput, LeftElement, Spinner } from "./style";
 
 interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   title: string;
-  height: 28 | 32 | 40 | 48;
+  height: 28 | 32 | 36 | 40 | 48;
   width?: number;
   rounded?: boolean;
   loading?: boolean;
