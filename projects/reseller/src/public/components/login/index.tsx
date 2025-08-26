@@ -1,7 +1,5 @@
 import { useState } from "react";
-import { UserType } from "types/userTypes";
 import LoginComponent from "./common/login";
-import NewAccount from "./common/newAccount";
 import TopLogo from "./icons/topLogo.svg";
 import { LoginModalBackground, LoginModalContainer } from "./style";
 import { LoginSteps } from "./types/types";
@@ -19,15 +17,7 @@ const Login = ({ openInNewAccount }: LoginModalProps) => {
     <LoginModalBackground>
       <LoginModalContainer onClick={(e) => e.stopPropagation()}>
         <TopLogo />
-        {step === "login" && <LoginComponent setStep={setStep} />}
-        {step === "newAccount" && <NewAccount />}
-
-        {(step === "login" || step === "newAccount") && (
-          <span
-            className="newAccountButton"
-            onClick={() => setStep(step === "login" ? "newAccount" : "login")}
-          ></span>
-        )}
+        <LoginComponent setStep={setStep} />
       </LoginModalContainer>
     </LoginModalBackground>
   );

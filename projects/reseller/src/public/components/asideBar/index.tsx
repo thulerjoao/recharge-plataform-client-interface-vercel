@@ -49,7 +49,7 @@ const AsideBar = () => {
             <LogoTablet />
           </span>
 
-          <div
+          {/* <div
             onClick={() => handleClick("home")}
             className={`menuOption ${handleCheck("home") && "selected"}`}
             style={{ margin: "40px 0 16px 0" }}
@@ -65,9 +65,9 @@ const AsideBar = () => {
             >
               INÍCIO
             </Text>
-          </div>
+          </div> */}
 
-          <div
+          {/* <div
             onClick={() => handleClick("sales")}
             className={`menuOption ${handleCheck("sales") && "selected"}`}
           >
@@ -83,11 +83,12 @@ const AsideBar = () => {
             >
               VENDAS
             </Text>
-          </div>
+          </div> */}
 
           <div
             onClick={() => handleClick("products")}
             className={`menuOption ${handleCheck("products") && "selected"}`}
+            style={{ margin: "40px 0 16px 0" }}
           >
             <span className="inconEnviroment">
               {handleCheck("products") ? <ProductsSelected /> : <Products />}
@@ -119,7 +120,7 @@ const AsideBar = () => {
               fontName="REGULAR_SEMI_BOLD"
               className="desktop"
             >
-              INFLUENCER
+              INFLUENCERS
             </Text>
           </div>
 
@@ -157,7 +158,7 @@ const AsideBar = () => {
             </Text>
           </div> */}
 
-          <div
+          {/* <div
             onClick={() => handleClick("wallet")}
             className={`menuOption ${handleCheck("wallet") && "selected"}`}
           >
@@ -172,7 +173,7 @@ const AsideBar = () => {
             >
               CARTEIRA
             </Text>
-          </div>
+          </div> */}
 
           <div className="bottomOptions">
             <div

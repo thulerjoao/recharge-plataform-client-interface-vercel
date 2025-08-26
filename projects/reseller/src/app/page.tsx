@@ -11,7 +11,7 @@ const Page = () => {
   const { logged } = useAuth();
 
   useEffect(() => {
-    if (logged) route.replace("/home");
+    if (logged) route.replace("/products");
   }, [logged, route]);
   return (
     <div className="container">

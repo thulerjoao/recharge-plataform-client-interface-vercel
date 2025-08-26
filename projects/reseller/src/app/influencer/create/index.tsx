@@ -9,8 +9,10 @@ import { useRouter } from "next/navigation";
 import DefaultHeader from "public/components/defaultHeader";
 import HeaderEnviroment from "public/components/headerEnviroment";
 import { useState } from "react";
+import InputMask from "react-input-mask";
 import Icon from "../icons/icon.svg";
 import { CreateInfluencerContainer } from "./style";
+import { validateCPF, validateCNPJ } from "../../../utils/documentValidation";
 
 interface CreateInfluencerData {
   name: string;
@@ -19,6 +21,14 @@ interface CreateInfluencerData {
   paymentMethod: string;
   paymentData: string;
   isActive: boolean;
+}
+
+interface FormErrors {
+  name?: string;
+  email?: string;
+  phone?: string;
+  paymentMethod?: string;
+  paymentData?: string;
 }
 
 const CreateInfluencer = () => {
@@ -32,17 +42,92 @@ const CreateInfluencer = () => {
     isActive: true,
   });
 
-  const [isActive, setIsActive] = useState(true);
+  const [errors, setErrors] = useState<FormErrors>({});
+
+  const validateForm = (): boolean => {
+    const newErrors: FormErrors = {};
+
+    // Validação do nome
+    if (!formData.name.trim()) {
+      newErrors.name = "Nome é obrigatório";
+    }
+
+    // Validação do email (se preenchido)
+    if (formData.email.trim() && !/\S+@\S+\.\S+/.test(formData.email)) {
+      newErrors.email = "Email inválido";
+    }
+
+    // Validação do telefone (se preenchido)
+    if (formData.phone.trim()) {
+      const phoneDigits = formData.phone.replace(/\D/g, "");
+      if (phoneDigits.length !== 11) {
+        newErrors.phone = "Telefone deve ter 11 dígitos";
+      }
+    }
+
+    // Validação do método de pagamento
+    if (!formData.paymentMethod) {
+      newErrors.paymentMethod = "Tipo de chave PIX é obrigatório";
+    }
+
+    // Validação da chave PIX
+    if (!formData.paymentData.trim()) {
+      newErrors.paymentData = "Chave PIX é obrigatória";
+    } else {
+      // Validação específica por tipo de chave
+      const paymentData = formData.paymentData.replace(/\D/g, "");
+
+      if (formData.paymentMethod === "CPF") {
+        if (paymentData.length !== 11) {
+          newErrors.paymentData = "CPF deve ter 11 dígitos";
+        } else if (!validateCPF(formData.paymentData)) {
+          newErrors.paymentData = "CPF inválido";
+        }
+      } else if (formData.paymentMethod === "CNPJ") {
+        if (paymentData.length !== 14) {
+          newErrors.paymentData = "CNPJ deve ter 14 dígitos";
+        } else if (!validateCNPJ(formData.paymentData)) {
+          newErrors.paymentData = "CNPJ inválido";
+        }
+      } else if (
+        formData.paymentMethod === "EMAIL" &&
+        !/\S+@\S+\.\S+/.test(formData.paymentData)
+      ) {
+        newErrors.paymentData = "Email inválido";
+      } else if (
+        formData.paymentMethod === "PHONE" &&
+        paymentData.length !== 11
+      ) {
+        newErrors.paymentData = "Telefone deve ter 11 dígitos";
+      } else if (
+        formData.paymentMethod === "RANDOM" &&
+        paymentData.length !== 32
+      ) {
+        newErrors.paymentData = "Chave aleatória deve ter 32 caracteres";
+      }
+    }
+
+    setErrors(newErrors);
+    return Object.keys(newErrors).length === 0;
+  };
 
   const handleInputChange = (
     field: keyof CreateInfluencerData,
     value: string | boolean,
   ) => {
     setFormData((prev) => ({ ...prev, [field]: value }));
+
+    // Limpar erro do campo quando usuário começar a digitar
+    if (errors[field]) {
+      setErrors((prev) => ({ ...prev, [field]: undefined }));
+    }
   };
 
   const handleSubmit = () => {
-    //implement on submit
+    if (validateForm()) {
+      //implement on submit
+      console.log("Formulário válido:", formData);
+    }
   };
 
   const handleCancel = () => {
@@ -52,7 +137,8 @@ const CreateInfluencer = () => {
   const isFormValid =
     formData.name.trim() !== "" &&
     formData.paymentMethod !== "" &&
-    formData.paymentData.trim() !== "";
+    formData.paymentData.trim() !== "" &&
+    Object.keys(errors).length === 0;
 
   return (
     <CreateInfluencerContainer>
@@ -78,9 +164,13 @@ const CreateInfluencer = () => {
               <Text
                 align="center"
                 fontName="SMALL"
-                color={isActive ? Theme.colors.approved : Theme.colors.refused}
+                color={
+                  formData.isActive
+                    ? Theme.colors.approved
+                    : Theme.colors.refused
+                }
               >
-                {isActive ? "Ativo" : "Inativo"}
+                {formData.isActive ? "Ativo" : "Inativo"}
               </Text>
             </div>
           </div>
@@ -88,7 +178,12 @@ const CreateInfluencer = () => {
             <Text fontName="SMALL_MEDIUM" color={Theme.colors.mainlight}>
               Ativar/Desativar
             </Text>
-            <span onClick={() => setIsActive(!isActive)}>
+            <span
+              onClick={() => {
+                const newValue = !formData.isActive;
+                handleInputChange("isActive", newValue);
+              }}
+            >
               <OnOff onOff={formData.isActive} />
             </span>
           </div>
@@ -112,7 +207,11 @@ const CreateInfluencer = () => {
                   onChange={(e) => handleInputChange("name", e.target.value)}
                   placeholder="Nome do parceiro"
                   height={32}
+                  className={errors.name ? "error" : ""}
                 />
+                {errors.name && (
+                  <span className="error-message">{errors.name}</span>
+                )}
               </div>
               <div className="infoItem">
                 <Text
@@ -127,7 +226,11 @@ const CreateInfluencer = () => {
                   placeholder="E-mail (opcional)"
                   height={32}
                   type="email"
+                  className={errors.email ? "error" : ""}
                 />
+                {errors.email && (
+                  <span className="error-message">{errors.email}</span>
+                )}
               </div>
               <div className="infoItem">
                 <Text
@@ -136,13 +239,25 @@ const CreateInfluencer = () => {
                 >
                   Telefone:
                 </Text>
-                <Input
+                <InputMask
+                  mask="(99) 99999-9999"
+                  maskChar=""
                   value={formData.phone}
                   onChange={(e) => handleInputChange("phone", e.target.value)}
-                  placeholder="Telefone (opcional)"
-                  height={32}
-                  type="tel"
-                />
+                >
+                  {(inputProps: any) => (
+                    <Input
+                      {...inputProps}
+                      placeholder="Telefone (opcional)"
+                      height={32}
+                      type="tel"
+                      className={errors.phone ? "error" : ""}
+                    />
+                  )}
+                </InputMask>
+                {errors.phone && (
+                  <span className="error-message">{errors.phone}</span>
+                )}
               </div>
             </div>
           </div>
@@ -164,14 +279,18 @@ const CreateInfluencer = () => {
                   onChange={(e) =>
                     handleInputChange("paymentMethod", e.target.value)
                   }
-                  className="pixTypeSelect"
+                  className={`pixTypeSelect ${errors.paymentMethod ? "error" : ""}`}
                 >
+                  <option value="">Selecione o tipo</option>
                   <option value="CPF">CPF</option>
                   <option value="CNPJ">CNPJ</option>
                   <option value="EMAIL">E-mail</option>
                   <option value="PHONE">Telefone</option>
                   <option value="RANDOM">Chave aleatória</option>
                 </select>
+                {errors.paymentMethod && (
+                  <span className="error-message">{errors.paymentMethod}</span>
+                )}
               </div>
               <div className="infoItem">
                 <Text
@@ -180,14 +299,80 @@ const CreateInfluencer = () => {
                 >
                   Chave PIX: *
                 </Text>
-                <Input
-                  value={formData.paymentData}
-                  onChange={(e) =>
-                    handleInputChange("paymentData", e.target.value)
-                  }
-                  placeholder="Chave PIX"
-                  height={32}
-                />
+                {formData.paymentMethod === "CPF" ? (
+                  <InputMask
+                    mask="999.999.999-99"
+                    maskChar=""
+                    value={formData.paymentData}
+                    onChange={(e) =>
+                      handleInputChange("paymentData", e.target.value)
+                    }
+                  >
+                    {(inputProps: any) => (
+                      <Input
+                        {...inputProps}
+                        placeholder="000.000.000-00"
+                        height={32}
+                        className={errors.paymentData ? "error" : ""}
+                      />
+                    )}
+                  </InputMask>
+                ) : formData.paymentMethod === "CNPJ" ? (
+                  <InputMask
+                    mask="99.999.999/9999-99"
+                    maskChar=""
+                    value={formData.paymentData}
+                    onChange={(e) =>
+                      handleInputChange("paymentData", e.target.value)
+                    }
+                  >
+                    {(inputProps: any) => (
+                      <Input
+                        {...inputProps}
+                        placeholder="00.000.000/0000-00"
+                        height={32}
+                        className={errors.paymentData ? "error" : ""}
+                      />
+                    )}
+                  </InputMask>
+                ) : formData.paymentMethod === "PHONE" ? (
+                  <InputMask
+                    mask="(99) 99999-9999"
+                    maskChar=""
+                    value={formData.paymentData}
+                    onChange={(e) =>
+                      handleInputChange("paymentData", e.target.value)
+                    }
+                  >
+                    {(inputProps: any) => (
+                      <Input
+                        {...inputProps}
+                        placeholder="(11) 99999-9999"
+                        height={32}
+                        className={errors.paymentData ? "error" : ""}
+                      />
+                    )}
+                  </InputMask>
+                ) : (
+                  <Input
+                    value={formData.paymentData}
+                    onChange={(e) =>
+                      handleInputChange("paymentData", e.target.value)
+                    }
+                    placeholder={
+                      formData.paymentMethod === "EMAIL"
+                        ? "email@exemplo.com"
+                        : formData.paymentMethod === "RANDOM"
+                          ? "Chave aleatória de 32 caracteres"
+                          : "Chave PIX"
+                    }
+                    height={32}
+                    className={errors.paymentData ? "error" : ""}
+                  />
+                )}
+                {errors.paymentData && (
+                  <span className="error-message">{errors.paymentData}</span>
+                )}
               </div>
             </div>
           </div>
@@ -200,6 +385,7 @@ const CreateInfluencer = () => {
             width={140}
             height={40}
             rounded
+            isNotSelected
             style={{
               backgroundColor: Theme.colors.secondaryAction,
               color: Theme.colors.mainlight,
@@ -211,7 +397,7 @@ const CreateInfluencer = () => {
             width={140}
             height={40}
             rounded
-            disabled={!isFormValid}
+            // disabled={!isFormValid}
           />
         </div>
       </div>
