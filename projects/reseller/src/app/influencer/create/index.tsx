@@ -125,7 +125,6 @@ const CreateInfluencer = () => {
 
   const handleSubmit = () => {
     if (validateForm()) {
-      //implement on submit
       console.log("Formulário válido:", formData);
     }
   };
@@ -276,9 +275,10 @@ const CreateInfluencer = () => {
                 </Text>
                 <select
                   value={formData.paymentMethod}
-                  onChange={(e) =>
-                    handleInputChange("paymentMethod", e.target.value)
-                  }
+                  onChange={(e) => {
+                    handleInputChange("paymentMethod", e.target.value);
+                    handleInputChange("paymentData", "");
+                  }}
                   className={`pixTypeSelect ${errors.paymentMethod ? "error" : ""}`}
                 >
                   <option value="">Selecione o tipo</option>
@@ -397,7 +397,6 @@ const CreateInfluencer = () => {
             width={140}
             height={40}
             rounded
-            // disabled={!isFormValid}
           />
         </div>
       </div>
