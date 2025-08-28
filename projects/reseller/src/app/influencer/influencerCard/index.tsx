@@ -40,16 +40,35 @@ const InfluencerCard = ({
 
   return (
     <InfluencerCardContainer onClick={onClick}>
-      <div className="avatar">
-        <Icon />
+      <div className="avatarSection">
+        <div className="avatar">
+          <Icon />
+        </div>
+        {/* Status badge embaixo do avatar em mobile */}
+        <div
+          className={`statusBadge mobileStatus ${influencer.isActive ? "active" : "inactive"}`}
+        >
+          <Text
+            fontName="TINY"
+            align="center"
+            color={
+              influencer.isActive
+                ? Theme.colors.approved
+                : Theme.colors.refused
+            }
+          >
+            {influencer.isActive ? "ATIVO" : "INATIVO"}
+          </Text>
+        </div>
       </div>
       <section className="allInfo">
         <div className="rowInfos">
           <Text nowrap fontName="SMALL_MEDIUM" color={Theme.colors.mainlight}>
             {influencer.name}
           </Text>
+          {/* Status badge visível apenas em desktop/tablet */}
           <div
-            className={`statusBadge ${influencer.isActive ? "active" : "inactive"}`}
+            className={`statusBadge desktopStatus ${influencer.isActive ? "active" : "inactive"}`}
           >
             <Text
               fontName="TINY"
@@ -60,7 +79,7 @@ const InfluencerCard = ({
                   : Theme.colors.refused
               }
             >
-              {influencer.isActive ? "ATIVO" : "INATIVO"}
+            {influencer.isActive ? "ATIVO" : "INATIVO"}
             </Text>
           </div>
         </div>

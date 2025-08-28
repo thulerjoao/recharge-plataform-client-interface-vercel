@@ -17,8 +17,10 @@ const ProductsPage = () => {
           <DefaultHeader title="PRODUTOS" />
         </HeaderEnviroment>
       </div>
-      <div className="mobile">
-        <DefaultHeader title="PRODUTOS" />
+      <div className="mobile mobileHeader">
+        <Text align="center" fontName="LARGE_SEMI_BOLD">
+          PRODUTOS
+        </Text>
       </div>
       <div className="mainTitle">
         <Text align="center" fontName="REGULAR_SEMI_BOLD">

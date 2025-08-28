@@ -167,8 +167,10 @@ const CreateCoupon = () => {
           <DefaultHeader backWard title="CRIAR CUPOM" />
         </HeaderEnviroment>
       </div>
-      <div className="mobile">
-        <DefaultHeader backWard title="CRIAR CUPOM" />
+      <div className="mobile mobileHeader">
+        <Text align="center" fontName="LARGE_SEMI_BOLD">
+          CRIAR CUPOM
+        </Text>
       </div>
 
       <div className="mainContent">

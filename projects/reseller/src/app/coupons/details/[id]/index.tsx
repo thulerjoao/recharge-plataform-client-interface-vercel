@@ -403,8 +403,10 @@ const CouponDetails = ({ couponId }: CouponDetailsProps) => {
           <DefaultHeader backWard title="DETALHES DO CUPOM" />
         </HeaderEnviroment>
       </div>
-      <div className="mobile">
-        <DefaultHeader backWard title="DETALHES DO CUPOM" />
+      <div className="mobile mobileHeader">
+        <Text align="center" fontName="LARGE_SEMI_BOLD">
+          CUPOM
+        </Text>
       </div>
 
       <div className="mainContent">

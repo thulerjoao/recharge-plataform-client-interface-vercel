@@ -189,7 +189,8 @@ export const CreateCouponContainer = styled.div`
     }
   }
 
-  @media (max-width: 539px) {
+  @media (max-width: 768px) {
+    padding-top: 64px;
     .desktop {
       display: none;
     }
@@ -198,17 +199,34 @@ export const CreateCouponContainer = styled.div`
       width: 100%;
     }
 
+    .mobileHeader {
+      position: fixed;
+      top: 0;
+      z-index: 10;
+      margin-top: 12px;
+      width: auto;
+    }
+
     .mainContent {
       padding: 16px;
       gap: 24px;
 
       .headerSection {
-        flex-direction: column;
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: flex-start;
         gap: 16px;
-        text-align: center;
+        text-align: left;
+
+        .titleSection {
+          flex: 1;
+          min-width: 0;
+        }
 
         .statusSection {
+          flex-shrink: 0;
           align-items: center;
+          min-width: 80px;
         }
       }
 
@@ -222,8 +240,55 @@ export const CreateCouponContainer = styled.div`
       }
 
       .actionsSection {
-        flex-direction: column;
+        flex-direction: row;
+        justify-content: center;
+        gap: 16px;
+        flex-wrap: nowrap;
+
+        button {
+          flex: 1;
+          max-width: 160px;
+        }
+      }
+    }
+  }
+
+  @media (max-width: 480px) {
+    .mainContent {
+      padding: 12px;
+      gap: 20px;
+
+      .headerSection {
+        padding: 20px;
         gap: 12px;
+
+        .titleSection {
+          gap: 6px;
+        }
+
+        .statusSection {
+          min-width: 70px;
+        }
+      }
+
+      .infoSections {
+        gap: 20px;
+
+        .infoSection {
+          padding: 20px;
+
+          .infoGrid {
+            gap: 16px;
+          }
+        }
+      }
+
+      .actionsSection {
+        gap: 12px;
+
+        button {
+          max-width: 140px;
+        }
       }
     }
   }

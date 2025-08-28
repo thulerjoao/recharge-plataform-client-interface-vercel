@@ -38,8 +38,22 @@ const CouponCard = ({ coupon, onClick }: CouponCardProps) => {
     return "N/A";
   };
 
+  const getExpiryText = (date?: Date) => {
+    if (!date) return "Sem expiração";
+    const now = new Date();
+    const diffTime = date.getTime() - now.getTime();
+    const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+
+    if (diffDays < 0) return "Expirado";
+    if (diffDays === 0) return "Expira hoje";
+    if (diffDays === 1) return "Expira amanhã";
+    if (diffDays <= 7) return `Expira em ${diffDays} dias`;
+    return date.toLocaleDateString("pt-BR");
+  };
+
   return (
     <CouponCardContainer onClick={() => onClick(coupon.id)}>
+      {/* Coluna 1: Título e Badge */}
       <div className="tableCell">
         <div className="couponTitle">
           <Text fontName="REGULAR_MEDIUM" color={Theme.colors.mainlight}>
@@ -49,22 +63,34 @@ const CouponCard = ({ coupon, onClick }: CouponCardProps) => {
             <span className="firstPurchaseBadge">1ª</span>
           )}
         </div>
+        {/* Informação adicional em mobile */}
+        <div className="mobileInfo">
+          <Text fontName="SMALL" color={Theme.colors.secondaryText}>
+            {coupon.influencerName}
+          </Text>
+        </div>
       </div>
+
+      {/* Coluna 2: Desconto e Valor Mínimo */}
       <div className="tableCell">
         <Text fontName="REGULAR_MEDIUM" color={Theme.colors.mainlight}>
-          R$ {getDiscountText(coupon)}
+          {getDiscountText(coupon)}
         </Text>
         {coupon.minOrderAmount && (
           <Text fontName="SMALL" color={Theme.colors.secondaryText}>
-            Min: R$ {formatPrice(coupon.minOrderAmount)}
+            Min: {formatPrice(coupon.minOrderAmount)}
           </Text>
         )}
       </div>
-      <div className="tableCell">
+
+      {/* Coluna 3: Influencer (oculta em mobile) */}
+      <div className="tableCell desktopOnly">
         <Text fontName="REGULAR_MEDIUM" color={Theme.colors.mainlight}>
           {coupon.influencerName}
         </Text>
       </div>
+
+      {/* Coluna 4: Status */}
       <div className="tableCell">
         <div
           className={`statusBadge ${coupon.isActive ? "active" : "inactive"}`}

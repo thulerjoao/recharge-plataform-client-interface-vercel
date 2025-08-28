@@ -89,9 +89,12 @@ export const CouponDetailsContainer = styled.div`
 
         .onOff {
           display: flex;
-          flex-direction: column;
-          align-items: flex-end;
+          flex-direction: row;
+          justify-content: space-between;
+          align-items: center;
           gap: 8px;
+          width: 100%;
+          margin-top: 8px;
         }
       }
     }
@@ -196,7 +199,8 @@ export const CouponDetailsContainer = styled.div`
     }
   }
 
-  @media (max-width: 539px) {
+  @media (max-width: 768px) {
+    padding-top: 64px;
     .desktop {
       display: none;
     }
@@ -205,21 +209,45 @@ export const CouponDetailsContainer = styled.div`
       width: 100%;
     }
 
+    .mobileHeader {
+      position: fixed;
+      top: 0;
+      z-index: 10;
+      margin-top: 12px;
+      width: auto;
+    }
+
     .mainContent {
       padding: 16px;
       gap: 24px;
 
       .headerSection {
-        flex-direction: column;
-        text-align: center;
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: flex-start;
         gap: 16px;
+        text-align: left;
 
         .couponInfo {
-          align-items: center;
+          flex: 1;
+          min-width: 0;
+          align-items: flex-start;
         }
 
         .statusSection {
-          align-items: center;
+          flex-shrink: 0;
+          align-items: flex-start;
+          min-width: 80px;
+
+          .statusBadge {
+            padding: 2px 8px;
+            font-size: 10px;
+            align-self: flex-end;
+          }
+
+          .onOff {
+            margin-top: 28px;
+          }
         }
       }
 
@@ -233,8 +261,55 @@ export const CouponDetailsContainer = styled.div`
       }
 
       .actionsSection {
-        flex-direction: column;
+        flex-direction: row;
+        justify-content: center;
+        gap: 16px;
+        flex-wrap: nowrap;
+
+        button {
+          flex: 1;
+          max-width: 160px;
+        }
+      }
+    }
+  }
+
+  @media (max-width: 480px) {
+    .mainContent {
+      padding: 12px;
+      gap: 20px;
+
+      .headerSection {
+        padding: 20px;
         gap: 12px;
+
+        .couponInfo {
+          gap: 8px;
+        }
+
+        .statusSection {
+          min-width: 70px;
+        }
+      }
+
+      .infoSections {
+        gap: 20px;
+
+        .infoSection {
+          padding: 20px;
+
+          .infoGrid {
+            gap: 16px;
+          }
+        }
+      }
+
+      .actionsSection {
+        gap: 12px;
+
+        button {
+          max-width: 140px;
+        }
       }
     }
   }

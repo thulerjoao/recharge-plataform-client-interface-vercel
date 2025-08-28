@@ -116,7 +116,7 @@ const Sales = () => {
           pushTo={`/sales/${123456}`}
         />
       </div>
-      <Pagination />
+      <Pagination page={1} setPage={() => {}} totalPages={10} />
     </SalesContainer>
   );
 };
