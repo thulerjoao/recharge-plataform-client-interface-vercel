@@ -9,6 +9,7 @@ import { useRouter } from "next/navigation";
 import DefaultHeader from "public/components/defaultHeader";
 import HeaderEnviroment from "public/components/headerEnviroment";
 import { useEffect, useState } from "react";
+import InputMask from "react-input-mask";
 import { CouponDetailsContainer } from "./style";
 
 interface Coupon {
@@ -42,6 +43,15 @@ interface EditCouponData {
   minOrderAmount?: number;
   isActive?: boolean;
   isFirstPurchase?: boolean;
+}
+
+interface FormErrors {
+  title?: string;
+  discountPercentage?: string;
+  discountAmount?: string;
+  expiresAt?: string;
+  maxUses?: string;
+  minOrderAmount?: string;
 }
 
 // Mock data - será substituído por dados reais da API
@@ -145,6 +155,10 @@ const CouponDetails = ({ couponId }: CouponDetailsProps) => {
   const [loading, setLoading] = useState(true);
   const [isEditing, setIsEditing] = useState(false);
   const [editData, setEditData] = useState<EditCouponData>({});
+  const [errors, setErrors] = useState<FormErrors>({});
+  const [selectedDiscountType, setSelectedDiscountType] = useState<
+    "percentage" | "amount"
+  >("percentage");
 
   useEffect(() => {
     console.log("CouponDetails: couponId recebido:", couponId);
@@ -182,8 +196,69 @@ const CouponDetails = ({ couponId }: CouponDetailsProps) => {
         isActive: coupon.isActive,
         isFirstPurchase: coupon.isFirstPurchase,
       });
+
+      // Define o tipo inicial baseado no cupom
+      if (coupon.discountPercentage !== undefined) {
+        setSelectedDiscountType("percentage");
+      } else if (coupon.discountAmount !== undefined) {
+        setSelectedDiscountType("amount");
+      }
     }
   }, [coupon]);
+
+  const validateForm = (): boolean => {
+    const newErrors: FormErrors = {};
+
+    // Validação do título
+    if (!editData.title?.trim()) {
+      newErrors.title = "Título do cupom é obrigatório";
+    }
+
+    // Validação do tipo de desconto
+    if (editData.discountPercentage !== undefined) {
+      if (!editData.discountPercentage || editData.discountPercentage <= 0) {
+        newErrors.discountPercentage = "Porcentagem deve ser maior que 0";
+      } else if (editData.discountPercentage > 100) {
+        newErrors.discountPercentage =
+          "Porcentagem não pode ser maior que 100%";
+      }
+    } else if (editData.discountAmount !== undefined) {
+      if (!editData.discountAmount || editData.discountAmount <= 0) {
+        newErrors.discountAmount = "Valor deve ser maior que 0";
+      }
+    } else {
+      // Se nenhum dos dois está definido, é obrigatório ter pelo menos um
+      if (coupon.discountPercentage !== undefined) {
+        newErrors.discountPercentage = "Porcentagem é obrigatória";
+      } else if (coupon.discountAmount !== undefined) {
+        newErrors.discountAmount = "Valor é obrigatório";
+      }
+    }
+
+    // Validação da data de expiração (se preenchida)
+    if (editData.expiresAt) {
+      const selectedDate = new Date(editData.expiresAt);
+      const today = new Date();
+      today.setHours(0, 0, 0, 0);
+
+      if (selectedDate <= today) {
+        newErrors.expiresAt = "Data de expiração deve ser futura";
+      }
+    }
+
+    // Validação do máximo de usos (se preenchido)
+    if (editData.maxUses && editData.maxUses <= 0) {
+      newErrors.maxUses = "Máximo de usos deve ser maior que 0";
+    }
+
+    // Validação do valor mínimo do pedido (se preenchida)
+    if (editData.minOrderAmount && editData.minOrderAmount < 0) {
+      newErrors.minOrderAmount = "Valor mínimo não pode ser negativo";
+    }
+
+    setErrors(newErrors);
+    return Object.keys(newErrors).length === 0;
+  };
 
   const formatCurrency = (value: number) => {
     return new Intl.NumberFormat("pt-BR", {
@@ -218,10 +293,16 @@ const CouponDetails = ({ couponId }: CouponDetailsProps) => {
 
   const handleEdit = () => {
     setIsEditing(true);
+    setErrors({}); // Clear errors when starting to edit
   };
 
   const handleSave = () => {
-    if (coupon) {
+    console.log("Tentando salvar, editData:", editData);
+    const isValid = validateForm();
+    console.log("Validação passou?", isValid);
+    console.log("Erros atuais:", errors);
+
+    if (isValid && coupon) {
       setCoupon({
         ...coupon,
         ...editData,
@@ -231,6 +312,9 @@ const CouponDetails = ({ couponId }: CouponDetailsProps) => {
         updatedAt: new Date(),
       });
       setIsEditing(false);
+      setErrors({}); // Clear errors after successful save
+    } else {
+      console.log("Validação falhou, não salvando");
     }
   };
 
@@ -249,6 +333,7 @@ const CouponDetails = ({ couponId }: CouponDetailsProps) => {
         isFirstPurchase: coupon.isFirstPurchase,
       });
       setIsEditing(false);
+      setErrors({}); // Clear errors when canceling
     }
   };
 
@@ -269,6 +354,11 @@ const CouponDetails = ({ couponId }: CouponDetailsProps) => {
     value: string | number | boolean,
   ) => {
     setEditData((prev) => ({ ...prev, [field]: value }));
+
+    // Limpar erro do campo quando usuário começar a digitar
+    if (errors[field as keyof FormErrors]) {
+      setErrors((prev) => ({ ...prev, [field]: undefined }));
+    }
   };
 
   if (loading) {
@@ -325,7 +415,7 @@ const CouponDetails = ({ couponId }: CouponDetailsProps) => {
                 {coupon.title}
               </Text>
               {coupon.isFirstPurchase && (
-                <span className="firstPurchaseBadge">1ª Compra</span>
+                <span className="firstPurchaseBadge">1ª</span>
               )}
             </div>
             <div className="couponDiscount">
@@ -380,11 +470,15 @@ const CouponDetails = ({ couponId }: CouponDetailsProps) => {
                     onChange={(e) => handleInputChange("title", e.target.value)}
                     placeholder="Título do cupom"
                     height={32}
+                    className={errors.title ? "error" : ""}
                   />
                 ) : (
                   <Text fontName="SMALL_MEDIUM" color={Theme.colors.mainlight}>
                     {coupon.title}
                   </Text>
+                )}
+                {isEditing && errors.title && (
+                  <span className="error-message">{errors.title}</span>
                 )}
               </div>
               <div className="infoItem">
@@ -405,20 +499,109 @@ const CouponDetails = ({ couponId }: CouponDetailsProps) => {
                 >
                   Tipo de desconto:
                 </Text>
-                <Text fontName="SMALL_MEDIUM" color={Theme.colors.mainlight}>
-                  {coupon.discountPercentage ? "Porcentagem" : "Valor fixo"}
-                </Text>
+                {isEditing ? (
+                  <select
+                    value={selectedDiscountType}
+                    onChange={(e) => {
+                      const discountType = e.target.value as
+                        | "percentage"
+                        | "amount";
+                      setSelectedDiscountType(discountType);
+
+                      if (discountType === "percentage") {
+                        handleInputChange("discountPercentage", undefined);
+                        handleInputChange("discountAmount", undefined);
+                      } else {
+                        handleInputChange("discountAmount", undefined);
+                        handleInputChange("discountPercentage", undefined);
+                      }
+                    }}
+                    className="discountTypeSelect"
+                  >
+                    <option value="percentage">Porcentagem (%)</option>
+                    <option value="amount">Valor fixo (R$)</option>
+                  </select>
+                ) : (
+                  <Text fontName="SMALL_MEDIUM" color={Theme.colors.mainlight}>
+                    {coupon.discountPercentage ? "Porcentagem" : "Valor fixo"}
+                  </Text>
+                )}
               </div>
               <div className="infoItem">
                 <Text
                   fontName="SMALL_MEDIUM"
                   color={Theme.colors.secondaryText}
                 >
-                  Valor do desconto:
+                  {editData.discountPercentage !== undefined
+                    ? "Porcentagem (%)"
+                    : editData.discountAmount !== undefined
+                      ? "Valor (R$)"
+                      : coupon.discountPercentage
+                        ? "Porcentagem (%)"
+                        : "Valor (R$)"}
+                  :
                 </Text>
-                <Text fontName="SMALL_MEDIUM" color={Theme.colors.mainlight}>
-                  {getDiscountText(coupon)}
-                </Text>
+                {isEditing ? (
+                  selectedDiscountType === "percentage" ? (
+                    <Input
+                      value={editData.discountPercentage || ""}
+                      onChange={(e) => {
+                        const value =
+                          e.target.value === ""
+                            ? undefined
+                            : parseInt(e.target.value);
+                        if (value !== undefined && (value < 0 || value > 100)) {
+                          return; // Não atualiza se estiver fora do intervalo
+                        }
+                        handleInputChange("discountPercentage", value);
+                      }}
+                      height={32}
+                      type="number"
+                      min="0"
+                      max="100"
+                      className={
+                        errors.discountPercentage || errors.discountAmount
+                          ? "error"
+                          : ""
+                      }
+                    />
+                  ) : (
+                    <InputMask
+                      mask="R$ 9999"
+                      maskChar=""
+                      value={editData.discountAmount || ""}
+                      onChange={(e) => {
+                        const rawValue = e.target.value.replace(/[^\d]/g, "");
+                        const value =
+                          rawValue === "" ? undefined : parseInt(rawValue);
+                        handleInputChange("discountAmount", value);
+                      }}
+                    >
+                      {(inputProps: any) => (
+                        <Input
+                          {...inputProps}
+                          placeholder="R$"
+                          height={32}
+                          className={
+                            errors.discountPercentage || errors.discountAmount
+                              ? "error"
+                              : ""
+                          }
+                        />
+                      )}
+                    </InputMask>
+                  )
+                ) : (
+                  <Text fontName="SMALL_MEDIUM" color={Theme.colors.mainlight}>
+                    {getDiscountText(coupon)}
+                  </Text>
+                )}
+                {isEditing &&
+                  (errors.discountPercentage || errors.discountAmount) && (
+                    <span className="error-message">
+                      {errors.discountPercentage || errors.discountAmount}
+                    </span>
+                  )}
               </div>
             </div>
           </div>
@@ -436,21 +619,32 @@ const CouponDetails = ({ couponId }: CouponDetailsProps) => {
                   Data de expiração:
                 </Text>
                 {isEditing ? (
-                  <Input
+                  <InputMask
+                    mask="99/99/9999"
+                    maskChar=""
                     value={editData.expiresAt || ""}
                     onChange={(e) =>
                       handleInputChange("expiresAt", e.target.value)
                     }
-                    placeholder=""
-                    height={32}
-                    type="date"
-                  />
+                  >
+                    {(inputProps: any) => (
+                      <Input
+                        {...inputProps}
+                        placeholder="dd/mm/aaaa"
+                        height={32}
+                        className={errors.expiresAt ? "error" : ""}
+                      />
+                    )}
+                  </InputMask>
                 ) : (
                   <Text fontName="SMALL_MEDIUM" color={Theme.colors.mainlight}>
                     {coupon.expiresAt
                       ? formatDate(coupon.expiresAt)
                       : "Sem expiração"}
                   </Text>
+                )}
+                {isEditing && errors.expiresAt && (
+                  <span className="error-message">{errors.expiresAt}</span>
                 )}
               </div>
               <div className="infoItem">
@@ -466,18 +660,24 @@ const CouponDetails = ({ couponId }: CouponDetailsProps) => {
                     onChange={(e) =>
                       handleInputChange(
                         "maxUses",
-                        parseInt(e.target.value) || 0,
+                        e.target.value === ""
+                          ? undefined
+                          : parseInt(e.target.value),
                       )
                     }
                     placeholder="Ilimitado"
                     height={32}
                     type="number"
                     min="0"
+                    className={errors.maxUses ? "error" : ""}
                   />
                 ) : (
                   <Text fontName="SMALL_MEDIUM" color={Theme.colors.mainlight}>
                     {coupon.maxUses ? coupon.maxUses : "Ilimitado"}
                   </Text>
+                )}
+                {isEditing && errors.maxUses && (
+                  <span className="error-message">{errors.maxUses}</span>
                 )}
               </div>
               <div className="infoItem">
@@ -488,26 +688,35 @@ const CouponDetails = ({ couponId }: CouponDetailsProps) => {
                   Valor mínimo do pedido:
                 </Text>
                 {isEditing ? (
-                  <Input
+                  <InputMask
+                    mask="R$ 9999"
+                    maskChar=""
                     value={editData.minOrderAmount || ""}
-                    onChange={(e) =>
-                      handleInputChange(
-                        "minOrderAmount",
-                        parseFloat(e.target.value) || 0,
-                      )
-                    }
-                    placeholder="Sem mínimo"
-                    height={32}
-                    type="number"
-                    min="0"
-                    step="0.01"
-                  />
+                    onChange={(e) => {
+                      const rawValue = e.target.value.replace(/[^\d]/g, "");
+                      const value =
+                        rawValue === "" ? undefined : parseInt(rawValue);
+                      handleInputChange("minOrderAmount", value);
+                    }}
+                  >
+                    {(inputProps: any) => (
+                      <Input
+                        {...inputProps}
+                        placeholder="R$ 0"
+                        height={32}
+                        className={errors.minOrderAmount ? "error" : ""}
+                      />
+                    )}
+                  </InputMask>
                 ) : (
                   <Text fontName="SMALL_MEDIUM" color={Theme.colors.mainlight}>
                     {coupon.minOrderAmount
                       ? formatCurrency(coupon.minOrderAmount)
                       : "Sem mínimo"}
                   </Text>
+                )}
+                {isEditing && errors.minOrderAmount && (
+                  <span className="error-message">{errors.minOrderAmount}</span>
                 )}
               </div>
               <div className="infoItem">
@@ -613,10 +822,7 @@ const CouponDetails = ({ couponId }: CouponDetailsProps) => {
                 width={120}
                 height={40}
                 rounded
-                style={{
-                  backgroundColor: Theme.colors.secondaryAction,
-                  color: Theme.colors.mainlight,
-                }}
+                isNotSelected
               />
             </>
           ) : (

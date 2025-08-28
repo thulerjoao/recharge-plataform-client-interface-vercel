@@ -44,7 +44,7 @@ export const CouponDetailsContainer = styled.div`
 
           .firstPurchaseBadge {
             background: ${Theme.colors.mainHighlight};
-            color: ${Theme.colors.mainlight};
+            color: ${Theme.colors.maindark};
             padding: 4px 8px;
             border-radius: 6px;
             font-size: 12px;
@@ -55,7 +55,7 @@ export const CouponDetailsContainer = styled.div`
         .couponDiscount {
           .firstPurchaseBadge {
             background: ${Theme.colors.mainHighlight};
-            color: ${Theme.colors.mainlight};
+            color: ${Theme.colors.maindark};
             padding: 4px 8px;
             border-radius: 6px;
             font-size: 12px;
@@ -120,6 +120,47 @@ export const CouponDetailsContainer = styled.div`
             flex-direction: column;
             gap: 8px;
 
+            .discountTypeSelect {
+              box-sizing: border-box;
+              padding: 0px 16px;
+              width: 100%;
+              font-size: 16px;
+              height: 28px;
+              border-radius: 8px;
+              border: 2px solid ${Theme.colors.secondaryAction};
+              color: ${Theme.colors.secondaryAction};
+              background: ${Theme.colors.mainlight};
+              cursor: pointer;
+
+              &:focus {
+                outline: none;
+                box-shadow: 0px 0px 7px 0px ${Theme.colors.mainHighlight};
+                border: 2px solid ${Theme.colors.mainHighlight};
+              }
+
+              option {
+                background: ${Theme.colors.mainlight};
+                color: ${Theme.colors.secondaryAction};
+                padding: 8px;
+                border: none;
+              }
+            }
+
+            input {
+              &.error {
+                border-color: ${Theme.colors.pending};
+                box-shadow: 0 0 0 3px ${Theme.colors.pending}40;
+              }
+            }
+
+            .error-message {
+              color: ${Theme.colors.pending};
+              font-size: 12px;
+              margin-top: 6px;
+              display: block;
+              animation: fadeIn 0.2s ease;
+            }
+
             .checkboxSection {
               display: flex;
               align-items: center;
@@ -141,6 +182,17 @@ export const CouponDetailsContainer = styled.div`
       display: flex;
       justify-content: center;
       gap: 16px;
+    }
+  }
+
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+      transform: translateY(-4px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
     }
   }
 

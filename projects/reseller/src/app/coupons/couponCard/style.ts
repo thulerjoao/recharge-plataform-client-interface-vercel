@@ -39,7 +39,7 @@ export const CouponCardContainer = styled.div`
         color: ${Theme.colors.maindark};
         width: 20px;
         height: 20px;
-        border-radius: 10px;
+        border-radius: 5px;
         font-size: 13px;
         padding-left: 3px;
         font-weight: 600;
