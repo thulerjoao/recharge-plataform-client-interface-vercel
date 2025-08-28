@@ -301,8 +301,10 @@ const InfluencerDetails = ({ influencerId }: InfluencerDetailsProps) => {
           <DefaultHeader backWard title="DETALHES DO INFLUENCER" />
         </HeaderEnviroment>
       </div>
-      <div className="mobile">
-        <DefaultHeader backWard title="DETALHES DO INFLUENCER" />
+      <div className="mobile mobileHeader">
+        <Text align="center" fontName="LARGE_SEMI_BOLD">
+          INFLUENCER
+        </Text>
       </div>
 
       <div className="mainContent">

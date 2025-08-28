@@ -143,11 +143,13 @@ const CreateInfluencer = () => {
     <CreateInfluencerContainer>
       <div className="desktop">
         <HeaderEnviroment>
-          <DefaultHeader backWard title="ADICIONAR PARCEIRO" />
+          <DefaultHeader backWard title="ADICIONAR INFLUENCER" />
         </HeaderEnviroment>
       </div>
-      <div className="mobile">
-        <DefaultHeader backWard title="ADICIONAR PARCEIRO" />
+      <div className="mobile mobileHeader">
+        <Text align="center" fontName="LARGE_SEMI_BOLD">
+          INFLUENCER
+        </Text>
       </div>
 
       <div className="mainContent">
