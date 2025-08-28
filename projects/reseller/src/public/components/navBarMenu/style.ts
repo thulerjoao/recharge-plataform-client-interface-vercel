@@ -22,6 +22,11 @@ export const MobileNavBar = styled.div<Props>`
   span {
     border-radius: 8px;
     padding: 4px;
+
+    svg {
+      width: 24px;
+      height: 24px;
+    }
   }
 
   .selected {

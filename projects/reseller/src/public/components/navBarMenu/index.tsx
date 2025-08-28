@@ -1,17 +1,21 @@
 import { usePathname, useRouter } from "next/navigation";
 import { AsideSelected } from "types/asideSelectedType";
-import ProductsSelected from "../asideBar/icons/ProductsSelected.svg";
-import RechargeSelected from "../asideBar/icons/RechargeSelected.svg";
-import SalesSelected from "../asideBar/icons/SalesSelected.svg";
-import Home from "../asideBar/icons/Home.svg";
-import HomeSelected from "../asideBar/icons/HomeSelected.svg";
-import Products from "../asideBar/icons/Products.svg";
-import Recharge from "../asideBar/icons/Recharge.svg";
-import Sales from "../asideBar/icons/Sales.svg";
-import Wallet from "../asideBar/icons/Wallet.svg";
-import WalletSelected from "../asideBar/icons/WalletSelected.svg";
+// import RechargeSelected from "./icons/RechargeSelected.svg";
+// import SalesSelected from "./icons/SalesSelected.svg";
+// import HomeSelected from "./icons/HomeSelected.svg";
+// import Home from "./icons/Home.svg";
+// import Recharge from "./icons/Recharge.svg";
+// import Sales from "./icons/Sales.svg";
+// import Wallet from "./icons/Wallet.svg";
+// import WalletSelected from "./icons/WalletSelected.svg";
 import { MobileNavBar } from "./style";
 import { scrollToTop } from "utils/scrollToTopFunction";
+import Products from "./icons/Products.svg";
+import ProductsSelected from "./icons/ProductsSelected.svg";
+import Influencer from "./icons/Influencer.svg";
+import InfluencerSelected from "./icons/InfluencerSelected.svg";
+import Discount from "./icons/Discount.svg";
+import DiscountSelected from "./icons/DiscountSelected.svg";
 
 interface Props {
   openMenu: boolean;
@@ -34,7 +38,7 @@ const MobileNavbar = ({ openMenu }: Props) => {
 
   return (
     <MobileNavBar openMenu={openMenu}>
-      <span
+      {/* <span
         onClick={() => handleClick("home")}
         className={handleCheck("home") && "selected"}
       >
@@ -63,6 +67,24 @@ const MobileNavbar = ({ openMenu }: Props) => {
         className={handleCheck("wallet") && "selected"}
       >
         {handleCheck("wallet") ? <WalletSelected /> : <Wallet />}
+      </span> */}
+      <span
+        onClick={() => handleClick("products")}
+        className={handleCheck("products") && "selected"}
+      >
+        {handleCheck("products") ? <ProductsSelected /> : <Products />}
+      </span>
+      <span
+        onClick={() => handleClick("influencer")}
+        className={handleCheck("influencer") && "selected"}
+      >
+        {handleCheck("influencer") ? <InfluencerSelected /> : <Influencer />}
+      </span>
+      <span
+        onClick={() => handleClick("coupons")}
+        className={handleCheck("coupons") && "selected"}
+      >
+        {handleCheck("coupons") ? <DiscountSelected /> : <Discount />}
       </span>
     </MobileNavBar>
   );
