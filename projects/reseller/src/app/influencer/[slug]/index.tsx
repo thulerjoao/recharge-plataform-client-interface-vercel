@@ -6,15 +6,12 @@ import Text from "@4miga/design-system/components/Text";
 import { Theme } from "@4miga/design-system/theme/theme";
 import { useRouter } from "next/navigation";
 import HeaderEnviroment from "public/components/headerEnviroment";
-import HeaderSearch from "public/components/headerSearch";
-import MobileSecondaryMenu from "public/components/mobileSecondaryMenu";
 import Pagination from "public/components/pagination";
 
+import DefaultHeader from "public/components/defaultHeader";
 import { useEffect, useState } from "react";
 import InfluencerCard from "../influencerCard";
 import { InfluencerContainer } from "./style";
-import DefaultHeader from "public/components/defaultHeader";
-import MobileMenu from "public/components/mobileMenu";
 
 interface Influencer {
   id: string;

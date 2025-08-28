@@ -2,8 +2,8 @@
 
 import Text from "@4miga/design-system/components/Text";
 import { Theme } from "@4miga/design-system/theme/theme";
-import { InfluencerCardContainer } from "./style";
 import Icon from "../icons/icon.svg";
+import { InfluencerCardContainer } from "./style";
 
 interface Influencer {
   id: string;
@@ -52,9 +52,7 @@ const InfluencerCard = ({
             fontName="TINY"
             align="center"
             color={
-              influencer.isActive
-                ? Theme.colors.approved
-                : Theme.colors.refused
+              influencer.isActive ? Theme.colors.approved : Theme.colors.refused
             }
           >
             {influencer.isActive ? "ATIVO" : "INATIVO"}
@@ -79,7 +77,7 @@ const InfluencerCard = ({
                   : Theme.colors.refused
               }
             >
-            {influencer.isActive ? "ATIVO" : "INATIVO"}
+              {influencer.isActive ? "ATIVO" : "INATIVO"}
             </Text>
           </div>
         </div>
