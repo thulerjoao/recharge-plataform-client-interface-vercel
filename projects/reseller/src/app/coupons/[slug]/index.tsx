@@ -9,8 +9,8 @@ import DefaultHeader from "public/components/defaultHeader";
 import HeaderEnviroment from "public/components/headerEnviroment";
 import Pagination from "public/components/pagination";
 import { useEffect, useState } from "react";
-import { CouponsContainer } from "./style";
 import CouponCard from "../couponCard";
+import { CouponsContainer } from "./style";
 
 interface Coupon {
   id: string;
