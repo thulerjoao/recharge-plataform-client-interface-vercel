@@ -117,13 +117,25 @@ export const InfluencerContainer = styled.div`
     overflow-y: auto;
   }
 
-  @media (max-width: 539px) {
+  @media (min-width: 769px) and (max-width: 1024px) {
+  }
+
+  @media (max-width: 768px) {
+    padding-top: 64px;
     .desktop {
       display: none;
     }
     .mobile {
       display: flex;
       width: 100%;
+    }
+
+    .mobileHeader {
+      position: fixed;
+      top: 0;
+      z-index: 10;
+      margin-top: 12px;
+      width: auto;
     }
 
     .mainTitle {
@@ -143,15 +155,83 @@ export const InfluencerContainer = styled.div`
         flex-direction: column;
         gap: 16px;
         text-align: center;
+        padding: 20px;
+        margin-bottom: 20px;
       }
 
       .filtersSection {
         flex-direction: column;
         gap: 16px;
+        padding: 16px;
+        margin-bottom: 20px;
+
+        .searchSection {
+          width: 100%;
+        }
 
         .filterControls {
           width: 100%;
           justify-content: center;
+
+          .filterSelect {
+            width: 100%;
+            max-width: none;
+          }
+        }
+      }
+    }
+  }
+
+  @media (max-width: 539px) {
+    .influencersContainer {
+      padding: 0 12px;
+      gap: 10px;
+
+      .headerSection {
+        padding: 16px;
+        margin-bottom: 16px;
+        gap: 12px;
+      }
+
+      .filtersSection {
+        padding: 14px;
+        margin-bottom: 16px;
+        gap: 12px;
+
+        .filterControls {
+          .filterSelect {
+            width: 100%;
+            max-width: none;
+            height: 36px;
+          }
+        }
+      }
+    }
+  }
+
+  @media (max-width: 400px) {
+    .influencersContainer {
+      padding: 0 10px;
+      gap: 8px;
+
+      .headerSection {
+        padding: 14px;
+        margin-bottom: 14px;
+        gap: 10px;
+      }
+
+      .filtersSection {
+        padding: 12px;
+        margin-bottom: 14px;
+        gap: 10px;
+
+        .filterControls {
+          .filterSelect {
+            width: 100%;
+            max-width: none;
+            height: 34px;
+            font-size: 13px;
+          }
         }
       }
     }

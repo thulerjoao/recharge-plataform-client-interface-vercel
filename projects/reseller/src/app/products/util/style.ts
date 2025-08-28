@@ -42,15 +42,25 @@ export const ProductsPageContainer = styled.div`
     }
   }
 
-  @media (min-width: 540px) and (max-width: 1024px) {
+  @media (min-width: 769px) and (max-width: 1024px) {
   }
-  @media (max-width: 539px) {
+
+  @media (max-width: 768px) {
+    padding-top: 64px;
     .desktop {
       display: none;
     }
     .mobile {
       display: flex;
       width: 100%;
+    }
+
+    .mobileHeader {
+      position: fixed;
+      top: 0;
+      z-index: 10;
+      margin-top: 12px;
+      width: auto;
     }
 
     .mainTitle {

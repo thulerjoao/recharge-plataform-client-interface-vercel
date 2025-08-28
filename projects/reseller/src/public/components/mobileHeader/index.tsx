@@ -5,6 +5,7 @@ import { useDisableScroll } from "@4miga/hooks/useDisableScroll";
 import MobileMenu from "../mobileMenu";
 import MobileNavbar from "../navBarMenu";
 import Logo from "./icons/Logo.svg";
+import BackArrow from "./icons/BackArrow.svg";
 import Menu from "./icons/Menu.svg";
 import { MobileHeaderContainer } from "./style";
 
@@ -25,8 +26,8 @@ const MobiletHeader = ({ search }: Props) => {
   return (
     <MobileHeaderContainer openMenu={openMenu}>
       <section className="topCompoennt" onClick={() => handleBarClick()}>
-        <span onClick={() => route.push("/home")}>
-          <Logo />
+        <span onClick={() => route.back()}>
+          <BackArrow />
         </span>
         <span
           onClick={(event) => {

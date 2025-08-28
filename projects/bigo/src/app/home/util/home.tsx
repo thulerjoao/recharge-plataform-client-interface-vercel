@@ -7,7 +7,6 @@ import PackageCard from "public/cards/packageCard/card";
 import BottomOffer from "public/components/bottomOffer/bottomOffer";
 import Carousel from "public/components/carousel/carousel";
 import SecurityAdvertise from "public/components/securityAdvertise/securityAdvertise";
-import { useEffect } from "react";
 import { PackageType } from "types/productTypes";
 import { formatString } from "utils/formatString";
 import Lines from "../../../public/components/lines/lines";
@@ -26,8 +25,6 @@ const Home = () => {
     sessionStorage.setItem("package", JSON.stringify(item));
     route.push(`/package/${formatString(item.id)}`);
   };
-
-  console.log(products[0].packages);
 
   return (
     <HomeContainer>

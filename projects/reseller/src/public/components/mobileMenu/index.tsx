@@ -7,23 +7,20 @@ import React, { useState } from "react";
 import { AsideSelected } from "types/asideSelectedType";
 import Gear from "../asideBar/icons/Gear.svg";
 import GearSelected from "../asideBar/icons/GearSelected.svg";
-import Home from "../asideBar/icons/Home.svg";
-import HomeSelected from "../asideBar/icons/HomeSelected.svg";
 import Logout from "../asideBar/icons/Logout.svg";
 import Products from "../asideBar/icons/Products.svg";
 import ProductsSelected from "../asideBar/icons/ProductsSelected.svg";
-import Recharge from "../asideBar/icons/Recharge.svg";
-import RechargeSelected from "../asideBar/icons/RechargeSelected.svg";
-import Sales from "../asideBar/icons/Sales.svg";
-import SalesSelected from "../asideBar/icons/SalesSelected.svg";
-import Wallet from "../asideBar/icons/Wallet.svg";
-import WalletSelected from "../asideBar/icons/WalletSelected.svg";
 import SearchComponent from "../searchComponent";
 import BigDown from "./icons/BigDown.svg";
 import BigUp from "./icons/BigUp.svg";
 import Search from "./icons/Search.svg";
 import Setting from "./icons/Setting.svg";
 import { MobileMenuContainer } from "./style";
+
+import Discount from "../asideBar/icons/Discount.svg";
+import DiscountSelected from "../asideBar/icons/DiscountSelected.svg";
+import InfluencerSelected from "../asideBar/icons/GearSelected.svg";
+import Influencer from "../asideBar/icons/Influencer.svg";
 
 interface Props {
   search: boolean;
@@ -89,7 +86,7 @@ const MobileMenu = ({ search, openMenu, setOpenMenu }: Props) => {
           )}
         </section>
       )}
-      <div
+      {/* <div
         onClick={(e) => {
           e.stopPropagation();
           handleClick("home");
@@ -106,8 +103,8 @@ const MobileMenu = ({ search, openMenu, setOpenMenu }: Props) => {
         >
           INÍCIO
         </Text>
-      </div>
-      <div
+      </div> */}
+      {/* <div
         onClick={(e) => {
           e.stopPropagation();
           handleClick("sales");
@@ -123,7 +120,7 @@ const MobileMenu = ({ search, openMenu, setOpenMenu }: Props) => {
         >
           VENDAS
         </Text>
-      </div>
+      </div> */}
 
       <div
         onClick={(e) => {
@@ -131,6 +128,7 @@ const MobileMenu = ({ search, openMenu, setOpenMenu }: Props) => {
           handleClick("products");
         }}
         className={`menuOption ${handleCheck("products") && "selected"}`}
+        style={{ margin: "32px 0 16px 0" }}
       >
         <span>
           {handleCheck("products") ? <ProductsSelected /> : <Products />}
@@ -148,6 +146,46 @@ const MobileMenu = ({ search, openMenu, setOpenMenu }: Props) => {
       <div
         onClick={(e) => {
           e.stopPropagation();
+          handleClick("influencer");
+        }}
+        className={`menuOption ${handleCheck("influencer") && "selected"}`}
+      >
+        <span>
+          {handleCheck("influencer") ? <InfluencerSelected /> : <Influencer />}
+        </span>
+
+        <Text
+          color={handleCheck("influencer") && Theme.colors.maindark}
+          margin="0 0 0 16px"
+          fontName="REGULAR_SEMI_BOLD"
+        >
+          INFLUENCER
+        </Text>
+      </div>
+
+      <div
+        onClick={(e) => {
+          e.stopPropagation();
+          handleClick("coupons");
+        }}
+        className={`menuOption ${handleCheck("coupons") && "selected"}`}
+      >
+        <span>
+          {handleCheck("coupons") ? <DiscountSelected /> : <Discount />}
+        </span>
+
+        <Text
+          color={handleCheck("coupons") && Theme.colors.maindark}
+          margin="0 0 0 16px"
+          fontName="REGULAR_SEMI_BOLD"
+        >
+          CUPONS
+        </Text>
+      </div>
+
+      {/* <div
+        onClick={(e) => {
+          e.stopPropagation();
           handleClick("recharge");
         }}
         className={`menuOption ${handleCheck("recharge") && "selected"}`}
@@ -163,9 +201,9 @@ const MobileMenu = ({ search, openMenu, setOpenMenu }: Props) => {
         >
           RECARREGAR
         </Text>
-      </div>
+      </div> */}
 
-      <div
+      {/* <div
         onClick={(e) => {
           e.stopPropagation();
           handleClick("wallet");
@@ -181,7 +219,7 @@ const MobileMenu = ({ search, openMenu, setOpenMenu }: Props) => {
         >
           CARTEIRA
         </Text>
-      </div>
+      </div> */}
       <div
         onClick={(e) => {
           e.stopPropagation();

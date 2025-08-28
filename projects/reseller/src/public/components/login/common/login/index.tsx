@@ -59,7 +59,7 @@ const LoginComponent = ({ setStep }: Props) => {
       const response = await login(res, rememberMe);
 
       if (response) {
-        route.replace("/home");
+        route.replace("/products");
       } else {
         setErrorMessage("Erro ao realizar login");
       }

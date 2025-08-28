@@ -9,6 +9,11 @@ import { useRouter } from "next/navigation";
 import DefaultHeader from "public/components/defaultHeader";
 import HeaderEnviroment from "public/components/headerEnviroment";
 import { useEffect, useState } from "react";
+import InputMask from "react-input-mask";
+import {
+  validateCNPJ,
+  validateCPF,
+} from "../../../../utils/documentValidation";
 import Icon from "../../icons/icon.svg";
 import { InfluencerDetailsContainer } from "./style";
 
@@ -23,6 +28,14 @@ interface Influencer {
   storeId: string;
   createdAt: Date;
   updatedAt: Date;
+}
+
+interface FormErrors {
+  name?: string;
+  email?: string;
+  phone?: string;
+  paymentMethod?: string;
+  paymentData?: string;
 }
 
 interface InfluencerDetailsProps {
@@ -75,6 +88,7 @@ const InfluencerDetails = ({ influencerId }: InfluencerDetailsProps) => {
   const [loading, setLoading] = useState(true);
   const [isEditing, setIsEditing] = useState(false);
   const [editData, setEditData] = useState<Partial<Influencer>>({});
+  const [errors, setErrors] = useState<FormErrors>({});
 
   useEffect(() => {
     const foundInfluencer = mockInfluencers.find(
@@ -124,13 +138,16 @@ const InfluencerDetails = ({ influencerId }: InfluencerDetailsProps) => {
   };
 
   const handleSave = () => {
-    if (influencer) {
-      setInfluencer({
-        ...influencer,
-        ...editData,
-        updatedAt: new Date(),
-      });
-      setIsEditing(false);
+    if (validateForm()) {
+      if (influencer) {
+        setInfluencer({
+          ...influencer,
+          ...editData,
+          updatedAt: new Date(),
+        });
+        setIsEditing(false);
+        setErrors({}); // Clear errors after successful save
+      }
     }
   };
 
@@ -144,6 +161,7 @@ const InfluencerDetails = ({ influencerId }: InfluencerDetailsProps) => {
         paymentData: influencer.paymentData,
       });
       setIsEditing(false);
+      setErrors({}); // Clear errors when canceling
     }
   };
 
@@ -161,6 +179,87 @@ const InfluencerDetails = ({ influencerId }: InfluencerDetailsProps) => {
 
   const handleInputChange = (field: keyof Influencer, value: string) => {
     setEditData((prev) => ({ ...prev, [field]: value }));
+
+    // Clear specific error when user types
+    if (errors[field]) {
+      setErrors((prev) => ({ ...prev, [field]: undefined }));
+    }
+
+    // Clear payment data when payment method changes
+    if (field === "paymentMethod") {
+      setEditData((prev) => ({ ...prev, paymentData: "" }));
+      // Also clear payment data error if it exists
+      if (errors.paymentData) {
+        setErrors((prev) => ({ ...prev, paymentData: undefined }));
+      }
+    }
+  };
+
+  const validateForm = (): boolean => {
+    const newErrors: FormErrors = {};
+
+    // Name validation
+    if (!editData.name?.trim()) {
+      newErrors.name = "Nome é obrigatório";
+    }
+
+    // Email validation (if provided)
+    if (editData.email?.trim() && !/\S+@\S+\.\S+/.test(editData.email)) {
+      newErrors.email = "Email inválido";
+    }
+
+    // Phone validation (if provided)
+    if (editData.phone?.trim()) {
+      const phoneDigits = editData.phone.replace(/\D/g, "");
+      if (phoneDigits.length !== 11) {
+        newErrors.phone = "Telefone deve ter 11 dígitos";
+      }
+    }
+
+    // Payment method validation
+    if (!editData.paymentMethod) {
+      newErrors.paymentMethod = "Tipo de chave PIX é obrigatório";
+    }
+
+    // Payment data validation
+    if (!editData.paymentData?.trim()) {
+      newErrors.paymentData = "Chave PIX é obrigatória";
+    } else {
+      // Specific validation by payment method type
+      const paymentData = editData.paymentData.replace(/\D/g, "");
+
+      if (editData.paymentMethod === "CPF") {
+        if (paymentData.length !== 11) {
+          newErrors.paymentData = "CPF deve ter 11 dígitos";
+        } else if (!validateCPF(editData.paymentData)) {
+          newErrors.paymentData = "CPF inválido";
+        }
+      } else if (editData.paymentMethod === "CNPJ") {
+        if (paymentData.length !== 14) {
+          newErrors.paymentData = "CNPJ deve ter 14 dígitos";
+        } else if (!validateCNPJ(editData.paymentData)) {
+          newErrors.paymentData = "CNPJ inválido";
+        }
+      } else if (
+        editData.paymentMethod === "EMAIL" &&
+        !/\S+@\S+\.\S+/.test(editData.paymentData)
+      ) {
+        newErrors.paymentData = "Email inválido";
+      } else if (
+        editData.paymentMethod === "PHONE" &&
+        paymentData.length !== 11
+      ) {
+        newErrors.paymentData = "Telefone deve ter 11 dígitos";
+      } else if (
+        editData.paymentMethod === "RANDOM" &&
+        editData.paymentData.length !== 32
+      ) {
+        newErrors.paymentData = "Chave aleatória deve ter 32 caracteres";
+      }
+    }
+
+    setErrors(newErrors);
+    return Object.keys(newErrors).length === 0;
   };
 
   if (loading) {
@@ -202,8 +301,10 @@ const InfluencerDetails = ({ influencerId }: InfluencerDetailsProps) => {
           <DefaultHeader backWard title="DETALHES DO INFLUENCER" />
         </HeaderEnviroment>
       </div>
-      <div className="mobile">
-        <DefaultHeader backWard title="DETALHES DO INFLUENCER" />
+      <div className="mobile mobileHeader">
+        <Text align="center" fontName="LARGE_SEMI_BOLD">
+          INFLUENCER
+        </Text>
       </div>
 
       <div className="mainContent">
@@ -260,11 +361,15 @@ const InfluencerDetails = ({ influencerId }: InfluencerDetailsProps) => {
                     onChange={(e) => handleInputChange("name", e.target.value)}
                     placeholder="Nome do parceiro"
                     height={32}
+                    className={errors.name ? "error" : ""}
                   />
                 ) : (
                   <Text fontName="SMALL_MEDIUM" color={Theme.colors.mainlight}>
                     {influencer.name}
                   </Text>
+                )}
+                {isEditing && errors.name && (
+                  <span className="error-message">{errors.name}</span>
                 )}
               </div>
               <div className="infoItem">
@@ -280,11 +385,15 @@ const InfluencerDetails = ({ influencerId }: InfluencerDetailsProps) => {
                     onChange={(e) => handleInputChange("email", e.target.value)}
                     placeholder="E-mail"
                     height={32}
+                    className={errors.email ? "error" : ""}
                   />
                 ) : (
                   <Text fontName="SMALL_MEDIUM" color={Theme.colors.mainlight}>
                     {influencer.email || "Não informado"}
                   </Text>
+                )}
+                {isEditing && errors.email && (
+                  <span className="error-message">{errors.email}</span>
                 )}
               </div>
               <div className="infoItem">
@@ -295,18 +404,30 @@ const InfluencerDetails = ({ influencerId }: InfluencerDetailsProps) => {
                   Telefone:
                 </Text>
                 {isEditing ? (
-                  <Input
+                  <InputMask
+                    mask="(99) 99999-9999"
+                    maskChar=""
                     value={editData.phone || ""}
                     onChange={(e) => handleInputChange("phone", e.target.value)}
-                    placeholder="Telefone"
-                    height={32}
-                  />
+                  >
+                    {(inputProps: any) => (
+                      <Input
+                        {...inputProps}
+                        placeholder="(11) 99999-9999"
+                        height={32}
+                        className={errors.phone ? "error" : ""}
+                      />
+                    )}
+                  </InputMask>
                 ) : (
                   <Text fontName="SMALL_MEDIUM" color={Theme.colors.mainlight}>
                     {influencer.phone
                       ? formatPhone(influencer.phone)
                       : "Não informado"}
                   </Text>
+                )}
+                {isEditing && errors.phone && (
+                  <span className="error-message">{errors.phone}</span>
                 )}
               </div>
             </div>
@@ -330,7 +451,7 @@ const InfluencerDetails = ({ influencerId }: InfluencerDetailsProps) => {
                     onChange={(e) =>
                       handleInputChange("paymentMethod", e.target.value)
                     }
-                    className="pixTypeSelect"
+                    className={`pixTypeSelect ${errors.paymentMethod ? "error" : ""}`}
                   >
                     <option value="CPF">CPF</option>
                     <option value="CNPJ">CNPJ</option>
@@ -343,6 +464,9 @@ const InfluencerDetails = ({ influencerId }: InfluencerDetailsProps) => {
                     {influencer.paymentMethod || "Não informado"}
                   </Text>
                 )}
+                {isEditing && errors.paymentMethod && (
+                  <span className="error-message">{errors.paymentMethod}</span>
+                )}
               </div>
               <div className="infoItem">
                 <Text
@@ -352,18 +476,84 @@ const InfluencerDetails = ({ influencerId }: InfluencerDetailsProps) => {
                   Chave PIX:
                 </Text>
                 {isEditing ? (
-                  <Input
-                    value={editData.paymentData || ""}
-                    onChange={(e) =>
-                      handleInputChange("paymentData", e.target.value)
-                    }
-                    placeholder="Chave PIX"
-                    height={32}
-                  />
+                  editData.paymentMethod === "CPF" ? (
+                    <InputMask
+                      mask="999.999.999-99"
+                      maskChar=""
+                      value={editData.paymentData || ""}
+                      onChange={(e) =>
+                        handleInputChange("paymentData", e.target.value)
+                      }
+                    >
+                      {(inputProps: any) => (
+                        <Input
+                          {...inputProps}
+                          placeholder="000.000.000-00"
+                          height={32}
+                          className={errors.paymentData ? "error" : ""}
+                        />
+                      )}
+                    </InputMask>
+                  ) : editData.paymentMethod === "CNPJ" ? (
+                    <InputMask
+                      mask="99.999.999/9999-99"
+                      maskChar=""
+                      value={editData.paymentData || ""}
+                      onChange={(e) =>
+                        handleInputChange("paymentData", e.target.value)
+                      }
+                    >
+                      {(inputProps: any) => (
+                        <Input
+                          {...inputProps}
+                          placeholder="00.000.000/0000-00"
+                          height={32}
+                          className={errors.paymentData ? "error" : ""}
+                        />
+                      )}
+                    </InputMask>
+                  ) : editData.paymentMethod === "PHONE" ? (
+                    <InputMask
+                      mask="(99) 99999-9999"
+                      maskChar=""
+                      value={editData.paymentData || ""}
+                      onChange={(e) =>
+                        handleInputChange("paymentData", e.target.value)
+                      }
+                    >
+                      {(inputProps: any) => (
+                        <Input
+                          {...inputProps}
+                          placeholder="(11) 99999-9999"
+                          height={32}
+                          className={errors.paymentData ? "error" : ""}
+                        />
+                      )}
+                    </InputMask>
+                  ) : (
+                    <Input
+                      value={editData.paymentData || ""}
+                      onChange={(e) =>
+                        handleInputChange("paymentData", e.target.value)
+                      }
+                      placeholder={
+                        editData.paymentMethod === "EMAIL"
+                          ? "email@exemplo.com"
+                          : editData.paymentMethod === "RANDOM"
+                            ? "Chave aleatória de 32 caracteres"
+                            : "Chave PIX"
+                      }
+                      height={32}
+                      className={errors.paymentData ? "error" : ""}
+                    />
+                  )
                 ) : (
                   <Text fontName="SMALL_MEDIUM" color={Theme.colors.mainlight}>
                     {influencer.paymentData || "Não informado"}
                   </Text>
+                )}
+                {isEditing && errors.paymentData && (
+                  <span className="error-message">{errors.paymentData}</span>
                 )}
               </div>
             </div>

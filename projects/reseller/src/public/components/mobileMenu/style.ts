@@ -68,6 +68,11 @@ export const MobileMenuContainer = styled.div<Props>`
     padding: 0 16px;
     margin-bottom: 16px;
     cursor: pointer;
+
+    svg {
+      width: 24px;
+      height: 24px;
+    }
   }
   .bottomOptions {
     position: absolute;

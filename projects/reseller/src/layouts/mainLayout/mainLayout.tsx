@@ -19,7 +19,7 @@ const MainLayout: React.FC<LayoutProps> = ({ children }) => {
   };
 
   return (
-    <StyleSheetManager shouldForwardProp={(prop) => prop !== "device"}>
+    <StyleSheetManager>
       <LayoutStyle>
         <section className="mainContent">
           <div className="desktopNavBar">

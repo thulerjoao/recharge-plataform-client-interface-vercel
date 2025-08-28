@@ -231,8 +231,10 @@ const InfluencerPage = ({ currentPage }: InfluencerProps) => {
           <DefaultHeader title="INFLUENCERS" />
         </HeaderEnviroment>
       </div>
-      <div className="mobile">
-        <DefaultHeader title="INFLUENCERS" />
+      <div className="mobile mobileHeader">
+        <Text align="center" fontName="LARGE_SEMI_BOLD">
+          INFLUENCERS
+        </Text>
       </div>
 
       <main className="influencersContainer">

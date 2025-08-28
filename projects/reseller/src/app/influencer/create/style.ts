@@ -117,12 +117,32 @@ export const CreateInfluencerContainer = styled.div`
                 border: 2px solid ${Theme.colors.mainHighlight};
               }
 
+              &.error {
+                border-color: ${Theme.colors.pending};
+                box-shadow: 0 0 0 3px ${Theme.colors.pending}40;
+              }
+
               option {
                 background: ${Theme.colors.mainlight};
                 color: ${Theme.colors.secondaryAction};
                 padding: 8px;
                 border: none;
               }
+            }
+
+            input {
+              &.error {
+                border-color: ${Theme.colors.pending};
+                box-shadow: 0 0 0 3px ${Theme.colors.pending}40;
+              }
+            }
+
+            .error-message {
+              color: ${Theme.colors.pending};
+              font-size: 12px;
+              margin-top: 6px;
+              display: block;
+              animation: fadeIn 0.2s ease;
             }
           }
         }
@@ -136,13 +156,33 @@ export const CreateInfluencerContainer = styled.div`
     }
   }
 
-  @media (max-width: 539px) {
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+      transform: translateY(-4px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  @media (max-width: 768px) {
+    padding-top: 64px;
     .desktop {
       display: none;
     }
     .mobile {
       display: flex;
       width: 100%;
+    }
+
+    .mobileHeader {
+      position: fixed;
+      top: 0;
+      z-index: 10;
+      margin-top: 12px;
+      width: auto;
     }
 
     .mainContent {

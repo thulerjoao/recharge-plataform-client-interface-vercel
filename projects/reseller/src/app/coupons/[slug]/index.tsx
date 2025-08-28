@@ -305,8 +305,10 @@ const CouponsPage = ({ currentPage }: CouponsProps) => {
           <DefaultHeader title="CUPONS" />
         </HeaderEnviroment>
       </div>
-      <div className="mobile">
-        <DefaultHeader title="CUPONS" />
+      <div className="mobile mobileHeader">
+        <Text align="center" fontName="LARGE_SEMI_BOLD">
+          CUPONS
+        </Text>
       </div>
 
       <div className="mainContent">

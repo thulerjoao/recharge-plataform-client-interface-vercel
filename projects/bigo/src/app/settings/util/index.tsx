@@ -823,8 +823,6 @@ const Settings = () => {
               )}
             </div>
 
-            {/* Campo de confirmar senha removido conforme novo requisito */}
-
             <div className="form-actions">
               {!isEditing.security ? (
                 <Button

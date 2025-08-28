@@ -9,10 +9,10 @@ import DefaultHeader from "public/components/defaultHeader";
 import HeaderEnviroment from "public/components/headerEnviroment";
 import Pagination from "public/components/pagination";
 import { useEffect, useState } from "react";
+import { formatPrice } from "utils/formatPrice";
 import Icon from "../../../influencer/icons/icon.svg";
 import CouponCard from "../../couponCard";
 import { InfluencerCouponsContainer } from "./style";
-import { formatPrice } from "utils/formatPrice";
 
 interface Coupon {
   id: string;
@@ -227,8 +227,10 @@ const InfluencerCoupons = ({ influencerId }: InfluencerCouponsProps) => {
           <DefaultHeader backWard title="CUPONS DO INFLUENCER" />
         </HeaderEnviroment>
       </div>
-      <div className="mobile">
-        <DefaultHeader backWard title="CUPONS DO INFLUENCER" />
+      <div className="mobile mobileHeader">
+        <Text align="center" fontName="LARGE_SEMI_BOLD">
+          CUPONS
+        </Text>
       </div>
 
       <div className="mainContent">
@@ -289,6 +291,7 @@ const InfluencerCoupons = ({ influencerId }: InfluencerCouponsProps) => {
             </div>
             <div className="statItem">
               <Text
+                nowrap
                 fontName="LARGE_SEMI_BOLD"
                 color={Theme.colors.mainHighlight}
               >

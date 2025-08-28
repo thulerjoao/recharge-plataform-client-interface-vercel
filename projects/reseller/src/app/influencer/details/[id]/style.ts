@@ -122,12 +122,32 @@ export const InfluencerDetailsContainer = styled.div`
                 border: 2px solid ${Theme.colors.mainHighlight};
               }
 
+              &.error {
+                border-color: ${Theme.colors.pending};
+                box-shadow: 0 0 0 3px ${Theme.colors.pending}40;
+              }
+
               option {
                 background: ${Theme.colors.mainlight};
                 color: ${Theme.colors.secondaryAction};
                 padding: 8px;
                 border: none;
               }
+            }
+
+            input {
+              &.error {
+                border-color: ${Theme.colors.pending};
+                box-shadow: 0 0 0 3px ${Theme.colors.pending}40;
+              }
+            }
+
+            .error-message {
+              color: ${Theme.colors.pending};
+              font-size: 12px;
+              margin-top: 6px;
+              display: block;
+              animation: fadeIn 0.2s ease;
             }
           }
         }
@@ -141,13 +161,22 @@ export const InfluencerDetailsContainer = styled.div`
     }
   }
 
-  @media (max-width: 539px) {
+  @media (max-width: 768px) {
+    padding-top: 64px;
     .desktop {
       display: none;
     }
     .mobile {
       display: flex;
       width: 100%;
+    }
+
+    .mobileHeader {
+      position: fixed;
+      top: 0;
+      z-index: 10;
+      margin-top: 12px;
+      width: auto;
     }
 
     .mainContent {
@@ -158,14 +187,27 @@ export const InfluencerDetailsContainer = styled.div`
         flex-direction: column;
         text-align: center;
         gap: 16px;
+        padding: 20px;
+        margin-bottom: 20px;
 
         .headerInfo {
           align-items: center;
+        }
+
+        .onOff {
+          align-items: center;
+          flex-direction: row;
+          gap: 8px;
+          justify-content: space-between;
+          width: 100%;
         }
       }
 
       .infoSections {
         .infoSection {
+          padding: 20px;
+          margin-bottom: 20px;
+
           .infoGrid {
             grid-template-columns: 1fr;
             gap: 12px;
@@ -174,9 +216,71 @@ export const InfluencerDetailsContainer = styled.div`
       }
 
       .actionsSection {
-        flex-direction: column;
+        flex-direction: row;
+        gap: 12px;
+        justify-content: center;
+      }
+    }
+  }
+
+  @media (max-width: 539px) {
+    .desktop {
+      display: none;
+    }
+    .mobile {
+      display: flex;
+      width: 100%;
+    }
+
+    .mainContent {
+      padding: 12px;
+      gap: 20px;
+
+      .headerSection {
+        padding: 16px;
+        margin-bottom: 16px;
         gap: 12px;
       }
+
+      .infoSections {
+        .infoSection {
+          padding: 16px;
+          margin-bottom: 16px;
+          gap: 12px;
+        }
+      }
+    }
+  }
+
+  @media (max-width: 400px) {
+    .mainContent {
+      padding: 10px;
+      gap: 16px;
+
+      .headerSection {
+        padding: 14px;
+        margin-bottom: 14px;
+        gap: 10px;
+      }
+
+      .infoSections {
+        .infoSection {
+          padding: 14px;
+          margin-bottom: 14px;
+          gap: 10px;
+        }
+      }
+    }
+  }
+
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+      transform: translateY(-4px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
     }
   }
 `;

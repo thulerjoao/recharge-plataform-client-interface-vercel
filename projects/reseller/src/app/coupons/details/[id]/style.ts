@@ -44,7 +44,7 @@ export const CouponDetailsContainer = styled.div`
 
           .firstPurchaseBadge {
             background: ${Theme.colors.mainHighlight};
-            color: ${Theme.colors.mainlight};
+            color: ${Theme.colors.maindark};
             padding: 4px 8px;
             border-radius: 6px;
             font-size: 12px;
@@ -55,7 +55,7 @@ export const CouponDetailsContainer = styled.div`
         .couponDiscount {
           .firstPurchaseBadge {
             background: ${Theme.colors.mainHighlight};
-            color: ${Theme.colors.mainlight};
+            color: ${Theme.colors.maindark};
             padding: 4px 8px;
             border-radius: 6px;
             font-size: 12px;
@@ -89,9 +89,12 @@ export const CouponDetailsContainer = styled.div`
 
         .onOff {
           display: flex;
-          flex-direction: column;
-          align-items: flex-end;
+          flex-direction: row;
+          justify-content: space-between;
+          align-items: center;
           gap: 8px;
+          width: 100%;
+          margin-top: 8px;
         }
       }
     }
@@ -120,6 +123,47 @@ export const CouponDetailsContainer = styled.div`
             flex-direction: column;
             gap: 8px;
 
+            .discountTypeSelect {
+              box-sizing: border-box;
+              padding: 0px 16px;
+              width: 100%;
+              font-size: 16px;
+              height: 28px;
+              border-radius: 8px;
+              border: 2px solid ${Theme.colors.secondaryAction};
+              color: ${Theme.colors.secondaryAction};
+              background: ${Theme.colors.mainlight};
+              cursor: pointer;
+
+              &:focus {
+                outline: none;
+                box-shadow: 0px 0px 7px 0px ${Theme.colors.mainHighlight};
+                border: 2px solid ${Theme.colors.mainHighlight};
+              }
+
+              option {
+                background: ${Theme.colors.mainlight};
+                color: ${Theme.colors.secondaryAction};
+                padding: 8px;
+                border: none;
+              }
+            }
+
+            input {
+              &.error {
+                border-color: ${Theme.colors.pending};
+                box-shadow: 0 0 0 3px ${Theme.colors.pending}40;
+              }
+            }
+
+            .error-message {
+              color: ${Theme.colors.pending};
+              font-size: 12px;
+              margin-top: 6px;
+              display: block;
+              animation: fadeIn 0.2s ease;
+            }
+
             .checkboxSection {
               display: flex;
               align-items: center;
@@ -144,7 +188,19 @@ export const CouponDetailsContainer = styled.div`
     }
   }
 
-  @media (max-width: 539px) {
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+      transform: translateY(-4px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  @media (max-width: 768px) {
+    padding-top: 64px;
     .desktop {
       display: none;
     }
@@ -153,21 +209,45 @@ export const CouponDetailsContainer = styled.div`
       width: 100%;
     }
 
+    .mobileHeader {
+      position: fixed;
+      top: 0;
+      z-index: 10;
+      margin-top: 12px;
+      width: auto;
+    }
+
     .mainContent {
       padding: 16px;
       gap: 24px;
 
       .headerSection {
-        flex-direction: column;
-        text-align: center;
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: flex-start;
         gap: 16px;
+        text-align: left;
 
         .couponInfo {
-          align-items: center;
+          flex: 1;
+          min-width: 0;
+          align-items: flex-start;
         }
 
         .statusSection {
-          align-items: center;
+          flex-shrink: 0;
+          align-items: flex-start;
+          min-width: 80px;
+
+          .statusBadge {
+            padding: 2px 8px;
+            font-size: 10px;
+            align-self: flex-end;
+          }
+
+          .onOff {
+            margin-top: 28px;
+          }
         }
       }
 
@@ -181,8 +261,55 @@ export const CouponDetailsContainer = styled.div`
       }
 
       .actionsSection {
-        flex-direction: column;
+        flex-direction: row;
+        justify-content: center;
+        gap: 16px;
+        flex-wrap: nowrap;
+
+        button {
+          flex: 1;
+          max-width: 160px;
+        }
+      }
+    }
+  }
+
+  @media (max-width: 480px) {
+    .mainContent {
+      padding: 12px;
+      gap: 20px;
+
+      .headerSection {
+        padding: 20px;
         gap: 12px;
+
+        .couponInfo {
+          gap: 8px;
+        }
+
+        .statusSection {
+          min-width: 70px;
+        }
+      }
+
+      .infoSections {
+        gap: 20px;
+
+        .infoSection {
+          padding: 20px;
+
+          .infoGrid {
+            gap: 16px;
+          }
+        }
+      }
+
+      .actionsSection {
+        gap: 12px;
+
+        button {
+          max-width: 140px;
+        }
       }
     }
   }

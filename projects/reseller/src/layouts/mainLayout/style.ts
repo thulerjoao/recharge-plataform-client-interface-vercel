@@ -35,7 +35,7 @@ export const LayoutStyle = styled.div<LayoutProps>`
       }
     }
   }
-  @media (max-width: 767px) {
+  @media (max-width: 768px) {
     .mainContent {
       max-width: 100%;
       padding: 0px 16px;
