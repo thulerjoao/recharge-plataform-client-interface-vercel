@@ -1,16 +1,11 @@
 "use client";
 
-import LoadingPage from "app/loading";
 import { useAuth } from "context/auth";
 import Login from "public/components/login";
 import "./globals.css";
 
 const Page = () => {
-  const { logged, checkingToken } = useAuth();
-
-  if (checkingToken) {
-    return <LoadingPage />;
-  }
+  const { logged } = useAuth();
 
   if (!logged) {
     return (
