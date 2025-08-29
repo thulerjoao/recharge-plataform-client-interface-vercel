@@ -12,7 +12,7 @@ export async function POST(req: Request) {
       );
     }
 
-    if (!rememberMe) {
+    if (rememberMe === undefined || rememberMe === null) {
       return NextResponse.json(
         { error: "Missing rememberMe" },
         { status: 400 },
@@ -27,20 +27,6 @@ export async function POST(req: Request) {
       sameSite: "strict",
       path: "/",
       ...(rememberMe && { maxAge: 60 * 60 * 24 * 365 * 10 }),
-    });
-
-    cookieStore.set("inSession", "true", {
-      httpOnly: true,
-      secure: process.env.NODE_ENV === "production",
-      sameSite: "strict",
-      path: "/",
-    });
-
-    cookieStore.set("rememberMe", rememberMe, {
-      httpOnly: true,
-      secure: process.env.NODE_ENV === "production",
-      sameSite: "strict",
-      path: "/",
     });
 
     return NextResponse.json({ success: true });

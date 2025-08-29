@@ -41,10 +41,6 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
   const [expiresIn, setExpiresIn] = useState<number>(null);
   const [store, setStore] = useState<StoreType>(null);
 
-  console.log(store);
-
-  console.log(user);
-
   useEffect(() => {
     const checkAuth = async () => {
       const accessToken = localStorage.getItem("accessToken");
@@ -62,13 +58,14 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
             return;
           }
           await connectionAPIPost<LoginResponse>(
-            `/reseller/refresh-token`,
+            `/auth/refresh`,
             { refreshToken },
             apiUrl,
           )
             .then(async (res) => {
               const rememberMe = true;
               await login(res, rememberMe);
+              route.replace("/products");
               setCheckingToken(false);
             })
             .catch(async () => {
