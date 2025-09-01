@@ -83,8 +83,16 @@ export const InfluencerContainer = styled.div`
       }
     }
 
-    .influencerCardWrapper {
+    .cardsSection {
       width: 100%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 8px;
+
+      .influencerCardWrapper {
+        width: 100%;
+      }
     }
 
     .emptyState {
