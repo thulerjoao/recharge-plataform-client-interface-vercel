@@ -30,6 +30,16 @@ interface Influencer {
   updatedAt: Date;
 }
 
+interface InfluencerMonthlySales {
+  id: string;
+  influencerId: string;
+  month: number;
+  year: number;
+  totalSales: number;
+  createdAt: Date;
+  updatedAt: Date;
+}
+
 interface FormErrors {
   name?: string;
   email?: string;
@@ -82,9 +92,52 @@ const mockInfluencers: Influencer[] = [
   },
 ];
 
+// Mock data para vendas mensais - será substituído por dados reais da API
+const mockMonthlySales: InfluencerMonthlySales[] = [
+  {
+    id: "1",
+    influencerId: "1",
+    month: 12,
+    year: 2024,
+    totalSales: 1250.5,
+    createdAt: new Date("2024-12-01"),
+    updatedAt: new Date("2024-12-01"),
+  },
+  {
+    id: "2",
+    influencerId: "1",
+    month: 11,
+    year: 2024,
+    totalSales: 980.75,
+    createdAt: new Date("2024-11-01"),
+    updatedAt: new Date("2024-11-01"),
+  },
+  {
+    id: "3",
+    influencerId: "1",
+    month: 10,
+    year: 2024,
+    totalSales: 1450.25,
+    createdAt: new Date("2024-10-01"),
+    updatedAt: new Date("2024-10-01"),
+  },
+  {
+    id: "4",
+    influencerId: "1",
+    month: 9,
+    year: 2024,
+    totalSales: 890.0,
+    createdAt: new Date("2024-09-01"),
+    updatedAt: new Date("2024-09-01"),
+  },
+];
+
 const InfluencerDetails = ({ influencerId }: InfluencerDetailsProps) => {
   const router = useRouter();
   const [influencer, setInfluencer] = useState<Influencer | null>(null);
+  const [monthlySales, setMonthlySales] = useState<InfluencerMonthlySales[]>(
+    [],
+  );
   const [loading, setLoading] = useState(true);
   const [isEditing, setIsEditing] = useState(false);
   const [editData, setEditData] = useState<Partial<Influencer>>({});
@@ -95,6 +148,13 @@ const InfluencerDetails = ({ influencerId }: InfluencerDetailsProps) => {
       (inf) => inf.id === influencerId,
     );
     setInfluencer(foundInfluencer || null);
+
+    // Buscar vendas mensais do influencer
+    const influencerSales = mockMonthlySales.filter(
+      (sale) => sale.influencerId === influencerId,
+    );
+    setMonthlySales(influencerSales);
+
     setLoading(false);
   }, [influencerId]);
 
@@ -127,6 +187,58 @@ const InfluencerDetails = ({ influencerId }: InfluencerDetailsProps) => {
       return `(${match[1]}) ${match[2]}-${match[3]}`;
     }
     return phone;
+  };
+
+  const formatCurrency = (value: number) => {
+    return new Intl.NumberFormat("pt-BR", {
+      style: "currency",
+      currency: "BRL",
+    }).format(value);
+  };
+
+  const getMonthName = (month: number) => {
+    const months = [
+      "Janeiro",
+      "Fevereiro",
+      "Março",
+      "Abril",
+      "Maio",
+      "Junho",
+      "Julho",
+      "Agosto",
+      "Setembro",
+      "Outubro",
+      "Novembro",
+      "Dezembro",
+    ];
+    return months[month - 1];
+  };
+
+  const getCurrentMonthSales = () => {
+    const currentDate = new Date();
+    const currentMonth = currentDate.getMonth() + 1; // getMonth() retorna 0-11
+    const currentYear = currentDate.getFullYear();
+
+    return monthlySales.find(
+      (sale) => sale.month === currentMonth && sale.year === currentYear,
+    );
+  };
+
+  const getPreviousMonthsSales = () => {
+    const currentDate = new Date();
+    const currentMonth = currentDate.getMonth() + 1;
+    const currentYear = currentDate.getFullYear();
+
+    return monthlySales
+      .filter((sale) => {
+        if (sale.year < currentYear) return true;
+        if (sale.year === currentYear && sale.month < currentMonth) return true;
+        return false;
+      })
+      .sort((a, b) => {
+        if (a.year !== b.year) return b.year - a.year;
+        return b.month - a.month;
+      });
   };
 
   const handleBack = () => {
@@ -607,6 +719,84 @@ const InfluencerDetails = ({ influencerId }: InfluencerDetailsProps) => {
                 <Text fontName="SMALL_MEDIUM" color={Theme.colors.mainlight}>
                   {formatDate(influencer.updatedAt)}
                 </Text>
+              </div>
+            </div>
+          </div>
+
+          <div className="infoSection">
+            <Text fontName="REGULAR_MEDIUM" color={Theme.colors.mainHighlight}>
+              VENDAS MENSAIS
+            </Text>
+            <div className="salesContent">
+              {/* Vendas do mês atual */}
+              <div className="currentMonthSales">
+                <Text fontName="REGULAR_MEDIUM" color={Theme.colors.mainlight}>
+                  Mês Atual
+                </Text>
+                {getCurrentMonthSales() ? (
+                  <div className="salesAmount">
+                    <Text
+                      fontName="LARGE_SEMI_BOLD"
+                      color={Theme.colors.approved}
+                    >
+                      {formatCurrency(getCurrentMonthSales()!.totalSales)}
+                    </Text>
+                    <Text
+                      fontName="SMALL_MEDIUM"
+                      color={Theme.colors.secondaryText}
+                    >
+                      {getMonthName(getCurrentMonthSales()!.month)}{" "}
+                      {getCurrentMonthSales()!.year}
+                    </Text>
+                  </div>
+                ) : (
+                  <div className="noSales">
+                    <Text
+                      fontName="REGULAR_MEDIUM"
+                      color={Theme.colors.secondaryText}
+                    >
+                      Nenhuma venda registrada este mês
+                    </Text>
+                  </div>
+                )}
+              </div>
+
+              {/* Vendas dos meses anteriores */}
+              <div className="previousMonthsSales">
+                <Text fontName="REGULAR_MEDIUM" color={Theme.colors.mainlight}>
+                  Meses Anteriores
+                </Text>
+                {getPreviousMonthsSales().length > 0 ? (
+                  <div className="salesList">
+                    {getPreviousMonthsSales().map((sale) => (
+                      <div key={sale.id} className="salesItem">
+                        <div className="salesInfo">
+                          <Text
+                            fontName="SMALL_MEDIUM"
+                            color={Theme.colors.mainlight}
+                          >
+                            {getMonthName(sale.month)} {sale.year}
+                          </Text>
+                          <Text
+                            fontName="REGULAR_MEDIUM"
+                            color={Theme.colors.approved}
+                          >
+                            {formatCurrency(sale.totalSales)}
+                          </Text>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                ) : (
+                  <div className="noSales">
+                    <Text
+                      fontName="REGULAR_MEDIUM"
+                      color={Theme.colors.secondaryText}
+                    >
+                      Nenhuma venda registrada em meses anteriores
+                    </Text>
+                  </div>
+                )}
               </div>
             </div>
           </div>

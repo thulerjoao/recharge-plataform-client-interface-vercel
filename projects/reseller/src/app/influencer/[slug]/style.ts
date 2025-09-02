@@ -58,6 +58,28 @@ export const InfluencerContainer = styled.div`
 
       .searchSection {
         width: 300px;
+        display: flex;
+        align-items: center;
+        position: relative;
+
+        .searchButton {
+          width: 28px;
+          height: 28px;
+          background-color: ${Theme.colors.mainlight};
+          border-radius: 8px;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          margin-left: 8px;
+          cursor: pointer;
+          position: absolute;
+          right: 2px;
+
+          svg {
+            width: 24px;
+            height: 24px;
+          }
+        }
       }
 
       .filterControls {
@@ -83,8 +105,16 @@ export const InfluencerContainer = styled.div`
       }
     }
 
-    .influencerCardWrapper {
+    .cardsSection {
       width: 100%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 8px;
+
+      .influencerCardWrapper {
+        width: 100%;
+      }
     }
 
     .emptyState {

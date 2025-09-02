@@ -104,61 +104,138 @@ export const InfluencerDetailsContainer = styled.div`
             flex-direction: column;
             gap: 8px;
 
-            .pixTypeSelect {
-              box-sizing: border-box;
-              padding: 0px 16px;
-              width: 100%;
-              font-size: 16px;
-              height: 28px;
-              border-radius: 8px;
-              border: 2px solid ${Theme.colors.secondaryAction};
-              color: ${Theme.colors.secondaryAction};
-              background: ${Theme.colors.mainlight};
-              cursor: pointer;
-
-              &:focus {
-                outline: none;
-                box-shadow: 0px 0px 7px 0px ${Theme.colors.mainHighlight};
-                border: 2px solid ${Theme.colors.mainHighlight};
-              }
-
-              &.error {
-                border-color: ${Theme.colors.pending};
-                box-shadow: 0 0 0 3px ${Theme.colors.pending}40;
-              }
-
-              option {
-                background: ${Theme.colors.mainlight};
-                color: ${Theme.colors.secondaryAction};
-                padding: 8px;
-                border: none;
-              }
-            }
-
-            input {
-              &.error {
-                border-color: ${Theme.colors.pending};
-                box-shadow: 0 0 0 3px ${Theme.colors.pending}40;
-              }
-            }
-
             .error-message {
-              color: ${Theme.colors.pending};
+              color: ${Theme.colors.refused};
               font-size: 12px;
-              margin-top: 6px;
-              display: block;
-              animation: fadeIn 0.2s ease;
+              margin-top: 4px;
             }
+          }
+        }
+
+        .salesContent {
+          margin-top: 16px;
+          display: flex;
+          flex-direction: column;
+          gap: 24px;
+
+          .currentMonthSales {
+            padding: 20px;
+            background: ${Theme.colors.approved}10;
+            border: 1px solid ${Theme.colors.approved}30;
+            border-radius: 8px;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+
+            .salesAmount {
+              display: flex;
+              flex-direction: column;
+              gap: 4px;
+              align-items: center;
+              text-align: center;
+            }
+          }
+
+          .previousMonthsSales {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+
+            .salesList {
+              display: flex;
+              flex-direction: column;
+              gap: 12px;
+
+              .salesItem {
+                padding: 16px;
+                background: ${Theme.colors.maindark};
+                border: 1px solid ${Theme.colors.secondaryTextAction}20;
+                border-radius: 8px;
+                transition: all 0.2s ease;
+
+                &:hover {
+                  border-color: ${Theme.colors.secondaryTextAction}40;
+                  transform: translateY(-1px);
+                }
+
+                .salesInfo {
+                  display: flex;
+                  justify-content: space-between;
+                  align-items: center;
+                  gap: 16px;
+                }
+              }
+            }
+          }
+
+          .noSales {
+            padding: 20px;
+            text-align: center;
+            background: ${Theme.colors.maindark};
+            border: 1px dashed ${Theme.colors.secondaryTextAction}30;
+            border-radius: 8px;
+          }
+        }
+
+        .infoItem {
+          display: flex;
+          flex-direction: column;
+          gap: 8px;
+
+          .pixTypeSelect {
+            box-sizing: border-box;
+            padding: 0px 16px;
+            width: 100%;
+            font-size: 16px;
+            height: 28px;
+            border-radius: 8px;
+            border: 2px solid ${Theme.colors.secondaryAction};
+            color: ${Theme.colors.secondaryAction};
+            background: ${Theme.colors.mainlight};
+            cursor: pointer;
+
+            &:focus {
+              outline: none;
+              box-shadow: 0px 0px 7px 0px ${Theme.colors.mainHighlight};
+              border: 2px solid ${Theme.colors.mainHighlight};
+            }
+
+            &.error {
+              border-color: ${Theme.colors.pending};
+              box-shadow: 0 0 0 3px ${Theme.colors.pending}40;
+            }
+
+            option {
+              background: ${Theme.colors.mainlight};
+              color: ${Theme.colors.secondaryAction};
+              padding: 8px;
+              border: none;
+            }
+          }
+
+          input {
+            &.error {
+              border-color: ${Theme.colors.pending};
+              box-shadow: 0 0 0 3px ${Theme.colors.pending}40;
+            }
+          }
+
+          .error-message {
+            color: ${Theme.colors.pending};
+            font-size: 12px;
+            margin-top: 6px;
+            display: block;
+            animation: fadeIn 0.2s ease;
           }
         }
       }
     }
+  }
 
-    .actionsSection {
-      display: flex;
-      justify-content: center;
-      gap: 16px;
-    }
+  .actionsSection {
+    display: flex;
+    justify-content: center;
+    gap: 16px;
   }
 
   @media (max-width: 768px) {
