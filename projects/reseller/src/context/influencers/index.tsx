@@ -2,14 +2,8 @@
 "use client";
 
 import { connectionAPIGet } from "@4miga/services/connectionAPI/connection";
-import { usePathname, useRouter, useSearchParams } from "next/navigation";
-import {
-  createContext,
-  ReactNode,
-  useContext,
-  useEffect,
-  useState,
-} from "react";
+
+import { createContext, ReactNode, useContext, useState } from "react";
 
 import { InfluencerResponseType } from "types/influencerType";
 import { apiUrl } from "utils/apiUrl";
@@ -46,42 +40,8 @@ export const InfluencersProvider = ({ children }: InfluencersProviderProps) => {
   const [filter, setFilter] = useState<string>("");
   const [status, setStatus] = useState<"all" | "active" | "inactive">("all");
   const [page, setPage] = useState<number>(1);
-  const router = useRouter();
-  const pathname = usePathname();
-  const searchParams = useSearchParams();
 
-  // Monitorar mudanças na URL e sincronizar estado
-  useEffect(() => {
-    const urlPage = pathname.split("/").pop();
-    const urlSearch = searchParams.get("search") || "";
-    const urlStatus =
-      (searchParams.get("status") as "all" | "active" | "inactive") || "all";
-
-    if (urlPage && !isNaN(Number(urlPage))) {
-      const pageNumber = Number(urlPage);
-      if (pageNumber !== page) setPage(pageNumber);
-    }
-
-    if (urlSearch !== filter) setFilter(urlSearch);
-    if (urlStatus !== status) setStatus(urlStatus);
-  }, [
-    pathname,
-    searchParams,
-    page,
-    filter,
-    status,
-    setPage,
-    setFilter,
-    setStatus,
-  ]);
-
-  useEffect(() => {
-    setLoadingInfluencers(true);
-    getInfluencers(page, 2, filter, status);
-    setLoadingInfluencers(false);
-  }, [page, filter, status]);
-
-  const getInfluencers = (
+  const getInfluencers = async (
     page: number,
     limit: number,
     search?: string,
@@ -99,7 +59,7 @@ export const InfluencersProvider = ({ children }: InfluencersProviderProps) => {
 
     params.append("status", status);
 
-    connectionAPIGet<InfluencerResponseType>(
+    await connectionAPIGet<InfluencerResponseType>(
       `/influencer?${params.toString()}`,
       apiUrl,
     )

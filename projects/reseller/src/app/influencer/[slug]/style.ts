@@ -60,17 +60,20 @@ export const InfluencerContainer = styled.div`
         width: 300px;
         display: flex;
         align-items: center;
+        position: relative;
 
         .searchButton {
-          min-width: 32px;
-          height: 32px;
-          background-color: ${Theme.colors.mainHighlight};
+          width: 28px;
+          height: 28px;
+          background-color: ${Theme.colors.mainlight};
           border-radius: 8px;
           display: flex;
           justify-content: center;
           align-items: center;
           margin-left: 8px;
           cursor: pointer;
+          position: absolute;
+          right: 2px;
 
           svg {
             width: 24px;

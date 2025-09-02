@@ -11,10 +11,18 @@ type Props = {
 };
 
 const Page = ({ params, searchParams }: Props) => {
-  const page = +params.slug;
-  const search = searchParams.search || "";
-  const status = searchParams.status || "all";
+  // Validar e processar página
+  const page = Math.max(1, +params.slug || 1);
 
-  return <Influencer currentPage={page} search={search} status={status} />;
+  // Processar filtros
+  const search = searchParams.search?.trim() || "";
+  const status =
+    (searchParams.status as "all" | "active" | "inactive") || "all";
+
+  // Validação de status
+  const validStatuses = ["all", "active", "inactive"];
+  const validStatus = validStatuses.includes(status) ? status : "all";
+
+  return <Influencer currentPage={page} search={search} status={validStatus} />;
 };
 export default Page;

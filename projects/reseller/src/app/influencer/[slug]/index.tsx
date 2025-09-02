@@ -29,6 +29,7 @@ const InfluencerPage = ({
   const {
     loadingInfluencers,
     influencers,
+    getInfluencers,
     setPage,
     filter,
     setFilter,
@@ -44,6 +45,12 @@ const InfluencerPage = ({
     setFilter(search);
     setStatus(initialStatus);
     setLocalFilter(search); // Sincronizar input local
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [currentPage, search, initialStatus]);
+
+  // Executar busca quando os valores sincronizados mudarem
+  useEffect(() => {
+    getInfluencers(currentPage, 2, search, initialStatus);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [currentPage, search, initialStatus]);
 
@@ -89,7 +96,7 @@ const InfluencerPage = ({
     router.push(url);
   };
 
-  if (loadingInfluencers && !influencers) {
+  if (loadingInfluencers || !influencers) {
     return (
       <InfluencerContainer>
         <div className="desktop">
@@ -149,7 +156,7 @@ const InfluencerPage = ({
             <Input
               value={localFilter}
               onChange={(e) => setLocalFilter(e.target.value)}
-              placeholder="Buscar por nome, email ou telefone..."
+              placeholder="Buscar por email ou telefone..."
               height={36}
             />
             <div
