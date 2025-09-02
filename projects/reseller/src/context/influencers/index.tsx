@@ -2,7 +2,7 @@
 "use client";
 
 import { connectionAPIGet } from "@4miga/services/connectionAPI/connection";
-import { useRouter } from "next/navigation";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import {
   createContext,
   ReactNode,
@@ -47,14 +47,39 @@ export const InfluencersProvider = ({ children }: InfluencersProviderProps) => {
   const [status, setStatus] = useState<"all" | "active" | "inactive">("all");
   const [page, setPage] = useState<number>(1);
   const router = useRouter();
+  const pathname = usePathname();
+  const searchParams = useSearchParams();
+
+  // Monitorar mudanças na URL e sincronizar estado
+  useEffect(() => {
+    const urlPage = pathname.split("/").pop();
+    const urlSearch = searchParams.get("search") || "";
+    const urlStatus =
+      (searchParams.get("status") as "all" | "active" | "inactive") || "all";
+
+    if (urlPage && !isNaN(Number(urlPage))) {
+      const pageNumber = Number(urlPage);
+      if (pageNumber !== page) setPage(pageNumber);
+    }
+
+    if (urlSearch !== filter) setFilter(urlSearch);
+    if (urlStatus !== status) setStatus(urlStatus);
+  }, [
+    pathname,
+    searchParams,
+    page,
+    filter,
+    status,
+    setPage,
+    setFilter,
+    setStatus,
+  ]);
 
   useEffect(() => {
     setLoadingInfluencers(true);
-    router.push(`/influencer/${page}`);
     getInfluencers(page, 2, filter, status);
     setLoadingInfluencers(false);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [page]);
+  }, [page, filter, status]);
 
   const getInfluencers = (
     page: number,
@@ -64,7 +89,6 @@ export const InfluencersProvider = ({ children }: InfluencersProviderProps) => {
   ) => {
     setLoadingInfluencers(true);
 
-    // Construir URL com parâmetros opcionais
     const params = new URLSearchParams();
     params.append("page", page.toString());
     params.append("limit", limit.toString());

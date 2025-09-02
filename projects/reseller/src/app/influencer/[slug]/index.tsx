@@ -7,7 +7,7 @@ import { Theme } from "@4miga/design-system/theme/theme";
 import { useRouter } from "next/navigation";
 import HeaderEnviroment from "public/components/headerEnviroment";
 import Pagination from "public/components/pagination";
-
+import Search from "./icons/Search.svg";
 import { useInfluencers } from "context/influencers";
 import DefaultHeader from "public/components/defaultHeader";
 import { useEffect, useState } from "react";
@@ -16,16 +16,19 @@ import { InfluencerContainer } from "./style";
 
 interface Props {
   currentPage: number;
+  search: string;
+  status: "all" | "active" | "inactive";
 }
 
-const InfluencerPage = ({ currentPage }: Props) => {
+const InfluencerPage = ({
+  currentPage,
+  search,
+  status: initialStatus,
+}: Props) => {
   const router = useRouter();
   const {
     loadingInfluencers,
     influencers,
-    getInfluencers,
-    setLoadingInfluencers,
-    page,
     setPage,
     filter,
     setFilter,
@@ -33,25 +36,37 @@ const InfluencerPage = ({ currentPage }: Props) => {
     setStatus,
   } = useInfluencers();
 
+  // Estado local para o input de busca
+  const [localFilter, setLocalFilter] = useState(search);
+
   useEffect(() => {
     setPage(currentPage);
+    setFilter(search);
+    setStatus(initialStatus);
+    setLocalFilter(search); // Sincronizar input local
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [currentPage]);
+  }, [currentPage, search, initialStatus]);
 
-  const handleChangeStatus = (status: "all" | "active" | "inactive") => {
-    setLoadingInfluencers(true);
-    setPage(1);
-    setStatus(status);
-    getInfluencers(1, 2, filter, status);
-    setLoadingInfluencers(false);
+  const handleChangeStatus = (newStatus: "all" | "active" | "inactive") => {
+    const params = new URLSearchParams();
+    if (filter) params.append("search", filter);
+    if (newStatus !== "all") params.append("status", newStatus);
+
+    const queryString = params.toString();
+    const url = `/influencer/1${queryString ? `?${queryString}` : ""}`;
+
+    router.push(url);
   };
 
-  const handleChangeFilter = (filter: string) => {
-    setLoadingInfluencers(true);
-    setPage(1);
-    setFilter(filter);
-    getInfluencers(1, 2, filter, status);
-    setLoadingInfluencers(false);
+  const handleChangeFilter = (newFilter: string) => {
+    const params = new URLSearchParams();
+    if (newFilter) params.append("search", newFilter);
+    if (status !== "all") params.append("status", status);
+
+    const queryString = params.toString();
+    const url = `/influencer/1${queryString ? `?${queryString}` : ""}`;
+
+    router.push(url);
   };
 
   const handleInfluencerClick = (influencerId: string) => {
@@ -60,6 +75,18 @@ const InfluencerPage = ({ currentPage }: Props) => {
 
   const handleAddInfluencer = () => {
     router.push("/influencer/create");
+  };
+
+  // Função para navegar para nova página mantendo filtros
+  const navigateToPage = (newPage: number) => {
+    const params = new URLSearchParams();
+    if (filter) params.append("search", filter);
+    if (status !== "all") params.append("status", status);
+
+    const queryString = params.toString();
+    const url = `/influencer/${newPage}${queryString ? `?${queryString}` : ""}`;
+
+    router.push(url);
   };
 
   if (loadingInfluencers && !influencers) {
@@ -120,11 +147,17 @@ const InfluencerPage = ({ currentPage }: Props) => {
         <div className="filtersSection">
           <div className="searchSection">
             <Input
-              value={filter}
-              onChange={(e) => handleChangeFilter(e.target.value)}
+              value={localFilter}
+              onChange={(e) => setLocalFilter(e.target.value)}
               placeholder="Buscar por nome, email ou telefone..."
               height={36}
             />
+            <div
+              className="searchButton"
+              onClick={() => handleChangeFilter(localFilter)}
+            >
+              <Search />
+            </div>
           </div>
           <div className="filterControls">
             <select
@@ -177,7 +210,7 @@ const InfluencerPage = ({ currentPage }: Props) => {
       {influencers && (
         <Pagination
           page={influencers.page}
-          setPage={setPage}
+          setPage={navigateToPage}
           totalPages={influencers.totalPages}
         />
       )}

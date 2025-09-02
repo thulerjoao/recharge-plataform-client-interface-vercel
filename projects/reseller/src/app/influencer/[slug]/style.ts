@@ -58,6 +58,25 @@ export const InfluencerContainer = styled.div`
 
       .searchSection {
         width: 300px;
+        display: flex;
+        align-items: center;
+
+        .searchButton {
+          min-width: 32px;
+          height: 32px;
+          background-color: ${Theme.colors.mainHighlight};
+          border-radius: 8px;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          margin-left: 8px;
+          cursor: pointer;
+
+          svg {
+            width: 24px;
+            height: 24px;
+          }
+        }
       }
 
       .filterControls {
