@@ -34,14 +34,9 @@ const InfluencerPage = ({ currentPage }: Props) => {
   } = useInfluencers();
 
   useEffect(() => {
-    setLoadingInfluencers(true);
-    if (currentPage !== page) {
-      router.push(`/influencer/${page}`);
-    }
-    getInfluencers(page, 2, filter, status);
-    setLoadingInfluencers(false);
+    setPage(currentPage);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [page]);
+  }, [currentPage]);
 
   const handleChangeStatus = (status: "all" | "active" | "inactive") => {
     setLoadingInfluencers(true);

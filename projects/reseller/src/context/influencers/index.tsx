@@ -2,7 +2,14 @@
 "use client";
 
 import { connectionAPIGet } from "@4miga/services/connectionAPI/connection";
-import { createContext, ReactNode, useContext, useState } from "react";
+import { useRouter } from "next/navigation";
+import {
+  createContext,
+  ReactNode,
+  useContext,
+  useEffect,
+  useState,
+} from "react";
 
 import { InfluencerResponseType } from "types/influencerType";
 import { apiUrl } from "utils/apiUrl";
@@ -39,6 +46,15 @@ export const InfluencersProvider = ({ children }: InfluencersProviderProps) => {
   const [filter, setFilter] = useState<string>("");
   const [status, setStatus] = useState<"all" | "active" | "inactive">("all");
   const [page, setPage] = useState<number>(1);
+  const router = useRouter();
+
+  useEffect(() => {
+    setLoadingInfluencers(true);
+    router.push(`/influencer/${page}`);
+    getInfluencers(page, 2, filter, status);
+    setLoadingInfluencers(false);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [page]);
 
   const getInfluencers = (
     page: number,
