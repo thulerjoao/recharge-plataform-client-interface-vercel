@@ -20,16 +20,44 @@ interface Props {
 
 const InfluencerPage = ({ currentPage }: Props) => {
   const router = useRouter();
-  const { loadingInfluencers, influencers, getInfluencers } = useInfluencers();
-  const [page, setPage] = useState<number>(currentPage);
-  const [searchTerm, setSearchTerm] = useState("");
-  const [filterStatus, setFilterStatus] = useState<string>("all");
+  const {
+    loadingInfluencers,
+    influencers,
+    getInfluencers,
+    setLoadingInfluencers,
+    page,
+    setPage,
+    filter,
+    setFilter,
+    status,
+    setStatus,
+  } = useInfluencers();
 
   useEffect(() => {
-    getInfluencers(page, 6);
-    router.push(`/influencer/${page}`);
+    setLoadingInfluencers(true);
+    if (currentPage !== page) {
+      router.push(`/influencer/${page}`);
+    }
+    getInfluencers(page, 2, filter, status);
+    setLoadingInfluencers(false);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [page]);
+
+  const handleChangeStatus = (status: "all" | "active" | "inactive") => {
+    setLoadingInfluencers(true);
+    setPage(1);
+    setStatus(status);
+    getInfluencers(1, 2, filter, status);
+    setLoadingInfluencers(false);
+  };
+
+  const handleChangeFilter = (filter: string) => {
+    setLoadingInfluencers(true);
+    setPage(1);
+    setFilter(filter);
+    getInfluencers(1, 2, filter, status);
+    setLoadingInfluencers(false);
+  };
 
   const handleInfluencerClick = (influencerId: string) => {
     router.push(`/influencer/details/${influencerId}`);
@@ -97,16 +125,20 @@ const InfluencerPage = ({ currentPage }: Props) => {
         <div className="filtersSection">
           <div className="searchSection">
             <Input
-              value={searchTerm}
-              onChange={(e) => setSearchTerm(e.target.value)}
+              value={filter}
+              onChange={(e) => handleChangeFilter(e.target.value)}
               placeholder="Buscar por nome, email ou telefone..."
               height={36}
             />
           </div>
           <div className="filterControls">
             <select
-              value={filterStatus}
-              onChange={(e) => setFilterStatus(e.target.value)}
+              value={status}
+              onChange={(e) => {
+                handleChangeStatus(
+                  e.target.value as "all" | "active" | "inactive",
+                );
+              }}
               className="filterSelect"
             >
               <option value="all">Todos os status</option>

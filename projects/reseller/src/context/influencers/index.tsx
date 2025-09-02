@@ -13,8 +13,20 @@ interface InfluencersProviderProps {
 
 interface InfluencersProviderData {
   loadingInfluencers: boolean;
+  setLoadingInfluencers: (loadingInfluencers: boolean) => void;
   influencers: InfluencerResponseType | undefined;
-  getInfluencers: (page: number, limit: number) => void;
+  filter: string;
+  page: number;
+  setPage: (page: number) => void;
+  setFilter: (filter: string) => void;
+  status: "all" | "active" | "inactive";
+  setStatus: (status: "all" | "active" | "inactive") => void;
+  getInfluencers: (
+    page: number,
+    limit: number,
+    search?: string,
+    isActive?: "all" | "active" | "inactive",
+  ) => void;
 }
 
 const InfluencersContext = createContext<InfluencersProviderData>(
@@ -24,11 +36,31 @@ const InfluencersContext = createContext<InfluencersProviderData>(
 export const InfluencersProvider = ({ children }: InfluencersProviderProps) => {
   const [loadingInfluencers, setLoadingInfluencers] = useState<boolean>(true);
   const [influencers, setInfluencers] = useState<InfluencerResponseType>();
+  const [filter, setFilter] = useState<string>("");
+  const [status, setStatus] = useState<"all" | "active" | "inactive">("all");
+  const [page, setPage] = useState<number>(1);
 
-  const getInfluencers = (page: number, limit: number) => {
+  const getInfluencers = (
+    page: number,
+    limit: number,
+    search?: string,
+    status?: "all" | "active" | "inactive",
+  ) => {
     setLoadingInfluencers(true);
+
+    // Construir URL com parâmetros opcionais
+    const params = new URLSearchParams();
+    params.append("page", page.toString());
+    params.append("limit", limit.toString());
+
+    if (search && search.trim() !== "") {
+      params.append("search", search);
+    }
+
+    params.append("status", status);
+
     connectionAPIGet<InfluencerResponseType>(
-      `/influencer?page=${page}&limit=${limit}`,
+      `/influencer?${params.toString()}`,
       apiUrl,
     )
       .then((res) => {
@@ -41,7 +73,18 @@ export const InfluencersProvider = ({ children }: InfluencersProviderProps) => {
 
   return (
     <InfluencersContext.Provider
-      value={{ loadingInfluencers, influencers, getInfluencers }}
+      value={{
+        loadingInfluencers,
+        setLoadingInfluencers,
+        influencers,
+        page,
+        setPage,
+        filter,
+        setFilter,
+        status,
+        setStatus,
+        getInfluencers,
+      }}
     >
       {children}
     </InfluencersContext.Provider>
