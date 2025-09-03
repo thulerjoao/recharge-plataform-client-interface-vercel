@@ -1,20 +1,4 @@
-export interface CouponType {
-  id: string;
-  title: string;
-  discountPercentage: string;
-  discountAmount: string | null;
-  expiresAt: string;
-  timesUsed: number;
-  totalSalesAmount: string;
-  maxUses: number;
-  minOrderAmount: string;
-  isActive: boolean;
-  storeId: string;
-  createdAt: string;
-  updatedAt: string;
-  influencerId: string;
-  isFirstPurchase: boolean;
-}
+import { CouponType } from "./couponType";
 
 export interface MonthlySalesType {
   id: string;
@@ -29,10 +13,10 @@ export interface MonthlySalesType {
 export interface InfluencerType {
   id: string;
   name: string;
-  email: string;
-  phone: string;
-  paymentMethod: string;
-  paymentData: string;
+  email: string | null;
+  phone: string | null;
+  paymentMethod: string | null;
+  paymentData: string | null;
   isActive: boolean;
   storeId: string;
   coupons: CouponType[];
