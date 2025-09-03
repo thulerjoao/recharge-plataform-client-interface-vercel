@@ -5,14 +5,16 @@ import Input from "@4miga/design-system/components/input";
 import OnOff from "@4miga/design-system/components/onOff";
 import Text from "@4miga/design-system/components/Text";
 import { Theme } from "@4miga/design-system/theme/theme";
+import { connectionAPIPost } from "@4miga/services/connectionAPI/connection";
 import { useRouter } from "next/navigation";
 import DefaultHeader from "public/components/defaultHeader";
 import HeaderEnviroment from "public/components/headerEnviroment";
 import { useState } from "react";
 import InputMask from "react-input-mask";
+import { apiUrl } from "utils/apiUrl";
+import { validateCNPJ, validateCPF } from "../../../utils/documentValidation";
 import Icon from "../icons/icon.svg";
 import { CreateInfluencerContainer } from "./style";
-import { validateCPF, validateCNPJ } from "../../../utils/documentValidation";
 
 interface CreateInfluencerData {
   name: string;
@@ -43,6 +45,7 @@ const CreateInfluencer = () => {
   });
 
   const [errors, setErrors] = useState<FormErrors>({});
+  const [isLoading, setIsLoading] = useState(false);
 
   const validateForm = (): boolean => {
     const newErrors: FormErrors = {};
@@ -123,21 +126,32 @@ const CreateInfluencer = () => {
     }
   };
 
-  const handleSubmit = () => {
-    if (validateForm()) {
-      console.log("Formulário válido:", formData);
-    }
-  };
-
   const handleCancel = () => {
     router.back();
   };
 
-  const isFormValid =
-    formData.name.trim() !== "" &&
-    formData.paymentMethod !== "" &&
-    formData.paymentData.trim() !== "" &&
-    Object.keys(errors).length === 0;
+  const handleSubmit = async () => {
+    setIsLoading(true);
+    await connectionAPIPost("/influencer", formData, apiUrl)
+      .then(() => {
+        router.push("/parceiros");
+        alert("Parceiro cadastrado com sucesso");
+      })
+      .catch((error) => {
+        console.log(error.response.data.message);
+        if (
+          error.response.data.message ===
+          "Influencer with this name already exists for this store"
+        ) {
+          alert("Parceiro já cadastrado nesta loja");
+        } else {
+          alert("Algo deu errado, tente novamente");
+        }
+      })
+      .finally(() => {
+        setIsLoading(false);
+      });
+  };
 
   return (
     <CreateInfluencerContainer>
@@ -388,6 +402,7 @@ const CreateInfluencer = () => {
             height={40}
             rounded
             isNotSelected
+            disabled={isLoading}
             style={{
               backgroundColor: Theme.colors.secondaryAction,
               color: Theme.colors.mainlight,
@@ -395,10 +410,16 @@ const CreateInfluencer = () => {
           />
           <Button
             title="CADASTRAR"
-            onClick={handleSubmit}
+            onClick={() => {
+              if (validateForm()) {
+                handleSubmit();
+              }
+            }}
             width={140}
             height={40}
             rounded
+            loading={isLoading}
+            disabled={isLoading}
           />
         </div>
       </div>

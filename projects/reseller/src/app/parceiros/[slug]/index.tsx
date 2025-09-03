@@ -159,6 +159,7 @@ const PartnersPage = ({
             <Input
               value={localFilter}
               onChange={(e) => setLocalFilter(e.target.value)}
+              onBlur={() => handleChangeFilter(localFilter)}
               placeholder="Buscar por email ou telefone..."
               height={36}
             />
