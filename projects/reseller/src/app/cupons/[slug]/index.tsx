@@ -57,8 +57,7 @@ const CouponsPage = ({
     const params = new URLSearchParams();
     if (localFilter) params.append("search", localFilter);
     if (newStatus !== "all") params.append("status", newStatus);
-    if (localType !== "all") params.append("type", localType);
-
+    if (localType !== "all") params.append
     const queryString = params.toString();
     const url = `/cupons/1${queryString ? `?${queryString}` : ""}`;
 

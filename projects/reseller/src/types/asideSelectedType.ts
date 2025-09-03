@@ -1,9 +1,9 @@
 export type AsideSelected =
   | "home"
-  | "sales"
-  | "products"
-  | "recharge"
-  | "influencer"
-  | "coupons"
-  | "wallet"
+  | "vendas"
+  | "produtos"
+  | "recarga"
+  | "parceiros"
+  | "cupons"
+  | "carteira"
   | "config";

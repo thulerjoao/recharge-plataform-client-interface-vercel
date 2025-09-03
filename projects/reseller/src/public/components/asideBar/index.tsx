@@ -86,15 +86,15 @@ const AsideBar = () => {
           </div> */}
 
           <div
-            onClick={() => handleClick("products")}
-            className={`menuOption ${handleCheck("products") && "selected"}`}
+            onClick={() => handleClick("produtos")}
+            className={`menuOption ${handleCheck("produtos") && "selected"}`}
             style={{ margin: "40px 0 16px 0" }}
           >
             <span className="inconEnviroment">
-              {handleCheck("products") ? <ProductsSelected /> : <Products />}
+              {handleCheck("produtos") ? <ProductsSelected /> : <Products />}
             </span>
             <Text
-              color={handleCheck("products") && Theme.colors.maindark}
+              color={handleCheck("produtos") && Theme.colors.maindark}
               margin="0 0 0 16px"
               fontName="REGULAR_SEMI_BOLD"
               className="desktop"
@@ -104,35 +104,35 @@ const AsideBar = () => {
           </div>
 
           <div
-            onClick={() => handleClick("influencer")}
-            className={`menuOption ${handleCheck("influencer") && "selected"}`}
+            onClick={() => handleClick("parceiros")}
+            className={`menuOption ${handleCheck("parceiros") && "selected"}`}
           >
             <span className="inconEnviroment">
-              {handleCheck("influencer") ? (
+              {handleCheck("parceiros") ? (
                 <InfluencerSelected />
               ) : (
                 <Influencer />
               )}
             </span>
             <Text
-              color={handleCheck("influencer") && Theme.colors.maindark}
+              color={handleCheck("parceiros") && Theme.colors.maindark}
               margin="0 0 0 16px"
               fontName="REGULAR_SEMI_BOLD"
               className="desktop"
             >
-              INFLUENCERS
+              PARCEIROS
             </Text>
           </div>
 
           <div
-            onClick={() => handleClick("coupons")}
-            className={`menuOption ${handleCheck("coupons") && "selected"}`}
+            onClick={() => handleClick("cupons")}
+            className={`menuOption ${handleCheck("cupons") && "selected"}`}
           >
             <span className="inconEnviroment">
-              {handleCheck("coupons") ? <DiscountSelected /> : <Discount />}
+              {handleCheck("cupons") ? <DiscountSelected /> : <Discount />}
             </span>
             <Text
-              color={handleCheck("coupons") && Theme.colors.maindark}
+              color={handleCheck("cupons") && Theme.colors.maindark}
               margin="0 0 0 16px"
               fontName="REGULAR_SEMI_BOLD"
               className="desktop"

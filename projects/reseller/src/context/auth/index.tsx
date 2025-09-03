@@ -65,7 +65,6 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
             .then(async (res) => {
               const rememberMe = true;
               await login(res, rememberMe);
-              route.replace("/products");
               setCheckingToken(false);
             })
             .catch(async () => {
