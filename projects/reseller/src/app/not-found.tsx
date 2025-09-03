@@ -7,7 +7,7 @@ import "./globals.css";
 const Page = () => {
   const route = useRouter();
 
-  useEffect(() => route.replace("/products"), [route]);
+  useEffect(() => route.replace("/produtos"), [route]);
   return (
     <div className="container">
       <span className="loading" />

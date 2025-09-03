@@ -3,8 +3,10 @@
 import { useAuth } from "context/auth";
 import Login from "public/components/login";
 import "./globals.css";
+import { useRouter } from "next/navigation";
 
 const Page = () => {
+  const route = useRouter();
   const { logged } = useAuth();
 
   if (!logged) {
@@ -13,6 +15,8 @@ const Page = () => {
         <Login />
       </div>
     );
+  } else {
+    route.replace("/produtos");
   }
 };
 

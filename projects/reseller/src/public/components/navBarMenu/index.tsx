@@ -51,10 +51,10 @@ const MobileNavbar = ({ openMenu }: Props) => {
         {handleCheck("sales") ? <SalesSelected /> : <Sales />}
       </span>
       <span
-        onClick={() => handleClick("products")}
-        className={handleCheck("products") && "selected"}
+        onClick={() => handleClick("produtos")}
+        className={handleCheck("produtos") && "selected"}
       >
-        {handleCheck("products") ? <ProductsSelected /> : <Products />}
+        {handleCheck("produtos") ? <ProductsSelected /> : <Products />}
       </span>
       <span
         onClick={() => handleClick("recharge")}
@@ -69,22 +69,22 @@ const MobileNavbar = ({ openMenu }: Props) => {
         {handleCheck("wallet") ? <WalletSelected /> : <Wallet />}
       </span> */}
       <span
-        onClick={() => handleClick("products")}
-        className={handleCheck("products") && "selected"}
+        onClick={() => handleClick("produtos")}
+        className={handleCheck("produtos") && "selected"}
       >
-        {handleCheck("products") ? <ProductsSelected /> : <Products />}
+        {handleCheck("produtos") ? <ProductsSelected /> : <Products />}
       </span>
       <span
-        onClick={() => handleClick("influencer")}
-        className={handleCheck("influencer") && "selected"}
+        onClick={() => handleClick("parceiros")}
+        className={handleCheck("parceiros") && "selected"}
       >
-        {handleCheck("influencer") ? <InfluencerSelected /> : <Influencer />}
+        {handleCheck("parceiros") ? <InfluencerSelected /> : <Influencer />}
       </span>
       <span
-        onClick={() => handleClick("coupons")}
-        className={handleCheck("coupons") && "selected"}
+        onClick={() => handleClick("cupons")}
+        className={handleCheck("cupons") && "selected"}
       >
-        {handleCheck("coupons") ? <DiscountSelected /> : <Discount />}
+        {handleCheck("cupons") ? <DiscountSelected /> : <Discount />}
       </span>
     </MobileNavBar>
   );
