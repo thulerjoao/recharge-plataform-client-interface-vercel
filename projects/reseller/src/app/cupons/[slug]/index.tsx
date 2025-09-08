@@ -112,30 +112,6 @@ const CouponsPage = ({
     router.push(url);
   };
 
-  if (loadingCoupons || !coupons) {
-    return (
-      <CouponsContainer>
-        <div className="desktop">
-          <HeaderEnviroment>
-            <DefaultHeader title="CUPONS" />
-          </HeaderEnviroment>
-        </div>
-        <div className="mobile mobileHeader">
-          <Text align="center" fontName="LARGE_SEMI_BOLD">
-            CUPONS
-          </Text>
-        </div>
-        <main className="couponsContainer">
-          <div style={{ textAlign: "center", padding: "50px" }}>
-            <Text fontName="REGULAR_MEDIUM" color={Theme.colors.secondaryText}>
-              Carregando cupons...
-            </Text>
-          </div>
-        </main>
-      </CouponsContainer>
-    );
-  }
-
   return (
     <CouponsContainer>
       <div className="desktop">
@@ -226,7 +202,17 @@ const CouponsPage = ({
           </div>
         </div>
 
-        {loadingCoupons && <div>Carregando...</div>}
+        {loadingCoupons && (
+          <div style={{ textAlign: "center", padding: "50px" }}>
+            <Text
+              align="center"
+              fontName="REGULAR_MEDIUM"
+              color={Theme.colors.secondaryText}
+            >
+              Carregando cupons...
+            </Text>
+          </div>
+        )}
         {!loadingCoupons && (!coupons?.data || coupons.data.length === 0) && (
           <div className="emptyState">
             <Text align="center" fontName="REGULAR_MEDIUM" color="#666">
@@ -259,7 +245,7 @@ const CouponsPage = ({
           </section>
         )}
       </div>
-      {coupons.data.length !== 0 && (
+      {coupons?.data.length !== 0 && (
         <Pagination
           page={coupons?.page || 1}
           setPage={navigateToPage}
