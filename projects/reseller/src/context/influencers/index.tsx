@@ -69,6 +69,8 @@ export const InfluencersProvider = ({ children }: InfluencersProviderProps) => {
       });
   };
 
+  console.log("influencers", influencers);
+
   return (
     <InfluencersContext.Provider
       value={{

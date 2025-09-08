@@ -6,14 +6,14 @@ export const InfluencerDetailsContainer = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding-top: 64px;
   padding-bottom: 64px;
+  padding-top: 64px;
 
   .mobile {
     display: none;
   }
 
-  .mainContent {
+  .influencerMainContent {
     width: 100%;
     max-width: 900px;
     padding: 24px;
@@ -240,13 +240,14 @@ export const InfluencerDetailsContainer = styled.div`
 
   @media (max-width: 768px) {
     padding-top: 64px;
+
     .desktop {
       display: none;
     }
+
     .mobile {
       display: flex;
       width: 100%;
-      background-color: red;
     }
 
     .mobileHeader {
@@ -258,7 +259,7 @@ export const InfluencerDetailsContainer = styled.div`
       height: 0;
     }
 
-    .mainContent {
+    .influencerMainContent {
       padding: 16px;
       gap: 24px;
 
@@ -306,12 +307,13 @@ export const InfluencerDetailsContainer = styled.div`
     .desktop {
       display: none;
     }
+
     .mobile {
       display: flex;
       width: 100%;
     }
 
-    .mainContent {
+    .influencerMainContent {
       padding: 12px;
       gap: 20px;
 
@@ -332,7 +334,7 @@ export const InfluencerDetailsContainer = styled.div`
   }
 
   @media (max-width: 400px) {
-    .mainContent {
+    .influencerMainContent {
       padding: 10px;
       gap: 16px;
 

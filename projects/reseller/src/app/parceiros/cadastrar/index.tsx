@@ -5,14 +5,20 @@ import Input from "@4miga/design-system/components/input";
 import OnOff from "@4miga/design-system/components/onOff";
 import Text from "@4miga/design-system/components/Text";
 import { Theme } from "@4miga/design-system/theme/theme";
+import { connectionAPIPost } from "@4miga/services/connectionAPI/connection";
 import { useRouter } from "next/navigation";
 import DefaultHeader from "public/components/defaultHeader";
 import HeaderEnviroment from "public/components/headerEnviroment";
 import { useState } from "react";
 import InputMask from "react-input-mask";
+import { apiUrl } from "utils/apiUrl";
+import { PixKeyInput } from "../../../public/components/PixKeyInput";
+import {
+  FormErrors,
+  validateInfluencerForm,
+} from "../../../utils/influencerValidation";
 import Icon from "../icons/icon.svg";
 import { CreateInfluencerContainer } from "./style";
-import { validateCPF, validateCNPJ } from "../../../utils/documentValidation";
 
 interface CreateInfluencerData {
   name: string;
@@ -21,14 +27,6 @@ interface CreateInfluencerData {
   paymentMethod: string;
   paymentData: string;
   isActive: boolean;
-}
-
-interface FormErrors {
-  name?: string;
-  email?: string;
-  phone?: string;
-  paymentMethod?: string;
-  paymentData?: string;
 }
 
 const CreateInfluencer = () => {
@@ -43,73 +41,7 @@ const CreateInfluencer = () => {
   });
 
   const [errors, setErrors] = useState<FormErrors>({});
-
-  const validateForm = (): boolean => {
-    const newErrors: FormErrors = {};
-
-    // Validação do nome
-    if (!formData.name.trim()) {
-      newErrors.name = "Nome é obrigatório";
-    }
-
-    // Validação do email (se preenchido)
-    if (formData.email.trim() && !/\S+@\S+\.\S+/.test(formData.email)) {
-      newErrors.email = "Email inválido";
-    }
-
-    // Validação do telefone (se preenchido)
-    if (formData.phone.trim()) {
-      const phoneDigits = formData.phone.replace(/\D/g, "");
-      if (phoneDigits.length !== 11) {
-        newErrors.phone = "Telefone deve ter 11 dígitos";
-      }
-    }
-
-    // Validação do método de pagamento
-    if (!formData.paymentMethod) {
-      newErrors.paymentMethod = "Tipo de chave PIX é obrigatório";
-    }
-
-    // Validação da chave PIX
-    if (!formData.paymentData.trim()) {
-      newErrors.paymentData = "Chave PIX é obrigatória";
-    } else {
-      // Validação específica por tipo de chave
-      const paymentData = formData.paymentData.replace(/\D/g, "");
-
-      if (formData.paymentMethod === "CPF") {
-        if (paymentData.length !== 11) {
-          newErrors.paymentData = "CPF deve ter 11 dígitos";
-        } else if (!validateCPF(formData.paymentData)) {
-          newErrors.paymentData = "CPF inválido";
-        }
-      } else if (formData.paymentMethod === "CNPJ") {
-        if (paymentData.length !== 14) {
-          newErrors.paymentData = "CNPJ deve ter 14 dígitos";
-        } else if (!validateCNPJ(formData.paymentData)) {
-          newErrors.paymentData = "CNPJ inválido";
-        }
-      } else if (
-        formData.paymentMethod === "EMAIL" &&
-        !/\S+@\S+\.\S+/.test(formData.paymentData)
-      ) {
-        newErrors.paymentData = "Email inválido";
-      } else if (
-        formData.paymentMethod === "PHONE" &&
-        paymentData.length !== 11
-      ) {
-        newErrors.paymentData = "Telefone deve ter 11 dígitos";
-      } else if (
-        formData.paymentMethod === "RANDOM" &&
-        paymentData.length !== 32
-      ) {
-        newErrors.paymentData = "Chave aleatória deve ter 32 caracteres";
-      }
-    }
-
-    setErrors(newErrors);
-    return Object.keys(newErrors).length === 0;
-  };
+  const [isLoading, setIsLoading] = useState(false);
 
   const handleInputChange = (
     field: keyof CreateInfluencerData,
@@ -117,15 +49,17 @@ const CreateInfluencer = () => {
   ) => {
     setFormData((prev) => ({ ...prev, [field]: value }));
 
-    // Limpar erro do campo quando usuário começar a digitar
+    // Clear field error when user starts typing
     if (errors[field]) {
       setErrors((prev) => ({ ...prev, [field]: undefined }));
     }
-  };
 
-  const handleSubmit = () => {
-    if (validateForm()) {
-      console.log("Formulário válido:", formData);
+    // Clear PIX key when payment method changes
+    if (field === "paymentMethod") {
+      setFormData((prev) => ({ ...prev, paymentData: "" }));
+      if (errors.paymentData) {
+        setErrors((prev) => ({ ...prev, paymentData: undefined }));
+      }
     }
   };
 
@@ -133,11 +67,36 @@ const CreateInfluencer = () => {
     router.back();
   };
 
-  const isFormValid =
-    formData.name.trim() !== "" &&
-    formData.paymentMethod !== "" &&
-    formData.paymentData.trim() !== "" &&
-    Object.keys(errors).length === 0;
+  const handleSubmit = async () => {
+    const { isValid, errors: validationErrors } =
+      validateInfluencerForm(formData);
+
+    if (!isValid) {
+      setErrors(validationErrors);
+      return;
+    }
+
+    setIsLoading(true);
+    await connectionAPIPost("/influencer", formData, apiUrl)
+      .then(() => {
+        router.push("/parceiros");
+        alert("Parceiro cadastrado com sucesso");
+      })
+      .catch((error) => {
+        console.log(error.response.data.message);
+        if (
+          error.response.data.message ===
+          "Influencer with this name already exists for this store"
+        ) {
+          alert("Parceiro já cadastrado");
+        } else {
+          alert("Algo deu errado, tente novamente");
+        }
+      })
+      .finally(() => {
+        setIsLoading(false);
+      });
+  };
 
   return (
     <CreateInfluencerContainer>
@@ -279,7 +238,6 @@ const CreateInfluencer = () => {
                   value={formData.paymentMethod}
                   onChange={(e) => {
                     handleInputChange("paymentMethod", e.target.value);
-                    handleInputChange("paymentData", "");
                   }}
                   className={`pixTypeSelect ${errors.paymentMethod ? "error" : ""}`}
                 >
@@ -301,77 +259,12 @@ const CreateInfluencer = () => {
                 >
                   Chave PIX: *
                 </Text>
-                {formData.paymentMethod === "CPF" ? (
-                  <InputMask
-                    mask="999.999.999-99"
-                    maskChar=""
-                    value={formData.paymentData}
-                    onChange={(e) =>
-                      handleInputChange("paymentData", e.target.value)
-                    }
-                  >
-                    {(inputProps: any) => (
-                      <Input
-                        {...inputProps}
-                        placeholder="000.000.000-00"
-                        height={32}
-                        className={errors.paymentData ? "error" : ""}
-                      />
-                    )}
-                  </InputMask>
-                ) : formData.paymentMethod === "CNPJ" ? (
-                  <InputMask
-                    mask="99.999.999/9999-99"
-                    maskChar=""
-                    value={formData.paymentData}
-                    onChange={(e) =>
-                      handleInputChange("paymentData", e.target.value)
-                    }
-                  >
-                    {(inputProps: any) => (
-                      <Input
-                        {...inputProps}
-                        placeholder="00.000.000/0000-00"
-                        height={32}
-                        className={errors.paymentData ? "error" : ""}
-                      />
-                    )}
-                  </InputMask>
-                ) : formData.paymentMethod === "PHONE" ? (
-                  <InputMask
-                    mask="(99) 99999-9999"
-                    maskChar=""
-                    value={formData.paymentData}
-                    onChange={(e) =>
-                      handleInputChange("paymentData", e.target.value)
-                    }
-                  >
-                    {(inputProps: any) => (
-                      <Input
-                        {...inputProps}
-                        placeholder="(11) 99999-9999"
-                        height={32}
-                        className={errors.paymentData ? "error" : ""}
-                      />
-                    )}
-                  </InputMask>
-                ) : (
-                  <Input
-                    value={formData.paymentData}
-                    onChange={(e) =>
-                      handleInputChange("paymentData", e.target.value)
-                    }
-                    placeholder={
-                      formData.paymentMethod === "EMAIL"
-                        ? "email@exemplo.com"
-                        : formData.paymentMethod === "RANDOM"
-                          ? "Chave aleatória de 32 caracteres"
-                          : "Chave PIX"
-                    }
-                    height={32}
-                    className={errors.paymentData ? "error" : ""}
-                  />
-                )}
+                <PixKeyInput
+                  paymentMethod={formData.paymentMethod}
+                  value={formData.paymentData}
+                  onChange={(value) => handleInputChange("paymentData", value)}
+                  error={errors.paymentData}
+                />
                 {errors.paymentData && (
                   <span className="error-message">{errors.paymentData}</span>
                 )}
@@ -388,6 +281,7 @@ const CreateInfluencer = () => {
             height={40}
             rounded
             isNotSelected
+            disabled={isLoading}
             style={{
               backgroundColor: Theme.colors.secondaryAction,
               color: Theme.colors.mainlight,
@@ -399,6 +293,8 @@ const CreateInfluencer = () => {
             width={140}
             height={40}
             rounded
+            loading={isLoading}
+            disabled={isLoading}
           />
         </div>
       </div>

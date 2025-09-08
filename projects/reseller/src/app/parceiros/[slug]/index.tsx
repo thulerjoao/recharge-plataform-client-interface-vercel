@@ -45,7 +45,7 @@ const PartnersPage = ({
     setLocalFilter(search);
     setStatus(initialStatus);
     setLocalStatus(initialStatus);
-    getInfluencers(currentPage, 2, search, initialStatus);
+    getInfluencers(currentPage, 5, search, initialStatus);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [currentPage, search, initialStatus]);
 
@@ -92,30 +92,6 @@ const PartnersPage = ({
     router.push(url);
   };
 
-  if (loadingInfluencers || !influencers) {
-    return (
-      <InfluencerContainer>
-        <div className="desktop">
-          <HeaderEnviroment>
-            <DefaultHeader title="INFLUENCERS" />
-          </HeaderEnviroment>
-        </div>
-        <div className="mobile mobileHeader">
-          <Text align="center" fontName="LARGE_SEMI_BOLD">
-            PARCEIROS
-          </Text>
-        </div>
-        <main className="influencersContainer">
-          <div style={{ textAlign: "center", padding: "50px" }}>
-            <Text fontName="REGULAR_MEDIUM" color={Theme.colors.secondaryText}>
-              Carregando parceiros...
-            </Text>
-          </div>
-        </main>
-      </InfluencerContainer>
-    );
-  }
-
   return (
     <InfluencerContainer>
       <div className="desktop">
@@ -128,7 +104,6 @@ const PartnersPage = ({
           PARCEIROS
         </Text>
       </div>
-
       <main className="influencersContainer">
         <div className="headerSection">
           <div className="titleSection">
@@ -159,6 +134,7 @@ const PartnersPage = ({
             <Input
               value={localFilter}
               onChange={(e) => setLocalFilter(e.target.value)}
+              onBlur={() => handleChangeFilter(localFilter)}
               placeholder="Buscar por email ou telefone..."
               height={36}
             />
@@ -185,43 +161,50 @@ const PartnersPage = ({
             </select>
           </div>
         </div>
-        <section className="cardsSection">
-          {loadingInfluencers && <div>Carregando...</div>}
-          {!loadingInfluencers &&
-            (!influencers?.data || influencers.data.length === 0) && (
-              <div className="emptyState">
-                <Text align="center" fontName="REGULAR_MEDIUM" color="#666">
-                  Nenhum parceiro encontrado
-                </Text>
+        {!loadingInfluencers ? (
+          <section className="cardsSection">
+            {loadingInfluencers && <div>Carregando...</div>}
+            {!loadingInfluencers &&
+              (!influencers?.data || influencers.data.length === 0) && (
+                <div className="emptyState">
+                  <Text align="center" fontName="REGULAR_MEDIUM" color="#666">
+                    Nenhum parceiro encontrado
+                  </Text>
+                </div>
+              )}
+            {influencers?.data?.map((influencer) => (
+              <div key={influencer.id} className="influencerCardWrapper">
+                <InfluencerCard
+                  influencer={{
+                    ...influencer,
+                    createdAt: new Date(influencer.createdAt),
+                    updatedAt: new Date(influencer.updatedAt),
+                  }}
+                  onClick={() => handleInfluencerClick(influencer.id)}
+                  formatDate={(date: Date) => {
+                    return new Intl.DateTimeFormat("pt-BR", {
+                      day: "2-digit",
+                      month: "2-digit",
+                      year: "numeric",
+                    }).format(date);
+                  }}
+                />
               </div>
-            )}
-          {influencers?.data?.map((influencer) => (
-            <div key={influencer.id} className="influencerCardWrapper">
-              <InfluencerCard
-                influencer={{
-                  ...influencer,
-                  createdAt: new Date(influencer.createdAt),
-                  updatedAt: new Date(influencer.updatedAt),
-                }}
-                onClick={() => handleInfluencerClick(influencer.id)}
-                formatDate={(date: Date) => {
-                  return new Intl.DateTimeFormat("pt-BR", {
-                    day: "2-digit",
-                    month: "2-digit",
-                    year: "numeric",
-                  }).format(date);
-                }}
-              />
-            </div>
-          ))}
-        </section>
+            ))}
+          </section>
+        ) : (
+          <div style={{ textAlign: "center", padding: "50px" }}>
+            <Text fontName="REGULAR_MEDIUM" color={Theme.colors.secondaryText}>
+              Carregando parceiros...
+            </Text>
+          </div>
+        )}
       </main>
-
-      {influencers.data.length !== 0 && (
+      {influencers?.data.length !== 0 && (
         <Pagination
-          page={influencers.page}
+          page={influencers?.page}
           setPage={navigateToPage}
-          totalPages={influencers.totalPages}
+          totalPages={influencers?.totalPages}
         />
       )}
       <div style={{ marginTop: "16px", textAlign: "center" }}>
