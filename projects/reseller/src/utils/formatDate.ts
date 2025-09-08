@@ -1,11 +1,26 @@
-export const formatDate = (dateString: string | null): string => {
-  if (!dateString) return "";
+export const formatDate = (dateInput: string | Date | null): string => {
+  if (!dateInput) return "";
 
-  const [datePart, timePart] = dateString.split(" - ");
-  const [day, month, year] = datePart.split("/").map(Number);
-  const [hour, minute] = timePart.split(":").map(Number);
+  let dateString: string;
+  let utcDate: Date;
 
-  const utcDate = new Date(Date.UTC(year, month - 1, day, hour, minute));
+  // Detect if it's an ISO string (format: 2023-12-15T14:30:00.000Z)
+  if (typeof dateInput === "string" && dateInput.includes("T")) {
+    // It's an ISO string, convert directly to Date
+    utcDate = new Date(dateInput);
+  }
+  // Detect if it's a Date object
+  else if (dateInput instanceof Date) {
+    utcDate = dateInput;
+  }
+  // Assume it's a string in "DD/MM/YYYY - HH:MM" format
+  else {
+    dateString = dateInput as string;
+    const [datePart, timePart] = dateString.split(" - ");
+    const [day, month, year] = datePart.split("/").map(Number);
+    const [hour, minute] = timePart.split(":").map(Number);
+    utcDate = new Date(Date.UTC(year, month - 1, day, hour, minute));
+  }
 
   const now = new Date();
   const yesterday = new Date();
