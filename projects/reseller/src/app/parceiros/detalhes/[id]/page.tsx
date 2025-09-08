@@ -1,3 +1,4 @@
+import { useInfluencers } from "context/influencers";
 import InfluencerDetails from "./index";
 
 type Props = {
@@ -7,6 +8,7 @@ type Props = {
 };
 
 const Page = ({ params }: Props) => {
-  return <InfluencerDetails influencerId={params.id} />;
+  const { id } = params;
+  return <InfluencerDetails influencerId={id} />;
 };
 export default Page;
