@@ -1,4 +1,3 @@
-import { useInfluencers } from "context/influencers";
 import InfluencerDetails from "./index";
 
 type Props = {
