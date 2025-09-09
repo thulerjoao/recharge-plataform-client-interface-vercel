@@ -1,4 +1,4 @@
-import InfluencerDetails from "./index";
+import InfluencerSales from "./index";
 
 type Props = {
   params: {
@@ -8,6 +8,6 @@ type Props = {
 
 const Page = ({ params }: Props) => {
   const { id } = params;
-  return <InfluencerDetails influencerId={id} />;
+  return <InfluencerSales influencerId={id} />;
 };
 export default Page;

@@ -45,7 +45,7 @@ const PartnersPage = ({
     setLocalFilter(search);
     setStatus(initialStatus);
     setLocalStatus(initialStatus);
-    getInfluencers(currentPage, 5, search, initialStatus);
+    getInfluencers(currentPage, 6, search, initialStatus);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [currentPage, search, initialStatus]);
 

@@ -9,6 +9,23 @@ export interface MonthlySalesType {
   createdAt: string;
   updatedAt: string;
 }
+export interface MonthlySalesPaginationType {
+  data: MonthlySalesType[];
+  totalSales: number;
+  page: number;
+  totalPages: number;
+  influencerName: string;
+}
+
+export interface MonthlyCouponsType {
+  id: string;
+  influencerId: string;
+  month: number;
+  year: number;
+  totalCoupons: number;
+  createdAt: string;
+  updatedAt: string;
+}
 
 export interface InfluencerType {
   id: string;
@@ -21,6 +38,7 @@ export interface InfluencerType {
   storeId: string;
   coupons: CouponType[];
   monthlySales: MonthlySalesType[];
+  monthlyCoupons: MonthlyCouponsType[];
   createdAt: string;
   updatedAt: string;
 }

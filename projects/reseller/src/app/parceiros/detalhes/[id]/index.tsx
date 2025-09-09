@@ -7,8 +7,8 @@ import OnOff from "@4miga/design-system/components/onOff";
 import Text from "@4miga/design-system/components/Text";
 import { Theme } from "@4miga/design-system/theme/theme";
 import {
-  connectionAPIGet,
   connectionAPIDelete,
+  connectionAPIGet,
   connectionAPIPatch,
 } from "@4miga/services/connectionAPI/connection";
 
@@ -21,10 +21,8 @@ import { InfluencerType } from "types/influencerType";
 import { apiUrl } from "utils/apiUrl";
 import { formatDate } from "utils/formatDate";
 import { formatPrice } from "utils/formatPrice";
-import {
-  FormErrors,
-  validateInfluencerForm,
-} from "../../../../utils/influencerValidation";
+
+import { FormErrors } from "utils/influencerValidation";
 import Icon from "../../icons/icon.svg";
 import { InfluencerDetailsContainer } from "./style";
 
@@ -156,6 +154,18 @@ const InfluencerDetails = ({ influencerId }: InfluencerDetailsProps) => {
       paymentData: editData.paymentData,
       isActive: editData.isActive,
     };
+
+    if (
+      data.name === influencer.name &&
+      data.email === influencer.email &&
+      data.phone === influencer.phone &&
+      data.paymentMethod === influencer.paymentMethod &&
+      data.paymentData === influencer.paymentData &&
+      data.isActive === influencer.isActive
+    ) {
+      return handleCancel();
+    }
+
     setLoading(true);
     connectionAPIPatch(`/influencer/${influencerId}`, data, apiUrl)
       .then(async () => {
@@ -183,7 +193,7 @@ const InfluencerDetails = ({ influencerId }: InfluencerDetailsProps) => {
     if (influencer) {
       setEditData(influencer);
       setIsEditing(false);
-      setErrors({}); // Clear errors when canceling
+      setErrors({});
     }
   };
 
@@ -220,19 +230,6 @@ const InfluencerDetails = ({ influencerId }: InfluencerDetailsProps) => {
       }
     }
   };
-
-  // const validateForm = (): boolean => {
-  //   const { isValid, errors: validationErrors } = validateInfluencerForm({
-  //     name: editData.name || "",
-  //     email: editData.email || "",
-  //     phone: editData.phone || "",
-  //     paymentMethod: editData.paymentMethod || "",
-  //     paymentData: editData.paymentData || "",
-  //   });
-
-  //   setErrors(validationErrors);
-  //   return isValid;
-  // };
 
   if (!influencer) {
     return (
@@ -307,10 +304,15 @@ const InfluencerDetails = ({ influencerId }: InfluencerDetailsProps) => {
         </div>
 
         <div className="infoSections">
-          <div className="infoSection">
-            <Text fontName="REGULAR_MEDIUM" color={Theme.colors.mainHighlight}>
-              INFORMAÇÕES DE CONTATO
-            </Text>
+          <div className="infoSection unifiedInfoSection">
+            <div className="sectionTitle">
+              <Text
+                fontName="REGULAR_MEDIUM"
+                color={Theme.colors.mainHighlight}
+              >
+                INFORMAÇÕES DE CONTATO
+              </Text>
+            </div>
             <div className="infoGrid">
               <div className="infoItem">
                 <Text
@@ -395,12 +397,17 @@ const InfluencerDetails = ({ influencerId }: InfluencerDetailsProps) => {
                 )}
               </div>
             </div>
-          </div>
 
-          <div className="infoSection">
-            <Text fontName="REGULAR_MEDIUM" color={Theme.colors.mainHighlight}>
-              INFORMAÇÕES DE PAGAMENTO
-            </Text>
+            <div className="sectionDivider"></div>
+
+            <div className="sectionTitle">
+              <Text
+                fontName="REGULAR_MEDIUM"
+                color={Theme.colors.mainHighlight}
+              >
+                INFORMAÇÕES DE PAGAMENTO
+              </Text>
+            </div>
             <div className="infoGrid">
               <div className="infoItem">
                 <Text
@@ -521,9 +528,185 @@ const InfluencerDetails = ({ influencerId }: InfluencerDetailsProps) => {
                 )}
               </div>
             </div>
+            <div className="actionsSection">
+              {isEditing ? (
+                <>
+                  <Button
+                    title="CANCELAR"
+                    onClick={handleCancel}
+                    width={120}
+                    height={36}
+                    rounded
+                    disabled={loading}
+                    // isNotSelected
+                  />
+                  <Button
+                    title="SALVAR"
+                    onClick={handleSave}
+                    width={120}
+                    height={36}
+                    disabled={loading}
+                    loading={loading}
+                    rounded
+                  />
+                </>
+              ) : (
+                <>
+                  <Button
+                    title="EDITAR"
+                    onClick={handleEdit}
+                    width={120}
+                    height={36}
+                    rounded
+                  />
+                  <Button
+                    title="EXCLUIR"
+                    onClick={handleDelete}
+                    width={120}
+                    height={36}
+                    rounded
+                    style={{
+                      backgroundColor: Theme.colors.refused,
+                    }}
+                  />
+                </>
+              )}
+            </div>
+          </div>
+
+          <div className="infoSection salesInfo">
+            <Text fontName="REGULAR_MEDIUM" color={Theme.colors.mainHighlight}>
+              VENDAS
+            </Text>
+            <div className="salesContent">
+              {/* Vendas do mês atual */}
+              <div
+                className="currentMonthSales clickable"
+                onClick={() =>
+                  router.push(`/parceiros/vendas/${influencer.id}`)
+                }
+              >
+                <Text fontName="REGULAR_MEDIUM" color={Theme.colors.mainlight}>
+                  Mês Atual
+                </Text>
+                {getCurrentMonthSales() ? (
+                  <div className="salesAmount">
+                    <Text
+                      fontName="LARGE_SEMI_BOLD"
+                      color={Theme.colors.approved}
+                    >
+                      R${" "}
+                      {formatPrice(Number(getCurrentMonthSales()!.totalSales))}
+                    </Text>
+                    <Text
+                      fontName="SMALL_MEDIUM"
+                      color={Theme.colors.secondaryText}
+                    >
+                      {getMonthName(getCurrentMonthSales()!.month)}{" "}
+                      {getCurrentMonthSales()!.year}
+                    </Text>
+                  </div>
+                ) : (
+                  <div className="noSales">
+                    <Text
+                      fontName="REGULAR_MEDIUM"
+                      color={Theme.colors.secondaryText}
+                    >
+                      Nenhuma venda registrada este mês
+                    </Text>
+                  </div>
+                )}
+                <div className="clickIndicator">
+                  <Text
+                    fontName="SMALL"
+                    color={Theme.colors.mainlight}
+                    align="center"
+                  >
+                    Ver histórico completo →
+                  </Text>
+                </div>
+              </div>
+              <div className="previousMonthsSales">
+                {getPreviousMonthsSales().length > 0 ? (
+                  <div className="salesList">
+                    {getPreviousMonthsSales().map((sale) => (
+                      <div key={sale.id} className="salesItem">
+                        <div className="salesInfo">
+                          <Text
+                            fontName="SMALL_MEDIUM"
+                            color={Theme.colors.mainlight}
+                          >
+                            {getMonthName(sale.month)} {sale.year}
+                          </Text>
+                          <Text
+                            fontName="REGULAR_MEDIUM"
+                            color={Theme.colors.approved}
+                          >
+                            R$ {formatPrice(Number(sale.totalSales))}
+                          </Text>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                ) : (
+                  <div className="noSales">
+                    <Text
+                      fontName="REGULAR_MEDIUM"
+                      color={Theme.colors.secondaryText}
+                    >
+                      Nenhuma venda registrada em meses anteriores
+                    </Text>
+                  </div>
+                )}
+              </div>
+            </div>
           </div>
 
           <div className="infoSection">
+            <Text fontName="REGULAR_MEDIUM" color={Theme.colors.mainHighlight}>
+              CUPONS
+            </Text>
+            <div className="couponsContent">
+              <div
+                className="couponsSummary clickable"
+                onClick={() =>
+                  router.push(`/cupons/parceiros/${influencer.id}`)
+                }
+              >
+                <Text fontName="LARGE_SEMI_BOLD" color={Theme.colors.pending}>
+                  {influencer.coupons.length} cupons ativos
+                </Text>
+                <Text
+                  fontName="SMALL_MEDIUM"
+                  color={Theme.colors.secondaryText}
+                >
+                  Total de cupons cadastrados
+                </Text>
+                <div className="clickIndicator">
+                  <Text
+                    fontName="SMALL"
+                    color={Theme.colors.mainlight}
+                    align="center"
+                  >
+                    Ver todos os cupons →
+                  </Text>
+                </div>
+              </div>
+              <div className="couponsActions">
+                <Button
+                  title="CRIAR CUPOM"
+                  onClick={() =>
+                    router.push(`/coupons/create?influencerId=${influencer.id}`)
+                  }
+                  width={160}
+                  height={36}
+                  rounded
+                />
+              </div>
+            </div>
+          </div>
+
+          <div className="infoSection systemInfo">
             <Text fontName="REGULAR_MEDIUM" color={Theme.colors.mainHighlight}>
               INFORMAÇÕES DO SISTEMA
             </Text>
@@ -574,144 +757,7 @@ const InfluencerDetails = ({ influencerId }: InfluencerDetailsProps) => {
               </div>
             </div>
           </div>
-
-          <div className="infoSection">
-            <Text fontName="REGULAR_MEDIUM" color={Theme.colors.mainHighlight}>
-              VENDAS
-            </Text>
-            <div className="salesContent">
-              {/* Vendas do mês atual */}
-              <div className="currentMonthSales">
-                <Text fontName="REGULAR_MEDIUM" color={Theme.colors.mainlight}>
-                  Mês Atual
-                </Text>
-                {getCurrentMonthSales() ? (
-                  <div className="salesAmount">
-                    <Text
-                      fontName="LARGE_SEMI_BOLD"
-                      color={Theme.colors.approved}
-                    >
-                      R${" "}
-                      {formatPrice(Number(getCurrentMonthSales()!.totalSales))}
-                    </Text>
-                    <Text
-                      fontName="SMALL_MEDIUM"
-                      color={Theme.colors.secondaryText}
-                    >
-                      {getMonthName(getCurrentMonthSales()!.month)}{" "}
-                      {getCurrentMonthSales()!.year}
-                    </Text>
-                  </div>
-                ) : (
-                  <div className="noSales">
-                    <Text
-                      fontName="REGULAR_MEDIUM"
-                      color={Theme.colors.secondaryText}
-                    >
-                      Nenhuma venda registrada este mês
-                    </Text>
-                  </div>
-                )}
-              </div>
-
-              {/* Vendas dos meses anteriores */}
-              {/* <div className="previousMonthsSales">
-                <Text fontName="REGULAR_MEDIUM" color={Theme.colors.mainlight}>
-                  Meses Anteriores
-                </Text>
-                {getPreviousMonthsSales().length > 0 ? (
-                  <div className="salesList">
-                    {getPreviousMonthsSales().map((sale) => (
-                      <div key={sale.id} className="salesItem">
-                        <div className="salesInfo">
-                          <Text
-                            fontName="SMALL_MEDIUM"
-                            color={Theme.colors.mainlight}
-                          >
-                            {getMonthName(sale.month)} {sale.year}
-                          </Text>
-                          <Text
-                            fontName="REGULAR_MEDIUM"
-                            color={Theme.colors.approved}
-                          >
-                            R$ {formatPrice(Number(sale.totalSales))}
-                          </Text>
-                        </div>
-                      </div>
-                    ))}
-                  </div>
-                ) : (
-                  <div className="noSales">
-                    <Text
-                      fontName="REGULAR_MEDIUM"
-                      color={Theme.colors.secondaryText}
-                    >
-                      Nenhuma venda registrada em meses anteriores
-                    </Text>
-                  </div>
-                )}
-              </div> */}
-            </div>
-          </div>
         </div>
-
-        <div className="actionsSection">
-          {isEditing ? (
-            <>
-              <Button
-                title="CANCELAR"
-                onClick={handleCancel}
-                width={120}
-                height={40}
-                rounded
-                disabled={loading}
-                // isNotSelected
-              />
-              <Button
-                title="SALVAR"
-                onClick={handleSave}
-                width={120}
-                height={40}
-                disabled={loading}
-                loading={loading}
-                rounded
-              />
-            </>
-          ) : (
-            <>
-              <Button
-                title="EDITAR"
-                onClick={handleEdit}
-                width={120}
-                height={40}
-                rounded
-              />
-              <Button
-                title="EXCLUIR"
-                onClick={handleDelete}
-                width={120}
-                height={40}
-                rounded
-                style={{
-                  backgroundColor: Theme.colors.refused,
-                }}
-              />
-            </>
-          )}
-        </div>
-        <span
-          onClick={() => router.push(`/coupons/influencer/${influencer.id}`)}
-        >
-          <Text
-            color={Theme.colors.secondaryAction}
-            pointer
-            underline
-            align="center"
-            fontName="REGULAR_MEDIUM"
-          >
-            Visualizar todos os cupons
-          </Text>
-        </span>
       </div>
     </InfluencerDetailsContainer>
   );

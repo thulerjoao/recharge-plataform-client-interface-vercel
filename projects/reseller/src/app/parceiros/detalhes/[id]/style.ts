@@ -93,6 +93,18 @@ export const InfluencerDetailsContainer = styled.div`
         -moz-box-shadow: 0px 0px 5px 2px rgba(7, 29, 35, 1);
         box-shadow: 0px 0px 5px 2px rgba(7, 29, 35, 1);
 
+        &.unifiedInfoSection {
+          .sectionDivider {
+            height: 1px;
+            background: ${Theme.colors.secondaryTextAction}20;
+            margin: 24px 0;
+          }
+
+          .sectionTitle {
+            margin-bottom: 16px;
+          }
+        }
+
         .infoGrid {
           margin-top: 16px;
           display: grid;
@@ -122,6 +134,7 @@ export const InfluencerDetailsContainer = styled.div`
             padding: 20px;
             background: ${Theme.colors.approved}10;
             border: 1px solid ${Theme.colors.approved}30;
+            cursor: pointer;
             border-radius: 8px;
             display: flex;
             flex-direction: column;
@@ -133,6 +146,16 @@ export const InfluencerDetailsContainer = styled.div`
               gap: 4px;
               align-items: center;
               text-align: center;
+            }
+
+            .clickIndicator {
+              margin-top: 8px;
+              padding-top: 8px;
+              border-top: 1px solid ${Theme.colors.approved}30;
+              opacity: 0.8;
+              width: 100%;
+              display: flex;
+              justify-content: center;
             }
           }
 
@@ -155,7 +178,6 @@ export const InfluencerDetailsContainer = styled.div`
 
                 &:hover {
                   border-color: ${Theme.colors.secondaryTextAction}40;
-                  transform: translateY(-1px);
                 }
 
                 .salesInfo {
@@ -174,6 +196,41 @@ export const InfluencerDetailsContainer = styled.div`
             background: ${Theme.colors.maindark};
             border: 1px dashed ${Theme.colors.secondaryTextAction}30;
             border-radius: 8px;
+          }
+        }
+
+        .couponsContent {
+          margin-top: 16px;
+          display: flex;
+          flex-direction: column;
+          gap: 20px;
+
+          .couponsSummary {
+            padding: 20px;
+            background: ${Theme.colors.pending}10;
+            border: 1px solid ${Theme.colors.pending}30;
+            border-radius: 8px;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            align-items: center;
+            text-align: center;
+            cursor: pointer;
+
+            .clickIndicator {
+              margin-top: 8px;
+              padding-top: 8px;
+              border-top: 1px solid ${Theme.colors.pending}30;
+              opacity: 0.8;
+              width: 100%;
+              display: flex;
+              justify-content: center;
+            }
+          }
+
+          .couponsActions {
+            display: flex;
+            justify-content: center;
           }
         }
 
@@ -228,14 +285,28 @@ export const InfluencerDetailsContainer = styled.div`
             animation: fadeIn 0.2s ease;
           }
         }
+
+        .actionsSection {
+          display: flex;
+          justify-content: center;
+          gap: 16px;
+          margin-top: 28px;
+        }
       }
     }
   }
 
-  .actionsSection {
+  .viewAllSales,
+  .viewAllCoupons {
+    margin-top: 16px;
     display: flex;
     justify-content: center;
-    gap: 16px;
+    align-items: center;
+
+    p {
+      width: 14rem;
+      cursor: pointer;
+    }
   }
 
   @media (max-width: 768px) {
@@ -292,6 +363,12 @@ export const InfluencerDetailsContainer = styled.div`
             grid-template-columns: 1fr;
             gap: 12px;
           }
+
+          .couponsContent {
+            .couponsSummary {
+              padding: 16px;
+            }
+          }
         }
       }
 
@@ -328,6 +405,12 @@ export const InfluencerDetailsContainer = styled.div`
           padding: 16px;
           margin-bottom: 16px;
           gap: 12px;
+
+          .couponsContent {
+            .couponsSummary {
+              padding: 14px;
+            }
+          }
         }
       }
     }
@@ -349,6 +432,12 @@ export const InfluencerDetailsContainer = styled.div`
           padding: 14px;
           margin-bottom: 14px;
           gap: 10px;
+
+          .couponsContent {
+            .couponsSummary {
+              padding: 12px;
+            }
+          }
         }
       }
     }
