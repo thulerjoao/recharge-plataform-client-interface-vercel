@@ -26,4 +26,5 @@ export interface CouponResponseType {
   totalCoupons: number;
   page: number;
   totalPages: number;
+  influencerName: string;
 }

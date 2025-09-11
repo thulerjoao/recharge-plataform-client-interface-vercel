@@ -1,4 +1,4 @@
-import InfluencerCoupons from ".";
+import CouponSales from "./index";
 
 type Props = {
   params: {
@@ -7,7 +7,7 @@ type Props = {
 };
 
 const Page = ({ params }: Props) => {
-  return <InfluencerCoupons influencerId={params.id} />;
+  const { id } = params;
+  return <CouponSales influencerId={id} />;
 };
-
 export default Page;

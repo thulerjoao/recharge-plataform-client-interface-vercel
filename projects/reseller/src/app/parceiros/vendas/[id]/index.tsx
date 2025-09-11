@@ -111,9 +111,12 @@ const InfluencerSales = ({ influencerId }: InfluencerDetailsProps) => {
       <div className="salesMainContent">
         <div className="headerSection">
           <Text fontName="LARGE_SEMI_BOLD" color={Theme.colors.mainlight}>
-            Histórico de Vendas - {salesData?.influencerName}
+            {salesData?.influencerName}
           </Text>
           <Text fontName="REGULAR_MEDIUM" color={Theme.colors.secondaryText}>
+            Histórico de Vendas
+          </Text>
+          <Text fontName="REGULAR_MEDIUM" color={Theme.colors.approved}>
             Total de {salesData?.totalSales} períodos registrados
           </Text>
         </div>
@@ -121,7 +124,7 @@ const InfluencerSales = ({ influencerId }: InfluencerDetailsProps) => {
         <div className="infoSection salesInfo">
           {page === 1 && (
             <Text fontName="REGULAR_MEDIUM" color={Theme.colors.mainHighlight}>
-              Vendas do Mês Atual
+              Mês Atual
             </Text>
           )}
           <div className="salesContent">

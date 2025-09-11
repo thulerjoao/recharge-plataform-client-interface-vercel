@@ -579,7 +579,6 @@ const InfluencerDetails = ({ influencerId }: InfluencerDetailsProps) => {
               VENDAS
             </Text>
             <div className="salesContent">
-              {/* Vendas do mês atual */}
               <div
                 className="currentMonthSales clickable"
                 onClick={() =>

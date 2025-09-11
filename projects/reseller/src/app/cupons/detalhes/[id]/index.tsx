@@ -8,7 +8,7 @@ import { Theme } from "@4miga/design-system/theme/theme";
 import { useRouter } from "next/navigation";
 import DefaultHeader from "public/components/defaultHeader";
 import HeaderEnviroment from "public/components/headerEnviroment";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import InputMask from "react-input-mask";
 import { CouponDetailsContainer } from "./style";
 
@@ -149,7 +149,6 @@ const mockCoupons: Coupon[] = [
 ];
 
 const CouponDetails = ({ couponId }: CouponDetailsProps) => {
-  console.log("CouponDetails: Componente renderizado com couponId:", couponId);
   const router = useRouter();
   const [coupon, setCoupon] = useState<Coupon | null>(null);
   const [loading, setLoading] = useState(true);
@@ -160,51 +159,51 @@ const CouponDetails = ({ couponId }: CouponDetailsProps) => {
     "percentage" | "amount"
   >("percentage");
 
-  useEffect(() => {
-    console.log("CouponDetails: couponId recebido:", couponId);
-    // Simula um delay de carregamento para mostrar o estado de loading
-    const timer = setTimeout(() => {
-      const foundCoupon = mockCoupons.find((c) => c.id === couponId);
-      console.log("CouponDetails: cupom encontrado:", foundCoupon);
+  // useEffect(() => {
+  //   console.log("CouponDetails: couponId recebido:", couponId);
+  //   // Simula um delay de carregamento para mostrar o estado de loading
+  //   const timer = setTimeout(() => {
+  //     const foundCoupon = mockCoupons.find((c) => c.id === couponId);
+  //     console.log("CouponDetails: cupom encontrado:", foundCoupon);
 
-      if (!foundCoupon) {
-        console.log(
-          "CouponDetails: Cupom não encontrado, redirecionando para /coupons",
-        );
-        router.push("/coupons/1");
-        return;
-      }
+  //     if (!foundCoupon) {
+  //       console.log(
+  //         "CouponDetails: Cupom não encontrado, redirecionando para /coupons",
+  //       );
+  //       router.push("/coupons/1");
+  //       return;
+  //     }
 
-      setCoupon(foundCoupon);
-      setLoading(false);
-    }, 100);
+  //     setCoupon(foundCoupon);
+  //     setLoading(false);
+  //   }, 100);
 
-    return () => clearTimeout(timer);
-  }, [couponId, router]);
+  //   return () => clearTimeout(timer);
+  // }, [couponId, router]);
 
-  useEffect(() => {
-    if (coupon) {
-      setEditData({
-        title: coupon.title,
-        discountPercentage: coupon.discountPercentage,
-        discountAmount: coupon.discountAmount,
-        expiresAt: coupon.expiresAt
-          ? coupon.expiresAt.toISOString().split("T")[0]
-          : "",
-        maxUses: coupon.maxUses,
-        minOrderAmount: coupon.minOrderAmount,
-        isActive: coupon.isActive,
-        isFirstPurchase: coupon.isFirstPurchase,
-      });
+  // useEffect(() => {
+  //   if (coupon) {
+  //     setEditData({
+  //       title: coupon.title,
+  //       discountPercentage: coupon.discountPercentage,
+  //       discountAmount: coupon.discountAmount,
+  //       expiresAt: coupon.expiresAt
+  //         ? coupon.expiresAt.toISOString().split("T")[0]
+  //         : "",
+  //       maxUses: coupon.maxUses,
+  //       minOrderAmount: coupon.minOrderAmount,
+  //       isActive: coupon.isActive,
+  //       isFirstPurchase: coupon.isFirstPurchase,
+  //     });
 
-      // Define o tipo inicial baseado no cupom
-      if (coupon.discountPercentage !== undefined) {
-        setSelectedDiscountType("percentage");
-      } else if (coupon.discountAmount !== undefined) {
-        setSelectedDiscountType("amount");
-      }
-    }
-  }, [coupon]);
+  //     // Define o tipo inicial baseado no cupom
+  //     if (coupon.discountPercentage !== undefined) {
+  //       setSelectedDiscountType("percentage");
+  //     } else if (coupon.discountAmount !== undefined) {
+  //       setSelectedDiscountType("amount");
+  //     }
+  //   }
+  // }, [coupon]);
 
   const validateForm = (): boolean => {
     const newErrors: FormErrors = {};

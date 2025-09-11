@@ -36,6 +36,10 @@ interface FormErrors {
   minOrderAmount?: string;
 }
 
+interface CreateCouponProps {
+  influencerId: string;
+}
+
 // Mock data de influencers - será substituído por dados reais da API
 const mockInfluencers = [
   { id: "1", name: "João Silva" },
@@ -44,7 +48,7 @@ const mockInfluencers = [
   { id: "4", name: "Ana Oliveira" },
 ];
 
-const CreateCoupon = () => {
+const CreateCoupon = ({ influencerId }: CreateCouponProps) => {
   const router = useRouter();
   const searchParams = useSearchParams();
   const [formData, setFormData] = useState<CreateCouponData>({
@@ -351,7 +355,7 @@ const CreateCoupon = () => {
 
           <div className="infoSection">
             <Text fontName="REGULAR_MEDIUM" color={Theme.colors.mainHighlight}>
-              CONFIGURAÇÕES AVANÇADAS
+              CONFIGURAÇÕES OPCIONAIS
             </Text>
             <div className="infoGrid">
               <div className="infoItem">
