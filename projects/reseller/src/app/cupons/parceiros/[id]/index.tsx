@@ -90,9 +90,6 @@ const CouponSales = ({ influencerId }: CouponDetailsProps) => {
             <Text fontName="LARGE_SEMI_BOLD" color={Theme.colors.mainlight}>
               {couponData?.influencerName}
             </Text>
-            <Text fontName="REGULAR_MEDIUM" color={Theme.colors.secondaryText}>
-              Histórico de Vendas
-            </Text>
             <Text fontName="REGULAR_MEDIUM" color={Theme.colors.pending}>
               Total de {couponData?.totalCoupons} cupons registrados
             </Text>
@@ -103,7 +100,7 @@ const CouponSales = ({ influencerId }: CouponDetailsProps) => {
             width={145}
             rounded
             onClick={() => {
-              router.push(`/cupons/cadastrar/${influencerId}`);
+              router.push(`/cupons/cadastrar?influencerId=${influencerId}`);
             }}
           />
         </div>

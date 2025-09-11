@@ -1,4 +1,4 @@
-import { CouponType } from "./couponType";
+import { CouponType, MonthlyCouponsType } from "./couponType";
 
 export interface MonthlySalesType {
   id: string;
@@ -15,16 +15,6 @@ export interface MonthlySalesPaginationType {
   page: number;
   totalPages: number;
   influencerName: string;
-}
-
-export interface MonthlyCouponsType {
-  id: string;
-  influencerId: string;
-  month: number;
-  year: number;
-  totalCoupons: number;
-  createdAt: string;
-  updatedAt: string;
 }
 
 export interface InfluencerType {
@@ -48,4 +38,9 @@ export interface InfluencerResponseType {
   totalInfluencers: number;
   page: number;
   totalPages: number;
+}
+
+export interface InfluencerNameIdType {
+  id: string;
+  name: string;
 }

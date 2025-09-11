@@ -108,7 +108,8 @@ export const CreateCouponContainer = styled.div`
             }
 
             .influencerSelect,
-            .discountTypeSelect {
+            .discountTypeSelect,
+            .dateInput {
               box-sizing: border-box;
               padding: 0px 16px;
               width: 100%;

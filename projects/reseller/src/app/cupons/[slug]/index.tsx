@@ -93,7 +93,7 @@ const CouponsPage = ({
   };
 
   const handleCreateCoupon = () => {
-    router.push("/cupons/cadastrar/new");
+    router.push("/cupons/cadastrar");
   };
 
   const handleViewCoupon = (couponId: string) => {
