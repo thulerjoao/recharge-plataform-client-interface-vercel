@@ -28,3 +28,13 @@ export interface CouponResponseType {
   totalPages: number;
   influencerName: string;
 }
+
+export interface MonthlyCouponsType {
+  id: string;
+  influencerId: string;
+  month: number;
+  year: number;
+  totalCoupons: number;
+  createdAt: string;
+  updatedAt: string;
+}

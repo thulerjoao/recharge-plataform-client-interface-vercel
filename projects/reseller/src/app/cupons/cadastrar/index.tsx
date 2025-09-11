@@ -5,25 +5,29 @@ import Input from "@4miga/design-system/components/input";
 import OnOff from "@4miga/design-system/components/onOff";
 import Text from "@4miga/design-system/components/Text";
 import { Theme } from "@4miga/design-system/theme/theme";
+import {
+  connectionAPIGet,
+  connectionAPIPost,
+} from "@4miga/services/connectionAPI/connection";
 import { useRouter, useSearchParams } from "next/navigation";
 import DefaultHeader from "public/components/defaultHeader";
 import HeaderEnviroment from "public/components/headerEnviroment";
 import { useEffect, useState } from "react";
 import InputMask from "react-input-mask";
+import { InfluencerNameIdType } from "types/influencerType";
+import { apiUrl } from "utils/apiUrl";
 import { CreateCouponContainer } from "./style";
-import { formatPrice } from "utils/formatPrice";
 
 interface CreateCouponData {
   title: string;
-  discountType: "percentage" | "amount";
-  discountPercentage?: number | undefined;
-  discountAmount?: number | undefined;
-  expiresAt: string;
-  maxUses?: number | undefined;
-  minOrderAmount?: number | undefined;
-  isActive: boolean;
   influencerId: string;
-  isFirstPurchase: boolean;
+  discountPercentage?: number | null;
+  discountAmount?: number | null;
+  expiresAt?: string;
+  maxUses?: number;
+  minOrderAmount?: number;
+  isActive?: boolean;
+  isFirstPurchase?: boolean;
 }
 
 interface FormErrors {
@@ -36,59 +40,68 @@ interface FormErrors {
   minOrderAmount?: string;
 }
 
-interface CreateCouponProps {
-  influencerId: string;
-}
-
-// Mock data de influencers - será substituído por dados reais da API
-const mockInfluencers = [
-  { id: "1", name: "João Silva" },
-  { id: "2", name: "Maria Santos" },
-  { id: "3", name: "Pedro Costa" },
-  { id: "4", name: "Ana Oliveira" },
-];
-
-const CreateCoupon = ({ influencerId }: CreateCouponProps) => {
+const CreateCoupon = () => {
+  const [isLoading, setIsLoading] = useState(false);
+  const [discountType, setDiscountType] = useState<"percentage" | "amount">(
+    "percentage",
+  );
+  const [influencersList, setInfluencersList] = useState<
+    InfluencerNameIdType[]
+  >([]);
+  const [selectedInfluencer, setSelectedInfluencer] =
+    useState<InfluencerNameIdType | null>(null);
   const router = useRouter();
   const searchParams = useSearchParams();
+  const [errors, setErrors] = useState<FormErrors>({});
   const [formData, setFormData] = useState<CreateCouponData>({
     title: "",
-    discountType: "percentage",
-    discountPercentage: undefined,
-    discountAmount: undefined,
+    influencerId: selectedInfluencer?.id || "",
+    discountPercentage: null,
+    discountAmount: null,
     expiresAt: "",
     maxUses: undefined,
     minOrderAmount: undefined,
     isActive: true,
-    influencerId: "",
     isFirstPurchase: false,
   });
 
-  const [errors, setErrors] = useState<FormErrors>({});
+  useEffect(() => {
+    connectionAPIGet<InfluencerNameIdType[]>(`/influencer/name-id-list`, apiUrl)
+      .then((res) => {
+        setInfluencersList(res);
+      })
+      .catch((err) => {
+        console.log("error", err);
+      });
+  }, []);
 
-  // Verifica se veio da página de cupons por influencer
   useEffect(() => {
     const influencerId = searchParams.get("influencerId");
     if (influencerId) {
-      setFormData((prev) => ({ ...prev, influencerId }));
+      console.log("influencerId", influencerId);
+      const influencer = influencersList.find((i) => i.id === influencerId);
+      setSelectedInfluencer(influencer);
+      if (influencer) {
+        setFormData((prev) => ({ ...prev, influencerId: influencer.id }));
+      }
     }
-  }, [searchParams]);
+  }, [influencersList, searchParams]);
 
   const validateForm = (): boolean => {
     const newErrors: FormErrors = {};
 
-    // Validação do título
     if (!formData.title.trim()) {
       newErrors.title = "Título do cupom é obrigatório";
+    } else if (formData.title.includes(" ")) {
+      newErrors.title = "Título do cupom não pode conter espaços";
     }
 
-    // Validação do influencer
     if (!formData.influencerId) {
       newErrors.influencerId = "Influencer é obrigatório";
     }
 
-    // Validação do tipo de desconto
-    if (formData.discountType === "percentage") {
+    // Validation based on discount type
+    if (discountType === "percentage") {
       if (!formData.discountPercentage || formData.discountPercentage <= 0) {
         newErrors.discountPercentage = "Porcentagem deve ser maior que 0";
       } else if (formData.discountPercentage > 100) {
@@ -101,7 +114,6 @@ const CreateCoupon = ({ influencerId }: CreateCouponProps) => {
       }
     }
 
-    // Validação da data de expiração (se preenchida)
     if (formData.expiresAt) {
       const selectedDate = new Date(formData.expiresAt);
       const today = new Date();
@@ -112,12 +124,10 @@ const CreateCoupon = ({ influencerId }: CreateCouponProps) => {
       }
     }
 
-    // Validação do máximo de usos (se preenchido)
     if (formData.maxUses && formData.maxUses <= 0) {
       newErrors.maxUses = "Máximo de usos deve ser maior que 0";
     }
 
-    // Validação do valor mínimo do pedido (se preenchido)
     if (formData.minOrderAmount && formData.minOrderAmount < 0) {
       newErrors.minOrderAmount = "Valor mínimo não pode ser negativo";
     }
@@ -132,17 +142,36 @@ const CreateCoupon = ({ influencerId }: CreateCouponProps) => {
   ) => {
     setFormData((prev) => ({ ...prev, [field]: value }));
 
-    // Limpar erro do campo quando usuário começar a digitar
     if (errors[field as keyof FormErrors]) {
       setErrors((prev) => ({ ...prev, [field]: undefined }));
     }
   };
 
-  const handleSubmit = () => {
-    if (validateForm()) {
-      console.log("Dados do formulário:", formData);
-      alert("Cupom criado! (Implementação da API será feita no próximo passo)");
+  const handleSubmit = async () => {
+    if (!validateForm()) {
+      return;
     }
+
+    setIsLoading(true);
+    await connectionAPIPost<CreateCouponData>(`/coupon`, formData, apiUrl)
+      .then(() => {
+        router.push(`/cupons/parceiros/${formData.influencerId}`);
+        alert("Cupom criado com sucesso");
+      })
+      .catch((err) => {
+        console.log("error", err);
+        if (
+          err.response.data.message ===
+          "Coupon with this title already exists for this store"
+        ) {
+          alert("Título de cupom já cadastrado");
+        } else {
+          alert("Erro ao criar cupom, tente novamente");
+        }
+      })
+      .finally(() => {
+        setIsLoading(false);
+      });
   };
 
   const handleCancel = () => {
@@ -154,15 +183,6 @@ const CreateCoupon = ({ influencerId }: CreateCouponProps) => {
       router.back();
     }
   };
-
-  const isFormValid =
-    formData.title.trim() !== "" &&
-    formData.influencerId !== "" &&
-    ((formData.discountType === "percentage" &&
-      formData.discountPercentage! > 0 &&
-      formData.discountPercentage! <= 100) ||
-      (formData.discountType === "amount" && formData.discountAmount! > 0)) &&
-    Object.keys(errors).length === 0;
 
   return (
     <CreateCouponContainer>
@@ -185,7 +205,7 @@ const CreateCoupon = ({ influencerId }: CreateCouponProps) => {
             </Text>
             <Text fontName="REGULAR_MEDIUM" color={Theme.colors.secondaryText}>
               {searchParams.get("influencerId")
-                ? `Criando cupom para ${mockInfluencers.find((i) => i.id === searchParams.get("influencerId"))?.name}`
+                ? `Criando cupom para ${selectedInfluencer?.name}`
                 : "Configure as informações do cupom"}
             </Text>
           </div>
@@ -228,7 +248,12 @@ const CreateCoupon = ({ influencerId }: CreateCouponProps) => {
                 </Text>
                 <Input
                   value={formData.title}
-                  onChange={(e) => handleInputChange("title", e.target.value)}
+                  onChange={(e) => {
+                    const value = e.target.value
+                      .toUpperCase()
+                      .replace(/\s/g, ""); // Remove todos os espaços
+                    handleInputChange("title", value);
+                  }}
                   placeholder="Ex: DESCONTO10"
                   height={32}
                   className={errors.title ? "error" : ""}
@@ -245,15 +270,20 @@ const CreateCoupon = ({ influencerId }: CreateCouponProps) => {
                   Influencer: *
                 </Text>
                 <select
-                  value={formData.influencerId}
-                  onChange={(e) =>
-                    handleInputChange("influencerId", e.target.value)
-                  }
+                  value={selectedInfluencer?.id || ""}
+                  onChange={(e) => {
+                    const selectedId = e.target.value;
+                    const selectedInfluencerData = influencersList.find(
+                      (influencer) => influencer.id === selectedId,
+                    );
+                    setSelectedInfluencer(selectedInfluencerData || null);
+                    handleInputChange("influencerId", selectedId);
+                  }}
                   className={`influencerSelect ${errors.influencerId ? "error" : ""}`}
-                  disabled={!!searchParams.get("influencerId")}
+                  disabled={searchParams.get("influencerId") !== null}
                 >
                   <option value="">Selecione o influencer</option>
-                  {mockInfluencers.map((influencer) => (
+                  {influencersList.map((influencer) => (
                     <option key={influencer.id} value={influencer.id}>
                       {influencer.name}
                     </option>
@@ -271,13 +301,17 @@ const CreateCoupon = ({ influencerId }: CreateCouponProps) => {
                   Tipo de desconto: *
                 </Text>
                 <select
-                  value={formData.discountType}
-                  onChange={(e) =>
-                    handleInputChange(
-                      "discountType",
-                      e.target.value as "percentage" | "amount",
-                    )
-                  }
+                  value={discountType}
+                  onChange={(e) => {
+                    const newType = e.target.value as "percentage" | "amount";
+                    setDiscountType(newType);
+                    // Clear the opposite field when switching types
+                    if (newType === "percentage") {
+                      handleInputChange("discountAmount", null);
+                    } else {
+                      handleInputChange("discountPercentage", null);
+                    }
+                  }}
                   className="discountTypeSelect"
                 >
                   <option value="percentage">Porcentagem (%)</option>
@@ -289,20 +323,16 @@ const CreateCoupon = ({ influencerId }: CreateCouponProps) => {
                   fontName="SMALL_MEDIUM"
                   color={Theme.colors.secondaryText}
                 >
-                  {formData.discountType === "percentage"
-                    ? "Porcentagem (%)"
-                    : "Valor"}
-                  : *
+                  {discountType === "percentage" ? "Porcentagem (%)" : "Valor"}:
+                  *
                 </Text>
-                {formData.discountType === "percentage" ? (
+                {discountType === "percentage" ? (
                   <Input
                     value={formData.discountPercentage || ""}
                     onChange={(e) => {
                       const value =
-                        e.target.value === ""
-                          ? undefined
-                          : parseInt(e.target.value);
-                      if (value !== undefined && (value < 0 || value > 100)) {
+                        e.target.value === "" ? null : parseInt(e.target.value);
+                      if (value !== null && (value < 0 || value > 100)) {
                         return;
                       }
                       handleInputChange("discountPercentage", value);
@@ -325,8 +355,7 @@ const CreateCoupon = ({ influencerId }: CreateCouponProps) => {
                     value={formData.discountAmount || ""}
                     onChange={(e) => {
                       const rawValue = e.target.value.replace(/[^\d]/g, "");
-                      const value =
-                        rawValue === "" ? undefined : parseInt(rawValue);
+                      const value = rawValue === "" ? null : parseInt(rawValue);
                       handleInputChange("discountAmount", value);
                     }}
                   >
@@ -365,23 +394,38 @@ const CreateCoupon = ({ influencerId }: CreateCouponProps) => {
                 >
                   Data de expiração:
                 </Text>
-                <InputMask
-                  mask="99/99/9999"
-                  maskChar=""
+                <input
+                  type="date"
                   value={formData.expiresAt}
                   onChange={(e) =>
                     handleInputChange("expiresAt", e.target.value)
                   }
-                >
-                  {(inputProps: any) => (
-                    <Input
-                      {...inputProps}
-                      placeholder="dd/mm/aaaa"
-                      height={32}
-                      className={errors.expiresAt ? "error" : ""}
-                    />
-                  )}
-                </InputMask>
+                  min={new Date().toISOString().split("T")[0]}
+                  className={`dateInput ${errors.expiresAt ? "error" : ""}`}
+                  onKeyDown={(e) => {
+                    // Allow only navigation keys and prevent typing
+                    const allowedKeys = [
+                      "Tab",
+                      "Enter",
+                      "Escape",
+                      "ArrowUp",
+                      "ArrowDown",
+                      "ArrowLeft",
+                      "ArrowRight",
+                    ];
+                    if (
+                      !allowedKeys.includes(e.key) &&
+                      !e.ctrlKey &&
+                      !e.metaKey
+                    ) {
+                      e.preventDefault();
+                    }
+                  }}
+                  onInput={(e) => {
+                    // Prevent manual input
+                    e.preventDefault();
+                  }}
+                />
                 {errors.expiresAt && (
                   <span className="error-message">{errors.expiresAt}</span>
                 )}
@@ -471,6 +515,7 @@ const CreateCoupon = ({ influencerId }: CreateCouponProps) => {
 
         <div className="actionsSection">
           <Button
+            disabled={isLoading}
             title="CANCELAR"
             onClick={handleCancel}
             width={140}
@@ -482,6 +527,8 @@ const CreateCoupon = ({ influencerId }: CreateCouponProps) => {
             }}
           />
           <Button
+            loading={isLoading}
+            disabled={isLoading}
             title="CRIAR CUPOM"
             onClick={handleSubmit}
             width={140}

@@ -10,6 +10,7 @@ export const CouponCardContainer = styled.div`
   align-items: center;
   cursor: pointer;
   transition: all 0.2s ease;
+  min-height: 65px;
 
   &:hover {
     background: ${Theme.colors.secondaryTextAction}10;
