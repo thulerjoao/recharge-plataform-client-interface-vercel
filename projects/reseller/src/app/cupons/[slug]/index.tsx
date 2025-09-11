@@ -48,7 +48,7 @@ const CouponsPage = ({
     setLocalFilter(search);
     setStatus(initialStatus);
     setCouponType(initialType);
-    getCoupons(currentPage, 6, search, initialStatus, initialType);
+    getCoupons(currentPage, 8, search, initialStatus, initialType);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [currentPage, search, initialStatus, initialType]);
 
@@ -93,7 +93,7 @@ const CouponsPage = ({
   };
 
   const handleCreateCoupon = () => {
-    router.push("/cupons/create");
+    router.push("/cupons/cadastrar/new");
   };
 
   const handleViewCoupon = (couponId: string) => {
@@ -125,7 +125,7 @@ const CouponsPage = ({
         </Text>
       </div>
 
-      <div className="mainContent">
+      <div className="mainContentComponent">
         <div className="headerSection">
           <div className="titleSection">
             <Text fontName="LARGE_SEMI_BOLD" color={Theme.colors.mainlight}>

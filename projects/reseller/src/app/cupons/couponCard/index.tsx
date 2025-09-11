@@ -35,11 +35,11 @@ const CouponCard = ({ coupon, onClick }: CouponCardProps) => {
           )}
         </div>
         {/* Informação adicional em mobile */}
-        <div className="mobileInfo">
+        {/* <div className="mobileInfo">
           <Text fontName="SMALL" color={Theme.colors.secondaryText}>
             {coupon.influencer.name}
           </Text>
-        </div>
+        </div> */}
       </div>
 
       {/* Coluna 2: Desconto e Valor Mínimo */}
@@ -55,11 +55,11 @@ const CouponCard = ({ coupon, onClick }: CouponCardProps) => {
       </div>
 
       {/* Coluna 3: Influencer (oculta em mobile) */}
-      <div className="tableCell desktopOnly">
+      {/* <div className="tableCell desktopOnly">
         <Text fontName="REGULAR_MEDIUM" color={Theme.colors.mainlight}>
           {coupon.influencer.name}
         </Text>
-      </div>
+      </div> */}
 
       {/* Coluna 4: Status */}
       <div className="tableCell">

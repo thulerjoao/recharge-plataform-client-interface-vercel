@@ -3,7 +3,7 @@ import styled from "styled-components";
 
 export const CouponCardContainer = styled.div`
   display: grid;
-  grid-template-columns: 2fr 2fr 2fr 0.5fr;
+  grid-template-columns: 2fr 2fr 0.5fr;
   padding: 16px 20px;
   gap: 16px;
   border-bottom: 1px solid ${Theme.colors.secondaryTextAction}20;
@@ -77,7 +77,7 @@ export const CouponCardContainer = styled.div`
 
   /* Breakpoint para telas médias (1200px e menores) */
   @media (max-width: 1200px) {
-    grid-template-columns: 2fr 1.5fr 1.5fr 0.5fr;
+    grid-template-columns: 2fr 2fr 0.5fr;
     gap: 12px;
     padding: 14px 16px;
 
@@ -102,7 +102,7 @@ export const CouponCardContainer = styled.div`
 
   /* Breakpoint para tablets (768px e menores) */
   @media (max-width: 768px) {
-    grid-template-columns: 2fr 1fr 1fr;
+    grid-template-columns: 2fr 2fr 0.5fr;
     gap: 10px;
     padding: 12px 14px;
 

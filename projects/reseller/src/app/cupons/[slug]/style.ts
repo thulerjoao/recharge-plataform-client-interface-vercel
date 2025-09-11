@@ -13,7 +13,7 @@ export const CouponsContainer = styled.div`
     display: none;
   }
 
-  .mainContent {
+  .mainContentComponent {
     width: 100%;
     max-width: 900px;
     padding: 24px;
@@ -138,7 +138,7 @@ export const CouponsContainer = styled.div`
 
   /* Breakpoint para telas médias (1200px e menores) */
   @media (max-width: 1200px) {
-    .mainContent {
+    .mainContentComponent {
       .tableSection {
         .tableHeader {
           grid-template-columns: 2fr 1.5fr 1.5fr 0.5fr;
@@ -173,7 +173,7 @@ export const CouponsContainer = styled.div`
       height: 0;
     }
 
-    .mainContent {
+    .mainContentComponent {
       padding: 16px;
       gap: 24px;
 
@@ -231,7 +231,7 @@ export const CouponsContainer = styled.div`
 
   /* Breakpoint para mobile grande (539px e menores) */
   @media (max-width: 539px) {
-    .mainContent {
+    .mainContentComponent {
       padding: 12px;
       gap: 20px;
 
@@ -265,7 +265,7 @@ export const CouponsContainer = styled.div`
 
   /* Breakpoint para mobile pequeno (400px e menores) */
   @media (max-width: 400px) {
-    .mainContent {
+    .mainContentComponent {
       padding: 10px;
       gap: 16px;
 
