@@ -5,30 +5,35 @@ import Input from "@4miga/design-system/components/input";
 import OnOff from "@4miga/design-system/components/onOff";
 import Text from "@4miga/design-system/components/Text";
 import { Theme } from "@4miga/design-system/theme/theme";
+import { connectionAPIGet } from "@4miga/services/connectionAPI/connection";
 import { useRouter } from "next/navigation";
 import DefaultHeader from "public/components/defaultHeader";
 import HeaderEnviroment from "public/components/headerEnviroment";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import InputMask from "react-input-mask";
+import { CouponType } from "types/couponType";
+import { apiUrl } from "utils/apiUrl";
+import { formatDate } from "utils/formatDate";
+import { formatPrice } from "utils/formatPrice";
 import { CouponDetailsContainer } from "./style";
 
-interface Coupon {
-  id: string;
-  title: string;
-  discountPercentage?: number;
-  discountAmount?: number;
-  expiresAt?: Date;
-  timesUsed: number;
-  totalSalesAmount: number;
-  maxUses?: number;
-  minOrderAmount?: number;
-  isActive: boolean;
-  influencerId: string;
-  influencerName: string;
-  isFirstPurchase: boolean;
-  createdAt: Date;
-  updatedAt: Date;
-}
+// interface Coupon {
+//   id: string;
+//   title: string;
+//   discountPercentage?: number;
+//   discountAmount?: number;
+//   expiresAt?: Date;
+//   timesUsed: number;
+//   totalSalesAmount: number;
+//   maxUses?: number;
+//   minOrderAmount?: number;
+//   isActive: boolean;
+//   influencerId: string;
+//   influencerName: string;
+//   isFirstPurchase: boolean;
+//   createdAt: Date;
+//   updatedAt: Date;
+// }
 
 interface CouponDetailsProps {
   couponId: string;
@@ -54,103 +59,9 @@ interface FormErrors {
   minOrderAmount?: string;
 }
 
-// Mock data - será substituído por dados reais da API
-const mockCoupons: Coupon[] = [
-  {
-    id: "1",
-    title: "DESCONTO10",
-    discountPercentage: 10,
-    timesUsed: 25,
-    totalSalesAmount: 1250.0,
-    maxUses: 100,
-    minOrderAmount: 50.0,
-    isActive: true,
-    influencerId: "1",
-    influencerName: "João Silva",
-    isFirstPurchase: false,
-    createdAt: new Date("2024-01-15"),
-    updatedAt: new Date("2024-01-15"),
-  },
-  {
-    id: "2",
-    title: "PRIMEIRACOMPRA",
-    discountAmount: 20.0,
-    timesUsed: 15,
-    totalSalesAmount: 800.0,
-    maxUses: 50,
-    minOrderAmount: 100.0,
-    isActive: true,
-    influencerId: "2",
-    influencerName: "Maria Santos",
-    isFirstPurchase: true,
-    createdAt: new Date("2024-01-10"),
-    updatedAt: new Date("2024-01-10"),
-  },
-  {
-    id: "3",
-    title: "SUPERDESCONTO",
-    discountPercentage: 25,
-    timesUsed: 8,
-    totalSalesAmount: 400.0,
-    maxUses: 30,
-    minOrderAmount: 75.0,
-    isActive: false,
-    influencerId: "3",
-    influencerName: "Pedro Costa",
-    isFirstPurchase: false,
-    createdAt: new Date("2024-01-05"),
-    updatedAt: new Date("2024-01-05"),
-  },
-  {
-    id: "4",
-    title: "BLACKFRIDAY",
-    discountPercentage: 30,
-    timesUsed: 45,
-    totalSalesAmount: 2200.0,
-    maxUses: 200,
-    minOrderAmount: 80.0,
-    isActive: true,
-    influencerId: "1",
-    influencerName: "João Silva",
-    isFirstPurchase: false,
-    createdAt: new Date("2024-01-20"),
-    updatedAt: new Date("2024-01-20"),
-  },
-  {
-    id: "5",
-    title: "FREESHIPPING",
-    discountAmount: 15.0,
-    timesUsed: 32,
-    totalSalesAmount: 1200.0,
-    maxUses: 150,
-    minOrderAmount: 60.0,
-    isActive: true,
-    influencerId: "4",
-    influencerName: "Ana Oliveira",
-    isFirstPurchase: false,
-    createdAt: new Date("2024-01-12"),
-    updatedAt: new Date("2024-01-12"),
-  },
-  {
-    id: "6",
-    title: "WELCOME20",
-    discountPercentage: 20,
-    timesUsed: 18,
-    totalSalesAmount: 900.0,
-    maxUses: 80,
-    minOrderAmount: 40.0,
-    isActive: true,
-    influencerId: "2",
-    influencerName: "Maria Santos",
-    isFirstPurchase: true,
-    createdAt: new Date("2024-01-08"),
-    updatedAt: new Date("2024-01-08"),
-  },
-];
-
 const CouponDetails = ({ couponId }: CouponDetailsProps) => {
   const router = useRouter();
-  const [coupon, setCoupon] = useState<Coupon | null>(null);
+  const [coupon, setCoupon] = useState<CouponType | null>(null);
   const [loading, setLoading] = useState(true);
   const [isEditing, setIsEditing] = useState(false);
   const [editData, setEditData] = useState<EditCouponData>({});
@@ -159,51 +70,21 @@ const CouponDetails = ({ couponId }: CouponDetailsProps) => {
     "percentage" | "amount"
   >("percentage");
 
-  // useEffect(() => {
-  //   console.log("CouponDetails: couponId recebido:", couponId);
-  //   // Simula um delay de carregamento para mostrar o estado de loading
-  //   const timer = setTimeout(() => {
-  //     const foundCoupon = mockCoupons.find((c) => c.id === couponId);
-  //     console.log("CouponDetails: cupom encontrado:", foundCoupon);
+  console.log("coupon", coupon);
 
-  //     if (!foundCoupon) {
-  //       console.log(
-  //         "CouponDetails: Cupom não encontrado, redirecionando para /coupons",
-  //       );
-  //       router.push("/coupons/1");
-  //       return;
-  //     }
-
-  //     setCoupon(foundCoupon);
-  //     setLoading(false);
-  //   }, 100);
-
-  //   return () => clearTimeout(timer);
-  // }, [couponId, router]);
-
-  // useEffect(() => {
-  //   if (coupon) {
-  //     setEditData({
-  //       title: coupon.title,
-  //       discountPercentage: coupon.discountPercentage,
-  //       discountAmount: coupon.discountAmount,
-  //       expiresAt: coupon.expiresAt
-  //         ? coupon.expiresAt.toISOString().split("T")[0]
-  //         : "",
-  //       maxUses: coupon.maxUses,
-  //       minOrderAmount: coupon.minOrderAmount,
-  //       isActive: coupon.isActive,
-  //       isFirstPurchase: coupon.isFirstPurchase,
-  //     });
-
-  //     // Define o tipo inicial baseado no cupom
-  //     if (coupon.discountPercentage !== undefined) {
-  //       setSelectedDiscountType("percentage");
-  //     } else if (coupon.discountAmount !== undefined) {
-  //       setSelectedDiscountType("amount");
-  //     }
-  //   }
-  // }, [coupon]);
+  useEffect(() => {
+    connectionAPIGet<CouponType>(`/coupon/${couponId}`, apiUrl)
+      .then((res) => {
+        setCoupon(res);
+      })
+      .catch((err) => {
+        console.log(err);
+      })
+      .finally(() => {
+        setLoading(false);
+      });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   const validateForm = (): boolean => {
     const newErrors: FormErrors = {};
@@ -259,29 +140,12 @@ const CouponDetails = ({ couponId }: CouponDetailsProps) => {
     return Object.keys(newErrors).length === 0;
   };
 
-  const formatCurrency = (value: number) => {
-    return new Intl.NumberFormat("pt-BR", {
-      style: "currency",
-      currency: "BRL",
-    }).format(value);
-  };
-
-  const formatDate = (date: Date) => {
-    return new Intl.DateTimeFormat("pt-BR", {
-      day: "2-digit",
-      month: "2-digit",
-      year: "numeric",
-      hour: "2-digit",
-      minute: "2-digit",
-    }).format(date);
-  };
-
-  const getDiscountText = (coupon: Coupon) => {
+  const getDiscountText = (coupon: CouponType) => {
     if (coupon.discountPercentage) {
       return `${coupon.discountPercentage}%`;
     }
     if (coupon.discountAmount) {
-      return formatCurrency(coupon.discountAmount);
+      return `R$ ${formatPrice(Number(coupon.discountAmount))}`;
     }
     return "N/A";
   };
@@ -305,13 +169,19 @@ const CouponDetails = ({ couponId }: CouponDetailsProps) => {
       setCoupon({
         ...coupon,
         ...editData,
+        discountPercentage:
+          editData.discountPercentage?.toString() || coupon.discountPercentage,
+        discountAmount:
+          editData.discountAmount?.toString() || coupon.discountAmount,
+        minOrderAmount:
+          editData.minOrderAmount?.toString() || coupon.minOrderAmount,
         expiresAt: editData.expiresAt
-          ? new Date(editData.expiresAt)
-          : undefined,
-        updatedAt: new Date(),
+          ? new Date(editData.expiresAt).toISOString()
+          : coupon.expiresAt,
+        updatedAt: new Date().toISOString(),
       });
       setIsEditing(false);
-      setErrors({}); // Clear errors after successful save
+      setErrors({});
     } else {
       console.log("Validação falhou, não salvando");
     }
@@ -321,18 +191,22 @@ const CouponDetails = ({ couponId }: CouponDetailsProps) => {
     if (coupon) {
       setEditData({
         title: coupon.title,
-        discountPercentage: coupon.discountPercentage,
-        discountAmount: coupon.discountAmount,
-        expiresAt: coupon.expiresAt
-          ? coupon.expiresAt.toISOString().split("T")[0]
-          : "",
+        discountPercentage: coupon.discountPercentage
+          ? parseInt(coupon.discountPercentage)
+          : undefined,
+        discountAmount: coupon.discountAmount
+          ? parseInt(coupon.discountAmount)
+          : undefined,
+        expiresAt: coupon.expiresAt ? coupon.expiresAt.split("T")[0] : "",
         maxUses: coupon.maxUses,
-        minOrderAmount: coupon.minOrderAmount,
+        minOrderAmount: coupon.minOrderAmount
+          ? parseInt(coupon.minOrderAmount)
+          : undefined,
         isActive: coupon.isActive,
         isFirstPurchase: coupon.isFirstPurchase,
       });
       setIsEditing(false);
-      setErrors({}); // Clear errors when canceling
+      setErrors({});
     }
   };
 
@@ -349,7 +223,7 @@ const CouponDetails = ({ couponId }: CouponDetailsProps) => {
   };
 
   const handleInputChange = (
-    field: keyof Coupon,
+    field: keyof CouponType,
     value: string | number | boolean,
   ) => {
     setEditData((prev) => ({ ...prev, [field]: value }));
@@ -490,7 +364,7 @@ const CouponDetails = ({ couponId }: CouponDetailsProps) => {
                   Influencer:
                 </Text>
                 <Text fontName="SMALL_MEDIUM" color={Theme.colors.mainlight}>
-                  {coupon.influencerName}
+                  {coupon.influencer.name}
                 </Text>
               </div>
               <div className="infoItem">
@@ -712,7 +586,7 @@ const CouponDetails = ({ couponId }: CouponDetailsProps) => {
                 ) : (
                   <Text fontName="SMALL_MEDIUM" color={Theme.colors.mainlight}>
                     {coupon.minOrderAmount
-                      ? formatCurrency(coupon.minOrderAmount)
+                      ? `R$ ${formatPrice(Number(coupon.minOrderAmount))}`
                       : "Sem mínimo"}
                   </Text>
                 )}
@@ -778,7 +652,7 @@ const CouponDetails = ({ couponId }: CouponDetailsProps) => {
                   Total de vendas:
                 </Text>
                 <Text fontName="SMALL_MEDIUM" color={Theme.colors.mainlight}>
-                  {formatCurrency(coupon.totalSalesAmount)}
+                  R$ {formatPrice(Number(coupon.totalSalesAmount))}
                 </Text>
               </div>
               <div className="infoItem">
@@ -811,19 +685,18 @@ const CouponDetails = ({ couponId }: CouponDetailsProps) => {
           {isEditing ? (
             <>
               <Button
-                title="SALVAR"
-                onClick={handleSave}
-                width={120}
-                height={40}
-                rounded
-              />
-              <Button
                 title="CANCELAR"
                 onClick={handleCancel}
                 width={120}
                 height={40}
                 rounded
-                isNotSelected
+              />
+              <Button
+                title="SALVAR"
+                onClick={handleSave}
+                width={120}
+                height={40}
+                rounded
               />
             </>
           ) : (

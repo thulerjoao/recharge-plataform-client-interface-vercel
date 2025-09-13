@@ -225,7 +225,7 @@ const CouponsPage = ({
             <div className="tableHeader">
               <div className="tableCell">Título</div>
               <div className="tableCell">Desconto</div>
-              <div className="tableCell">Influencer</div>
+              {/* <div className="tableCell">Influencer</div> */}
               <div className="tableCell">Status</div>
             </div>
 
