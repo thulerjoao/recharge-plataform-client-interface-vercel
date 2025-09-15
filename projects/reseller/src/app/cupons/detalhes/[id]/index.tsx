@@ -174,15 +174,13 @@ const CouponDetails = ({ couponId }: CouponDetailsProps) => {
     if (confirm("Tem certeza que deseja excluir este cupom?")) {
       connectionAPIDelete(`/coupon/${couponId}`, apiUrl)
         .then(() => {
-          router.push("/coupons/1");
+          router.push("/cupons/1");
         })
         .catch(() => {
           alert("Algo deu errado, tente novamente");
         });
     }
   };
-
-  console.log("selectedDiscountType", selectedDiscountType);
 
   const handleInputChange = (
     field: keyof CouponType,
