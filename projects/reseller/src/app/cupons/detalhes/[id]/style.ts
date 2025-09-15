@@ -112,6 +112,18 @@ export const CouponDetailsContainer = styled.div`
         -moz-box-shadow: 0px 0px 5px 2px rgba(7, 29, 35, 1);
         box-shadow: 0px 0px 5px 2px rgba(7, 29, 35, 1);
 
+        &.unifiedInfoSection {
+          .sectionDivider {
+            height: 1px;
+            background: ${Theme.colors.secondaryTextAction}20;
+            margin: 24px 0;
+          }
+
+          .sectionTitle {
+            margin-bottom: 16px;
+          }
+        }
+
         .infoGrid {
           margin-top: 16px;
           display: grid;
@@ -185,6 +197,7 @@ export const CouponDetailsContainer = styled.div`
       display: flex;
       justify-content: center;
       gap: 16px;
+      margin-top: 28px;
     }
   }
 
@@ -201,9 +214,11 @@ export const CouponDetailsContainer = styled.div`
 
   @media (max-width: 768px) {
     padding-top: 64px;
+
     .desktop {
       display: none;
     }
+
     .mobile {
       display: flex;
       width: 100%;
@@ -223,49 +238,52 @@ export const CouponDetailsContainer = styled.div`
       gap: 24px;
 
       .headerSection {
-        flex-direction: row;
-        justify-content: space-between;
-        align-items: flex-start;
+        flex-direction: column;
+        text-align: center;
         gap: 16px;
-        text-align: left;
+        padding: 20px;
+        margin-bottom: 20px;
 
         .couponInfo {
-          flex: 1;
-          min-width: 0;
-          align-items: flex-start;
+          align-items: center;
         }
 
         .statusSection {
-          flex-shrink: 0;
-          align-items: flex-start;
-          min-width: 80px;
-
-          .statusBadge {
-            padding: 2px 8px;
-            font-size: 10px;
-            align-self: flex-end;
-          }
+          align-items: center;
+          flex-direction: row;
+          gap: 8px;
+          justify-content: space-between;
+          width: 100%;
 
           .onOff {
-            margin-top: 28px;
+            margin-top: 0;
           }
         }
       }
 
       .infoSections {
         .infoSection {
+          padding: 20px;
+          margin-bottom: 20px;
+
           .infoGrid {
             grid-template-columns: 1fr;
             gap: 12px;
+          }
+
+          &.unifiedInfoSection {
+            .sectionDivider {
+              margin: 20px 0;
+            }
           }
         }
       }
 
       .actionsSection {
         flex-direction: row;
+        gap: 12px;
         justify-content: center;
-        gap: 16px;
-        flex-wrap: nowrap;
+        margin-top: 20px;
 
         button {
           flex: 1;
@@ -275,41 +293,83 @@ export const CouponDetailsContainer = styled.div`
     }
   }
 
-  @media (max-width: 480px) {
+  @media (max-width: 539px) {
+    .desktop {
+      display: none;
+    }
+
+    .mobile {
+      display: flex;
+      width: 100%;
+    }
+
     .mainContent {
       padding: 12px;
       gap: 20px;
 
       .headerSection {
-        padding: 20px;
+        padding: 16px;
+        margin-bottom: 16px;
         gap: 12px;
-
-        .couponInfo {
-          gap: 8px;
-        }
-
-        .statusSection {
-          min-width: 70px;
-        }
       }
 
       .infoSections {
-        gap: 20px;
-
         .infoSection {
-          padding: 20px;
+          padding: 16px;
+          margin-bottom: 16px;
+          gap: 12px;
 
-          .infoGrid {
-            gap: 16px;
+          &.unifiedInfoSection {
+            .sectionDivider {
+              margin: 16px 0;
+            }
           }
         }
       }
 
       .actionsSection {
-        gap: 12px;
+        gap: 10px;
+        margin-top: 16px;
 
         button {
           max-width: 140px;
+        }
+      }
+    }
+  }
+
+  @media (max-width: 400px) {
+    .mainContent {
+      padding: 10px;
+      gap: 16px;
+
+      .headerSection {
+        padding: 14px;
+        margin-bottom: 14px;
+        gap: 10px;
+      }
+
+      .infoSections {
+        .infoSection {
+          padding: 14px;
+          margin-bottom: 14px;
+          gap: 10px;
+
+          &.unifiedInfoSection {
+            .sectionDivider {
+              margin: 14px 0;
+            }
+          }
+        }
+      }
+
+      .actionsSection {
+        gap: 8px;
+        margin-top: 14px;
+
+        button {
+          max-width: 120px;
+          font-size: 14px;
         }
       }
     }

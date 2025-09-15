@@ -43,7 +43,7 @@ const CouponSales = ({ influencerId }: CouponDetailsProps) => {
   }, [influencerId, page]);
 
   const handleViewCoupon = (couponId: string) => {
-    router.push(`/copons/detalhes/${couponId}`);
+    router.push(`/cupons/detalhes/${couponId}`);
   };
 
   if (loading) {

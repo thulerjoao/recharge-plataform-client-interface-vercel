@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 "use client";
 
 import Button from "@4miga/design-system/components/button";
@@ -5,283 +6,66 @@ import Input from "@4miga/design-system/components/input";
 import OnOff from "@4miga/design-system/components/onOff";
 import Text from "@4miga/design-system/components/Text";
 import { Theme } from "@4miga/design-system/theme/theme";
+import {
+  connectionAPIDelete,
+  connectionAPIGet,
+  connectionAPIPatch,
+} from "@4miga/services/connectionAPI/connection";
 import { useRouter } from "next/navigation";
 import DefaultHeader from "public/components/defaultHeader";
 import HeaderEnviroment from "public/components/headerEnviroment";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import InputMask from "react-input-mask";
+import { CouponType } from "types/couponType";
+import { apiUrl } from "utils/apiUrl";
+import { FormErrors, validateCouponForm } from "utils/couponValidation";
+import { formatDate } from "utils/formatDate";
+import { formatPrice } from "utils/formatPrice";
 import { CouponDetailsContainer } from "./style";
-
-interface Coupon {
-  id: string;
-  title: string;
-  discountPercentage?: number;
-  discountAmount?: number;
-  expiresAt?: Date;
-  timesUsed: number;
-  totalSalesAmount: number;
-  maxUses?: number;
-  minOrderAmount?: number;
-  isActive: boolean;
-  influencerId: string;
-  influencerName: string;
-  isFirstPurchase: boolean;
-  createdAt: Date;
-  updatedAt: Date;
-}
 
 interface CouponDetailsProps {
   couponId: string;
 }
 
-interface EditCouponData {
-  title?: string;
-  discountPercentage?: number;
-  discountAmount?: number;
-  expiresAt?: string;
-  maxUses?: number;
-  minOrderAmount?: number;
-  isActive?: boolean;
-  isFirstPurchase?: boolean;
-}
-
-interface FormErrors {
-  title?: string;
-  discountPercentage?: string;
-  discountAmount?: string;
-  expiresAt?: string;
-  maxUses?: string;
-  minOrderAmount?: string;
-}
-
-// Mock data - será substituído por dados reais da API
-const mockCoupons: Coupon[] = [
-  {
-    id: "1",
-    title: "DESCONTO10",
-    discountPercentage: 10,
-    timesUsed: 25,
-    totalSalesAmount: 1250.0,
-    maxUses: 100,
-    minOrderAmount: 50.0,
-    isActive: true,
-    influencerId: "1",
-    influencerName: "João Silva",
-    isFirstPurchase: false,
-    createdAt: new Date("2024-01-15"),
-    updatedAt: new Date("2024-01-15"),
-  },
-  {
-    id: "2",
-    title: "PRIMEIRACOMPRA",
-    discountAmount: 20.0,
-    timesUsed: 15,
-    totalSalesAmount: 800.0,
-    maxUses: 50,
-    minOrderAmount: 100.0,
-    isActive: true,
-    influencerId: "2",
-    influencerName: "Maria Santos",
-    isFirstPurchase: true,
-    createdAt: new Date("2024-01-10"),
-    updatedAt: new Date("2024-01-10"),
-  },
-  {
-    id: "3",
-    title: "SUPERDESCONTO",
-    discountPercentage: 25,
-    timesUsed: 8,
-    totalSalesAmount: 400.0,
-    maxUses: 30,
-    minOrderAmount: 75.0,
-    isActive: false,
-    influencerId: "3",
-    influencerName: "Pedro Costa",
-    isFirstPurchase: false,
-    createdAt: new Date("2024-01-05"),
-    updatedAt: new Date("2024-01-05"),
-  },
-  {
-    id: "4",
-    title: "BLACKFRIDAY",
-    discountPercentage: 30,
-    timesUsed: 45,
-    totalSalesAmount: 2200.0,
-    maxUses: 200,
-    minOrderAmount: 80.0,
-    isActive: true,
-    influencerId: "1",
-    influencerName: "João Silva",
-    isFirstPurchase: false,
-    createdAt: new Date("2024-01-20"),
-    updatedAt: new Date("2024-01-20"),
-  },
-  {
-    id: "5",
-    title: "FREESHIPPING",
-    discountAmount: 15.0,
-    timesUsed: 32,
-    totalSalesAmount: 1200.0,
-    maxUses: 150,
-    minOrderAmount: 60.0,
-    isActive: true,
-    influencerId: "4",
-    influencerName: "Ana Oliveira",
-    isFirstPurchase: false,
-    createdAt: new Date("2024-01-12"),
-    updatedAt: new Date("2024-01-12"),
-  },
-  {
-    id: "6",
-    title: "WELCOME20",
-    discountPercentage: 20,
-    timesUsed: 18,
-    totalSalesAmount: 900.0,
-    maxUses: 80,
-    minOrderAmount: 40.0,
-    isActive: true,
-    influencerId: "2",
-    influencerName: "Maria Santos",
-    isFirstPurchase: true,
-    createdAt: new Date("2024-01-08"),
-    updatedAt: new Date("2024-01-08"),
-  },
-];
-
 const CouponDetails = ({ couponId }: CouponDetailsProps) => {
   const router = useRouter();
-  const [coupon, setCoupon] = useState<Coupon | null>(null);
+
+  const [errors, setErrors] = useState<FormErrors>({});
   const [loading, setLoading] = useState(true);
   const [isEditing, setIsEditing] = useState(false);
-  const [editData, setEditData] = useState<EditCouponData>({});
-  const [errors, setErrors] = useState<FormErrors>({});
+  const [coupon, setCoupon] = useState<CouponType | null>(null);
+  const [editData, setEditData] = useState<CouponType>({} as CouponType);
   const [selectedDiscountType, setSelectedDiscountType] = useState<
     "percentage" | "amount"
   >("percentage");
 
-  // useEffect(() => {
-  //   console.log("CouponDetails: couponId recebido:", couponId);
-  //   // Simula um delay de carregamento para mostrar o estado de loading
-  //   const timer = setTimeout(() => {
-  //     const foundCoupon = mockCoupons.find((c) => c.id === couponId);
-  //     console.log("CouponDetails: cupom encontrado:", foundCoupon);
-
-  //     if (!foundCoupon) {
-  //       console.log(
-  //         "CouponDetails: Cupom não encontrado, redirecionando para /coupons",
-  //       );
-  //       router.push("/coupons/1");
-  //       return;
-  //     }
-
-  //     setCoupon(foundCoupon);
-  //     setLoading(false);
-  //   }, 100);
-
-  //   return () => clearTimeout(timer);
-  // }, [couponId, router]);
-
-  // useEffect(() => {
-  //   if (coupon) {
-  //     setEditData({
-  //       title: coupon.title,
-  //       discountPercentage: coupon.discountPercentage,
-  //       discountAmount: coupon.discountAmount,
-  //       expiresAt: coupon.expiresAt
-  //         ? coupon.expiresAt.toISOString().split("T")[0]
-  //         : "",
-  //       maxUses: coupon.maxUses,
-  //       minOrderAmount: coupon.minOrderAmount,
-  //       isActive: coupon.isActive,
-  //       isFirstPurchase: coupon.isFirstPurchase,
-  //     });
-
-  //     // Define o tipo inicial baseado no cupom
-  //     if (coupon.discountPercentage !== undefined) {
-  //       setSelectedDiscountType("percentage");
-  //     } else if (coupon.discountAmount !== undefined) {
-  //       setSelectedDiscountType("amount");
-  //     }
-  //   }
-  // }, [coupon]);
-
-  const validateForm = (): boolean => {
-    const newErrors: FormErrors = {};
-
-    // Validação do título
-    if (!editData.title?.trim()) {
-      newErrors.title = "Título do cupom é obrigatório";
-    }
-
-    // Validação do tipo de desconto
-    if (editData.discountPercentage !== undefined) {
-      if (!editData.discountPercentage || editData.discountPercentage <= 0) {
-        newErrors.discountPercentage = "Porcentagem deve ser maior que 0";
-      } else if (editData.discountPercentage > 100) {
-        newErrors.discountPercentage =
-          "Porcentagem não pode ser maior que 100%";
-      }
-    } else if (editData.discountAmount !== undefined) {
-      if (!editData.discountAmount || editData.discountAmount <= 0) {
-        newErrors.discountAmount = "Valor deve ser maior que 0";
-      }
-    } else {
-      // Se nenhum dos dois está definido, é obrigatório ter pelo menos um
-      if (coupon.discountPercentage !== undefined) {
-        newErrors.discountPercentage = "Porcentagem é obrigatória";
-      } else if (coupon.discountAmount !== undefined) {
-        newErrors.discountAmount = "Valor é obrigatório";
-      }
-    }
-
-    // Validação da data de expiração (se preenchida)
-    if (editData.expiresAt) {
-      const selectedDate = new Date(editData.expiresAt);
-      const today = new Date();
-      today.setHours(0, 0, 0, 0);
-
-      if (selectedDate <= today) {
-        newErrors.expiresAt = "Data de expiração deve ser futura";
-      }
-    }
-
-    // Validação do máximo de usos (se preenchido)
-    if (editData.maxUses && editData.maxUses <= 0) {
-      newErrors.maxUses = "Máximo de usos deve ser maior que 0";
-    }
-
-    // Validação do valor mínimo do pedido (se preenchida)
-    if (editData.minOrderAmount && editData.minOrderAmount < 0) {
-      newErrors.minOrderAmount = "Valor mínimo não pode ser negativo";
-    }
-
-    setErrors(newErrors);
-    return Object.keys(newErrors).length === 0;
+  const getCoupon = async () => {
+    await connectionAPIGet<CouponType>(`/coupon/${couponId}`, apiUrl)
+      .then((res) => {
+        setCoupon(res);
+        setEditData(res);
+        setSelectedDiscountType(
+          res.discountPercentage ? "percentage" : "amount",
+        );
+      })
+      .catch((err) => {
+        console.log("err", err);
+      })
+      .finally(() => {
+        setLoading(false);
+      });
   };
 
-  const formatCurrency = (value: number) => {
-    return new Intl.NumberFormat("pt-BR", {
-      style: "currency",
-      currency: "BRL",
-    }).format(value);
-  };
+  useEffect(() => {
+    getCoupon();
+  }, []);
 
-  const formatDate = (date: Date) => {
-    return new Intl.DateTimeFormat("pt-BR", {
-      day: "2-digit",
-      month: "2-digit",
-      year: "numeric",
-      hour: "2-digit",
-      minute: "2-digit",
-    }).format(date);
-  };
-
-  const getDiscountText = (coupon: Coupon) => {
+  const getDiscountText = (coupon: CouponType) => {
     if (coupon.discountPercentage) {
       return `${coupon.discountPercentage}%`;
     }
     if (coupon.discountAmount) {
-      return formatCurrency(coupon.discountAmount);
+      return `R$ ${formatPrice(Number(coupon.discountAmount))}`;
     }
     return "N/A";
   };
@@ -292,69 +76,119 @@ const CouponDetails = ({ couponId }: CouponDetailsProps) => {
 
   const handleEdit = () => {
     setIsEditing(true);
-    setErrors({}); // Clear errors when starting to edit
+    setErrors({});
   };
 
   const handleSave = () => {
-    console.log("Tentando salvar, editData:", editData);
-    const isValid = validateForm();
-    console.log("Validação passou?", isValid);
-    console.log("Erros atuais:", errors);
+    const data = {
+      title: editData.title,
+      discountPercentage:
+        +editData.discountPercentage === 0
+          ? null
+          : +editData.discountPercentage,
+      discountAmount:
+        +editData.discountAmount === 0 ? null : +editData.discountAmount,
+      expiresAt: editData.expiresAt,
+      maxUses: editData.maxUses,
+      minOrderAmount: +editData.minOrderAmount,
+      isActive: editData.isActive,
+      isFirstPurchase: editData.isFirstPurchase,
+    };
 
-    if (isValid && coupon) {
-      setCoupon({
-        ...coupon,
-        ...editData,
-        expiresAt: editData.expiresAt
-          ? new Date(editData.expiresAt)
-          : undefined,
-        updatedAt: new Date(),
-      });
-      setIsEditing(false);
-      setErrors({}); // Clear errors after successful save
-    } else {
-      console.log("Validação falhou, não salvando");
+    // return console.log("data", data);
+
+    if (
+      data.title === coupon.title &&
+      (data.discountPercentage === +coupon.discountPercentage ||
+        data.discountAmount === +coupon.discountAmount) &&
+      data.expiresAt === coupon.expiresAt &&
+      data.maxUses === coupon.maxUses &&
+      data.minOrderAmount === +coupon.minOrderAmount &&
+      data.isActive === coupon.isActive &&
+      data.isFirstPurchase === coupon.isFirstPurchase
+    ) {
+      return handleCancel();
     }
+
+    const { isValid, errors } = validateCouponForm({
+      title: data.title,
+      discountPercentage: data.discountPercentage,
+      discountAmount: data.discountAmount,
+      expiresAt: data.expiresAt,
+      maxUses: data.maxUses,
+      minOrderAmount: data.minOrderAmount,
+      selectedDiscountType: selectedDiscountType,
+    });
+    if (!isValid) {
+      setErrors(errors);
+      return;
+    }
+
+    setLoading(true);
+    connectionAPIPatch(`/coupon/${couponId}`, data, apiUrl)
+      .then(async () => {
+        await getCoupon();
+        setIsEditing(false);
+        alert("Cupom atualizado!");
+      })
+      .catch((err) => {
+        console.log("err", err);
+        if (
+          err.response.data.message ===
+          "Coupon with this title already exists for this store"
+        ) {
+          alert("Cupom já cadastrado");
+        } else if (
+          err.response.data.message ===
+          "Fixed discount amount cannot be greater than minimum order amount"
+        ) {
+          alert(
+            "Valor do desconto não pode ser maior que o valor mínimo do pedido",
+          );
+        }
+        setEditData(coupon);
+      })
+      .finally(() => {
+        setLoading(false);
+      });
+    setIsEditing(false);
+    setErrors({});
   };
 
   const handleCancel = () => {
     if (coupon) {
-      setEditData({
-        title: coupon.title,
-        discountPercentage: coupon.discountPercentage,
-        discountAmount: coupon.discountAmount,
-        expiresAt: coupon.expiresAt
-          ? coupon.expiresAt.toISOString().split("T")[0]
-          : "",
-        maxUses: coupon.maxUses,
-        minOrderAmount: coupon.minOrderAmount,
-        isActive: coupon.isActive,
-        isFirstPurchase: coupon.isFirstPurchase,
-      });
+      setEditData(coupon);
+      setSelectedDiscountType(
+        coupon.discountPercentage ? "percentage" : "amount",
+      );
       setIsEditing(false);
-      setErrors({}); // Clear errors when canceling
+      setErrors({});
     }
   };
 
   const handleToggleActive = () => {
-    if (coupon) {
-      setCoupon({ ...coupon, isActive: !coupon.isActive });
-    }
+    setEditData((prev) => ({ ...prev, isActive: !prev.isActive }));
   };
 
   const handleDelete = () => {
     if (confirm("Tem certeza que deseja excluir este cupom?")) {
-      router.push("/coupons/1");
+      connectionAPIDelete(`/coupon/${couponId}`, apiUrl)
+        .then(() => {
+          router.push("/cupons/1");
+        })
+        .catch(() => {
+          alert("Algo deu errado, tente novamente");
+        });
     }
   };
 
   const handleInputChange = (
-    field: keyof Coupon,
-    value: string | number | boolean,
+    field: keyof CouponType,
+    value: string | boolean | number,
   ) => {
     setEditData((prev) => ({ ...prev, [field]: value }));
 
-    // Limpar erro do campo quando usuário começar a digitar
+    // Clear specific error when user types
     if (errors[field as keyof FormErrors]) {
       setErrors((prev) => ({ ...prev, [field]: undefined }));
     }
@@ -430,33 +264,42 @@ const CouponDetails = ({ couponId }: CouponDetailsProps) => {
           </div>
           <div className="statusSection">
             <div
-              className={`statusBadge ${coupon.isActive ? "active" : "inactive"}`}
+              className={`statusBadge ${editData.isActive ? "active" : "inactive"}`}
             >
               <Text
                 fontName="SMALL_MEDIUM"
                 color={
-                  coupon.isActive ? Theme.colors.approved : Theme.colors.refused
+                  editData.isActive
+                    ? Theme.colors.approved
+                    : Theme.colors.refused
                 }
               >
-                {coupon.isActive ? "ATIVO" : "INATIVO"}
+                {editData.isActive ? "ATIVO" : "INATIVO"}
               </Text>
             </div>
-            <div className="onOff">
-              <Text fontName="SMALL_MEDIUM" color={Theme.colors.mainlight}>
-                Ativar/Desativar
-              </Text>
-              <span onClick={handleToggleActive}>
-                <OnOff onOff={coupon.isActive} />
-              </span>
-            </div>
+            {isEditing && (
+              <div className="onOff">
+                <Text fontName="SMALL_MEDIUM" color={Theme.colors.mainlight}>
+                  Ativar/Desativar
+                </Text>
+                <span onClick={handleToggleActive}>
+                  <OnOff onOff={editData.isActive} />
+                </span>
+              </div>
+            )}
           </div>
         </div>
 
         <div className="infoSections">
-          <div className="infoSection">
-            <Text fontName="REGULAR_MEDIUM" color={Theme.colors.mainHighlight}>
-              INFORMAÇÕES BÁSICAS
-            </Text>
+          <div className="infoSection unifiedInfoSection">
+            <div className="sectionTitle">
+              <Text
+                fontName="REGULAR_MEDIUM"
+                color={Theme.colors.mainHighlight}
+              >
+                INFORMAÇÕES BÁSICAS
+              </Text>
+            </div>
             <div className="infoGrid">
               <div className="infoItem">
                 <Text
@@ -490,7 +333,7 @@ const CouponDetails = ({ couponId }: CouponDetailsProps) => {
                   Influencer:
                 </Text>
                 <Text fontName="SMALL_MEDIUM" color={Theme.colors.mainlight}>
-                  {coupon.influencerName}
+                  {coupon.influencer.name}
                 </Text>
               </div>
               <div className="infoItem">
@@ -533,13 +376,9 @@ const CouponDetails = ({ couponId }: CouponDetailsProps) => {
                   fontName="SMALL_MEDIUM"
                   color={Theme.colors.secondaryText}
                 >
-                  {editData.discountPercentage !== undefined
+                  {selectedDiscountType === "percentage"
                     ? "Porcentagem (%)"
-                    : editData.discountAmount !== undefined
-                      ? "Valor (R$)"
-                      : coupon.discountPercentage
-                        ? "Porcentagem (%)"
-                        : "Valor (R$)"}
+                    : "Valor fixo (R$)"}
                   :
                 </Text>
                 {isEditing ? (
@@ -605,12 +444,17 @@ const CouponDetails = ({ couponId }: CouponDetailsProps) => {
                   )}
               </div>
             </div>
-          </div>
 
-          <div className="infoSection">
-            <Text fontName="REGULAR_MEDIUM" color={Theme.colors.mainHighlight}>
-              CONFIGURAÇÕES
-            </Text>
+            <div className="sectionDivider"></div>
+
+            <div className="sectionTitle">
+              <Text
+                fontName="REGULAR_MEDIUM"
+                color={Theme.colors.mainHighlight}
+              >
+                CONFIGURAÇÕES
+              </Text>
+            </div>
             <div className="infoGrid">
               <div className="infoItem">
                 <Text
@@ -712,7 +556,7 @@ const CouponDetails = ({ couponId }: CouponDetailsProps) => {
                 ) : (
                   <Text fontName="SMALL_MEDIUM" color={Theme.colors.mainlight}>
                     {coupon.minOrderAmount
-                      ? formatCurrency(coupon.minOrderAmount)
+                      ? `R$ ${formatPrice(Number(coupon.minOrderAmount))}`
                       : "Sem mínimo"}
                   </Text>
                 )}
@@ -751,6 +595,47 @@ const CouponDetails = ({ couponId }: CouponDetailsProps) => {
                 )}
               </div>
             </div>
+
+            <div className="actionsSection">
+              {isEditing ? (
+                <>
+                  <Button
+                    title="CANCELAR"
+                    onClick={handleCancel}
+                    width={120}
+                    height={36}
+                    rounded
+                  />
+                  <Button
+                    title="SALVAR"
+                    onClick={handleSave}
+                    width={120}
+                    height={36}
+                    rounded
+                  />
+                </>
+              ) : (
+                <>
+                  <Button
+                    title="EDITAR"
+                    onClick={handleEdit}
+                    width={120}
+                    height={36}
+                    rounded
+                  />
+                  <Button
+                    title="EXCLUIR"
+                    onClick={handleDelete}
+                    width={120}
+                    height={36}
+                    rounded
+                    style={{
+                      backgroundColor: Theme.colors.refused,
+                    }}
+                  />
+                </>
+              )}
+            </div>
           </div>
 
           <div className="infoSection">
@@ -778,7 +663,7 @@ const CouponDetails = ({ couponId }: CouponDetailsProps) => {
                   Total de vendas:
                 </Text>
                 <Text fontName="SMALL_MEDIUM" color={Theme.colors.mainlight}>
-                  {formatCurrency(coupon.totalSalesAmount)}
+                  R$ {formatPrice(Number(coupon.totalSalesAmount))}
                 </Text>
               </div>
               <div className="infoItem">
@@ -805,48 +690,6 @@ const CouponDetails = ({ couponId }: CouponDetailsProps) => {
               </div>
             </div>
           </div>
-        </div>
-
-        <div className="actionsSection">
-          {isEditing ? (
-            <>
-              <Button
-                title="SALVAR"
-                onClick={handleSave}
-                width={120}
-                height={40}
-                rounded
-              />
-              <Button
-                title="CANCELAR"
-                onClick={handleCancel}
-                width={120}
-                height={40}
-                rounded
-                isNotSelected
-              />
-            </>
-          ) : (
-            <>
-              <Button
-                title="EDITAR"
-                onClick={handleEdit}
-                width={120}
-                height={40}
-                rounded
-              />
-              <Button
-                title="EXCLUIR"
-                onClick={handleDelete}
-                width={120}
-                height={40}
-                rounded
-                style={{
-                  backgroundColor: Theme.colors.refused,
-                }}
-              />
-            </>
-          )}
         </div>
       </div>
     </CouponDetailsContainer>

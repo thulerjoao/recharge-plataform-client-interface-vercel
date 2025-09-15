@@ -109,7 +109,7 @@ export const CouponsContainer = styled.div`
 
       .tableHeader {
         display: grid;
-        grid-template-columns: 2fr 2fr 2fr 0.5fr;
+        grid-template-columns: 2fr 2fr 0.4fr;
         background: ${Theme.colors.secondaryTextAction};
         padding: 16px 20px;
         gap: 16px;
@@ -141,7 +141,7 @@ export const CouponsContainer = styled.div`
     .mainContentComponent {
       .tableSection {
         .tableHeader {
-          grid-template-columns: 2fr 1.5fr 1.5fr 0.5fr;
+          grid-template-columns: 2fr 2fr 0.4fr;
           gap: 12px;
           padding: 14px 16px;
 
@@ -208,7 +208,7 @@ export const CouponsContainer = styled.div`
 
       .tableSection {
         .tableHeader {
-          grid-template-columns: 2fr 1fr 1fr;
+          grid-template-columns: 2fr 2fr 0.4fr;
           gap: 10px;
           padding: 12px 14px;
 

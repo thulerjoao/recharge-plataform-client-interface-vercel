@@ -22,32 +22,9 @@ import { apiUrl } from "utils/apiUrl";
 import { formatDate } from "utils/formatDate";
 import { formatPrice } from "utils/formatPrice";
 
-import { FormErrors } from "utils/influencerValidation";
+import { FormErrors, validateInfluencerForm } from "utils/influencerValidation";
 import Icon from "../../icons/icon.svg";
 import { InfluencerDetailsContainer } from "./style";
-
-// interface Influencer {
-//   id: string;
-//   name: string;
-//   email?: string;
-//   phone?: string;
-//   paymentMethod?: string;
-//   paymentData?: string;
-//   isActive: boolean;
-//   storeId: string;
-//   createdAt: Date;
-//   updatedAt: Date;
-// }
-
-// interface InfluencerMonthlySales {
-//   id: string;
-//   influencerId: string;
-//   month: number;
-//   year: number;
-//   totalSales: number;
-//   createdAt: Date;
-//   updatedAt: Date;
-// }
 
 interface InfluencerDetailsProps {
   influencerId: string;
@@ -143,6 +120,7 @@ const InfluencerDetails = ({ influencerId }: InfluencerDetailsProps) => {
 
   const handleEdit = () => {
     setIsEditing(true);
+    setErrors({});
   };
 
   const handleSave = () => {
@@ -166,6 +144,12 @@ const InfluencerDetails = ({ influencerId }: InfluencerDetailsProps) => {
       return handleCancel();
     }
 
+    const { isValid, errors } = validateInfluencerForm(data);
+    if (!isValid) {
+      setErrors(errors);
+      return;
+    }
+
     setLoading(true);
     connectionAPIPatch(`/influencer/${influencerId}`, data, apiUrl)
       .then(async () => {
@@ -183,6 +167,7 @@ const InfluencerDetails = ({ influencerId }: InfluencerDetailsProps) => {
         } else {
           alert("Erro ao salvar");
         }
+        handleCancel();
       })
       .finally(() => {
         setLoading(false);
@@ -207,7 +192,7 @@ const InfluencerDetails = ({ influencerId }: InfluencerDetailsProps) => {
         .then(() => {
           router.push("/parceiros/1");
         })
-        .catch((err) => {
+        .catch(() => {
           alert("Algo deu errado, tente novamente");
         });
     }
