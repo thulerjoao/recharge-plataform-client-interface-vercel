@@ -1,13 +1,13 @@
 export interface CouponType {
   id: string;
   title: string;
-  discountPercentage: string | null;
-  discountAmount: string | null;
-  expiresAt: string | null;
+  discountPercentage: number;
+  discountAmount: number;
+  expiresAt: string;
   timesUsed: number;
   totalSalesAmount: string;
-  maxUses: number | null;
-  minOrderAmount: string | null;
+  maxUses: number;
+  minOrderAmount: number;
   isActive: boolean;
   storeId: string;
   createdAt: string;
