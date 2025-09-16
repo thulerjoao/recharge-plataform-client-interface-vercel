@@ -215,7 +215,7 @@ export const InfluencerContainer = styled.div`
 
   @media (max-width: 539px) {
     .influencersContainer {
-      padding: 0 12px;
+      padding: 0;
       gap: 10px;
 
       .headerSection {
@@ -242,7 +242,7 @@ export const InfluencerContainer = styled.div`
 
   @media (max-width: 400px) {
     .influencersContainer {
-      padding: 0 10px;
+      padding: 0;
       gap: 8px;
 
       .headerSection {

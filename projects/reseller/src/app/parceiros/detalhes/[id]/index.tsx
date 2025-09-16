@@ -216,6 +216,16 @@ const InfluencerDetails = ({ influencerId }: InfluencerDetailsProps) => {
     }
   };
 
+  if (loading) {
+    return (
+      <InfluencerDetailsContainer>
+        <Text align="center" fontName="REGULAR_MEDIUM">
+          Carregando...
+        </Text>
+      </InfluencerDetailsContainer>
+    );
+  }
+
   if (!influencer) {
     return (
       <InfluencerDetailsContainer>

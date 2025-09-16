@@ -215,4 +215,29 @@ export const CreateInfluencerContainer = styled.div`
       }
     }
   }
+
+  @media (max-width: 539px) {
+    .mainContent {
+      padding: 0;
+      padding-bottom: 5rem;
+
+      .headerSection {
+        padding: 16px;
+        gap: 12px;
+
+        .onOff {
+          width: 100%;
+          flex-direction: row;
+          align-items: center;
+          justify-content: space-between;
+        }
+      }
+
+      .actionsSection {
+        width: 100%;
+        flex-direction: row;
+        gap: 12px;
+      }
+    }
+  }
 `;
