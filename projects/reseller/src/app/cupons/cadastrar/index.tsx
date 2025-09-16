@@ -251,7 +251,7 @@ const CreateCoupon = () => {
                   onChange={(e) => {
                     const value = e.target.value
                       .toUpperCase()
-                      .replace(/\s/g, ""); // Remove todos os espaços
+                      .replace(/\s/g, "");
                     handleInputChange("title", value);
                   }}
                   placeholder="Ex: DESCONTO10"

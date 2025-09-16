@@ -311,7 +311,12 @@ const CouponDetails = ({ couponId }: CouponDetailsProps) => {
                 {isEditing ? (
                   <Input
                     value={editData.title || ""}
-                    onChange={(e) => handleInputChange("title", e.target.value)}
+                    onChange={(e) => {
+                      const value = e.target.value
+                        .toUpperCase()
+                        .replace(/\s/g, "");
+                      handleInputChange("title", value);
+                    }}
                     placeholder="Título do cupom"
                     height={32}
                     className={errors.title ? "error" : ""}
@@ -605,6 +610,7 @@ const CouponDetails = ({ couponId }: CouponDetailsProps) => {
                     width={120}
                     height={36}
                     rounded
+                    disabled={loading}
                   />
                   <Button
                     title="SALVAR"
@@ -612,6 +618,8 @@ const CouponDetails = ({ couponId }: CouponDetailsProps) => {
                     width={120}
                     height={36}
                     rounded
+                    loading={loading}
+                    disabled={loading}
                   />
                 </>
               ) : (
@@ -622,6 +630,7 @@ const CouponDetails = ({ couponId }: CouponDetailsProps) => {
                     width={120}
                     height={36}
                     rounded
+                    disabled={loading}
                   />
                   <Button
                     title="EXCLUIR"
@@ -632,6 +641,7 @@ const CouponDetails = ({ couponId }: CouponDetailsProps) => {
                     style={{
                       backgroundColor: Theme.colors.refused,
                     }}
+                    disabled={loading}
                   />
                 </>
               )}
