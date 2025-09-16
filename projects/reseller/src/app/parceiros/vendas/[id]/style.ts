@@ -190,7 +190,7 @@ export const InfluencerSalesContainer = styled.div`
     }
 
     .salesMainContent {
-      padding: 12px;
+      padding: 0;
       gap: 20px;
 
       .headerSection {
@@ -229,7 +229,7 @@ export const InfluencerSalesContainer = styled.div`
 
   @media (max-width: 400px) {
     .salesMainContent {
-      padding: 10px;
+      padding: 0;
       gap: 16px;
 
       .headerSection {

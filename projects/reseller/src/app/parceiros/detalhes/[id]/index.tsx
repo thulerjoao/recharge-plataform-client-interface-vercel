@@ -216,6 +216,16 @@ const InfluencerDetails = ({ influencerId }: InfluencerDetailsProps) => {
     }
   };
 
+  if (loading) {
+    return (
+      <InfluencerDetailsContainer>
+        <Text align="center" fontName="REGULAR_MEDIUM">
+          Carregando...
+        </Text>
+      </InfluencerDetailsContainer>
+    );
+  }
+
   if (!influencer) {
     return (
       <InfluencerDetailsContainer>
@@ -680,7 +690,9 @@ const InfluencerDetails = ({ influencerId }: InfluencerDetailsProps) => {
                 <Button
                   title="CRIAR CUPOM"
                   onClick={() =>
-                    router.push(`/coupons/create?influencerId=${influencer.id}`)
+                    router.push(
+                      `/cupons/cadastrar?influencerId=${influencer.id}`,
+                    )
                   }
                   width={160}
                   height={36}

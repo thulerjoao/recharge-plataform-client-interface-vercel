@@ -210,7 +210,7 @@ export const CouponsContainer = styled.div`
         .tableHeader {
           grid-template-columns: 2fr 2fr 0.4fr;
           gap: 10px;
-          padding: 12px 14px;
+          padding: 12px 20px;
 
           /* Mantém a coluna de status em tablets */
           .tableCell:last-child {
@@ -232,7 +232,7 @@ export const CouponsContainer = styled.div`
   /* Breakpoint para mobile grande (539px e menores) */
   @media (max-width: 539px) {
     .mainContentComponent {
-      padding: 12px;
+      padding: 0px;
       gap: 20px;
 
       .headerSection {
@@ -266,7 +266,7 @@ export const CouponsContainer = styled.div`
   /* Breakpoint para mobile pequeno (400px e menores) */
   @media (max-width: 400px) {
     .mainContentComponent {
-      padding: 10px;
+      padding: 0;
       gap: 16px;
 
       .headerSection {
