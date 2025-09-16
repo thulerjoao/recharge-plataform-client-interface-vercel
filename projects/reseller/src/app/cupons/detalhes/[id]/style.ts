@@ -304,7 +304,7 @@ export const CouponDetailsContainer = styled.div`
     }
 
     .mainContent {
-      padding: 12px;
+      padding: 0px;
       gap: 20px;
 
       .headerSection {
@@ -340,7 +340,7 @@ export const CouponDetailsContainer = styled.div`
 
   @media (max-width: 400px) {
     .mainContent {
-      padding: 10px;
+      padding: 0px;
       gap: 16px;
 
       .headerSection {

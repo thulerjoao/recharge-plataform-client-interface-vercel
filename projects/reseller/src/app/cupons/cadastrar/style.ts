@@ -255,9 +255,9 @@ export const CreateCouponContainer = styled.div`
     }
   }
 
-  @media (max-width: 480px) {
+  @media (max-width: 539px) {
     .mainContent {
-      padding: 12px;
+      padding: 0px;
       gap: 20px;
 
       .headerSection {

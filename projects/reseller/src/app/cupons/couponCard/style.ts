@@ -105,7 +105,7 @@ export const CouponCardContainer = styled.div`
   @media (max-width: 768px) {
     grid-template-columns: 2fr 2fr 0.5fr;
     gap: 10px;
-    padding: 12px 14px;
+    padding: 12px 16px;
 
     /* Mantém a coluna de status em tablets */
     .tableCell:last-child {
@@ -135,7 +135,7 @@ export const CouponCardContainer = styled.div`
   @media (max-width: 539px) {
     grid-template-columns: 1fr;
     gap: 8px;
-    padding: 12px;
+    padding: 12px 16px;
     text-align: left;
     position: relative; /* Para posicionar o status badge */
 
@@ -162,8 +162,8 @@ export const CouponCardContainer = styled.div`
       /* Status badge posicionado no canto superior direito */
       &:last-child {
         position: absolute;
-        top: 6px;
-        right: 6px;
+        top: 12px;
+        right: 10px;
         z-index: 2;
 
         .statusBadge {
@@ -179,7 +179,7 @@ export const CouponCardContainer = styled.div`
 
   /* Breakpoint para mobile pequeno (400px e menores) */
   @media (max-width: 400px) {
-    padding: 10px 12px;
+    padding: 10px 16px;
     gap: 6px;
 
     .tableCell {
