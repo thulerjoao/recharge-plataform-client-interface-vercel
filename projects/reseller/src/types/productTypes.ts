@@ -6,6 +6,7 @@ export type ProductType = {
   imgBannerUrl: string;
   imgCardUrl: string;
   packages: PackageType[];
+  storeCustomization: StoreCustomizationType | null;
 };
 
 export type PackageType = {
@@ -27,4 +28,11 @@ export type PaymentMethodsType = {
     | "boleto"
     | "transferencia";
   price: number;
+};
+
+export type StoreCustomizationType = {
+  description: string;
+  instructions: string;
+  imgBannerUrl: string;
+  imgCardUrl: string;
 };

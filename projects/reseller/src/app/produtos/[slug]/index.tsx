@@ -23,24 +23,25 @@ type Props = {
 const Productpage = ({ slug }: Props) => {
   const route = useRouter();
   const { store } = useAuth();
-  // const products = useProducts();
-  // const product = products.find(
-  //   (product: ProductType) => formatString(product.name) === slug,
-  // );
+
   const [product, setProducts] = useState<ProductType>();
-  const initialdescription = product?.description;
-  const initialInstructions = product?.instructions;
-  const [descriptionProduct, setdescriptionProduct] =
-    useState<string>(initialdescription);
-  const [instructions, setInstructions] = useState<string>(initialInstructions);
+  const [description, setDescription] = useState<string>();
+  const [instructions, setInstructions] = useState<string>();
+  const [imgBannerUrl, setImgBannerUrl] = useState<string>();
+  const [imgCardUrl, setImgCardUrl] = useState<string>();
+
   const [ischanged, setIsChanged] = useState<boolean>(false);
   const [loading, setLoading] = useState<boolean>(true);
+
+  const handlePackageClick = (slug: string, packag: PackageType) => {
+    sessionStorage.setItem("CurrentPackage", JSON.stringify(packag));
+    route.push(`/products/${slug}/${packag.id}`);
+  };
 
   useEffect(() => {
     const fetchProduct = async () => {
       connectionAPIGet(`/product/${slug}?storeId=${store.id}`, apiUrl)
         .then((res) => {
-          console.log("res", res);
           setProducts(res as ProductType);
         })
         .catch((err) => {
@@ -53,28 +54,31 @@ const Productpage = ({ slug }: Props) => {
     fetchProduct();
   }, []);
 
-  const handlePackageClick = (slug: string, packag: PackageType) => {
-    sessionStorage.setItem("CurrentPackage", JSON.stringify(packag));
-    route.push(`/products/${slug}/${packag.id}`);
-  };
-
   useEffect(() => {
-    if (
-      descriptionProduct !== initialdescription ||
-      instructions !== initialInstructions
-    ) {
-      setIsChanged(true);
-    } else {
-      setIsChanged(false);
+    if (!product) {
+      return;
     }
-  }, [
-    descriptionProduct,
-    initialdescription,
-    initialInstructions,
-    instructions,
-  ]);
-
-  console.log("product", product);
+    setDescription(
+      product.storeCustomization !== null
+        ? product.storeCustomization.description
+        : product.description,
+    );
+    setInstructions(
+      product.storeCustomization !== null
+        ? product.storeCustomization.instructions
+        : product.instructions,
+    );
+    setImgBannerUrl(
+      product.storeCustomization !== null
+        ? product.storeCustomization.imgBannerUrl
+        : product.imgBannerUrl,
+    );
+    setImgCardUrl(
+      product.storeCustomization !== null
+        ? product.storeCustomization.imgCardUrl
+        : product.imgCardUrl,
+    );
+  }, [product]);
 
   return (
     <ProductsInnerPage>
@@ -158,7 +162,7 @@ const Productpage = ({ slug }: Props) => {
               resolução mínima de 1280 x 540 e uma proporção de 21:9
             </Text>
             <Image
-              src={product?.imgBannerUrl}
+              src={imgBannerUrl}
               alt="Imagem de banner"
               width={1280}
               height={540}
@@ -191,7 +195,7 @@ const Productpage = ({ slug }: Props) => {
               resolução mínima de 720 x 720 e uma proporção de 1:1
             </Text>
             <Image
-              src={product?.imgCardUrl}
+              src={imgCardUrl}
               alt="Imagem de card"
               width={720}
               height={720}
@@ -216,8 +220,8 @@ const Productpage = ({ slug }: Props) => {
               SOBRE {product?.name || "BIGO LIVE"}
             </Text>
             <textarea
-              value={descriptionProduct}
-              onChange={(e) => setdescriptionProduct(e.target.value)}
+              value={description}
+              onChange={(e) => setDescription(e.target.value)}
               placeholder="Descrição do jogo ou plataforma..."
             />
           </div>
