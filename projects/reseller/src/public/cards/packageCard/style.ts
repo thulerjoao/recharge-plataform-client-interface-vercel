@@ -25,6 +25,7 @@ export const PackageCardContainer = styled.article<PackageCardProps>`
     selected && `border: 4px solid  ${Theme.colors.mainHighlight}`};
   box-shadow: ${({ selected }) =>
     selected && `0px 0px 10px 0px ${Theme.colors.mainHighlight}`};
+  position: relative;
 
   figure {
     height: 80px;
@@ -34,14 +35,86 @@ export const PackageCardContainer = styled.article<PackageCardProps>`
     overflow: hidden;
   }
 
-  .bestPrice {
-    height: 24px;
+  .bestPriceContainer {
     width: 100%;
-    background-color: ${Theme.colors.mainHighlight};
-    box-shadow: 0px 0px 10px 0px ${Theme.colors.mainHighlight};
     display: flex;
-    align-items: center;
-    border-radius: 12px;
-    margin-top: 12px;
+    justify-content: center;
+    align-items: flex-start;
+    position: absolute;
+    bottom: 16px;
+
+    .bestPrice {
+      height: 14px;
+      width: 88%;
+      background-color: ${Theme.colors.mainHighlight};
+      display: flex;
+      align-items: center;
+      margin-top: 12px;
+      position: relative;
+      z-index: 1;
+
+      p {
+        z-index: 1;
+      }
+
+      .bow {
+        width: 30px;
+        height: 14px;
+        background-color: ${Theme.colors.mainHighlight}90;
+        position: absolute;
+        z-index: 0;
+        top: 5px;
+        overflow: hidden;
+
+        .bow-inner {
+          width: 11px;
+          height: 11px;
+          background-color: ${Theme.colors.maindark};
+          position: absolute;
+          z-index: 0;
+          transform: rotate(45deg);
+          position: absolute;
+          top: 2px;
+        }
+      }
+
+      .leftBow {
+        left: -10px;
+
+        .bow-inner {
+          left: -5px;
+        }
+
+        .bow-inner-2 {
+          width: 20px;
+          height: 10px;
+          background-color: ${Theme.colors.mainHighlight}99;
+          position: absolute;
+          transform: rotate(13deg);
+          position: absolute;
+          right: -1px;
+          bottom: 2px;
+        }
+      }
+
+      .rightBow {
+        right: -10px;
+
+        .bow-inner {
+          right: -5px;
+        }
+
+        .bow-inner-2 {
+          width: 20px;
+          height: 10px;
+          background-color: ${Theme.colors.mainHighlight}99;
+          position: absolute;
+          transform: rotate(-13deg);
+          position: absolute;
+          left: -1px;
+          bottom: 2px;
+        }
+      }
+    }
   }
 `;

@@ -1,6 +1,7 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import Button from "@4miga/design-system/components/button";
 import Text from "@4miga/design-system/components/Text";
+import { Theme } from "@4miga/design-system/theme/theme";
 import { connectionAPIGet } from "@4miga/services/connectionAPI/connection";
 import { useAuth } from "context/auth";
 import Image from "next/image";
@@ -77,49 +78,82 @@ const Productpage = ({ slug }: Props) => {
 
   return (
     <ProductsInnerPage>
-      <div className="desktop tablet">
+      <div className="desktop">
         <HeaderEnviroment>
           <DefaultHeader backWard title="CONFIGURAR PRODUTOS" />
         </HeaderEnviroment>
       </div>
-      <div className="mobile">
-        <DefaultHeader backWard title="CONFIGURAR PRODUTOS" />
+      <div className="mobile mobileHeader">
+        <Text align="center" fontName="LARGE_SEMI_BOLD">
+          CONFIGURAR PRODUTOS
+        </Text>
       </div>
-      <main>
-        <div className="topContainer">
-          <Text fontName="LARGE_MEDIUM">BIGO LIVE</Text>
-          <Text tag="h3" align="end" underline fontName="REGULAR">
+
+      <div className="mainContentComponent">
+        <div className="headerSection">
+          <div className="titleSection">
+            <Text fontName="LARGE_SEMI_BOLD" color={Theme.colors.mainlight}>
+              {product?.name || "BIGO LIVE"}
+            </Text>
+            <Text fontName="REGULAR_MEDIUM" color={Theme.colors.secondaryText}>
+              Configure pacotes e informações do produto
+            </Text>
+          </div>
+          <Text
+            tag="h3"
+            align="end"
+            underline
+            fontName="REGULAR"
+            color={Theme.colors.refused}
+          >
             Desativar Produto
           </Text>
         </div>
-        <Text margin="24px 0 0 0" align="center" fontName="REGULAR_SEMI_BOLD">
-          CONFIGURAR PACOTES
-        </Text>
-        <section className="cardsContainer">
-          {product?.packages?.map((packag: PackageType) => {
-            console.log(packag);
-            return (
-              <div
-                key={packag.id}
-                onClick={() => handlePackageClick(slug, packag)}
-                className="cardEnviroment"
-              >
-                <PackageCard
-                  bestOffer={packag.isOffer}
-                  title={`${product?.name} ${packag.amountCredits}`}
-                  imageUrl={packag.imgCardUrl}
-                  price={packag.paymentMethods[0].price}
-                />
-              </div>
-            );
-          })}
-        </section>
+
+        <div className="packagesSection">
+          <Text
+            align="center"
+            fontName="REGULAR_SEMI_BOLD"
+            color={Theme.colors.mainlight}
+          >
+            CONFIGURAR PACOTES
+          </Text>
+          <section className="cardsContainer">
+            {product?.packages?.map((packag: PackageType) => {
+              console.log(packag);
+              return (
+                <div
+                  key={packag.id}
+                  onClick={() => handlePackageClick(slug, packag)}
+                  className="cardEnviroment"
+                >
+                  <PackageCard
+                    bestOffer={packag.isOffer}
+                    title={`${product?.name} ${packag.amountCredits}`}
+                    imageUrl={packag.imgCardUrl}
+                    price={packag.paymentMethods[0].price}
+                  />
+                </div>
+              );
+            })}
+          </section>
+        </div>
+
         <section className="bannerImages">
           <div className="leftContainer">
-            <Text align="center" fontName="REGULAR_SEMI_BOLD">
+            <Text
+              align="center"
+              fontName="REGULAR_SEMI_BOLD"
+              color={Theme.colors.mainlight}
+            >
               IMAGEM DO BANNER DO PRODUTO
             </Text>
-            <Text margin="16PX 0 16px 0" align="center" fontName="TINY_MEDIUM">
+            <Text
+              margin="16PX 0 16px 0"
+              align="center"
+              fontName="TINY_MEDIUM"
+              color={Theme.colors.secondaryText}
+            >
               A imagem deve estar no formato .png, .jpg ou .jpeg, ter uma
               resolução mínima de 1280 x 540 e uma proporção de 21:9
             </Text>
@@ -140,10 +174,19 @@ const Productpage = ({ slug }: Props) => {
           </div>
 
           <div className="rightContainer">
-            <Text align="center" fontName="REGULAR_SEMI_BOLD">
+            <Text
+              align="center"
+              fontName="REGULAR_SEMI_BOLD"
+              color={Theme.colors.mainlight}
+            >
               IMAGEM DO CARD
             </Text>
-            <Text margin="16PX 0 16px 0" align="center" fontName="TINY_MEDIUM">
+            <Text
+              margin="16PX 0 16px 0"
+              align="center"
+              fontName="TINY_MEDIUM"
+              color={Theme.colors.secondaryText}
+            >
               A imagem deve estar no formato .png, .jpg ou .jpeg, ter uma
               resolução mínima de 720 x 720 e uma proporção de 1:1
             </Text>
@@ -163,12 +206,15 @@ const Productpage = ({ slug }: Props) => {
             />
           </div>
         </section>
+
         <section className="descriptions">
           <div className="leftContainer">
             <span className="pen">
               <Pen />
             </span>
-            <Text fontName="REGULAR_SEMI_BOLD">SOBRE BIGO LIVE</Text>
+            <Text fontName="REGULAR_SEMI_BOLD" color={Theme.colors.mainlight}>
+              SOBRE {product?.name || "BIGO LIVE"}
+            </Text>
             <textarea
               value={descriptionProduct}
               onChange={(e) => setdescriptionProduct(e.target.value)}
@@ -179,7 +225,9 @@ const Productpage = ({ slug }: Props) => {
             <span className="pen">
               <Pen />
             </span>
-            <Text fontName="REGULAR_SEMI_BOLD">INSTRUÇÕES</Text>
+            <Text fontName="REGULAR_SEMI_BOLD" color={Theme.colors.mainlight}>
+              INSTRUÇÕES
+            </Text>
             <textarea
               value={instructions}
               onChange={(e) => setInstructions(e.target.value)}
@@ -187,16 +235,18 @@ const Productpage = ({ slug }: Props) => {
             />
           </div>
         </section>
-        <Button
-          rounded
-          isNotSelected={!ischanged}
-          disabled={!ischanged}
-          margin="8px 0 72px 0"
-          height={40}
-          width={197}
-          title="Salvar alterações"
-        />
-      </main>
+
+        <div className="saveButtonContainer">
+          <Button
+            rounded
+            isNotSelected={!ischanged}
+            disabled={!ischanged}
+            height={40}
+            width={197}
+            title="Salvar alterações"
+          />
+        </div>
+      </div>
     </ProductsInnerPage>
   );
 };

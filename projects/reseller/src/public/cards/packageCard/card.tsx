@@ -38,35 +38,36 @@ const PackageCard = ({
       <figure>
         <Image src={imageUrl} alt="Imagem do pacote" width={80} height={80} />
       </figure>
-      {bestOffer ? (
-        <span className="bestPrice">
-          <Text
-            align="center"
-            color={Theme.colors.mainBbackgroundSolid}
-            fontName="SMALL_SEMI_BOLD"
-          >
-            Melhor Preço
-          </Text>
-        </span>
-      ) : (
-        <Text
-          tag="h4"
-          color={Theme.colors.mainHighlight}
-          align="end"
-          fontName="SMALL"
-          margin="18px 16px 0 0"
-        >
-          Por apenas
-        </Text>
-      )}
       <Text
         tag="h4"
-        align="end"
+        align="center"
         fontName="REGULAR_SEMI_BOLD"
-        margin="9px 16px 0 0"
+        margin="12px 0 0 0px"
       >
         R$ {formatPrice(price)}
       </Text>
+      {bestOffer && (
+        <div className="bestPriceContainer">
+          <span className="bestPrice">
+            <div className="bow leftBow">
+              <div className="bow-inner" />
+              <div className="bow-inner-2" />
+            </div>
+            <Text
+              align="center"
+              color={Theme.colors.mainBbackgroundSolid}
+              fontName="TINY_MEDIUM"
+              margin="-1px 0 0 0"
+            >
+              ⭐ Melhor oferta
+            </Text>
+            <div className="bow rightBow">
+              <div className="bow-inner" />
+              <div className="bow-inner-2" />
+            </div>
+          </span>
+        </div>
+      )}
     </PackageCardContainer>
   );
 };
