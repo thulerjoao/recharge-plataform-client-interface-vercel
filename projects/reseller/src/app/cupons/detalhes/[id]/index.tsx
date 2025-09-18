@@ -194,15 +194,15 @@ const CouponDetails = ({ couponId }: CouponDetailsProps) => {
     }
   };
 
-  if (loading) {
-    return (
-      <CouponDetailsContainer>
-        <Text align="center" fontName="REGULAR_MEDIUM">
-          Carregando...
-        </Text>
-      </CouponDetailsContainer>
-    );
-  }
+  // if (loading) {
+  //   return (
+  //     <CouponDetailsContainer>
+  //       <Text align="center" fontName="REGULAR_MEDIUM">
+  //         Carregando...
+  //       </Text>
+  //     </CouponDetailsContainer>
+  //   );
+  // }
 
   if (!coupon) {
     return (

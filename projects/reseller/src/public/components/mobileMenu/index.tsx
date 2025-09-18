@@ -125,17 +125,17 @@ const MobileMenu = ({ search, openMenu, setOpenMenu }: Props) => {
       <div
         onClick={(e) => {
           e.stopPropagation();
-          handleClick("products");
+          handleClick("produtos");
         }}
-        className={`menuOption ${handleCheck("products") && "selected"}`}
+        className={`menuOption ${handleCheck("produtos") && "selected"}`}
         style={{ margin: "32px 0 16px 0" }}
       >
         <span>
-          {handleCheck("products") ? <ProductsSelected /> : <Products />}
+          {handleCheck("produtos") ? <ProductsSelected /> : <Products />}
         </span>
 
         <Text
-          color={handleCheck("products") && Theme.colors.maindark}
+          color={handleCheck("produtos") && Theme.colors.maindark}
           margin="0 0 0 16px"
           fontName="REGULAR_SEMI_BOLD"
         >
@@ -146,16 +146,16 @@ const MobileMenu = ({ search, openMenu, setOpenMenu }: Props) => {
       <div
         onClick={(e) => {
           e.stopPropagation();
-          handleClick("influencer");
+          handleClick("parceiros");
         }}
-        className={`menuOption ${handleCheck("influencer") && "selected"}`}
+        className={`menuOption ${handleCheck("parceiros") && "selected"}`}
       >
         <span>
-          {handleCheck("influencer") ? <InfluencerSelected /> : <Influencer />}
+          {handleCheck("parceiros") ? <InfluencerSelected /> : <Influencer />}
         </span>
 
         <Text
-          color={handleCheck("influencer") && Theme.colors.maindark}
+          color={handleCheck("parceiros") && Theme.colors.maindark}
           margin="0 0 0 16px"
           fontName="REGULAR_SEMI_BOLD"
         >
@@ -166,16 +166,16 @@ const MobileMenu = ({ search, openMenu, setOpenMenu }: Props) => {
       <div
         onClick={(e) => {
           e.stopPropagation();
-          handleClick("coupons");
+          handleClick("cupons");
         }}
-        className={`menuOption ${handleCheck("coupons") && "selected"}`}
+        className={`menuOption ${handleCheck("cupons") && "selected"}`}
       >
         <span>
-          {handleCheck("coupons") ? <DiscountSelected /> : <Discount />}
+          {handleCheck("cupons") ? <DiscountSelected /> : <Discount />}
         </span>
 
         <Text
-          color={handleCheck("coupons") && Theme.colors.maindark}
+          color={handleCheck("cupons") && Theme.colors.maindark}
           margin="0 0 0 16px"
           fontName="REGULAR_SEMI_BOLD"
         >

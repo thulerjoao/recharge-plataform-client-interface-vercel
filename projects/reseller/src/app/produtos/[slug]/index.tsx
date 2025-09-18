@@ -1,6 +1,8 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import Button from "@4miga/design-system/components/button";
 import Text from "@4miga/design-system/components/Text";
-import { useProducts } from "context/products/ProductsProvider";
+import { connectionAPIGet } from "@4miga/services/connectionAPI/connection";
+import { useAuth } from "context/auth";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import PackageCard from "public/cards/packageCard/card";
@@ -8,7 +10,7 @@ import DefaultHeader from "public/components/defaultHeader";
 import HeaderEnviroment from "public/components/headerEnviroment";
 import { useEffect, useState } from "react";
 import { PackageType, ProductType } from "types/productTypes";
-import { formatString } from "utils/formatString";
+import { apiUrl } from "utils/apiUrl";
 import CameraIcon from "../common/icons/CameraIcon.svg";
 import Pen from "../common/icons/Pen.svg";
 import { ProductsInnerPage } from "./style";
@@ -19,16 +21,41 @@ type Props = {
 
 const Productpage = ({ slug }: Props) => {
   const route = useRouter();
-  const products = useProducts();
-  const product = products.find(
-    (product: ProductType) => formatString(product.name) === slug,
-  );
-  const initialdescription = product.description;
-  const initialInstructions = product.instructions;
+  const { store } = useAuth();
+  // const products = useProducts();
+  // const product = products.find(
+  //   (product: ProductType) => formatString(product.name) === slug,
+  // );
+  const [product, setProducts] = useState<ProductType>();
+  const initialdescription = product?.description;
+  const initialInstructions = product?.instructions;
   const [descriptionProduct, setdescriptionProduct] =
     useState<string>(initialdescription);
   const [instructions, setInstructions] = useState<string>(initialInstructions);
   const [ischanged, setIsChanged] = useState<boolean>(false);
+  const [loading, setLoading] = useState<boolean>(true);
+
+  useEffect(() => {
+    const fetchProduct = async () => {
+      connectionAPIGet(`/product/${slug}?storeId=${store.id}`, apiUrl)
+        .then((res) => {
+          console.log("res", res);
+          setProducts(res as ProductType);
+        })
+        .catch((err) => {
+          console.log("err", err);
+        })
+        .finally(() => {
+          setLoading(false);
+        });
+    };
+    fetchProduct();
+  }, []);
+
+  const handlePackageClick = (slug: string, packag: PackageType) => {
+    sessionStorage.setItem("CurrentPackage", JSON.stringify(packag));
+    route.push(`/products/${slug}/${packag.id}`);
+  };
 
   useEffect(() => {
     if (
@@ -46,10 +73,7 @@ const Productpage = ({ slug }: Props) => {
     instructions,
   ]);
 
-  const handlePackageClick = (slug: string, packag: PackageType) => {
-    sessionStorage.setItem("CurrentPackage", JSON.stringify(packag));
-    route.push(`/products/${slug}/${packag.id}`);
-  };
+  console.log("product", product);
 
   return (
     <ProductsInnerPage>
@@ -72,7 +96,7 @@ const Productpage = ({ slug }: Props) => {
           CONFIGURAR PACOTES
         </Text>
         <section className="cardsContainer">
-          {product.packages.map((packag: PackageType) => {
+          {product?.packages?.map((packag: PackageType) => {
             console.log(packag);
             return (
               <div
@@ -82,7 +106,7 @@ const Productpage = ({ slug }: Props) => {
               >
                 <PackageCard
                   bestOffer={packag.isOffer}
-                  title={`${product.name} ${packag.amountCredits}`}
+                  title={`${product?.name} ${packag.amountCredits}`}
                   imageUrl={packag.imgCardUrl}
                   price={packag.paymentMethods[0].price}
                 />
@@ -100,7 +124,7 @@ const Productpage = ({ slug }: Props) => {
               resolução mínima de 1280 x 540 e uma proporção de 21:9
             </Text>
             <Image
-              src={product.imgBannerUrl}
+              src={product?.imgBannerUrl}
               alt="Imagem de banner"
               width={1280}
               height={540}
@@ -124,7 +148,7 @@ const Productpage = ({ slug }: Props) => {
               resolução mínima de 720 x 720 e uma proporção de 1:1
             </Text>
             <Image
-              src={product.imgCardUrl}
+              src={product?.imgCardUrl}
               alt="Imagem de card"
               width={720}
               height={720}

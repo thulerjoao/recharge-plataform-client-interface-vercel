@@ -7,9 +7,19 @@ import DefaultHeader from "public/components/defaultHeader";
 import HeaderEnviroment from "public/components/headerEnviroment";
 import InvisibleCards from "./invisivleCards";
 import { ProductsPageContainer } from "./style";
+import { useRouter } from "next/navigation";
+import { formatString } from "utils/formatString";
 
 const ProductsPage = () => {
   const products = useProducts();
+  const route = useRouter();
+
+  const handleProductClick = (path: string) => {
+    const res = formatString(path);
+    route.push(`/produtos/${res}`);
+  };
+
+  console.log(products);
   return (
     <ProductsPageContainer>
       <div className="desktop">
@@ -31,7 +41,11 @@ const ProductsPage = () => {
         {products &&
           products.map((product) => {
             return (
-              <div key={product.id} className="cardEnviroment">
+              <div
+                key={product.id}
+                className="cardEnviroment"
+                onClick={() => handleProductClick(product.id)}
+              >
                 <GameCard product={product} />
               </div>
             );

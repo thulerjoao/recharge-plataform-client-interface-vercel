@@ -92,6 +92,8 @@ const PartnersPage = ({
     router.push(url);
   };
 
+  console.log("aqui", influencers?.data.length);
+
   return (
     <InfluencerContainer>
       <div className="desktop">
@@ -200,7 +202,7 @@ const PartnersPage = ({
           </div>
         )}
       </main>
-      {influencers?.data.length !== 0 && (
+      {influencers?.data.length !== 0 && influencers !== undefined && (
         <Pagination
           page={influencers?.page}
           setPage={navigateToPage}

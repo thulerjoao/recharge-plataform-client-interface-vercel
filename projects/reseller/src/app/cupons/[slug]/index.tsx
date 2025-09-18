@@ -225,7 +225,6 @@ const CouponsPage = ({
             <div className="tableHeader">
               <div className="tableCell">Título</div>
               <div className="tableCell">Desconto</div>
-              {/* <div className="tableCell">Influencer</div> */}
               <div className="tableCell">Status</div>
             </div>
 
@@ -245,7 +244,7 @@ const CouponsPage = ({
           </section>
         )}
       </div>
-      {coupons?.data.length !== 0 && (
+      {coupons?.data.length !== 0 && coupons !== undefined && (
         <Pagination
           page={coupons?.page || 1}
           setPage={navigateToPage}
