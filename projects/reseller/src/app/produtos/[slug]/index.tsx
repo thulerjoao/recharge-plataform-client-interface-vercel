@@ -35,7 +35,7 @@ const Productpage = ({ slug }: Props) => {
 
   const handlePackageClick = (slug: string, packag: PackageType) => {
     sessionStorage.setItem("CurrentPackage", JSON.stringify(packag));
-    route.push(`/products/${slug}/${packag.id}`);
+    route.push(`/produtos/${slug}/${packag.id}`);
   };
 
   useEffect(() => {
