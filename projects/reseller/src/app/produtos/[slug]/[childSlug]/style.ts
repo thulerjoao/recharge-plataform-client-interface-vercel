@@ -13,7 +13,7 @@ export const ConfigPackagePage = styled.div`
     display: none;
   }
 
-  .mainContent {
+  .mainContentPackage {
     width: 100%;
     max-width: 900px;
     padding: 24px;
@@ -150,18 +150,23 @@ export const ConfigPackagePage = styled.div`
               color: ${Theme.colors.mainlight};
               font-size: 18px;
               font-weight: bold;
-              cursor: pointer;
               transition: all 0.2s ease;
               outline: none;
 
               &:hover {
+                cursor: pointer;
                 border-color: ${Theme.colors.mainHighlight};
               }
             }
 
+            .disabled {
+              width: 40px;
+            }
+
             .cardEnviroment {
               border-radius: 8px;
-              min-width: 174px;
+              min-width: 175px;
+              background-color: pink;
               display: flex;
               align-items: center;
               justify-content: center;
@@ -205,7 +210,7 @@ export const ConfigPackagePage = styled.div`
       height: 0;
     }
 
-    .mainContent {
+    .mainContentPackage {
       padding: 16px;
       gap: 24px;
 
@@ -256,6 +261,10 @@ export const ConfigPackagePage = styled.div`
                 height: 36px;
                 font-size: 16px;
               }
+
+              .disabled {
+                width: 36px;
+              }
             }
           }
         }
@@ -285,7 +294,7 @@ export const ConfigPackagePage = styled.div`
       width: 100%;
     }
 
-    .mainContent {
+    .mainContentPackage {
       padding: 0px;
       gap: 20px;
 
@@ -314,6 +323,10 @@ export const ConfigPackagePage = styled.div`
                 height: 32px;
                 font-size: 14px;
               }
+
+              .disabled {
+                width: 32px;
+              }
             }
           }
         }
@@ -331,7 +344,7 @@ export const ConfigPackagePage = styled.div`
   }
 
   @media (max-width: 400px) {
-    .mainContent {
+    .mainContentPackage {
       padding: 0px;
       gap: 16px;
 
@@ -359,6 +372,10 @@ export const ConfigPackagePage = styled.div`
                 width: 28px;
                 height: 28px;
                 font-size: 12px;
+              }
+
+              .disabled {
+                width: 28px;
               }
             }
           }

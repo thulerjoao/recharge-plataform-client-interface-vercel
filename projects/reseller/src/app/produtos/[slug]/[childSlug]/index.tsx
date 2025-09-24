@@ -3,17 +3,20 @@ import Input from "@4miga/design-system/components/input";
 import OnOff from "@4miga/design-system/components/onOff";
 import Text from "@4miga/design-system/components/Text";
 import { Theme } from "@4miga/design-system/theme/theme";
-import { useProducts } from "context/products/ProductsProvider";
+import { connectionAPIGet } from "@4miga/services/connectionAPI/connection";
+import { usePackages } from "context/packages";
 import PackageCard from "public/cards/packageCard/card";
 import DefaultHeader from "public/components/defaultHeader";
 import HeaderEnviroment from "public/components/headerEnviroment";
-import { useState } from "react";
-import { ProductType } from "types/productTypes";
-import { formatString } from "utils/formatString";
+import { useEffect, useState } from "react";
+import { PackageType, ProductType } from "types/productTypes";
+import { apiUrl } from "utils/apiUrl";
 import CameraIcon from "../../common/icons/CameraIcon.svg";
 import ConfirmModal from "./common/confirmModal";
-import PixConfiguration from "./common/pixConfiguration";
+import PixConfiguration from "./common/pixCard/pixConfiguration";
 import { ConfigPackagePage } from "./style";
+import { useRouter } from "next/navigation";
+import LoadingPage from "app/loading";
 
 type Props = {
   slug: string;
@@ -21,43 +24,31 @@ type Props = {
 };
 
 const SecondaryProductPage = ({ slug, childSlug }: Props) => {
+  const route = useRouter();
   const [confirmModal, setconfirmModal] = useState<boolean>(false);
   const [isEditing, setIsEditing] = useState<boolean>(false);
-  const [editData, setEditData] = useState({
-    packageName: "BIGO LIVE",
-    credits: 30,
-    isOffer: true,
-    isActive: true,
-    baseCost: 1.9,
-    pixTax: 1,
-    profitMargin: 50,
-  });
-
-  const products = useProducts();
-  const product = products.find(
-    (product: ProductType) => formatString(product.name) === slug,
-  );
+  const [loading, setLoading] = useState<boolean>(true);
+  const [packageData, setPackageData] = useState<PackageType>();
+  const [editData, setEditData] = useState<PackageType>();
+  const { productPackages, setProductPackages } = usePackages();
+  const [index, setIndex] = useState<number>();
 
   const handleEdit = () => {
     setIsEditing(true);
   };
 
-  const handleSave = () => {
-    setIsEditing(false);
-    setconfirmModal(true);
-  };
-
   const handleCancel = () => {
     setIsEditing(false);
-    setEditData({
-      packageName: "BIGO LIVE",
-      credits: 30,
-      isOffer: true,
-      isActive: true,
-      baseCost: 1.9,
-      pixTax: 1,
-      profitMargin: 50,
-    });
+    setEditData(packageData);
+  };
+
+  const handleSave = () => {
+    if (packageData === editData) {
+      handleCancel();
+      return;
+    }
+    setIsEditing(false);
+    setconfirmModal(true);
   };
 
   const handleInputChange = (
@@ -69,8 +60,11 @@ const SecondaryProductPage = ({ slug, childSlug }: Props) => {
 
   const calculateValues = () => {
     const totalCost =
-      editData.baseCost + (editData.baseCost * editData.pixTax) / 100;
-    const profitValue = (totalCost * editData.profitMargin) / 100;
+      +editData?.basePrice +
+      (+editData?.basePrice * editData?.paymentMethods[0].price) / 100;
+    const profitValue =
+      (totalCost * (editData?.paymentMethods[0].price - +editData?.basePrice)) /
+      100;
     const sellValue = totalCost + profitValue;
 
     return {
@@ -82,40 +76,91 @@ const SecondaryProductPage = ({ slug, childSlug }: Props) => {
 
   const values = calculateValues();
 
+  const handleIndex = (param: PackageType[], id: string) => {
+    setIndex(param.findIndex((packag: PackageType) => packag.id === id));
+  };
+
+  useEffect(() => {
+    const localPackage = productPackages?.packages.find(
+      (packag: PackageType) => packag.id === childSlug,
+    );
+    if (localPackage) {
+      setEditData(localPackage);
+      setPackageData(localPackage);
+      setLoading(false);
+      handleIndex(productPackages?.packages, childSlug);
+    } else {
+      connectionAPIGet<ProductType>(`/product/${slug}`, apiUrl)
+        .then((res) => {
+          setProductPackages(res);
+          const localPackage = res.packages.find(
+            (packag: PackageType) => packag.id === childSlug,
+          );
+          setPackageData(localPackage);
+          setEditData(localPackage);
+          handleIndex(res.packages, childSlug);
+        })
+        .finally(() => {
+          setLoading(false);
+        });
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  const handleNextPackage = () => {
+    setIndex(index + 1);
+    const newPackage = productPackages?.packages[index + 1];
+    setEditData(newPackage);
+    setPackageData(newPackage);
+  };
+
+  const handlePreviousPackage = () => {
+    setIndex(index - 1);
+    const newPackage = productPackages?.packages[index - 1];
+    setEditData(newPackage);
+    setPackageData(newPackage);
+  };
+
+  if (loading) {
+    return <LoadingPage />;
+  }
+
   return (
     <ConfigPackagePage>
       {confirmModal && <ConfirmModal setconfirmModal={setconfirmModal} />}
-      <div className="desktop tablet">
+      <div className="desktop">
         <HeaderEnviroment>
           <DefaultHeader backWard title="CONFIGURAR PACOTE" />
         </HeaderEnviroment>
       </div>
-      <div className="mobile">
-        <DefaultHeader backWard title="CONFIG PACOTE" />
+      <div className="mobile mobileHeader">
+        <Text align="center" fontName="LARGE_SEMI_BOLD">
+          CONFIG PACOTE
+        </Text>
       </div>
-      <div className="mainContent">
+      <div className="mainContentPackage">
         <div className="headerSection">
           <div className="packageInfo">
             <Text fontName="LARGE_SEMI_BOLD" color={Theme.colors.mainlight}>
-              {editData.packageName}
+              {editData?.name}
             </Text>
             <Text fontName="REGULAR_MEDIUM" color={Theme.colors.mainHighlight}>
-              {editData.credits} créditos
+              {editData?.amountCredits} créditos
             </Text>
           </div>
           <div className="statusSection">
             <div
-              className={`statusBadge ${editData.isActive ? "active" : "inactive"}`}
+              className={`statusBadge ${editData?.isActive ? "active" : "inactive"}`}
             >
               <Text
                 fontName="SMALL_MEDIUM"
                 color={
-                  editData.isActive
+                  editData?.isActive
                     ? Theme.colors.approved
                     : Theme.colors.refused
                 }
               >
-                {editData.isActive ? "ATIVO" : "INATIVO"}
+                {editData?.isActive ? "ATIVO" : "INATIVO"}
               </Text>
             </div>
             {isEditing && (
@@ -125,10 +170,10 @@ const SecondaryProductPage = ({ slug, childSlug }: Props) => {
                 </Text>
                 <span
                   onClick={() =>
-                    handleInputChange("isActive", !editData.isActive)
+                    handleInputChange("isActive", !editData?.isActive)
                   }
                 >
-                  <OnOff onOff={editData.isActive} />
+                  <OnOff onOff={editData?.isActive} />
                 </span>
               </div>
             )}
@@ -146,30 +191,38 @@ const SecondaryProductPage = ({ slug, childSlug }: Props) => {
                 resolução mínima de 480 x 480 e uma proporção de 1:1
               </Text>
               <div className="cardNavigation">
-                <button
-                  className="navArrow leftArrow"
-                  onClick={() => {}}
-                  title="Pacote anterior"
-                >
-                  ←
-                </button>
+                {index !== 0 ? (
+                  <button
+                    onClick={handlePreviousPackage}
+                    className="navArrow leftArrow"
+                    title="Pacote anterior"
+                    disabled={index === 0}
+                  >
+                    ←
+                  </button>
+                ) : (
+                  <div className="disabled" />
+                )}
                 <div className="cardEnviroment">
                   <PackageCard
-                    bestOffer={editData.isOffer}
-                    title={editData.packageName}
-                    imageUrl={
-                      "https://4miga.games/_next/image?url=https%3A%2F%2Fi.imgur.com%2F0CEHULk.png&w=256&q=75"
-                    }
-                    price={editData.baseCost}
+                    bestOffer={editData?.isOffer}
+                    title={editData?.name}
+                    imageUrl={editData?.imgCardUrl}
+                    price={+editData?.basePrice}
                   />
                 </div>
-                <button
-                  className="navArrow rightArrow"
-                  onClick={() => {}}
-                  title="Próximo pacote"
-                >
-                  →
-                </button>
+                {index !== productPackages?.packages.length - 1 ? (
+                  <button
+                    onClick={handleNextPackage}
+                    className="navArrow rightArrow"
+                    title="Próximo pacote"
+                    disabled={index === productPackages?.packages.length - 1}
+                  >
+                    →
+                  </button>
+                ) : (
+                  <div className="disabled" />
+                )}
               </div>
               <Button
                 leftElement={<CameraIcon />}
@@ -202,7 +255,7 @@ const SecondaryProductPage = ({ slug, childSlug }: Props) => {
                 </Text>
                 {isEditing ? (
                   <Input
-                    value={editData.packageName}
+                    value={editData?.name}
                     onChange={(e) =>
                       handleInputChange("packageName", e.target.value)
                     }
@@ -211,7 +264,7 @@ const SecondaryProductPage = ({ slug, childSlug }: Props) => {
                   />
                 ) : (
                   <Text fontName="SMALL_MEDIUM" color={Theme.colors.mainlight}>
-                    {editData.packageName}
+                    {editData?.name}
                   </Text>
                 )}
               </div>
@@ -224,7 +277,7 @@ const SecondaryProductPage = ({ slug, childSlug }: Props) => {
                 </Text>
                 {isEditing ? (
                   <Input
-                    value={editData.credits}
+                    value={editData?.amountCredits}
                     onChange={(e) =>
                       handleInputChange(
                         "credits",
@@ -237,7 +290,7 @@ const SecondaryProductPage = ({ slug, childSlug }: Props) => {
                   />
                 ) : (
                   <Text fontName="SMALL_MEDIUM" color={Theme.colors.mainlight}>
-                    {editData.credits}
+                    {editData?.amountCredits}
                   </Text>
                 )}
               </div>
@@ -254,19 +307,19 @@ const SecondaryProductPage = ({ slug, childSlug }: Props) => {
                       fontName="SMALL_MEDIUM"
                       color={Theme.colors.mainlight}
                     >
-                      {editData.isOffer ? "Sim" : "Não"}
+                      {editData?.isOffer ? "Sim" : "Não"}
                     </Text>
                     <span
                       onClick={() =>
-                        handleInputChange("isOffer", !editData.isOffer)
+                        handleInputChange("isOffer", !editData?.isOffer)
                       }
                     >
-                      <OnOff onOff={editData.isOffer} />
+                      <OnOff onOff={editData?.isOffer} />
                     </span>
                   </div>
                 ) : (
                   <Text fontName="SMALL_MEDIUM" color={Theme.colors.mainlight}>
-                    {editData.isOffer ? "Sim" : "Não"}
+                    {editData?.isOffer ? "Sim" : "Não"}
                   </Text>
                 )}
               </div>
@@ -283,7 +336,7 @@ const SecondaryProductPage = ({ slug, childSlug }: Props) => {
               </Text>
             </div>
             <Text fontName="REGULAR">
-              Preço base - R$ {editData.baseCost.toFixed(2)}
+              Preço base - R$ {(+editData?.basePrice).toFixed(2)}
             </Text>
             <div className="infoGrid">
               <div className="infoItem">
@@ -295,7 +348,7 @@ const SecondaryProductPage = ({ slug, childSlug }: Props) => {
                 </Text>
                 {isEditing ? (
                   <Input
-                    value={editData.baseCost}
+                    value={editData?.basePrice}
                     onChange={(e) =>
                       handleInputChange(
                         "baseCost",
@@ -309,7 +362,7 @@ const SecondaryProductPage = ({ slug, childSlug }: Props) => {
                   />
                 ) : (
                   <Text fontName="SMALL_MEDIUM" color={Theme.colors.mainlight}>
-                    R$ {editData.baseCost.toFixed(2)}
+                    R$ {(+editData?.basePrice).toFixed(2)}
                   </Text>
                 )}
               </div>
@@ -322,7 +375,8 @@ const SecondaryProductPage = ({ slug, childSlug }: Props) => {
                 </Text>
                 {isEditing ? (
                   <Input
-                    value={editData.profitMargin}
+                    value={editData?.basePrice}
+                    // value={editData.profitMargin}
                     onChange={(e) =>
                       handleInputChange(
                         "profitMargin",
@@ -335,7 +389,7 @@ const SecondaryProductPage = ({ slug, childSlug }: Props) => {
                   />
                 ) : (
                   <Text fontName="SMALL_MEDIUM" color={Theme.colors.mainlight}>
-                    {editData.profitMargin}%
+                    {editData?.basePrice}%{/* {editData.profitMargin}% */}
                   </Text>
                 )}
               </div>
@@ -353,9 +407,10 @@ const SecondaryProductPage = ({ slug, childSlug }: Props) => {
             </div>
             <div className="paymentMethodsSection">
               <PixConfiguration
-                tax={`${editData.pixTax}%`}
+                tax={`${1}%`}
                 totalCost={values.totalCost}
-                profitMargin={editData.profitMargin}
+                profitMargin={values.profitValue}
+                // profitMargin={editData.profitMargin}
                 profitValue={values.profitValue}
                 sellValue={values.sellValue}
               />

@@ -27,6 +27,10 @@ export const PackageCardContainer = styled.article<PackageCardProps>`
     selected && `0px 0px 10px 0px ${Theme.colors.mainHighlight}`};
   position: relative;
 
+  h2 {
+    font-size: 14px;
+  }
+
   figure {
     height: 80px;
     width: 80px;

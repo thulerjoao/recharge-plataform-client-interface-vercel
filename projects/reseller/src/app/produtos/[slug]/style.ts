@@ -204,7 +204,6 @@ export const ProductsInnerPage = styled.div`
     }
   }
 
-  /* Breakpoint para tablets (768px e menores) */
   @media (max-width: 768px) {
     padding-top: 64px;
     .desktop {
@@ -288,7 +287,6 @@ export const ProductsInnerPage = styled.div`
     }
   }
 
-  /* Breakpoint para mobile grande (539px e menores) */
   @media (max-width: 539px) {
     .mainContentComponent {
       padding: 0px;

@@ -13,6 +13,7 @@ import { formatString } from "utils/formatString";
 const ProductsPage = () => {
   const products = useProducts();
   const route = useRouter();
+  console.log("products", products);
 
   const handleProductClick = (path: string) => {
     const res = formatString(path);

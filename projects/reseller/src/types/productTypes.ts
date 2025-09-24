@@ -14,12 +14,15 @@ export type PackageType = {
   name: string;
   amountCredits: number;
   imgCardUrl: string;
+  isActive: boolean;
   isOffer: boolean;
-  baseCost: number;
+  basePrice: string;
+  storeId: string;
   paymentMethods: PaymentMethodsType[];
 };
 
 export type PaymentMethodsType = {
+  id: string;
   name:
     | "pix"
     | "mercado pago"

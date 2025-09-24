@@ -15,6 +15,7 @@ import { apiUrl } from "utils/apiUrl";
 import CameraIcon from "../common/icons/CameraIcon.svg";
 import Pen from "../common/icons/Pen.svg";
 import { ProductsInnerPage } from "./style";
+import { usePackages } from "context/packages";
 
 type Props = {
   slug: string;
@@ -23,8 +24,9 @@ type Props = {
 const Productpage = ({ slug }: Props) => {
   const route = useRouter();
   const { store } = useAuth();
+  const { productPackages, setProductPackages } = usePackages();
 
-  const [product, setProducts] = useState<ProductType>();
+  // const [product, setProducts] = useState<ProductType>();
   const [description, setDescription] = useState<string>();
   const [instructions, setInstructions] = useState<string>();
   const [imgBannerUrl, setImgBannerUrl] = useState<string>();
@@ -34,7 +36,6 @@ const Productpage = ({ slug }: Props) => {
   const [loading, setLoading] = useState<boolean>(true);
 
   const handlePackageClick = (slug: string, packag: PackageType) => {
-    sessionStorage.setItem("CurrentPackage", JSON.stringify(packag));
     route.push(`/produtos/${slug}/${packag.id}`);
   };
 
@@ -42,7 +43,7 @@ const Productpage = ({ slug }: Props) => {
     const fetchProduct = async () => {
       connectionAPIGet(`/product/${slug}?storeId=${store.id}`, apiUrl)
         .then((res) => {
-          setProducts(res as ProductType);
+          setProductPackages(res as ProductType);
         })
         .catch((err) => {
           console.log("err", err);
@@ -55,30 +56,30 @@ const Productpage = ({ slug }: Props) => {
   }, []);
 
   useEffect(() => {
-    if (!product) {
+    if (!productPackages) {
       return;
     }
     setDescription(
-      product.storeCustomization !== null
-        ? product.storeCustomization.description
-        : product.description,
+      productPackages.storeCustomization !== null
+        ? productPackages.storeCustomization.description
+        : productPackages.description,
     );
     setInstructions(
-      product.storeCustomization !== null
-        ? product.storeCustomization.instructions
-        : product.instructions,
+      productPackages.storeCustomization !== null
+        ? productPackages.storeCustomization.instructions
+        : productPackages.instructions,
     );
     setImgBannerUrl(
-      product.storeCustomization !== null
-        ? product.storeCustomization.imgBannerUrl
-        : product.imgBannerUrl,
+      productPackages.storeCustomization !== null
+        ? productPackages.storeCustomization.imgBannerUrl
+        : productPackages.imgBannerUrl,
     );
     setImgCardUrl(
-      product.storeCustomization !== null
-        ? product.storeCustomization.imgCardUrl
-        : product.imgCardUrl,
+      productPackages.storeCustomization !== null
+        ? productPackages.storeCustomization.imgCardUrl
+        : productPackages.imgCardUrl,
     );
-  }, [product]);
+  }, [productPackages]);
 
   return (
     <ProductsInnerPage>
@@ -97,7 +98,7 @@ const Productpage = ({ slug }: Props) => {
         <div className="headerSection">
           <div className="titleSection">
             <Text fontName="LARGE_SEMI_BOLD" color={Theme.colors.mainlight}>
-              {product?.name || "BIGO LIVE"}
+              {productPackages?.name || "BIGO LIVE"}
             </Text>
             <Text fontName="REGULAR_MEDIUM" color={Theme.colors.secondaryText}>
               Configure pacotes e informações do produto
@@ -123,8 +124,7 @@ const Productpage = ({ slug }: Props) => {
             CONFIGURAR PACOTES
           </Text>
           <section className="cardsContainer">
-            {product?.packages?.map((packag: PackageType) => {
-              console.log(packag);
+            {productPackages?.packages?.map((packag: PackageType) => {
               return (
                 <div
                   key={packag.id}
@@ -133,7 +133,7 @@ const Productpage = ({ slug }: Props) => {
                 >
                   <PackageCard
                     bestOffer={packag.isOffer}
-                    title={`${product?.name} ${packag.amountCredits}`}
+                    title={`${productPackages?.name} ${packag.amountCredits}`}
                     imageUrl={packag.imgCardUrl}
                     price={packag.paymentMethods[0].price}
                   />
@@ -217,7 +217,7 @@ const Productpage = ({ slug }: Props) => {
               <Pen />
             </span>
             <Text fontName="REGULAR_SEMI_BOLD" color={Theme.colors.mainlight}>
-              SOBRE {product?.name || "BIGO LIVE"}
+              SOBRE {productPackages?.name || "BIGO LIVE"}
             </Text>
             <textarea
               value={description}
