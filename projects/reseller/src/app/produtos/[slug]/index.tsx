@@ -2,9 +2,9 @@
 import Button from "@4miga/design-system/components/button";
 import Text from "@4miga/design-system/components/Text";
 import { Theme } from "@4miga/design-system/theme/theme";
-import { connectionAPIGet } from "@4miga/services/connectionAPI/connection";
+
 import { useAuth } from "context/auth";
-import { usePackages } from "context/packages";
+import { useProducts } from "context/products";
 import { useImageUpload } from "hooks/useImageUpload";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
@@ -13,7 +13,6 @@ import DefaultHeader from "public/components/defaultHeader";
 import HeaderEnviroment from "public/components/headerEnviroment";
 import { useEffect, useState } from "react";
 import { PackageType, ProductType } from "types/productTypes";
-import { apiUrl } from "utils/apiUrl";
 import CameraIcon from "../common/icons/CameraIcon.svg";
 import Pen from "../common/icons/Pen.svg";
 import { ProductsInnerPage } from "./style";
@@ -24,8 +23,9 @@ type Props = {
 
 const Productpage = ({ slug }: Props) => {
   const route = useRouter();
+  const { products, productPackages, fetchProducts, setProductPackages } =
+    useProducts();
   const { store } = useAuth();
-  const { productPackages, setProductPackages } = usePackages();
 
   // const [product, setProducts] = useState<ProductType>();
   const [description, setDescription] = useState<string>();
@@ -36,30 +36,30 @@ const Productpage = ({ slug }: Props) => {
   const [ischanged, setIsChanged] = useState<boolean>(false);
   const [loading, setLoading] = useState<boolean>(true);
 
-  const fetchProduct = async () => {
-    connectionAPIGet(`/product/${slug}?storeId=${store.id}`, apiUrl)
-      .then((res) => {
-        setProductPackages(res as ProductType);
-      })
-      .catch((err) => {
-        console.log("err", err);
-      })
-      .finally(() => {
-        setLoading(false);
-      });
-  };
+  // const fetchProduct = async () => {
+  //   connectionAPIGet(`/product/${slug}?storeId=${store.id}`, apiUrl)
+  //     .then((res) => {
+  //       setProductPackages(res as ProductType);
+  //     })
+  //     .catch((err) => {
+  //       console.log("err", err);
+  //     })
+  //     .finally(() => {
+  //       setLoading(false);
+  //     });
+  // };
 
   useEffect(() => {
-    fetchProduct();
-  }, []);
-
-  console.log("productPackages", productPackages);
+    setProductPackages(
+      products.find((product: ProductType) => product.id === slug),
+    );
+  }, [products, slug]);
 
   const bannerUpload = useImageUpload({
     endpoint: `/product/${slug}/images/banner`,
     onSuccess: (url) => {
       setImgBannerUrl(url);
-      fetchProduct();
+      fetchProducts(store.id);
     },
     onError: (error) => {
       console.error("Banner upload error:", error);
@@ -71,7 +71,7 @@ const Productpage = ({ slug }: Props) => {
     endpoint: `/product/${slug}/images/card`,
     onSuccess: (url) => {
       setImgCardUrl(url);
-      fetchProduct();
+      fetchProducts(store.id);
     },
     onError: (error) => {
       console.error("Card upload error:", error);
@@ -116,26 +116,30 @@ const Productpage = ({ slug }: Props) => {
     if (!productPackages) {
       return;
     }
-    setDescription(
-      productPackages.storeCustomization !== null
-        ? productPackages.storeCustomization.description
-        : productPackages.description,
-    );
-    setInstructions(
-      productPackages.storeCustomization !== null
-        ? productPackages.storeCustomization.instructions
-        : productPackages.instructions,
-    );
-    setImgBannerUrl(
-      productPackages.storeCustomization.imgBannerUrl !== null
-        ? productPackages.storeCustomization.imgBannerUrl
-        : productPackages.imgBannerUrl,
-    );
-    setImgCardUrl(
-      productPackages.storeCustomization.imgCardUrl !== null
-        ? productPackages.storeCustomization.imgCardUrl
-        : productPackages.imgCardUrl,
-    );
+
+    if (productPackages.storeCustomization === null) {
+      setDescription(productPackages.description);
+      setInstructions(productPackages.instructions);
+      setImgBannerUrl(productPackages.imgBannerUrl);
+      setImgCardUrl(productPackages.imgCardUrl);
+    } else {
+      setDescription(
+        productPackages.storeCustomization?.description !== null &&
+          productPackages.storeCustomization.description,
+      );
+      setInstructions(
+        productPackages.storeCustomization?.instructions !== null &&
+          productPackages.storeCustomization.instructions,
+      );
+      setImgBannerUrl(
+        productPackages.storeCustomization?.imgBannerUrl !== null &&
+          productPackages.storeCustomization.imgBannerUrl,
+      );
+      setImgCardUrl(
+        productPackages.storeCustomization?.imgCardUrl !== null &&
+          productPackages.storeCustomization.imgCardUrl,
+      );
+    }
   }, [productPackages]);
 
   console.log("imgCardUrl", imgCardUrl);

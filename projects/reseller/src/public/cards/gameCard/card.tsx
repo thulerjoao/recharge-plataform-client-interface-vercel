@@ -4,14 +4,21 @@ import { ProductType } from "types/productTypes";
 import { CardContainer } from "./style";
 
 interface CardProps {
-  product: Partial<ProductType>;
+  product: ProductType;
 }
 
 const GameCard = ({ product }: CardProps) => {
+  const imageUrl = () => {
+    if (product.storeCustomization === null) {
+      return product.imgCardUrl;
+    } else {
+      return product.storeCustomization.imgCardUrl;
+    }
+  };
   return (
     <CardContainer>
       <Image
-        src={product.imgCardUrl}
+        src={imageUrl()}
         alt={`Imagem do jogo ${product.name}`}
         height={200}
         width={200}

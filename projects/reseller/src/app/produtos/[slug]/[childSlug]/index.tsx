@@ -4,7 +4,7 @@ import OnOff from "@4miga/design-system/components/onOff";
 import Text from "@4miga/design-system/components/Text";
 import { Theme } from "@4miga/design-system/theme/theme";
 import { connectionAPIGet } from "@4miga/services/connectionAPI/connection";
-import { usePackages } from "context/packages";
+
 import PackageCard from "public/cards/packageCard/card";
 import DefaultHeader from "public/components/defaultHeader";
 import HeaderEnviroment from "public/components/headerEnviroment";
@@ -17,6 +17,7 @@ import PixConfiguration from "./common/pixCard/pixConfiguration";
 import { ConfigPackagePage } from "./style";
 import { useRouter } from "next/navigation";
 import LoadingPage from "app/loading";
+import { useProducts } from "context/products";
 
 type Props = {
   slug: string;
@@ -30,7 +31,7 @@ const SecondaryProductPage = ({ slug, childSlug }: Props) => {
   const [loading, setLoading] = useState<boolean>(true);
   const [packageData, setPackageData] = useState<PackageType>();
   const [editData, setEditData] = useState<PackageType>();
-  const { productPackages, setProductPackages } = usePackages();
+  const { productPackages, setProductPackages } = useProducts();
   const [index, setIndex] = useState<number>();
 
   const handleEdit = () => {
