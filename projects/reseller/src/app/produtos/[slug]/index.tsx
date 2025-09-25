@@ -4,6 +4,8 @@ import Text from "@4miga/design-system/components/Text";
 import { Theme } from "@4miga/design-system/theme/theme";
 import { connectionAPIGet } from "@4miga/services/connectionAPI/connection";
 import { useAuth } from "context/auth";
+import { usePackages } from "context/packages";
+import { useImageUpload } from "hooks/useImageUpload";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import PackageCard from "public/cards/packageCard/card";
@@ -15,7 +17,6 @@ import { apiUrl } from "utils/apiUrl";
 import CameraIcon from "../common/icons/CameraIcon.svg";
 import Pen from "../common/icons/Pen.svg";
 import { ProductsInnerPage } from "./style";
-import { usePackages } from "context/packages";
 
 type Props = {
   slug: string;
@@ -35,25 +36,81 @@ const Productpage = ({ slug }: Props) => {
   const [ischanged, setIsChanged] = useState<boolean>(false);
   const [loading, setLoading] = useState<boolean>(true);
 
-  const handlePackageClick = (slug: string, packag: PackageType) => {
-    route.push(`/produtos/${slug}/${packag.id}`);
+  const fetchProduct = async () => {
+    connectionAPIGet(`/product/${slug}?storeId=${store.id}`, apiUrl)
+      .then((res) => {
+        setProductPackages(res as ProductType);
+      })
+      .catch((err) => {
+        console.log("err", err);
+      })
+      .finally(() => {
+        setLoading(false);
+      });
   };
 
   useEffect(() => {
-    const fetchProduct = async () => {
-      connectionAPIGet(`/product/${slug}?storeId=${store.id}`, apiUrl)
-        .then((res) => {
-          setProductPackages(res as ProductType);
-        })
-        .catch((err) => {
-          console.log("err", err);
-        })
-        .finally(() => {
-          setLoading(false);
-        });
-    };
     fetchProduct();
   }, []);
+
+  console.log("productPackages", productPackages);
+
+  const bannerUpload = useImageUpload({
+    endpoint: `/product/${slug}/images/banner`,
+    onSuccess: (url) => {
+      setImgBannerUrl(url);
+      fetchProduct();
+    },
+    onError: (error) => {
+      console.error("Banner upload error:", error);
+      alert("Error uploading banner image. Please try again.");
+    },
+  });
+
+  const cardUpload = useImageUpload({
+    endpoint: `/product/${slug}/images/card`,
+    onSuccess: (url) => {
+      setImgCardUrl(url);
+      fetchProduct();
+    },
+    onError: (error) => {
+      console.error("Card upload error:", error);
+      alert("Error uploading card image. Please try again.");
+    },
+  });
+
+  // Update ischanged when card has changes
+  useEffect(() => {
+    if (cardUpload.hasChanges) {
+      setIsChanged(true);
+    } else if (bannerUpload.hasChanges) {
+      setIsChanged(true);
+    }
+  }, [cardUpload.hasChanges, bannerUpload.hasChanges]);
+
+  // Function to save changes
+  const handleSaveChanges = async () => {
+    if (!ischanged) return;
+
+    try {
+      // Upload images if files are selected
+      if (bannerUpload.hasChanges) {
+        await bannerUpload.handleSave();
+      }
+
+      if (cardUpload.hasChanges) {
+        await cardUpload.handleSave();
+      }
+
+      // Here you can add other changes like description and instructions
+      // For example, make a PUT request to update that information
+
+      setIsChanged(false);
+    } catch (error) {
+      console.error("Error saving changes:", error);
+      alert("Error saving changes. Please try again.");
+    }
+  };
 
   useEffect(() => {
     if (!productPackages) {
@@ -70,16 +127,23 @@ const Productpage = ({ slug }: Props) => {
         : productPackages.instructions,
     );
     setImgBannerUrl(
-      productPackages.storeCustomization !== null
+      productPackages.storeCustomization.imgBannerUrl !== null
         ? productPackages.storeCustomization.imgBannerUrl
         : productPackages.imgBannerUrl,
     );
     setImgCardUrl(
-      productPackages.storeCustomization !== null
+      productPackages.storeCustomization.imgCardUrl !== null
         ? productPackages.storeCustomization.imgCardUrl
         : productPackages.imgCardUrl,
     );
   }, [productPackages]);
+
+  console.log("imgCardUrl", imgCardUrl);
+  console.log("image", cardUpload.previewUrl);
+
+  const handlePackageClick = (slug: string, packag: PackageType) => {
+    route.push(`/produtos/${slug}/${packag.id}`);
+  };
 
   return (
     <ProductsInnerPage>
@@ -162,7 +226,7 @@ const Productpage = ({ slug }: Props) => {
               resolução mínima de 1280 x 540 e uma proporção de 21:9
             </Text>
             <Image
-              src={imgBannerUrl}
+              src={bannerUpload.previewUrl || imgBannerUrl}
               alt="Imagem de banner"
               width={1280}
               height={540}
@@ -174,6 +238,14 @@ const Productpage = ({ slug }: Props) => {
               height={32}
               width={181}
               title="Atualizar imagem"
+              onClick={bannerUpload.handleButtonClick}
+            />
+            <input
+              ref={bannerUpload.fileInputRef}
+              type="file"
+              accept="image/png,image/jpg,image/jpeg"
+              style={{ display: "none" }}
+              onChange={bannerUpload.handleFileSelect}
             />
           </div>
 
@@ -195,7 +267,7 @@ const Productpage = ({ slug }: Props) => {
               resolução mínima de 720 x 720 e uma proporção de 1:1
             </Text>
             <Image
-              src={imgCardUrl}
+              src={cardUpload.previewUrl || imgCardUrl}
               alt="Imagem de card"
               width={720}
               height={720}
@@ -207,6 +279,14 @@ const Productpage = ({ slug }: Props) => {
               height={32}
               width={181}
               title="Atualizar imagem"
+              onClick={cardUpload.handleButtonClick}
+            />
+            <input
+              ref={cardUpload.fileInputRef}
+              type="file"
+              accept="image/png,image/jpg,image/jpeg"
+              style={{ display: "none" }}
+              onChange={cardUpload.handleFileSelect}
             />
           </div>
         </section>
@@ -244,10 +324,17 @@ const Productpage = ({ slug }: Props) => {
           <Button
             rounded
             isNotSelected={!ischanged}
-            disabled={!ischanged}
+            disabled={
+              !ischanged || bannerUpload.isUploading || cardUpload.isUploading
+            }
             height={40}
             width={197}
-            title="Salvar alterações"
+            title={
+              bannerUpload.isUploading || cardUpload.isUploading
+                ? "Salvando..."
+                : "Salvar alterações"
+            }
+            onClick={handleSaveChanges}
           />
         </div>
       </div>

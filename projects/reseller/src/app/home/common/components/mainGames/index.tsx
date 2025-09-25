@@ -5,7 +5,7 @@ import { ProductType } from "types/productTypes";
 import { MainGamesContainer } from "./style";
 
 const MainGames = () => {
-  const products = useProducts();
+  const { products } = useProducts();
 
   return (
     <MainGamesContainer>

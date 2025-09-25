@@ -11,7 +11,7 @@ import { useRouter } from "next/navigation";
 import { formatString } from "utils/formatString";
 
 const ProductsPage = () => {
-  const products = useProducts();
+  const { products } = useProducts();
   const route = useRouter();
   console.log("products", products);
 

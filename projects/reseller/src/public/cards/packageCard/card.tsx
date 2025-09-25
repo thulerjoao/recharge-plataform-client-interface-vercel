@@ -2,8 +2,8 @@ import Text from "@4miga/design-system/components/Text";
 import { Theme } from "@4miga/design-system/theme/theme";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
-import { PackageCardContainer } from "./style";
 import { formatPrice } from "utils/formatPrice";
+import { PackageCardContainer } from "./style";
 
 interface PackageCardProps {
   title: string;

@@ -3,7 +3,11 @@
 import React, { createContext, useContext, useState } from "react";
 import { ProductType } from "types/productTypes";
 
-const ProductsContext = createContext<ProductType[] | null>(null);
+interface ProductsContextType {
+  products: ProductType[] | null;
+}
+
+const ProductsContext = createContext<ProductsContextType | null>(null);
 
 export const ProductsProvider = ({
   children,
@@ -17,7 +21,7 @@ export const ProductsProvider = ({
   );
 
   return (
-    <ProductsContext.Provider value={products}>
+    <ProductsContext.Provider value={{ products }}>
       {children}
     </ProductsContext.Provider>
   );
