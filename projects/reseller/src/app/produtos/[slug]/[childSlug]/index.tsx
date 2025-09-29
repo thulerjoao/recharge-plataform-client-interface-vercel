@@ -3,26 +3,21 @@ import Input from "@4miga/design-system/components/input";
 import OnOff from "@4miga/design-system/components/onOff";
 import Text from "@4miga/design-system/components/Text";
 import { Theme } from "@4miga/design-system/theme/theme";
-import { useProducts } from "context/products/ProductsProvider";
+import { connectionAPIGet } from "@4miga/services/connectionAPI/connection";
+
+import PackageCard from "public/cards/packageCard/card";
 import DefaultHeader from "public/components/defaultHeader";
 import HeaderEnviroment from "public/components/headerEnviroment";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { PackageType, ProductType } from "types/productTypes";
+import { apiUrl } from "utils/apiUrl";
 import CameraIcon from "../../common/icons/CameraIcon.svg";
-import Pen from "../../common/icons/Pen.svg";
-import BigoCard from "../../common/temp/bigoCard.svg";
 import ConfirmModal from "./common/confirmModal";
-import Ame from "./common/icons/Ame.svg";
-import Boleto from "./common/icons/Boleto.svg";
-import MercadoPago from "./common/icons/MercadoPago.svg";
-import PayPal from "./common/icons/PayPal.svg";
-import PicPay from "./common/icons/PicPay.svg";
-import Pix from "./common/icons/Pix.svg";
-import Transfer from "./common/icons/Transfer.svg";
-import PriceCard from "./common/priceCard";
-import PriceCardMobile from "./common/priceCardMobile";
+import PixConfiguration from "./common/pixCard/pixConfiguration";
 import { ConfigPackagePage } from "./style";
-import { ProductType } from "types/productTypes";
-import { formatString } from "utils/formatString";
+import { useRouter } from "next/navigation";
+import LoadingPage from "app/loading";
+import { useProducts } from "context/products";
 
 type Props = {
   slug: string;
@@ -30,441 +25,429 @@ type Props = {
 };
 
 const SecondaryProductPage = ({ slug, childSlug }: Props) => {
+  const route = useRouter();
   const [confirmModal, setconfirmModal] = useState<boolean>(false);
-  const products = useProducts();
-  const product = products.find(
-    (product: ProductType) => formatString(product.name) === slug,
-  );
+  const [isEditing, setIsEditing] = useState<boolean>(false);
+  const [loading, setLoading] = useState<boolean>(true);
+  const [packageData, setPackageData] = useState<PackageType>();
+  const [editData, setEditData] = useState<PackageType>();
+  const { productPackages, setProductPackages } = useProducts();
+  const [index, setIndex] = useState<number>();
+
+  const handleEdit = () => {
+    setIsEditing(true);
+  };
+
+  const handleCancel = () => {
+    setIsEditing(false);
+    setEditData(packageData);
+  };
+
+  const handleSave = () => {
+    if (packageData === editData) {
+      handleCancel();
+      return;
+    }
+    setIsEditing(false);
+    setconfirmModal(true);
+  };
+
+  const handleInputChange = (
+    field: string,
+    value: string | number | boolean,
+  ) => {
+    setEditData((prev) => ({ ...prev, [field]: value }));
+  };
+
+  const calculateValues = () => {
+    const totalCost =
+      +editData?.basePrice +
+      (+editData?.basePrice * editData?.paymentMethods[0].price) / 100;
+    const profitValue =
+      (totalCost * (editData?.paymentMethods[0].price - +editData?.basePrice)) /
+      100;
+    const sellValue = totalCost + profitValue;
+
+    return {
+      totalCost,
+      profitValue,
+      sellValue,
+    };
+  };
+
+  const values = calculateValues();
+
+  const handleIndex = (param: PackageType[], id: string) => {
+    setIndex(param.findIndex((packag: PackageType) => packag.id === id));
+  };
+
+  useEffect(() => {
+    const localPackage = productPackages?.packages.find(
+      (packag: PackageType) => packag.id === childSlug,
+    );
+    if (localPackage) {
+      setEditData(localPackage);
+      setPackageData(localPackage);
+      setLoading(false);
+      handleIndex(productPackages?.packages, childSlug);
+    } else {
+      connectionAPIGet<ProductType>(`/product/${slug}`, apiUrl)
+        .then((res) => {
+          setProductPackages(res);
+          const localPackage = res.packages.find(
+            (packag: PackageType) => packag.id === childSlug,
+          );
+          setPackageData(localPackage);
+          setEditData(localPackage);
+          handleIndex(res.packages, childSlug);
+        })
+        .finally(() => {
+          setLoading(false);
+        });
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  const handleNextPackage = () => {
+    setIndex(index + 1);
+    const newPackage = productPackages?.packages[index + 1];
+    setEditData(newPackage);
+    setPackageData(newPackage);
+  };
+
+  const handlePreviousPackage = () => {
+    setIndex(index - 1);
+    const newPackage = productPackages?.packages[index - 1];
+    setEditData(newPackage);
+    setPackageData(newPackage);
+  };
+
+  if (loading) {
+    return <LoadingPage />;
+  }
 
   return (
     <ConfigPackagePage>
       {confirmModal && <ConfirmModal setconfirmModal={setconfirmModal} />}
-      <div className="desktop tablet">
+      <div className="desktop">
         <HeaderEnviroment>
           <DefaultHeader backWard title="CONFIGURAR PACOTE" />
         </HeaderEnviroment>
       </div>
-      <div className="mobile">
-        <DefaultHeader backWard title="CONFIGURAR PACOTE" />
+      <div className="mobile mobileHeader">
+        <Text align="center" fontName="LARGE_SEMI_BOLD">
+          CONFIG PACOTE
+        </Text>
       </div>
-      <main>
-        <div className="topContainer">
-          <Text fontName="LARGE_MEDIUM">BIGO LIVE</Text>
-          <Text tag="h3" align="end" underline fontName="REGULAR">
-            Desativar Pacote
-          </Text>
-        </div>
-        <section className="packageSettings">
-          <div className="leftContainer">
-            <span className="pen">
-              <Pen />
-            </span>
-            <Text fontName="REGULAR_SEMI_BOLD">NOME DO PACOTE</Text>
-            <Input margin="16px 0 0 0" height={53} />
-            <div className="bottomLeftContainer">
-              <Text nowrap fontName="REGULAR_SEMI_BOLD">
-                QUANTIDADE DE CRÉDITOS:
-              </Text>
-              <Text
-                align="end"
-                color={Theme.colors.mainHighlight}
-                fontName="REGULAR_SEMI_BOLD"
-              >
-                30
-              </Text>
-            </div>
-            <div className="bottomLeftContainer">
-              <Text nowrap fontName="REGULAR_SEMI_BOLD">
-                DEFINIR COMO OFERTA:
-              </Text>
-              <OnOff onOff={true} />
-            </div>
-          </div>
-          <div className="rightContainer">
-            <Text align="center" fontName="REGULAR_SEMI_BOLD">
-              IMAGEM DO PACOTE
+      <div className="mainContentPackage">
+        <div className="headerSection">
+          <div className="packageInfo">
+            <Text fontName="LARGE_SEMI_BOLD" color={Theme.colors.mainlight}>
+              {editData?.name}
             </Text>
-            <Text margin="16px 0 0 0" align="center" fontName="TINY_MEDIUM">
-              A imagem deve estar no formato .png, .jpg ou .jpeg, ter uma
-              resolução mínima de 480 x 480 e uma proporção de 1:1
+            <Text fontName="REGULAR_MEDIUM" color={Theme.colors.mainHighlight}>
+              {editData?.amountCredits} créditos
             </Text>
-            <span className="packageImage">
-              <BigoCard />
-            </span>
-            <Button
-              leftElement={<CameraIcon />}
-              rounded
-              margin="16px 0 0 0"
-              height={32}
-              width={181}
-              title="Atualizar imagem"
-            />
           </div>
-        </section>
-        <section className="packageValues">
-          <div className="topText">
-            <Text
-              className="desktop tablet"
-              nowrap
-              fontName="REGULAR_SEMI_BOLD"
+          <div className="statusSection">
+            <div
+              className={`statusBadge ${editData?.isActive ? "active" : "inactive"}`}
             >
-              CONFIGURAÇÕES DE PREÇO
+              <Text
+                fontName="SMALL_MEDIUM"
+                color={
+                  editData?.isActive
+                    ? Theme.colors.approved
+                    : Theme.colors.refused
+                }
+              >
+                {editData?.isActive ? "ATIVO" : "INATIVO"}
+              </Text>
+            </div>
+            {isEditing && (
+              <div className="onOff">
+                <Text fontName="SMALL_MEDIUM" color={Theme.colors.mainlight}>
+                  Ativar/Desativar
+                </Text>
+                <span
+                  onClick={() =>
+                    handleInputChange("isActive", !editData?.isActive)
+                  }
+                >
+                  <OnOff onOff={editData?.isActive} />
+                </span>
+              </div>
+            )}
+          </div>
+        </div>
+
+        <div className="infoSections">
+          <div className="infoSection">
+            <Text fontName="REGULAR_MEDIUM" color={Theme.colors.mainHighlight}>
+              VISUALIZAÇÃO DO PACOTE
             </Text>
-            <Text className="mobile" fontName="REGULAR_SEMI_BOLD">
-              CONFIGURAÇÕES DE PREÇO
+            <div className="imageSection">
+              <Text fontName="TINY_MEDIUM" color={Theme.colors.secondaryText}>
+                A imagem deve estar no formato .png, .jpg ou .jpeg, ter uma
+                resolução mínima de 480 x 480 e uma proporção de 1:1
+              </Text>
+              <div className="cardNavigation">
+                {index !== 0 ? (
+                  <button
+                    onClick={handlePreviousPackage}
+                    className="navArrow leftArrow"
+                    title="Pacote anterior"
+                    disabled={index === 0}
+                  >
+                    ←
+                  </button>
+                ) : (
+                  <div className="disabled" />
+                )}
+                <div className="cardEnviroment">
+                  <PackageCard
+                    bestOffer={editData?.isOffer}
+                    title={editData?.name}
+                    imageUrl={editData?.imgCardUrl}
+                    price={+editData?.basePrice}
+                  />
+                </div>
+                {index !== productPackages?.packages.length - 1 ? (
+                  <button
+                    onClick={handleNextPackage}
+                    className="navArrow rightArrow"
+                    title="Próximo pacote"
+                    disabled={index === productPackages?.packages.length - 1}
+                  >
+                    →
+                  </button>
+                ) : (
+                  <div className="disabled" />
+                )}
+              </div>
+              <Button
+                leftElement={<CameraIcon />}
+                onClick={() => {}}
+                height={32}
+                width={180}
+                color={Theme.colors.mainlight}
+                title="Atualizar imagem"
+              >
+                Atualizar imagem
+              </Button>
+            </div>
+          </div>
+          <div className="infoSection unifiedInfoSection">
+            <div className="sectionTitle">
+              <Text
+                fontName="REGULAR_MEDIUM"
+                color={Theme.colors.mainHighlight}
+              >
+                INFORMAÇÕES BÁSICAS
+              </Text>
+            </div>
+            <div className="infoGrid">
+              <div className="infoItem">
+                <Text
+                  fontName="SMALL_MEDIUM"
+                  color={Theme.colors.secondaryText}
+                >
+                  Nome do pacote:
+                </Text>
+                {isEditing ? (
+                  <Input
+                    value={editData?.name}
+                    onChange={(e) =>
+                      handleInputChange("packageName", e.target.value)
+                    }
+                    placeholder="Nome do pacote"
+                    height={32}
+                  />
+                ) : (
+                  <Text fontName="SMALL_MEDIUM" color={Theme.colors.mainlight}>
+                    {editData?.name}
+                  </Text>
+                )}
+              </div>
+              <div className="infoItem">
+                <Text
+                  fontName="SMALL_MEDIUM"
+                  color={Theme.colors.secondaryText}
+                >
+                  Quantidade de créditos:
+                </Text>
+                {isEditing ? (
+                  <Input
+                    value={editData?.amountCredits}
+                    onChange={(e) =>
+                      handleInputChange(
+                        "credits",
+                        parseInt(e.target.value) || 0,
+                      )
+                    }
+                    placeholder="Quantidade de créditos"
+                    height={32}
+                    type="number"
+                  />
+                ) : (
+                  <Text fontName="SMALL_MEDIUM" color={Theme.colors.mainlight}>
+                    {editData?.amountCredits}
+                  </Text>
+                )}
+              </div>
+              <div className="infoItem">
+                <Text
+                  fontName="SMALL_MEDIUM"
+                  color={Theme.colors.secondaryText}
+                >
+                  Definir como oferta:
+                </Text>
+                {isEditing ? (
+                  <div className="toggleContainer">
+                    <Text
+                      fontName="SMALL_MEDIUM"
+                      color={Theme.colors.mainlight}
+                    >
+                      {editData?.isOffer ? "Sim" : "Não"}
+                    </Text>
+                    <span
+                      onClick={() =>
+                        handleInputChange("isOffer", !editData?.isOffer)
+                      }
+                    >
+                      <OnOff onOff={editData?.isOffer} />
+                    </span>
+                  </div>
+                ) : (
+                  <Text fontName="SMALL_MEDIUM" color={Theme.colors.mainlight}>
+                    {editData?.isOffer ? "Sim" : "Não"}
+                  </Text>
+                )}
+              </div>
+            </div>
+
+            <div className="sectionDivider"></div>
+
+            <div className="sectionTitle">
+              <Text
+                fontName="REGULAR_MEDIUM"
+                color={Theme.colors.mainHighlight}
+              >
+                CONFIGURAÇÕES DE PREÇO
+              </Text>
+            </div>
+            <Text fontName="REGULAR">
+              Preço base - R$ {(+editData?.basePrice).toFixed(2)}
             </Text>
-            <div>
+            <div className="infoGrid">
+              <div className="infoItem">
+                <Text
+                  fontName="SMALL_MEDIUM"
+                  color={Theme.colors.secondaryText}
+                >
+                  Valor do pacote:
+                </Text>
+                {isEditing ? (
+                  <Input
+                    value={editData?.basePrice}
+                    onChange={(e) =>
+                      handleInputChange(
+                        "baseCost",
+                        parseFloat(e.target.value) || 0,
+                      )
+                    }
+                    placeholder="Custo base"
+                    height={32}
+                    type="number"
+                    step="0.01"
+                  />
+                ) : (
+                  <Text fontName="SMALL_MEDIUM" color={Theme.colors.mainlight}>
+                    R$ {(+editData?.basePrice).toFixed(2)}
+                  </Text>
+                )}
+              </div>
+              <div className="infoItem">
+                <Text
+                  fontName="SMALL_MEDIUM"
+                  color={Theme.colors.secondaryText}
+                >
+                  Margem de lucro (%):
+                </Text>
+                {isEditing ? (
+                  <Input
+                    value={editData?.basePrice}
+                    // value={editData.profitMargin}
+                    onChange={(e) =>
+                      handleInputChange(
+                        "profitMargin",
+                        parseInt(e.target.value) || 0,
+                      )
+                    }
+                    placeholder="Margem de lucro"
+                    height={32}
+                    type="number"
+                  />
+                ) : (
+                  <Text fontName="SMALL_MEDIUM" color={Theme.colors.mainlight}>
+                    {editData?.basePrice}%{/* {editData.profitMargin}% */}
+                  </Text>
+                )}
+              </div>
+            </div>
+
+            <div className="sectionDivider"></div>
+
+            <div className="sectionTitle">
               <Text
-                className="desktop tablet"
-                nowrap
-                color={Theme.colors.secondaryTextAction}
-                fontName="REGULAR_SEMI_BOLD"
+                fontName="REGULAR_MEDIUM"
+                color={Theme.colors.mainHighlight}
               >
-                CUSTO BASE
-              </Text>
-              <Text
-                className="mobile"
-                color={Theme.colors.secondaryTextAction}
-                fontName="REGULAR_SEMI_BOLD"
-              >
-                CUSTO BASE
-              </Text>
-              <Text nowrap fontName="REGULAR_SEMI_BOLD">
-                R$ 1,90
+                MEIOS DE PAGAMENTO
               </Text>
             </div>
-          </div>
-
-          <div className="scales desktop">
-            <span className="tax">
-              <Text align="center" nowrap fontName="REGULAR_MEDIUM">
-                TAXAS
-              </Text>
-            </span>
-            <span className="totalCost">
-              <Text align="center" nowrap fontName="REGULAR_MEDIUM">
-                CUSTO TOTAL
-              </Text>
-            </span>
-            <span className="profitMargin">
-              <Text align="center" nowrap fontName="REGULAR_MEDIUM">
-                MARGEM DE LUCRO
-              </Text>
-            </span>
-            <span className="profitValue">
-              <Text align="center" nowrap fontName="REGULAR_MEDIUM">
-                VALOR DO LUCRO
-              </Text>
-            </span>
-            <span className="saleValue">
-              <Text align="center" nowrap fontName="REGULAR_MEDIUM">
-                VALOR DE VENDA
-              </Text>
-            </span>
-          </div>
-
-          <div className="cardsList">
-            <div className="list desktop">
-              <PriceCard
-                image={<Pix />}
-                tax="1%"
-                totalCost={1.92}
-                profitMargin={50}
-                profitValue={1.9}
-                title="PIX"
-                sellValue={3.9}
-              />
-              <PriceCard
-                image={<MercadoPago />}
-                tax="1%"
-                totalCost={1.92}
-                profitMargin={50}
-                profitValue={1.9}
-                title="Mercado Pago"
-                sellValue={3.9}
-              />
-              <PriceCard
-                image={<PayPal />}
-                tax="1%"
-                totalCost={1.92}
-                profitMargin={50}
-                profitValue={1.9}
-                title="PayPal"
-                sellValue={3.9}
-              />
-              <PriceCard
-                image={<PicPay />}
-                tax="1,5%"
-                totalCost={1.92}
-                profitMargin={50}
-                profitValue={1.9}
-                title="PicPay"
-                sellValue={3.9}
-              />
-              <PriceCard
-                image={<Ame />}
-                tax="0,99%"
-                totalCost={1.92}
-                profitMargin={50}
-                profitValue={1.9}
-                title="Ame"
-                sellValue={3.9}
-              />
-              <PriceCard
-                image={<Boleto />}
-                tax="3,99% + R$ 1,90"
-                totalCost={1.92}
-                profitMargin={50}
-                profitValue={1.9}
-                title="Boleto"
-                sellValue={3.9}
-              />
-              <PriceCard
-                image={<Transfer />}
-                tax="1,99%"
-                totalCost={1.92}
-                profitMargin={50}
-                profitValue={1.9}
-                title="TRANSFERÊNCIA"
-                sellValue={3.9}
+            <div className="paymentMethodsSection">
+              <PixConfiguration
+                tax={`${1}%`}
+                totalCost={values.totalCost}
+                profitMargin={values.profitValue}
+                // profitMargin={editData.profitMargin}
+                profitValue={values.profitValue}
+                sellValue={values.sellValue}
               />
             </div>
 
-            <div className="list mobile tablet">
-              <PriceCardMobile
-                image={<Pix />}
-                tax="1%"
-                totalCost={1.92}
-                profitMargin={50}
-                profitValue={1.9}
-                title="PIX"
-                sellValue={3.9}
-              />
-              <PriceCardMobile
-                image={<MercadoPago />}
-                tax="1%"
-                totalCost={1.92}
-                profitMargin={50}
-                profitValue={1.9}
-                title="Mercado Pago"
-                sellValue={3.9}
-              />
-              <PriceCardMobile
-                image={<PayPal />}
-                tax="1%"
-                totalCost={1.92}
-                profitMargin={50}
-                profitValue={1.9}
-                title="PayPal"
-                sellValue={3.9}
-              />
-              <PriceCardMobile
-                image={<PicPay />}
-                tax="1,5%"
-                totalCost={1.92}
-                profitMargin={50}
-                profitValue={1.9}
-                title="PicPay"
-                sellValue={3.9}
-              />
-              <PriceCardMobile
-                image={<Ame />}
-                tax="0,99%"
-                totalCost={1.92}
-                profitMargin={50}
-                profitValue={1.9}
-                title="Ame"
-                sellValue={3.9}
-              />
-              <PriceCardMobile
-                image={<Boleto />}
-                tax="3,99% + R$ 1,90"
-                totalCost={1.92}
-                profitMargin={50}
-                profitValue={1.9}
-                title="Boleto"
-                sellValue={3.9}
-              />
-              <PriceCardMobile
-                image={<Transfer />}
-                tax="1,99%"
-                totalCost={1.92}
-                profitMargin={50}
-                profitValue={1.9}
-                title="TRANSFERÊNCIA"
-                sellValue={3.9}
-              />
+            <div className="actionsSection">
+              {isEditing ? (
+                <>
+                  <Button
+                    title="CANCELAR"
+                    onClick={handleCancel}
+                    width={120}
+                    height={36}
+                    rounded
+                  />
+                  <Button
+                    title="SALVAR"
+                    onClick={handleSave}
+                    width={120}
+                    height={36}
+                    rounded
+                  />
+                </>
+              ) : (
+                <Button
+                  title="EDITAR"
+                  onClick={handleEdit}
+                  width={120}
+                  height={36}
+                  rounded
+                />
+              )}
             </div>
           </div>
-        </section>
-        <Button
-          onClick={() => setconfirmModal(true)}
-          margin="24px 0 0 0"
-          rounded
-          width={197}
-          height={40}
-          title="Salvar alterações"
-        />
-        <section className="bottomContainer">
-          <Text
-            margin="24px 0 24px 0"
-            align="center"
-            fontName="REGULAR_SEMI_BOLD"
-          >
-            PRAZOS PARA SAQUE
-          </Text>
-          <div className="paymentMethods">
-            <span className="pix">
-              <div className="paymentIcon">
-                <span>
-                  <Pix />
-                </span>
-                <Text
-                  margin="0 0 0 10px"
-                  color={Theme.colors.secondaryTextAction}
-                  fontName="REGULAR_MEDIUM"
-                >
-                  PIX
-                </Text>
-              </div>
-              <Text
-                margin="10px 0 0 0"
-                align="center"
-                fontName="REGULAR_SEMI_BOLD"
-              >
-                1 DIA
-              </Text>
-            </span>
-            <span className="pix">
-              <div className="paymentIcon">
-                <span>
-                  <MercadoPago />
-                </span>
-                <Text
-                  margin="0 0 0 10px"
-                  nowrap
-                  color={Theme.colors.secondaryTextAction}
-                  fontName="REGULAR_MEDIUM"
-                >
-                  MERCADO PAGO
-                </Text>
-              </div>
-              <Text
-                margin="10px 0 0 0"
-                align="center"
-                fontName="REGULAR_SEMI_BOLD"
-              >
-                30 DIAS
-              </Text>
-            </span>
-            <span className="pix">
-              <div className="paymentIcon">
-                <span>
-                  <PayPal />
-                </span>
-                <Text
-                  margin="0 0 0 10px"
-                  color={Theme.colors.secondaryTextAction}
-                  fontName="REGULAR_MEDIUM"
-                >
-                  PAYPAL
-                </Text>
-              </div>
-              <Text
-                margin="10px 0 0 0"
-                align="center"
-                fontName="REGULAR_SEMI_BOLD"
-              >
-                2 DIAS
-              </Text>
-            </span>
-            <span className="pix">
-              <div className="paymentIcon">
-                <span>
-                  <PicPay />
-                </span>
-                <Text
-                  margin="0 0 0 10px"
-                  color={Theme.colors.secondaryTextAction}
-                  fontName="REGULAR_MEDIUM"
-                >
-                  PICPAY
-                </Text>
-              </div>
-              <Text
-                margin="10px 0 0 0"
-                align="center"
-                fontName="REGULAR_SEMI_BOLD"
-              >
-                1 DIA
-              </Text>
-            </span>
-            <span className="pix">
-              <div className="paymentIcon">
-                <span>
-                  <Ame />
-                </span>
-                <Text
-                  margin="0 0 0 10px"
-                  color={Theme.colors.secondaryTextAction}
-                  fontName="REGULAR_MEDIUM"
-                >
-                  AME
-                </Text>
-              </div>
-              <Text
-                margin="10px 0 0 0"
-                align="center"
-                fontName="REGULAR_SEMI_BOLD"
-              >
-                1 DIA
-              </Text>
-            </span>
-            <span className="pix">
-              <div className="paymentIcon">
-                <span>
-                  <Boleto />
-                </span>
-                <Text
-                  margin="0 0 0 10px"
-                  color={Theme.colors.secondaryTextAction}
-                  fontName="REGULAR_MEDIUM"
-                >
-                  BOLETO
-                </Text>
-              </div>
-              <Text
-                margin="10px 0 0 0"
-                align="center"
-                fontName="REGULAR_SEMI_BOLD"
-              >
-                1 DIA
-              </Text>
-            </span>
-            <span className="pix">
-              <div className="paymentIcon">
-                <span>
-                  <Transfer />
-                </span>
-                <Text
-                  margin="0 0 0 10px"
-                  color={Theme.colors.secondaryTextAction}
-                  fontName="REGULAR_MEDIUM"
-                >
-                  TRANSFERÊNCIA
-                </Text>
-              </div>
-              <Text
-                margin="10px 0 0 0"
-                align="center"
-                fontName="REGULAR_SEMI_BOLD"
-              >
-                1 DIA
-              </Text>
-            </span>
-          </div>
-        </section>
-      </main>
+        </div>
+      </div>
     </ConfigPackagePage>
   );
 };

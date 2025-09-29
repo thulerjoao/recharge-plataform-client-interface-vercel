@@ -1,11 +1,11 @@
 import Text from "@4miga/design-system/components/Text";
-import { useProducts } from "context/products/ProductsProvider";
+import { useProducts } from "context/products";
 import GameCard from "public/cards/gameCard/card";
 import { ProductType } from "types/productTypes";
 import { MainGamesContainer } from "./style";
 
 const MainGames = () => {
-  const products = useProducts();
+  const { products } = useProducts();
 
   return (
     <MainGamesContainer>

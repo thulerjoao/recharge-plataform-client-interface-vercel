@@ -6,6 +6,7 @@ export type ProductType = {
   imgBannerUrl: string;
   imgCardUrl: string;
   packages: PackageType[];
+  storeCustomization: StoreCustomizationType | null;
 };
 
 export type PackageType = {
@@ -13,12 +14,15 @@ export type PackageType = {
   name: string;
   amountCredits: number;
   imgCardUrl: string;
+  isActive: boolean;
   isOffer: boolean;
-  baseCost: number;
+  basePrice: string;
+  storeId: string;
   paymentMethods: PaymentMethodsType[];
 };
 
 export type PaymentMethodsType = {
+  id: string;
   name:
     | "pix"
     | "mercado pago"
@@ -27,4 +31,11 @@ export type PaymentMethodsType = {
     | "boleto"
     | "transferencia";
   price: number;
+};
+
+export type StoreCustomizationType = {
+  description: string;
+  instructions: string;
+  imgBannerUrl: string;
+  imgCardUrl: string;
 };

@@ -1,7 +1,7 @@
 "use client";
 
 import Text from "@4miga/design-system/components/Text";
-import { useProducts } from "context/products/ProductsProvider";
+
 import GameCard from "public/cards/gameCard/card";
 import DefaultHeader from "public/components/defaultHeader";
 import HeaderEnviroment from "public/components/headerEnviroment";
@@ -9,9 +9,10 @@ import InvisibleCards from "./invisivleCards";
 import { ProductsPageContainer } from "./style";
 import { useRouter } from "next/navigation";
 import { formatString } from "utils/formatString";
+import { useProducts } from "context/products";
 
 const ProductsPage = () => {
-  const products = useProducts();
+  const { products } = useProducts();
   const route = useRouter();
 
   const handleProductClick = (path: string) => {
@@ -19,7 +20,6 @@ const ProductsPage = () => {
     route.push(`/produtos/${res}`);
   };
 
-  console.log(products);
   return (
     <ProductsPageContainer>
       <div className="desktop">
@@ -38,18 +38,17 @@ const ProductsPage = () => {
         </Text>
       </div>
       <main className="cardsContainer">
-        {products &&
-          products.map((product) => {
-            return (
-              <div
-                key={product.id}
-                className="cardEnviroment"
-                onClick={() => handleProductClick(product.id)}
-              >
-                <GameCard product={product} />
-              </div>
-            );
-          })}
+        {products?.map((product) => {
+          return (
+            <div
+              key={product.id}
+              className="cardEnviroment"
+              onClick={() => handleProductClick(product.id)}
+            >
+              <GameCard product={product} />
+            </div>
+          );
+        })}
         {InvisibleCards(products)}
       </main>
     </ProductsPageContainer>

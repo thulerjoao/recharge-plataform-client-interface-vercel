@@ -2,57 +2,90 @@ import { Theme } from "@4miga/design-system/theme/theme";
 import styled from "styled-components";
 
 export const ProductsInnerPage = styled.div`
-  padding-top: 96px;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding-top: 64px;
+  padding-bottom: 64px;
 
-  .tablet,
   .mobile {
     display: none;
   }
-  .desktop {
-    display: flex;
-  }
 
-  main {
+  .mainContentComponent {
+    width: 100%;
+    max-width: 900px;
+    padding: 24px;
     display: flex;
     flex-direction: column;
-    align-items: center;
+    gap: 32px;
 
-    .topContainer {
+    .headerSection {
       display: flex;
-      width: 100%;
+      justify-content: space-between;
+      align-items: center;
+      padding: 24px;
+      background: ${Theme.colors.maindark};
+      border-radius: 12px;
+      -webkit-box-shadow: 0px 0px 5px 2px rgba(7, 29, 35, 1);
+      -moz-box-shadow: 0px 0px 5px 2px rgba(7, 29, 35, 1);
+      box-shadow: 0px 0px 5px 2px rgba(7, 29, 35, 1);
+
+      .titleSection {
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+      }
 
       h3 {
         cursor: pointer;
+        color: ${Theme.colors.refused};
       }
     }
 
-    .cardsContainer {
-      width: 100%;
+    .packagesSection {
+      background: ${Theme.colors.maindark};
+      border-radius: 12px;
+      -webkit-box-shadow: 0px 0px 5px 2px rgba(7, 29, 35, 1);
+      -moz-box-shadow: 0px 0px 5px 2px rgba(7, 29, 35, 1);
+      box-shadow: 0px 0px 5px 2px rgba(7, 29, 35, 1);
+      padding: 24px;
       display: flex;
-      justify-content: center;
+      flex-direction: column;
       align-items: center;
-      flex-wrap: wrap;
-      margin-top: 24px;
-      padding: 0 14px;
+      gap: 24px;
 
-      .cardEnviroment {
-        height: auto;
-        flex: 0 1 calc(20% - 16px);
-        display: flex;
-        align-items: center;
-        justify-content: center;
+      .cardsContainer {
         width: 100%;
-        min-width: 174px;
-        margin: 0 8px;
-        margin-bottom: 24px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-wrap: wrap;
+        gap: 16px;
+
+        .cardEnviroment {
+          height: auto;
+          flex: 0 1 calc(20% - 16px);
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          width: 100%;
+          min-width: 174px;
+          cursor: pointer;
+          transition: transform 0.2s ease;
+          border: 1px solid ${Theme.colors.secondaryAction};
+          border-radius: 8px;
+        }
       }
     }
 
     .bannerImages {
-      margin-top: 16px;
-      width: 100%;
-      border-radius: 8px;
-      background-color: ${Theme.colors.maindark};
+      background: ${Theme.colors.maindark};
+      border-radius: 12px;
+      -webkit-box-shadow: 0px 0px 5px 2px rgba(7, 29, 35, 1);
+      -moz-box-shadow: 0px 0px 5px 2px rgba(7, 29, 35, 1);
+      box-shadow: 0px 0px 5px 2px rgba(7, 29, 35, 1);
       padding: 24px;
       gap: 24px;
       display: flex;
@@ -67,6 +100,7 @@ export const ProductsInnerPage = styled.div`
         img {
           max-width: 100%;
           height: auto;
+          border-radius: 8px;
         }
       }
 
@@ -80,14 +114,19 @@ export const ProductsInnerPage = styled.div`
         img {
           max-width: 178px;
           height: auto;
+          border-radius: 8px;
         }
       }
     }
 
     .descriptions {
+      background: ${Theme.colors.maindark};
+      border-radius: 12px;
+      -webkit-box-shadow: 0px 0px 5px 2px rgba(7, 29, 35, 1);
+      -moz-box-shadow: 0px 0px 5px 2px rgba(7, 29, 35, 1);
+      box-shadow: 0px 0px 5px 2px rgba(7, 29, 35, 1);
       width: 100%;
       height: 320px;
-      margin-top: 32px;
       padding: 24px;
       gap: 24px;
       display: flex;
@@ -120,12 +159,15 @@ export const ProductsInnerPage = styled.div`
         position: absolute;
         right: 0;
         top: 0;
+        cursor: pointer;
       }
 
       textarea {
         font-family: "Montserrat", "Open Sans", sans-serif;
         resize: none;
-        border: none;
+        border: 2px solid ${Theme.colors.secondaryAction};
+        background: ${Theme.colors.mainlight};
+        color: ${Theme.colors.secondaryAction};
         width: 100%;
         height: 100%;
         border-radius: 8px;
@@ -135,6 +177,7 @@ export const ProductsInnerPage = styled.div`
 
         &:focus {
           outline: none;
+          border-color: ${Theme.colors.mainHighlight};
         }
 
         &::-webkit-scrollbar {
@@ -152,91 +195,62 @@ export const ProductsInnerPage = styled.div`
         -ms-overflow-style: none;
       }
     }
-  }
 
-  @media (min-width: 768px) and (max-width: 1025px) {
-    .desktop,
-    .mobile {
-      display: none;
-    }
-    .tablet {
+    .saveButtonContainer {
       display: flex;
-    }
-
-    main {
-      .cardsContainer {
-        padding: 0;
-        align-items: center;
-        justify-content: center;
-
-        .cardEnviroment {
-          flex: 0 1 calc(33.33% - 16px);
-        }
-      }
-
-      .bannerImages {
-        flex-direction: column;
-        gap: 40px;
-
-        .leftContainer {
-          width: 100%;
-          height: auto;
-        }
-
-        .rightContainer {
-          width: 100%;
-          height: auto;
-        }
-      }
-
-      .descriptions {
-        flex-direction: column;
-        height: 680px;
-        gap: 40px;
-
-        .leftContainer {
-          width: 100%;
-          min-height: 260px;
-        }
-
-        .rightContainer {
-          width: 100%;
-          min-height: 260px;
-        }
-      }
+      justify-content: center;
+      align-items: center;
+      padding: 24px;
     }
   }
-  @media (max-width: 767px) {
-    padding-top: 64px;
 
-    .tablet,
+  @media (max-width: 768px) {
+    padding-top: 64px;
     .desktop {
       display: none;
     }
     .mobile {
       display: flex;
+      width: 100%;
     }
 
-    main {
-      .topContainer {
-        margin-top: 24px;
-      }
-      .cardsContainer {
-        padding: 0;
-        justify-content: space-between;
+    .mobileHeader {
+      position: fixed;
+      top: 0;
+      z-index: 10;
+      margin-top: 12px;
+      width: auto;
+      height: 0;
+    }
 
-        .cardEnviroment {
-          flex: 0 1 calc(50% - 10px);
-          margin: 0;
-          margin-bottom: 24px;
-          min-width: 150px;
+    .mainContentComponent {
+      padding: 16px;
+      gap: 24px;
+
+      .headerSection {
+        flex-direction: column;
+        gap: 16px;
+        text-align: center;
+        padding: 20px;
+        margin-bottom: 20px;
+      }
+
+      .packagesSection {
+        padding: 20px;
+        margin-bottom: 20px;
+
+        .cardsContainer {
+          .cardEnviroment {
+            flex: 0 1 calc(33.33% - 16px);
+            min-width: 150px;
+          }
         }
       }
 
       .bannerImages {
         flex-direction: column;
-        padding: 24px 16px;
         gap: 40px;
+        padding: 20px;
 
         .leftContainer {
           width: 100%;
@@ -256,17 +270,111 @@ export const ProductsInnerPage = styled.div`
 
       .descriptions {
         flex-direction: column;
-        height: 760px;
+        height: 680px;
         gap: 40px;
+        padding: 20px;
 
         .leftContainer {
           width: 100%;
-          min-height: 300px;
+          min-height: 260px;
         }
 
         .rightContainer {
           width: 100%;
+          min-height: 260px;
+        }
+      }
+    }
+  }
+
+  @media (max-width: 539px) {
+    .mainContentComponent {
+      padding: 0px;
+      gap: 20px;
+
+      .headerSection {
+        padding: 16px;
+        margin-bottom: 16px;
+        gap: 12px;
+      }
+
+      .packagesSection {
+        padding: 16px;
+        margin-bottom: 16px;
+
+        .cardsContainer {
+          .cardEnviroment {
+            flex: 0 1 calc(50% - 10px);
+            min-width: 140px;
+          }
+        }
+      }
+
+      .bannerImages {
+        padding: 16px;
+        margin-bottom: 16px;
+        gap: 32px;
+      }
+
+      .descriptions {
+        padding: 16px;
+        margin-bottom: 16px;
+        height: 760px;
+        gap: 32px;
+
+        .leftContainer {
           min-height: 300px;
+        }
+
+        .rightContainer {
+          min-height: 300px;
+        }
+      }
+    }
+  }
+
+  /* Breakpoint para mobile pequeno (400px e menores) */
+  @media (max-width: 400px) {
+    .mainContentComponent {
+      padding: 0;
+      gap: 16px;
+
+      .headerSection {
+        padding: 14px;
+        margin-bottom: 14px;
+        gap: 10px;
+      }
+
+      .packagesSection {
+        padding: 14px;
+        margin-bottom: 14px;
+
+        .cardsContainer {
+          .cardEnviroment {
+            flex: 0 1 calc(50% - 8px);
+            min-width: 120px;
+          }
+        }
+      }
+
+      .bannerImages {
+        padding: 14px;
+        margin-bottom: 14px;
+        gap: 24px;
+      }
+
+      .descriptions {
+        padding: 14px;
+        margin-bottom: 14px;
+        height: 800px;
+        gap: 24px;
+
+        .leftContainer {
+          min-height: 320px;
+        }
+
+        .rightContainer {
+          min-height: 320px;
         }
       }
     }

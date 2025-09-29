@@ -1,8 +1,12 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 "use client";
 
-import { connectionAPIPost } from "@4miga/services/connectionAPI/connection";
+import {
+  connectionAPIGet,
+  connectionAPIPost,
+} from "@4miga/services/connectionAPI/connection";
 import axios from "axios";
+import { useProducts } from "context/products";
 import { useRouter } from "next/navigation";
 import {
   createContext,
@@ -12,6 +16,7 @@ import {
   useState,
 } from "react";
 import { LoginResponse } from "types/loginTypes";
+import { ProductType } from "types/productTypes";
 import { StoreType, UserType } from "types/userTypes";
 
 import { apiUrl } from "utils/apiUrl";
@@ -40,6 +45,7 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
   const [lastUpdated, setLastUpdated] = useState(Date.now());
   const [expiresIn, setExpiresIn] = useState<number>(null);
   const [store, setStore] = useState<StoreType>(null);
+  const { setProducts } = useProducts();
 
   useEffect(() => {
     const checkAuth = async () => {
@@ -149,6 +155,16 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
   }, [lastUpdated, expiresIn]);
 
   const login = async (data: LoginResponse, rememberMe: boolean) => {
+    const storeId = data.user.store.id;
+    await connectionAPIGet<ProductType[]>(
+      `/product/packages/?storeId=${storeId}`,
+      apiUrl,
+    )
+      .then((res) => {
+        setProducts(res);
+      })
+      .catch((err) => console.error(err));
+
     const accessToken = data.access.accessToken;
     sessionStorage.setItem("accessToken", accessToken);
     rememberMe

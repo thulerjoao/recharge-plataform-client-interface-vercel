@@ -2,272 +2,393 @@ import { Theme } from "@4miga/design-system/theme/theme";
 import styled from "styled-components";
 
 export const ConfigPackagePage = styled.div`
-  padding-top: 96px;
-  padding-bottom: 56px;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding-top: 64px;
+  padding-bottom: 64px;
 
-  .tablet,
   .mobile {
     display: none;
   }
-  .desktop {
-    display: flex;
-  }
 
-  main {
+  .mainContentPackage {
+    width: 100%;
+    max-width: 900px;
+    padding: 24px;
     display: flex;
     flex-direction: column;
-    align-items: center;
+    gap: 32px;
 
-    .topContainer {
+    .headerSection {
       display: flex;
-      width: 100%;
-
-      h3 {
-        cursor: pointer;
-      }
-    }
-
-    .packageSettings {
-      margin-top: 24px;
-      border-radius: 16px;
+      justify-content: space-between;
+      align-items: center;
       padding: 24px;
-      display: flex;
-      background-color: ${Theme.colors.maindark};
-      width: 100%;
-      gap: 32px;
+      background: ${Theme.colors.maindark};
+      border-radius: 12px;
+      -webkit-box-shadow: 0px 0px 5px 2px rgba(7, 29, 35, 1);
+      -moz-box-shadow: 0px 0px 5px 2px rgba(7, 29, 35, 1);
+      box-shadow: 0px 0px 5px 2px rgba(7, 29, 35, 1);
 
-      .leftContainer {
-        width: 50%;
-        position: relative;
-
-        .pen {
-          position: absolute;
-          right: 0;
-          top: 0;
-        }
-
-        .bottomLeftContainer {
-          display: flex;
-          margin-top: 32px;
-          align-items: center;
-        }
-      }
-
-      .rightContainer {
-        width: 50%;
+      .packageInfo {
         display: flex;
         flex-direction: column;
-        align-items: center;
+        gap: 12px;
+      }
 
-        .packageImage {
-          border-radius: 8px;
-          margin-top: 16px;
+      .statusSection {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-end;
+        gap: 16px;
+
+        .statusBadge {
+          padding: 4px 12px;
+          border-radius: 16px;
+          display: inline-block;
+          text-align: center;
+
+          &.active {
+            background: ${Theme.colors.approved}20;
+            border: 1px solid ${Theme.colors.approved};
+          }
+
+          &.inactive {
+            background: ${Theme.colors.refused}20;
+            border: 1px solid ${Theme.colors.refused};
+          }
+        }
+
+        .onOff {
           display: flex;
+          flex-direction: row;
+          justify-content: space-between;
           align-items: center;
-          justify-content: center;
-          overflow: hidden;
+          gap: 8px;
+          width: 100%;
+          margin-top: 8px;
         }
       }
     }
 
-    .packageValues {
-      margin-top: 24px;
-      border-radius: 16px;
-      padding: 24px;
+    .infoSections {
       display: flex;
       flex-direction: column;
-      align-items: center;
-      background-color: ${Theme.colors.maindark};
-      width: 100%;
+      gap: 24px;
 
-      .topText {
-        display: flex;
-        width: 100%;
+      .infoSection {
+        padding: 24px;
+        background: ${Theme.colors.maindark};
+        border-radius: 12px;
+        -webkit-box-shadow: 0px 0px 5px 2px rgba(7, 29, 35, 1);
+        -moz-box-shadow: 0px 0px 5px 2px rgba(7, 29, 35, 1);
+        box-shadow: 0px 0px 5px 2px rgba(7, 29, 35, 1);
 
-        div {
+        &.unifiedInfoSection {
+          .sectionDivider {
+            height: 1px;
+            background: ${Theme.colors.secondaryTextAction}20;
+            margin: 24px 0;
+          }
+
+          .sectionTitle {
+            margin-bottom: 16px;
+          }
+        }
+
+        .infoGrid {
+          margin-top: 16px;
+          display: grid;
+          grid-template-columns: 1fr 1fr;
+          gap: 16px;
+
+          .infoItem {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+
+            .toggleContainer {
+              display: flex;
+              align-items: center;
+              justify-content: space-between;
+              padding: 8px 0;
+            }
+          }
+        }
+
+        .paymentMethodsSection {
+          margin-top: 16px;
           display: flex;
-          align-items: center;
+          flex-direction: column;
           gap: 16px;
         }
-      }
 
-      .scales {
-        margin-top: 32px;
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        width: 100%;
-
-        span {
-          width: 100%;
-        }
-        .tax {
-          max-width: 234px;
-        }
-        .totalCost {
-          max-width: 110px;
-        }
-        .profitMargin {
-          max-width: 164px;
-        }
-        .profitValue {
-          max-width: 147px;
-        }
-        .saleValue {
-          max-width: 146px;
-        }
-      }
-
-      .cardsList {
-        margin-top: 16px;
-        width: 100%;
-
-        .list {
+        .imageSection {
+          margin-top: 16px;
           display: flex;
           flex-direction: column;
           align-items: center;
-        }
+          gap: 16px;
 
-        .tablet,
-        .mobile {
-          display: none;
-        }
-      }
-    }
-
-    .bottomContainer {
-      margin-top: 40px;
-      background-color: ${Theme.colors.maindark};
-      width: 100%;
-      border-radius: 16px;
-      padding: 0 16px;
-
-      .paymentMethods {
-        display: flex;
-        justify-content: center;
-        flex-wrap: wrap;
-        padding: 16px 0px;
-        gap: 24px;
-
-        .pix {
-          background-color: ${Theme.colors.mainBbackgroundSolid};
-          border-radius: 8px;
-          padding: 16px 24px;
-          display: flex;
-          flex-direction: column;
-
-          .paymentIcon {
+          .cardNavigation {
             display: flex;
             align-items: center;
-            flex-wrap: nowrap;
+            width: 100%;
+            justify-content: space-evenly;
+
+            .navArrow {
+              background: ${Theme.colors.maindark};
+              border: 4px solid ${Theme.colors.secondaryAction};
+              border-radius: 50%;
+              width: 40px;
+              height: 40px;
+              display: flex;
+              align-items: center;
+              justify-content: center;
+              color: ${Theme.colors.mainlight};
+              font-size: 18px;
+              font-weight: bold;
+              transition: all 0.2s ease;
+              outline: none;
+
+              &:hover {
+                cursor: pointer;
+                border-color: ${Theme.colors.mainHighlight};
+              }
+            }
+
+            .disabled {
+              width: 40px;
+            }
+
+            .cardEnviroment {
+              border-radius: 8px;
+              min-width: 175px;
+              background-color: pink;
+              display: flex;
+              align-items: center;
+              justify-content: center;
+              overflow: hidden;
+              border: 1px solid ${Theme.colors.secondaryAction};
+              -webkit-box-shadow: 0px 0px 5px 2px rgba(7, 29, 35, 1);
+              -moz-box-shadow: 0px 0px 5px 2px rgba(7, 29, 35, 1);
+              box-shadow: 0px 0px 5px 2px rgba(7, 29, 35, 1);
+            }
           }
+        }
+
+        .actionsSection {
+          display: flex;
+          justify-content: center;
+          gap: 16px;
+          margin-top: 28px;
         }
       }
     }
   }
 
-  @media (min-width: 768px) and (max-width: 1025px) {
-    .mobile,
+  @media (max-width: 768px) {
+    padding-top: 64px;
+
     .desktop {
       display: none;
     }
-    .tablet {
+
+    .mobile {
       display: flex;
+      width: 100%;
     }
 
-    main {
-      .packageSettings {
-        flex-direction: column;
+    .mobileHeader {
+      position: fixed;
+      top: 0;
+      z-index: 10;
+      margin-top: 12px;
+      width: auto;
+      height: 0;
+    }
 
-        .leftContainer {
-          width: 100%;
-          height: auto;
+    .mainContentPackage {
+      padding: 16px;
+      gap: 24px;
+
+      .headerSection {
+        flex-direction: column;
+        text-align: center;
+        gap: 16px;
+        padding: 20px;
+        margin-bottom: 20px;
+
+        .packageInfo {
+          align-items: center;
         }
-        .rightContainer {
+
+        .statusSection {
+          align-items: center;
+          flex-direction: row;
+          gap: 8px;
+          justify-content: space-between;
           width: 100%;
-          height: auto;
+
+          .onOff {
+            margin-top: 0;
+          }
         }
       }
 
-      .packageValues {
-        background-color: transparent;
+      .infoSections {
+        .infoSection {
+          padding: 20px;
+          margin-bottom: 20px;
 
-        .scales {
-          display: none;
+          .infoGrid {
+            grid-template-columns: 1fr;
+            gap: 12px;
+          }
+
+          &.unifiedInfoSection {
+            .sectionDivider {
+              margin: 20px 0;
+            }
+          }
+
+          .imageSection {
+            .cardNavigation {
+              .navArrow {
+                width: 36px;
+                height: 36px;
+                font-size: 16px;
+              }
+
+              .disabled {
+                width: 36px;
+              }
+            }
+          }
         }
+      }
 
-        .topText {
-          padding: 24px 0;
-          border-top: 1px solid ${Theme.colors.secondaryAction};
-        }
+      .actionsSection {
+        flex-direction: row;
+        gap: 12px;
+        justify-content: center;
+        margin-top: 20px;
 
-        .cardsList {
-          .list {
-            flex-direction: row;
-            flex-wrap: wrap;
-            justify-content: space-between;
-          }
-          .desktop {
-            display: none;
-          }
-
-          .tablet {
-            display: flex;
-          }
+        button {
+          flex: 1;
+          max-width: 160px;
         }
       }
     }
   }
-  @media (max-width: 767px) {
-    padding-top: 64px;
 
-    .desktop,
-    .tablet {
+  @media (max-width: 539px) {
+    .desktop {
       display: none;
     }
+
     .mobile {
       display: flex;
+      width: 100%;
     }
 
-    main {
-      .topContainer {
-        margin-top: 24px;
+    .mainContentPackage {
+      padding: 0px;
+      gap: 20px;
+
+      .headerSection {
+        padding: 16px;
+        margin-bottom: 16px;
+        gap: 12px;
       }
 
-      .packageSettings {
-        flex-direction: column;
+      .infoSections {
+        .infoSection {
+          padding: 16px;
+          margin-bottom: 16px;
+          gap: 12px;
 
-        .leftContainer {
-          width: 100%;
-          height: auto;
-        }
-        .rightContainer {
-          width: 100%;
-          height: auto;
+          &.unifiedInfoSection {
+            .sectionDivider {
+              margin: 16px 0;
+            }
+          }
+
+          .imageSection {
+            .cardNavigation {
+              .navArrow {
+                width: 32px;
+                height: 32px;
+                font-size: 14px;
+              }
+
+              .disabled {
+                width: 32px;
+              }
+            }
+          }
         }
       }
 
-      .packageValues {
-        background-color: transparent;
-        padding: 0;
+      .actionsSection {
+        gap: 10px;
+        margin-top: 16px;
 
-        .scales {
-          display: none;
+        button {
+          max-width: 140px;
         }
+      }
+    }
+  }
 
-        .topText {
-          padding: 24px 0;
-          border-top: 1px solid ${Theme.colors.secondaryAction};
-        }
+  @media (max-width: 400px) {
+    .mainContentPackage {
+      padding: 0px;
+      gap: 16px;
 
-        .cardsList {
-          .desktop {
-            display: none;
+      .headerSection {
+        padding: 14px;
+        margin-bottom: 14px;
+        gap: 10px;
+      }
+
+      .infoSections {
+        .infoSection {
+          padding: 14px;
+          margin-bottom: 14px;
+          gap: 10px;
+
+          &.unifiedInfoSection {
+            .sectionDivider {
+              margin: 14px 0;
+            }
           }
 
-          .mobile {
-            display: flex;
+          .imageSection {
+            .cardNavigation {
+              .navArrow {
+                width: 28px;
+                height: 28px;
+                font-size: 12px;
+              }
+
+              .disabled {
+                width: 28px;
+              }
+            }
           }
+        }
+      }
+
+      .actionsSection {
+        gap: 8px;
+        margin-top: 14px;
+
+        button {
+          max-width: 120px;
+          font-size: 14px;
         }
       }
     }

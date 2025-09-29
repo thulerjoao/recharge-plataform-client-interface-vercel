@@ -1,8 +1,11 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import Button from "@4miga/design-system/components/button";
 import Text from "@4miga/design-system/components/Text";
-import { connectionAPIGet } from "@4miga/services/connectionAPI/connection";
+import { Theme } from "@4miga/design-system/theme/theme";
+
 import { useAuth } from "context/auth";
+import { useProducts } from "context/products";
+import { useImageUpload } from "hooks/useImageUpload";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import PackageCard from "public/cards/packageCard/card";
@@ -10,7 +13,6 @@ import DefaultHeader from "public/components/defaultHeader";
 import HeaderEnviroment from "public/components/headerEnviroment";
 import { useEffect, useState } from "react";
 import { PackageType, ProductType } from "types/productTypes";
-import { apiUrl } from "utils/apiUrl";
 import CameraIcon from "../common/icons/CameraIcon.svg";
 import Pen from "../common/icons/Pen.svg";
 import { ProductsInnerPage } from "./style";
@@ -21,110 +23,214 @@ type Props = {
 
 const Productpage = ({ slug }: Props) => {
   const route = useRouter();
+  const { products, productPackages, fetchProducts, setProductPackages } =
+    useProducts();
   const { store } = useAuth();
-  // const products = useProducts();
-  // const product = products.find(
-  //   (product: ProductType) => formatString(product.name) === slug,
-  // );
-  const [product, setProducts] = useState<ProductType>();
-  const initialdescription = product?.description;
-  const initialInstructions = product?.instructions;
-  const [descriptionProduct, setdescriptionProduct] =
-    useState<string>(initialdescription);
-  const [instructions, setInstructions] = useState<string>(initialInstructions);
+
+  // const [product, setProducts] = useState<ProductType>();
+  const [description, setDescription] = useState<string>();
+  const [instructions, setInstructions] = useState<string>();
+  const [imgBannerUrl, setImgBannerUrl] = useState<string>();
+  const [imgCardUrl, setImgCardUrl] = useState<string>();
+
   const [ischanged, setIsChanged] = useState<boolean>(false);
   const [loading, setLoading] = useState<boolean>(true);
 
-  useEffect(() => {
-    const fetchProduct = async () => {
-      connectionAPIGet(`/product/${slug}?storeId=${store.id}`, apiUrl)
-        .then((res) => {
-          console.log("res", res);
-          setProducts(res as ProductType);
-        })
-        .catch((err) => {
-          console.log("err", err);
-        })
-        .finally(() => {
-          setLoading(false);
-        });
-    };
-    fetchProduct();
-  }, []);
+  // const fetchProduct = async () => {
+  //   connectionAPIGet(`/product/${slug}?storeId=${store.id}`, apiUrl)
+  //     .then((res) => {
+  //       setProductPackages(res as ProductType);
+  //     })
+  //     .catch((err) => {
+  //       console.log("err", err);
+  //     })
+  //     .finally(() => {
+  //       setLoading(false);
+  //     });
+  // };
 
-  const handlePackageClick = (slug: string, packag: PackageType) => {
-    sessionStorage.setItem("CurrentPackage", JSON.stringify(packag));
-    route.push(`/products/${slug}/${packag.id}`);
+  useEffect(() => {
+    setProductPackages(
+      products.find((product: ProductType) => product.id === slug),
+    );
+  }, [products, slug]);
+
+  const bannerUpload = useImageUpload({
+    endpoint: `/product/${slug}/images/banner`,
+    onSuccess: (url) => {
+      setImgBannerUrl(url);
+      fetchProducts(store.id);
+    },
+    onError: (error) => {
+      console.error("Banner upload error:", error);
+      alert("Error uploading banner image. Please try again.");
+    },
+  });
+
+  const cardUpload = useImageUpload({
+    endpoint: `/product/${slug}/images/card`,
+    onSuccess: (url) => {
+      setImgCardUrl(url);
+      fetchProducts(store.id);
+    },
+    onError: (error) => {
+      console.error("Card upload error:", error);
+      alert("Error uploading card image. Please try again.");
+    },
+  });
+
+  // Update ischanged when card has changes
+  useEffect(() => {
+    if (cardUpload.hasChanges) {
+      setIsChanged(true);
+    } else if (bannerUpload.hasChanges) {
+      setIsChanged(true);
+    }
+  }, [cardUpload.hasChanges, bannerUpload.hasChanges]);
+
+  // Function to save changes
+  const handleSaveChanges = async () => {
+    if (!ischanged) return;
+
+    try {
+      // Upload images if files are selected
+      if (bannerUpload.hasChanges) {
+        await bannerUpload.handleSave();
+      }
+
+      if (cardUpload.hasChanges) {
+        await cardUpload.handleSave();
+      }
+
+      // Here you can add other changes like description and instructions
+      // For example, make a PUT request to update that information
+
+      setIsChanged(false);
+    } catch (error) {
+      console.error("Error saving changes:", error);
+      alert("Error saving changes. Please try again.");
+    }
   };
 
   useEffect(() => {
-    if (
-      descriptionProduct !== initialdescription ||
-      instructions !== initialInstructions
-    ) {
-      setIsChanged(true);
-    } else {
-      setIsChanged(false);
+    if (!productPackages) {
+      return;
     }
-  }, [
-    descriptionProduct,
-    initialdescription,
-    initialInstructions,
-    instructions,
-  ]);
 
-  console.log("product", product);
+    if (productPackages.storeCustomization === null) {
+      setDescription(productPackages.description);
+      setInstructions(productPackages.instructions);
+      setImgBannerUrl(productPackages.imgBannerUrl);
+      setImgCardUrl(productPackages.imgCardUrl);
+    } else {
+      setDescription(
+        productPackages.storeCustomization?.description !== null &&
+          productPackages.storeCustomization.description,
+      );
+      setInstructions(
+        productPackages.storeCustomization?.instructions !== null &&
+          productPackages.storeCustomization.instructions,
+      );
+      setImgBannerUrl(
+        productPackages.storeCustomization?.imgBannerUrl !== null &&
+          productPackages.storeCustomization.imgBannerUrl,
+      );
+      setImgCardUrl(
+        productPackages.storeCustomization?.imgCardUrl !== null &&
+          productPackages.storeCustomization.imgCardUrl,
+      );
+    }
+  }, [productPackages]);
+
+  console.log("imgCardUrl", imgCardUrl);
+  console.log("image", cardUpload.previewUrl);
+
+  const handlePackageClick = (slug: string, packag: PackageType) => {
+    route.push(`/produtos/${slug}/${packag.id}`);
+  };
 
   return (
     <ProductsInnerPage>
-      <div className="desktop tablet">
+      <div className="desktop">
         <HeaderEnviroment>
           <DefaultHeader backWard title="CONFIGURAR PRODUTOS" />
         </HeaderEnviroment>
       </div>
-      <div className="mobile">
-        <DefaultHeader backWard title="CONFIGURAR PRODUTOS" />
+      <div className="mobile mobileHeader">
+        <Text align="center" fontName="LARGE_SEMI_BOLD">
+          CONFIGURAR PRODUTOS
+        </Text>
       </div>
-      <main>
-        <div className="topContainer">
-          <Text fontName="LARGE_MEDIUM">BIGO LIVE</Text>
-          <Text tag="h3" align="end" underline fontName="REGULAR">
+
+      <div className="mainContentComponent">
+        <div className="headerSection">
+          <div className="titleSection">
+            <Text fontName="LARGE_SEMI_BOLD" color={Theme.colors.mainlight}>
+              {productPackages?.name || "BIGO LIVE"}
+            </Text>
+            <Text fontName="REGULAR_MEDIUM" color={Theme.colors.secondaryText}>
+              Configure pacotes e informações do produto
+            </Text>
+          </div>
+          <Text
+            tag="h3"
+            align="end"
+            underline
+            fontName="REGULAR"
+            color={Theme.colors.refused}
+          >
             Desativar Produto
           </Text>
         </div>
-        <Text margin="24px 0 0 0" align="center" fontName="REGULAR_SEMI_BOLD">
-          CONFIGURAR PACOTES
-        </Text>
-        <section className="cardsContainer">
-          {product?.packages?.map((packag: PackageType) => {
-            console.log(packag);
-            return (
-              <div
-                key={packag.id}
-                onClick={() => handlePackageClick(slug, packag)}
-                className="cardEnviroment"
-              >
-                <PackageCard
-                  bestOffer={packag.isOffer}
-                  title={`${product?.name} ${packag.amountCredits}`}
-                  imageUrl={packag.imgCardUrl}
-                  price={packag.paymentMethods[0].price}
-                />
-              </div>
-            );
-          })}
-        </section>
+
+        <div className="packagesSection">
+          <Text
+            align="center"
+            fontName="REGULAR_SEMI_BOLD"
+            color={Theme.colors.mainlight}
+          >
+            CONFIGURAR PACOTES
+          </Text>
+          <section className="cardsContainer">
+            {productPackages?.packages?.map((packag: PackageType) => {
+              return (
+                <div
+                  key={packag.id}
+                  onClick={() => handlePackageClick(slug, packag)}
+                  className="cardEnviroment"
+                >
+                  <PackageCard
+                    bestOffer={packag.isOffer}
+                    title={`${productPackages?.name} ${packag.amountCredits}`}
+                    imageUrl={packag.imgCardUrl}
+                    price={packag.paymentMethods[0].price}
+                  />
+                </div>
+              );
+            })}
+          </section>
+        </div>
+
         <section className="bannerImages">
           <div className="leftContainer">
-            <Text align="center" fontName="REGULAR_SEMI_BOLD">
+            <Text
+              align="center"
+              fontName="REGULAR_SEMI_BOLD"
+              color={Theme.colors.mainlight}
+            >
               IMAGEM DO BANNER DO PRODUTO
             </Text>
-            <Text margin="16PX 0 16px 0" align="center" fontName="TINY_MEDIUM">
+            <Text
+              margin="16PX 0 16px 0"
+              align="center"
+              fontName="TINY_MEDIUM"
+              color={Theme.colors.secondaryText}
+            >
               A imagem deve estar no formato .png, .jpg ou .jpeg, ter uma
               resolução mínima de 1280 x 540 e uma proporção de 21:9
             </Text>
             <Image
-              src={product?.imgBannerUrl}
+              src={bannerUpload.previewUrl || imgBannerUrl}
               alt="Imagem de banner"
               width={1280}
               height={540}
@@ -136,19 +242,36 @@ const Productpage = ({ slug }: Props) => {
               height={32}
               width={181}
               title="Atualizar imagem"
+              onClick={bannerUpload.handleButtonClick}
+            />
+            <input
+              ref={bannerUpload.fileInputRef}
+              type="file"
+              accept="image/png,image/jpg,image/jpeg"
+              style={{ display: "none" }}
+              onChange={bannerUpload.handleFileSelect}
             />
           </div>
 
           <div className="rightContainer">
-            <Text align="center" fontName="REGULAR_SEMI_BOLD">
+            <Text
+              align="center"
+              fontName="REGULAR_SEMI_BOLD"
+              color={Theme.colors.mainlight}
+            >
               IMAGEM DO CARD
             </Text>
-            <Text margin="16PX 0 16px 0" align="center" fontName="TINY_MEDIUM">
+            <Text
+              margin="16PX 0 16px 0"
+              align="center"
+              fontName="TINY_MEDIUM"
+              color={Theme.colors.secondaryText}
+            >
               A imagem deve estar no formato .png, .jpg ou .jpeg, ter uma
               resolução mínima de 720 x 720 e uma proporção de 1:1
             </Text>
             <Image
-              src={product?.imgCardUrl}
+              src={cardUpload.previewUrl || imgCardUrl}
               alt="Imagem de card"
               width={720}
               height={720}
@@ -160,18 +283,29 @@ const Productpage = ({ slug }: Props) => {
               height={32}
               width={181}
               title="Atualizar imagem"
+              onClick={cardUpload.handleButtonClick}
+            />
+            <input
+              ref={cardUpload.fileInputRef}
+              type="file"
+              accept="image/png,image/jpg,image/jpeg"
+              style={{ display: "none" }}
+              onChange={cardUpload.handleFileSelect}
             />
           </div>
         </section>
+
         <section className="descriptions">
           <div className="leftContainer">
             <span className="pen">
               <Pen />
             </span>
-            <Text fontName="REGULAR_SEMI_BOLD">SOBRE BIGO LIVE</Text>
+            <Text fontName="REGULAR_SEMI_BOLD" color={Theme.colors.mainlight}>
+              SOBRE {productPackages?.name || "BIGO LIVE"}
+            </Text>
             <textarea
-              value={descriptionProduct}
-              onChange={(e) => setdescriptionProduct(e.target.value)}
+              value={description}
+              onChange={(e) => setDescription(e.target.value)}
               placeholder="Descrição do jogo ou plataforma..."
             />
           </div>
@@ -179,7 +313,9 @@ const Productpage = ({ slug }: Props) => {
             <span className="pen">
               <Pen />
             </span>
-            <Text fontName="REGULAR_SEMI_BOLD">INSTRUÇÕES</Text>
+            <Text fontName="REGULAR_SEMI_BOLD" color={Theme.colors.mainlight}>
+              INSTRUÇÕES
+            </Text>
             <textarea
               value={instructions}
               onChange={(e) => setInstructions(e.target.value)}
@@ -187,16 +323,25 @@ const Productpage = ({ slug }: Props) => {
             />
           </div>
         </section>
-        <Button
-          rounded
-          isNotSelected={!ischanged}
-          disabled={!ischanged}
-          margin="8px 0 72px 0"
-          height={40}
-          width={197}
-          title="Salvar alterações"
-        />
-      </main>
+
+        <div className="saveButtonContainer">
+          <Button
+            rounded
+            isNotSelected={!ischanged}
+            disabled={
+              !ischanged || bannerUpload.isUploading || cardUpload.isUploading
+            }
+            height={40}
+            width={197}
+            title={
+              bannerUpload.isUploading || cardUpload.isUploading
+                ? "Salvando..."
+                : "Salvar alterações"
+            }
+            onClick={handleSaveChanges}
+          />
+        </div>
+      </div>
     </ProductsInnerPage>
   );
 };
