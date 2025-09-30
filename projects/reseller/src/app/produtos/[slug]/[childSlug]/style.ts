@@ -233,26 +233,22 @@ export const ConfigPackagePage = styled.div`
       gap: 24px;
 
       .headerSection {
-        flex-direction: column;
         text-align: center;
+        justify-content: space-between;
         gap: 16px;
         padding: 20px;
         margin-bottom: 20px;
 
         .packageInfo {
-          align-items: center;
+          /* align-items: center; */
         }
 
         .statusSection {
+          /* background-color: pink; */
           align-items: center;
           flex-direction: row;
           gap: 8px;
           justify-content: space-between;
-          width: 100%;
-
-          .onOff {
-            margin-top: 0;
-          }
         }
       }
 

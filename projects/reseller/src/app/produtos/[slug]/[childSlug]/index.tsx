@@ -4,12 +4,11 @@ import OnOff from "@4miga/design-system/components/onOff";
 import Text from "@4miga/design-system/components/Text";
 import { Theme } from "@4miga/design-system/theme/theme";
 import { connectionAPIGet } from "@4miga/services/connectionAPI/connection";
-
 import LoadingPage from "app/loading";
 import { useAuth } from "context/auth";
 import { useProducts } from "context/products";
 import { useImageUpload } from "hooks/useImageUpload";
-
+import { useRouter } from "next/navigation";
 import PackageCard from "public/cards/packageCard/card";
 import DefaultHeader from "public/components/defaultHeader";
 import HeaderEnviroment from "public/components/headerEnviroment";
@@ -20,8 +19,6 @@ import CameraIcon from "../../common/icons/CameraIcon.svg";
 import ConfirmModal from "./common/confirmModal";
 import PixConfiguration from "./common/pixCard/pixConfiguration";
 import { ConfigPackagePage } from "./style";
-import { routeModule } from "next/dist/build/templates/app-page";
-import { useRouter } from "next/navigation";
 
 type Props = {
   slug: string;
@@ -122,6 +119,22 @@ const SecondaryProductPage = ({ slug, childSlug }: Props) => {
     setIndex(param.findIndex((packag: PackageType) => packag.id === id));
   };
 
+  const handleNextPackage = () => {
+    handleCancel();
+    setIndex(index + 1);
+    const newPackage = productPackages?.packages[index + 1];
+    setEditData(newPackage);
+    setPackageData(newPackage);
+  };
+
+  const handlePreviousPackage = () => {
+    handleCancel();
+    setIndex(index - 1);
+    const newPackage = productPackages?.packages[index - 1];
+    setEditData(newPackage);
+    setPackageData(newPackage);
+  };
+
   useEffect(() => {
     const packageId = editData?.id || childSlug;
     const localPackage = productPackages?.packages.find(
@@ -149,22 +162,6 @@ const SecondaryProductPage = ({ slug, childSlug }: Props) => {
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [products, childSlug]);
-
-  const handleNextPackage = () => {
-    handleCancel();
-    setIndex(index + 1);
-    const newPackage = productPackages?.packages[index + 1];
-    setEditData(newPackage);
-    setPackageData(newPackage);
-  };
-
-  const handlePreviousPackage = () => {
-    handleCancel();
-    setIndex(index - 1);
-    const newPackage = productPackages?.packages[index - 1];
-    setEditData(newPackage);
-    setPackageData(newPackage);
-  };
 
   if (loading) {
     return <LoadingPage />;
@@ -208,20 +205,6 @@ const SecondaryProductPage = ({ slug, childSlug }: Props) => {
                 {editData?.isActive ? "ATIVO" : "INATIVO"}
               </Text>
             </div>
-            {isEditing && (
-              <div className="onOff">
-                <Text fontName="SMALL_MEDIUM" color={Theme.colors.mainlight}>
-                  Ativar/Desativar
-                </Text>
-                <span
-                  onClick={() =>
-                    handleInputChange("isActive", !editData?.isActive)
-                  }
-                >
-                  <OnOff onOff={editData?.isActive} />
-                </span>
-              </div>
-            )}
           </div>
         </div>
 
@@ -398,10 +381,37 @@ const SecondaryProductPage = ({ slug, childSlug }: Props) => {
                   </Text>
                 )}
               </div>
+              <div className="infoItem">
+                <Text
+                  fontName="SMALL_MEDIUM"
+                  color={Theme.colors.secondaryText}
+                >
+                  Alterar status do pacote:
+                </Text>
+                {isEditing ? (
+                  <div className="toggleContainer">
+                    <Text
+                      fontName="SMALL_MEDIUM"
+                      color={Theme.colors.mainlight}
+                    >
+                      {editData?.isActive ? "Ativo" : "Inativo"}
+                    </Text>
+                    <span
+                      onClick={() =>
+                        handleInputChange("isActive", !editData?.isActive)
+                      }
+                    >
+                      <OnOff onOff={editData?.isActive} />
+                    </span>
+                  </div>
+                ) : (
+                  <Text fontName="SMALL_MEDIUM" color={Theme.colors.mainlight}>
+                    {editData?.isActive ? "Ativo" : "Inativo"}
+                  </Text>
+                )}
+              </div>
             </div>
-
-            <div className="sectionDivider"></div>
-
+            <div className="sectionDivider" />
             <div className="sectionTitle">
               <Text
                 fontName="REGULAR_MEDIUM"
