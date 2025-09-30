@@ -32,22 +32,8 @@ const Productpage = ({ slug }: Props) => {
   const [instructions, setInstructions] = useState<string>();
   const [imgBannerUrl, setImgBannerUrl] = useState<string>();
   const [imgCardUrl, setImgCardUrl] = useState<string>();
-
   const [ischanged, setIsChanged] = useState<boolean>(false);
   const [loading, setLoading] = useState<boolean>(true);
-
-  // const fetchProduct = async () => {
-  //   connectionAPIGet(`/product/${slug}?storeId=${store.id}`, apiUrl)
-  //     .then((res) => {
-  //       setProductPackages(res as ProductType);
-  //     })
-  //     .catch((err) => {
-  //       console.log("err", err);
-  //     })
-  //     .finally(() => {
-  //       setLoading(false);
-  //     });
-  // };
 
   useEffect(() => {
     setProductPackages(
@@ -142,10 +128,7 @@ const Productpage = ({ slug }: Props) => {
     }
   }, [productPackages]);
 
-  console.log("imgCardUrl", imgCardUrl);
-  console.log("image", cardUpload.previewUrl);
-
-  const handlePackageClick = (slug: string, packag: PackageType) => {
+  const handlePackageClick = (packag: PackageType) => {
     route.push(`/produtos/${slug}/${packag.id}`);
   };
 
@@ -196,7 +179,7 @@ const Productpage = ({ slug }: Props) => {
               return (
                 <div
                   key={packag.id}
-                  onClick={() => handlePackageClick(slug, packag)}
+                  onClick={() => handlePackageClick(packag)}
                   className="cardEnviroment"
                 >
                   <PackageCard

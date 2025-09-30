@@ -5,6 +5,11 @@ import Text from "@4miga/design-system/components/Text";
 import { Theme } from "@4miga/design-system/theme/theme";
 import { connectionAPIGet } from "@4miga/services/connectionAPI/connection";
 
+import LoadingPage from "app/loading";
+import { useAuth } from "context/auth";
+import { useProducts } from "context/products";
+import { useImageUpload } from "hooks/useImageUpload";
+
 import PackageCard from "public/cards/packageCard/card";
 import DefaultHeader from "public/components/defaultHeader";
 import HeaderEnviroment from "public/components/headerEnviroment";
@@ -15,9 +20,8 @@ import CameraIcon from "../../common/icons/CameraIcon.svg";
 import ConfirmModal from "./common/confirmModal";
 import PixConfiguration from "./common/pixCard/pixConfiguration";
 import { ConfigPackagePage } from "./style";
+import { routeModule } from "next/dist/build/templates/app-page";
 import { useRouter } from "next/navigation";
-import LoadingPage from "app/loading";
-import { useProducts } from "context/products";
 
 type Props = {
   slug: string;
@@ -25,22 +29,59 @@ type Props = {
 };
 
 const SecondaryProductPage = ({ slug, childSlug }: Props) => {
-  const route = useRouter();
+  const router = useRouter();
   const [confirmModal, setconfirmModal] = useState<boolean>(false);
   const [isEditing, setIsEditing] = useState<boolean>(false);
   const [loading, setLoading] = useState<boolean>(true);
+  const [loadingImage, setLoadingImage] = useState<boolean>(false);
   const [packageData, setPackageData] = useState<PackageType>();
   const [editData, setEditData] = useState<PackageType>();
-  const { productPackages, setProductPackages } = useProducts();
+  const { products, productPackages, setProductPackages, fetchProducts } =
+    useProducts();
   const [index, setIndex] = useState<number>();
+  const [updateAllPackages, setUpdateAllPackages] = useState<boolean>(false);
+  const { store } = useAuth();
+
+  const imageUpload = useImageUpload({
+    endpoint: `/package/${packageData?.id}/images/card?updateAllPackages=${updateAllPackages}`,
+    onSuccess: (url) => {
+      setEditData((prev) => ({ ...prev, imgCardUrl: url }));
+      fetchProducts(store.id);
+      setUpdateAllPackages(false);
+    },
+    onError: (error) => {
+      console.error("Card upload error:", error);
+      alert("Error uploading card image. Please try again.");
+      setUpdateAllPackages(false);
+    },
+  });
+
+  const handleSaveImage = async () => {
+    setLoadingImage(true);
+    if (!imageUpload.hasChanges) return;
+    if (updateAllPackages) {
+      if (confirm("Deseja atualizar TODOS os pacotes?")) {
+        await imageUpload.handleSave();
+        setLoadingImage(false);
+      } else {
+        setLoadingImage(false);
+        return;
+      }
+    } else {
+      await imageUpload.handleSave();
+      setLoadingImage(false);
+    }
+  };
 
   const handleEdit = () => {
     setIsEditing(true);
   };
 
   const handleCancel = () => {
+    imageUpload.clearSelection();
     setIsEditing(false);
     setEditData(packageData);
+    setUpdateAllPackages(false);
   };
 
   const handleSave = () => {
@@ -82,33 +123,35 @@ const SecondaryProductPage = ({ slug, childSlug }: Props) => {
   };
 
   useEffect(() => {
+    const packageId = editData?.id || childSlug;
     const localPackage = productPackages?.packages.find(
-      (packag: PackageType) => packag.id === childSlug,
+      (packag: PackageType) => packag.id === packageId,
     );
     if (localPackage) {
       setEditData(localPackage);
       setPackageData(localPackage);
       setLoading(false);
-      handleIndex(productPackages?.packages, childSlug);
+      handleIndex(productPackages?.packages, packageId);
     } else {
       connectionAPIGet<ProductType>(`/product/${slug}`, apiUrl)
         .then((res) => {
           setProductPackages(res);
           const localPackage = res.packages.find(
-            (packag: PackageType) => packag.id === childSlug,
+            (packag: PackageType) => packag.id === packageId,
           );
           setPackageData(localPackage);
           setEditData(localPackage);
-          handleIndex(res.packages, childSlug);
+          handleIndex(res.packages, packageId);
         })
         .finally(() => {
           setLoading(false);
         });
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [products, childSlug]);
 
   const handleNextPackage = () => {
+    handleCancel();
     setIndex(index + 1);
     const newPackage = productPackages?.packages[index + 1];
     setEditData(newPackage);
@@ -116,6 +159,7 @@ const SecondaryProductPage = ({ slug, childSlug }: Props) => {
   };
 
   const handlePreviousPackage = () => {
+    handleCancel();
     setIndex(index - 1);
     const newPackage = productPackages?.packages[index - 1];
     setEditData(newPackage);
@@ -208,7 +252,7 @@ const SecondaryProductPage = ({ slug, childSlug }: Props) => {
                   <PackageCard
                     bestOffer={editData?.isOffer}
                     title={editData?.name}
-                    imageUrl={editData?.imgCardUrl}
+                    imageUrl={imageUpload.previewUrl || editData?.imgCardUrl}
                     price={+editData?.basePrice}
                   />
                 </div>
@@ -226,15 +270,45 @@ const SecondaryProductPage = ({ slug, childSlug }: Props) => {
                 )}
               </div>
               <Button
-                leftElement={<CameraIcon />}
-                onClick={() => {}}
+                loading={loadingImage}
+                leftElement={!imageUpload.previewUrl && <CameraIcon />}
+                onClick={
+                  !imageUpload.previewUrl
+                    ? imageUpload.handleButtonClick
+                    : handleSaveImage
+                }
                 height={32}
                 width={180}
                 color={Theme.colors.mainlight}
-                title="Atualizar imagem"
-              >
-                Atualizar imagem
-              </Button>
+                title={
+                  !imageUpload.previewUrl ? "Atualizar imagem" : "Salvar imagem"
+                }
+              />
+              <input
+                ref={imageUpload.fileInputRef}
+                type="file"
+                accept="image/png,image/jpg,image/jpeg"
+                style={{ display: "none" }}
+                onChange={imageUpload.handleFileSelect}
+              />
+              {imageUpload.previewUrl && (
+                <div className="checkboxContainer">
+                  <input
+                    type="checkbox"
+                    id="updateAllPackages"
+                    checked={updateAllPackages}
+                    onChange={(e) => setUpdateAllPackages(e.target.checked)}
+                  />
+                  <label htmlFor="updateAllPackages">
+                    <Text
+                      fontName="TINY_MEDIUM"
+                      color={Theme.colors.secondaryText}
+                    >
+                      Aplicar para todos os pacotes
+                    </Text>
+                  </label>
+                </div>
+              )}
             </div>
           </div>
           <div className="infoSection unifiedInfoSection">

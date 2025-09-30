@@ -113,6 +113,9 @@ export const useImageUpload = (
     setSelectedFile(null);
     setPreviewUrl(null);
     setHasChanges(false);
+    if (fileInputRef.current) {
+      fileInputRef.current.value = "";
+    }
   };
 
   return {

@@ -132,6 +132,24 @@ export const ConfigPackagePage = styled.div`
           align-items: center;
           gap: 16px;
 
+          .checkboxContainer {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-top: 8px;
+
+            input[type="checkbox"] {
+              margin: 0;
+              cursor: pointer;
+            }
+
+            label {
+              cursor: pointer;
+              display: flex;
+              align-items: center;
+            }
+          }
+
           .cardNavigation {
             display: flex;
             align-items: center;
