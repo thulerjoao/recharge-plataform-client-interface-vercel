@@ -3,6 +3,7 @@ import Button from "@4miga/design-system/components/button";
 import Text from "@4miga/design-system/components/Text";
 import { Theme } from "@4miga/design-system/theme/theme";
 
+import { connectionAPIPatch } from "@4miga/services/connectionAPI/connection";
 import { useAuth } from "context/auth";
 import { useProducts } from "context/products";
 import { useImageUpload } from "hooks/useImageUpload";
@@ -13,6 +14,7 @@ import DefaultHeader from "public/components/defaultHeader";
 import HeaderEnviroment from "public/components/headerEnviroment";
 import { useEffect, useState } from "react";
 import { PackageType, ProductType } from "types/productTypes";
+import { apiUrl } from "utils/apiUrl";
 import CameraIcon from "../common/icons/CameraIcon.svg";
 import Pen from "../common/icons/Pen.svg";
 import { ProductsInnerPage } from "./style";
@@ -35,10 +37,18 @@ const Productpage = ({ slug }: Props) => {
   const [ischanged, setIsChanged] = useState<boolean>(false);
   const [loading, setLoading] = useState<boolean>(true);
 
+  const initialDescription =
+    productPackages?.storeCustomization?.description ||
+    productPackages?.description;
+  const initialInstructions =
+    productPackages?.storeCustomization?.instructions ||
+    productPackages?.instructions;
+
   useEffect(() => {
     setProductPackages(
       products.find((product: ProductType) => product.id === slug),
     );
+    setLoading(false);
   }, [products, slug]);
 
   const bannerUpload = useImageUpload({
@@ -67,17 +77,27 @@ const Productpage = ({ slug }: Props) => {
 
   // Update ischanged when card has changes
   useEffect(() => {
-    if (cardUpload.hasChanges) {
+    if (
+      cardUpload.hasChanges ||
+      bannerUpload.hasChanges ||
+      description !== initialDescription ||
+      instructions !== initialInstructions
+    ) {
       setIsChanged(true);
-    } else if (bannerUpload.hasChanges) {
-      setIsChanged(true);
+    } else {
+      setIsChanged(false);
     }
-  }, [cardUpload.hasChanges, bannerUpload.hasChanges]);
+  }, [
+    cardUpload.hasChanges,
+    bannerUpload.hasChanges,
+    description,
+    instructions,
+  ]);
 
   // Function to save changes
   const handleSaveChanges = async () => {
     if (!ischanged) return;
-
+    setLoading(true);
     try {
       // Upload images if files are selected
       if (bannerUpload.hasChanges) {
@@ -88,21 +108,39 @@ const Productpage = ({ slug }: Props) => {
         await cardUpload.handleSave();
       }
 
-      // Here you can add other changes like description and instructions
-      // For example, make a PUT request to update that information
+      if (
+        description !== initialDescription ||
+        instructions !== initialInstructions
+      ) {
+        await connectionAPIPatch(
+          `product/customize/${slug}`,
+          {
+            description,
+            instructions,
+          },
+          apiUrl,
+        )
+          .then(() => {
+            fetchProducts(store.id);
+            alert("Changes saved successfully");
+          })
+          .catch((error) => {
+            console.error("Error saving changes:", error);
+            alert("Error saving changes. Please try again.");
+            handleCancel();
+          });
+      }
 
       setIsChanged(false);
     } catch (error) {
       console.error("Error saving changes:", error);
       alert("Error saving changes. Please try again.");
+    } finally {
+      setLoading(false);
     }
   };
 
-  useEffect(() => {
-    if (!productPackages) {
-      return;
-    }
-
+  const handleProductPackages = () => {
     if (productPackages.storeCustomization === null) {
       setDescription(productPackages.description);
       setInstructions(productPackages.instructions);
@@ -126,10 +164,24 @@ const Productpage = ({ slug }: Props) => {
           productPackages.storeCustomization.imgCardUrl,
       );
     }
+  };
+
+  useEffect(() => {
+    if (!productPackages) {
+      return;
+    }
+    handleProductPackages();
   }, [productPackages]);
 
   const handlePackageClick = (packag: PackageType) => {
     route.push(`/produtos/${slug}/${packag.id}`);
+  };
+
+  const handleCancel = () => {
+    cardUpload.clearSelection();
+    bannerUpload.clearSelection();
+    handleProductPackages();
+    setIsChanged(false);
   };
 
   return (
@@ -155,7 +207,7 @@ const Productpage = ({ slug }: Props) => {
               Configure pacotes e informações do produto
             </Text>
           </div>
-          <Text
+          {/* <Text
             tag="h3"
             align="end"
             underline
@@ -163,7 +215,7 @@ const Productpage = ({ slug }: Props) => {
             color={Theme.colors.refused}
           >
             Desativar Produto
-          </Text>
+          </Text> */}
         </div>
 
         <div className="packagesSection">
@@ -194,119 +246,121 @@ const Productpage = ({ slug }: Props) => {
           </section>
         </div>
 
-        <section className="bannerImages">
-          <div className="leftContainer">
-            <Text
-              align="center"
-              fontName="REGULAR_SEMI_BOLD"
-              color={Theme.colors.mainlight}
-            >
-              IMAGEM DO BANNER DO PRODUTO
-            </Text>
-            <Text
-              margin="16PX 0 16px 0"
-              align="center"
-              fontName="TINY_MEDIUM"
-              color={Theme.colors.secondaryText}
-            >
-              A imagem deve estar no formato .png, .jpg ou .jpeg, ter uma
-              resolução mínima de 1280 x 540 e uma proporção de 21:9
-            </Text>
-            <Image
-              src={bannerUpload.previewUrl || imgBannerUrl}
-              alt="Imagem de banner"
-              width={1280}
-              height={540}
-            />
-            <Button
-              leftElement={<CameraIcon />}
-              rounded
-              margin="24px 0 0 0"
-              height={32}
-              width={181}
-              title="Atualizar imagem"
-              onClick={bannerUpload.handleButtonClick}
-            />
-            <input
-              ref={bannerUpload.fileInputRef}
-              type="file"
-              accept="image/png,image/jpg,image/jpeg"
-              style={{ display: "none" }}
-              onChange={bannerUpload.handleFileSelect}
-            />
-          </div>
+        <section className="productEditor">
+          <div className="bannerImages">
+            <div className="leftContainer">
+              <Text
+                align="center"
+                fontName="REGULAR_SEMI_BOLD"
+                color={Theme.colors.mainlight}
+              >
+                IMAGEM DO BANNER DO PRODUTO
+              </Text>
+              <Text
+                margin="16PX 0 16px 0"
+                align="center"
+                fontName="TINY_MEDIUM"
+                color={Theme.colors.secondaryText}
+              >
+                A imagem deve estar no formato .png, .jpg ou .jpeg, ter uma
+                resolução mínima de 1280 x 540 e uma proporção de 21:9
+              </Text>
+              <Image
+                src={bannerUpload.previewUrl || imgBannerUrl}
+                alt="Imagem de banner"
+                width={1280}
+                height={540}
+              />
+              <Button
+                leftElement={<CameraIcon />}
+                rounded
+                margin="24px 0 0 0"
+                height={32}
+                width={181}
+                title="Atualizar imagem"
+                onClick={bannerUpload.handleButtonClick}
+              />
+              <input
+                ref={bannerUpload.fileInputRef}
+                type="file"
+                accept="image/png,image/jpg,image/jpeg"
+                style={{ display: "none" }}
+                onChange={bannerUpload.handleFileSelect}
+              />
+            </div>
 
-          <div className="rightContainer">
-            <Text
-              align="center"
-              fontName="REGULAR_SEMI_BOLD"
-              color={Theme.colors.mainlight}
-            >
-              IMAGEM DO CARD
-            </Text>
-            <Text
-              margin="16PX 0 16px 0"
-              align="center"
-              fontName="TINY_MEDIUM"
-              color={Theme.colors.secondaryText}
-            >
-              A imagem deve estar no formato .png, .jpg ou .jpeg, ter uma
-              resolução mínima de 720 x 720 e uma proporção de 1:1
-            </Text>
-            <Image
-              src={cardUpload.previewUrl || imgCardUrl}
-              alt="Imagem de card"
-              width={720}
-              height={720}
-            />
-            <Button
-              leftElement={<CameraIcon />}
-              rounded
-              margin="24px 0 0 0"
-              height={32}
-              width={181}
-              title="Atualizar imagem"
-              onClick={cardUpload.handleButtonClick}
-            />
-            <input
-              ref={cardUpload.fileInputRef}
-              type="file"
-              accept="image/png,image/jpg,image/jpeg"
-              style={{ display: "none" }}
-              onChange={cardUpload.handleFileSelect}
-            />
+            <div className="rightContainer">
+              <Text
+                align="center"
+                fontName="REGULAR_SEMI_BOLD"
+                color={Theme.colors.mainlight}
+              >
+                IMAGEM DO CARD
+              </Text>
+              <Text
+                margin="16PX 0 16px 0"
+                align="center"
+                fontName="TINY_MEDIUM"
+                color={Theme.colors.secondaryText}
+              >
+                A imagem deve estar no formato .png, .jpg ou .jpeg, ter uma
+                resolução mínima de 720 x 720 e uma proporção de 1:1
+              </Text>
+              <div className="cardImageBox">
+                <Image
+                  src={cardUpload.previewUrl || imgCardUrl}
+                  alt="Imagem de card"
+                  width={720}
+                  height={720}
+                />
+              </div>
+              <Button
+                leftElement={<CameraIcon />}
+                rounded
+                margin="24px 0 0 0"
+                height={32}
+                width={181}
+                title="Atualizar imagem"
+                onClick={cardUpload.handleButtonClick}
+              />
+              <input
+                ref={cardUpload.fileInputRef}
+                type="file"
+                accept="image/png,image/jpg,image/jpeg"
+                style={{ display: "none" }}
+                onChange={cardUpload.handleFileSelect}
+              />
+            </div>
+          </div>
+          <div className="descriptions">
+            <div className="leftContainer">
+              <span className="pen">
+                <Pen />
+              </span>
+              <Text fontName="REGULAR_SEMI_BOLD" color={Theme.colors.mainlight}>
+                SOBRE {productPackages?.name || "BIGO LIVE"}
+              </Text>
+              <textarea
+                value={description}
+                onChange={(e) => setDescription(e.target.value)}
+                placeholder="Descrição do jogo ou plataforma..."
+              />
+            </div>
+            <div className="rightContainer">
+              <span className="pen">
+                <Pen />
+              </span>
+              <Text fontName="REGULAR_SEMI_BOLD" color={Theme.colors.mainlight}>
+                INSTRUÇÕES
+              </Text>
+              <textarea
+                value={instructions}
+                onChange={(e) => setInstructions(e.target.value)}
+                placeholder="Intruções de recarga..."
+              />
+            </div>
           </div>
         </section>
-
-        <section className="descriptions">
-          <div className="leftContainer">
-            <span className="pen">
-              <Pen />
-            </span>
-            <Text fontName="REGULAR_SEMI_BOLD" color={Theme.colors.mainlight}>
-              SOBRE {productPackages?.name || "BIGO LIVE"}
-            </Text>
-            <textarea
-              value={description}
-              onChange={(e) => setDescription(e.target.value)}
-              placeholder="Descrição do jogo ou plataforma..."
-            />
-          </div>
-          <div className="rightContainer">
-            <span className="pen">
-              <Pen />
-            </span>
-            <Text fontName="REGULAR_SEMI_BOLD" color={Theme.colors.mainlight}>
-              INSTRUÇÕES
-            </Text>
-            <textarea
-              value={instructions}
-              onChange={(e) => setInstructions(e.target.value)}
-              placeholder="Intruções de recarga..."
-            />
-          </div>
-        </section>
-
         <div className="saveButtonContainer">
           <Button
             rounded
@@ -319,9 +373,18 @@ const Productpage = ({ slug }: Props) => {
             title={
               bannerUpload.isUploading || cardUpload.isUploading
                 ? "Salvando..."
-                : "Salvar alterações"
+                : "Salvar"
             }
             onClick={handleSaveChanges}
+          />
+          <Button
+            rounded
+            disabled={loading}
+            isNotSelected={!ischanged}
+            title="Cancelar"
+            onClick={() => handleCancel()}
+            height={40}
+            width={197}
           />
         </div>
       </div>

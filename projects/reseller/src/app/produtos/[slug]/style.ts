@@ -80,7 +80,7 @@ export const ProductsInnerPage = styled.div`
       }
     }
 
-    .bannerImages {
+    .productEditor {
       background: ${Theme.colors.maindark};
       border-radius: 12px;
       -webkit-box-shadow: 0px 0px 5px 2px rgba(7, 29, 35, 1);
@@ -89,6 +89,12 @@ export const ProductsInnerPage = styled.div`
       padding: 24px;
       gap: 24px;
       display: flex;
+      flex-direction: column;
+
+      .bannerImages {
+        display: flex;
+        gap: 24px;
+      }
 
       .leftContainer {
         width: 50%;
@@ -98,8 +104,10 @@ export const ProductsInnerPage = styled.div`
         align-items: center;
 
         img {
-          max-width: 100%;
+          width: 100%;
           height: auto;
+          aspect-ratio: 21/9;
+          object-fit: fill;
           border-radius: 8px;
         }
       }
@@ -111,23 +119,26 @@ export const ProductsInnerPage = styled.div`
         flex-direction: column;
         align-items: center;
 
-        img {
+        .cardImageBox {
+          width: 100%;
           max-width: 178px;
-          height: auto;
+          aspect-ratio: 1 / 1;
+          position: relative;
+        }
+
+        .cardImageBox img {
+          width: 100%;
+          height: 100%;
+          object-fit: fill;
           border-radius: 8px;
         }
       }
     }
 
     .descriptions {
-      background: ${Theme.colors.maindark};
-      border-radius: 12px;
-      -webkit-box-shadow: 0px 0px 5px 2px rgba(7, 29, 35, 1);
-      -moz-box-shadow: 0px 0px 5px 2px rgba(7, 29, 35, 1);
-      box-shadow: 0px 0px 5px 2px rgba(7, 29, 35, 1);
       width: 100%;
       height: 320px;
-      padding: 24px;
+      padding: 0 24px 0 24px;
       gap: 24px;
       display: flex;
 
@@ -201,6 +212,7 @@ export const ProductsInnerPage = styled.div`
       justify-content: center;
       align-items: center;
       padding: 24px;
+      gap: 16px;
     }
   }
 
@@ -247,10 +259,15 @@ export const ProductsInnerPage = styled.div`
         }
       }
 
+      .productEditor {
+        padding: 20px 16px;
+        gap: 40px;
+      }
+
       .bannerImages {
         flex-direction: column;
         gap: 40px;
-        padding: 20px;
+        padding: 0 20px;
 
         .leftContainer {
           width: 100%;
@@ -259,12 +276,30 @@ export const ProductsInnerPage = styled.div`
           img {
             width: 100%;
             height: auto;
+            aspect-ratio: 21/9;
+            object-fit: fill;
           }
         }
 
         .rightContainer {
           width: 100%;
           height: auto;
+          display: flex;
+          justify-content: center;
+
+          .cardImageBox {
+            width: 100%;
+            max-width: 178px;
+            aspect-ratio: 1 / 1;
+            position: relative;
+          }
+
+          .cardImageBox img {
+            width: 100%;
+            height: 100%;
+            object-fit: fill;
+            border-radius: 8px;
+          }
         }
       }
 
@@ -272,7 +307,7 @@ export const ProductsInnerPage = styled.div`
         flex-direction: column;
         height: 680px;
         gap: 40px;
-        padding: 20px;
+        padding: 0 20px;
 
         .leftContainer {
           width: 100%;
@@ -310,14 +345,14 @@ export const ProductsInnerPage = styled.div`
         }
       }
 
-      .bannerImages {
-        padding: 16px;
+      .productEditor {
+        padding: 14px 0px;
         margin-bottom: 16px;
         gap: 32px;
       }
 
       .descriptions {
-        padding: 16px;
+        padding: 0 16px;
         margin-bottom: 16px;
         height: 760px;
         gap: 32px;
@@ -357,14 +392,14 @@ export const ProductsInnerPage = styled.div`
         }
       }
 
-      .bannerImages {
-        padding: 14px;
+      .productEditor {
+        padding: 14px 0px;
         margin-bottom: 14px;
         gap: 24px;
       }
 
       .descriptions {
-        padding: 14px;
+        padding: 0 16px;
         margin-bottom: 14px;
         height: 800px;
         gap: 24px;
