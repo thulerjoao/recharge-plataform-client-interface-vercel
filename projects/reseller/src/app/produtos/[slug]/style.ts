@@ -76,6 +76,23 @@ export const ProductsInnerPage = styled.div`
           transition: transform 0.2s ease;
           border: 1px solid ${Theme.colors.secondaryAction};
           border-radius: 8px;
+
+          .addPackageCard {
+            width: 100%;
+            height: 232px;
+            border-radius: 8px;
+            background-color: ${Theme.colors.secondaryAction}20;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+            gap: 16px;
+
+            svg {
+              width: 50px;
+              height: 50px;
+            }
+          }
         }
       }
     }

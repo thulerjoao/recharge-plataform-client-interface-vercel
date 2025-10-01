@@ -18,6 +18,7 @@ import { apiUrl } from "utils/apiUrl";
 import CameraIcon from "../common/icons/CameraIcon.svg";
 import Pen from "../common/icons/Pen.svg";
 import { ProductsInnerPage } from "./style";
+import AddIcon from "./AddIcon.svg";
 
 type Props = {
   slug: string;
@@ -227,6 +228,18 @@ const Productpage = ({ slug }: Props) => {
             CONFIGURAR PACOTES
           </Text>
           <section className="cardsContainer">
+            <div className="cardEnviroment">
+              <div className="addPackageCard">
+                <AddIcon />
+                <Text
+                  align="center"
+                  fontName="REGULAR_SEMI_BOLD"
+                  color={Theme.colors.mainlight}
+                >
+                  Adicionar Pacote
+                </Text>
+              </div>
+            </div>
             {productPackages?.packages?.map((packag: PackageType) => {
               return (
                 <div
