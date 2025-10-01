@@ -16,9 +16,9 @@ import { useEffect, useState } from "react";
 import { PackageType, ProductType } from "types/productTypes";
 import { apiUrl } from "utils/apiUrl";
 import CameraIcon from "../../common/icons/CameraIcon.svg";
-import ConfirmModal from "./common/confirmModal";
 import PixConfiguration from "./common/pixCard/pixConfiguration";
 import { ConfigPackagePage } from "./style";
+import { formatNumber } from "utils/formatNumber";
 
 type Props = {
   slug: string;
@@ -27,7 +27,7 @@ type Props = {
 
 const SecondaryProductPage = ({ slug, childSlug }: Props) => {
   const router = useRouter();
-  const [confirmModal, setconfirmModal] = useState<boolean>(false);
+  // const [confirmModal, setconfirmModal] = useState<boolean>(false);
   const [isEditing, setIsEditing] = useState<boolean>(false);
   const [loading, setLoading] = useState<boolean>(true);
   const [loadingImage, setLoadingImage] = useState<boolean>(false);
@@ -87,14 +87,26 @@ const SecondaryProductPage = ({ slug, childSlug }: Props) => {
       return;
     }
     setIsEditing(false);
-    setconfirmModal(true);
+    // setconfirmModal(true);
   };
 
   const handleInputChange = (
     field: string,
     value: string | number | boolean,
   ) => {
-    setEditData((prev) => ({ ...prev, [field]: value }));
+    if (field === "profitMargin") {
+      setEditData((prev) => ({
+        ...prev,
+        paymentMethods:
+          prev?.paymentMethods?.map((method, index) =>
+            index === 0
+              ? { ...method, price: value === "" ? 0 : (value as number) }
+              : method,
+          ) || [],
+      }));
+    } else {
+      setEditData((prev) => ({ ...prev, [field]: value }));
+    }
   };
 
   const calculateValues = () => {
@@ -169,7 +181,7 @@ const SecondaryProductPage = ({ slug, childSlug }: Props) => {
 
   return (
     <ConfigPackagePage>
-      {confirmModal && <ConfirmModal setconfirmModal={setconfirmModal} />}
+      {/* {confirmModal && <ConfirmModal setconfirmModal={setconfirmModal} />} */}
       <div className="desktop">
         <HeaderEnviroment>
           <DefaultHeader backWard title="CONFIGURAR PACOTE" />
@@ -187,7 +199,7 @@ const SecondaryProductPage = ({ slug, childSlug }: Props) => {
               {editData?.name}
             </Text>
             <Text fontName="REGULAR_MEDIUM" color={Theme.colors.mainHighlight}>
-              {editData?.amountCredits} créditos
+              {formatNumber(editData?.amountCredits)} créditos
             </Text>
           </div>
           <div className="statusSection">
@@ -314,11 +326,15 @@ const SecondaryProductPage = ({ slug, childSlug }: Props) => {
                 {isEditing ? (
                   <Input
                     value={editData?.name}
-                    onChange={(e) =>
-                      handleInputChange("packageName", e.target.value)
-                    }
-                    placeholder="Nome do pacote"
+                    onChange={(e) => {
+                      const value = e.target.value;
+                      if (value.length <= 70) {
+                        handleInputChange("name", value);
+                      }
+                    }}
+                    placeholder="Nome do pacote (máx. 70 caracteres)"
                     height={32}
+                    maxLength={70}
                   />
                 ) : (
                   <Text fontName="SMALL_MEDIUM" color={Theme.colors.mainlight}>
@@ -335,16 +351,23 @@ const SecondaryProductPage = ({ slug, childSlug }: Props) => {
                 </Text>
                 {isEditing ? (
                   <Input
-                    value={editData?.amountCredits}
-                    onChange={(e) =>
+                    value={formatNumber(editData?.amountCredits) || ""}
+                    onChange={(e) => {
+                      const value = e.target.value;
+                      // Remove caracteres não numéricos e limita a 14 caracteres
+                      const numericValue = value
+                        .replace(/\D/g, "")
+                        .slice(0, 14);
                       handleInputChange(
-                        "credits",
-                        parseInt(e.target.value) || 0,
-                      )
-                    }
-                    placeholder="Quantidade de créditos"
+                        "amountCredits",
+                        numericValue === "" ? "" : parseInt(numericValue) || 0,
+                      );
+                    }}
+                    placeholder="Quantidade de créditos (máx. 14 dígitos)"
                     height={32}
-                    type="number"
+                    type="text"
+                    inputMode="numeric"
+                    pattern="[0-9]*"
                   />
                 ) : (
                   <Text fontName="SMALL_MEDIUM" color={Theme.colors.mainlight}>
@@ -433,17 +456,41 @@ const SecondaryProductPage = ({ slug, childSlug }: Props) => {
                 </Text>
                 {isEditing ? (
                   <Input
-                    value={editData?.basePrice}
-                    onChange={(e) =>
-                      handleInputChange(
-                        "baseCost",
-                        parseFloat(e.target.value) || 0,
-                      )
-                    }
-                    placeholder="Custo base"
+                    value={editData?.basePrice || ""}
+                    onChange={(e) => {
+                      const value = e.target.value;
+                      // Permite apenas números, ponto e vírgula
+                      const cleanValue = value.replace(/[^0-9.,]/g, "");
+
+                      // Conta pontos e vírgulas
+                      const dotCount = (cleanValue.match(/\./g) || []).length;
+                      const commaCount = (cleanValue.match(/,/g) || []).length;
+
+                      // Permite apenas um separador decimal (ponto ou vírgula)
+                      if (
+                        dotCount <= 1 &&
+                        commaCount <= 1 &&
+                        dotCount + commaCount <= 1
+                      ) {
+                        // Se tem vírgula, converte para ponto
+                        let normalizedValue = cleanValue.replace(",", ".");
+
+                        // Se tem ponto, limita a 2 casas decimais
+                        if (normalizedValue.includes(".")) {
+                          const [integer, decimal] = normalizedValue.split(".");
+                          const limitedDecimal = decimal
+                            ? decimal.slice(0, 2)
+                            : "";
+                          normalizedValue = `${integer}.${limitedDecimal}`;
+                        }
+
+                        handleInputChange("basePrice", normalizedValue);
+                      }
+                    }}
+                    placeholder="Custo base (ex: 10,50 ou 10.50)"
                     height={32}
-                    type="number"
-                    step="0.01"
+                    type="text"
+                    inputMode="decimal"
                   />
                 ) : (
                   <Text fontName="SMALL_MEDIUM" color={Theme.colors.mainlight}>
@@ -460,12 +507,13 @@ const SecondaryProductPage = ({ slug, childSlug }: Props) => {
                 </Text>
                 {isEditing ? (
                   <Input
-                    value={editData?.basePrice}
-                    // value={editData.profitMargin}
+                    value={editData?.paymentMethods?.[0]?.price || ""}
                     onChange={(e) =>
                       handleInputChange(
                         "profitMargin",
-                        parseInt(e.target.value) || 0,
+                        e.target.value === ""
+                          ? ""
+                          : parseInt(e.target.value) || 0,
                       )
                     }
                     placeholder="Margem de lucro"
@@ -474,7 +522,7 @@ const SecondaryProductPage = ({ slug, childSlug }: Props) => {
                   />
                 ) : (
                   <Text fontName="SMALL_MEDIUM" color={Theme.colors.mainlight}>
-                    {editData?.basePrice}%{/* {editData.profitMargin}% */}
+                    {editData?.paymentMethods?.[0]?.price || 0}%
                   </Text>
                 )}
               </div>
