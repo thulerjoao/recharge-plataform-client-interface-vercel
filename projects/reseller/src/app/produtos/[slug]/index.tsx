@@ -185,6 +185,10 @@ const Productpage = ({ slug }: Props) => {
     setIsChanged(false);
   };
 
+  const handleAddPackage = () => {
+    route.push(`/produtos/${slug}/novo_pacote`);
+  };
+
   return (
     <ProductsInnerPage>
       <div className="desktop">
@@ -228,7 +232,7 @@ const Productpage = ({ slug }: Props) => {
             CONFIGURAR PACOTES
           </Text>
           <section className="cardsContainer">
-            <div className="cardEnviroment">
+            <div className="cardEnviroment" onClick={() => handleAddPackage()}>
               <div className="addPackageCard">
                 <AddIcon />
                 <Text

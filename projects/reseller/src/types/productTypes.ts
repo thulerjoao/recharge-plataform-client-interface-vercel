@@ -1,5 +1,5 @@
 export type ProductType = {
-  id: string;
+  id?: string;
   name: string;
   description: string;
   instructions: string;
@@ -10,7 +10,7 @@ export type ProductType = {
 };
 
 export type PackageType = {
-  id: string;
+  id?: string;
   name: string;
   amountCredits: number;
   imgCardUrl: string;
@@ -22,7 +22,7 @@ export type PackageType = {
 };
 
 export type PaymentMethodsType = {
-  id: string;
+  id?: string;
   name:
     | "pix"
     | "mercado pago"

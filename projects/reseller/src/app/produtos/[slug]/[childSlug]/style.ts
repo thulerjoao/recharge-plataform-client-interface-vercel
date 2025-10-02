@@ -115,6 +115,21 @@ export const ConfigPackagePage = styled.div`
               justify-content: space-between;
               padding: 8px 0;
             }
+
+            input {
+              &.error {
+                border-color: ${Theme.colors.pending};
+                box-shadow: 0 0 0 3px ${Theme.colors.pending}40;
+              }
+            }
+
+            .error-message {
+              color: ${Theme.colors.pending};
+              font-size: 12px;
+              margin-top: 6px;
+              display: block;
+              animation: fadeIn 0.2s ease;
+            }
           }
         }
 
@@ -405,6 +420,17 @@ export const ConfigPackagePage = styled.div`
           font-size: 14px;
         }
       }
+    }
+  }
+
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+      transform: translateY(-4px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
     }
   }
 `;

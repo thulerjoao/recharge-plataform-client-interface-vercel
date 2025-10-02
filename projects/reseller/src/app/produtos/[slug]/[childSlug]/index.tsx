@@ -15,10 +15,14 @@ import HeaderEnviroment from "public/components/headerEnviroment";
 import { useEffect, useState } from "react";
 import { PackageType, ProductType } from "types/productTypes";
 import { apiUrl } from "utils/apiUrl";
+import { formatNumber } from "utils/formatNumber";
+import {
+  PackageFormErrors,
+  validatePackageForm,
+} from "utils/packageValidation";
 import CameraIcon from "../../common/icons/CameraIcon.svg";
 import PixConfiguration from "./common/pixCard/pixConfiguration";
 import { ConfigPackagePage } from "./style";
-import { formatNumber } from "utils/formatNumber";
 
 type Props = {
   slug: string;
@@ -28,28 +32,58 @@ type Props = {
 const SecondaryProductPage = ({ slug, childSlug }: Props) => {
   const router = useRouter();
   // const [confirmModal, setconfirmModal] = useState<boolean>(false);
-  const [isEditing, setIsEditing] = useState<boolean>(false);
+
+  // Detectar se é modo de criação de novo pacote
+  const isCreatingNewPackage = childSlug === "novo_pacote";
+
+  const [isEditing, setIsEditing] = useState<boolean>(isCreatingNewPackage);
   const [loading, setLoading] = useState<boolean>(true);
   const [loadingImage, setLoadingImage] = useState<boolean>(false);
   const [packageData, setPackageData] = useState<PackageType>();
   const [editData, setEditData] = useState<PackageType>();
+  const [errors, setErrors] = useState<PackageFormErrors>({});
   const { products, productPackages, setProductPackages, fetchProducts } =
     useProducts();
   const [index, setIndex] = useState<number>();
   const [updateAllPackages, setUpdateAllPackages] = useState<boolean>(false);
   const { store } = useAuth();
 
+  // Dados padrão para novo pacote
+  const getDefaultPackageData = (): PackageType => ({
+    id: "temp-new-package",
+    name: "",
+    amountCredits: null,
+    basePrice: null,
+    isActive: true,
+    isOffer: false,
+    imgCardUrl: products.find((product: ProductType) => product.id === slug)
+      .packages[0].imgCardUrl,
+    storeId: store.id,
+    paymentMethods: [
+      {
+        name: "pix",
+        price: 0,
+      },
+    ],
+  });
+
   const imageUpload = useImageUpload({
-    endpoint: `/package/${packageData?.id}/images/card?updateAllPackages=${updateAllPackages}`,
+    endpoint: isCreatingNewPackage
+      ? `/product/${slug}/packages/temp/images/card`
+      : `/package/${packageData?.id}/images/card?updateAllPackages=${updateAllPackages}`,
     onSuccess: (url) => {
       setEditData((prev) => ({ ...prev, imgCardUrl: url }));
-      fetchProducts(store.id);
-      setUpdateAllPackages(false);
+      if (!isCreatingNewPackage) {
+        fetchProducts(store.id);
+        setUpdateAllPackages(false);
+      }
     },
     onError: (error) => {
       console.error("Card upload error:", error);
       alert("Error uploading card image. Please try again.");
-      setUpdateAllPackages(false);
+      if (!isCreatingNewPackage) {
+        setUpdateAllPackages(false);
+      }
     },
   });
 
@@ -72,22 +106,53 @@ const SecondaryProductPage = ({ slug, childSlug }: Props) => {
 
   const handleEdit = () => {
     setIsEditing(true);
+    setErrors({});
   };
 
   const handleCancel = () => {
     imageUpload.clearSelection();
-    setIsEditing(false);
-    setEditData(packageData);
-    setUpdateAllPackages(false);
+    setErrors({});
+    if (isCreatingNewPackage) {
+      // No modo de criação, voltar para a página anterior
+      router.back();
+    } else {
+      // No modo de edição, voltar aos dados originais
+      setIsEditing(false);
+      setEditData(packageData);
+      setUpdateAllPackages(false);
+    }
   };
 
   const handleSave = () => {
-    if (packageData === editData) {
-      handleCancel();
+    // Validação para ambos os casos (criação e edição)
+    const { isValid, errors: validationErrors } = validatePackageForm({
+      name: editData?.name,
+      amountCredits: editData?.amountCredits,
+      basePrice: editData?.basePrice,
+      profitMargin: editData?.paymentMethods?.[0]?.price,
+    });
+
+    if (!isValid) {
+      setErrors(validationErrors);
       return;
     }
-    setIsEditing(false);
-    // setconfirmModal(true);
+
+    if (isCreatingNewPackage) {
+      // Lógica para criação de novo pacote
+      // Aqui você pode implementar a chamada para a API de criação
+      // Por exemplo: connectionAPIPost(`/product/${slug}/packages`, editData, apiUrl)
+      console.log("Criando novo pacote:", editData);
+      alert("Novo pacote criado com sucesso!");
+      router.back();
+    } else {
+      // Lógica para edição de pacote existente
+      if (packageData === editData) {
+        handleCancel();
+        return;
+      }
+      setIsEditing(false);
+      // setconfirmModal(true);
+    }
   };
 
   const handleInputChange = (
@@ -106,6 +171,9 @@ const SecondaryProductPage = ({ slug, childSlug }: Props) => {
       }));
     } else {
       setEditData((prev) => ({ ...prev, [field]: value }));
+    }
+    if (errors[field as keyof PackageFormErrors]) {
+      setErrors((prev) => ({ ...prev, [field]: undefined }));
     }
   };
 
@@ -148,32 +216,40 @@ const SecondaryProductPage = ({ slug, childSlug }: Props) => {
   };
 
   useEffect(() => {
-    const packageId = editData?.id || childSlug;
-    const localPackage = productPackages?.packages.find(
-      (packag: PackageType) => packag.id === packageId,
-    );
-    if (localPackage) {
-      setEditData(localPackage);
-      setPackageData(localPackage);
+    if (isCreatingNewPackage) {
+      const defaultData = getDefaultPackageData();
+      setEditData(defaultData);
+      setPackageData(defaultData);
       setLoading(false);
-      handleIndex(productPackages?.packages, packageId);
     } else {
-      connectionAPIGet<ProductType>(`/product/${slug}`, apiUrl)
-        .then((res) => {
-          setProductPackages(res);
-          const localPackage = res.packages.find(
-            (packag: PackageType) => packag.id === packageId,
-          );
-          setPackageData(localPackage);
-          setEditData(localPackage);
-          handleIndex(res.packages, packageId);
-        })
-        .finally(() => {
-          setLoading(false);
-        });
+      // Lógica original para edição de pacote existente
+      const packageId = editData?.id || childSlug;
+      const localPackage = productPackages?.packages.find(
+        (packag: PackageType) => packag.id === packageId,
+      );
+      if (localPackage) {
+        setEditData(localPackage);
+        setPackageData(localPackage);
+        setLoading(false);
+        handleIndex(productPackages?.packages, packageId);
+      } else {
+        connectionAPIGet<ProductType>(`/product/${slug}`, apiUrl)
+          .then((res) => {
+            setProductPackages(res);
+            const localPackage = res.packages.find(
+              (packag: PackageType) => packag.id === packageId,
+            );
+            setPackageData(localPackage);
+            setEditData(localPackage);
+            handleIndex(res.packages, packageId);
+          })
+          .finally(() => {
+            setLoading(false);
+          });
+      }
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [products, childSlug]);
+  }, [products, childSlug, isCreatingNewPackage]);
 
   if (loading) {
     return <LoadingPage />;
@@ -184,19 +260,24 @@ const SecondaryProductPage = ({ slug, childSlug }: Props) => {
       {/* {confirmModal && <ConfirmModal setconfirmModal={setconfirmModal} />} */}
       <div className="desktop">
         <HeaderEnviroment>
-          <DefaultHeader backWard title="CONFIGURAR PACOTE" />
+          <DefaultHeader
+            backWard
+            title={
+              isCreatingNewPackage ? "CRIAR NOVO PACOTE" : "CONFIGURAR PACOTE"
+            }
+          />
         </HeaderEnviroment>
       </div>
       <div className="mobile mobileHeader">
         <Text align="center" fontName="LARGE_SEMI_BOLD">
-          CONFIG PACOTE
+          {isCreatingNewPackage ? "CRIAR PACOTE" : "CONFIG PACOTE"}
         </Text>
       </div>
       <div className="mainContentPackage">
         <div className="headerSection">
           <div className="packageInfo">
             <Text fontName="LARGE_SEMI_BOLD" color={Theme.colors.mainlight}>
-              {editData?.name}
+              {isCreatingNewPackage ? "Novo Pacote" : editData?.name}
             </Text>
             <Text fontName="REGULAR_MEDIUM" color={Theme.colors.mainHighlight}>
               {formatNumber(editData?.amountCredits)} créditos
@@ -231,44 +312,60 @@ const SecondaryProductPage = ({ slug, childSlug }: Props) => {
                 resolução mínima de 480 x 480 e uma proporção de 1:1
               </Text>
               <div className="cardNavigation">
-                {index !== 0 ? (
-                  <button
-                    onClick={handlePreviousPackage}
-                    className="navArrow leftArrow"
-                    title="Pacote anterior"
-                    disabled={index === 0}
-                  >
-                    ←
-                  </button>
-                ) : (
-                  <div className="disabled" />
+                {!isCreatingNewPackage && (
+                  <>
+                    {index !== 0 ? (
+                      <button
+                        onClick={handlePreviousPackage}
+                        className="navArrow leftArrow"
+                        title="Pacote anterior"
+                        disabled={index === 0}
+                      >
+                        ←
+                      </button>
+                    ) : (
+                      <div className="disabled" />
+                    )}
+                  </>
                 )}
                 <div className="cardEnviroment">
                   <PackageCard
                     bestOffer={editData?.isOffer}
-                    title={editData?.name}
+                    title={
+                      editData?.name || (isCreatingNewPackage ? "Título" : "")
+                    }
                     imageUrl={imageUpload.previewUrl || editData?.imgCardUrl}
                     price={+editData?.basePrice}
                   />
                 </div>
-                {index !== productPackages?.packages.length - 1 ? (
-                  <button
-                    onClick={handleNextPackage}
-                    className="navArrow rightArrow"
-                    title="Próximo pacote"
-                    disabled={index === productPackages?.packages.length - 1}
-                  >
-                    →
-                  </button>
-                ) : (
-                  <div className="disabled" />
+                {!isCreatingNewPackage && (
+                  <>
+                    {index !== productPackages?.packages.length - 1 ? (
+                      <button
+                        onClick={handleNextPackage}
+                        className="navArrow rightArrow"
+                        title="Próximo pacote"
+                        disabled={
+                          index === productPackages?.packages.length - 1
+                        }
+                      >
+                        →
+                      </button>
+                    ) : (
+                      <div className="disabled" />
+                    )}
+                  </>
                 )}
               </div>
               <Button
                 loading={loadingImage}
-                leftElement={!imageUpload.previewUrl && <CameraIcon />}
+                leftElement={
+                  (!imageUpload.previewUrl || isCreatingNewPackage) && (
+                    <CameraIcon />
+                  )
+                }
                 onClick={
-                  !imageUpload.previewUrl
+                  !imageUpload.previewUrl || isCreatingNewPackage
                     ? imageUpload.handleButtonClick
                     : handleSaveImage
                 }
@@ -276,7 +373,9 @@ const SecondaryProductPage = ({ slug, childSlug }: Props) => {
                 width={180}
                 color={Theme.colors.mainlight}
                 title={
-                  !imageUpload.previewUrl ? "Atualizar imagem" : "Salvar imagem"
+                  !imageUpload.previewUrl || isCreatingNewPackage
+                    ? "Atualizar imagem"
+                    : "Salvar imagem"
                 }
               />
               <input
@@ -286,7 +385,7 @@ const SecondaryProductPage = ({ slug, childSlug }: Props) => {
                 style={{ display: "none" }}
                 onChange={imageUpload.handleFileSelect}
               />
-              {imageUpload.previewUrl && (
+              {imageUpload.previewUrl && !isCreatingNewPackage && (
                 <div className="checkboxContainer">
                   <input
                     type="checkbox"
@@ -332,14 +431,18 @@ const SecondaryProductPage = ({ slug, childSlug }: Props) => {
                         handleInputChange("name", value);
                       }
                     }}
-                    placeholder="Nome do pacote (máx. 70 caracteres)"
+                    placeholder="Nome do pacote"
                     height={32}
                     maxLength={70}
+                    className={errors.name ? "error" : ""}
                   />
                 ) : (
                   <Text fontName="SMALL_MEDIUM" color={Theme.colors.mainlight}>
                     {editData?.name}
                   </Text>
+                )}
+                {isEditing && errors.name && (
+                  <span className="error-message">{errors.name}</span>
                 )}
               </div>
               <div className="infoItem">
@@ -368,11 +471,15 @@ const SecondaryProductPage = ({ slug, childSlug }: Props) => {
                     type="text"
                     inputMode="numeric"
                     pattern="[0-9]*"
+                    className={errors.amountCredits ? "error" : ""}
                   />
                 ) : (
                   <Text fontName="SMALL_MEDIUM" color={Theme.colors.mainlight}>
                     {editData?.amountCredits}
                   </Text>
+                )}
+                {isEditing && errors.amountCredits && (
+                  <span className="error-message">{errors.amountCredits}</span>
                 )}
               </div>
               <div className="infoItem">
@@ -443,9 +550,9 @@ const SecondaryProductPage = ({ slug, childSlug }: Props) => {
                 CONFIGURAÇÕES DE PREÇO
               </Text>
             </div>
-            <Text fontName="REGULAR">
+            {/* <Text fontName="REGULAR">
               Preço base - R$ {(+editData?.basePrice).toFixed(2)}
-            </Text>
+            </Text> */}
             <div className="infoGrid">
               <div className="infoItem">
                 <Text
@@ -456,13 +563,10 @@ const SecondaryProductPage = ({ slug, childSlug }: Props) => {
                 </Text>
                 {isEditing ? (
                   <Input
-                    value={editData?.basePrice || ""}
+                    value={`R$ ${editData?.basePrice || ""}`}
                     onChange={(e) => {
                       const value = e.target.value;
-                      // Permite apenas números, ponto e vírgula
                       const cleanValue = value.replace(/[^0-9.,]/g, "");
-
-                      // Conta pontos e vírgulas
                       const dotCount = (cleanValue.match(/\./g) || []).length;
                       const commaCount = (cleanValue.match(/,/g) || []).length;
 
@@ -491,11 +595,15 @@ const SecondaryProductPage = ({ slug, childSlug }: Props) => {
                     height={32}
                     type="text"
                     inputMode="decimal"
+                    className={errors.basePrice ? "error" : ""}
                   />
                 ) : (
                   <Text fontName="SMALL_MEDIUM" color={Theme.colors.mainlight}>
                     R$ {(+editData?.basePrice).toFixed(2)}
                   </Text>
+                )}
+                {isEditing && errors.basePrice && (
+                  <span className="error-message">{errors.basePrice}</span>
                 )}
               </div>
               <div className="infoItem">
@@ -503,10 +611,14 @@ const SecondaryProductPage = ({ slug, childSlug }: Props) => {
                   fontName="SMALL_MEDIUM"
                   color={Theme.colors.secondaryText}
                 >
-                  Margem de lucro (%):
+                  Margem de lucro:
                 </Text>
-                {isEditing ? (
+                <Text margin="4px 0 0 4px" fontName="REGULAR_MEDIUM">
+                  {editData?.paymentMethods?.[0]?.price} %
+                </Text>
+                {/* {isEditing ? (
                   <Input
+                    disabled
                     value={editData?.paymentMethods?.[0]?.price || ""}
                     onChange={(e) =>
                       handleInputChange(
@@ -519,12 +631,16 @@ const SecondaryProductPage = ({ slug, childSlug }: Props) => {
                     placeholder="Margem de lucro"
                     height={32}
                     type="number"
+                    className={errors.profitMargin ? "error" : ""}
                   />
                 ) : (
                   <Text fontName="SMALL_MEDIUM" color={Theme.colors.mainlight}>
                     {editData?.paymentMethods?.[0]?.price || 0}%
                   </Text>
                 )}
+                {isEditing && errors.profitMargin && (
+                  <span className="error-message">{errors.profitMargin}</span>
+                )} */}
               </div>
             </div>
 
@@ -539,14 +655,7 @@ const SecondaryProductPage = ({ slug, childSlug }: Props) => {
               </Text>
             </div>
             <div className="paymentMethodsSection">
-              <PixConfiguration
-                tax={`${1}%`}
-                totalCost={values.totalCost}
-                profitMargin={values.profitValue}
-                // profitMargin={editData.profitMargin}
-                profitValue={values.profitValue}
-                sellValue={values.sellValue}
-              />
+              <PixConfiguration tax={1} totalCost={values.totalCost} />
             </div>
 
             <div className="actionsSection">
@@ -560,7 +669,7 @@ const SecondaryProductPage = ({ slug, childSlug }: Props) => {
                     rounded
                   />
                   <Button
-                    title="SALVAR"
+                    title={isCreatingNewPackage ? "CRIAR" : "SALVAR"}
                     onClick={handleSave}
                     width={120}
                     height={36}
