@@ -115,6 +115,21 @@ export const ConfigPackagePage = styled.div`
               justify-content: space-between;
               padding: 8px 0;
             }
+
+            input {
+              &.error {
+                border-color: ${Theme.colors.pending};
+                box-shadow: 0 0 0 3px ${Theme.colors.pending}40;
+              }
+            }
+
+            .error-message {
+              color: ${Theme.colors.pending};
+              font-size: 12px;
+              margin-top: 6px;
+              display: block;
+              animation: fadeIn 0.2s ease;
+            }
           }
         }
 
@@ -131,6 +146,24 @@ export const ConfigPackagePage = styled.div`
           flex-direction: column;
           align-items: center;
           gap: 16px;
+
+          .checkboxContainer {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-top: 8px;
+
+            input[type="checkbox"] {
+              margin: 0;
+              cursor: pointer;
+            }
+
+            label {
+              cursor: pointer;
+              display: flex;
+              align-items: center;
+            }
+          }
 
           .cardNavigation {
             display: flex;
@@ -215,26 +248,22 @@ export const ConfigPackagePage = styled.div`
       gap: 24px;
 
       .headerSection {
-        flex-direction: column;
         text-align: center;
+        justify-content: space-between;
         gap: 16px;
         padding: 20px;
         margin-bottom: 20px;
 
         .packageInfo {
-          align-items: center;
+          /* align-items: center; */
         }
 
         .statusSection {
+          /* background-color: pink; */
           align-items: center;
           flex-direction: row;
           gap: 8px;
           justify-content: space-between;
-          width: 100%;
-
-          .onOff {
-            margin-top: 0;
-          }
         }
       }
 
@@ -391,6 +420,17 @@ export const ConfigPackagePage = styled.div`
           font-size: 14px;
         }
       }
+    }
+  }
+
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+      transform: translateY(-4px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
     }
   }
 `;

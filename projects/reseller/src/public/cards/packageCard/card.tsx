@@ -32,9 +32,9 @@ const PackageCard = ({
       >
         {title}
       </Text>
-      <Text tag="h2" align="center" fontName="REGULAR_SEMI_BOLD">
+      {/* <Text tag="h2" align="center" fontName="REGULAR_SEMI_BOLD">
         DIAMANTES
-      </Text>
+      </Text> */}
       <figure>
         <Image src={imageUrl} alt="Imagem do pacote" width={80} height={80} />
       </figure>

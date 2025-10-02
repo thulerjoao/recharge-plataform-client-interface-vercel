@@ -8,6 +8,7 @@ export const HeaderEnviromentContainer = styled.div`
   top: 0;
   left: 0;
   height: 0;
+  z-index: 99;
 
   .mainContainer {
     width: 100%;
