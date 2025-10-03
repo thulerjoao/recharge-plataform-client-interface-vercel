@@ -3,8 +3,11 @@ import Input from "@4miga/design-system/components/input";
 import OnOff from "@4miga/design-system/components/onOff";
 import Text from "@4miga/design-system/components/Text";
 import { Theme } from "@4miga/design-system/theme/theme";
-import { connectionAPIGet } from "@4miga/services/connectionAPI/connection";
-import LoadingPage from "app/loading";
+import {
+  connectionAPIGet,
+  connectionAPIPatch,
+  connectionAPIPost,
+} from "@4miga/services/connectionAPI/connection";
 import { useAuth } from "context/auth";
 import { useProducts } from "context/products";
 import { useImageUpload } from "hooks/useImageUpload";
@@ -46,31 +49,131 @@ const SecondaryProductPage = ({ slug, childSlug }: Props) => {
     useProducts();
   const [index, setIndex] = useState<number>();
   const [updateAllPackages, setUpdateAllPackages] = useState<boolean>(false);
+  const [newPackageId, setNewPackageId] = useState<string | null>(null);
   const { store } = useAuth();
 
-  // Dados padrão para novo pacote
   const getDefaultPackageData = (): PackageType => ({
-    id: "temp-new-package",
     name: "",
     amountCredits: null,
-    basePrice: null,
-    isActive: true,
-    isOffer: false,
     imgCardUrl: products.find((product: ProductType) => product.id === slug)
       .packages[0].imgCardUrl,
-    storeId: store.id,
+    isActive: true,
+    isOffer: false,
+    basePrice: null,
+    productId: slug,
     paymentMethods: [
       {
         name: "pix",
-        price: 0,
+        price: null,
       },
     ],
   });
 
+  const prepareDataForApi = () => {
+    return {
+      ...editData,
+      basePrice: parseFloat(editData?.basePrice?.toString()) || 0,
+      paymentMethods:
+        editData?.paymentMethods?.map((method, index) =>
+          index === 0
+            ? {
+                ...method,
+                price: parseFloat(method.price.toString()) || 0,
+              }
+            : method,
+        ) || [],
+    };
+  };
+
+  const handleEdit = () => {
+    setIsEditing(true);
+    setErrors({});
+  };
+
+  const handleCancel = () => {
+    imageUpload.clearSelection();
+    setErrors({});
+    if (isCreatingNewPackage) {
+      router.back();
+    } else {
+      setIsEditing(false);
+      setEditData(packageData);
+      setUpdateAllPackages(false);
+    }
+  };
+
+  const validateForm = () => {
+    const { isValid, errors: validationErrors } = validatePackageForm({
+      name: editData?.name,
+      amountCredits: editData?.amountCredits,
+      basePrice: editData?.basePrice?.toString(),
+      profitMargin: editData?.paymentMethods?.[0]?.price,
+    });
+
+    if (!isValid) {
+      setErrors(validationErrors);
+      setLoading(false);
+      return false;
+    }
+    return true;
+  };
+
+  const handleInputChange = (
+    field: string,
+    value: string | number | boolean,
+  ) => {
+    if (field === "profitMargin") {
+      setEditData((prev) => ({
+        ...prev,
+        paymentMethods:
+          prev?.paymentMethods?.map((method, index) =>
+            index === 0
+              ? { ...method, price: value === "" ? 0 : (value as number) }
+              : method,
+          ) || [],
+      }));
+    } else if (field === "paymentMethods[0].price") {
+      const numericValue = value === "" ? 0 : (value as number);
+      setEditData((prev) => ({
+        ...prev,
+        basePrice: numericValue,
+        paymentMethods:
+          prev?.paymentMethods?.map((method, index) =>
+            index === 0 ? { ...method, price: numericValue } : method,
+          ) || [],
+      }));
+    } else {
+      setEditData((prev) => ({ ...prev, [field]: value }));
+    }
+    if (field === "paymentMethods[0].price" && errors.basePrice) {
+      setErrors((prev) => ({ ...prev, basePrice: undefined }));
+    } else if (errors[field as keyof PackageFormErrors]) {
+      setErrors((prev) => ({ ...prev, [field]: undefined }));
+    }
+  };
+
+  const handleIndex = (param: PackageType[], id: string) => {
+    setIndex(param.findIndex((packag: PackageType) => packag.id === id));
+  };
+
+  const handleNextPackage = () => {
+    handleCancel();
+    setIndex(index + 1);
+    const newPackage = productPackages?.packages[index + 1];
+    setEditData(newPackage);
+    setPackageData(newPackage);
+  };
+
+  const handlePreviousPackage = () => {
+    handleCancel();
+    setIndex(index - 1);
+    const newPackage = productPackages?.packages[index - 1];
+    setEditData(newPackage);
+    setPackageData(newPackage);
+  };
+
   const imageUpload = useImageUpload({
-    endpoint: isCreatingNewPackage
-      ? `/product/${slug}/packages/temp/images/card`
-      : `/package/${packageData?.id}/images/card?updateAllPackages=${updateAllPackages}`,
+    endpoint: `/package/${packageData?.id}/images/card?updateAllPackages=${updateAllPackages}`,
     onSuccess: (url) => {
       setEditData((prev) => ({ ...prev, imgCardUrl: url }));
       if (!isCreatingNewPackage) {
@@ -80,10 +183,24 @@ const SecondaryProductPage = ({ slug, childSlug }: Props) => {
     },
     onError: (error) => {
       console.error("Card upload error:", error);
-      alert("Error uploading card image. Please try again.");
+      alert("Erro ao fazer upload da imagem do card. Tente novamente.");
       if (!isCreatingNewPackage) {
         setUpdateAllPackages(false);
       }
+    },
+  });
+
+  const newPackageImageUpload = useImageUpload({
+    endpoint: newPackageId ? `/package/${newPackageId}/images/card` : "",
+    onSuccess: (url) => {
+      setEditData((prev) => ({ ...prev, imgCardUrl: url }));
+      imageUpload.clearSelection();
+      setNewPackageId(null);
+    },
+    onError: (error) => {
+      console.error("Card upload error:", error);
+      alert("Erro ao fazer upload da imagem do card. Atualize manualmente.");
+      setNewPackageId(null);
     },
   });
 
@@ -104,115 +221,61 @@ const SecondaryProductPage = ({ slug, childSlug }: Props) => {
     }
   };
 
-  const handleEdit = () => {
-    setIsEditing(true);
-    setErrors({});
-  };
+  const handleCreate = async () => {
+    setLoading(true);
+    if (!validateForm()) return;
 
-  const handleCancel = () => {
-    imageUpload.clearSelection();
-    setErrors({});
-    if (isCreatingNewPackage) {
-      // No modo de criação, voltar para a página anterior
+    const dataToSend = prepareDataForApi();
+
+    try {
+      const res = await connectionAPIPost<PackageType>(
+        `/package`,
+        dataToSend,
+        apiUrl,
+      );
+      console.log("res", res);
+      if (imageUpload.hasChanges) {
+        setNewPackageId(res.id);
+        await newPackageImageUpload.handleSave();
+      }
+
+      alert("Novo pacote criado com sucesso!");
+      fetchProducts(store.id);
       router.back();
-    } else {
-      // No modo de edição, voltar aos dados originais
-      setIsEditing(false);
-      setEditData(packageData);
-      setUpdateAllPackages(false);
+    } catch (err) {
+      alert("Erro ao criar novo pacote");
+      console.error(err);
+    } finally {
+      setLoading(false);
     }
   };
 
-  const handleSave = () => {
-    // Validação para ambos os casos (criação e edição)
-    const { isValid, errors: validationErrors } = validatePackageForm({
-      name: editData?.name,
-      amountCredits: editData?.amountCredits,
-      basePrice: editData?.basePrice,
-      profitMargin: editData?.paymentMethods?.[0]?.price,
-    });
+  const handleUpdate = () => {
+    setLoading(true);
 
-    if (!isValid) {
-      setErrors(validationErrors);
+    if (!validateForm()) return;
+
+    const dataToSend = prepareDataForApi();
+
+    connectionAPIPatch(`/packages/${packageData?.id}`, dataToSend, apiUrl)
+      .then((res) => {
+        alert("Pacote atualizado com sucesso!");
+        router.back();
+      })
+      .catch((err) => {
+        alert("Erro ao atualizar pacote");
+        console.error(err);
+      })
+      .finally(() => {
+        setLoading(false);
+      });
+
+    if (packageData === editData) {
+      handleCancel();
       return;
     }
-
-    if (isCreatingNewPackage) {
-      // Lógica para criação de novo pacote
-      // Aqui você pode implementar a chamada para a API de criação
-      // Por exemplo: connectionAPIPost(`/product/${slug}/packages`, editData, apiUrl)
-      console.log("Criando novo pacote:", editData);
-      alert("Novo pacote criado com sucesso!");
-      router.back();
-    } else {
-      // Lógica para edição de pacote existente
-      if (packageData === editData) {
-        handleCancel();
-        return;
-      }
-      setIsEditing(false);
-      // setconfirmModal(true);
-    }
-  };
-
-  const handleInputChange = (
-    field: string,
-    value: string | number | boolean,
-  ) => {
-    if (field === "profitMargin") {
-      setEditData((prev) => ({
-        ...prev,
-        paymentMethods:
-          prev?.paymentMethods?.map((method, index) =>
-            index === 0
-              ? { ...method, price: value === "" ? 0 : (value as number) }
-              : method,
-          ) || [],
-      }));
-    } else {
-      setEditData((prev) => ({ ...prev, [field]: value }));
-    }
-    if (errors[field as keyof PackageFormErrors]) {
-      setErrors((prev) => ({ ...prev, [field]: undefined }));
-    }
-  };
-
-  const calculateValues = () => {
-    const totalCost =
-      +editData?.basePrice +
-      (+editData?.basePrice * editData?.paymentMethods[0].price) / 100;
-    const profitValue =
-      (totalCost * (editData?.paymentMethods[0].price - +editData?.basePrice)) /
-      100;
-    const sellValue = totalCost + profitValue;
-
-    return {
-      totalCost,
-      profitValue,
-      sellValue,
-    };
-  };
-
-  const values = calculateValues();
-
-  const handleIndex = (param: PackageType[], id: string) => {
-    setIndex(param.findIndex((packag: PackageType) => packag.id === id));
-  };
-
-  const handleNextPackage = () => {
-    handleCancel();
-    setIndex(index + 1);
-    const newPackage = productPackages?.packages[index + 1];
-    setEditData(newPackage);
-    setPackageData(newPackage);
-  };
-
-  const handlePreviousPackage = () => {
-    handleCancel();
-    setIndex(index - 1);
-    const newPackage = productPackages?.packages[index - 1];
-    setEditData(newPackage);
-    setPackageData(newPackage);
+    setIsEditing(false);
+    setLoading(false);
   };
 
   useEffect(() => {
@@ -250,10 +313,6 @@ const SecondaryProductPage = ({ slug, childSlug }: Props) => {
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [products, childSlug, isCreatingNewPackage]);
-
-  if (loading) {
-    return <LoadingPage />;
-  }
 
   return (
     <ConfigPackagePage>
@@ -531,7 +590,7 @@ const SecondaryProductPage = ({ slug, childSlug }: Props) => {
                         handleInputChange("isActive", !editData?.isActive)
                       }
                     >
-                      <OnOff onOff={editData?.isActive} />
+                      <OnOff onOff={editData?.isActive ?? true} />
                     </span>
                   </div>
                 ) : (
@@ -563,14 +622,12 @@ const SecondaryProductPage = ({ slug, childSlug }: Props) => {
                 </Text>
                 {isEditing ? (
                   <Input
-                    value={`R$ ${editData?.basePrice || ""}`}
+                    value={`R$ ${editData?.paymentMethods[0]?.price || ""}`}
                     onChange={(e) => {
                       const value = e.target.value;
                       const cleanValue = value.replace(/[^0-9.,]/g, "");
                       const dotCount = (cleanValue.match(/\./g) || []).length;
                       const commaCount = (cleanValue.match(/,/g) || []).length;
-
-                      // Permite apenas um separador decimal (ponto ou vírgula)
                       if (
                         dotCount <= 1 &&
                         commaCount <= 1 &&
@@ -588,7 +645,10 @@ const SecondaryProductPage = ({ slug, childSlug }: Props) => {
                           normalizedValue = `${integer}.${limitedDecimal}`;
                         }
 
-                        handleInputChange("basePrice", normalizedValue);
+                        handleInputChange(
+                          "paymentMethods[0].price",
+                          normalizedValue,
+                        );
                       }
                     }}
                     placeholder="Custo base (ex: 10,50 ou 10.50)"
@@ -614,7 +674,7 @@ const SecondaryProductPage = ({ slug, childSlug }: Props) => {
                   Margem de lucro:
                 </Text>
                 <Text margin="4px 0 0 4px" fontName="REGULAR_MEDIUM">
-                  {editData?.paymentMethods?.[0]?.price} %
+                  %
                 </Text>
                 {/* {isEditing ? (
                   <Input
@@ -655,7 +715,7 @@ const SecondaryProductPage = ({ slug, childSlug }: Props) => {
               </Text>
             </div>
             <div className="paymentMethodsSection">
-              <PixConfiguration tax={1} totalCost={values.totalCost} />
+              <PixConfiguration tax={1} totalCost={editData?.basePrice} />
             </div>
 
             <div className="actionsSection">
@@ -670,7 +730,13 @@ const SecondaryProductPage = ({ slug, childSlug }: Props) => {
                   />
                   <Button
                     title={isCreatingNewPackage ? "CRIAR" : "SALVAR"}
-                    onClick={handleSave}
+                    onClick={() => {
+                      if (isCreatingNewPackage) {
+                        handleCreate();
+                      } else {
+                        handleUpdate();
+                      }
+                    }}
                     width={120}
                     height={36}
                     rounded
