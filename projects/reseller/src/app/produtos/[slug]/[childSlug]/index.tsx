@@ -50,7 +50,6 @@ const SecondaryProductPage = ({ slug, childSlug }: Props) => {
     useProducts();
   const [index, setIndex] = useState<number>();
   const [updateAllPackages, setUpdateAllPackages] = useState<boolean>(false);
-  const [newPackageId, setNewPackageId] = useState<string | null>(null);
   const { store } = useAuth();
 
   const getDefaultPackageData = (): PackageType => ({
@@ -211,23 +210,6 @@ const SecondaryProductPage = ({ slug, childSlug }: Props) => {
     },
   });
 
-  const newPackageImageUpload = useImageUpload({
-    endpoint: `/package/${newPackageId}/images/card`,
-    onSuccess: (url) => {
-      console.log("entrei aqui");
-      alert("Novo pacote criado com sucesso!");
-      fetchProducts(store.id);
-      router.back();
-    },
-    onError: (error) => {
-      console.log("entrei aqui 2");
-      console.error("Card upload error:", error);
-      alert("Card criado com imagem padrão.	Atualize manualmente.");
-      fetchProducts(store.id);
-      router.back();
-    },
-  });
-
   const handleSaveImage = async () => {
     setLoadingImage(true);
     if (!imageUpload.hasChanges) return;
@@ -247,7 +229,10 @@ const SecondaryProductPage = ({ slug, childSlug }: Props) => {
 
   const handleCreate = async () => {
     setLoading(true);
-    if (!validateForm()) return;
+    if (!validateForm()) {
+      setLoading(false);
+      return;
+    }
 
     const dataToSend = prepareDataForApi();
 
@@ -258,7 +243,14 @@ const SecondaryProductPage = ({ slug, childSlug }: Props) => {
         apiUrl,
       );
       if (imageUpload.hasChanges) {
-        setNewPackageId(res.id);
+        try {
+          await imageUpload.handleSaveTo(`/package/${res.id}/images/card`);
+          alert("Novo pacote criado com sucesso!");
+        } catch (e) {
+          alert("Card criado com imagem padrão.\tAtualize manualmente.");
+        }
+        fetchProducts(store.id);
+        router.back();
       } else {
         alert("Novo pacote criado com sucesso!");
         fetchProducts(store.id);
@@ -357,14 +349,6 @@ const SecondaryProductPage = ({ slug, childSlug }: Props) => {
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [products, childSlug, isCreatingNewPackage]);
-
-  useEffect(() => {
-    console.log("newPackageId", newPackageId);
-    if (newPackageId && imageUpload.hasChanges) {
-      newPackageImageUpload.handleSave();
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [newPackageId, imageUpload.hasChanges]);
 
   return (
     <ConfigPackagePage>

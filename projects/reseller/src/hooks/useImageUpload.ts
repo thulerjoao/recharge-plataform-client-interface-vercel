@@ -21,6 +21,7 @@ interface UseImageUploadReturn {
   handleFileSelect: (event: React.ChangeEvent<HTMLInputElement>) => void;
   handleButtonClick: () => void;
   handleSave: () => Promise<void>;
+  handleSaveTo: (overrideEndpoint: string) => Promise<void>;
   clearSelection: () => void;
   setHasChanges: (hasChanges: boolean) => void;
 }
@@ -105,6 +106,43 @@ export const useImageUpload = (
     }
   };
 
+  // Function to save/upload to a specific endpoint (override)
+  const handleSaveTo = async (overrideEndpoint: string) => {
+    if (!hasChanges || !selectedFile) return;
+
+    setIsUploading(true);
+    try {
+      const formData = new FormData();
+      formData.append("file", selectedFile);
+
+      const axios = (await import("axios")).default;
+      const accessToken = sessionStorage.getItem("accessToken");
+
+      const response = await axios.post(
+        `${apiUrl}${overrideEndpoint}`,
+        formData,
+        {
+          headers: {
+            "Content-Type": "multipart/form-data",
+            Authorization: `Bearer ${accessToken}`,
+            "ngrok-skip-browser-warning": "true",
+          },
+        },
+      );
+
+      const uploadedUrl = response.data.url || response.data;
+
+      onSuccess?.(uploadedUrl);
+      clearSelection();
+      setHasChanges(false);
+    } catch (error) {
+      console.error(`Error uploading image to ${overrideEndpoint}:`, error);
+      onError?.(error as Error);
+    } finally {
+      setIsUploading(false);
+    }
+  };
+
   // Function to clear selection
   const clearSelection = () => {
     if (previewUrl) {
@@ -127,6 +165,7 @@ export const useImageUpload = (
     handleFileSelect,
     handleButtonClick,
     handleSave,
+    handleSaveTo,
     clearSelection,
     setHasChanges,
   };
