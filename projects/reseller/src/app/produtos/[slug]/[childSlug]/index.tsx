@@ -4,6 +4,7 @@ import OnOff from "@4miga/design-system/components/onOff";
 import Text from "@4miga/design-system/components/Text";
 import { Theme } from "@4miga/design-system/theme/theme";
 import {
+  connectionAPIDelete,
   connectionAPIGet,
   connectionAPIPatch,
   connectionAPIPost,
@@ -55,8 +56,8 @@ const SecondaryProductPage = ({ slug, childSlug }: Props) => {
   const getDefaultPackageData = (): PackageType => ({
     name: "",
     amountCredits: null,
-    imgCardUrl: products.find((product: ProductType) => product.id === slug)
-      .packages[0].imgCardUrl,
+    imgCardUrl:
+      productPackages?.packages[0].imgCardUrl || productPackages?.imgCardUrl,
     isActive: true,
     isOffer: false,
     basePrice: null,
@@ -90,7 +91,26 @@ const SecondaryProductPage = ({ slug, childSlug }: Props) => {
     setErrors({});
   };
 
+  const handleDelete = () => {
+    setLoading(true);
+    confirm(`Deseja excluir o pacote ${packageData?.name}?`)
+      ? connectionAPIDelete(`/package/${packageData?.id}`, apiUrl)
+          .then(() => {
+            fetchProducts(store.id);
+            router.back();
+          })
+          .catch((err) => {
+            console.error(err);
+            alert("Erro ao excluir pacote");
+          })
+          .finally(() => {
+            setLoading(false);
+          })
+      : setLoading(false);
+  };
+
   const handleCancel = () => {
+    setLoading(true);
     imageUpload.clearSelection();
     setErrors({});
     if (isCreatingNewPackage) {
@@ -100,6 +120,7 @@ const SecondaryProductPage = ({ slug, childSlug }: Props) => {
       setEditData(packageData);
       setUpdateAllPackages(false);
     }
+    setLoading(false);
   };
 
   const validateForm = () => {
@@ -191,16 +212,19 @@ const SecondaryProductPage = ({ slug, childSlug }: Props) => {
   });
 
   const newPackageImageUpload = useImageUpload({
-    endpoint: newPackageId ? `/package/${newPackageId}/images/card` : "",
+    endpoint: `/package/${newPackageId}/images/card`,
     onSuccess: (url) => {
-      setEditData((prev) => ({ ...prev, imgCardUrl: url }));
-      imageUpload.clearSelection();
-      setNewPackageId(null);
+      console.log("entrei aqui");
+      alert("Novo pacote criado com sucesso!");
+      fetchProducts(store.id);
+      router.back();
     },
     onError: (error) => {
+      console.log("entrei aqui 2");
       console.error("Card upload error:", error);
-      alert("Erro ao fazer upload da imagem do card. Atualize manualmente.");
-      setNewPackageId(null);
+      alert("Card criado com imagem padrão.	Atualize manualmente.");
+      fetchProducts(store.id);
+      router.back();
     },
   });
 
@@ -233,15 +257,13 @@ const SecondaryProductPage = ({ slug, childSlug }: Props) => {
         dataToSend,
         apiUrl,
       );
-      console.log("res", res);
       if (imageUpload.hasChanges) {
         setNewPackageId(res.id);
-        await newPackageImageUpload.handleSave();
+      } else {
+        alert("Novo pacote criado com sucesso!");
+        fetchProducts(store.id);
+        router.back();
       }
-
-      alert("Novo pacote criado com sucesso!");
-      fetchProducts(store.id);
-      router.back();
     } catch (err) {
       alert("Erro ao criar novo pacote");
       console.error(err);
@@ -252,18 +274,40 @@ const SecondaryProductPage = ({ slug, childSlug }: Props) => {
 
   const handleUpdate = () => {
     setLoading(true);
-
     if (!validateForm()) return;
-
     const dataToSend = prepareDataForApi();
+    const hasChanges = Object.keys(dataToSend).some((key) => {
+      const dataValue = dataToSend[key];
+      const packageValue = packageData?.[key];
+      const isDifferent =
+        JSON.stringify(dataValue) !== JSON.stringify(packageValue);
 
-    connectionAPIPatch(`/packages/${packageData?.id}`, dataToSend, apiUrl)
+      if (isDifferent) {
+        console.log(`Diferença encontrada em ${key}:`, {
+          dataToSend: dataValue,
+          packageData: packageValue,
+        });
+      }
+
+      return isDifferent;
+    });
+
+    console.log("hasChanges", hasChanges);
+
+    if (!hasChanges) {
+      handleCancel();
+      return;
+    }
+
+    connectionAPIPatch(`/package/${packageData?.id}`, dataToSend, apiUrl)
       .then((res) => {
         alert("Pacote atualizado com sucesso!");
+        fetchProducts(store.id);
         router.back();
       })
       .catch((err) => {
         alert("Erro ao atualizar pacote");
+        handleCancel();
         console.error(err);
       })
       .finally(() => {
@@ -314,9 +358,16 @@ const SecondaryProductPage = ({ slug, childSlug }: Props) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [products, childSlug, isCreatingNewPackage]);
 
+  useEffect(() => {
+    console.log("newPackageId", newPackageId);
+    if (newPackageId && imageUpload.hasChanges) {
+      newPackageImageUpload.handleSave();
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [newPackageId, imageUpload.hasChanges]);
+
   return (
     <ConfigPackagePage>
-      {/* {confirmModal && <ConfirmModal setconfirmModal={setconfirmModal} />} */}
       <div className="desktop">
         <HeaderEnviroment>
           <DefaultHeader
@@ -417,7 +468,7 @@ const SecondaryProductPage = ({ slug, childSlug }: Props) => {
                 )}
               </div>
               <Button
-                loading={loadingImage}
+                loading={loadingImage || loading}
                 leftElement={
                   (!imageUpload.previewUrl || isCreatingNewPackage) && (
                     <CameraIcon />
@@ -727,6 +778,7 @@ const SecondaryProductPage = ({ slug, childSlug }: Props) => {
                     width={120}
                     height={36}
                     rounded
+                    loading={loading}
                   />
                   <Button
                     title={isCreatingNewPackage ? "CRIAR" : "SALVAR"}
@@ -740,16 +792,28 @@ const SecondaryProductPage = ({ slug, childSlug }: Props) => {
                     width={120}
                     height={36}
                     rounded
+                    loading={loading}
                   />
                 </>
               ) : (
-                <Button
-                  title="EDITAR"
-                  onClick={handleEdit}
-                  width={120}
-                  height={36}
-                  rounded
-                />
+                <>
+                  <Button
+                    title="EDITAR"
+                    onClick={handleEdit}
+                    width={120}
+                    height={36}
+                    rounded
+                    loading={loading}
+                  />
+                  <Button
+                    title="EXCLUIR"
+                    onClick={handleDelete}
+                    width={120}
+                    height={36}
+                    rounded
+                    loading={loading}
+                  />
+                </>
               )}
             </div>
           </div>
