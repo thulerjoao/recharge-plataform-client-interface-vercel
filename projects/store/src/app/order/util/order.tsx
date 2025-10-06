@@ -40,7 +40,7 @@ const Order = () => {
     }
   }, [order, logged, route]);
 
-  const products = useProducts();
+  const { products } = useProducts();
   const product = order
     ? products.find((item) => item.id === order.orderItem.productId)
     : null;

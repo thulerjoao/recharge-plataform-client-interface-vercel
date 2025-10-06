@@ -10,7 +10,6 @@ import { UserType } from "types/userTypes";
 import { apiUrl, storeId } from "utils/apiUrl";
 import { LoginSteps } from "../../types/types";
 import { ConfirmCodeContainer, ErrorMessage, SendCode } from "./style";
-import { io } from "socket.io-client";
 
 interface Props {
   askToRecover: boolean;

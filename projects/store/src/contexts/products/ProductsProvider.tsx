@@ -3,7 +3,12 @@
 import React, { createContext, useContext, useState } from "react";
 import { ProductType } from "types/productTypes";
 
-const ProductsContext = createContext<ProductType[] | null>(null);
+interface ProductsContextType {
+  products: ProductType[] | null;
+  setProducts: (products: ProductType[]) => void;
+}
+
+const ProductsContext = createContext<ProductsContextType | null>(null);
 
 export const ProductsProvider = ({
   children,
@@ -17,10 +22,18 @@ export const ProductsProvider = ({
   );
 
   return (
-    <ProductsContext.Provider value={products}>
+    <ProductsContext.Provider value={{ products, setProducts }}>
       {children}
     </ProductsContext.Provider>
   );
 };
 
-export const useProducts = () => useContext(ProductsContext);
+export const useProducts = () => {
+  const context = useContext(ProductsContext);
+
+  if (!context) {
+    throw new Error("useProducts must be used within a ProductsProvider");
+  }
+
+  return context;
+};

@@ -3,17 +3,17 @@
 import Text from "@4miga/design-system/components/Text";
 import Button from "@4miga/design-system/components/button";
 import Input from "@4miga/design-system/components/input";
-import { useRouter } from "next/navigation";
-import { useEffect, useRef, useState } from "react";
-import PackageCard from "../../../public/cards/packageCard/card";
-import PaymentCard from "../../../public/cards/paymentCard/card";
 import { Theme } from "@4miga/design-system/theme/theme";
 import { useAuth } from "contexts/auth";
 import { useProducts } from "contexts/products/ProductsProvider";
+import { useRouter } from "next/navigation";
 import LoginModal from "public/components/loginModal";
+import { useEffect, useRef, useState } from "react";
 import { PackageType, ProductType } from "types/productTypes";
 import { formatString } from "utils/formatString";
 import { scrollToTop } from "utils/scrollToTopFunction";
+import PackageCard from "../../../public/cards/packageCard/card";
+import PaymentCard from "../../../public/cards/paymentCard/card";
 import InvisibleCards from "./invisivleCards";
 import { ProductContainer } from "./style";
 
@@ -23,7 +23,7 @@ type Props = {
 
 const ProductPage = ({ slug }: Props) => {
   const route = useRouter();
-  const products = useProducts();
+  const { products } = useProducts();
   const product = products.find(
     (product: ProductType) => formatString(product.name) === slug,
   );
