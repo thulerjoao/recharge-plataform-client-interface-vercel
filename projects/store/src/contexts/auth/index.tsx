@@ -95,7 +95,7 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
         });
 
         const refreshToken = response.data?.refreshToken;
-        const rememberMe = response.data?.rememberMe;
+        const rememberMe = localStorage.getItem("rememberMe") ? true : false;
         if (!refreshToken) {
           await axios.delete("/api/logout", {
             withCredentials: true,
@@ -149,7 +149,6 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
       phone: data.user.phone,
       documentType: data.user.documentType,
       documentValue: data.user.documentValue,
-      role: data.user.role,
     };
 
     try {
