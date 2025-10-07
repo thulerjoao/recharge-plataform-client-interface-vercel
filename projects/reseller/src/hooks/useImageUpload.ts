@@ -1,5 +1,5 @@
 import React, { useRef, useState } from "react";
-import { apiUrl } from "../utils/apiUrl";
+import { apiUrl } from "@4miga/services/connectionAPI/url";
 
 interface UseImageUploadOptions {
   endpoint: string;

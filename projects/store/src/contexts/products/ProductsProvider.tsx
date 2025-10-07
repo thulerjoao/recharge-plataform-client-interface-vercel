@@ -21,8 +21,6 @@ export const ProductsProvider = ({
     initialProducts,
   );
 
-  console.log("productsContext", products);
-
   return (
     <ProductsContext.Provider value={{ products, setProducts }}>
       {children}

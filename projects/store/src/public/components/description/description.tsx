@@ -24,8 +24,6 @@ const Description = () => {
     (item: ProductType) => formatString(item.name) === productName,
   );
 
-  console.log("product", product);
-
   return (
     <DescriptionContainer>
       <Image
