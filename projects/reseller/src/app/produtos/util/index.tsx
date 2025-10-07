@@ -10,15 +10,19 @@ import { ProductsPageContainer } from "./style";
 import { useRouter } from "next/navigation";
 import { formatString } from "utils/formatString";
 import { useProducts } from "context/products";
+import { useAuth } from "context/auth";
 
 const ProductsPage = () => {
   const { products } = useProducts();
+  const { user } = useAuth();
   const route = useRouter();
 
   const handleProductClick = (path: string) => {
     const res = formatString(path);
     route.push(`/produtos/${res}`);
   };
+
+  console.log("user", user);
 
   return (
     <ProductsPageContainer>

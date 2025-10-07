@@ -9,13 +9,13 @@ import {
   connectionAPIGet,
   connectionAPIPost,
 } from "@4miga/services/connectionAPI/connection";
+import { apiUrl } from "@4miga/services/connectionAPI/url";
 import { useRouter, useSearchParams } from "next/navigation";
 import DefaultHeader from "public/components/defaultHeader";
 import HeaderEnviroment from "public/components/headerEnviroment";
 import { useEffect, useState } from "react";
 import InputMask from "react-input-mask";
 import { InfluencerNameIdType } from "types/influencerType";
-import { apiUrl } from "utils/apiUrl";
 import { CreateCouponContainer } from "./style";
 
 interface CreateCouponData {

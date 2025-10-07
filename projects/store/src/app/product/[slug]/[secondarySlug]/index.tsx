@@ -19,7 +19,7 @@ type Props = {
 };
 
 const PaymentPage = ({ id, slug }: Props) => {
-  const products = useProducts();
+  const { products } = useProducts();
   const product = products.find(
     (item: ProductType) => formatString(item.name) === slug,
   );

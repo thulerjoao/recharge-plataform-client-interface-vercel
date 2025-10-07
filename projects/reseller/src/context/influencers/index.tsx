@@ -4,7 +4,7 @@
 import { connectionAPIGet } from "@4miga/services/connectionAPI/connection";
 import { createContext, ReactNode, useContext, useState } from "react";
 import { InfluencerResponseType } from "types/influencerType";
-import { apiUrl } from "utils/apiUrl";
+import { apiUrl } from "@4miga/services/connectionAPI/url";
 
 interface InfluencersProviderProps {
   children: ReactNode;
@@ -68,8 +68,6 @@ export const InfluencersProvider = ({ children }: InfluencersProviderProps) => {
         setLoadingInfluencers(false);
       });
   };
-
-  console.log("influencers", influencers);
 
   return (
     <InfluencersContext.Provider

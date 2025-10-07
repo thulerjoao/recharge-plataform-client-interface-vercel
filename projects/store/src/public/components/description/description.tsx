@@ -3,15 +3,15 @@
 import Text from "@4miga/design-system/components/Text";
 import { Theme } from "@4miga/design-system/theme/theme";
 import { useProducts } from "contexts/products/ProductsProvider";
+import Image from "next/image";
 import { usePathname } from "next/navigation";
 import { useState } from "react";
 import { ProductType } from "types/productTypes";
 import { formatString } from "utils/formatString";
 import { DescriptionContainer } from "./style";
-import Image from "next/image";
 
 const Description = () => {
-  const products = useProducts();
+  const { products } = useProducts();
   const [seeMore, setSeeMore] = useState<boolean>(false);
   const pathname = usePathname();
   const getProductname = () => {
@@ -27,7 +27,7 @@ const Description = () => {
   return (
     <DescriptionContainer>
       <Image
-        src={product.imgBannerUrl}
+        src={product.storeCustomization?.imgBannerUrl || product.imgBannerUrl}
         alt={`Imagem do pacote ${product.name}`}
         height={600}
         width={1000}

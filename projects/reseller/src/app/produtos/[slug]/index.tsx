@@ -14,11 +14,11 @@ import DefaultHeader from "public/components/defaultHeader";
 import HeaderEnviroment from "public/components/headerEnviroment";
 import { useEffect, useState } from "react";
 import { PackageType, ProductType } from "types/productTypes";
-import { apiUrl } from "utils/apiUrl";
+import { apiUrl } from "@4miga/services/connectionAPI/url";
 import CameraIcon from "../common/icons/CameraIcon.svg";
 import Pen from "../common/icons/Pen.svg";
-import { ProductsInnerPage } from "./style";
 import AddIcon from "./AddIcon.svg";
+import { ProductsInnerPage } from "./style";
 
 type Props = {
   slug: string;
@@ -30,7 +30,6 @@ const Productpage = ({ slug }: Props) => {
     useProducts();
   const { store } = useAuth();
 
-  // const [product, setProducts] = useState<ProductType>();
   const [description, setDescription] = useState<string>();
   const [instructions, setInstructions] = useState<string>();
   const [imgBannerUrl, setImgBannerUrl] = useState<string>();

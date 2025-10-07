@@ -2,15 +2,16 @@ import Button from "@4miga/design-system/components/button";
 import Text from "@4miga/design-system/components/Text";
 import { Theme } from "@4miga/design-system/theme/theme";
 import { connectionAPIPost } from "@4miga/services/connectionAPI/connection";
+import { apiUrl } from "@4miga/services/connectionAPI/url";
 import { useAuth } from "contexts/auth";
 import InputCode from "public/components/inputCode";
 import React, { useEffect, useState } from "react";
+import { io } from "socket.io-client";
 import { LoginResponse } from "types/loginTypes";
 import { UserType } from "types/userTypes";
-import { apiUrl, storeId } from "utils/apiUrl";
+import { storeId } from "utils/apiUrl";
 import { LoginSteps } from "../../types/types";
 import { ConfirmCodeContainer, ErrorMessage, SendCode } from "./style";
-import { io } from "socket.io-client";
 
 interface Props {
   askToRecover: boolean;

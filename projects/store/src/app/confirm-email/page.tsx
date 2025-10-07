@@ -5,7 +5,8 @@ import { useAuth } from "contexts/auth";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useEffect, useMemo } from "react";
 import { LoginResponse } from "types/loginTypes";
-import { apiUrl, storeId as defaultStoreId } from "utils/apiUrl";
+import { storeId as defaultStoreId } from "utils/apiUrl";
+import { apiUrl } from "@4miga/services/connectionAPI/url";
 
 const ConfirmEmailPage = () => {
   const route = useRouter();

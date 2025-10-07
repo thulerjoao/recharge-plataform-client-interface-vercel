@@ -14,9 +14,9 @@ import {
 
 import axios from "axios";
 
+import { apiUrl } from "@4miga/services/connectionAPI/url";
 import { LoginResponse } from "types/loginTypes";
 import { UserType } from "types/userTypes";
-import { apiUrl } from "utils/apiUrl";
 
 interface AuthProviderProps {
   children: ReactNode;
@@ -95,7 +95,7 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
         });
 
         const refreshToken = response.data?.refreshToken;
-        const rememberMe = response.data?.rememberMe;
+        const rememberMe = localStorage.getItem("rememberMe") ? true : false;
         if (!refreshToken) {
           await axios.delete("/api/logout", {
             withCredentials: true,

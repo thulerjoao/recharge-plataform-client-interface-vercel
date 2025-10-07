@@ -18,7 +18,7 @@ import HeaderEnviroment from "public/components/headerEnviroment";
 import { useEffect, useState } from "react";
 import InputMask from "react-input-mask";
 import { InfluencerType } from "types/influencerType";
-import { apiUrl } from "utils/apiUrl";
+import { apiUrl } from "@4miga/services/connectionAPI/url";
 import { formatDate } from "utils/formatDate";
 import { formatPrice } from "utils/formatPrice";
 

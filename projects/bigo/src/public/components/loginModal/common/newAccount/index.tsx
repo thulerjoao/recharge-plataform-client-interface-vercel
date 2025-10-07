@@ -3,12 +3,13 @@ import Input from "@4miga/design-system/components/input";
 import Text from "@4miga/design-system/components/Text";
 import { Theme } from "@4miga/design-system/theme/theme";
 import { connectionAPIPost } from "@4miga/services/connectionAPI/connection";
+import { apiUrl } from "@4miga/services/connectionAPI/url";
 import { zodResolver } from "@hookform/resolvers/zod";
 import React, { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import InputMask from "react-input-mask";
 import { UserType } from "types/userTypes";
-import { apiUrl } from "utils/apiUrl";
+import { storeId } from "utils/apiUrl";
 import CPFicon from "../../icons/CPFicon.svg";
 import Email from "../../icons/Email.svg";
 import EyeOff from "../../icons/EyeOff.svg";
@@ -19,7 +20,6 @@ import Phone from "../../icons/Phone.svg";
 import { LoginSteps } from "../../types/types";
 import { registerSchema, RegisterSchema } from "./schema";
 import { ErrorMessage, NewAccountContainer } from "./style";
-import { storeId } from "utils/apiUrl";
 
 interface Props {
   setNewUser: React.Dispatch<React.SetStateAction<UserType>>;

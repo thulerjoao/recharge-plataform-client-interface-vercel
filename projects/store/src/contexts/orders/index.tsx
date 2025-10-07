@@ -2,11 +2,10 @@
 "use client";
 
 import { connectionAPIGet } from "@4miga/services/connectionAPI/connection";
-import { useAuth } from "contexts/auth";
 import { createContext, ReactNode, useContext, useState } from "react";
 
-import { OrderResponseType, OrderType } from "types/orderType";
-import { apiUrl } from "utils/apiUrl";
+import { OrderResponseType } from "types/orderType";
+import { apiUrl } from "@4miga/services/connectionAPI/url";
 
 interface OrdersProviderProps {
   children: ReactNode;
@@ -26,14 +25,6 @@ const OrdersContext = createContext<OrdersProviderData>(
 export const OrdersProvider = ({ children }: OrdersProviderProps) => {
   const [loadingOrders, setLoadingOrders] = useState<boolean>(true);
   const [orders, setOrders] = useState<OrderResponseType>();
-  const { logged } = useAuth();
-
-  const parseCreatedAt = (createdAt: string): Date => {
-    const [datePart, timePart] = createdAt.split(" - ");
-    const [day, month, year] = datePart.split("/").map(Number);
-    const [hours, minutes] = timePart.split(":").map(Number);
-    return new Date(year, month - 1, day, hours, minutes);
-  };
 
   const getOrders = (page: number, limit: number) => {
     setLoadingOrders(true);

@@ -13,7 +13,7 @@ import InvisibleCards from "./invisivleCards";
 import { HomeContainer } from "./style";
 
 const Home = () => {
-  const products = useProducts();
+  const { products } = useProducts();
 
   return (
     <HomeContainer>

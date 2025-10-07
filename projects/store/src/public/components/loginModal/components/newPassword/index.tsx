@@ -1,17 +1,18 @@
 import Button from "@4miga/design-system/components/button";
 import Input from "@4miga/design-system/components/input";
 import Text from "@4miga/design-system/components/Text";
+import { Theme } from "@4miga/design-system/theme/theme";
 import { connectionAPIPost } from "@4miga/services/connectionAPI/connection";
+import { apiUrl } from "@4miga/services/connectionAPI/url";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useAuth } from "contexts/auth";
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
-import { apiUrl, storeId } from "utils/apiUrl";
+import { LoginResponse } from "types/loginTypes";
+import { storeId } from "utils/apiUrl";
 import Password from "../../icons/Password.svg";
 import { newPassSchema, NewPassSchema } from "./schema";
 import { ErrorMessage, NewPasswordContainer } from "./style";
-import { Theme } from "@4miga/design-system/theme/theme";
-import { LoginResponse } from "types/loginTypes";
 
 interface Props {
   closeModal: () => void;

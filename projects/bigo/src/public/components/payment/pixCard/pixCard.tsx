@@ -7,6 +7,7 @@ import {
   connectionAPIGet,
   connectionAPIPost,
 } from "@4miga/services/connectionAPI/connection";
+import { apiUrl } from "@4miga/services/connectionAPI/url";
 import { useAuth } from "contexts/auth";
 import { useRouter } from "next/navigation";
 import LoginModal from "public/components/loginModal";
@@ -15,7 +16,6 @@ import React, { useEffect, useState } from "react";
 import { StyleSheetManager } from "styled-components";
 import { OrderType } from "types/orderType";
 import { PixPaymentResponse } from "types/paymentType";
-import { apiUrl } from "utils/apiUrl";
 import { formatPrice } from "utils/formatPrice";
 import { BottomElement, PixCardContainer } from "./style";
 

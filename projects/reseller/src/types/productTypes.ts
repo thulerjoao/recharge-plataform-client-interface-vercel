@@ -16,8 +16,8 @@ export type PackageType = {
   imgCardUrl: string;
   isActive: boolean;
   isOffer: boolean;
-  basePrice: string;
-  storeId: string;
+  basePrice: number;
+  productId: string;
   paymentMethods: PaymentMethodsType[];
 };
 

@@ -1,11 +1,12 @@
 "use client";
 
 import { connectionAPIPost } from "@4miga/services/connectionAPI/connection";
+import { apiUrl } from "@4miga/services/connectionAPI/url";
 import { useAuth } from "contexts/auth";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useEffect, useMemo } from "react";
 import { LoginResponse } from "types/loginTypes";
-import { apiUrl, storeId as defaultStoreId } from "utils/apiUrl";
+import { storeId as defaultStoreId } from "utils/apiUrl";
 
 const ConfirmEmailPage = () => {
   const route = useRouter();

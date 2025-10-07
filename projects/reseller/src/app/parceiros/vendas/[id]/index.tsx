@@ -9,7 +9,7 @@ import HeaderEnviroment from "public/components/headerEnviroment";
 import Pagination from "public/components/pagination";
 import { useEffect, useState } from "react";
 import { MonthlySalesPaginationType } from "types/influencerType";
-import { apiUrl } from "utils/apiUrl";
+import { apiUrl } from "@4miga/services/connectionAPI/url";
 import { formatPrice } from "utils/formatPrice";
 import { InfluencerSalesContainer } from "./style";
 

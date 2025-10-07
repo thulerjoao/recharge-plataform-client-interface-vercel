@@ -3,8 +3,12 @@ import Input from "@4miga/design-system/components/input";
 import OnOff from "@4miga/design-system/components/onOff";
 import Text from "@4miga/design-system/components/Text";
 import { Theme } from "@4miga/design-system/theme/theme";
-import { connectionAPIGet } from "@4miga/services/connectionAPI/connection";
-import LoadingPage from "app/loading";
+import {
+  connectionAPIDelete,
+  connectionAPIGet,
+  connectionAPIPatch,
+  connectionAPIPost,
+} from "@4miga/services/connectionAPI/connection";
 import { useAuth } from "context/auth";
 import { useProducts } from "context/products";
 import { useImageUpload } from "hooks/useImageUpload";
@@ -14,7 +18,7 @@ import DefaultHeader from "public/components/defaultHeader";
 import HeaderEnviroment from "public/components/headerEnviroment";
 import { useEffect, useState } from "react";
 import { PackageType, ProductType } from "types/productTypes";
-import { apiUrl } from "utils/apiUrl";
+import { apiUrl } from "@4miga/services/connectionAPI/url";
 import { formatNumber } from "utils/formatNumber";
 import {
   PackageFormErrors,
@@ -48,29 +52,148 @@ const SecondaryProductPage = ({ slug, childSlug }: Props) => {
   const [updateAllPackages, setUpdateAllPackages] = useState<boolean>(false);
   const { store } = useAuth();
 
-  // Dados padrão para novo pacote
   const getDefaultPackageData = (): PackageType => ({
-    id: "temp-new-package",
     name: "",
     amountCredits: null,
-    basePrice: null,
+    imgCardUrl:
+      productPackages?.packages[0].imgCardUrl || productPackages?.imgCardUrl,
     isActive: true,
     isOffer: false,
-    imgCardUrl: products.find((product: ProductType) => product.id === slug)
-      .packages[0].imgCardUrl,
-    storeId: store.id,
+    basePrice: null,
+    productId: slug,
     paymentMethods: [
       {
         name: "pix",
-        price: 0,
+        price: null,
       },
     ],
   });
 
+  const prepareDataForApi = () => {
+    return {
+      ...editData,
+      basePrice: parseFloat(editData?.basePrice?.toString()) || 0,
+      paymentMethods:
+        editData?.paymentMethods?.map((method, index) =>
+          index === 0
+            ? {
+                ...method,
+                price: parseFloat(method.price.toString()) || 0,
+              }
+            : method,
+        ) || [],
+    };
+  };
+
+  const handleEdit = () => {
+    setIsEditing(true);
+    setErrors({});
+  };
+
+  const handleDelete = () => {
+    setLoading(true);
+    confirm(`Deseja excluir o pacote ${packageData?.name}?`)
+      ? connectionAPIDelete(`/package/${packageData?.id}`, apiUrl)
+          .then(() => {
+            fetchProducts(store.id);
+            router.back();
+          })
+          .catch((err) => {
+            console.error(err);
+            alert("Erro ao excluir pacote");
+          })
+          .finally(() => {
+            setLoading(false);
+          })
+      : setLoading(false);
+  };
+
+  const handleCancel = () => {
+    setLoading(true);
+    imageUpload.clearSelection();
+    setErrors({});
+    if (isCreatingNewPackage) {
+      router.back();
+    } else {
+      setIsEditing(false);
+      setEditData(packageData);
+      setUpdateAllPackages(false);
+    }
+    setLoading(false);
+  };
+
+  const validateForm = () => {
+    const { isValid, errors: validationErrors } = validatePackageForm({
+      name: editData?.name,
+      amountCredits: editData?.amountCredits,
+      basePrice: editData?.basePrice?.toString(),
+      profitMargin: editData?.paymentMethods?.[0]?.price,
+    });
+
+    if (!isValid) {
+      setErrors(validationErrors);
+      setLoading(false);
+      return false;
+    }
+    return true;
+  };
+
+  const handleInputChange = (
+    field: string,
+    value: string | number | boolean,
+  ) => {
+    if (field === "profitMargin") {
+      setEditData((prev) => ({
+        ...prev,
+        paymentMethods:
+          prev?.paymentMethods?.map((method, index) =>
+            index === 0
+              ? { ...method, price: value === "" ? 0 : (value as number) }
+              : method,
+          ) || [],
+      }));
+    } else if (field === "paymentMethods[0].price") {
+      const numericValue = value === "" ? 0 : (value as number);
+      setEditData((prev) => ({
+        ...prev,
+        basePrice: numericValue,
+        paymentMethods:
+          prev?.paymentMethods?.map((method, index) =>
+            index === 0 ? { ...method, price: numericValue } : method,
+          ) || [],
+      }));
+    } else {
+      setEditData((prev) => ({ ...prev, [field]: value }));
+    }
+    if (field === "paymentMethods[0].price" && errors.basePrice) {
+      setErrors((prev) => ({ ...prev, basePrice: undefined }));
+    } else if (errors[field as keyof PackageFormErrors]) {
+      setErrors((prev) => ({ ...prev, [field]: undefined }));
+    }
+  };
+
+  const handleIndex = (param: PackageType[], id: string) => {
+    setIndex(param.findIndex((packag: PackageType) => packag.id === id));
+  };
+
+  const handleNextPackage = () => {
+    handleCancel();
+    setIndex(index + 1);
+    const newPackage = productPackages?.packages[index + 1];
+    setEditData(newPackage);
+    setPackageData(newPackage);
+  };
+
+  const handlePreviousPackage = () => {
+    handleCancel();
+    setIndex(index - 1);
+    const newPackage = productPackages?.packages[index - 1];
+    setEditData(newPackage);
+    setPackageData(newPackage);
+  };
+
   const imageUpload = useImageUpload({
-    endpoint: isCreatingNewPackage
-      ? `/product/${slug}/packages/temp/images/card`
-      : `/package/${packageData?.id}/images/card?updateAllPackages=${updateAllPackages}`,
+    endpoint: `/package/${packageData?.id}/images/card?updateAllPackages=${updateAllPackages}`,
     onSuccess: (url) => {
       setEditData((prev) => ({ ...prev, imgCardUrl: url }));
       if (!isCreatingNewPackage) {
@@ -80,7 +203,7 @@ const SecondaryProductPage = ({ slug, childSlug }: Props) => {
     },
     onError: (error) => {
       console.error("Card upload error:", error);
-      alert("Error uploading card image. Please try again.");
+      alert("Erro ao fazer upload da imagem do card. Tente novamente.");
       if (!isCreatingNewPackage) {
         setUpdateAllPackages(false);
       }
@@ -104,115 +227,91 @@ const SecondaryProductPage = ({ slug, childSlug }: Props) => {
     }
   };
 
-  const handleEdit = () => {
-    setIsEditing(true);
-    setErrors({});
-  };
-
-  const handleCancel = () => {
-    imageUpload.clearSelection();
-    setErrors({});
-    if (isCreatingNewPackage) {
-      // No modo de criação, voltar para a página anterior
-      router.back();
-    } else {
-      // No modo de edição, voltar aos dados originais
-      setIsEditing(false);
-      setEditData(packageData);
-      setUpdateAllPackages(false);
-    }
-  };
-
-  const handleSave = () => {
-    // Validação para ambos os casos (criação e edição)
-    const { isValid, errors: validationErrors } = validatePackageForm({
-      name: editData?.name,
-      amountCredits: editData?.amountCredits,
-      basePrice: editData?.basePrice,
-      profitMargin: editData?.paymentMethods?.[0]?.price,
-    });
-
-    if (!isValid) {
-      setErrors(validationErrors);
+  const handleCreate = async () => {
+    setLoading(true);
+    if (!validateForm()) {
+      setLoading(false);
       return;
     }
 
-    if (isCreatingNewPackage) {
-      // Lógica para criação de novo pacote
-      // Aqui você pode implementar a chamada para a API de criação
-      // Por exemplo: connectionAPIPost(`/product/${slug}/packages`, editData, apiUrl)
-      console.log("Criando novo pacote:", editData);
-      alert("Novo pacote criado com sucesso!");
-      router.back();
-    } else {
-      // Lógica para edição de pacote existente
-      if (packageData === editData) {
-        handleCancel();
-        return;
+    const dataToSend = prepareDataForApi();
+
+    try {
+      const res = await connectionAPIPost<PackageType>(
+        `/package`,
+        dataToSend,
+        apiUrl,
+      );
+      if (imageUpload.hasChanges) {
+        try {
+          await imageUpload.handleSaveTo(`/package/${res.id}/images/card`);
+          alert("Novo pacote criado com sucesso!");
+        } catch (e) {
+          alert("Card criado com imagem padrão.\tAtualize manualmente.");
+        }
+        fetchProducts(store.id);
+        router.back();
+      } else {
+        alert("Novo pacote criado com sucesso!");
+        fetchProducts(store.id);
+        router.back();
       }
-      setIsEditing(false);
-      // setconfirmModal(true);
+    } catch (err) {
+      alert("Erro ao criar novo pacote");
+      console.error(err);
+    } finally {
+      setLoading(false);
     }
   };
 
-  const handleInputChange = (
-    field: string,
-    value: string | number | boolean,
-  ) => {
-    if (field === "profitMargin") {
-      setEditData((prev) => ({
-        ...prev,
-        paymentMethods:
-          prev?.paymentMethods?.map((method, index) =>
-            index === 0
-              ? { ...method, price: value === "" ? 0 : (value as number) }
-              : method,
-          ) || [],
-      }));
-    } else {
-      setEditData((prev) => ({ ...prev, [field]: value }));
+  const handleUpdate = () => {
+    setLoading(true);
+    if (!validateForm()) return;
+    const dataToSend = prepareDataForApi();
+    const hasChanges = Object.keys(dataToSend).some((key) => {
+      const dataValue = dataToSend[key];
+      const packageValue = packageData?.[key];
+      const isDifferent =
+        JSON.stringify(dataValue) !== JSON.stringify(packageValue);
+
+      if (isDifferent) {
+        console.log(`Diferença encontrada em ${key}:`, {
+          dataToSend: dataValue,
+          packageData: packageValue,
+        });
+      }
+
+      return isDifferent;
+    });
+
+    console.log("hasChanges", hasChanges);
+
+    if (!hasChanges) {
+      handleCancel();
+      return;
     }
-    if (errors[field as keyof PackageFormErrors]) {
-      setErrors((prev) => ({ ...prev, [field]: undefined }));
+
+    connectionAPIPatch(`/package/${packageData?.id}`, dataToSend, apiUrl)
+      .then((res) => {
+        alert("Pacote atualizado com sucesso!");
+        fetchProducts(store.id);
+        router.back();
+      })
+      .catch((err) => {
+        alert("Erro ao atualizar pacote");
+        handleCancel();
+        console.error(err);
+      })
+      .finally(() => {
+        setLoading(false);
+      });
+
+    if (packageData === editData) {
+      handleCancel();
+      return;
     }
-  };
-
-  const calculateValues = () => {
-    const totalCost =
-      +editData?.basePrice +
-      (+editData?.basePrice * editData?.paymentMethods[0].price) / 100;
-    const profitValue =
-      (totalCost * (editData?.paymentMethods[0].price - +editData?.basePrice)) /
-      100;
-    const sellValue = totalCost + profitValue;
-
-    return {
-      totalCost,
-      profitValue,
-      sellValue,
-    };
-  };
-
-  const values = calculateValues();
-
-  const handleIndex = (param: PackageType[], id: string) => {
-    setIndex(param.findIndex((packag: PackageType) => packag.id === id));
-  };
-
-  const handleNextPackage = () => {
-    handleCancel();
-    setIndex(index + 1);
-    const newPackage = productPackages?.packages[index + 1];
-    setEditData(newPackage);
-    setPackageData(newPackage);
-  };
-
-  const handlePreviousPackage = () => {
-    handleCancel();
-    setIndex(index - 1);
-    const newPackage = productPackages?.packages[index - 1];
-    setEditData(newPackage);
-    setPackageData(newPackage);
+    setIsEditing(false);
+    setLoading(false);
   };
 
   useEffect(() => {
@@ -251,13 +350,8 @@ const SecondaryProductPage = ({ slug, childSlug }: Props) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [products, childSlug, isCreatingNewPackage]);
 
-  if (loading) {
-    return <LoadingPage />;
-  }
-
   return (
     <ConfigPackagePage>
-      {/* {confirmModal && <ConfirmModal setconfirmModal={setconfirmModal} />} */}
       <div className="desktop">
         <HeaderEnviroment>
           <DefaultHeader
@@ -358,7 +452,7 @@ const SecondaryProductPage = ({ slug, childSlug }: Props) => {
                 )}
               </div>
               <Button
-                loading={loadingImage}
+                loading={loadingImage || loading}
                 leftElement={
                   (!imageUpload.previewUrl || isCreatingNewPackage) && (
                     <CameraIcon />
@@ -531,7 +625,7 @@ const SecondaryProductPage = ({ slug, childSlug }: Props) => {
                         handleInputChange("isActive", !editData?.isActive)
                       }
                     >
-                      <OnOff onOff={editData?.isActive} />
+                      <OnOff onOff={editData?.isActive ?? true} />
                     </span>
                   </div>
                 ) : (
@@ -563,14 +657,12 @@ const SecondaryProductPage = ({ slug, childSlug }: Props) => {
                 </Text>
                 {isEditing ? (
                   <Input
-                    value={`R$ ${editData?.basePrice || ""}`}
+                    value={`R$ ${editData?.paymentMethods[0]?.price || ""}`}
                     onChange={(e) => {
                       const value = e.target.value;
                       const cleanValue = value.replace(/[^0-9.,]/g, "");
                       const dotCount = (cleanValue.match(/\./g) || []).length;
                       const commaCount = (cleanValue.match(/,/g) || []).length;
-
-                      // Permite apenas um separador decimal (ponto ou vírgula)
                       if (
                         dotCount <= 1 &&
                         commaCount <= 1 &&
@@ -588,7 +680,10 @@ const SecondaryProductPage = ({ slug, childSlug }: Props) => {
                           normalizedValue = `${integer}.${limitedDecimal}`;
                         }
 
-                        handleInputChange("basePrice", normalizedValue);
+                        handleInputChange(
+                          "paymentMethods[0].price",
+                          normalizedValue,
+                        );
                       }
                     }}
                     placeholder="Custo base (ex: 10,50 ou 10.50)"
@@ -614,7 +709,7 @@ const SecondaryProductPage = ({ slug, childSlug }: Props) => {
                   Margem de lucro:
                 </Text>
                 <Text margin="4px 0 0 4px" fontName="REGULAR_MEDIUM">
-                  {editData?.paymentMethods?.[0]?.price} %
+                  %
                 </Text>
                 {/* {isEditing ? (
                   <Input
@@ -655,7 +750,7 @@ const SecondaryProductPage = ({ slug, childSlug }: Props) => {
               </Text>
             </div>
             <div className="paymentMethodsSection">
-              <PixConfiguration tax={1} totalCost={values.totalCost} />
+              <PixConfiguration tax={1} totalCost={editData?.basePrice} />
             </div>
 
             <div className="actionsSection">
@@ -667,23 +762,42 @@ const SecondaryProductPage = ({ slug, childSlug }: Props) => {
                     width={120}
                     height={36}
                     rounded
+                    loading={loading}
                   />
                   <Button
                     title={isCreatingNewPackage ? "CRIAR" : "SALVAR"}
-                    onClick={handleSave}
+                    onClick={() => {
+                      if (isCreatingNewPackage) {
+                        handleCreate();
+                      } else {
+                        handleUpdate();
+                      }
+                    }}
                     width={120}
                     height={36}
                     rounded
+                    loading={loading}
                   />
                 </>
               ) : (
-                <Button
-                  title="EDITAR"
-                  onClick={handleEdit}
-                  width={120}
-                  height={36}
-                  rounded
-                />
+                <>
+                  <Button
+                    title="EDITAR"
+                    onClick={handleEdit}
+                    width={120}
+                    height={36}
+                    rounded
+                    loading={loading}
+                  />
+                  <Button
+                    title="EXCLUIR"
+                    onClick={handleDelete}
+                    width={120}
+                    height={36}
+                    rounded
+                    loading={loading}
+                  />
+                </>
               )}
             </div>
           </div>
