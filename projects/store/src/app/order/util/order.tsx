@@ -12,7 +12,7 @@ import BackArrow from "public/icons/BackArrow.svg";
 import { useEffect, useState } from "react";
 import { OrderType } from "types/orderType";
 import { PackageType } from "types/productTypes";
-import { apiUrl } from "utils/apiUrl";
+import { apiUrl } from "@4miga/services/connectionAPI/url";
 import { formatDate } from "utils/formatDate";
 import { formatPrice } from "utils/formatPrice";
 import { formatString } from "utils/formatString";

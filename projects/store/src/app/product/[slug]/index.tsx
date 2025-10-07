@@ -36,6 +36,8 @@ const ProductPage = ({ slug }: Props) => {
   const [userId, setUserId] = useState<string>("");
   const { logged } = useAuth();
 
+  console.log("product", products);
+
   useEffect(() => {
     if (logged && clicked) handleOnClick();
     // eslint-disable-next-line react-hooks/exhaustive-deps

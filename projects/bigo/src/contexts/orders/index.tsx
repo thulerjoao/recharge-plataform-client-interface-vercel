@@ -4,9 +4,8 @@
 import { connectionAPIGet } from "@4miga/services/connectionAPI/connection";
 import { useAuth } from "contexts/auth";
 import { createContext, ReactNode, useContext, useState } from "react";
-
-import { OrderResponseType, OrderType } from "types/orderType";
-import { apiUrl } from "utils/apiUrl";
+import { apiUrl } from "@4miga/services/connectionAPI/url";
+import { OrderResponseType } from "types/orderType";
 
 interface OrdersProviderProps {
   children: ReactNode;

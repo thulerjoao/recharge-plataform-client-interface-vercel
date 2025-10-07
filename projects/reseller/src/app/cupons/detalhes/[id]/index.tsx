@@ -11,13 +11,13 @@ import {
   connectionAPIGet,
   connectionAPIPatch,
 } from "@4miga/services/connectionAPI/connection";
+import { apiUrl } from "@4miga/services/connectionAPI/url";
 import { useRouter } from "next/navigation";
 import DefaultHeader from "public/components/defaultHeader";
 import HeaderEnviroment from "public/components/headerEnviroment";
 import { useEffect, useState } from "react";
 import InputMask from "react-input-mask";
 import { CouponType } from "types/couponType";
-import { apiUrl } from "utils/apiUrl";
 import { FormErrors, validateCouponForm } from "utils/couponValidation";
 import { formatDate } from "utils/formatDate";
 import { formatPrice } from "utils/formatPrice";

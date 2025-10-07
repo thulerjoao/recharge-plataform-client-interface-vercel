@@ -20,7 +20,7 @@ const GameCard = ({ product }: CardProps) => {
   return (
     <CardContainer onClick={() => handleProductClick(product.name)}>
       <Image
-        src={product.imgCardUrl}
+        src={product.storeCustomization?.imgCardUrl || product.imgCardUrl}
         alt={`Imagem do jogo ${product.name}`}
         height={200}
         width={200}

@@ -24,10 +24,12 @@ const Description = () => {
     (item: ProductType) => formatString(item.name) === productName,
   );
 
+  console.log("product", product);
+
   return (
     <DescriptionContainer>
       <Image
-        src={product.imgBannerUrl}
+        src={product.storeCustomization?.imgBannerUrl || product.imgBannerUrl}
         alt={`Imagem do pacote ${product.name}`}
         height={600}
         width={1000}

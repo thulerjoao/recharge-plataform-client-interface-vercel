@@ -14,7 +14,7 @@ import DefaultHeader from "public/components/defaultHeader";
 import HeaderEnviroment from "public/components/headerEnviroment";
 import { useEffect, useState } from "react";
 import { PackageType, ProductType } from "types/productTypes";
-import { apiUrl } from "utils/apiUrl";
+import { apiUrl } from "@4miga/services/connectionAPI/url";
 import CameraIcon from "../common/icons/CameraIcon.svg";
 import Pen from "../common/icons/Pen.svg";
 import AddIcon from "./AddIcon.svg";

@@ -1,6 +1,6 @@
-import * as apiClient from "./connection";
 import ConnectionAPI from "./Axios/axiosConnection";
 import { MethodEnum } from "./Axios/methodEnum";
+import * as apiClient from "./connection";
 
 // Mock da função connect
 jest.mock("./Axios/axiosConnection", () => ({

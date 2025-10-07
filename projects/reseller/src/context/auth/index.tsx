@@ -19,7 +19,7 @@ import { LoginResponse } from "types/loginTypes";
 import { ProductType } from "types/productTypes";
 import { StoreType, UserType } from "types/userTypes";
 
-import { apiUrl } from "utils/apiUrl";
+import { apiUrl } from "@4miga/services/connectionAPI/url";
 
 interface AuthProviderProps {
   children: ReactNode;

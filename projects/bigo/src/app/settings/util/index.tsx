@@ -1,19 +1,19 @@
 "use client";
 
 import Button from "@4miga/design-system/components/button";
-import Text from "@4miga/design-system/components/Text";
 import Input from "@4miga/design-system/components/input";
+import Text from "@4miga/design-system/components/Text";
 import {
   connectionAPIPatch,
   connectionAPIPost,
 } from "@4miga/services/connectionAPI/connection";
+import { apiUrl } from "@4miga/services/connectionAPI/url";
 import { useAuth } from "contexts/auth";
 import React, { useEffect, useState } from "react";
 import InputMask from "react-input-mask";
-import { apiUrl } from "utils/apiUrl";
-import { SettingsContainer } from "./style";
 import EyeOff from "../../../public/icons/EyeOff.svg";
 import EyeOn from "../../../public/icons/EyeOn.svg";
+import { SettingsContainer } from "./style";
 
 interface FormData {
   name: string;

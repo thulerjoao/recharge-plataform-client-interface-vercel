@@ -1,5 +1,6 @@
+import { apiUrl } from "@4miga/services/connectionAPI/url";
 import { ProductType } from "types/productTypes";
-import { apiUrl, storeId } from "utils/apiUrl";
+import { storeId } from "utils/apiUrl";
 
 export const revalidate = 0;
 
@@ -30,7 +31,7 @@ export async function GET() {
 }
 
 // import { ProductType } from "types/productTypes";
-// import { apiUrl } from "utils/apiUrl";
+// import { apiUrl } from "@4miga/services/connectionAPI/url";
 
 // export const revalidate = 86400;
 

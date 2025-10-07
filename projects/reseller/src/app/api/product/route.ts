@@ -1,5 +1,5 @@
+import { apiUrl } from "@4miga/services/connectionAPI/url";
 import { ProductType } from "types/productTypes";
-import { apiUrl } from "utils/apiUrl";
 
 export const revalidate = 86400;
 

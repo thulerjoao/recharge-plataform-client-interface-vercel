@@ -10,7 +10,7 @@ import HeaderEnviroment from "public/components/headerEnviroment";
 import Pagination from "public/components/pagination";
 import { useEffect, useState } from "react";
 import { CouponResponseType } from "types/couponType";
-import { apiUrl } from "utils/apiUrl";
+import { apiUrl } from "@4miga/services/connectionAPI/url";
 import { CouponSalesContainer } from "./style";
 import Button from "@4miga/design-system/components/button";
 

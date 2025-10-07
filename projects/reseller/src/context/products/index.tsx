@@ -4,7 +4,7 @@
 import { connectionAPIGet } from "@4miga/services/connectionAPI/connection";
 import { createContext, ReactNode, useContext, useState } from "react";
 import { ProductType } from "types/productTypes";
-import { apiUrl } from "utils/apiUrl";
+import { apiUrl } from "@4miga/services/connectionAPI/url";
 
 interface ProductsProviderProps {
   children: ReactNode;

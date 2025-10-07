@@ -1,3 +1,4 @@
+import { apiUrl } from "../url";
 import Api from "./axiosInstace";
 import { MethodEnum } from "./methodEnum";
 
@@ -10,8 +11,8 @@ export default class ConnectionAPI {
     body?: unknown,
     baseUrl?: string,
   ): Promise<T> {
-    // const apiInstance = Api(baseUrl);
-    const apiInstance = await Api(baseUrl);
+    const currentBaseUrl = baseUrl ? baseUrl : apiUrl;
+    const apiInstance = await Api(currentBaseUrl);
     switch (method) {
       case MethodEnum.DELETE:
       case MethodEnum.GET:
@@ -32,17 +33,9 @@ export default class ConnectionAPI {
   ): Promise<T> {
     return this.call<T>(url, method, body, baseUrl).catch((error) => {
       if (error.response) {
-        // switch (error.response.status) {
-        //   case 401:
-        //   case 403:
-        //     throw new Error("Acesso negado");
-
-        //   default:
-        //     throw error;
-        //   }
         throw error;
       }
-      throw new Error("Falha na comunicação com o servidor");
+      throw new Error("Server communication failed");
     });
   }
 }

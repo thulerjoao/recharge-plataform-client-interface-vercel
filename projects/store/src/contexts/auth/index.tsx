@@ -16,7 +16,7 @@ import axios from "axios";
 
 import { LoginResponse } from "types/loginTypes";
 import { UserType } from "types/userTypes";
-import { apiUrl } from "utils/apiUrl";
+import { apiUrl } from "@4miga/services/connectionAPI/url";
 
 interface AuthProviderProps {
   children: ReactNode;

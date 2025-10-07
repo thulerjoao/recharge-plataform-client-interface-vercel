@@ -8,7 +8,7 @@ import React, { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import InputMask from "react-input-mask";
 import { UserType } from "types/userTypes";
-import { apiUrl } from "utils/apiUrl";
+import { apiUrl } from "@4miga/services/connectionAPI/url";
 import CPFicon from "../../icons/CPFicon.svg";
 import Email from "../../icons/Email.svg";
 import EyeOff from "../../icons/EyeOff.svg";

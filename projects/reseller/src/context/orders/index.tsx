@@ -6,7 +6,7 @@ import { useAuth } from "context/auth";
 import { createContext, ReactNode, useContext, useState } from "react";
 
 import { OrderType } from "types/orderType";
-import { apiUrl } from "utils/apiUrl";
+import { apiUrl } from "@4miga/services/connectionAPI/url";
 
 interface OrdersProviderProps {
   children: ReactNode;

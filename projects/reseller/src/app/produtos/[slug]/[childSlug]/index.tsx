@@ -18,7 +18,7 @@ import DefaultHeader from "public/components/defaultHeader";
 import HeaderEnviroment from "public/components/headerEnviroment";
 import { useEffect, useState } from "react";
 import { PackageType, ProductType } from "types/productTypes";
-import { apiUrl } from "utils/apiUrl";
+import { apiUrl } from "@4miga/services/connectionAPI/url";
 import { formatNumber } from "utils/formatNumber";
 import {
   PackageFormErrors,

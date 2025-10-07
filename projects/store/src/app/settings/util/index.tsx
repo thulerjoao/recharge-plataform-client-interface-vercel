@@ -10,7 +10,7 @@ import {
 import { useAuth } from "contexts/auth";
 import React, { useEffect, useState } from "react";
 import InputMask from "react-input-mask";
-import { apiUrl } from "utils/apiUrl";
+import { apiUrl } from "@4miga/services/connectionAPI/url";
 import { SettingsContainer } from "./style";
 import EyeOff from "../../../public/icons/EyeOff.svg";
 import EyeOn from "../../../public/icons/EyeOn.svg";

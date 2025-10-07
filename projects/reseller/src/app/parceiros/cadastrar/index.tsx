@@ -11,7 +11,7 @@ import DefaultHeader from "public/components/defaultHeader";
 import HeaderEnviroment from "public/components/headerEnviroment";
 import { useState } from "react";
 import InputMask from "react-input-mask";
-import { apiUrl } from "utils/apiUrl";
+import { apiUrl } from "@4miga/services/connectionAPI/url";
 import { PixKeyInput } from "../../../public/components/PixKeyInput";
 import {
   FormErrors,

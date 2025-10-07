@@ -13,7 +13,7 @@ import React, { useEffect, useState } from "react";
 import { StyleSheetManager } from "styled-components";
 import { OrderType } from "types/orderType";
 import { PixPaymentResponse } from "types/paymentType";
-import { apiUrl } from "utils/apiUrl";
+import { apiUrl } from "@4miga/services/connectionAPI/url";
 import { formatPrice } from "utils/formatPrice";
 import Pix from "public/icons/Pix.svg";
 import { BottomElement, PixCardContainer } from "./style";
