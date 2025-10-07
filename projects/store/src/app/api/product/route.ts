@@ -3,11 +3,11 @@ import { apiUrl } from "@4miga/services/connectionAPI/url";
 import { ProductType } from "types/productTypes";
 import { storeId } from "utils/apiUrl";
 
-export const revalidate = 10; // 1 hours
+export const revalidate = 3600; // Revalidate every hour
 
 export async function GET() {
   try {
-    const res = await fetch(`${apiUrl}/product/packages?storeid=${storeId}`, {
+    const res = await fetch(`${apiUrl}/product/packages?storeId=${storeId}`, {
       next: { revalidate, tags: ["products"] },
     });
 

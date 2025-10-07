@@ -2,9 +2,10 @@ import { revalidateTag } from "next/cache";
 
 export async function POST(request: Request) {
   try {
-    // Optional: simple bearer token auth for webhook calls
+    // Autenticação
     const authHeader = request.headers.get("authorization");
     const expectedToken = process.env.REVALIDATE_TOKEN;
+
     if (expectedToken) {
       const provided = authHeader?.replace("Bearer ", "");
       if (!provided || provided !== expectedToken) {
@@ -12,11 +13,18 @@ export async function POST(request: Request) {
       }
     }
 
+    // Ler dados do webhook para logging (opcional mas útil)
+    const body = await request.json();
+    console.log("📬 Revalidating products cache:", body);
+
+    // Invalidar cache
     revalidateTag("products");
 
     return Response.json({
       revalidated: true,
       tag: "products",
+      receivedData: body, // Útil para debug
+      timestamp: new Date().toISOString(),
     });
   } catch (error) {
     console.error("Error revalidating products tag:", error);
