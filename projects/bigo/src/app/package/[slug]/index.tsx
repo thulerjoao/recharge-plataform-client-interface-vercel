@@ -15,8 +15,7 @@ type Props = {
 };
 
 const PaymentPage = ({ slug }: Props) => {
-  const products = useProducts();
-  const product = products[0];
+  const { product } = useProducts();
   const initialUserId = sessionStorage.getItem("userId");
   const [blockId, setBlockId] = useState<boolean>(false);
 

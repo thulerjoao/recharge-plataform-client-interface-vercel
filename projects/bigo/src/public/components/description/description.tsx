@@ -9,21 +9,10 @@ import { DescriptionContainer } from "./style";
 import Image from "next/image";
 
 const Description = () => {
-  const products = useProducts();
+  const { product } = useProducts();
   const [seeMore, setSeeMore] = useState<boolean>(false);
   // const [isImageValid, setIsImageValid] = useState<boolean>(false);
   const pathname = usePathname();
-
-  const product = products[0];
-
-  // useEffect(() => {
-  //   const checkImage = async () => {
-  //     const valid = await checkImageUrl(product.imgBannerUrl);
-  //     setIsImageValid(valid);
-  //   };
-
-  //   checkImage();
-  // }, [product]);
 
   return (
     <DescriptionContainer>
