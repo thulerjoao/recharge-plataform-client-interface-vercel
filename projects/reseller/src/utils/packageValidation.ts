@@ -5,6 +5,12 @@ export interface PackageFormErrors {
   profitMargin?: string;
 }
 
+const formatNumber = (value: number): string => {
+  return new Intl.NumberFormat("pt-BR", {
+    style: "decimal",
+  }).format(value);
+};
+
 export const validatePackageForm = (formData: {
   name?: string;
   amountCredits?: number;
@@ -18,6 +24,17 @@ export const validatePackageForm = (formData: {
     newErrors.name = "Nome do pacote é obrigatório";
   } else if (formData.name.length > 70) {
     newErrors.name = "Nome deve ter no máximo 70 caracteres";
+  } else if (formData.amountCredits) {
+    // Validação: nome deve conter a quantidade de créditos
+    const creditsStr = formData.amountCredits.toString();
+    const creditsFormatted = formatNumber(formData.amountCredits);
+    const nameContainsCredits =
+      formData.name.includes(creditsStr) ||
+      formData.name.includes(creditsFormatted);
+
+    if (!nameContainsCredits) {
+      newErrors.name = `O nome deve conter a quantidade de créditos (${creditsStr} ou ${creditsFormatted})`;
+    }
   }
 
   // Validação da quantidade de créditos

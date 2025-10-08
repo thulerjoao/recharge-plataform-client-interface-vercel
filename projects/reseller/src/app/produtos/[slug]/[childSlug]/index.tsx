@@ -9,6 +9,7 @@ import {
   connectionAPIPatch,
   connectionAPIPost,
 } from "@4miga/services/connectionAPI/connection";
+import { apiUrl } from "@4miga/services/connectionAPI/url";
 import { useAuth } from "context/auth";
 import { useProducts } from "context/products";
 import { useImageUpload } from "hooks/useImageUpload";
@@ -18,7 +19,6 @@ import DefaultHeader from "public/components/defaultHeader";
 import HeaderEnviroment from "public/components/headerEnviroment";
 import { useEffect, useState } from "react";
 import { PackageType, ProductType } from "types/productTypes";
-import { apiUrl } from "@4miga/services/connectionAPI/url";
 import { formatNumber } from "utils/formatNumber";
 import {
   PackageFormErrors,
@@ -283,24 +283,19 @@ const SecondaryProductPage = ({ slug, childSlug }: Props) => {
 
       return isDifferent;
     });
-
-    console.log("hasChanges", hasChanges);
-
     if (!hasChanges) {
       handleCancel();
       return;
     }
-
+    const confirmation = confirm("Confirmar alterações?");
+    if (!confirmation) handleCancel();
     connectionAPIPatch(`/package/${packageData?.id}`, dataToSend, apiUrl)
       .then((res) => {
-        alert("Pacote atualizado com sucesso!");
         fetchProducts(store.id);
-        router.back();
       })
       .catch((err) => {
         alert("Erro ao atualizar pacote");
         handleCancel();
-        console.error(err);
       })
       .finally(() => {
         setLoading(false);

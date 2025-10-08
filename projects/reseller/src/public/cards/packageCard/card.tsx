@@ -1,7 +1,6 @@
 import Text from "@4miga/design-system/components/Text";
 import { Theme } from "@4miga/design-system/theme/theme";
 import Image from "next/image";
-import { useRouter } from "next/navigation";
 import { formatPrice } from "utils/formatPrice";
 import { PackageCardContainer } from "./style";
 
@@ -20,8 +19,6 @@ const PackageCard = ({
   price,
   selected,
 }: PackageCardProps) => {
-  const route = useRouter();
-
   return (
     <PackageCardContainer selected={selected}>
       <Text
@@ -33,17 +30,19 @@ const PackageCard = ({
         {title}
       </Text>
       {/* <Text tag="h2" align="center" fontName="REGULAR_SEMI_BOLD">
-        DIAMANTES
+        {amountType}
       </Text> */}
       <figure>
         <Image src={imageUrl} alt="Imagem do pacote" width={80} height={80} />
       </figure>
       <Text
-        tag="h4"
-        align="center"
-        fontName="REGULAR_SEMI_BOLD"
-        margin="12px 0 0 0px"
+        color={Theme.colors.secondaryText}
+        margin={bestOffer ? "8px 0 0 8px" : "24px 0 0 8px"}
+        fontName="SUPER_TINY_MEDIUM"
       >
+        POR APENAS
+      </Text>
+      <Text margin="0 0 0 8px" tag="h4" fontName="REGULAR_SEMI_BOLD">
         R$ {formatPrice(price)}
       </Text>
       {bestOffer && (
@@ -56,10 +55,10 @@ const PackageCard = ({
             <Text
               align="center"
               color={Theme.colors.mainBbackgroundSolid}
-              fontName="TINY_MEDIUM"
-              margin="-1px 0 0 0"
+              fontName="SUPER_TINY_SEMI_BOLD"
+              margin="-3px 0 0 0"
             >
-              ⭐ Melhor oferta
+              ⭐ Oferta especial
             </Text>
             <div className="bow rightBow">
               <div className="bow-inner" />

@@ -45,15 +45,15 @@ export const PackageCardContainer = styled.article<PackageCardProps>`
     justify-content: center;
     align-items: flex-start;
     position: absolute;
-    bottom: 16px;
+    bottom: 18px;
 
     .bestPrice {
-      height: 14px;
+      height: 16px;
       width: 88%;
       background-color: ${Theme.colors.mainHighlight};
+      box-shadow: 0px 0px 10px 0px ${Theme.colors.mainHighlight};
       display: flex;
       align-items: center;
-      margin-top: 12px;
       position: relative;
       z-index: 1;
 
@@ -63,7 +63,7 @@ export const PackageCardContainer = styled.article<PackageCardProps>`
 
       .bow {
         width: 30px;
-        height: 14px;
+        height: 15px;
         background-color: ${Theme.colors.mainHighlight}90;
         position: absolute;
         z-index: 0;
@@ -94,7 +94,7 @@ export const PackageCardContainer = styled.article<PackageCardProps>`
           height: 10px;
           background-color: ${Theme.colors.mainHighlight}99;
           position: absolute;
-          transform: rotate(13deg);
+          transform: rotate(11deg);
           position: absolute;
           right: -1px;
           bottom: 2px;
@@ -113,7 +113,7 @@ export const PackageCardContainer = styled.article<PackageCardProps>`
           height: 10px;
           background-color: ${Theme.colors.mainHighlight}99;
           position: absolute;
-          transform: rotate(-13deg);
+          transform: rotate(-11deg);
           position: absolute;
           left: -1px;
           bottom: 2px;

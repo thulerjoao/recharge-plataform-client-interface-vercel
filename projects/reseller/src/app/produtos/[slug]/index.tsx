@@ -4,6 +4,7 @@ import Text from "@4miga/design-system/components/Text";
 import { Theme } from "@4miga/design-system/theme/theme";
 
 import { connectionAPIPatch } from "@4miga/services/connectionAPI/connection";
+import { apiUrl } from "@4miga/services/connectionAPI/url";
 import { useAuth } from "context/auth";
 import { useProducts } from "context/products";
 import { useImageUpload } from "hooks/useImageUpload";
@@ -14,7 +15,6 @@ import DefaultHeader from "public/components/defaultHeader";
 import HeaderEnviroment from "public/components/headerEnviroment";
 import { useEffect, useState } from "react";
 import { PackageType, ProductType } from "types/productTypes";
-import { apiUrl } from "@4miga/services/connectionAPI/url";
 import CameraIcon from "../common/icons/CameraIcon.svg";
 import Pen from "../common/icons/Pen.svg";
 import AddIcon from "./AddIcon.svg";
@@ -245,18 +245,21 @@ const Productpage = ({ slug }: Props) => {
             </div>
             {productPackages?.packages?.map((packag: PackageType) => {
               return (
-                <div
-                  key={packag.id}
-                  onClick={() => handlePackageClick(packag)}
-                  className="cardEnviroment"
-                >
-                  <PackageCard
-                    bestOffer={packag.isOffer}
-                    title={`${productPackages?.name} ${packag.amountCredits}`}
-                    imageUrl={packag.imgCardUrl}
-                    price={packag.paymentMethods[0].price}
-                  />
-                </div>
+                console.log(packag),
+                (
+                  <div
+                    key={packag.id}
+                    onClick={() => handlePackageClick(packag)}
+                    className="cardEnviroment"
+                  >
+                    <PackageCard
+                      bestOffer={packag.isOffer}
+                      title={`${packag.name}`}
+                      imageUrl={packag.imgCardUrl}
+                      price={packag.paymentMethods[0].price}
+                    />
+                  </div>
+                )
               );
             })}
           </section>
