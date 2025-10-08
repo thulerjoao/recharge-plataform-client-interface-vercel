@@ -31,6 +31,10 @@ const Text = ({
 }: TextProps) => {
   const fontSize = useMemo(() => {
     switch (fontName) {
+      case "SUPER_TINY":
+      case "SUPER_TINY_MEDIUM":
+      case "SUPER_TINY_SEMI_BOLD":
+        return "10px";
       case "TINY":
       case "TINY_MEDIUM":
       case "TINY_SEMI_BOLD":
@@ -63,18 +67,21 @@ const Text = ({
       case "REGULAR":
       case "LARGE":
       case "BIG":
+      case "SUPER_TINY":
         return 400;
       case "TINY_MEDIUM":
       case "SMALL_MEDIUM":
       case "REGULAR_MEDIUM":
       case "LARGE_MEDIUM":
       case "BIG_MEDIUM":
+      case "SUPER_TINY_MEDIUM":
         return 500;
       case "TINY_SEMI_BOLD":
       case "SMALL_SEMI_BOLD":
       case "REGULAR_SEMI_BOLD":
       case "LARGE_SEMI_BOLD":
       case "BIG_SEMI_BOLD":
+      case "SUPER_TINY_SEMI_BOLD":
         return 600;
       default:
         return 400;
