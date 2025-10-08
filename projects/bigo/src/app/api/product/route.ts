@@ -1,13 +1,13 @@
 // read-only route: fetches product packages with tag-based caching
 import { apiUrl } from "@4miga/services/connectionAPI/url";
 import { ProductType } from "types/productTypes";
-import { storeId, bigoId } from "utils/apiUrl";
+import { storeId } from "utils/apiUrl";
 
 export const revalidate = 3600; // Revalidate every hour
 
 export async function GET() {
   try {
-    const res = await fetch(`${apiUrl}/product/${bigoId}?storeId=${storeId}`, {
+    const res = await fetch(`${apiUrl}/product/bigo?storeId=${storeId}`, {
       next: { revalidate, tags: ["products"] },
     });
 
