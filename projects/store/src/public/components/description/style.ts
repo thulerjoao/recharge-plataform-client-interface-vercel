@@ -8,10 +8,10 @@ export const DescriptionContainer = styled.div`
   justify-content: flex-start;
 
   img {
-    object-fit: contain;
     width: 100%;
-    max-width: 628px;
     height: auto;
+    aspect-ratio: 21/9;
+    object-fit: fill;
   }
 
   .centerContent {

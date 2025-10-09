@@ -23,6 +23,7 @@ const Description = () => {
   const product = products.find(
     (item: ProductType) => formatString(item.name) === productName,
   );
+  console.log("products", product);
 
   return (
     <DescriptionContainer>
@@ -63,7 +64,7 @@ const Description = () => {
             Instruções
           </Text>
           <Text margin="24px 0 0 0 " fontName="REGULAR">
-            {product.instructions}
+            {product.storeCustomization?.instructions || product.instructions}
           </Text>
         </div>
         <div className="instructions">
@@ -75,7 +76,7 @@ const Description = () => {
             Sobre {product.name}
           </Text>
           <Text margin="24px 0 0 0 " fontName="REGULAR">
-            {product.description}
+            {product.storeCustomization?.description || product.description}
           </Text>
         </div>
         <div

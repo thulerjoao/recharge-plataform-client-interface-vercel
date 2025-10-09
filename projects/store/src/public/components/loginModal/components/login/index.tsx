@@ -83,11 +83,11 @@ const LoginComponent = ({ setPreviousStep, setStep, closeModal }: Props) => {
   useEffect(() => {
     setErrorMessage("");
     if (errors.email) {
-      setErrorMessage(errors.email.message);
+      setErrorMessage("Usuário ou senha inválidos");
       return;
     }
     if (errors.password) {
-      setErrorMessage(errors.password.message);
+      setErrorMessage("Usuário ou senha inválidos");
       return;
     }
   }, [errors]);
