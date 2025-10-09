@@ -9,26 +9,13 @@ import { DescriptionContainer } from "./style";
 import Image from "next/image";
 
 const Description = () => {
-  const products = useProducts();
+  const { product } = useProducts();
   const [seeMore, setSeeMore] = useState<boolean>(false);
-  // const [isImageValid, setIsImageValid] = useState<boolean>(false);
-  const pathname = usePathname();
-
-  const product = products[0];
-
-  // useEffect(() => {
-  //   const checkImage = async () => {
-  //     const valid = await checkImageUrl(product.imgBannerUrl);
-  //     setIsImageValid(valid);
-  //   };
-
-  //   checkImage();
-  // }, [product]);
 
   return (
     <DescriptionContainer>
       <Image
-        src={product.imgBannerUrl}
+        src={product.storeCustomization?.imgBannerUrl || product.imgBannerUrl}
         alt={`Imagem do pacote ${product.name}`}
         height={600}
         width={1000}
@@ -64,7 +51,7 @@ const Description = () => {
             Instruções
           </Text>
           <Text margin="24px 0 0 0 " fontName="REGULAR">
-            {product.instructions}
+            {product.storeCustomization?.instructions || product.instructions}
           </Text>
         </div>
         <div className="instructions">
@@ -76,7 +63,7 @@ const Description = () => {
             Sobre {product.name}
           </Text>
           <Text margin="24px 0 0 0 " fontName="REGULAR">
-            {product.description}
+            {product.storeCustomization?.description || product.description}
           </Text>
         </div>
         <div

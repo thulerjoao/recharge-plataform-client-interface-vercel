@@ -1,4 +1,7 @@
 export type fontNames =
+  | "SUPER_TINY" //10PX
+  | "SUPER_TINY_MEDIUM"
+  | "SUPER_TINY_SEMI_BOLD"
   | "TINY" //12PX
   | "TINY_MEDIUM"
   | "TINY_SEMI_BOLD"

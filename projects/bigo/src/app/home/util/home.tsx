@@ -16,7 +16,7 @@ import { HomeContainer } from "./style";
 
 const Home = () => {
   const route = useRouter();
-  const products = useProducts();
+  const { product } = useProducts();
   const handleClick = (item: PackageType) => {
     sessionStorage.removeItem("userId");
     sessionStorage.removeItem("orderId");
@@ -48,8 +48,8 @@ const Home = () => {
           Texto de exemplo
         </Text>
         <section className="cardsContainer">
-          {products &&
-            products[0].packages.map((packageItem, index) => (
+          {product &&
+            product?.packages.map((packageItem, index) => (
               <div
                 key={index}
                 className="cardEnviroment"
@@ -58,7 +58,7 @@ const Home = () => {
                 <PackageCard selected={false} item={packageItem} />
               </div>
             ))}
-          {InvisibleCards(products)}
+          {InvisibleCards(product?.packages)}
         </section>
       </main>
       <SecurityAdvertise />

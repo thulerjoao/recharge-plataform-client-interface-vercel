@@ -39,8 +39,7 @@ const Order = () => {
     }
   }, [order, logged, route]);
 
-  const products = useProducts();
-  const product = order ? products[0] : null;
+  const { product } = useProducts();
 
   const handleBuyAgain = () => {
     sessionStorage.removeItem("qrCode");

@@ -4,6 +4,7 @@ import Image from "next/image";
 import { PackageType } from "types/productTypes";
 import { formatPrice } from "utils/formatPrice";
 import { PackageCardContainer } from "./style";
+import { useState } from "react";
 
 interface PackageCardProps {
   item: PackageType;
@@ -12,57 +13,66 @@ interface PackageCardProps {
 }
 
 const PackageCard = ({ item, selected, paymentIndex }: PackageCardProps) => {
+  const [isHovered, setIsHovered] = useState(false);
+
   return (
-    <PackageCardContainer selected={selected}>
+    <PackageCardContainer
+      onMouseEnter={() => setIsHovered(true)}
+      onMouseLeave={() => setIsHovered(false)}
+      selected={selected ? selected : isHovered}
+    >
       <Text
         tag="h2"
         align="center"
         fontName="REGULAR_SEMI_BOLD"
         margin="12px 0 0 0"
       >
-        Bigo {item.amountCredits}
+        {item.name}
       </Text>
-      <Text tag="h2" align="center" fontName="REGULAR_SEMI_BOLD">
-        Diamantes
-      </Text>
-      <Image
-        src={item.imgCardUrl}
-        alt={`Imagem do pacote ${item.name}`}
-        height={100}
-        width={100}
-      />
-      {item.isOffer ? (
-        <span className="bestPrice">
-          <Text
-            align="center"
-            color={Theme.colors.mainBbackgroundSolid}
-            fontName="SMALL_SEMI_BOLD"
-          >
-            Melhor Preço
-          </Text>
-        </span>
-      ) : (
-        <Text
-          tag="h4"
-          color={Theme.colors.mainHighlight}
-          align="end"
-          fontName="SMALL"
-          margin="18px 16px 0 0"
-        >
-          Por apenas
-        </Text>
-      )}
+      <figure>
+        <Image
+          src={item.imgCardUrl}
+          alt={`Imagem do pacote ${item.name}`}
+          height={80}
+          width={80}
+        />
+      </figure>
+
       <Text
-        tag="h4"
-        align="end"
-        fontName="REGULAR_SEMI_BOLD"
-        margin="9px 16px 0 0"
+        color={Theme.colors.secondaryText}
+        margin={item.isOffer ? "8px 0 0 8px" : "24px 0 0 8px"}
+        fontName="SUPER_TINY_MEDIUM"
       >
+        POR APENAS
+      </Text>
+      <Text margin="0 0 0 8px" tag="h4" fontName="REGULAR_SEMI_BOLD">
         R${" "}
         {formatPrice(
           item.paymentMethods[paymentIndex ? paymentIndex : 0].price,
         )}
       </Text>
+      {item.isOffer && (
+        <div className="bestPriceContainer">
+          <span className="bestPrice">
+            <div className="bow leftBow">
+              <div className="bow-inner" />
+              <div className="bow-inner-2" />
+            </div>
+            <Text
+              align="center"
+              color={Theme.colors.mainBbackgroundSolid}
+              fontName="SUPER_TINY_SEMI_BOLD"
+              margin="-3px 0 0 0"
+            >
+              ⭐ OFERTA ESPECIAL
+            </Text>
+            <div className="bow rightBow">
+              <div className="bow-inner" />
+              <div className="bow-inner-2" />
+            </div>
+          </span>
+        </div>
+      )}
     </PackageCardContainer>
   );
 };

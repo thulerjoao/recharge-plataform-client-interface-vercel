@@ -67,9 +67,9 @@ const LoginComponent = ({ setStep }: Props) => {
       if (error?.response?.data?.message) {
         const message = error.response.data.message;
         if (Array.isArray(message)) {
-          setErrorMessage(message[0] || "Usuário ou senha inválidos");
+          setErrorMessage("Usuário ou senha inválidos");
         } else {
-          setErrorMessage(message || "Usuário ou senha inválidos");
+          setErrorMessage("Usuário ou senha inválidos");
         }
       } else if (error instanceof Error) {
         setErrorMessage("Erro ao realizar login");
@@ -84,11 +84,11 @@ const LoginComponent = ({ setStep }: Props) => {
   useEffect(() => {
     setErrorMessage("");
     if (errors.email) {
-      setErrorMessage(errors.email.message);
+      setErrorMessage("Usuário ou senha inválidos");
       return;
     }
     if (errors.password) {
-      setErrorMessage(errors.password.message);
+      setErrorMessage("Usuário ou senha inválidos");
       return;
     }
   }, [errors]);

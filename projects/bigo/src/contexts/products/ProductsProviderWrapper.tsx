@@ -2,18 +2,16 @@ import { fetchProducts } from "lib/api";
 import { ProductType } from "types/productTypes";
 import { ProductsProvider } from "./ProductsProvider";
 import React from "react";
-import { MockedProductsList } from "mocked/mockedApi";
 
 const ProductsProviderWrapper = async ({
   children,
 }: {
   children: React.ReactNode;
 }) => {
-  // const products: ProductType[] = await fetchProducts();
-  const products = MockedProductsList;
+  const product: ProductType = await fetchProducts();
 
   return (
-    <ProductsProvider initialProducts={products}>{children}</ProductsProvider>
+    <ProductsProvider initialProduct={product}>{children}</ProductsProvider>
   );
 };
 
