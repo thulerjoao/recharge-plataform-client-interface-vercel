@@ -1,28 +1,25 @@
 import Text from "@4miga/design-system/components/Text";
 import { Theme } from "@4miga/design-system/theme/theme";
-import { useState } from "react";
+import Image from "next/image";
 import { PackageType } from "types/productTypes";
 import { formatPrice } from "utils/formatPrice";
 import { PackageCardContainer } from "./style";
-import Image from "next/image";
+import { useState } from "react";
 
 interface PackageCardProps {
   item: PackageType;
-  selected?: boolean;
+  selected: boolean;
   paymentIndex?: number;
 }
 
 const PackageCard = ({ item, selected, paymentIndex }: PackageCardProps) => {
-  // const [isImageValid, setIsImageValid] = useState<boolean>(false);
-  const [hover, setHover] = useState<boolean>(false);
+  const [isHovered, setIsHovered] = useState(false);
 
   return (
     <PackageCardContainer
-      onMouseEnter={() => setHover(true)}
-      onMouseLeave={() => {
-        setHover(false);
-      }}
-      selected={selected ? selected : hover}
+      onMouseEnter={() => setIsHovered(true)}
+      onMouseLeave={() => setIsHovered(false)}
+      selected={selected ? selected : isHovered}
     >
       <Text
         tag="h2"
@@ -30,51 +27,52 @@ const PackageCard = ({ item, selected, paymentIndex }: PackageCardProps) => {
         fontName="REGULAR_SEMI_BOLD"
         margin="12px 0 0 0"
       >
-        Bigo {item.amountCredits}
+        {item.name}
       </Text>
-      <Text tag="h2" align="center" fontName="REGULAR_SEMI_BOLD">
-        Diamantes
-      </Text>
-      <Image
-        src={item.imgCardUrl}
-        alt={`Imagem do pacote ${item.name}`}
-        height={100}
-        width={100}
-      />
-      {item.isOffer ? (
-        <span className="bestPrice">
-          <Text
-            align="center"
-            color={Theme.colors.mainBbackgroundSolid}
-            fontName="SMALL_SEMI_BOLD"
-          >
-            Melhor Preço
-          </Text>
-        </span>
-      ) : (
-        <Text
-          tag="h4"
-          color={Theme.colors.mainHighlight}
-          align="end"
-          fontName="SMALL"
-          margin="18px 16px 0 0"
-        >
-          Por apenas
-        </Text>
-      )}
+      <figure>
+        <Image
+          src={item.imgCardUrl}
+          alt={`Imagem do pacote ${item.name}`}
+          height={80}
+          width={80}
+        />
+      </figure>
+
       <Text
-        tag="h4"
-        align="end"
-        fontName="REGULAR_SEMI_BOLD"
-        margin="9px 16px 0 0"
+        color={Theme.colors.secondaryText}
+        margin={item.isOffer ? "8px 0 0 8px" : "24px 0 0 8px"}
+        fontName="SUPER_TINY_MEDIUM"
       >
+        POR APENAS
+      </Text>
+      <Text margin="0 0 0 8px" tag="h4" fontName="REGULAR_SEMI_BOLD">
         R${" "}
         {formatPrice(
-          item.paymentMethods[0]
-            ? item.paymentMethods[paymentIndex ? paymentIndex : 0].price
-            : 0,
+          item.paymentMethods[paymentIndex ? paymentIndex : 0].price,
         )}
       </Text>
+      {item.isOffer && (
+        <div className="bestPriceContainer">
+          <span className="bestPrice">
+            <div className="bow leftBow">
+              <div className="bow-inner" />
+              <div className="bow-inner-2" />
+            </div>
+            <Text
+              align="center"
+              color={Theme.colors.mainBbackgroundSolid}
+              fontName="SUPER_TINY_SEMI_BOLD"
+              margin="-3px 0 0 0"
+            >
+              ⭐ OFERTA ESPECIAL
+            </Text>
+            <div className="bow rightBow">
+              <div className="bow-inner" />
+              <div className="bow-inner-2" />
+            </div>
+          </span>
+        </div>
+      )}
     </PackageCardContainer>
   );
 };
