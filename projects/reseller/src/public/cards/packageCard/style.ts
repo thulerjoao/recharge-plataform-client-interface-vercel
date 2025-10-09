@@ -20,9 +20,9 @@ export const PackageCardContainer = styled.article<PackageCardProps>`
   flex-direction: column;
   align-items: center;
   padding: 0 8px;
-  border: 4px solid transparent;
+  border: 3px solid transparent;
   ${({ selected }) =>
-    selected && `border: 4px solid  ${Theme.colors.mainHighlight}`};
+    selected && `border: 3px solid  ${Theme.colors.mainHighlight}`};
   box-shadow: ${({ selected }) =>
     selected && `0px 0px 10px 0px ${Theme.colors.mainHighlight}`};
   position: relative;

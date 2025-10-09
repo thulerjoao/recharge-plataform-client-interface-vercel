@@ -29,11 +29,13 @@ const PackageCard = ({
       >
         {title}
       </Text>
-      {/* <Text tag="h2" align="center" fontName="REGULAR_SEMI_BOLD">
-        {amountType}
-      </Text> */}
       <figure>
-        <Image src={imageUrl} alt="Imagem do pacote" width={80} height={80} />
+        <Image
+          src={imageUrl}
+          alt={`Imagem do pacote ${title}`}
+          width={80}
+          height={80}
+        />
       </figure>
       <Text
         color={Theme.colors.secondaryText}
@@ -58,7 +60,7 @@ const PackageCard = ({
               fontName="SUPER_TINY_SEMI_BOLD"
               margin="-3px 0 0 0"
             >
-              ⭐ Oferta especial
+              ⭐ OFERTA ESPECIAL
             </Text>
             <div className="bow rightBow">
               <div className="bow-inner" />
