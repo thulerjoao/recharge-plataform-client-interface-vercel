@@ -4,36 +4,26 @@ import Button from "@4miga/design-system/components/button";
 import Input from "@4miga/design-system/components/input";
 import Text from "@4miga/design-system/components/Text";
 import { Theme } from "@4miga/design-system/theme/theme";
+import {
+  connectionAPIGet,
+  connectionAPIPatch,
+} from "@4miga/services/connectionAPI/connection";
 import DefaultHeader from "public/components/defaultHeader";
 import HeaderEnviroment from "public/components/headerEnviroment";
 import { useEffect, useRef, useState } from "react";
 import PasswordModal from "../passwordModal";
 import { AdmPageContainer } from "./style";
+import { useAuth } from "context/auth";
 
-// Mock data - dados simulados (formato que o backend retorna)
-const mockUsers = [
-  { id: "1", email: "usuario1@example.com" },
-  { id: "2", email: "usuario2@example.com" },
-  { id: "3", email: "usuario3@example.com" },
-  { id: "4", email: "teste@example.com" },
-  { id: "5", email: "contato@example.com" },
-  { id: "6", email: "joao.silva@example.com" },
-  { id: "7", email: "maria.santos@example.com" },
-  { id: "8", email: "pedro.oliveira@example.com" },
-];
-
-const mockAdmins = [
-  { id: "admin1", email: "admin@example.com" },
-  { id: "admin2", email: "gerente@example.com" },
-  { id: "admin3", email: "supervisor@example.com" },
-];
+type emailUserType = {
+  id: string;
+  email: string;
+};
 
 const AdmPage = () => {
-  const [selectedUser, setSelectedUser] = useState("");
+  const [selectedUser, setSelectedUser] = useState<emailUserType>();
   const [searchTerm, setSearchTerm] = useState("");
-  const [searchResults, setSearchResults] = useState<
-    Array<{ id: string; email: string }>
-  >([]);
+  const [searchResults, setSearchResults] = useState<emailUserType[]>([]);
   const [showResults, setShowResults] = useState(false);
   const [modalAction, setModalAction] = useState<"promote" | "demote" | null>(
     null,
@@ -41,6 +31,8 @@ const AdmPage = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [password, setPassword] = useState("");
   const [loadingAction, setLoadingAction] = useState(false);
+  const [admins, setAdmins] = useState<emailUserType[]>([]);
+  const { user } = useAuth();
 
   const searchWrapperRef = useRef<HTMLDivElement>(null);
 
@@ -61,71 +53,111 @@ const AdmPage = () => {
     };
   }, []);
 
-  const handleSearchChange = (value: string) => {
-    setSearchTerm(value);
+  const getAdmins = () => {
+    connectionAPIGet<emailUserType[]>(`/user/admins`)
+      .then((res) => {
+        setAdmins(res);
+      })
+      .catch((err) => {
+        console.error(err);
+      });
+  };
 
-    if (value.trim().length < 2) {
+  useEffect(() => {
+    getAdmins();
+  }, []);
+
+  const getUsersByEmail = (email: string) => {
+    setSearchTerm(email);
+    if (email.trim().length < 3) {
       setSearchResults([]);
       setShowResults(false);
       return;
     }
-
-    // Simular busca na API
-    // Em produção: chamar GET /emails?search=${value}
-    const filtered = mockUsers.filter((user) =>
-      user.email.toLowerCase().includes(value.toLowerCase()),
-    );
-    setSearchResults(filtered);
-    setShowResults(true);
+    connectionAPIGet<emailUserType[]>(`/user/emails?search=${email}`)
+      .then((res) => {
+        setSearchResults(res);
+        setShowResults(true);
+      })
+      .catch((err) => {
+        console.error(err);
+        setSearchResults([]);
+        setShowResults(false);
+      });
   };
 
   const handleSelectUser = (userId: string, email: string) => {
-    setSelectedUser(userId);
+    const newUser = { email, id: userId };
+    setSelectedUser(newUser);
     setSearchTerm(email);
     setShowResults(false);
   };
 
-  const handlePromoteClick = () => {
+  const handlePromoteClick = (user: emailUserType) => {
     if (!selectedUser) return;
     setModalAction("promote");
     setIsModalOpen(true);
   };
 
-  const handleRemoveAdmin = (adminId: string) => {
-    setSelectedUser(getUserEmail(adminId));
+  const handleRemoveAdminClick = (user: emailUserType) => {
+    setSelectedUser(user);
     setModalAction("demote");
     setIsModalOpen(true);
   };
 
+  const handleCleanResults = () => {
+    handleCloseModal();
+    setSelectedUser(null);
+    setModalAction(null);
+    setPassword("");
+    setSearchTerm("");
+    setSearchResults([]);
+    setShowResults(false);
+    getAdmins();
+  };
+
   const handleConfirmAction = async () => {
     if (!password || !selectedUser || !modalAction) return;
-
     setLoadingAction(true);
-
-    // Simular chamada à API
-    setTimeout(() => {
-      console.log(`Promovendo usuário ${selectedUser} com senha`);
-      setLoadingAction(false);
-      setIsModalOpen(false);
-      setPassword("");
-      setSelectedUser("");
-      setModalAction(null);
-
-      // Aqui você mostraria uma notificação de sucesso
-      alert("Usuário promovido com sucesso!");
-    }, 1500);
+    if (modalAction === "promote") {
+      connectionAPIPatch(`/user/${selectedUser.id}/promote`, {
+        password,
+      })
+        .then(() => {
+          alert("Usuário promovido com sucesso!");
+          handleCleanResults();
+        })
+        .catch((err) => {
+          alert("Erro ao promover usuário");
+          handleCloseModal();
+          setSelectedUser(null);
+          setModalAction(null);
+          setPassword("");
+        })
+        .finally(() => setLoadingAction(false));
+    } else if (modalAction === "demote") {
+      connectionAPIPatch(`/user/${selectedUser.id}/demote`, {
+        password,
+      })
+        .then(() => {
+          alert("Usuário rebaixado com sucesso!");
+          handleCleanResults();
+        })
+        .catch((err) => {
+          alert("Erro ao rebaixar usuário");
+          handleCloseModal();
+          setSelectedUser(null);
+          setModalAction(null);
+          setPassword("");
+        })
+        .finally(() => setLoadingAction(false));
+    }
   };
 
   const handleCloseModal = () => {
     setIsModalOpen(false);
     setPassword("");
     setModalAction(null);
-  };
-
-  const getUserEmail = (userId: string) => {
-    if (!userId) return "Usuário";
-    const user = mockUsers.find((u) => u.id === userId);
-    return user?.email || "Usuário";
   };
 
   return (
@@ -159,7 +191,7 @@ const AdmPage = () => {
             </div>
 
             <div className="adminsListContent">
-              {mockAdmins.length === 0 ? (
+              {admins?.length === 0 ? (
                 <div className="emptyState">
                   <Text
                     align="center"
@@ -171,7 +203,7 @@ const AdmPage = () => {
                 </div>
               ) : (
                 <ul className="adminsList">
-                  {mockAdmins.map((admin) => (
+                  {admins?.map((admin) => (
                     <li key={admin.id} className="adminItem">
                       <div className="adminInfo">
                         <div className="adminIcon">
@@ -195,27 +227,29 @@ const AdmPage = () => {
                           {admin.email}
                         </Text>
                       </div>
-                      <button
-                        className="removeButton"
-                        onClick={() => handleRemoveAdmin(admin.id)}
-                        type="button"
-                      >
-                        <span className="removeText">Remover</span>
-                        <svg
-                          className="removeIcon"
-                          width="18"
-                          height="18"
-                          viewBox="0 0 24 24"
-                          fill="none"
-                          stroke="currentColor"
-                          strokeWidth="2"
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
+                      {user?.email !== admin.email && (
+                        <button
+                          className="removeButton"
+                          onClick={() => handleRemoveAdminClick(admin)}
+                          type="button"
                         >
-                          <line x1="18" y1="6" x2="6" y2="18" />
-                          <line x1="6" y1="6" x2="18" y2="18" />
-                        </svg>
-                      </button>
+                          <span className="removeText">Remover</span>
+                          <svg
+                            className="removeIcon"
+                            width="18"
+                            height="18"
+                            viewBox="0 0 24 24"
+                            fill="none"
+                            stroke="currentColor"
+                            strokeWidth="2"
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                          >
+                            <line x1="18" y1="6" x2="6" y2="18" />
+                            <line x1="6" y1="6" x2="18" y2="18" />
+                          </svg>
+                        </button>
+                      )}
                     </li>
                   ))}
                 </ul>
@@ -246,7 +280,7 @@ const AdmPage = () => {
               <div className="searchInputWrapper" ref={searchWrapperRef}>
                 <Input
                   value={searchTerm}
-                  onChange={(e) => handleSearchChange(e.target.value)}
+                  onChange={(e) => getUsersByEmail(e.target.value)}
                   onFocus={() =>
                     searchResults.length > 0 && setShowResults(true)
                   }
@@ -286,63 +320,16 @@ const AdmPage = () => {
 
             <div className="actionSection">
               <Button
-                onClick={handlePromoteClick}
+                onClick={() => handlePromoteClick(selectedUser)}
                 title="PROMOVER"
                 width={240}
                 height={36}
                 rounded
-                disabled={!selectedUser}
+                disabled={!selectedUser || loadingAction}
               />
             </div>
           </div>
         </section>
-
-        {/* <section className="demoteSection">
-          <div className="sectionCard">
-            <div className="headerSection">
-              <div className="titleSection">
-                <Text fontName="LARGE_SEMI_BOLD" color={Theme.colors.mainlight}>
-                  Rebaixar Administrador
-                </Text>
-                <Text
-                  fontName="REGULAR_MEDIUM"
-                  color={Theme.colors.secondaryText}
-                >
-                  Selecione um administrador para rebaixar
-                </Text>
-              </div>
-            </div>
-
-            <div className="selectSection">
-              <Text fontName="REGULAR_MEDIUM" color={Theme.colors.mainlight}>
-                Selecione o email do administrador:
-              </Text>
-              <select
-                className="emailSelect"
-                value={selectedAdminToDemote}
-                onChange={(e) => setSelectedAdminToDemote(e.target.value)}
-              >
-                <option value="">Selecione um administrador...</option>
-                {mockAdmins.map((admin) => (
-                  <option key={admin.id} value={admin.id}>
-                    {admin.email}
-                  </option>
-                ))}
-              </select>
-            </div>
-
-            <div className="actionSection demote">
-              <Button
-                onClick={handleDemoteClick}
-                title="REBAIXAR PARA USUÁRIO"
-                width={220}
-                height={36}
-                rounded
-                disabled={!selectedAdminToDemote}
-              />
-            </div>
-          </div>
-        </section> */}
       </main>
       {isModalOpen && (
         <PasswordModal
@@ -353,7 +340,7 @@ const AdmPage = () => {
           password={password}
           setPassword={setPassword}
           loading={loadingAction}
-          email={selectedUser}
+          email={selectedUser?.email}
         />
       )}
     </AdmPageContainer>
