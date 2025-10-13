@@ -1,11 +1,12 @@
 "use client";
 
 import Button from "@4miga/design-system/components/button";
+import Input from "@4miga/design-system/components/input";
 import Text from "@4miga/design-system/components/Text";
 import { Theme } from "@4miga/design-system/theme/theme";
 import DefaultHeader from "public/components/defaultHeader";
 import HeaderEnviroment from "public/components/headerEnviroment";
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import PasswordModal from "../passwordModal";
 import { AdmPageContainer } from "./style";
 
@@ -28,8 +29,12 @@ const mockAdmins = [
 ];
 
 const AdmPage = () => {
-  const [selectedUserToPromote, setSelectedUserToPromote] = useState("");
-  // const [selectedAdminToDemote, setSelectedAdminToDemote] = useState("");
+  const [selectedUser, setSelectedUser] = useState("");
+  const [searchTerm, setSearchTerm] = useState("");
+  const [searchResults, setSearchResults] = useState<
+    Array<{ id: string; email: string }>
+  >([]);
+  const [showResults, setShowResults] = useState(false);
   const [modalAction, setModalAction] = useState<"promote" | "demote" | null>(
     null,
   );
@@ -37,31 +42,73 @@ const AdmPage = () => {
   const [password, setPassword] = useState("");
   const [loadingAction, setLoadingAction] = useState(false);
 
+  const searchWrapperRef = useRef<HTMLDivElement>(null);
+
+  // Fechar resultados ao clicar fora
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (
+        searchWrapperRef.current &&
+        !searchWrapperRef.current.contains(event.target as Node)
+      ) {
+        setShowResults(false);
+      }
+    };
+
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, []);
+
+  const handleSearchChange = (value: string) => {
+    setSearchTerm(value);
+
+    if (value.trim().length < 2) {
+      setSearchResults([]);
+      setShowResults(false);
+      return;
+    }
+
+    // Simular busca na API
+    // Em produção: chamar GET /emails?search=${value}
+    const filtered = mockUsers.filter((user) =>
+      user.email.toLowerCase().includes(value.toLowerCase()),
+    );
+    setSearchResults(filtered);
+    setShowResults(true);
+  };
+
+  const handleSelectUser = (userId: string, email: string) => {
+    setSelectedUser(userId);
+    setSearchTerm(email);
+    setShowResults(false);
+  };
+
   const handlePromoteClick = () => {
-    if (!selectedUserToPromote) return;
+    if (!selectedUser) return;
     setModalAction("promote");
     setIsModalOpen(true);
   };
 
-  // Função para rebaixar (desabilitada temporariamente)
-  // const handleDemoteClick = () => {
-  //   if (!selectedAdminToDemote) return;
-  //   setModalAction("demote");
-  //   setIsModalOpen(true);
-  // };
+  const handleRemoveAdmin = (adminId: string) => {
+    setSelectedUser(getUserEmail(adminId));
+    setModalAction("demote");
+    setIsModalOpen(true);
+  };
 
   const handleConfirmAction = async () => {
-    if (!password || !selectedUserToPromote || !modalAction) return;
+    if (!password || !selectedUser || !modalAction) return;
 
     setLoadingAction(true);
 
     // Simular chamada à API
     setTimeout(() => {
-      console.log(`Promovendo usuário ${selectedUserToPromote} com senha`);
+      console.log(`Promovendo usuário ${selectedUser} com senha`);
       setLoadingAction(false);
       setIsModalOpen(false);
       setPassword("");
-      setSelectedUserToPromote("");
+      setSelectedUser("");
       setModalAction(null);
 
       // Aqui você mostraria uma notificação de sucesso
@@ -85,12 +132,12 @@ const AdmPage = () => {
     <AdmPageContainer>
       <div className="desktop">
         <HeaderEnviroment>
-          <DefaultHeader title="PERMISSÕES" />
+          <DefaultHeader title="ADMINISTRAÇÃO" />
         </HeaderEnviroment>
       </div>
       <div className="mobile mobileHeader">
         <Text align="center" fontName="LARGE_SEMI_BOLD">
-          PERMISSÕES
+          ADMINISTRAÇÃO
         </Text>
       </div>
 
@@ -126,25 +173,49 @@ const AdmPage = () => {
                 <ul className="adminsList">
                   {mockAdmins.map((admin) => (
                     <li key={admin.id} className="adminItem">
-                      <div className="adminIcon">
+                      <div className="adminInfo">
+                        <div className="adminIcon">
+                          <svg
+                            width="20"
+                            height="20"
+                            viewBox="0 0 24 24"
+                            fill="none"
+                            stroke="currentColor"
+                            strokeWidth="2"
+                          >
+                            <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
+                            <circle cx="12" cy="7" r="4" />
+                          </svg>
+                        </div>
+                        <Text
+                          className="adminEmail"
+                          fontName="REGULAR_MEDIUM"
+                          color={Theme.colors.mainlight}
+                        >
+                          {admin.email}
+                        </Text>
+                      </div>
+                      <button
+                        className="removeButton"
+                        onClick={() => handleRemoveAdmin(admin.id)}
+                        type="button"
+                      >
+                        <span className="removeText">Remover</span>
                         <svg
-                          width="20"
-                          height="20"
+                          className="removeIcon"
+                          width="18"
+                          height="18"
                           viewBox="0 0 24 24"
                           fill="none"
                           stroke="currentColor"
                           strokeWidth="2"
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
                         >
-                          <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
-                          <circle cx="12" cy="7" r="4" />
+                          <line x1="18" y1="6" x2="6" y2="18" />
+                          <line x1="6" y1="6" x2="18" y2="18" />
                         </svg>
-                      </div>
-                      <Text
-                        fontName="REGULAR_MEDIUM"
-                        color={Theme.colors.mainlight}
-                      >
-                        {admin.email}
-                      </Text>
+                      </button>
                     </li>
                   ))}
                 </ul>
@@ -168,22 +239,49 @@ const AdmPage = () => {
               </div>
             </div>
 
-            <div className="selectSection">
+            <div className="searchSection">
               <Text fontName="REGULAR_MEDIUM" color={Theme.colors.mainlight}>
-                Selecione o email do usuário:
+                Busque o email do usuário:
               </Text>
-              <select
-                className="emailSelect"
-                value={selectedUserToPromote}
-                onChange={(e) => setSelectedUserToPromote(e.target.value)}
-              >
-                <option value="">Selecione um usuário...</option>
-                {mockUsers.map((user) => (
-                  <option key={user.id} value={user.id}>
-                    {user.email}
-                  </option>
-                ))}
-              </select>
+              <div className="searchInputWrapper" ref={searchWrapperRef}>
+                <Input
+                  value={searchTerm}
+                  onChange={(e) => handleSearchChange(e.target.value)}
+                  onFocus={() =>
+                    searchResults.length > 0 && setShowResults(true)
+                  }
+                  placeholder="Digite o email do usuário..."
+                  height={40}
+                />
+                {showResults && searchResults.length > 0 && (
+                  <ul className="searchResults">
+                    {searchResults.map((user) => (
+                      <li
+                        key={user.id}
+                        className="searchResultItem"
+                        onClick={() => handleSelectUser(user.id, user.email)}
+                      >
+                        <Text
+                          className="resultEmail"
+                          fontName="REGULAR_MEDIUM"
+                          color={Theme.colors.mainlight}
+                        >
+                          {user.email}
+                        </Text>
+                      </li>
+                    ))}
+                  </ul>
+                )}
+                {showResults &&
+                  searchResults.length === 0 &&
+                  searchTerm.length >= 2 && (
+                    <div className="noResults">
+                      <Text fontName="SMALL" color={Theme.colors.secondaryText}>
+                        Nenhum usuário encontrado
+                      </Text>
+                    </div>
+                  )}
+              </div>
             </div>
 
             <div className="actionSection">
@@ -193,7 +291,7 @@ const AdmPage = () => {
                 width={240}
                 height={36}
                 rounded
-                disabled={!selectedUserToPromote}
+                disabled={!selectedUser}
               />
             </div>
           </div>
@@ -248,13 +346,14 @@ const AdmPage = () => {
       </main>
       {isModalOpen && (
         <PasswordModal
+          modalAction={modalAction}
           isOpen={isModalOpen}
           onClose={handleCloseModal}
           onConfirm={handleConfirmAction}
           password={password}
           setPassword={setPassword}
           loading={loadingAction}
-          userName={getUserEmail(selectedUserToPromote)}
+          email={selectedUser}
         />
       )}
     </AdmPageContainer>

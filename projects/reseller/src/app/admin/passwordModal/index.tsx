@@ -4,26 +4,29 @@ import Button from "@4miga/design-system/components/button";
 import Input from "@4miga/design-system/components/input";
 import Text from "@4miga/design-system/components/Text";
 import { Theme } from "@4miga/design-system/theme/theme";
-import { ModalOverlay, ModalContent } from "./style";
+import React from "react";
+import { ModalContent, ModalOverlay } from "./style";
 
 interface PasswordModalProps {
+  modalAction: "promote" | "demote";
   isOpen: boolean;
   onClose: () => void;
   onConfirm: () => void;
   password: string;
   setPassword: (value: string) => void;
   loading: boolean;
-  userName: string;
+  email: string;
 }
 
 const PasswordModal = ({
+  modalAction,
   isOpen,
   onClose,
   onConfirm,
   password,
   setPassword,
   loading,
-  userName,
+  email,
 }: PasswordModalProps) => {
   if (!isOpen) return null;
 
@@ -53,10 +56,10 @@ const PasswordModal = ({
 
         <div className="userEmail">
           <Text fontName="SMALL" color={Theme.colors.secondaryText}>
-            Promovendo:
+            {modalAction === "promote" ? "Promovendo:" : "Rebaixando:"}
           </Text>
           <Text fontName="REGULAR_SEMI_BOLD" color={Theme.colors.mainlight}>
-            {userName}
+            {email}
           </Text>
         </div>
 
@@ -92,4 +95,3 @@ const PasswordModal = ({
 };
 
 export default PasswordModal;
-

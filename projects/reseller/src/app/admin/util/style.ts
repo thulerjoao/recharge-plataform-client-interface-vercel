@@ -52,42 +52,90 @@ export const AdmPageContainer = styled.div`
       }
     }
 
-    .selectSection {
+    .searchSection {
       display: flex;
       flex-direction: column;
       gap: 12px;
 
-      .emailSelect {
+      .searchInputWrapper {
+        position: relative;
         width: 100%;
-        padding: 12px 16px;
-        font-size: 15px;
-        border-radius: 8px;
-        border: 2px solid ${Theme.colors.secondaryAction};
-        background: ${Theme.colors.mainlight};
-        color: ${Theme.colors.secondaryTextAction};
-        cursor: pointer;
-        transition: all 0.2s ease;
 
-        &:focus {
-          outline: none;
-          border-color: ${Theme.colors.mainHighlight};
-          -webkit-box-shadow: 0px 0px 0px 3px ${Theme.colors.mainHighlight}20;
-          -moz-box-shadow: 0px 0px 0px 3px ${Theme.colors.mainHighlight}20;
-          box-shadow: 0px 0px 0px 3px ${Theme.colors.mainHighlight}20;
-        }
+        .searchResults {
+          position: absolute;
+          top: calc(100% + 4px);
+          left: 0;
+          right: 0;
+          background: ${Theme.colors.maindark};
+          border-radius: 8px;
+          border: 2px solid ${Theme.colors.secondaryAction};
+          max-height: 240px;
+          overflow-y: auto;
+          z-index: 100;
+          list-style: none;
+          padding: 0;
+          margin: 0;
+          -webkit-box-shadow: 0px 4px 12px 2px rgba(0, 0, 0, 0.3);
+          -moz-box-shadow: 0px 4px 12px 2px rgba(0, 0, 0, 0.3);
+          box-shadow: 0px 4px 12px 2px rgba(0, 0, 0, 0.3);
 
-        &:hover {
-          border-color: ${Theme.colors.mainHighlight};
-        }
-
-        option {
-          padding: 8px;
-          background: ${Theme.colors.mainlight};
-          color: ${Theme.colors.secondaryTextAction};
-
-          &:disabled {
-            color: ${Theme.colors.secondaryText};
+          &::-webkit-scrollbar {
+            width: 8px;
           }
+
+          &::-webkit-scrollbar-track {
+            background: ${Theme.colors.mainlight};
+            border-radius: 4px;
+          }
+
+          &::-webkit-scrollbar-thumb {
+            background: ${Theme.colors.secondaryAction};
+            border-radius: 4px;
+
+            &:hover {
+              background: ${Theme.colors.mainHighlight};
+            }
+          }
+
+          .searchResultItem {
+            padding: 12px 16px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            border-bottom: 1px solid ${Theme.colors.secondaryTextAction};
+            overflow: hidden;
+
+            &:last-child {
+              border-bottom: none;
+            }
+
+            &:hover {
+              background: ${Theme.colors.mainlight}15;
+            }
+
+            &:active {
+              background: ${Theme.colors.mainlight}25;
+            }
+
+            .resultEmail {
+              overflow: hidden;
+              text-overflow: ellipsis;
+              white-space: nowrap;
+              display: block;
+            }
+          }
+        }
+
+        .noResults {
+          position: absolute;
+          top: calc(100% + 4px);
+          left: 0;
+          right: 0;
+          background: ${Theme.colors.maindark};
+          border-radius: 8px;
+          border: 2px solid ${Theme.colors.secondaryAction};
+          padding: 16px;
+          text-align: center;
+          z-index: 100;
         }
       }
     }
@@ -101,21 +149,8 @@ export const AdmPageContainer = styled.div`
       button {
         &:disabled {
           opacity: 0.3;
-          cursor: not-allowed;
         }
       }
-
-      /* Estilos para botão de rebaixar (desabilitado temporariamente) */
-      /* &.demote {
-        button {
-          background-color: ${Theme.colors.refused} !important;
-          border-color: ${Theme.colors.refused} !important;
-
-          &:hover:not(:disabled) {
-            opacity: 0.8;
-          }
-        }
-      } */
     }
 
     /* Lista de Administradores Atuais */
@@ -136,6 +171,7 @@ export const AdmPageContainer = styled.div`
         .adminItem {
           display: flex;
           align-items: center;
+          justify-content: space-between;
           gap: 12px;
           padding: 12px 16px;
           background: ${Theme.colors.mainlight}15;
@@ -143,24 +179,68 @@ export const AdmPageContainer = styled.div`
           border: 2px solid ${Theme.colors.secondaryTextAction};
           transition: all 0.2s ease;
 
-          &:hover {
-            border-color: ${Theme.colors.mainHighlight};
-            background: ${Theme.colors.mainlight}25;
-          }
-
-          .adminIcon {
+          .adminInfo {
             display: flex;
             align-items: center;
-            justify-content: center;
-            width: 32px;
-            height: 32px;
-            border-radius: 50%;
-            background: ${Theme.colors.mainHighlight}20;
-            color: ${Theme.colors.mainHighlight};
+            gap: 12px;
+            flex: 1;
+            min-width: 0;
+            overflow: hidden;
 
-            svg {
-              width: 20px;
-              height: 20px;
+            .adminIcon {
+              display: flex;
+              align-items: center;
+              justify-content: center;
+              width: 32px;
+              height: 32px;
+              border-radius: 50%;
+              background: ${Theme.colors.mainHighlight}20;
+              color: ${Theme.colors.mainHighlight};
+              flex-shrink: 0;
+
+              svg {
+                width: 20px;
+                height: 20px;
+              }
+            }
+
+            .adminEmail {
+              overflow: hidden;
+              text-overflow: ellipsis;
+              white-space: nowrap;
+              min-width: 0;
+            }
+          }
+
+          .removeButton {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            background: transparent;
+            border: none;
+            cursor: pointer;
+            padding: 6px 12px;
+            border-radius: 6px;
+            transition: all 0.2s ease;
+            color: ${Theme.colors.refused};
+            font-family: inherit;
+            flex-shrink: 0;
+
+            &:hover {
+              background: ${Theme.colors.refused}15;
+            }
+
+            &:active {
+              transform: scale(0.95);
+            }
+
+            .removeText {
+              font-size: 15px;
+              font-weight: 500;
+            }
+
+            .removeIcon {
+              display: none;
             }
           }
         }
@@ -205,13 +285,8 @@ export const AdmPageContainer = styled.div`
         padding-bottom: 12px;
       }
 
-      .selectSection {
+      .searchSection {
         gap: 10px;
-
-        .emailSelect {
-          padding: 10px 14px;
-          font-size: 14px;
-        }
       }
 
       .actionSection {
@@ -230,13 +305,25 @@ export const AdmPageContainer = styled.div`
             padding: 10px 14px;
             gap: 10px;
 
-            .adminIcon {
-              width: 28px;
-              height: 28px;
+            .adminInfo {
+              gap: 10px;
 
-              svg {
-                width: 18px;
-                height: 18px;
+              .adminIcon {
+                width: 28px;
+                height: 28px;
+
+                svg {
+                  width: 18px;
+                  height: 18px;
+                }
+              }
+            }
+
+            .removeButton {
+              padding: 4px 8px;
+
+              .removeText {
+                font-size: 14px;
               }
             }
           }
@@ -260,13 +347,8 @@ export const AdmPageContainer = styled.div`
         gap: 10px;
       }
 
-      .selectSection {
+      .searchSection {
         gap: 8px;
-
-        .emailSelect {
-          padding: 9px 12px;
-          font-size: 13px;
-        }
       }
 
       .actionSection {
@@ -281,11 +363,31 @@ export const AdmPageContainer = styled.div`
             padding: 9px 12px;
             gap: 8px;
 
-            .adminIcon {
-              width: 26px;
-              height: 26px;
+            .adminInfo {
+              gap: 8px;
 
-              svg {
+              .adminIcon {
+                width: 26px;
+                height: 26px;
+
+                svg {
+                  width: 16px;
+                  height: 16px;
+                }
+              }
+            }
+
+            .removeButton {
+              padding: 6px;
+              min-width: 32px;
+              justify-content: center;
+
+              .removeText {
+                display: none;
+              }
+
+              .removeIcon {
+                display: block;
                 width: 16px;
                 height: 16px;
               }
@@ -311,13 +413,8 @@ export const AdmPageContainer = styled.div`
         gap: 8px;
       }
 
-      .selectSection {
+      .searchSection {
         gap: 6px;
-
-        .emailSelect {
-          padding: 8px 10px;
-          font-size: 12px;
-        }
       }
 
       .actionSection {
@@ -332,11 +429,30 @@ export const AdmPageContainer = styled.div`
             padding: 8px 10px;
             gap: 6px;
 
-            .adminIcon {
-              width: 24px;
-              height: 24px;
+            .adminInfo {
+              gap: 6px;
 
-              svg {
+              .adminIcon {
+                width: 24px;
+                height: 24px;
+
+                svg {
+                  width: 14px;
+                  height: 14px;
+                }
+              }
+            }
+
+            .removeButton {
+              padding: 5px;
+              min-width: 28px;
+
+              .removeText {
+                display: none;
+              }
+
+              .removeIcon {
+                display: block;
                 width: 14px;
                 height: 14px;
               }
