@@ -19,6 +19,8 @@ import ProductsSelected from "./icons/ProductsSelected.svg";
 import Sales from "./icons/Sales.svg";
 import SalesSelected from "./icons/SalesSelected.svg";
 import Wallet from "./icons/Wallet.svg";
+import AdminSelected from "./icons/AdminSelected.svg";
+import Admin from "./icons/Admin.svg";
 import WalletSelected from "./icons/WalletSelected.svg";
 import { AsideBarContainer } from "./style";
 
@@ -138,6 +140,23 @@ const AsideBar = () => {
               className="desktop"
             >
               CUPONS
+            </Text>
+          </div>
+
+          <div
+            onClick={() => handleClick("admin")}
+            className={`menuOption ${handleCheck("admin") && "selected"}`}
+          >
+            <span className="inconEnviroment">
+              {handleCheck("admin") ? <AdminSelected /> : <Admin />}
+            </span>
+            <Text
+              color={handleCheck("admin") && Theme.colors.maindark}
+              margin="0 0 0 16px"
+              fontName="REGULAR_SEMI_BOLD"
+              className="desktop"
+            >
+              ADMIN
             </Text>
           </div>
 
