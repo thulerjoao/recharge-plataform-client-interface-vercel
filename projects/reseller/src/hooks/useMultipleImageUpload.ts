@@ -1,5 +1,5 @@
-import React, { useRef, useState } from "react";
 import { apiUrl } from "@4miga/services/connectionAPI/url";
+import React, { useRef, useState } from "react";
 
 interface UseMultipleImageUploadOptions {
   endpoint: string;
@@ -53,7 +53,7 @@ export const useMultipleImageUpload = (
     // Check if trying to add more than max
     if (filesArray.length > maxImages) {
       const error = new Error(
-        `Você pode adicionar no máximo ${maxImages} imagens. Por favor, selecione ${maxImages} ou menos imagens.`
+        `Você pode adicionar no máximo ${maxImages} imagens`,
       );
       onError?.(error);
       if (fileInputRef.current) {
@@ -65,7 +65,7 @@ export const useMultipleImageUpload = (
     // Check if adding these files would exceed max
     if (currentCount + filesArray.length > maxImages) {
       const error = new Error(
-        `Você já tem ${currentCount} imagem${currentCount > 1 ? 's' : ''}. Pode adicionar apenas mais ${remainingSlots} imagem${remainingSlots > 1 ? 's' : ''}.`
+        `Você já tem ${currentCount} imagem${currentCount > 1 ? "s" : ""}. Pode adicionar apenas mais ${remainingSlots} imagem${remainingSlots > 1 ? "s" : ""}.`,
       );
       onError?.(error);
       if (fileInputRef.current) {
@@ -91,7 +91,9 @@ export const useMultipleImageUpload = (
     });
 
     if (hasInvalidType) {
-      const error = new Error("Por favor, selecione apenas arquivos PNG, JPG ou JPEG");
+      const error = new Error(
+        "Por favor, selecione apenas arquivos PNG, JPG ou JPEG",
+      );
       onError?.(error);
       if (fileInputRef.current) {
         fileInputRef.current.value = "";
@@ -102,7 +104,7 @@ export const useMultipleImageUpload = (
     setSelectedFiles((prev) => [...prev, ...newFiles]);
     setPreviewUrls((prev) => [...prev, ...newPreviews]);
     setHasChanges(true);
-    
+
     // Clear input to allow selecting same files again if needed
     if (fileInputRef.current) {
       fileInputRef.current.value = "";
@@ -133,7 +135,7 @@ export const useMultipleImageUpload = (
     setIsUploading(true);
     try {
       const formData = new FormData();
-      
+
       // Append all files
       selectedFiles.forEach((file, index) => {
         formData.append(`files`, file);
@@ -171,7 +173,7 @@ export const useMultipleImageUpload = (
     previewUrls.forEach((url) => {
       URL.revokeObjectURL(url);
     });
-    
+
     setSelectedFiles([]);
     setPreviewUrls([]);
     setHasChanges(false);
@@ -194,4 +196,3 @@ export const useMultipleImageUpload = (
     setHasChanges,
   };
 };
-

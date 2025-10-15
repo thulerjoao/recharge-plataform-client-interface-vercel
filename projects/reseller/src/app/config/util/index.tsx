@@ -132,9 +132,9 @@ const Settings = () => {
             <Text fontName="LARGE_SEMI_BOLD" color={Theme.colors.mainlight}>
               BANNER SUPERIOR PÁGINA HOME
             </Text>
-            <Text fontName="REGULAR_MEDIUM" color={Theme.colors.secondaryText}>
+            <Text fontName="SMALL_MEDIUM" color={Theme.colors.secondaryText}>
               A imagem deve estar no formato .png, .jpg ou .jpeg, ter uma
-              resolução mínima de 1280 x 720 e uma proporção de 16:9
+              resolução mínima de 1280 x 540 e uma proporção de 21:9
             </Text>
           </div>
 
@@ -199,7 +199,11 @@ const Settings = () => {
                   onClick={carouselUpload.handleButtonClick}
                 >
                   <Camera />
-                  <Text fontName="TINY_MEDIUM" color={Theme.colors.mainlight}>
+                  <Text
+                    align="center"
+                    fontName="TINY_MEDIUM"
+                    color={Theme.colors.mainlight}
+                  >
                     Adicionar
                   </Text>
                 </div>
@@ -220,7 +224,7 @@ const Settings = () => {
             <div className="saveChangesSection">
               <Button
                 rounded
-                height={36}
+                height={32}
                 width={180}
                 title="Salvar alterações"
                 onClick={handleSaveCarouselChanges}
@@ -237,7 +241,7 @@ const Settings = () => {
             <Text fontName="LARGE_SEMI_BOLD" color={Theme.colors.mainlight}>
               BANNER INFERIOR PÁGINA HOME
             </Text>
-            <Text fontName="REGULAR_MEDIUM" color={Theme.colors.secondaryText}>
+            <Text fontName="SMALL_MEDIUM" color={Theme.colors.secondaryText}>
               A imagem deve estar no formato .png, .jpg ou .jpeg, ter uma
               resolução mínima de 1280 x 540 e uma proporção de 21:9
             </Text>
@@ -253,7 +257,7 @@ const Settings = () => {
           </div>
 
           <div className="imageActionButtons">
-            <Button
+            {/* <Button
               style={{ color: "white" }}
               isNotSelected
               height={32}
@@ -262,7 +266,7 @@ const Settings = () => {
               title="Remover imagem"
               onClick={secondaryBannerUpload.clearSelection}
               disabled={!secondaryBannerUpload.previewUrl}
-            />
+            /> */}
             <Button
               height={32}
               rounded
@@ -295,13 +299,12 @@ const Settings = () => {
           )}
         </div>
 
-        {/* Logo Section */}
-        <div className="infoSection">
+        {/* <div className="infoSection">
           <div className="sectionHeader">
             <Text fontName="LARGE_SEMI_BOLD" color={Theme.colors.mainlight}>
               LOGO
             </Text>
-            <Text fontName="REGULAR_MEDIUM" color={Theme.colors.secondaryText}>
+            <Text fontName="SMALL_MEDIUM" color={Theme.colors.secondaryText}>
               O logo deve estar no formato .png e ter uma resolução mínima de
               720 x 480
             </Text>
@@ -357,13 +360,13 @@ const Settings = () => {
               />
             </div>
           )}
-        </div>
+        </div> */}
         <div className="infoSection">
           <div className="sectionHeader">
             <Text fontName="LARGE_SEMI_BOLD" color={Theme.colors.mainlight}>
               REDES SOCIAIS E CONTATO
             </Text>
-            <Text fontName="REGULAR_MEDIUM" color={Theme.colors.secondaryText}>
+            <Text fontName="SMALL_MEDIUM" color={Theme.colors.secondaryText}>
               Configure as informações de contato da sua loja
             </Text>
           </div>
@@ -449,7 +452,7 @@ const Settings = () => {
           <div className="actionButtons">
             <Button
               rounded
-              height={40}
+              height={32}
               width={197}
               title="Salvar alterações"
               onClick={handleSaveSocialNetworks}

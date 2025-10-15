@@ -25,14 +25,14 @@ export const SettingsPageContainer = styled.div`
       padding: 24px;
       background: ${Theme.colors.maindark};
       border-radius: 12px;
-      -webkit-box-shadow: 0px 0px 5px 2px rgba(7, 29, 35, 1);
-      -moz-box-shadow: 0px 0px 5px 2px rgba(7, 29, 35, 1);
       box-shadow: 0px 0px 5px 2px rgba(7, 29, 35, 1);
       display: flex;
       flex-direction: column;
+      align-items: center;
       gap: 24px;
 
       .sectionHeader {
+        width: 100%;
         display: flex;
         flex-direction: column;
         gap: 8px;
@@ -98,18 +98,11 @@ export const SettingsPageContainer = styled.div`
             border-radius: 8px;
             overflow: hidden;
             border: 2px solid ${Theme.colors.secondaryTextAction};
-            transition: all 0.2s ease;
-
-            &:hover {
-              border-color: ${Theme.colors.mainHighlight};
-              box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
-            }
 
             .thumbnailImageWrapper {
-              width: 100%;
+              min-width: 100%;
               height: 100%;
               position: relative;
-              aspect-ratio: 21/9;
 
               .thumbnailImage {
                 object-fit: fill;
@@ -119,9 +112,9 @@ export const SettingsPageContainer = styled.div`
 
             .removeThumbButton {
               position: absolute;
+              background: ${Theme.colors.mainTransparent};
               top: 4px;
               right: 4px;
-              /* background: ${Theme.colors.refused}; */
               border: none;
               border-radius: 50%;
               width: 24px;
@@ -130,18 +123,10 @@ export const SettingsPageContainer = styled.div`
               align-items: center;
               justify-content: center;
               cursor: pointer;
-              transition: all 0.2s ease;
-              /* opacity: 0.9; */
-
-              &:hover {
-                opacity: 1;
-              }
 
               svg {
-                width: 14px;
-                height: 14px;
                 path {
-                  fill: white;
+                  fill: ${Theme.colors.mainlight};
                 }
               }
             }
@@ -179,6 +164,7 @@ export const SettingsPageContainer = styled.div`
 
       .saveChangesSection {
         display: flex;
+        width: 100%;
         justify-content: center;
         padding-top: 8px;
         border-top: 2px solid ${Theme.colors.secondaryTextAction};
@@ -186,7 +172,7 @@ export const SettingsPageContainer = styled.div`
       }
 
       .bannerImagePreview {
-        width: 100%;
+        width: 80%;
         display: flex;
         justify-content: center;
         align-items: center;
@@ -216,10 +202,8 @@ export const SettingsPageContainer = styled.div`
       }
 
       .imageActionButtons {
-        display: flex;
-        justify-content: center;
-        gap: 16px;
-        margin-top: 16px;
+        max-width: 180px;
+        width: 100%;
       }
     }
   }
@@ -256,6 +240,7 @@ export const SettingsPageContainer = styled.div`
         .socialGrid {
           grid-template-columns: 1fr;
           gap: 20px;
+          width: 80%;
         }
 
         .carouselPreviewSection {
@@ -309,6 +294,7 @@ export const SettingsPageContainer = styled.div`
 
         .socialGrid {
           gap: 16px;
+          width: 90%;
         }
 
         .thumbnailsSection {
@@ -325,11 +311,6 @@ export const SettingsPageContainer = styled.div`
               .removeThumbButton {
                 width: 20px;
                 height: 20px;
-
-                svg {
-                  width: 12px;
-                  height: 12px;
-                }
               }
             }
 
@@ -376,6 +357,7 @@ export const SettingsPageContainer = styled.div`
 
         .socialGrid {
           gap: 14px;
+          width: 90%;
         }
 
         .thumbnailsSection {
@@ -390,13 +372,8 @@ export const SettingsPageContainer = styled.div`
 
             .thumbnailItem {
               .removeThumbButton {
-                width: 18px;
-                height: 18px;
-
-                svg {
-                  width: 10px;
-                  height: 10px;
-                }
+                width: 20px;
+                height: 20px;
               }
             }
 
