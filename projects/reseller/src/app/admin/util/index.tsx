@@ -8,12 +8,12 @@ import {
   connectionAPIGet,
   connectionAPIPatch,
 } from "@4miga/services/connectionAPI/connection";
+import { useAuth } from "context/auth";
 import DefaultHeader from "public/components/defaultHeader";
 import HeaderEnviroment from "public/components/headerEnviroment";
 import { useEffect, useRef, useState } from "react";
 import PasswordModal from "../passwordModal";
 import { AdmPageContainer } from "./style";
-import { useAuth } from "context/auth";
 
 type emailUserType = {
   id: string;
@@ -36,7 +36,6 @@ const AdmPage = () => {
 
   const searchWrapperRef = useRef<HTMLDivElement>(null);
 
-  // Fechar resultados ao clicar fora
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
       if (
@@ -93,7 +92,7 @@ const AdmPage = () => {
     setShowResults(false);
   };
 
-  const handlePromoteClick = (user: emailUserType) => {
+  const handlePromoteClick = () => {
     if (!selectedUser) return;
     setModalAction("promote");
     setIsModalOpen(true);
@@ -320,7 +319,7 @@ const AdmPage = () => {
 
             <div className="actionSection">
               <Button
-                onClick={() => handlePromoteClick(selectedUser)}
+                onClick={() => handlePromoteClick()}
                 title="PROMOVER"
                 width={240}
                 height={36}
