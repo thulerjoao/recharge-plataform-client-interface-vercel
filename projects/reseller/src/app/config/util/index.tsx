@@ -4,26 +4,22 @@ import Button from "@4miga/design-system/components/button";
 import Input from "@4miga/design-system/components/input";
 import Text from "@4miga/design-system/components/Text";
 import { Theme } from "@4miga/design-system/theme/theme";
+import { useAuth } from "context/auth";
 import { useImageUpload } from "hooks/useImageUpload";
-import { useMultipleImageUpload } from "hooks/useMultipleImageUpload";
-import Image, { StaticImageData } from "next/image";
-import Carousel from "public/components/carousel/carousel";
+import Image from "next/image";
 import DefaultHeader from "public/components/defaultHeader";
 import HeaderEnviroment from "public/components/headerEnviroment";
 import { useState } from "react";
+import CarouselUpload from "../common/components/carouselUpload";
 import Camera from "../common/icons/Camera.svg";
-import Close from "../common/icons/Close.svg";
 import Email from "../common/icons/Email.svg";
 import Facebook from "../common/icons/Facebook.svg";
 import Instagram from "../common/icons/Instagram.svg";
 import Tiktok from "../common/icons/TikTok.svg";
 import Wpp from "../common/icons/Wpp.svg";
 import Logo from "../common/temp/Logo.png";
-import MainBanner from "../common/temp/MainBanner.png";
 import SecondaryBanner from "../common/temp/SeconderyBanner.png";
 import { SettingsPageContainer } from "./style";
-
-const mockCarouselImages = [MainBanner, MainBanner, MainBanner, MainBanner];
 
 const Settings = () => {
   const [instagram, setInstagram] = useState("@4migagames");
@@ -31,26 +27,11 @@ const Settings = () => {
   const [tiktok, setTiktok] = useState("@4migagames");
   const [whatsapp, setWhatsapp] = useState("(11) 9 9944-9944");
   const [email, setEmail] = useState("contato@4miga.com");
-
-  const [carouselImages, setCarouselImages] =
-    useState<(string | StaticImageData)[]>(mockCarouselImages);
   const [secondaryBannerUrl, setSecondaryBannerUrl] = useState<string>(
     SecondaryBanner.src,
   );
   const [logoUrl, setLogoUrl] = useState<string>(Logo.src);
-
-  const carouselUpload = useMultipleImageUpload({
-    endpoint: "/store/banners/carousel",
-    maxImages: 5,
-    onSuccess: (urls) => {
-      setCarouselImages(urls);
-      alert("Imagens do carrossel atualizadas com sucesso!");
-    },
-    onError: (error) => {
-      console.error("Carousel upload error:", error);
-      alert(error.message || "Erro ao fazer upload das imagens do carrossel.");
-    },
-  });
+  const { store, fetchStore } = useAuth();
 
   const secondaryBannerUpload = useImageUpload({
     endpoint: "/store/banners/secondary",
@@ -64,35 +45,20 @@ const Settings = () => {
     },
   });
 
-  const logoUpload = useImageUpload({
-    endpoint: "/store/logo",
-    onSuccess: (url) => {
-      setLogoUrl(url);
-      alert("Logo atualizado com sucesso!");
-    },
-    onError: (error) => {
-      console.error("Logo upload error:", error);
-      alert("Erro ao fazer upload do logo.");
-    },
-  });
+  // const logoUpload = useImageUpload({
+  //   endpoint: `/store/${store.id}/logo`,
+  //   onSuccess: (url) => {
+  //     setLogoUrl(url);
+  //     alert("Logo atualizado com sucesso!");
+  //   },
+  //   onError: (error) => {
+  //     console.error("Logo upload error:", error);
+  //     alert("Erro ao fazer upload do logo.");
+  //   },
+  // });
 
   const handleSaveSocialNetworks = () => {
     alert("Redes sociais salvas! (Mock - implementar com API)");
-  };
-
-  const handleRemoveCarouselImage = (index: number) => {
-    if (carouselUpload.previewUrls.length > 0) {
-      carouselUpload.removeImage(index);
-    } else {
-      const newImages = carouselImages.filter((_, i) => i !== index);
-      setCarouselImages(newImages);
-    }
-  };
-
-  const handleSaveCarouselChanges = async () => {
-    if (carouselUpload.hasChanges) {
-      await carouselUpload.handleSave();
-    }
   };
 
   const handleSaveSecondaryBanner = async () => {
@@ -101,16 +67,11 @@ const Settings = () => {
     }
   };
 
-  const handleSaveLogo = async () => {
-    if (logoUpload.hasChanges) {
-      await logoUpload.handleSave();
-    }
-  };
-
-  const displayCarouselImages =
-    carouselUpload.previewUrls.length > 0
-      ? carouselUpload.previewUrls
-      : carouselImages;
+  // const handleSaveLogo = async () => {
+  //   if (logoUpload.hasChanges) {
+  //     await logoUpload.handleSave();
+  //   }
+  // };
 
   return (
     <SettingsPageContainer>
@@ -126,116 +87,11 @@ const Settings = () => {
       </div>
 
       <div className="mainContent">
-        {/* Main Banner Carousel Section */}
-        <div className="infoSection">
-          <div className="sectionHeader">
-            <Text fontName="LARGE_SEMI_BOLD" color={Theme.colors.mainlight}>
-              BANNER SUPERIOR PÁGINA HOME
-            </Text>
-            <Text fontName="SMALL_MEDIUM" color={Theme.colors.secondaryText}>
-              A imagem deve estar no formato .png, .jpg ou .jpeg, ter uma
-              resolução mínima de 1280 x 540 e uma proporção de 21:9
-            </Text>
-          </div>
+        <CarouselUpload
+          bannersUrl={store?.bannersUrl}
+          onRefreshStore={fetchStore}
+        />
 
-          {/* Preview do Carrossel */}
-          <div className="carouselPreviewSection">
-            <Text
-              fontName="SMALL_MEDIUM"
-              color={Theme.colors.secondaryText}
-              margin="0 0 12px 0"
-            >
-              Preview do banner:
-            </Text>
-            <div className="carouselPreviewReduced">
-              {displayCarouselImages.length > 0 ? (
-                <Carousel imagesList={displayCarouselImages} />
-              ) : (
-                <div className="emptyCarousel">
-                  <Text
-                    fontName="REGULAR_MEDIUM"
-                    color={Theme.colors.secondaryText}
-                  >
-                    Nenhuma imagem adicionada
-                  </Text>
-                </div>
-              )}
-            </div>
-          </div>
-
-          {/* Fileira de Thumbnails */}
-          <div className="thumbnailsSection">
-            <div className="thumbnailsHeader">
-              <Text fontName="SMALL_MEDIUM" color={Theme.colors.secondaryText}>
-                Imagens selecionadas ({displayCarouselImages.length}/5):
-              </Text>
-            </div>
-
-            <div className="thumbnailsGrid">
-              {displayCarouselImages.map((image, index) => (
-                <div key={index} className="thumbnailItem">
-                  <div className="thumbnailImageWrapper">
-                    <Image
-                      src={image}
-                      alt={`Banner ${index + 1}`}
-                      fill
-                      sizes="160px"
-                      className="thumbnailImage"
-                    />
-                  </div>
-                  <button
-                    className="removeThumbButton"
-                    onClick={() => handleRemoveCarouselImage(index)}
-                    type="button"
-                  >
-                    <Close />
-                  </button>
-                </div>
-              ))}
-
-              {displayCarouselImages.length < 5 && (
-                <div
-                  className="addThumbnailItem"
-                  onClick={carouselUpload.handleButtonClick}
-                >
-                  <Camera />
-                  <Text
-                    align="center"
-                    fontName="TINY_MEDIUM"
-                    color={Theme.colors.mainlight}
-                  >
-                    Adicionar
-                  </Text>
-                </div>
-              )}
-            </div>
-          </div>
-
-          <input
-            ref={carouselUpload.fileInputRef}
-            type="file"
-            accept="image/png,image/jpg,image/jpeg"
-            multiple
-            style={{ display: "none" }}
-            onChange={carouselUpload.handleFileSelect}
-          />
-
-          {carouselUpload.hasChanges && (
-            <div className="saveChangesSection">
-              <Button
-                rounded
-                height={32}
-                width={180}
-                title="Salvar alterações"
-                onClick={handleSaveCarouselChanges}
-                loading={carouselUpload.isUploading}
-                disabled={carouselUpload.isUploading}
-              />
-            </div>
-          )}
-        </div>
-
-        {/* Secondary Banner Section */}
         <div className="infoSection">
           <div className="sectionHeader">
             <Text fontName="LARGE_SEMI_BOLD" color={Theme.colors.mainlight}>

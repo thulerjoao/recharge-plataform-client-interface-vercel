@@ -5,7 +5,7 @@ export type StoreType = {
   domain: string;
   logoUrl: string;
   miniLogoUrl: string;
-  bannersUrl: string;
+  bannersUrl: string[];
   facebookUrl: string;
   instagramUrl: string;
   tiktokUrl: string;
