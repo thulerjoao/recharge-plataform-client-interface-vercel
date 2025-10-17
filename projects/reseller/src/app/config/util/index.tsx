@@ -5,20 +5,17 @@ import Input from "@4miga/design-system/components/input";
 import Text from "@4miga/design-system/components/Text";
 import { Theme } from "@4miga/design-system/theme/theme";
 import { useAuth } from "context/auth";
-import { useImageUpload } from "hooks/useImageUpload";
 import Image from "next/image";
 import DefaultHeader from "public/components/defaultHeader";
 import HeaderEnviroment from "public/components/headerEnviroment";
 import { useState } from "react";
 import CarouselUpload from "../common/components/carouselUpload";
-import Camera from "../common/icons/Camera.svg";
+import SecondaryBannerUpload from "../common/components/secondaryBannerUpload";
 import Email from "../common/icons/Email.svg";
 import Facebook from "../common/icons/Facebook.svg";
 import Instagram from "../common/icons/Instagram.svg";
 import Tiktok from "../common/icons/TikTok.svg";
 import Wpp from "../common/icons/Wpp.svg";
-import Logo from "../common/temp/Logo.png";
-import SecondaryBanner from "../common/temp/SeconderyBanner.png";
 import { SettingsPageContainer } from "./style";
 
 const Settings = () => {
@@ -27,51 +24,11 @@ const Settings = () => {
   const [tiktok, setTiktok] = useState("@4migagames");
   const [whatsapp, setWhatsapp] = useState("(11) 9 9944-9944");
   const [email, setEmail] = useState("contato@4miga.com");
-  const [secondaryBannerUrl, setSecondaryBannerUrl] = useState<string>(
-    SecondaryBanner.src,
-  );
-  const [logoUrl, setLogoUrl] = useState<string>(Logo.src);
   const { store, fetchStore } = useAuth();
-
-  const secondaryBannerUpload = useImageUpload({
-    endpoint: "/store/banners/secondary",
-    onSuccess: (url) => {
-      setSecondaryBannerUrl(url);
-      alert("Banner inferior atualizado com sucesso!");
-    },
-    onError: (error) => {
-      console.error("Secondary banner upload error:", error);
-      alert("Erro ao fazer upload do banner inferior.");
-    },
-  });
-
-  // const logoUpload = useImageUpload({
-  //   endpoint: `/store/${store.id}/logo`,
-  //   onSuccess: (url) => {
-  //     setLogoUrl(url);
-  //     alert("Logo atualizado com sucesso!");
-  //   },
-  //   onError: (error) => {
-  //     console.error("Logo upload error:", error);
-  //     alert("Erro ao fazer upload do logo.");
-  //   },
-  // });
 
   const handleSaveSocialNetworks = () => {
     alert("Redes sociais salvas! (Mock - implementar com API)");
   };
-
-  const handleSaveSecondaryBanner = async () => {
-    if (secondaryBannerUpload.hasChanges) {
-      await secondaryBannerUpload.handleSave();
-    }
-  };
-
-  // const handleSaveLogo = async () => {
-  //   if (logoUpload.hasChanges) {
-  //     await logoUpload.handleSave();
-  //   }
-  // };
 
   return (
     <SettingsPageContainer>
@@ -92,68 +49,10 @@ const Settings = () => {
           onRefreshStore={fetchStore}
         />
 
-        <div className="infoSection">
-          <div className="sectionHeader">
-            <Text fontName="LARGE_SEMI_BOLD" color={Theme.colors.mainlight}>
-              BANNER INFERIOR PÁGINA HOME
-            </Text>
-            <Text fontName="SMALL_MEDIUM" color={Theme.colors.secondaryText}>
-              A imagem deve estar no formato .png, .jpg ou .jpeg, ter uma
-              resolução mínima de 1280 x 540 e uma proporção de 21:9
-            </Text>
-          </div>
-
-          <div className="bannerImagePreview">
-            <Image
-              src={secondaryBannerUpload.previewUrl || secondaryBannerUrl}
-              alt="banner inferior"
-              width={1280}
-              height={540}
-            />
-          </div>
-
-          <div className="imageActionButtons">
-            {/* <Button
-              style={{ color: "white" }}
-              isNotSelected
-              height={32}
-              rounded
-              leftElement={<Close />}
-              title="Remover imagem"
-              onClick={secondaryBannerUpload.clearSelection}
-              disabled={!secondaryBannerUpload.previewUrl}
-            /> */}
-            <Button
-              height={32}
-              rounded
-              leftElement={<Camera />}
-              title="Atualizar imagem"
-              onClick={secondaryBannerUpload.handleButtonClick}
-            />
-          </div>
-
-          <input
-            ref={secondaryBannerUpload.fileInputRef}
-            type="file"
-            accept="image/png,image/jpg,image/jpeg"
-            style={{ display: "none" }}
-            onChange={secondaryBannerUpload.handleFileSelect}
-          />
-
-          {secondaryBannerUpload.hasChanges && (
-            <div className="saveChangesSection">
-              <Button
-                rounded
-                height={36}
-                width={180}
-                title="Salvar alterações"
-                onClick={handleSaveSecondaryBanner}
-                loading={secondaryBannerUpload.isUploading}
-                disabled={secondaryBannerUpload.isUploading}
-              />
-            </div>
-          )}
-        </div>
+        <SecondaryBannerUpload
+          secondaryBannerUrl={store?.offerBannerImage}
+          onRefreshStore={fetchStore}
+        />
 
         {/* <div className="infoSection">
           <div className="sectionHeader">

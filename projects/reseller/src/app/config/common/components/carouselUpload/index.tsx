@@ -132,19 +132,13 @@ const CarouselUpload: React.FC<CarouselUploadProps> = ({
       </div>
 
       <div className="carouselPreviewSection">
-        <Text
-          fontName="SMALL_MEDIUM"
-          color={Theme.colors.secondaryText}
-          margin="0 0 12px 0"
-        >
-          Preview do banner:
-        </Text>
         <div className="carouselPreviewReduced">
           {displayCarouselImages.length > 0 ? (
             <Carousel imagesList={displayCarouselImages} />
           ) : (
             <div className="emptyCarousel">
               <Text
+                align="center"
                 fontName="REGULAR_MEDIUM"
                 color={Theme.colors.secondaryText}
               >

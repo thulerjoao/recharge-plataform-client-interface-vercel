@@ -58,41 +58,6 @@ export const SettingsPageContainer = styled.div`
         justify-content: center;
         padding-top: 8px;
       }
-
-      .bannerImagePreview {
-        width: 80%;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        margin-top: 16px;
-
-        img {
-          max-width: 100%;
-          height: auto;
-          border-radius: 8px;
-          box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-        }
-      }
-
-      .logoImagePreview {
-        width: 100%;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        margin-top: 16px;
-
-        img {
-          max-width: 400px;
-          height: auto;
-          border-radius: 8px;
-          box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-        }
-      }
-
-      .imageActionButtons {
-        max-width: 180px;
-        width: 100%;
-      }
     }
   }
 
@@ -130,28 +95,13 @@ export const SettingsPageContainer = styled.div`
           gap: 20px;
           width: 80%;
         }
-
-        .imageActionButtons {
-          flex-direction: row;
-          gap: 12px;
-
-          button {
-            flex: 1;
-          }
-        }
-
-        .logoImagePreview {
-          img {
-            max-width: 300px;
-          }
-        }
       }
     }
   }
 
   @media (max-width: 539px) {
     .mainContent {
-      padding: 8px;
+      padding: 0;
       gap: 20px;
 
       .infoSection {
@@ -166,28 +116,13 @@ export const SettingsPageContainer = styled.div`
           gap: 16px;
           width: 90%;
         }
-
-        .imageActionButtons {
-          flex-direction: column;
-          gap: 12px;
-
-          button {
-            width: 100%;
-          }
-        }
-
-        .logoImagePreview {
-          img {
-            max-width: 250px;
-          }
-        }
       }
     }
   }
 
   @media (max-width: 400px) {
     .mainContent {
-      padding: 4px;
+      padding: 0;
       gap: 16px;
 
       .infoSection {
@@ -202,16 +137,6 @@ export const SettingsPageContainer = styled.div`
         .socialGrid {
           gap: 14px;
           width: 90%;
-        }
-
-        .imageActionButtons {
-          gap: 10px;
-        }
-
-        .logoImagePreview {
-          img {
-            max-width: 200px;
-          }
         }
       }
     }
