@@ -33,6 +33,7 @@ interface AuthProviderData {
   user: Partial<UserType>;
   setUser: (user: Partial<UserType>) => void;
   store: StoreType | null;
+  fetchStore: () => Promise<void>;
 }
 
 const AuthContext = createContext<AuthProviderData>({} as AuthProviderData);
@@ -224,9 +225,24 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
     }
   };
 
+  const fetchStore = async () => {
+    if (!store) return;
+    const response = await connectionAPIGet<StoreType>(`/store`, apiUrl);
+    setStore(response);
+  };
+
   return (
     <AuthContext.Provider
-      value={{ logged, checkingToken, login, logout, user, setUser, store }}
+      value={{
+        logged,
+        checkingToken,
+        login,
+        logout,
+        user,
+        setUser,
+        store,
+        fetchStore,
+      }}
     >
       {children}
     </AuthContext.Provider>

@@ -4,6 +4,7 @@ import React, { useRef, useState } from "react";
 interface UseMultipleImageUploadOptions {
   endpoint: string;
   maxImages?: number;
+  existingImagesCount?: number; // Número de imagens já salvas
   onSuccess?: (urls: string[]) => void;
   onError?: (error: Error) => void;
 }
@@ -30,7 +31,13 @@ interface UseMultipleImageUploadReturn {
 export const useMultipleImageUpload = (
   options: UseMultipleImageUploadOptions,
 ): UseMultipleImageUploadReturn => {
-  const { endpoint, maxImages = 5, onSuccess, onError } = options;
+  const {
+    endpoint,
+    maxImages = 5,
+    existingImagesCount = 0,
+    onSuccess,
+    onError,
+  } = options;
 
   // States
   const [selectedFiles, setSelectedFiles] = useState<File[]>([]);
@@ -46,14 +53,26 @@ export const useMultipleImageUpload = (
     const files = event.target.files;
     if (!files || files.length === 0) return;
 
-    const currentCount = selectedFiles.length;
-    const remainingSlots = maxImages - currentCount;
+    const totalCurrentImages = existingImagesCount + selectedFiles.length;
+    const remainingSlots = maxImages - totalCurrentImages;
     const filesArray = Array.from(files);
 
-    // Check if trying to add more than max
+    // Check if already at max capacity
+    if (totalCurrentImages >= maxImages) {
+      const error = new Error(
+        `Você já atingiu o limite de ${maxImages} imagens. Remova algumas antes de adicionar novas.`,
+      );
+      onError?.(error);
+      if (fileInputRef.current) {
+        fileInputRef.current.value = "";
+      }
+      return;
+    }
+
+    // Check if trying to add more than max total
     if (filesArray.length > maxImages) {
       const error = new Error(
-        `Você pode adicionar no máximo ${maxImages} imagens`,
+        `Você pode adicionar no máximo ${maxImages} imagens no total`,
       );
       onError?.(error);
       if (fileInputRef.current) {
@@ -63,9 +82,9 @@ export const useMultipleImageUpload = (
     }
 
     // Check if adding these files would exceed max
-    if (currentCount + filesArray.length > maxImages) {
+    if (totalCurrentImages + filesArray.length > maxImages) {
       const error = new Error(
-        `Você já tem ${currentCount} imagem${currentCount > 1 ? "s" : ""}. Pode adicionar apenas mais ${remainingSlots} imagem${remainingSlots > 1 ? "s" : ""}.`,
+        `Você já tem ${totalCurrentImages} imagem(s). Pode adicionar apenas mais ${remainingSlots} imagem(s).`,
       );
       onError?.(error);
       if (fileInputRef.current) {
