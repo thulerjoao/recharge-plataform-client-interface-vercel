@@ -7,11 +7,11 @@ import { useImageUpload } from "hooks/useImageUpload";
 import Image from "next/image";
 import React, { useState } from "react";
 import Camera from "../../icons/Camera.svg";
-// import SecondaryBannerDefault from "../../temp/SeconderyBanner.png";
+import SecondaryBannerDefault from "../../temp/SeconderyBanner.png";
 import { SecondaryBannerUploadContainer } from "./style";
 
 interface SecondaryBannerUploadProps {
-  secondaryBannerUrl?: string;
+  secondaryBannerUrl: string | null;
   onRefreshStore: () => Promise<void>;
 }
 
@@ -20,9 +20,10 @@ const SecondaryBannerUpload: React.FC<SecondaryBannerUploadProps> = ({
   onRefreshStore,
 }) => {
   const [bannerUrl, setBannerUrl] = useState<string>(secondaryBannerUrl);
+  const [isRemoving, setIsRemoving] = useState<boolean>(false);
 
   const secondaryBannerUpload = useImageUpload({
-    endpoint: "/store/banners/secondary",
+    endpoint: "/store/offer-banner",
     onSuccess: async (url) => {
       setBannerUrl(url);
       await onRefreshStore();
@@ -42,6 +43,31 @@ const SecondaryBannerUpload: React.FC<SecondaryBannerUploadProps> = ({
     secondaryBannerUpload.clearSelection();
   };
 
+  const handleDelete = async () => {
+    if (!bannerUrl) return;
+
+    setIsRemoving(true);
+
+    const confirmDelete = window.confirm(
+      "Ao deletar o banner, a sessão não será exibida na loja. Deseja continuar?",
+    );
+    if (!confirmDelete) {
+      setIsRemoving(false);
+      return;
+    }
+
+    try {
+      const { deleteOfferBanner } = await import("services/offerBannerService");
+      await deleteOfferBanner();
+      setBannerUrl(null);
+      await onRefreshStore();
+    } catch (error) {
+      alert("Erro ao remover o banner");
+    } finally {
+      setIsRemoving(false);
+    }
+  };
+
   return (
     <SecondaryBannerUploadContainer>
       <div className="sectionHeader">
@@ -55,13 +81,15 @@ const SecondaryBannerUpload: React.FC<SecondaryBannerUploadProps> = ({
       </div>
 
       <div className="bannerImagePreview">
-        {secondaryBannerUpload.previewUrl || bannerUrl ? (
-          <Image
-            src={secondaryBannerUpload.previewUrl || bannerUrl}
-            alt="banner inferior"
-            width={1280}
-            height={540}
-          />
+        {secondaryBannerUpload.previewUrl || secondaryBannerUrl ? (
+          <div className="bannerImageWrapper">
+            <Image
+              src={secondaryBannerUpload.previewUrl || secondaryBannerUrl}
+              alt="banner inferior"
+              fill
+              className="bannerImage"
+            />
+          </div>
         ) : (
           <div className="emptyBanner">
             <Text
@@ -69,22 +97,11 @@ const SecondaryBannerUpload: React.FC<SecondaryBannerUploadProps> = ({
               fontName="REGULAR_MEDIUM"
               color={Theme.colors.secondaryText}
             >
-              Nenhuma banner será exibido
+              Nenhum banner será exibido
             </Text>
           </div>
         )}
       </div>
-
-      <div className="imageActionButtons">
-        <Button
-          height={32}
-          rounded
-          leftElement={<Camera />}
-          title="Atualizar imagem"
-          onClick={secondaryBannerUpload.handleButtonClick}
-        />
-      </div>
-
       <input
         ref={secondaryBannerUpload.fileInputRef}
         type="file"
@@ -93,7 +110,7 @@ const SecondaryBannerUpload: React.FC<SecondaryBannerUploadProps> = ({
         onChange={secondaryBannerUpload.handleFileSelect}
       />
 
-      {secondaryBannerUpload.hasChanges && (
+      {secondaryBannerUpload.hasChanges ? (
         <div className="saveChangesSection">
           <Button
             rounded
@@ -112,6 +129,29 @@ const SecondaryBannerUpload: React.FC<SecondaryBannerUploadProps> = ({
             onClick={handleSave}
             loading={secondaryBannerUpload.isUploading}
             disabled={secondaryBannerUpload.isUploading}
+          />
+        </div>
+      ) : (
+        <div className="saveChangesSection">
+          {bannerUrl && (
+            <Button
+              rounded
+              height={32}
+              width={140}
+              title="Remover"
+              onClick={handleDelete}
+              loading={isRemoving}
+              disabled={isRemoving}
+            />
+          )}
+          <Button
+            rounded
+            height={32}
+            width={140}
+            leftElement={<Camera />}
+            title={bannerUrl ? "Atualizar" : "Adicionar"}
+            onClick={secondaryBannerUpload.handleButtonClick}
+            disabled={isRemoving}
           />
         </div>
       )}

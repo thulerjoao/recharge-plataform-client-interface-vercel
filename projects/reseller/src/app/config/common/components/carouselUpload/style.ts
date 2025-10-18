@@ -128,7 +128,7 @@ export const CarouselUploadContainer = styled.div`
     gap: 12px;
     width: 100%;
     justify-content: center;
-    padding-top: 8px;
+    padding-top: 16px;
     border-top: 2px solid ${Theme.colors.secondaryTextAction};
     margin-top: 8px;
   }
