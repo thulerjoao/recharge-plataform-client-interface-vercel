@@ -27,11 +27,18 @@ export const SecondaryBannerUploadContainer = styled.div`
     align-items: center;
     margin-top: 16px;
 
-    img {
-      max-width: 100%;
-      height: auto;
+    .bannerImageWrapper {
+      width: 100%;
+      position: relative;
+      aspect-ratio: 21 / 9;
       border-radius: 8px;
+      overflow: hidden;
       box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+
+      .bannerImage {
+        object-fit: fill;
+        object-position: center;
+      }
     }
 
     .emptyBanner {
@@ -41,6 +48,10 @@ export const SecondaryBannerUploadContainer = styled.div`
       background: ${Theme.colors.secondaryTextAction}20;
       border-radius: 8px;
       border: 2px dashed ${Theme.colors.secondaryTextAction};
+      aspect-ratio: 21 / 9;
+      display: flex;
+      align-items: center;
+      justify-content: center;
     }
   }
 
@@ -54,7 +65,7 @@ export const SecondaryBannerUploadContainer = styled.div`
     width: 100%;
     justify-content: center;
     gap: 16px;
-    padding-top: 8px;
+    padding-top: 16px;
     border-top: 2px solid ${Theme.colors.secondaryTextAction};
     margin-top: 8px;
   }

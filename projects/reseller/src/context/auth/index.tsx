@@ -227,9 +227,14 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
 
   const fetchStore = async () => {
     if (!store) return;
-    const response = await connectionAPIGet<StoreType>(`/store`, apiUrl);
+    const response = await connectionAPIGet<StoreType>(
+      `/store/${store.id}`,
+      apiUrl,
+    );
     setStore(response);
   };
+
+  console.log(store);
 
   return (
     <AuthContext.Provider
