@@ -6,7 +6,7 @@ export type StoreType = {
   logoUrl: string;
   miniLogoUrl: string;
   bannersUrl: string[];
-  offerBannerImage?: string;
+  secondaryBannerUrl?: string;
   facebookUrl: string;
   instagramUrl: string;
   tiktokUrl: string;

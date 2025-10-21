@@ -23,7 +23,7 @@ export const SettingsPageContainer = styled.div`
   }
 
   @media (max-width: 768px) {
-    padding-top: 64px;
+    padding-top: 48px;
 
     .desktop {
       display: none;
@@ -41,6 +41,17 @@ export const SettingsPageContainer = styled.div`
       margin-top: 12px;
       width: auto;
       height: 0;
+    }
+
+    .mainContentContainer {
+      padding: 16px;
+    }
+  }
+  @media (max-width: 539px) {
+    padding-top: 62px;
+
+    .mainContentContainer {
+      padding: 0px;
     }
   }
 `;

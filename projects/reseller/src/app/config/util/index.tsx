@@ -32,7 +32,7 @@ const Settings = () => {
         />
 
         <SecondaryBannerUpload
-          secondaryBannerUrl={store?.offerBannerImage}
+          secondaryBannerUrl={store?.secondaryBannerUrl}
           onRefreshStore={fetchStore}
         />
 
