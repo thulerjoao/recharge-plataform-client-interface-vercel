@@ -334,7 +334,7 @@ export const AdmPageContainer = styled.div`
 
   @media (max-width: 539px) {
     .permissionsContainer {
-      padding: 8px;
+      padding: 0px;
       gap: 20px;
 
       .sectionCard {

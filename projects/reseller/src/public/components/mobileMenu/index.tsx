@@ -5,11 +5,11 @@ import { useAuth } from "context/auth";
 import { usePathname, useRouter } from "next/navigation";
 import React, { useState } from "react";
 import { AsideSelected } from "types/asideSelectedType";
-import Gear from "../asideBar/icons/Gear.svg";
-import GearSelected from "../asideBar/icons/GearSelected.svg";
-import Logout from "../asideBar/icons/Logout.svg";
-import Products from "../asideBar/icons/Products.svg";
-import ProductsSelected from "../asideBar/icons/ProductsSelected.svg";
+import Gear from "../../icons/Gear.svg";
+import GearSelected from "../../icons/GearSelected.svg";
+import Logout from "../../icons/Logout.svg";
+import Products from "../../icons/Products.svg";
+import ProductsSelected from "../../icons/ProductsSelected.svg";
 import SearchComponent from "../searchComponent";
 import BigDown from "./icons/BigDown.svg";
 import BigUp from "./icons/BigUp.svg";
@@ -17,10 +17,12 @@ import Search from "./icons/Search.svg";
 import Setting from "./icons/Setting.svg";
 import { MobileMenuContainer } from "./style";
 
-import Discount from "../asideBar/icons/Discount.svg";
-import DiscountSelected from "../asideBar/icons/DiscountSelected.svg";
-import InfluencerSelected from "../asideBar/icons/GearSelected.svg";
-import Influencer from "../asideBar/icons/Influencer.svg";
+import Discount from "../../icons/Discount.svg";
+import DiscountSelected from "../../icons/DiscountSelected.svg";
+import InfluencerSelected from "../../icons/GearSelected.svg";
+import Influencer from "../../icons/Influencer.svg";
+import Admin from "../../icons/Admin.svg";
+import AdminSelected from "../../icons/AdminSelected.svg";
 
 interface Props {
   search: boolean;
@@ -183,6 +185,24 @@ const MobileMenu = ({ search, openMenu, setOpenMenu }: Props) => {
         </Text>
       </div>
 
+      <div
+        onClick={(e) => {
+          e.stopPropagation();
+          handleClick("admin");
+        }}
+        className={`menuOption ${handleCheck("admin") && "selected"}`}
+      >
+        <span>{handleCheck("admin") ? <AdminSelected /> : <Admin />}</span>
+
+        <Text
+          color={handleCheck("admin") && Theme.colors.maindark}
+          margin="0 0 0 16px"
+          fontName="REGULAR_SEMI_BOLD"
+        >
+          ADMIN
+        </Text>
+      </div>
+
       {/* <div
         onClick={(e) => {
           e.stopPropagation();
@@ -223,18 +243,18 @@ const MobileMenu = ({ search, openMenu, setOpenMenu }: Props) => {
       <div
         onClick={(e) => {
           e.stopPropagation();
-          handleClick("config");
+          handleClick("loja");
         }}
-        className={`menuOption ${handleCheck("config") && "selected"}`}
+        className={`menuOption ${handleCheck("loja") && "selected"}`}
       >
-        <span>{handleCheck("config") ? <GearSelected /> : <Gear />}</span>
+        <span>{handleCheck("loja") ? <GearSelected /> : <Gear />}</span>
 
         <Text
-          color={handleCheck("config") && Theme.colors.maindark}
+          color={handleCheck("loja") && Theme.colors.maindark}
           margin="0 0 0 16px"
           fontName="REGULAR_SEMI_BOLD"
         >
-          CONFIGURAÇÕES
+          LOJA
         </Text>
       </div>
       <div className="menuOption" onClick={() => logout()}>
