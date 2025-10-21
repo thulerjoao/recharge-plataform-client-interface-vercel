@@ -234,8 +234,6 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
     setStore(response);
   };
 
-  console.log(store);
-
   return (
     <AuthContext.Provider
       value={{

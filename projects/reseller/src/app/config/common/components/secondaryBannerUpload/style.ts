@@ -28,7 +28,7 @@ export const SecondaryBannerUploadContainer = styled.div`
     margin-top: 16px;
 
     .bannerImageWrapper {
-      width: 100%;
+      width: 90%;
       position: relative;
       aspect-ratio: 21 / 9;
       border-radius: 8px;
@@ -73,6 +73,12 @@ export const SecondaryBannerUploadContainer = styled.div`
   @media (max-width: 768px) {
     padding: 20px;
     gap: 20px;
+
+    .bannerImagePreview {
+      .bannerImageWrapper {
+        width: 100%;
+      }
+    }
 
     .imageActionButtons {
       flex-direction: row;
