@@ -7,4 +7,5 @@ export type AsideSelected =
   | "cupons"
   | "carteira"
   | "config"
-  | "admin";
+  | "admin"
+  | "loja";

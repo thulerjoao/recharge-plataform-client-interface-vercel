@@ -16,12 +16,12 @@ const Settings = () => {
     <SettingsPageContainer>
       <div className="desktop">
         <HeaderEnviroment>
-          <DefaultHeader backWard title="CONFIGURAÇÕES" />
+          <DefaultHeader backWard title="LOJA" />
         </HeaderEnviroment>
       </div>
       <div className="mobile mobileHeader">
         <Text align="center" fontName="LARGE_SEMI_BOLD">
-          CONFIGURAÇÕES
+          LOJA
         </Text>
       </div>
 

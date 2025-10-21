@@ -38,6 +38,7 @@ export const InputElement = styled.input<InputProps>`
   }
 
   &[type="number"] {
+    appearance: textfield;
     -moz-appearance: textfield;
   }
 `;

@@ -1,21 +1,25 @@
 import { usePathname, useRouter } from "next/navigation";
 import { AsideSelected } from "types/asideSelectedType";
-// import RechargeSelected from "./icons/RechargeSelected.svg";
-// import SalesSelected from "./icons/SalesSelected.svg";
-// import HomeSelected from "./icons/HomeSelected.svg";
-// import Home from "./icons/Home.svg";
-// import Recharge from "./icons/Recharge.svg";
-// import Sales from "./icons/Sales.svg";
-// import Wallet from "./icons/Wallet.svg";
-// import WalletSelected from "./icons/WalletSelected.svg";
+// import RechargeSelected from "../../icons/RechargeSelected.svg";
+// import SalesSelected from "../../icons/SalesSelected.svg";
+// import HomeSelected from "../../icons/HomeSelected.svg";
+// import Home from "../../icons/Home.svg";
+// import Recharge from "../../icons/Recharge.svg";
+// import Sales from "../../icons/Sales.svg";
+// import Wallet from "../../icons/Wallet.svg";
+// import WalletSelected from "../../icons/WalletSelected.svg";
 import { MobileNavBar } from "./style";
 import { scrollToTop } from "utils/scrollToTopFunction";
-import Products from "./icons/Products.svg";
-import ProductsSelected from "./icons/ProductsSelected.svg";
-import Influencer from "./icons/Influencer.svg";
-import InfluencerSelected from "./icons/InfluencerSelected.svg";
-import Discount from "./icons/Discount.svg";
-import DiscountSelected from "./icons/DiscountSelected.svg";
+import Products from "../../icons/Products.svg";
+import ProductsSelected from "../../icons/ProductsSelected.svg";
+import Influencer from "../../icons/Influencer.svg";
+import InfluencerSelected from "../../icons/InfluencerSelected.svg";
+import Discount from "../../icons/Discount.svg";
+import DiscountSelected from "../../icons/DiscountSelected.svg";
+import Admin from "../../icons/Admin.svg";
+import AdminSelected from "../../icons/AdminSelected.svg";
+import Gear from "../../icons/Gear.svg";
+import GearSelected from "../../icons/GearSelected.svg";
 
 interface Props {
   openMenu: boolean;
@@ -85,6 +89,18 @@ const MobileNavbar = ({ openMenu }: Props) => {
         className={handleCheck("cupons") && "selected"}
       >
         {handleCheck("cupons") ? <DiscountSelected /> : <Discount />}
+      </span>
+      <span
+        onClick={() => handleClick("admin")}
+        className={handleCheck("admin") && "selected"}
+      >
+        {handleCheck("admin") ? <AdminSelected /> : <Admin />}
+      </span>
+      <span
+        onClick={() => handleClick("loja")}
+        className={handleCheck("loja") && "selected"}
+      >
+        {handleCheck("loja") ? <GearSelected /> : <Gear />}
       </span>
     </MobileNavBar>
   );
