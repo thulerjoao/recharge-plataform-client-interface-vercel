@@ -15,19 +15,17 @@ export const SwiperContainer = styled.div`
   }
 
   .swiper-slide {
+    position: relative;
     display: flex;
     justify-content: center;
     align-items: center;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
     margin-top: 32px;
-    width: auto;
+    width: 100%;
+    aspect-ratio: 21/9;
 
     .mainBanner {
-      cursor: pointer;
-      width: 100%;
-      max-width: 696px;
-      object-fit: contain;
-      height: auto;
+      object-fit: fill;
     }
   }
 

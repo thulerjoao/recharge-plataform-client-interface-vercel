@@ -11,11 +11,14 @@ export const ContactContainer = styled.section`
     flex-direction: column;
     align-items: center;
 
+    a,
     span {
       display: flex;
       align-items: center;
       justify-content: space-between;
       margin-top: 16px;
+      text-decoration: none;
+      cursor: pointer;
 
       figure {
         width: 24px;

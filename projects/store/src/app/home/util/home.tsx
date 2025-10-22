@@ -11,13 +11,16 @@ import banner01 from "../temp/banner01.png";
 import mainBanner from "../temp/mainBanner.png";
 import InvisibleCards from "./invisivleCards";
 import { HomeContainer } from "./style";
+import { useStore } from "contexts/store/StoreProvider";
 
 const Home = () => {
   const { products } = useProducts();
+  const { store } = useStore();
+  const bannerList: string[] = store?.bannersUrl || [];
 
   return (
     <HomeContainer>
-      <Carousel imagesList={[mainBanner, banner01, mainBanner, banner01]} />
+      <Carousel imagesList={bannerList} />
       <Lines />
       <main>
         <Text
@@ -28,14 +31,14 @@ const Home = () => {
         >
           RECARREGUE AGORA!
         </Text>
-        <Text
+        {/* <Text
           tag="h2"
           align="center"
           fontName="REGULAR"
           margin="8px 0px 0px 0px"
         >
           Texto de exemplo
-        </Text>
+        </Text> */}
         <section className="cardsContainer">
           {products &&
             products.map((product) => (
