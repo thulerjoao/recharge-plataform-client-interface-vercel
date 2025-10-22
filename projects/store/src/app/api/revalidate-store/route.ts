@@ -13,20 +13,20 @@ export async function POST(request: Request) {
     }
 
     const body = await request.json();
-    console.log("📬 Revalidating products cache:", body);
+    console.log("📬 Revalidating store cache:", body);
 
-    revalidateTag("products");
+    revalidateTag("store");
 
     return Response.json({
       revalidated: true,
-      tag: "products",
+      tag: "store",
       receivedData: body,
       timestamp: new Date().toISOString(),
     });
   } catch (error) {
-    console.error("Error revalidating products tag:", error);
+    console.error("Error revalidating store tag:", error);
     return Response.json(
-      { error: "Error revalidating products" },
+      { error: "Error revalidating store" },
       { status: 500 },
     );
   }

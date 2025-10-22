@@ -24,18 +24,10 @@ interface SocialNetworksErrors {
 }
 
 interface SocialNetworksSectionProps {
-  // initialData?: {
-  //   instagram?: string;
-  //   facebook?: string;
-  //   tiktok?: string;
-  //   whatsapp?: string;
-  //   email?: string;
-  // };
   onRefreshStore: () => Promise<void>;
 }
 
 const SocialNetworksSection: React.FC<SocialNetworksSectionProps> = ({
-  // initialData,
   onRefreshStore,
 }) => {
   const { store } = useAuth();
@@ -124,6 +116,10 @@ const SocialNetworksSection: React.FC<SocialNetworksSectionProps> = ({
     if (!validateForm()) {
       return;
     }
+    if (!whatsapp && !email) {
+      alert("A plataforma deve ter pelo menos um contato para suporte");
+      return;
+    }
     setIsSaving(true);
     connectionAPIPatch("/store", {
       instagramUrl: instagram ? instagram : null,
@@ -148,7 +144,6 @@ const SocialNetworksSection: React.FC<SocialNetworksSectionProps> = ({
 
   return (
     <SocialNetworksSectionContainer>
-      {/* Seção de Informações de Contato */}
       <div className="section">
         <div className="sectionHeader">
           <Text fontName="LARGE_SEMI_BOLD" color={Theme.colors.mainlight}>
@@ -203,8 +198,6 @@ const SocialNetworksSection: React.FC<SocialNetworksSectionProps> = ({
           </div>
         </div>
       </div>
-
-      {/* Seção de Redes Sociais */}
       <div className="section">
         <div className="sectionHeader">
           <Text fontName="LARGE_SEMI_BOLD" color={Theme.colors.mainlight}>
@@ -315,9 +308,6 @@ const SocialNetworksSection: React.FC<SocialNetworksSectionProps> = ({
             onClick={handleCancel}
             isNotSelected
             disabled={isSaving}
-            // loading={carouselUpload.isUploading}
-            // disabled={carouselUpload.isUploading}
-            // style={{ color: Theme.colors.mainlight }}
           />
           <Button
             rounded
@@ -327,9 +317,6 @@ const SocialNetworksSection: React.FC<SocialNetworksSectionProps> = ({
             disabled={isSaving}
             loading={isSaving}
             onClick={handleSave}
-            // onClick={handleSaveCarouselChanges}
-            // loading={carouselUpload.isUploading}
-            // disabled={carouselUpload.isUploading}
           />
         </div>
       )}

@@ -1,32 +1,32 @@
 // read-only route: fetches product packages with tag-based caching
 import { apiUrl } from "@4miga/services/connectionAPI/url";
-import { ProductType } from "types/productTypes";
+import { StoreType } from "types/storeType";
 import { storeId } from "utils/apiUrl";
 
 export const revalidate = 86400; // Revalidate every day
 
 export async function GET() {
   try {
-    const res = await fetch(`${apiUrl}/product/packages?storeId=${storeId}`, {
-      next: { revalidate, tags: ["products"] },
+    const res = await fetch(`${apiUrl}/store/${storeId}`, {
+      next: { revalidate, tags: ["store"] },
     });
 
     if (!res.ok) {
       return Response.json([], {
         status: 200,
-        headers: { "Cache-Tag": "products" },
+        headers: { "Cache-Tag": "store" },
       });
     }
 
-    const products: ProductType[] = await res.json();
-    return Response.json(products, {
+    const store: StoreType = await res.json();
+    return Response.json(store, {
       status: 200,
-      headers: { "Cache-Tag": "products" },
+      headers: { "Cache-Tag": "store" },
     });
   } catch (error: any) {
     return Response.json([], {
       status: 200,
-      headers: { "Cache-Tag": "products" },
+      headers: { "Cache-Tag": "store" },
     });
   }
 }
