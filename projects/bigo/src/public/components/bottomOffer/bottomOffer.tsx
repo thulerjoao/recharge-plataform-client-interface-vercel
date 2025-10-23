@@ -1,9 +1,12 @@
 import Text from "@4miga/design-system/components/Text";
-import { BottomOfferContainer } from "./style";
+import { useStore } from "contexts/store/StoreProvider";
 import Image from "next/image";
-import offer from "./offer.png";
+import { BottomOfferContainer } from "./style";
 
 const BottomOffer = () => {
+  const { store } = useStore();
+  const offerBanner = store?.secondaryBannerUrl || null;
+  if (!offerBanner) return null;
   return (
     <BottomOfferContainer>
       <Text
@@ -12,9 +15,16 @@ const BottomOffer = () => {
         fontName="LARGE_SEMI_BOLD"
         margin="56px 0 24px 0"
       >
-        OFERTA X
+        OFERTA ESPECIAL
       </Text>
-      <Image className="offerBanner" src={offer} alt="offer banner" />
+      <div className="offerBannerContainer">
+        <Image
+          fill
+          className="offerBanner"
+          src={offerBanner}
+          alt="offer banner"
+        />
+      </div>
     </BottomOfferContainer>
   );
 };

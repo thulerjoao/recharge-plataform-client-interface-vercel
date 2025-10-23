@@ -5,7 +5,7 @@ import { Swiper, SwiperSlide } from "swiper/react";
 import { SwiperContainer } from "./style";
 
 interface Props {
-  imagesList: StaticImport[];
+  imagesList: string[];
 }
 
 const Carousel = ({ imagesList }: Props) => {
@@ -22,7 +22,7 @@ const Carousel = ({ imagesList }: Props) => {
         {imagesList &&
           imagesList.map((item, index) => (
             <SwiperSlide key={index}>
-              <Image className="mainBanner" src={item} alt="main banner" />
+              <Image fill className="mainBanner" src={item} alt="main banner" />
             </SwiperSlide>
           ))}
       </Swiper>
