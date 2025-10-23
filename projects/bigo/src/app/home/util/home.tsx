@@ -2,6 +2,7 @@
 
 import Text from "@4miga/design-system/components/Text";
 import { useProducts } from "contexts/products/ProductsProvider";
+import { useStore } from "contexts/store/StoreProvider";
 import { useRouter } from "next/navigation";
 import PackageCard from "public/cards/packageCard/card";
 import BottomOffer from "public/components/bottomOffer/bottomOffer";
@@ -17,6 +18,9 @@ import { HomeContainer } from "./style";
 const Home = () => {
   const route = useRouter();
   const { product } = useProducts();
+  const { store } = useStore();
+  const bannerList: string[] = store?.bannersUrl || [];
+
   const handleClick = (item: PackageType) => {
     sessionStorage.removeItem("userId");
     sessionStorage.removeItem("orderId");
@@ -28,7 +32,7 @@ const Home = () => {
 
   return (
     <HomeContainer>
-      <Carousel imagesList={[banner01, banner01, banner01]} />
+      <Carousel imagesList={bannerList} />
       <Lines />
       <main>
         <Text
@@ -39,14 +43,14 @@ const Home = () => {
         >
           RECARREGUE AGORA!
         </Text>
-        <Text
+        {/* <Text
           tag="h2"
           align="center"
           fontName="REGULAR"
           margin="8px 0px 0px 0px"
         >
           Texto de exemplo
-        </Text>
+        </Text> */}
         <section className="cardsContainer">
           {product &&
             product?.packages.map((packageItem, index) => (

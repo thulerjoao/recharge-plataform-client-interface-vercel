@@ -69,7 +69,7 @@ const Footer = () => {
               sendo responsáveis pelos serviços umas das outras
             </Text>
           </div>
-          <div className="topPhrase"></div>
+          <div />
         </div>
       </div>
     </FooterContainer>

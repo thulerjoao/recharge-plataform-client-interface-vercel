@@ -18,7 +18,7 @@ const Footer = () => {
       <div className="centerComponent">
         <div className="upperComponent">
           <FooterLogo />
-          <div className="paymentMethods">
+          {/* <div className="paymentMethods">
             <Text
               align="center"
               fontName="SMALL"
@@ -35,7 +35,7 @@ const Footer = () => {
               <Transfer />
               <Boleto />
             </span>
-          </div>
+          </div> */}
         </div>
         <div className="bottomComponent">
           <div className="topPhrase">
@@ -69,7 +69,7 @@ const Footer = () => {
               sendo responsáveis pelos serviços umas das outras
             </Text>
           </div>
-          <div className="topPhrase"></div>
+          <div />
         </div>
       </div>
     </FooterContainer>
