@@ -63,7 +63,6 @@ const NewAccount = ({ setNewUser, setStep, setPreviousStep }: Props) => {
       password: data.password,
       documentType: "cpf",
       documentValue: data.cpf,
-      role: "USER",
       storeId,
     };
     await connectionAPIPost<UserType>("/user", body, apiUrl)
