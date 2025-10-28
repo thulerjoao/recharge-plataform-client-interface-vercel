@@ -11,7 +11,6 @@ import SecurityAdvertise from "public/components/securityAdvertise/securityAdver
 import { PackageType } from "types/productTypes";
 import { formatString } from "utils/formatString";
 import Lines from "../../../public/components/lines/lines";
-import banner01 from "../temp/banner01.png";
 import InvisibleCards from "./invisivleCards";
 import { HomeContainer } from "./style";
 
@@ -20,6 +19,7 @@ const Home = () => {
   const { product } = useProducts();
   const { store } = useStore();
   const bannerList: string[] = store?.bannersUrl || [];
+  console.log("product", product);
 
   const handleClick = (item: PackageType) => {
     sessionStorage.removeItem("userId");

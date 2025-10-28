@@ -3,7 +3,7 @@ import { apiUrl } from "@4miga/services/connectionAPI/url";
 import { StoreType } from "types/storeType";
 import { storeId } from "utils/apiUrl";
 
-export const revalidate = 86400; // Revalidate every day
+export const revalidate = 60; // Revalidate every 2 minutes
 
 export async function GET() {
   try {
@@ -14,19 +14,28 @@ export async function GET() {
     if (!res.ok) {
       return Response.json([], {
         status: 200,
-        headers: { "Cache-Tag": "store" },
+        headers: {
+          "Cache-Tag": "store",
+          "Cache-Control": "no-store, must-revalidate",
+        },
       });
     }
 
     const store: StoreType = await res.json();
     return Response.json(store, {
       status: 200,
-      headers: { "Cache-Tag": "store" },
+      headers: {
+        "Cache-Tag": "store",
+        "Cache-Control": "no-store, must-revalidate",
+      },
     });
   } catch (error: any) {
     return Response.json([], {
       status: 200,
-      headers: { "Cache-Tag": "store" },
+      headers: {
+        "Cache-Tag": "store",
+        "Cache-Control": "no-store, must-revalidate",
+      },
     });
   }
 }
