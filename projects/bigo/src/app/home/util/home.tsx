@@ -30,6 +30,8 @@ const Home = () => {
     route.push(`/package/${formatString(item.id)}`);
   };
 
+  console.log("product", product);
+
   return (
     <HomeContainer>
       <Carousel imagesList={bannerList} />
