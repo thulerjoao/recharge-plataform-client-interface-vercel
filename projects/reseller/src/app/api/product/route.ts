@@ -1,7 +1,7 @@
 import { apiUrl } from "@4miga/services/connectionAPI/url";
 import { ProductType } from "types/productTypes";
 
-export const revalidate = 86400;
+export const revalidate = 60;
 
 export async function GET() {
   try {

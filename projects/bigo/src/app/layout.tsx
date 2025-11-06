@@ -7,7 +7,7 @@ import Loading from "./loading";
 export const metadata = {
   title: {
     template: "%s - 4miga",
-    default: "4miga Store",
+    default: "4miga Games",
   },
   description: "Project created by 4miga",
   charset: "utf-8",

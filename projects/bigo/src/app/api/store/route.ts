@@ -3,7 +3,7 @@ import { apiUrl } from "@4miga/services/connectionAPI/url";
 import { StoreType } from "types/storeType";
 import { storeId } from "utils/apiUrl";
 
-export const revalidate = 86400; // Revalidate every day
+export const revalidate = 60; // Revalidate every minute
 
 export async function GET() {
   try {
