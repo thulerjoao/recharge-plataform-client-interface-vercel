@@ -6,6 +6,7 @@ export type AsideSelected =
   | "parceiros"
   | "cupons"
   | "carteira"
+  | "pedidos"
   | "config"
   | "admin"
   | "loja";

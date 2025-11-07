@@ -1,3 +1,6 @@
+"use client";
+
+import { useRouter } from "next/navigation";
 import OrderCard from "public/cards/orderCard/card";
 import HeaderEnviroment from "public/components/headerEnviroment";
 import HeaderSearch from "public/components/headerSearch";
@@ -6,11 +9,19 @@ import Pagination from "public/components/pagination";
 import SalesTitles from "../common/components/salesTiltes";
 import Card1 from "../common/temp/Card1.png";
 import Card2 from "../common/temp/Card2.png";
-import { SalesContainer } from "./style";
+import { OrdersContainer } from "./style";
 
-const Sales = () => {
+interface Props {
+  currentPage: number;
+  search: string;
+  status: "all" | "active" | "inactive";
+}
+
+const OrdersPage = ({ currentPage, search, status }: Props) => {
+  const router = useRouter();
+
   return (
-    <SalesContainer>
+    <OrdersContainer>
       <div className="desktop">
         <HeaderEnviroment>
           <HeaderSearch title="vendas" />
@@ -117,8 +128,8 @@ const Sales = () => {
         />
       </div>
       <Pagination page={1} setPage={() => {}} totalPages={10} />
-    </SalesContainer>
+    </OrdersContainer>
   );
 };
 
-export default Sales;
+export default OrdersPage;
