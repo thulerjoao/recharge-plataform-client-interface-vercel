@@ -1,6 +1,6 @@
 import styled from "styled-components";
 
-export const SalesContainer = styled.div`
+export const OrdersContainer = styled.div`
   padding-top: 96px;
   display: flex;
   flex-direction: column;
