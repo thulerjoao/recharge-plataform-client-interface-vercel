@@ -8,6 +8,7 @@ type Props = {
   searchParams: {
     search?: string;
     status?: string;
+    productId?: string;
   };
 };
 
@@ -18,11 +19,19 @@ const Page = ({ params, searchParams }: Props) => {
   // Processar filtros
   const search = searchParams.search?.trim() || "";
   const status = (searchParams.status as OrderStatus) || undefined;
+  const productId = searchParams.productId?.trim() || "";
 
   // Validação de status
   const validStatuses = ["processing", "completed", "expired", "refunded"];
   const validStatus = validStatuses.includes(status) ? status : undefined;
 
-  return <OrdersPage currentPage={page} search={search} status={validStatus} />;
+  return (
+    <OrdersPage
+      currentPage={page}
+      search={search}
+      status={validStatus}
+      productId={productId}
+    />
+  );
 };
 export default Page;

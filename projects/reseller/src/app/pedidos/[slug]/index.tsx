@@ -17,19 +17,28 @@ interface Props {
   currentPage: number;
   search: string;
   status: OrderStatus | undefined;
+  productId: string | undefined;
 }
 
-const OrdersPage = ({ currentPage, search, status }: Props) => {
+const OrdersPage = ({ currentPage, search, status, productId }: Props) => {
   const router = useRouter();
-  const { orders, loadingOrders, getOrders, setPage, setFilter, setStatus } =
-    useOrders();
-
-  console.log("orders", orders);
+  const {
+    orders,
+    loadingOrders,
+    getOrders,
+    setPage,
+    setFilter,
+    setStatus,
+    setProductFilter,
+    productFilter,
+  } = useOrders();
 
   const [localFilter, setLocalFilter] = useState(search);
   const [localStatus, setLocalStatus] = useState<OrderStatus | undefined>(
     status,
   );
+  const [localProductFilter, setLocalProductFilter] =
+    useState<string>(productId);
 
   useEffect(() => {
     setPage(currentPage);
@@ -37,9 +46,10 @@ const OrdersPage = ({ currentPage, search, status }: Props) => {
     setLocalFilter(search);
     setStatus(status);
     setLocalStatus(status);
-    getOrders(currentPage, 5, search, status);
+    setProductFilter(productId);
+    getOrders(currentPage, 6, search, status, productId);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [currentPage, search, status]);
+  }, [currentPage, search, status, productId]);
 
   const handleChangeStatus = (newStatus: OrderStatus) => {
     setLocalStatus(newStatus);
@@ -56,6 +66,15 @@ const OrdersPage = ({ currentPage, search, status }: Props) => {
     const params = new URLSearchParams();
     if (newFilter) params.append("search", newFilter);
     if (localStatus) params.append("status", localStatus);
+    const queryString = params.toString();
+    const url = `/pedidos/1${queryString ? `?${queryString}` : ""}`;
+    router.push(url);
+  };
+
+  const handleChangeProductFilter = (newProductFilter: string) => {
+    setLocalProductFilter(newProductFilter);
+    const params = new URLSearchParams();
+    if (newProductFilter) params.append("productId", newProductFilter);
     const queryString = params.toString();
     const url = `/pedidos/1${queryString ? `?${queryString}` : ""}`;
     router.push(url);
@@ -84,18 +103,6 @@ const OrdersPage = ({ currentPage, search, status }: Props) => {
           PEDIDOS
         </Text>
       </div>
-      {/* <div className="desktop">
-        <HeaderEnviroment>
-          <HeaderSearch title="vendas" />
-        </HeaderEnviroment>
-      </div>
-      <div className="desktop title">
-        <SalesTitles />
-      </div>
-
-      <div className="mobile">
-        <MobileSecondaryMenu title="VENDAS" />
-      </div> */}
       <div className="filtersSection">
         <form
           className="searchSection"
@@ -120,6 +127,22 @@ const OrdersPage = ({ currentPage, search, status }: Props) => {
           </div>
         </form>
         <div className="filterControls">
+          <select
+            value={localProductFilter}
+            onChange={(e) =>
+              handleChangeProductFilter(e.target.value as string)
+            }
+            className="filterSelect"
+          >
+            <option value="">Plataforma</option>
+            {orders?.products?.map((item, index) => {
+              return (
+                <option key={index} value={item.id}>
+                  {item.name}
+                </option>
+              );
+            })}
+          </select>
           <select
             value={localStatus}
             onChange={(e) => {
