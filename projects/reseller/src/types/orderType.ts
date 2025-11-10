@@ -1,10 +1,44 @@
 export interface OrderType {
-  orderId: string;
+  id: string;
   orderNumber: string;
-  userName: string;
-  packageName: string;
-  paymentStatus: PaymentStatus;
-  rechargeStatus: RechargeStatus;
+  price: number;
+  orderStatus: OrderStatus;
+  paymentId: string;
+  orderItemId: string;
+  createdAt: string;
+  updatedAt: string;
+  storeId: string;
+  userId: string;
+  payment: {
+    id: string;
+    name: string;
+    status: PaymentStatus;
+    statusUpdatedAt: string | null;
+    qrCode?: string;
+    qrCodetextCopyPaste?: string;
+  };
+  orderItem: {
+    id: string;
+    productId: string;
+    productName: string;
+    rechargeId: string;
+    packageId: string;
+    recharge: {
+      id: string;
+      userIdForRecharge: string;
+      status: RechargeStatus;
+      amountCredits: number;
+      statusUpdatedAt: string | null;
+    };
+    package: {
+      id: string;
+      packageId: string;
+      name: string;
+      userIdForRecharge: string;
+      imgCardUrl: string;
+    };
+    couponUsages: string[];
+  };
 }
 
 export type PaymentStatus =
@@ -23,3 +57,10 @@ export type OrderStatus =
   | "COMPLETED"
   | "EXPIRED"
   | "REFOUNDED";
+
+export interface OrderResponseType {
+  data: OrderType[];
+  totalOrders: number;
+  page: number;
+  totalPages: number;
+}

@@ -4,7 +4,6 @@
 import { connectionAPIGet } from "@4miga/services/connectionAPI/connection";
 import { createContext, ReactNode, useContext, useState } from "react";
 import { InfluencerResponseType } from "types/influencerType";
-import { apiUrl } from "@4miga/services/connectionAPI/url";
 
 interface InfluencersProviderProps {
   children: ReactNode;
@@ -59,7 +58,6 @@ export const InfluencersProvider = ({ children }: InfluencersProviderProps) => {
 
     await connectionAPIGet<InfluencerResponseType>(
       `/influencer?${params.toString()}`,
-      apiUrl,
     )
       .then((res) => {
         setInfluencers(res);

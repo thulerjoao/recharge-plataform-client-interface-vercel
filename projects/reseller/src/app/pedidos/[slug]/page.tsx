@@ -1,3 +1,4 @@
+import { OrderStatus } from "types/orderType";
 import OrdersPage from ".";
 
 type Props = {
@@ -6,7 +7,7 @@ type Props = {
   };
   searchParams: {
     search?: string;
-    status?: "all" | "active" | "inactive";
+    status?: string;
   };
 };
 
@@ -15,14 +16,13 @@ const Page = ({ params, searchParams }: Props) => {
   const page = Math.max(1, +params.slug || 1);
 
   // Processar filtros
-  // const search = searchParams.search?.trim() || "";
-  // const status =
-  //   (searchParams.status as "all" | "active" | "inactive") || "all";
+  const search = searchParams.search?.trim() || "";
+  const status = (searchParams.status as OrderStatus) || undefined;
 
   // Validação de status
-  // const validStatuses = ["all", "active", "inactive"];
-  // const validStatus = validStatuses.includes(status) ? status : "all";
+  const validStatuses = ["processing", "completed", "expired", "refunded"];
+  const validStatus = validStatuses.includes(status) ? status : undefined;
 
-  return <OrdersPage currentPage={page} search={""} status={"all"} />;
+  return <OrdersPage currentPage={page} search={search} status={validStatus} />;
 };
 export default Page;
