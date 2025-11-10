@@ -4,7 +4,7 @@
 import { connectionAPIGet } from "@4miga/services/connectionAPI/connection";
 import { createContext, ReactNode, useContext, useState } from "react";
 
-import { OrderType } from "types/orderType";
+import { OrderResponseType } from "types/orderType";
 
 interface OrdersProviderProps {
   children: ReactNode;
@@ -13,7 +13,7 @@ interface OrdersProviderProps {
 interface OrdersProviderData {
   loadingOrders: boolean;
   setLoadingOrders: (loadingOrders: boolean) => void;
-  orders: OrderType[] | undefined;
+  orders: OrderResponseType | undefined;
   filter: string;
   page: number;
   setPage: (page: number) => void;
@@ -34,7 +34,7 @@ const OrdersContext = createContext<OrdersProviderData>(
 
 export const OrdersProvider = ({ children }: OrdersProviderProps) => {
   const [loadingOrders, setLoadingOrders] = useState<boolean>(false);
-  const [orders, setOrders] = useState<OrderType[]>([]);
+  const [orders, setOrders] = useState<OrderResponseType>();
   const [filter, setFilter] = useState<string>("");
   const [status, setStatus] = useState<string | undefined>(undefined);
   const [page, setPage] = useState<number>(1);
@@ -55,13 +55,11 @@ export const OrdersProvider = ({ children }: OrdersProviderProps) => {
       params.append("search", search);
     }
 
-    await connectionAPIGet<OrderType[]>(`/orders?${params.toString()}`)
+    await connectionAPIGet<OrderResponseType>(
+      `/orders/admin?${params.toString()}`,
+    )
       .then((res) => {
         setOrders(res);
-        console.log(res);
-      })
-      .catch((err) => {
-        console.log(err);
       })
       .finally(() => {
         setLoadingOrders(false);

@@ -92,8 +92,6 @@ const PartnersPage = ({
     router.push(url);
   };
 
-  console.log("aqui", influencers?.data.length);
-
   return (
     <InfluencerContainer>
       <div className="desktop">
