@@ -37,7 +37,12 @@ export interface OrderType {
       userIdForRecharge: string;
       imgCardUrl: string;
     };
-    couponUsages: string[];
+  };
+  couponUsages: string[];
+  user: {
+    id: string;
+    name: string;
+    email: string;
   };
 }
 
@@ -63,4 +68,8 @@ export interface OrderResponseType {
   totalOrders: number;
   page: number;
   totalPages: number;
+  products: {
+    id: string;
+    name: string;
+  }[];
 }

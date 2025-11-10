@@ -15,6 +15,8 @@ interface OrdersProviderData {
   setLoadingOrders: (loadingOrders: boolean) => void;
   orders: OrderResponseType | undefined;
   filter: string;
+  productFilter: string;
+  setProductFilter: (productFilter: string) => void;
   page: number;
   setPage: (page: number) => void;
   setFilter: (filter: string) => void;
@@ -25,6 +27,7 @@ interface OrdersProviderData {
     limit: number,
     search?: string,
     status?: string,
+    productFilter?: string,
   ) => void;
 }
 
@@ -36,6 +39,7 @@ export const OrdersProvider = ({ children }: OrdersProviderProps) => {
   const [loadingOrders, setLoadingOrders] = useState<boolean>(false);
   const [orders, setOrders] = useState<OrderResponseType>();
   const [filter, setFilter] = useState<string>("");
+  const [productFilter, setProductFilter] = useState<string>("");
   const [status, setStatus] = useState<OrderStatus | undefined>(undefined);
   const [page, setPage] = useState<number>(1);
 
@@ -44,6 +48,7 @@ export const OrdersProvider = ({ children }: OrdersProviderProps) => {
     limit: number,
     search?: string,
     status?: string,
+    productFilter?: string,
   ) => {
     setLoadingOrders(true);
 
@@ -59,11 +64,19 @@ export const OrdersProvider = ({ children }: OrdersProviderProps) => {
       params.append("status", status);
     }
 
+    if (productFilter && productFilter.trim() !== "") {
+      params.append("productId", productFilter);
+    }
+
     await connectionAPIGet<OrderResponseType>(
       `/orders/admin?${params.toString()}`,
     )
       .then((res) => {
         setOrders(res);
+        console.log(params.toString());
+      })
+      .catch((err) => {
+        console.log(err);
       })
       .finally(() => {
         setLoadingOrders(false);
@@ -80,6 +93,8 @@ export const OrdersProvider = ({ children }: OrdersProviderProps) => {
         page,
         setPage,
         setFilter,
+        productFilter,
+        setProductFilter,
         status,
         setStatus,
         getOrders,
