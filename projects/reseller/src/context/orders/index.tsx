@@ -2,11 +2,9 @@
 "use client";
 
 import { connectionAPIGet } from "@4miga/services/connectionAPI/connection";
-import { useAuth } from "context/auth";
 import { createContext, ReactNode, useContext, useState } from "react";
 
 import { OrderType } from "types/orderType";
-import { apiUrl } from "@4miga/services/connectionAPI/url";
 
 interface OrdersProviderProps {
   children: ReactNode;
@@ -14,9 +12,20 @@ interface OrdersProviderProps {
 
 interface OrdersProviderData {
   loadingOrders: boolean;
-  orders: OrderType[];
-  getOrders: (page: number) => OrderType[];
-  updateOrders: () => void;
+  setLoadingOrders: (loadingOrders: boolean) => void;
+  orders: OrderType[] | undefined;
+  filter: string;
+  page: number;
+  setPage: (page: number) => void;
+  setFilter: (filter: string) => void;
+  status: string | undefined;
+  setStatus: (status: string | undefined) => void;
+  getOrders: (
+    page: number,
+    limit: number,
+    search?: string,
+    status?: string,
+  ) => void;
 }
 
 const OrdersContext = createContext<OrdersProviderData>(
@@ -26,62 +35,53 @@ const OrdersContext = createContext<OrdersProviderData>(
 export const OrdersProvider = ({ children }: OrdersProviderProps) => {
   const [loadingOrders, setLoadingOrders] = useState<boolean>(false);
   const [orders, setOrders] = useState<OrderType[]>([]);
-  const { logged } = useAuth();
+  const [filter, setFilter] = useState<string>("");
+  const [status, setStatus] = useState<string | undefined>(undefined);
+  const [page, setPage] = useState<number>(1);
 
-  // const parseCreatedAt = (createdAt: string): Date => {
-  //   const [datePart, timePart] = createdAt.split(" - ");
-  //   const [day, month, year] = datePart.split("/").map(Number);
-  //   const [hours, minutes] = timePart.split(":").map(Number);
-  //   return new Date(year, month - 1, day, hours, minutes);
-  // };
-
-  // const updateOrders = () => {
-  //   setLoadingOrders(true);
-  //   if (logged) {
-  //     connectionAPIGet<OrderType[]>("/order/user", apiUrl)
-  //       .then((res) => {
-  //         const sorted = res.sort((a, b) => {
-  //           const dateA = parseCreatedAt(a.createdAt);
-  //           const dateB = parseCreatedAt(b.createdAt);
-  //           return dateB.getTime() - dateA.getTime();
-  //         });
-  //         setOrders(sorted);
-  //       })
-  //       .finally(() => {
-  //         setLoadingOrders(false);
-  //       });
-  //   }
-  // };
-
-  // const getOrders = (page: number) => {
-  //   const start = (page - 1) * 6;
-  //   const end = start + 6;
-  //   return orders.slice(start, end);
-  // };
-
-  const updateOrders = () => {
+  const getOrders = async (
+    page: number,
+    limit: number,
+    search?: string,
+    status?: string,
+  ) => {
     setLoadingOrders(true);
-    if (logged) {
-      connectionAPIGet<OrderType[]>("/order/user", apiUrl)
-        .then((res) => {
-          setOrders(res);
-          setLoadingOrders(false);
-        })
-        .then(() => {
-          setLoadingOrders(false);
-        });
-    }
-  };
 
-  const getOrders = (page: number) => {
-    const start = (page - 1) * 6;
-    const end = start + 6;
-    return orders.slice().reverse().slice(start, end);
+    const params = new URLSearchParams();
+    params.append("page", page.toString());
+    params.append("limit", limit.toString());
+
+    if (search && search.trim() !== "") {
+      params.append("search", search);
+    }
+
+    await connectionAPIGet<OrderType[]>(`/orders?${params.toString()}`)
+      .then((res) => {
+        setOrders(res);
+        console.log(res);
+      })
+      .catch((err) => {
+        console.log(err);
+      })
+      .finally(() => {
+        setLoadingOrders(false);
+      });
   };
 
   return (
     <OrdersContext.Provider
-      value={{ loadingOrders, orders, getOrders, updateOrders }}
+      value={{
+        loadingOrders,
+        setLoadingOrders,
+        orders,
+        filter,
+        page,
+        setPage,
+        setFilter,
+        status,
+        setStatus,
+        getOrders,
+      }}
     >
       {children}
     </OrdersContext.Provider>
