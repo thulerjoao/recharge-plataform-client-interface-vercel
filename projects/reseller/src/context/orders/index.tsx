@@ -4,7 +4,7 @@
 import { connectionAPIGet } from "@4miga/services/connectionAPI/connection";
 import { createContext, ReactNode, useContext, useState } from "react";
 
-import { OrderResponseType } from "types/orderType";
+import { OrderResponseType, OrderStatus } from "types/orderType";
 
 interface OrdersProviderProps {
   children: ReactNode;
@@ -18,8 +18,8 @@ interface OrdersProviderData {
   page: number;
   setPage: (page: number) => void;
   setFilter: (filter: string) => void;
-  status: string | undefined;
-  setStatus: (status: string | undefined) => void;
+  status: OrderStatus | undefined;
+  setStatus: (status: OrderStatus | undefined) => void;
   getOrders: (
     page: number,
     limit: number,
@@ -36,7 +36,7 @@ export const OrdersProvider = ({ children }: OrdersProviderProps) => {
   const [loadingOrders, setLoadingOrders] = useState<boolean>(false);
   const [orders, setOrders] = useState<OrderResponseType>();
   const [filter, setFilter] = useState<string>("");
-  const [status, setStatus] = useState<string | undefined>(undefined);
+  const [status, setStatus] = useState<OrderStatus | undefined>(undefined);
   const [page, setPage] = useState<number>(1);
 
   const getOrders = async (
@@ -53,6 +53,10 @@ export const OrdersProvider = ({ children }: OrdersProviderProps) => {
 
     if (search && search.trim() !== "") {
       params.append("search", search);
+    }
+
+    if (status && status !== "all") {
+      params.append("status", status);
     }
 
     await connectionAPIGet<OrderResponseType>(

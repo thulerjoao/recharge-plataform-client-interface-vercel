@@ -1,5 +1,6 @@
 "use client";
 
+import Input from "@4miga/design-system/components/input";
 import Text from "@4miga/design-system/components/Text";
 import { useOrders } from "context/orders";
 import { useRouter } from "next/navigation";
@@ -8,13 +9,14 @@ import DefaultHeader from "public/components/defaultHeader";
 import HeaderEnviroment from "public/components/headerEnviroment";
 import Pagination from "public/components/pagination";
 import { useEffect, useState } from "react";
-import { OrderType } from "types/orderType";
+import { OrderStatus, OrderType } from "types/orderType";
+import Search from "../icons/Search.svg";
 import { OrdersContainer } from "./style";
 
 interface Props {
   currentPage: number;
   search: string;
-  status: string | undefined;
+  status: OrderStatus | undefined;
 }
 
 const OrdersPage = ({ currentPage, search, status }: Props) => {
@@ -22,8 +24,12 @@ const OrdersPage = ({ currentPage, search, status }: Props) => {
   const { orders, loadingOrders, getOrders, setPage, setFilter, setStatus } =
     useOrders();
 
+  console.log("orders", orders);
+
   const [localFilter, setLocalFilter] = useState(search);
-  const [localStatus, setLocalStatus] = useState(status);
+  const [localStatus, setLocalStatus] = useState<OrderStatus | undefined>(
+    status,
+  );
 
   useEffect(() => {
     setPage(currentPage);
@@ -31,11 +37,11 @@ const OrdersPage = ({ currentPage, search, status }: Props) => {
     setLocalFilter(search);
     setStatus(status);
     setLocalStatus(status);
-    getOrders(currentPage, 6, search, status);
+    getOrders(currentPage, 5, search, status);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [currentPage, search, status]);
 
-  const handleChangeStatus = (newStatus: string) => {
+  const handleChangeStatus = (newStatus: OrderStatus) => {
     setLocalStatus(newStatus);
     const params = new URLSearchParams();
     if (localFilter) params.append("search", localFilter);
@@ -58,7 +64,7 @@ const OrdersPage = ({ currentPage, search, status }: Props) => {
   const navigateToPage = (newPage: number) => {
     const params = new URLSearchParams();
     if (localFilter) params.append("search", localFilter);
-    if (localStatus !== "all") params.append("status", localStatus);
+    if (localStatus !== undefined) params.append("status", localStatus);
 
     const queryString = params.toString();
     const url = `/pedidos/${newPage}${queryString ? `?${queryString}` : ""}`;
@@ -90,7 +96,45 @@ const OrdersPage = ({ currentPage, search, status }: Props) => {
       <div className="mobile">
         <MobileSecondaryMenu title="VENDAS" />
       </div> */}
-
+      <div className="filtersSection">
+        <form
+          className="searchSection"
+          onSubmit={(e) => {
+            e.preventDefault();
+            e.stopPropagation();
+            handleChangeFilter(localFilter);
+          }}
+        >
+          <Input
+            value={localFilter}
+            onChange={(e) => setLocalFilter(e.target.value)}
+            onBlur={() => handleChangeFilter(localFilter)}
+            placeholder="Número do pedido ou email..."
+            height={36}
+          />
+          <div
+            className="searchButton"
+            onClick={() => handleChangeFilter(localFilter)}
+          >
+            <Search />
+          </div>
+        </form>
+        <div className="filterControls">
+          <select
+            value={localStatus}
+            onChange={(e) => {
+              handleChangeStatus(e.target.value as OrderStatus);
+            }}
+            className="filterSelect"
+          >
+            <option value="all">Todos os status</option>
+            <option value="processing">Pendente</option>
+            <option value="completed">Finalizado</option>
+            <option value="expired">Expirado</option>
+            <option value="refunded">Extornado</option>
+          </select>
+        </div>
+      </div>
       <section className="cards">
         {loadingOrders && <div>Carregando...</div>}
         {!loadingOrders && orders?.data?.length === 0 && (
