@@ -16,6 +16,10 @@ export const OrdersContainer = styled.div`
 
   .cards {
     width: 100%;
+
+    .orderCardContainer {
+      width: 100%;
+    }
   }
 
   .filtersSection {
