@@ -42,25 +42,25 @@ const OrderCard = ({ order }: OrderCardProps) => {
         src={image}
         alt="Imagem do jogo"
       />
-      <section className="allInfo">
+      <section className="allInfoSection">
         <span className="orderNumber">
           <Text className="mobile" tag="h3" fontName="SMALL">
             Nº do Pedido
           </Text>
-          <Text nowrap align="center" fontName="SMALL">
-            {orderNumber}
+          <Text className="infoValue" nowrap align="start" fontName="SMALL">
+            #{orderNumber}
           </Text>
         </span>
         <span className="name">
           <Text className="mobile" tag="h3" fontName="SMALL">
             Cliente
           </Text>
-          <Text nowrap align="center" fontName="SMALL">
+          <Text className="infoValue" nowrap align="start" fontName="SMALL">
             {userName}
           </Text>
         </span>
         <div className="name desktop">
-          <Text nowrap align="center" fontName="SMALL">
+          <Text className="infoValue" nowrap align="start" fontName="SMALL">
             {packageName}
           </Text>
         </div>
@@ -69,8 +69,9 @@ const OrderCard = ({ order }: OrderCardProps) => {
             Pagamento
           </Text>
           <Text
+            className="infoValue"
             nowrap
-            align="center"
+            align="end"
             color={handlePaymentStatusColor()}
             fontName="SMALL"
           >
@@ -82,8 +83,9 @@ const OrderCard = ({ order }: OrderCardProps) => {
             Recarga
           </Text>
           <Text
+            className="infoValue"
             nowrap
-            align="center"
+            align="end"
             color={handleRechargeStatusColor()}
             fontName="SMALL"
           >
@@ -91,9 +93,9 @@ const OrderCard = ({ order }: OrderCardProps) => {
           </Text>
         </span>
       </section>
-      <span className="forwardIcon desktop">
+      <section className="forwardIcon desktop">
         <ForwardArrow />
-      </span>
+      </section>
       <span className="seeMore mobile">
         <Text
           underline

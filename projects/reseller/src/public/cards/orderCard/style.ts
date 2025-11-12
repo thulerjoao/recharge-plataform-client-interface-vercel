@@ -9,6 +9,7 @@ export const OrderCardContainer = styled.article<OrderCardProps>`
   margin-bottom: 16px;
   display: flex;
   align-items: center;
+  /* justify-content: space-between; */
   padding: 0 16px;
   border-radius: 8px;
   cursor: pointer;
@@ -23,31 +24,51 @@ export const OrderCardContainer = styled.article<OrderCardProps>`
     border-radius: 8px;
   }
 
-  .allInfo {
-    display: flex;
+  .allInfoSection {
+    display: grid;
+    grid-template-columns: 1.2fr 1fr 1fr 0.5fr auto;
     align-items: center;
+    gap: 16px;
     width: 100%;
-    justify-content: space-between;
     margin: 0 16px;
 
-    span {
-      width: 100%;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      flex-direction: column;
-    }
-
     .orderNumber {
-      max-width: 112px;
+      grid-column: 1;
+      min-width: 0;
     }
 
     .name {
-      max-width: 220px;
+      grid-column: 2;
+      min-width: 0;
+    }
+
+    .desktop.name {
+      grid-column: 3;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-width: 0;
     }
 
     .status {
-      max-width: 140px;
+      text-align: right;
+      min-width: 0;
+    }
+
+    .status:first-of-type {
+      grid-column: 4;
+    }
+
+    .status:last-of-type {
+      grid-column: 5;
+    }
+
+    .infoValue {
+      width: 100%;
+      display: block;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
     }
   }
 
@@ -55,6 +76,10 @@ export const OrderCardContainer = styled.article<OrderCardProps>`
   }
 
   @media (min-width: 768px) and (max-width: 1024px) {
+    .allInfoSection {
+      grid-template-columns: 1.2fr 1fr 1fr 0.5fr auto;
+      gap: 12px;
+    }
   }
   @media (max-width: 767px) {
     height: 148px;

@@ -12,6 +12,7 @@ import { useEffect, useState } from "react";
 import { OrderStatus, OrderType } from "types/orderType";
 import Search from "../icons/Search.svg";
 import { OrdersContainer } from "./style";
+import OrderCardTest from "public/cards/orderCardTest";
 
 interface Props {
   currentPage: number;
@@ -150,7 +151,8 @@ const OrdersPage = ({ currentPage, search, status, productId }: Props) => {
             }}
             className="filterSelect"
           >
-            <option value="all">Todos os status</option>
+            <option value="all">Status</option>
+            {/* <option value="all">Todos</option> */}
             <option value="processing">Pendente</option>
             <option value="completed">Finalizado</option>
             <option value="expired">Expirado</option>
@@ -168,7 +170,13 @@ const OrdersPage = ({ currentPage, search, status, productId }: Props) => {
           </div>
         )}
         {orders?.data?.map((order: OrderType) => (
-          <OrderCard key={order.id} order={order} />
+          <div
+            className="orderCardContainer"
+            key={order.id}
+            onClick={() => router.push(`/pedidos/${order.id}`)}
+          >
+            <OrderCard order={order} />
+          </div>
         ))}
       </section>
       {orders?.data?.length !== 0 && orders !== undefined && (
@@ -178,7 +186,6 @@ const OrdersPage = ({ currentPage, search, status, productId }: Props) => {
           totalPages={orders?.totalPages}
         />
       )}
-      {/* <Pagination page={1} setPage={() => {}} totalPages={10} /> */}
     </OrdersContainer>
   );
 };
