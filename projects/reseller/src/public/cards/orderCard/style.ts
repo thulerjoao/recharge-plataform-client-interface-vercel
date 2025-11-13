@@ -26,7 +26,7 @@ export const OrderCardContainer = styled.article<OrderCardProps>`
 
   .allInfoSection {
     display: grid;
-    grid-template-columns: 1.2fr 1fr 1fr 0.5fr auto;
+    grid-template-columns: 1.2fr 1.5fr 1fr 0.5fr auto;
     align-items: center;
     gap: 16px;
     width: 100%;
@@ -63,6 +63,10 @@ export const OrderCardContainer = styled.article<OrderCardProps>`
       grid-column: 5;
     }
 
+    .paymentStatus {
+      display: none;
+    }
+
     .infoValue {
       width: 100%;
       display: block;
@@ -77,14 +81,16 @@ export const OrderCardContainer = styled.article<OrderCardProps>`
 
   @media (min-width: 768px) and (max-width: 1024px) {
     .allInfoSection {
-      grid-template-columns: 1.2fr 1fr 1fr 0.5fr auto;
       gap: 12px;
+    }
+    .forwardIcon {
+      /* display: none; */
     }
   }
   @media (max-width: 767px) {
     height: 148px;
-    align-items: flex-start;
-    padding-top: 12px;
+    align-items: center;
+    justify-content: center;
     position: relative;
 
     .desktop {
@@ -95,11 +101,16 @@ export const OrderCardContainer = styled.article<OrderCardProps>`
       display: flex;
     }
 
-    .allInfo {
+    .allInfoSection {
+      display: flex;
       flex-direction: column;
+      justify-content: space-between;
+      min-width: 100%;
+      gap: 4px;
+      /* background-color: blue; */
 
       span {
-        min-width: 100%;
+        width: 100%;
         display: flex;
         flex-direction: row;
         align-items: center;
@@ -122,6 +133,10 @@ export const OrderCardContainer = styled.article<OrderCardProps>`
       }
 
       .status {
+      }
+
+      .paymentStatus {
+        display: flex;
       }
     }
   }

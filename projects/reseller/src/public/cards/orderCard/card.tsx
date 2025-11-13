@@ -26,11 +26,16 @@ const OrderCard = ({ order }: OrderCardProps) => {
   };
 
   const handleRechargeStatus = () => {
+    console.log(rechargeStatus);
     if (rechargeStatus === "RECHARGE_PENDING") return "Processando";
+    if (rechargeStatus === "RECHARGE_APPROVED") return "Concluída";
+    if (rechargeStatus === "RECHARGE_REJECTED") return "Cancelada";
   };
 
   const handleRechargeStatusColor = () => {
     if (rechargeStatus === "RECHARGE_PENDING") return Theme.colors.pending;
+    if (rechargeStatus === "RECHARGE_APPROVED") return Theme.colors.approved;
+    if (rechargeStatus === "RECHARGE_REJECTED") return Theme.colors.refused;
   };
 
   return (
@@ -59,12 +64,12 @@ const OrderCard = ({ order }: OrderCardProps) => {
             {userName}
           </Text>
         </span>
-        <div className="name desktop">
+        <div className="packageName desktop">
           <Text className="infoValue" nowrap align="start" fontName="SMALL">
             {packageName}
           </Text>
         </div>
-        <span className="status">
+        <span className="status paymentStatus">
           <Text className="mobile" tag="h3" fontName="SMALL">
             Pagamento
           </Text>
@@ -78,7 +83,7 @@ const OrderCard = ({ order }: OrderCardProps) => {
             {handlePaymentStatus()}
           </Text>
         </span>
-        <span className="status">
+        <span className="status rechargeStatus">
           <Text className="mobile" tag="h3" fontName="SMALL">
             Recarga
           </Text>
