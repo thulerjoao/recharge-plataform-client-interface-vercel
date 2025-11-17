@@ -1,16 +1,17 @@
 import Button from "@4miga/design-system/components/button";
 import Text from "@4miga/design-system/components/Text";
 import { Theme } from "@4miga/design-system/theme/theme";
+import { connectionAPIGet } from "@4miga/services/connectionAPI/connection";
 import Image from "next/image";
 import DefaultHeader from "public/components/defaultHeader";
 import HeaderEnviroment from "public/components/headerEnviroment";
 import { useEffect, useState } from "react";
-import Pix from "../common/icons/Pix.svg";
-import Card1 from "../common/temp/Card1.png";
-import Card3 from "../common/temp/Card3.png";
-import { SalesInnerPageContainer } from "./style";
-import { connectionAPIGet } from "@4miga/services/connectionAPI/connection";
 import { OrderType } from "types/orderType";
+import { formatDate } from "utils/formatDate";
+import { formatPhone } from "utils/formatPhone";
+import { formatPrice } from "utils/formatPrice";
+import Pix from "../common/icons/Pix.svg";
+import { SalesInnerPageContainer } from "./style";
 
 const OrdersInnerPage = ({ slug }: { slug: string }) => {
   const handleCheck = () => {
@@ -23,6 +24,7 @@ const OrdersInnerPage = ({ slug }: { slug: string }) => {
     const response = connectionAPIGet<OrderType>(`/orders/${slug}`)
       .then((res) => {
         setOrder(res);
+        console.log(res);
       })
       .catch((err) => {})
       .finally(() => {
@@ -48,7 +50,12 @@ const OrdersInnerPage = ({ slug }: { slug: string }) => {
       <main>
         <section className="top">
           <div className="leftTop">
-            <Image src={Card1} alt="Card do jogo" />
+            <Image
+              width={164}
+              height={164}
+              src={order?.orderItem.package.imgCardUrl || ""}
+              alt="Card do jogo"
+            />
             <Text margin="24px 0 0 0" fontName="SMALL_MEDIUM">
               Número do pedido
             </Text>
@@ -59,7 +66,7 @@ const OrdersInnerPage = ({ slug }: { slug: string }) => {
           </div>
           <div className="rightTop">
             <Text tag="h2" align="end" fontName="REGULAR_MEDIUM">
-              Bigo 3000 diamantes
+              {order?.orderItem.package.name}
             </Text>
             <Text
               tag="h3"
@@ -67,22 +74,22 @@ const OrdersInnerPage = ({ slug }: { slug: string }) => {
               fontName="TINY"
               color={Theme.colors.secondaryText}
             >
-              Hoje, 11:23
+              {formatDate(order?.createdAt)}
             </Text>
             <Text align="end" fontName="SMALL_MEDIUM">
-              4321-12345
+              {order?.orderNumber}
             </Text>
             <Text align="end" fontName="SMALL_MEDIUM">
-              12345
+              {order?.orderItem.recharge.userIdForRecharge || "-"}
             </Text>
             <Text align="end" fontName="SMALL_MEDIUM">
-              Maria Silva Santos
+              {order?.user?.name || "-"}
             </Text>
             <Text align="end" fontName="SMALL_MEDIUM">
-              maria_silva@gmail.com
+              {order?.user?.email || "-"}
             </Text>
             <Text align="end" fontName="SMALL_MEDIUM">
-              (11) 9 9988-9900
+              {formatPhone(order?.user?.phone || "")}
             </Text>
           </div>
         </section>
@@ -96,20 +103,33 @@ const OrdersInnerPage = ({ slug }: { slug: string }) => {
           <section>
             <div className="leftMedium">
               <Text fontName="SMALL_MEDIUM">Pix</Text>
-              <Text fontName="TINY" color={Theme.colors.approved}>
-                Pagamento aprovado
+              <Text
+                fontName="TINY"
+                color={
+                  order?.payment.status === "PAYMENT_APPROVED"
+                    ? Theme.colors.approved
+                    : order?.payment.status === "PAYMENT_REJECTED"
+                      ? Theme.colors.refused
+                      : Theme.colors.pending
+                }
+              >
+                {order?.payment.status === "PAYMENT_APPROVED"
+                  ? "Pagamento aprovado"
+                  : order?.payment.status === "PAYMENT_REJECTED"
+                    ? "Pagamento rejeitado"
+                    : "Pagamento pendente"}
               </Text>
             </div>
             <div className="rightMedium">
               <Text align="end" fontName="SMALL_SEMI_BOLD">
-                R$ 29,90
+                R$ {formatPrice(order?.price || 0)}
               </Text>
               <Text
                 align="end"
                 fontName="TINY"
                 color={Theme.colors.secondaryText}
               >
-                Hoje 11:25
+                {formatDate(order?.payment.statusUpdatedAt || "")}
               </Text>
             </div>
           </section>
@@ -118,35 +138,48 @@ const OrdersInnerPage = ({ slug }: { slug: string }) => {
           Detalhes da recarga
         </Text>
         <section className="bottom">
-          <Image src={Card3} alt="Imagem do pacote" />
+          <Image
+            width={64}
+            height={64}
+            src={order?.orderItem.package.imgCardUrl || ""}
+            alt="Imagem do pacote"
+          />
           <section>
             <div className="leftMedium">
               <Text fontName="SMALL_MEDIUM">Bigo Live</Text>
               <Text
                 fontName="TINY"
                 color={
-                  handleCheck() ? Theme.colors.approved : Theme.colors.refused
+                  order?.orderItem.recharge.status === "RECHARGE_APPROVED"
+                    ? Theme.colors.approved
+                    : order?.orderItem.recharge.status === "RECHARGE_REJECTED"
+                      ? Theme.colors.refused
+                      : Theme.colors.pending
                 }
               >
-                {handleCheck() ? "Recarga realizada" : "Cancelada"}
+                {order?.orderItem.recharge.status === "RECHARGE_APPROVED"
+                  ? "Recarga realizada"
+                  : order?.orderItem.recharge.status === "RECHARGE_REJECTED"
+                    ? "Cancelada"
+                    : "Processando"}
               </Text>
             </div>
             <div className="rightMedium">
               <Text align="end" fontName="SMALL_SEMI_BOLD">
-                3000 Diamantes
+                {order?.orderItem.recharge.amountCredits}
               </Text>
               <Text
                 align="end"
                 fontName="TINY"
                 color={Theme.colors.secondaryText}
               >
-                Hoje 11:26
+                {formatDate(order?.orderItem.recharge.statusUpdatedAt || "")}
               </Text>
             </div>
           </section>
         </section>
       </main>
-      {handleCheck() ? (
+      {/* {handleCheck() ? (
         <div className="bottomContainer">
           <div>
             <Text
@@ -185,7 +218,7 @@ const OrdersInnerPage = ({ slug }: { slug: string }) => {
             title="Corrigir recarga"
           />
         </span>
-      )}
+      )} */}
     </SalesInnerPageContainer>
   );
 };
