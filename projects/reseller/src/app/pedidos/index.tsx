@@ -10,9 +10,8 @@ import HeaderEnviroment from "public/components/headerEnviroment";
 import Pagination from "public/components/pagination";
 import { useEffect, useState } from "react";
 import { OrderStatus, OrderType } from "types/orderType";
-import Search from "../icons/Search.svg";
+import Search from "./icons/Search.svg";
 import { OrdersContainer } from "./style";
-import OrderCardTest from "public/cards/orderCardTest";
 
 interface Props {
   currentPage: number;
@@ -55,41 +54,41 @@ const OrdersPage = ({ currentPage, search, status, productId }: Props) => {
   const handleChangeStatus = (newStatus: OrderStatus) => {
     setLocalStatus(newStatus);
     const params = new URLSearchParams();
+    params.append("page", "1"); // Reset para página 1
     if (localFilter) params.append("search", localFilter);
     if (newStatus) params.append("status", newStatus);
-    const queryString = params.toString();
-    const url = `/pedidos/1${queryString ? `?${queryString}` : ""}`;
-    router.push(url);
+    if (localProductFilter) params.append("productId", localProductFilter);
+    router.push(`/pedidos?${params.toString()}`);
   };
 
   const handleChangeFilter = (newFilter: string) => {
     setLocalFilter(newFilter);
     const params = new URLSearchParams();
+    params.append("page", "1"); // Reset para página 1
     if (newFilter) params.append("search", newFilter);
     if (localStatus) params.append("status", localStatus);
-    const queryString = params.toString();
-    const url = `/pedidos/1${queryString ? `?${queryString}` : ""}`;
-    router.push(url);
+    if (localProductFilter) params.append("productId", localProductFilter);
+    router.push(`/pedidos?${params.toString()}`);
   };
 
   const handleChangeProductFilter = (newProductFilter: string) => {
     setLocalProductFilter(newProductFilter);
     const params = new URLSearchParams();
+    params.append("page", "1"); // Reset para página 1
+    if (localFilter) params.append("search", localFilter);
+    if (localStatus) params.append("status", localStatus);
     if (newProductFilter) params.append("productId", newProductFilter);
-    const queryString = params.toString();
-    const url = `/pedidos/1${queryString ? `?${queryString}` : ""}`;
-    router.push(url);
+    router.push(`/pedidos?${params.toString()}`);
   };
 
   const navigateToPage = (newPage: number) => {
     const params = new URLSearchParams();
+    params.append("page", newPage.toString());
     if (localFilter) params.append("search", localFilter);
     if (localStatus !== undefined) params.append("status", localStatus);
+    if (localProductFilter) params.append("productId", localProductFilter);
 
-    const queryString = params.toString();
-    const url = `/pedidos/${newPage}${queryString ? `?${queryString}` : ""}`;
-
-    router.push(url);
+    router.push(`/pedidos?${params.toString()}`);
   };
 
   return (

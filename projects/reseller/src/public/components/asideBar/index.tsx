@@ -3,6 +3,8 @@ import { Theme } from "@4miga/design-system/theme/theme";
 import { useAuth } from "context/auth";
 import { usePathname, useRouter } from "next/navigation";
 import { AsideSelected } from "types/asideSelectedType";
+import Admin from "../../icons/Admin.svg";
+import AdminSelected from "../../icons/AdminSelected.svg";
 import Discount from "../../icons/Discount.svg";
 import DiscountSelected from "../../icons/DiscountSelected.svg";
 import Gear from "../../icons/Gear.svg";
@@ -14,23 +16,17 @@ import InfluencerSelected from "../../icons/InfluencerSelected.svg";
 import LogoDesktop from "../../icons/LogoDesktop.svg";
 import LogoTablet from "../../icons/LogoTablet.svg";
 import Logout from "../../icons/Logout.svg";
+import Orders from "../../icons/Orders.svg";
+import OrdersSelected from "../../icons/OrdersSelected.svg";
 import Products from "../../icons/Products.svg";
 import ProductsSelected from "../../icons/ProductsSelected.svg";
-import Sales from "../../icons/Sales.svg";
-import SalesSelected from "../../icons/SalesSelected.svg";
-import Wallet from "../../icons/Wallet.svg";
-import AdminSelected from "../../icons/AdminSelected.svg";
-import Admin from "../../icons/Admin.svg";
-import OrdersSelected from "../../icons/OrdersSelected.svg";
-import Orders from "../../icons/Orders.svg";
-import WalletSelected from "../../icons/WalletSelected.svg";
 import { AsideBarContainer } from "./style";
 
 const AsideBar = () => {
   const route = useRouter();
   const currentRoute = usePathname();
 
-  const handleClick = (prop: AsideSelected) => {
+  const handleClickRouteTo = (prop: string) => {
     route.push(`/${prop}`);
   };
 
@@ -53,10 +49,10 @@ const AsideBar = () => {
             <LogoTablet />
           </span>
 
-          {/* <div
-            onClick={() => handleClick("home")}
+          <div
+            onClick={() => handleClickRouteTo("home")}
             className={`menuOption ${handleCheck("home") && "selected"}`}
-            style={{ margin: "40px 0 16px 0" }}
+            style={{ margin: "40px 0 0px 0" }}
           >
             <span className="inconEnviroment">
               {handleCheck("home") ? <HomeSelected /> : <Home />}
@@ -69,7 +65,7 @@ const AsideBar = () => {
             >
               INÍCIO
             </Text>
-          </div> */}
+          </div>
 
           {/* <div
             onClick={() => handleClick("sales")}
@@ -90,9 +86,9 @@ const AsideBar = () => {
           </div> */}
 
           <div
-            onClick={() => handleClick("produtos")}
+            onClick={() => handleClickRouteTo("produtos")}
             className={`menuOption ${handleCheck("produtos") && "selected"}`}
-            style={{ margin: "40px 0 16px 0" }}
+            style={{ margin: "16px 0 16px 0" }}
           >
             <span className="inconEnviroment">
               {handleCheck("produtos") ? <ProductsSelected /> : <Products />}
@@ -108,7 +104,7 @@ const AsideBar = () => {
           </div>
 
           <div
-            onClick={() => handleClick("pedidos")}
+            onClick={() => handleClickRouteTo("pedidos?page=1")}
             className={`menuOption ${handleCheck("pedidos") && "selected"}`}
           >
             <span className="inconEnviroment">
@@ -125,7 +121,7 @@ const AsideBar = () => {
           </div>
 
           <div
-            onClick={() => handleClick("parceiros")}
+            onClick={() => handleClickRouteTo("parceiros")}
             className={`menuOption ${handleCheck("parceiros") && "selected"}`}
           >
             <span className="inconEnviroment">
@@ -146,7 +142,7 @@ const AsideBar = () => {
           </div>
 
           <div
-            onClick={() => handleClick("cupons")}
+            onClick={() => handleClickRouteTo("cupons")}
             className={`menuOption ${handleCheck("cupons") && "selected"}`}
           >
             <span className="inconEnviroment">
@@ -163,7 +159,7 @@ const AsideBar = () => {
           </div>
 
           <div
-            onClick={() => handleClick("admin")}
+            onClick={() => handleClickRouteTo("admin")}
             className={`menuOption ${handleCheck("admin") && "selected"}`}
           >
             <span className="inconEnviroment">
@@ -180,7 +176,7 @@ const AsideBar = () => {
           </div>
 
           <div
-            onClick={() => handleClick("loja")}
+            onClick={() => handleClickRouteTo("loja")}
             className={`menuOption ${handleCheck("loja") && "selected"}`}
           >
             <span className="inconEnviroment">
