@@ -1,93 +1,127 @@
 import { Theme } from "@4miga/design-system/theme/theme";
 import styled from "styled-components";
 
-export const OrdersContainer = styled.div`
-  padding-top: 96px;
+export const SalesInnerPageContainer = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
+  padding-top: 64px;
+  padding-bottom: 97px;
 
   .mobile {
     display: none;
   }
-  .title {
-    width: 100%;
+
+  .mainTitle {
+    margin-top: 32px;
   }
 
-  .cards {
+  main {
+    background-color: ${Theme.colors.maindark};
+    margin-top: 24px;
     width: 100%;
+    max-width: 628px;
+    border-radius: 8px;
+    padding: 16px;
 
-    .orderCardContainer {
-      width: 100%;
+    .top {
+      display: flex;
+      justify-content: space-between;
+      padding-bottom: 16px;
+      border-bottom: 1px solid ${Theme.colors.secondaryAction};
+
+      .leftTop {
+        display: flex;
+        flex-direction: column;
+
+        img {
+          height: 72px;
+          width: 72px;
+          border-radius: 8px;
+          margin-bottom: 8px;
+        }
+
+        p {
+          margin-top: 16px;
+        }
+      }
+
+      .rightTop {
+        display: flex;
+        flex-direction: column;
+
+        h2 {
+          margin-bottom: 8px;
+        }
+
+        h3 {
+          margin-bottom: 35px;
+        }
+
+        p {
+          margin-top: 16px;
+        }
+      }
     }
-  }
 
-  .filtersSection {
-    width: 100%;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 20px;
-    background: ${Theme.colors.maindark};
-    border-radius: 12px;
-    -webkit-box-shadow: 0px 0px 5px 2px rgba(7, 29, 35, 1);
-    -moz-box-shadow: 0px 0px 5px 2px rgba(7, 29, 35, 1);
-    box-shadow: 0px 0px 5px 2px rgba(7, 29, 35, 1);
-    margin-bottom: 24px;
-
-    .searchSection {
-      width: 300px;
+    .medium,
+    .bottom {
       display: flex;
       align-items: center;
-      position: relative;
+      padding-bottom: 16px;
+      border-bottom: 1px solid ${Theme.colors.secondaryAction};
 
-      .searchButton {
-        width: 28px;
-        height: 28px;
-        background-color: ${Theme.colors.mainlight};
-        border-radius: 8px;
+      section {
+        height: 42px;
+        width: 100%;
         display: flex;
-        justify-content: center;
-        align-items: center;
-        margin-left: 8px;
-        cursor: pointer;
-        position: absolute;
-        right: 2px;
+        justify-content: space-between;
+        margin-left: 16px;
 
-        svg {
-          width: 24px;
-          height: 24px;
+        div {
+          height: 100%;
+          display: flex;
+          flex-direction: column;
+          justify-content: space-between;
         }
       }
     }
 
-    .filterControls {
-      display: flex;
-      gap: 16px;
+    .bottom {
+      border-bottom: none;
 
-      .filterSelect {
-        padding: 0px 8px;
-        height: 32px;
-        width: 140px;
+      img {
+        height: 40px;
+        width: 40px;
         border-radius: 8px;
-        border: 2px solid ${Theme.colors.secondaryAction};
-        background: ${Theme.colors.mainlight};
-        color: ${Theme.colors.secondaryAction};
-        font-size: 14px;
-        cursor: pointer;
-
-        &:focus {
-          outline: none;
-          border-color: ${Theme.colors.mainHighlight};
-        }
       }
     }
   }
 
-  @media (min-width: 769px) and (max-width: 1024px) {
+  .bottomContainer {
+    display: flex;
+    align-items: center;
+    padding: 24px;
+    margin-top: 32px;
+    background-color: ${Theme.colors.maindark};
+    border-radius: 8px;
+    gap: 24px;
+    margin-bottom: 79px;
+
+    div {
+      display: flex;
+      width: 50%;
+    }
   }
-  @media (max-width: 768px) {
+
+  @media (min-width: 768px) and (max-width: 1024px) {
+    main {
+      max-width: 100%;
+    }
+  }
+  @media (max-width: 767px) {
     padding-top: 64px;
+
     .desktop {
       display: none;
     }
@@ -96,62 +130,11 @@ export const OrdersContainer = styled.div`
       width: 100%;
     }
 
-    .filtersSection {
-      flex-direction: column;
-      gap: 16px;
-      padding: 16px;
-      margin-bottom: 20px;
-
-      .searchSection {
-        width: 100%;
-      }
-
-      .filterControls {
-        width: 100%;
-        justify-content: center;
-
-        .filterSelect {
-          width: 100%;
-          max-width: none;
-        }
-      }
-    }
-
-    .cards {
+    .mainTitle {
       margin-top: 24px;
     }
-  }
 
-  @media (max-width: 539px) {
-    .filtersSection {
-      padding: 14px;
-      margin-bottom: 16px;
-      gap: 12px;
-
-      .filterControls {
-        .filterSelect {
-          width: 100%;
-          max-width: none;
-          height: 36px;
-        }
-      }
-    }
-  }
-
-  @media (max-width: 400px) {
-    .filtersSection {
-      padding: 12px;
-      margin-bottom: 14px;
-      gap: 10px;
-
-      .filterControls {
-        .filterSelect {
-          width: 100%;
-          max-width: none;
-          height: 34px;
-          font-size: 13px;
-        }
-      }
+    main {
     }
   }
 `;

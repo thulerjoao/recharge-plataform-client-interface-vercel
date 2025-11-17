@@ -1,193 +1,226 @@
-"use client";
-
-import Input from "@4miga/design-system/components/input";
+import Button from "@4miga/design-system/components/button";
 import Text from "@4miga/design-system/components/Text";
-import { useOrders } from "context/orders";
-import { useRouter } from "next/navigation";
-import OrderCard from "public/cards/orderCard/card";
+import { Theme } from "@4miga/design-system/theme/theme";
+import { connectionAPIGet } from "@4miga/services/connectionAPI/connection";
+import Image from "next/image";
 import DefaultHeader from "public/components/defaultHeader";
 import HeaderEnviroment from "public/components/headerEnviroment";
-import Pagination from "public/components/pagination";
 import { useEffect, useState } from "react";
-import { OrderStatus, OrderType } from "types/orderType";
-import Search from "../icons/Search.svg";
-import { OrdersContainer } from "./style";
-import OrderCardTest from "public/cards/orderCardTest";
+import { OrderType } from "types/orderType";
+import { formatDate } from "utils/formatDate";
+import { formatPhone } from "utils/formatPhone";
+import { formatPrice } from "utils/formatPrice";
+import Pix from "../common/icons/Pix.svg";
+import { SalesInnerPageContainer } from "./style";
 
-interface Props {
-  currentPage: number;
-  search: string;
-  status: OrderStatus | undefined;
-  productId: string | undefined;
-}
-
-const OrdersPage = ({ currentPage, search, status, productId }: Props) => {
-  const router = useRouter();
-  const {
-    orders,
-    loadingOrders,
-    getOrders,
-    setPage,
-    setFilter,
-    setStatus,
-    setProductFilter,
-    productFilter,
-  } = useOrders();
-
-  const [localFilter, setLocalFilter] = useState(search);
-  const [localStatus, setLocalStatus] = useState<OrderStatus | undefined>(
-    status,
-  );
-  const [localProductFilter, setLocalProductFilter] =
-    useState<string>(productId);
-
+const OrdersInnerPage = ({ slug }: { slug: string }) => {
+  const handleCheck = () => {
+    // return params.secondarySlug == "123456" ? 1 : 0;
+    return 1;
+  };
+  const [loading, setLoading] = useState(true);
+  const [order, setOrder] = useState<OrderType>();
   useEffect(() => {
-    setPage(currentPage);
-    setFilter(search);
-    setLocalFilter(search);
-    setStatus(status);
-    setLocalStatus(status);
-    setProductFilter(productId);
-    getOrders(currentPage, 6, search, status, productId);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [currentPage, search, status, productId]);
-
-  const handleChangeStatus = (newStatus: OrderStatus) => {
-    setLocalStatus(newStatus);
-    const params = new URLSearchParams();
-    if (localFilter) params.append("search", localFilter);
-    if (newStatus) params.append("status", newStatus);
-    const queryString = params.toString();
-    const url = `/pedidos/1${queryString ? `?${queryString}` : ""}`;
-    router.push(url);
-  };
-
-  const handleChangeFilter = (newFilter: string) => {
-    setLocalFilter(newFilter);
-    const params = new URLSearchParams();
-    if (newFilter) params.append("search", newFilter);
-    if (localStatus) params.append("status", localStatus);
-    const queryString = params.toString();
-    const url = `/pedidos/1${queryString ? `?${queryString}` : ""}`;
-    router.push(url);
-  };
-
-  const handleChangeProductFilter = (newProductFilter: string) => {
-    setLocalProductFilter(newProductFilter);
-    const params = new URLSearchParams();
-    if (newProductFilter) params.append("productId", newProductFilter);
-    const queryString = params.toString();
-    const url = `/pedidos/1${queryString ? `?${queryString}` : ""}`;
-    router.push(url);
-  };
-
-  const navigateToPage = (newPage: number) => {
-    const params = new URLSearchParams();
-    if (localFilter) params.append("search", localFilter);
-    if (localStatus !== undefined) params.append("status", localStatus);
-
-    const queryString = params.toString();
-    const url = `/pedidos/${newPage}${queryString ? `?${queryString}` : ""}`;
-
-    router.push(url);
-  };
+    const response = connectionAPIGet<OrderType>(`/orders/${slug}`)
+      .then((res) => {
+        setOrder(res);
+        console.log(res);
+      })
+      .catch((err) => {})
+      .finally(() => {
+        setLoading(false);
+      });
+  }, [slug]);
 
   return (
-    <OrdersContainer>
+    <SalesInnerPageContainer>
       <div className="desktop">
         <HeaderEnviroment>
-          <DefaultHeader title="PEDIDOS" />
+          <DefaultHeader backWard title="DETALHES DA VENDA" />
         </HeaderEnviroment>
       </div>
-      <div className="mobile mobileHeader">
-        <Text align="center" fontName="LARGE_SEMI_BOLD">
-          PEDIDOS
+      <div className="mobile">
+        <DefaultHeader backWard title="DETALHES DA VENDA" />
+      </div>
+      <div className="mainTitle">
+        <Text align="center" fontName="LARGE_MEDIUM">
+          BIGO LIVE
         </Text>
       </div>
-      <div className="filtersSection">
-        <form
-          className="searchSection"
-          onSubmit={(e) => {
-            e.preventDefault();
-            e.stopPropagation();
-            handleChangeFilter(localFilter);
-          }}
-        >
-          <Input
-            value={localFilter}
-            onChange={(e) => setLocalFilter(e.target.value)}
-            onBlur={() => handleChangeFilter(localFilter)}
-            placeholder="Número do pedido ou email..."
-            height={36}
-          />
-          <div
-            className="searchButton"
-            onClick={() => handleChangeFilter(localFilter)}
-          >
-            <Search />
+      <main>
+        <section className="top">
+          <div className="leftTop">
+            <Image
+              width={164}
+              height={164}
+              src={order?.orderItem.package.imgCardUrl || ""}
+              alt="Card do jogo"
+            />
+            <Text margin="24px 0 0 0" fontName="SMALL_MEDIUM">
+              Número do pedido
+            </Text>
+            <Text fontName="SMALL_MEDIUM">ID de usuário</Text>
+            <Text fontName="SMALL_MEDIUM">Nome</Text>
+            <Text fontName="SMALL_MEDIUM">E-mail</Text>
+            <Text fontName="SMALL_MEDIUM">Telefone</Text>
           </div>
-        </form>
-        <div className="filterControls">
-          <select
-            value={localProductFilter}
-            onChange={(e) =>
-              handleChangeProductFilter(e.target.value as string)
-            }
-            className="filterSelect"
-          >
-            <option value="">Plataforma</option>
-            {orders?.products?.map((item, index) => {
-              return (
-                <option key={index} value={item.id}>
-                  {item.name}
-                </option>
-              );
-            })}
-          </select>
-          <select
-            value={localStatus}
-            onChange={(e) => {
-              handleChangeStatus(e.target.value as OrderStatus);
-            }}
-            className="filterSelect"
-          >
-            <option value="all">Status</option>
-            {/* <option value="all">Todos</option> */}
-            <option value="processing">Pendente</option>
-            <option value="completed">Finalizado</option>
-            <option value="expired">Expirado</option>
-            <option value="refunded">Extornado</option>
-          </select>
-        </div>
-      </div>
-      <section className="cards">
-        {loadingOrders && <div>Carregando...</div>}
-        {!loadingOrders && orders?.data?.length === 0 && (
-          <div className="emptyState">
-            <Text align="center" fontName="REGULAR_MEDIUM" color="#666">
-              Nenhum pedido encontrado
+          <div className="rightTop">
+            <Text tag="h2" align="end" fontName="REGULAR_MEDIUM">
+              {order?.orderItem.package.name}
+            </Text>
+            <Text
+              tag="h3"
+              align="end"
+              fontName="TINY"
+              color={Theme.colors.secondaryText}
+            >
+              {formatDate(order?.createdAt)}
+            </Text>
+            <Text align="end" fontName="SMALL_MEDIUM">
+              {order?.orderNumber}
+            </Text>
+            <Text align="end" fontName="SMALL_MEDIUM">
+              {order?.orderItem.recharge.userIdForRecharge || "-"}
+            </Text>
+            <Text align="end" fontName="SMALL_MEDIUM">
+              {order?.user?.name || "-"}
+            </Text>
+            <Text align="end" fontName="SMALL_MEDIUM">
+              {order?.user?.email || "-"}
+            </Text>
+            <Text align="end" fontName="SMALL_MEDIUM">
+              {formatPhone(order?.user?.phone || "")}
             </Text>
           </div>
-        )}
-        {orders?.data?.map((order: OrderType) => (
-          <div
-            className="orderCardContainer"
-            key={order.id}
-            onClick={() => router.push(`/pedidos/${order.id}`)}
-          >
-            <OrderCard order={order} />
+        </section>
+        <Text margin="24px 0 16px 0" fontName="REGULAR_MEDIUM">
+          Detalhes do pagamento
+        </Text>
+        <section className="medium">
+          <span>
+            <Pix />
+          </span>
+          <section>
+            <div className="leftMedium">
+              <Text fontName="SMALL_MEDIUM">Pix</Text>
+              <Text
+                fontName="TINY"
+                color={
+                  order?.payment.status === "PAYMENT_APPROVED"
+                    ? Theme.colors.approved
+                    : order?.payment.status === "PAYMENT_REJECTED"
+                      ? Theme.colors.refused
+                      : Theme.colors.pending
+                }
+              >
+                {order?.payment.status === "PAYMENT_APPROVED"
+                  ? "Pagamento aprovado"
+                  : order?.payment.status === "PAYMENT_REJECTED"
+                    ? "Pagamento rejeitado"
+                    : "Pagamento pendente"}
+              </Text>
+            </div>
+            <div className="rightMedium">
+              <Text align="end" fontName="SMALL_SEMI_BOLD">
+                R$ {formatPrice(order?.price || 0)}
+              </Text>
+              <Text
+                align="end"
+                fontName="TINY"
+                color={Theme.colors.secondaryText}
+              >
+                {formatDate(order?.payment.statusUpdatedAt || "")}
+              </Text>
+            </div>
+          </section>
+        </section>
+        <Text margin="24px 0 16px 0" fontName="REGULAR_MEDIUM">
+          Detalhes da recarga
+        </Text>
+        <section className="bottom">
+          <Image
+            width={64}
+            height={64}
+            src={order?.orderItem.package.imgCardUrl || ""}
+            alt="Imagem do pacote"
+          />
+          <section>
+            <div className="leftMedium">
+              <Text fontName="SMALL_MEDIUM">Bigo Live</Text>
+              <Text
+                fontName="TINY"
+                color={
+                  order?.orderItem.recharge.status === "RECHARGE_APPROVED"
+                    ? Theme.colors.approved
+                    : order?.orderItem.recharge.status === "RECHARGE_REJECTED"
+                      ? Theme.colors.refused
+                      : Theme.colors.pending
+                }
+              >
+                {order?.orderItem.recharge.status === "RECHARGE_APPROVED"
+                  ? "Recarga realizada"
+                  : order?.orderItem.recharge.status === "RECHARGE_REJECTED"
+                    ? "Cancelada"
+                    : "Processando"}
+              </Text>
+            </div>
+            <div className="rightMedium">
+              <Text align="end" fontName="SMALL_SEMI_BOLD">
+                {order?.orderItem.recharge.amountCredits}
+              </Text>
+              <Text
+                align="end"
+                fontName="TINY"
+                color={Theme.colors.secondaryText}
+              >
+                {formatDate(order?.orderItem.recharge.statusUpdatedAt || "")}
+              </Text>
+            </div>
+          </section>
+        </section>
+      </main>
+      {/* {handleCheck() ? (
+        <div className="bottomContainer">
+          <div>
+            <Text
+              nowrap
+              color={Theme.colors.secondaryTextAction}
+              align="end"
+              fontName="SMALL_MEDIUM"
+            >
+              Custo total:
+            </Text>
+            <Text margin="0 0 0 8px" nowrap fontName="SMALL_MEDIUM">
+              R$ 19,32
+            </Text>
           </div>
-        ))}
-      </section>
-      {orders?.data?.length !== 0 && orders !== undefined && (
-        <Pagination
-          page={orders?.page}
-          setPage={navigateToPage}
-          totalPages={orders?.totalPages}
-        />
-      )}
-    </OrdersContainer>
+          <div>
+            <Text
+              nowrap
+              color={Theme.colors.secondaryTextAction}
+              align="end"
+              fontName="SMALL_MEDIUM"
+            >
+              Lucro:
+            </Text>
+            <Text margin="0 0 0 8px" nowrap fontName="SMALL_MEDIUM">
+              R$ 10,58
+            </Text>
+          </div>
+        </div>
+      ) : (
+        <span>
+          <Button
+            margin="40px 0 97px 0"
+            width={188}
+            rounded
+            height={40}
+            title="Corrigir recarga"
+          />
+        </span>
+      )} */}
+    </SalesInnerPageContainer>
   );
 };
 
-export default OrdersPage;
+export default OrdersInnerPage;
