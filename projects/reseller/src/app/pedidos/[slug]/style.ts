@@ -6,6 +6,7 @@ export const SalesInnerPageContainer = styled.div`
   flex-direction: column;
   align-items: center;
   padding-top: 64px;
+  padding-bottom: 97px;
 
   .mobile {
     display: none;
