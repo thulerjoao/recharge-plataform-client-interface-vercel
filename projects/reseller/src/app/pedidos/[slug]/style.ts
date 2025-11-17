@@ -1,7 +1,7 @@
 import { Theme } from "@4miga/design-system/theme/theme";
 import styled from "styled-components";
 
-export const SalesInnerPage = styled.div`
+export const SalesInnerPageContainer = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
