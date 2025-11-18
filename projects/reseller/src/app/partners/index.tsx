@@ -10,8 +10,8 @@ import DefaultHeader from "public/components/defaultHeader";
 import HeaderEnviroment from "public/components/headerEnviroment";
 import Pagination from "public/components/pagination";
 import { useEffect, useState } from "react";
-import Search from "../icons/Search.svg";
-import InfluencerCard from "../influencerCard";
+import Search from "./(common)/icons/Search.svg";
+import InfluencerCard from "./(common)/influencerCard";
 import { InfluencerContainer } from "./style";
 
 interface Props {
@@ -52,25 +52,19 @@ const PartnersPage = ({
   const handleChangeStatus = (newStatus: "all" | "active" | "inactive") => {
     setLocalStatus(newStatus);
     const params = new URLSearchParams();
+    params.append("page", "1"); // Reset para página 1
     if (localFilter) params.append("search", localFilter);
     if (newStatus !== "all") params.append("status", newStatus);
-
-    const queryString = params.toString();
-    const url = `/partners/1${queryString ? `?${queryString}` : ""}`;
-
-    router.push(url);
+    router.push(`/partners?${params.toString()}`);
   };
 
   const handleChangeFilter = (newFilter: string) => {
     setLocalFilter(newFilter);
     const params = new URLSearchParams();
+    params.append("page", "1"); // Reset para página 1
     if (newFilter) params.append("search", newFilter);
     if (localStatus !== "all") params.append("status", localStatus);
-
-    const queryString = params.toString();
-    const url = `/partners/1${queryString ? `?${queryString}` : ""}`;
-
-    router.push(url);
+    router.push(`/partners?${params.toString()}`);
   };
 
   const handleInfluencerClick = (influencerId: string) => {
@@ -83,13 +77,10 @@ const PartnersPage = ({
 
   const navigateToPage = (newPage: number) => {
     const params = new URLSearchParams();
+    params.append("page", newPage.toString());
     if (localFilter) params.append("search", localFilter);
     if (localStatus !== "all") params.append("status", localStatus);
-
-    const queryString = params.toString();
-    const url = `/partners/${newPage}${queryString ? `?${queryString}` : ""}`;
-
-    router.push(url);
+    router.push(`/partners?${params.toString()}`);
   };
 
   return (

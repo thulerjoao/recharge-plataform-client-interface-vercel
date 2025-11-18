@@ -10,8 +10,8 @@ import DefaultHeader from "public/components/defaultHeader";
 import HeaderEnviroment from "public/components/headerEnviroment";
 import Pagination from "public/components/pagination";
 import { useEffect, useState } from "react";
-import CouponCard from "./common/couponCard";
-import Search from "./common/icons/Search.svg";
+import CouponCard from "./(common)/couponCard";
+import Search from "./(common)/icons/Search.svg";
 import { CouponsContainer } from "./style";
 
 interface Props {

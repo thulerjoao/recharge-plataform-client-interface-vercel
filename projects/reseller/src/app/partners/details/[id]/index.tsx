@@ -23,7 +23,7 @@ import { formatDate } from "utils/formatDate";
 import { formatPrice } from "utils/formatPrice";
 
 import { FormErrors, validateInfluencerForm } from "utils/influencerValidation";
-import Icon from "../../icons/icon.svg";
+import Icon from "../../(common)/icons/icon.svg";
 import { InfluencerDetailsContainer } from "./style";
 
 interface InfluencerDetailsProps {
