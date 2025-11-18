@@ -123,7 +123,7 @@ const AsideBar = () => {
           </div>
 
           <div
-            onClick={() => handleClickRouteTo("coupons")}
+            onClick={() => handleClickRouteTo("coupons?page=1")}
             className={`menuOption ${handleCheck("coupons") && "selected"}`}
           >
             <span className="inconEnviroment">

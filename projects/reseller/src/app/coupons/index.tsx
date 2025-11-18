@@ -10,8 +10,8 @@ import DefaultHeader from "public/components/defaultHeader";
 import HeaderEnviroment from "public/components/headerEnviroment";
 import Pagination from "public/components/pagination";
 import { useEffect, useState } from "react";
-import CouponCard from "../couponCard";
-import Search from "../icons/Search.svg";
+import CouponCard from "./common/couponCard";
+import Search from "./common/icons/Search.svg";
 import { CouponsContainer } from "./style";
 
 interface Props {
@@ -55,13 +55,11 @@ const CouponsPage = ({
   const handleChangeStatus = (newStatus: "all" | "active" | "inactive") => {
     setLocalStatus(newStatus);
     const params = new URLSearchParams();
+    params.append("page", "1");
     if (localFilter) params.append("search", localFilter);
     if (newStatus !== "all") params.append("status", newStatus);
-    if (localType !== "all") params.append;
-    const queryString = params.toString();
-    const url = `/cupons/1${queryString ? `?${queryString}` : ""}`;
-
-    router.push(url);
+    if (localType !== "all") params.append("type", localType);
+    router.push(`/coupons?${params.toString()}`);
   };
 
   const handleChangeType = (
@@ -69,47 +67,38 @@ const CouponsPage = ({
   ) => {
     setLocalType(newType);
     const params = new URLSearchParams();
+    params.append("page", "1");
     if (localFilter) params.append("search", localFilter);
     if (localStatus !== "all") params.append("status", localStatus);
     if (newType !== "all") params.append("type", newType);
-
-    const queryString = params.toString();
-    const url = `/cupons/1${queryString ? `?${queryString}` : ""}`;
-
-    router.push(url);
+    router.push(`/coupons?${params.toString()}`);
   };
 
   const handleChangeFilter = (newFilter: string) => {
     setLocalFilter(newFilter);
     const params = new URLSearchParams();
+    params.append("page", "1");
     if (newFilter) params.append("search", newFilter);
     if (localStatus !== "all") params.append("status", localStatus);
     if (localType !== "all") params.append("type", localType);
-
-    const queryString = params.toString();
-    const url = `/cupons/1${queryString ? `?${queryString}` : ""}`;
-
-    router.push(url);
+    router.push(`/coupons?${params.toString()}`);
   };
 
   const handleCreateCoupon = () => {
-    router.push("/cupons/cadastrar");
+    router.push("/coupons/create");
   };
 
   const handleViewCoupon = (couponId: string) => {
-    router.push(`/cupons/detalhes/${couponId}`);
+    router.push(`/coupons/details/${couponId}`);
   };
 
   const navigateToPage = (newPage: number) => {
     const params = new URLSearchParams();
+    params.append("page", newPage.toString());
     if (localFilter) params.append("search", localFilter);
     if (localStatus !== "all") params.append("status", localStatus);
     if (localType !== "all") params.append("type", localType);
-
-    const queryString = params.toString();
-    const url = `/cupons/${newPage}${queryString ? `?${queryString}` : ""}`;
-
-    router.push(url);
+    router.push(`/coupons?${params.toString()}`);
   };
 
   return (
