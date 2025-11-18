@@ -1,9 +1,8 @@
 "use client";
 
-import Dashboard from "./util";
+import Home from "./util/home";
 
 const Page = () => {
-  return <Dashboard />;
+  return <Home />;
 };
-
 export default Page;

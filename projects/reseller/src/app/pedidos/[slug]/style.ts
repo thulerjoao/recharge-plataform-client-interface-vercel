@@ -8,10 +8,6 @@ export const SalesInnerPageContainer = styled.div`
   padding-top: 64px;
   padding-bottom: 97px;
 
-  .mobile {
-    display: none;
-  }
-
   .mainTitle {
     margin-top: 32px;
   }
@@ -122,13 +118,13 @@ export const SalesInnerPageContainer = styled.div`
   @media (max-width: 767px) {
     padding-top: 64px;
 
-    .desktop {
+    /* .desktop {
       display: none;
     }
     .mobile {
       display: flex;
       width: 100%;
-    }
+    } */
 
     .mainTitle {
       margin-top: 24px;
