@@ -1,6 +1,6 @@
 "use client";
 
-import Dashboard from "./util/dashboard";
+import Dashboard from "./util";
 
 const Page = () => {
   return <Dashboard />;

@@ -8,6 +8,8 @@ import MetricsCards from "../common/components/metricsCards";
 import PeriodSelector from "../common/components/periodSelector";
 import SalesByProduct from "../common/components/salesByProduct";
 import { DashboardContainer } from "./style";
+import HeaderEnviroment from "public/components/headerEnviroment";
+import DefaultHeader from "public/components/defaultHeader";
 
 // Function to generate mock data based on the period
 const generateMockData = (
@@ -220,26 +222,33 @@ const Dashboard = () => {
 
   return (
     <DashboardContainer>
-      <div className="header">
-        <div className="headerTop">
-          <Text fontName="LARGE_SEMI_BOLD">Dashboard de Performance</Text>
-          <PeriodSelector
-            period={selectedPeriod}
-            firstAvailablePeriod={firstAvailablePeriod}
-            onPeriodChange={handlePeriodChange}
-          />
+      <div className="centerContainer">
+        <div className="desktop">
+          <HeaderEnviroment>
+            <DefaultHeader title="DASHBOARD" />
+          </HeaderEnviroment>
         </div>
-        {dashboardData.period && (
-          <Text margin="8px 0 0 0" fontName="REGULAR" color="#999">
-            Período: {formatPeriod()}
-          </Text>
-        )}
+        <div className="header">
+          <div className="headerTop">
+            <Text fontName="LARGE_SEMI_BOLD">Performance da loja</Text>
+            <PeriodSelector
+              period={selectedPeriod}
+              firstAvailablePeriod={firstAvailablePeriod}
+              onPeriodChange={handlePeriodChange}
+            />
+          </div>
+          {dashboardData.period && (
+            <Text margin="8px 0 0 0" fontName="REGULAR" color="#999">
+              Período: {formatPeriod()}
+            </Text>
+          )}
+        </div>
+        <section className="bottomContainer">
+          <DailyTrend dailyTrend={dashboardData.dailyTrend} />
+          <SalesByProduct salesByProduct={dashboardData.salesByProduct} />
+        </section>
+        <MetricsCards summary={dashboardData.summary} />
       </div>
-      <section className="bottomContainer">
-        <DailyTrend dailyTrend={dashboardData.dailyTrend} />
-        <SalesByProduct salesByProduct={dashboardData.salesByProduct} />
-      </section>
-      <MetricsCards summary={dashboardData.summary} />
     </DashboardContainer>
   );
 };
