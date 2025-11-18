@@ -41,60 +41,41 @@ const AsideBar = () => {
     <AsideBarContainer>
       <section className="CenterContent">
         <aside className="mainContent">
-          <span className="desktop" onClick={() => route.push("/home")}>
+          <span className="desktop" onClick={() => route.push("/dashboard")}>
             <LogoDesktop />
           </span>
 
-          <span className="tablet" onClick={() => route.push("/home")}>
+          <span className="tablet" onClick={() => route.push("/dashboard")}>
             <LogoTablet />
           </span>
 
           <div
-            onClick={() => handleClickRouteTo("home")}
-            className={`menuOption ${handleCheck("home") && "selected"}`}
+            onClick={() => handleClickRouteTo("dashboard")}
+            className={`menuOption ${handleCheck("dashboard") && "selected"}`}
             style={{ margin: "40px 0 0px 0" }}
           >
             <span className="inconEnviroment">
-              {handleCheck("home") ? <HomeSelected /> : <Home />}
+              {handleCheck("dashboard") ? <HomeSelected /> : <Home />}
             </span>
             <Text
-              color={handleCheck("home") && Theme.colors.maindark}
+              color={handleCheck("dashboard") && Theme.colors.maindark}
               margin="0 0 0 16px"
               fontName="REGULAR_SEMI_BOLD"
               className="desktop"
             >
-              INÍCIO
+              PAINEL
             </Text>
           </div>
-
-          {/* <div
-            onClick={() => handleClick("sales")}
-            className={`menuOption ${handleCheck("sales") && "selected"}`}
-          >
-            <span className="inconEnviroment">
-              {handleCheck("sales") ? <SalesSelected /> : <Sales />}
-            </span>
-
-            <Text
-              color={handleCheck("sales") && Theme.colors.maindark}
-              margin="0 0 0 16px"
-              fontName="REGULAR_SEMI_BOLD"
-              className="desktop"
-            >
-              VENDAS
-            </Text>
-          </div> */}
-
           <div
-            onClick={() => handleClickRouteTo("produtos")}
-            className={`menuOption ${handleCheck("produtos") && "selected"}`}
+            onClick={() => handleClickRouteTo("products")}
+            className={`menuOption ${handleCheck("products") && "selected"}`}
             style={{ margin: "16px 0 16px 0" }}
           >
             <span className="inconEnviroment">
-              {handleCheck("produtos") ? <ProductsSelected /> : <Products />}
+              {handleCheck("products") ? <ProductsSelected /> : <Products />}
             </span>
             <Text
-              color={handleCheck("produtos") && Theme.colors.maindark}
+              color={handleCheck("products") && Theme.colors.maindark}
               margin="0 0 0 16px"
               fontName="REGULAR_SEMI_BOLD"
               className="desktop"
@@ -104,14 +85,14 @@ const AsideBar = () => {
           </div>
 
           <div
-            onClick={() => handleClickRouteTo("pedidos?page=1")}
-            className={`menuOption ${handleCheck("pedidos") && "selected"}`}
+            onClick={() => handleClickRouteTo("orders?page=1")}
+            className={`menuOption ${handleCheck("orders") && "selected"}`}
           >
             <span className="inconEnviroment">
-              {handleCheck("pedidos") ? <OrdersSelected /> : <Orders />}
+              {handleCheck("orders") ? <OrdersSelected /> : <Orders />}
             </span>
             <Text
-              color={handleCheck("pedidos") && Theme.colors.maindark}
+              color={handleCheck("orders") && Theme.colors.maindark}
               margin="0 0 0 16px"
               fontName="REGULAR_SEMI_BOLD"
               className="desktop"
@@ -121,18 +102,18 @@ const AsideBar = () => {
           </div>
 
           <div
-            onClick={() => handleClickRouteTo("parceiros")}
-            className={`menuOption ${handleCheck("parceiros") && "selected"}`}
+            onClick={() => handleClickRouteTo("partners")}
+            className={`menuOption ${handleCheck("partners") && "selected"}`}
           >
             <span className="inconEnviroment">
-              {handleCheck("parceiros") ? (
+              {handleCheck("partners") ? (
                 <InfluencerSelected />
               ) : (
                 <Influencer />
               )}
             </span>
             <Text
-              color={handleCheck("parceiros") && Theme.colors.maindark}
+              color={handleCheck("partners") && Theme.colors.maindark}
               margin="0 0 0 16px"
               fontName="REGULAR_SEMI_BOLD"
               className="desktop"
@@ -142,14 +123,14 @@ const AsideBar = () => {
           </div>
 
           <div
-            onClick={() => handleClickRouteTo("cupons")}
-            className={`menuOption ${handleCheck("cupons") && "selected"}`}
+            onClick={() => handleClickRouteTo("coupons")}
+            className={`menuOption ${handleCheck("coupons") && "selected"}`}
           >
             <span className="inconEnviroment">
-              {handleCheck("cupons") ? <DiscountSelected /> : <Discount />}
+              {handleCheck("coupons") ? <DiscountSelected /> : <Discount />}
             </span>
             <Text
-              color={handleCheck("cupons") && Theme.colors.maindark}
+              color={handleCheck("coupons") && Theme.colors.maindark}
               margin="0 0 0 16px"
               fontName="REGULAR_SEMI_BOLD"
               className="desktop"
@@ -176,14 +157,14 @@ const AsideBar = () => {
           </div>
 
           <div
-            onClick={() => handleClickRouteTo("loja")}
-            className={`menuOption ${handleCheck("loja") && "selected"}`}
+            onClick={() => handleClickRouteTo("store")}
+            className={`menuOption ${handleCheck("store") && "selected"}`}
           >
             <span className="inconEnviroment">
-              {handleCheck("loja") ? <GearSelected /> : <Gear />}
+              {handleCheck("store") ? <GearSelected /> : <Gear />}
             </span>
             <Text
-              color={handleCheck("loja") && Theme.colors.maindark}
+              color={handleCheck("store") && Theme.colors.maindark}
               margin="0 0 0 16px"
               fontName="REGULAR_SEMI_BOLD"
               className="desktop"
