@@ -2,17 +2,17 @@
 
 import Text from "@4miga/design-system/components/Text";
 import { useEffect, useRef, useState } from "react";
+import { DashboardDataType, PeriodType } from "types/dashboardTypes";
 import DailyTrend from "../common/components/dailyTrend";
 import MetricsCards from "../common/components/metricsCards";
 import PeriodSelector from "../common/components/periodSelector";
 import SalesByProduct from "../common/components/salesByProduct";
-import { DashboardDataType, PeriodType } from "types/dashboardTypes";
 import { DashboardContainer } from "./style";
 
 // Function to generate mock data based on the period
 const generateMockData = (
   period: PeriodType,
-  firstAvailablePeriod: { year: number; month: number; period: string }
+  firstAvailablePeriod: { year: number; month: number; period: string },
 ): DashboardDataType => {
   // Data variation based on month/year to simulate different periods
   const variation = period.year * 100 + period.month;
@@ -91,15 +91,14 @@ const mockFirstAvailablePeriod = {
 };
 
 const Dashboard = () => {
-  const [selectedPeriod, setSelectedPeriod] = useState<PeriodType>(
-    getCurrentPeriod()
-  );
+  const [selectedPeriod, setSelectedPeriod] =
+    useState<PeriodType>(getCurrentPeriod());
   const [dashboardData, setDashboardData] = useState<DashboardDataType | null>(
-    null
+    null,
   );
   const [loading, setLoading] = useState<boolean>(true);
   const [firstAvailablePeriod, setFirstAvailablePeriod] = useState(
-    mockFirstAvailablePeriod
+    mockFirstAvailablePeriod,
   );
   const hasAdjustedPeriod = useRef(false);
 
@@ -148,7 +147,8 @@ const Dashboard = () => {
       // If year is future or month is future
       else if (
         selectedPeriod.year > currentYear ||
-        (selectedPeriod.year === currentYear && selectedPeriod.month > currentMonth)
+        (selectedPeriod.year === currentYear &&
+          selectedPeriod.month > currentMonth)
       ) {
         adjustedPeriod = {
           ...selectedPeriod,
@@ -165,7 +165,7 @@ const Dashboard = () => {
         const daysInMonth = new Date(
           adjustedPeriod.year,
           adjustedPeriod.month,
-          0
+          0,
         ).getDate();
         adjustedPeriod.startDate = `${adjustedPeriod.year}-${String(adjustedPeriod.month).padStart(2, "0")}-01`;
         adjustedPeriod.endDate = `${adjustedPeriod.year}-${String(adjustedPeriod.month).padStart(2, "0")}-${String(daysInMonth).padStart(2, "0")}`;
@@ -235,16 +235,13 @@ const Dashboard = () => {
           </Text>
         )}
       </div>
-
-      <MetricsCards summary={dashboardData.summary} />
-
       <section className="bottomContainer">
         <DailyTrend dailyTrend={dashboardData.dailyTrend} />
         <SalesByProduct salesByProduct={dashboardData.salesByProduct} />
       </section>
+      <MetricsCards summary={dashboardData.summary} />
     </DashboardContainer>
   );
 };
 
 export default Dashboard;
-
