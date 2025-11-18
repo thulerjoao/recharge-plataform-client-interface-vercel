@@ -228,6 +228,11 @@ const Dashboard = () => {
             <DefaultHeader title="DASHBOARD" />
           </HeaderEnviroment>
         </div>
+        <div className="mobile mobileHeader">
+          <Text align="center" fontName="LARGE_SEMI_BOLD">
+            DASHBOARD
+          </Text>
+        </div>
         <div className="header">
           <div className="headerTop">
             <Text fontName="LARGE_SEMI_BOLD">Performance da loja</Text>

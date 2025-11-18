@@ -12,6 +12,10 @@ export const DashboardContainer = styled.div`
     padding-top: 32px;
     padding-bottom: 56px;
 
+    .mobile {
+      display: none;
+    }
+
     .header {
       margin-top: 48px;
       margin-bottom: 32px;
@@ -42,9 +46,26 @@ export const DashboardContainer = styled.div`
   }
 
   @media (max-width: 767px) {
-    padding-top: 36px;
-
     .centerContainer {
+      padding-top: 64px;
+      .desktop {
+        display: none;
+      }
+      .mobile {
+        display: flex;
+        width: 100%;
+      }
+
+      .mobileHeader {
+        position: fixed;
+        top: 0;
+        z-index: 10;
+        margin-top: 12px;
+        width: auto;
+        height: 0;
+        width: 100%;
+      }
+
       .header {
         margin-top: 0px;
         .headerTop {

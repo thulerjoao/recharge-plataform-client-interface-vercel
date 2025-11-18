@@ -39,9 +39,9 @@ const OrdersInnerPage = ({ slug }: { slug: string }) => {
           <DefaultHeader backWard title="DETALHES DA VENDA" />
         </HeaderEnviroment>
       </div>
-      <div className="mobile">
+      {/* <div className="mobile">
         <DefaultHeader backWard title="DETALHES DA VENDA" />
-      </div>
+      </div> */}
       <div className="mainTitle">
         <Text align="center" fontName="LARGE_MEDIUM">
           BIGO LIVE

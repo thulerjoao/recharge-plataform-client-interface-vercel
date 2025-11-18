@@ -15,7 +15,7 @@ export const AdmPageContainer = styled.div`
 
   .permissionsContainer {
     width: 100%;
-    max-width: 800px;
+    max-width: 900px;
     display: flex;
     flex-direction: column;
     gap: 32px;

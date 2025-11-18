@@ -93,98 +93,100 @@ const OrdersPage = ({ currentPage, search, status, productId }: Props) => {
 
   return (
     <OrdersContainer>
-      <div className="desktop">
-        <HeaderEnviroment>
-          <DefaultHeader title="PEDIDOS" />
-        </HeaderEnviroment>
-      </div>
-      <div className="mobile mobileHeader">
-        <Text align="center" fontName="LARGE_SEMI_BOLD">
-          PEDIDOS
-        </Text>
-      </div>
-      <div className="filtersSection">
-        <form
-          className="searchSection"
-          onSubmit={(e) => {
-            e.preventDefault();
-            e.stopPropagation();
-            handleChangeFilter(localFilter);
-          }}
-        >
-          <Input
-            value={localFilter}
-            onChange={(e) => setLocalFilter(e.target.value)}
-            onBlur={() => handleChangeFilter(localFilter)}
-            placeholder="Número do pedido ou email..."
-            height={36}
-          />
-          <div
-            className="searchButton"
-            onClick={() => handleChangeFilter(localFilter)}
-          >
-            <Search />
-          </div>
-        </form>
-        <div className="filterControls">
-          <select
-            value={localProductFilter}
-            onChange={(e) =>
-              handleChangeProductFilter(e.target.value as string)
-            }
-            className="filterSelect"
-          >
-            <option value="">Plataforma</option>
-            {orders?.products?.map((item, index) => {
-              return (
-                <option key={index} value={item.id}>
-                  {item.name}
-                </option>
-              );
-            })}
-          </select>
-          <select
-            value={localStatus}
-            onChange={(e) => {
-              handleChangeStatus(e.target.value as OrderStatus);
-            }}
-            className="filterSelect"
-          >
-            <option value="all">Status</option>
-            {/* <option value="all">Todos</option> */}
-            <option value="processing">Pendente</option>
-            <option value="completed">Finalizado</option>
-            <option value="expired">Expirado</option>
-            <option value="refunded">Extornado</option>
-          </select>
+      <div className="centerContainer">
+        <div className="desktop">
+          <HeaderEnviroment>
+            <DefaultHeader title="PEDIDOS" />
+          </HeaderEnviroment>
         </div>
-      </div>
-      <section className="cards">
-        {loadingOrders && <div>Carregando...</div>}
-        {!loadingOrders && orders?.data?.length === 0 && (
-          <div className="emptyState">
-            <Text align="center" fontName="REGULAR_MEDIUM" color="#666">
-              Nenhum pedido encontrado
-            </Text>
-          </div>
-        )}
-        {orders?.data?.map((order: OrderType) => (
-          <div
-            className="orderCardContainer"
-            key={order.id}
-            onClick={() => router.push(`/pedidos/${order.id}`)}
+        <div className="mobile mobileHeader">
+          <Text align="center" fontName="LARGE_SEMI_BOLD">
+            PEDIDOS
+          </Text>
+        </div>
+        <div className="filtersSection">
+          <form
+            className="searchSection"
+            onSubmit={(e) => {
+              e.preventDefault();
+              e.stopPropagation();
+              handleChangeFilter(localFilter);
+            }}
           >
-            <OrderCard order={order} />
+            <Input
+              value={localFilter}
+              onChange={(e) => setLocalFilter(e.target.value)}
+              onBlur={() => handleChangeFilter(localFilter)}
+              placeholder="Número do pedido ou email..."
+              height={36}
+            />
+            <div
+              className="searchButton"
+              onClick={() => handleChangeFilter(localFilter)}
+            >
+              <Search />
+            </div>
+          </form>
+          <div className="filterControls">
+            <select
+              value={localProductFilter}
+              onChange={(e) =>
+                handleChangeProductFilter(e.target.value as string)
+              }
+              className="filterSelect"
+            >
+              <option value="">Plataforma</option>
+              {orders?.products?.map((item, index) => {
+                return (
+                  <option key={index} value={item.id}>
+                    {item.name}
+                  </option>
+                );
+              })}
+            </select>
+            <select
+              value={localStatus}
+              onChange={(e) => {
+                handleChangeStatus(e.target.value as OrderStatus);
+              }}
+              className="filterSelect"
+            >
+              <option value="all">Status</option>
+              {/* <option value="all">Todos</option> */}
+              <option value="processing">Pendente</option>
+              <option value="completed">Finalizado</option>
+              <option value="expired">Expirado</option>
+              <option value="refunded">Extornado</option>
+            </select>
           </div>
-        ))}
-      </section>
-      {orders?.data?.length !== 0 && orders !== undefined && (
-        <Pagination
-          page={orders?.page}
-          setPage={navigateToPage}
-          totalPages={orders?.totalPages}
-        />
-      )}
+        </div>
+        <section className="cards">
+          {loadingOrders && <div>Carregando...</div>}
+          {!loadingOrders && orders?.data?.length === 0 && (
+            <div className="emptyState">
+              <Text align="center" fontName="REGULAR_MEDIUM" color="#666">
+                Nenhum pedido encontrado
+              </Text>
+            </div>
+          )}
+          {orders?.data?.map((order: OrderType) => (
+            <div
+              className="orderCardContainer"
+              key={order.id}
+              onClick={() => router.push(`/pedidos/${order.id}`)}
+            >
+              <OrderCard order={order} />
+            </div>
+          ))}
+        </section>
+        {orders?.data?.length !== 0 && orders !== undefined && (
+          <Pagination
+            page={orders?.page}
+            setPage={navigateToPage}
+            totalPages={orders?.totalPages}
+          />
+        )}
+      </div>
     </OrdersContainer>
   );
 };
