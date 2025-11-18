@@ -12,6 +12,7 @@ import { MonthlySalesPaginationType } from "types/influencerType";
 import { apiUrl } from "@4miga/services/connectionAPI/url";
 import { formatPrice } from "utils/formatPrice";
 import { InfluencerSalesContainer } from "./style";
+import LoadingPage from "app/loading";
 
 interface InfluencerDetailsProps {
   influencerId: string;
@@ -69,30 +70,34 @@ const InfluencerSales = ({ influencerId }: InfluencerDetailsProps) => {
     );
   };
 
-  if (loading) {
-    return (
-      <InfluencerSalesContainer>
-        <div className="desktop">
-          <HeaderEnviroment>
-            <DefaultHeader backWard title="HISTÓRICO DE VENDAS" />
-          </HeaderEnviroment>
-        </div>
-        <div className="mobile mobileHeader">
-          <Text nowrap align="center" fontName="LARGE_SEMI_BOLD">
-            HISTÓRICO VENDAS
-          </Text>
-        </div>
-        <div className="loadingContainer">
-          <Text
-            align="center"
-            fontName="REGULAR_MEDIUM"
-            color={Theme.colors.mainlight}
-          >
-            Carregando histórico de vendas...
-          </Text>
-        </div>
-      </InfluencerSalesContainer>
-    );
+  // if (loading) {
+  //   return (
+  //     <InfluencerSalesContainer>
+  //       <div className="desktop">
+  //         <HeaderEnviroment>
+  //           <DefaultHeader backWard title="HISTÓRICO DE VENDAS" />
+  //         </HeaderEnviroment>
+  //       </div>
+  //       <div className="mobile mobileHeader">
+  //         <Text nowrap align="center" fontName="LARGE_SEMI_BOLD">
+  //           HISTÓRICO VENDAS
+  //         </Text>
+  //       </div>
+  //       <div className="loadingContainer">
+  //         <Text
+  //           align="center"
+  //           fontName="REGULAR_MEDIUM"
+  //           color={Theme.colors.mainlight}
+  //         >
+  //           Carregando histórico de vendas...
+  //         </Text>
+  //       </div>
+  //     </InfluencerSalesContainer>
+  //   );
+  // }
+
+  if (loading || !salesData) {
+    return <LoadingPage />;
   }
 
   return (

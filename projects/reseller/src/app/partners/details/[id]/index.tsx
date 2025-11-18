@@ -22,6 +22,7 @@ import { InfluencerType } from "types/influencerType";
 import { formatDate } from "utils/formatDate";
 import { formatPrice } from "utils/formatPrice";
 
+import LoadingPage from "app/loading";
 import { FormErrors, validateInfluencerForm } from "utils/influencerValidation";
 import Icon from "../../(common)/icons/icon.svg";
 import { InfluencerDetailsContainer } from "./style";
@@ -216,15 +217,9 @@ const InfluencerDetails = ({ influencerId }: InfluencerDetailsProps) => {
     }
   };
 
-  // if (loading) {
-  //   return (
-  //     <InfluencerDetailsContainer>
-  //       <Text align="center" fontName="REGULAR_MEDIUM">
-  //         Carregando...
-  //       </Text>
-  //     </InfluencerDetailsContainer>
-  //   );
-  // }
+  if (loading || !influencer) {
+    return <LoadingPage />;
+  }
 
   if (!influencer) {
     return (

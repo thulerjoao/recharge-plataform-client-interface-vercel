@@ -13,6 +13,7 @@ import { useEffect, useState } from "react";
 import CouponCard from "./(common)/couponCard";
 import Search from "./(common)/icons/Search.svg";
 import { CouponsContainer } from "./style";
+import LoadingPage from "app/loading";
 
 interface Props {
   currentPage: number;
@@ -100,6 +101,10 @@ const CouponsPage = ({
     if (localType !== "all") params.append("type", localType);
     router.push(`/coupons?${params.toString()}`);
   };
+
+  if (loadingCoupons || !coupons) {
+    return <LoadingPage />;
+  }
 
   return (
     <CouponsContainer>

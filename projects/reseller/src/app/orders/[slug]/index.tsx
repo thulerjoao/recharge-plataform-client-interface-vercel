@@ -12,6 +12,7 @@ import { formatPhone } from "utils/formatPhone";
 import { formatPrice } from "utils/formatPrice";
 import Pix from "../common/icons/Pix.svg";
 import { SalesInnerPageContainer } from "./style";
+import LoadingPage from "app/loading";
 
 const OrdersInnerPage = ({ slug }: { slug: string }) => {
   const handleCheck = () => {
@@ -31,6 +32,10 @@ const OrdersInnerPage = ({ slug }: { slug: string }) => {
         setLoading(false);
       });
   }, [slug]);
+
+  if (!order) {
+    return <LoadingPage />;
+  }
 
   return (
     <SalesInnerPageContainer>

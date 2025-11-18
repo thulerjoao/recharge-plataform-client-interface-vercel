@@ -10,6 +10,7 @@ import MetricsCards from "../common/components/metricsCards";
 import PeriodSelector from "../common/components/periodSelector";
 import SalesByProduct from "../common/components/salesByProduct";
 import { DashboardContainer } from "./style";
+import LoadingPage from "app/loading";
 
 // Function to generate mock data based on the period
 const generateMockData = (
@@ -205,20 +206,24 @@ const Dashboard = () => {
     return `${monthNames[month - 1]} ${year}`;
   };
 
-  if (loading) {
-    return (
-      <DashboardContainer>
-        <Text fontName="LARGE_SEMI_BOLD">Carregando dashboard...</Text>
-      </DashboardContainer>
-    );
-  }
+  // if (loading) {
+  //   return (
+  //     <DashboardContainer>
+  //       <Text fontName="LARGE_SEMI_BOLD">Carregando dashboard...</Text>
+  //     </DashboardContainer>
+  //   );
+  // }
 
-  if (!dashboardData) {
-    return (
-      <DashboardContainer>
-        <Text fontName="LARGE_SEMI_BOLD">Nenhum dado disponível</Text>
-      </DashboardContainer>
-    );
+  // if (!dashboardData) {
+  //   return (
+  //     <DashboardContainer>
+  //       <Text fontName="LARGE_SEMI_BOLD">Nenhum dado disponível</Text>
+  //     </DashboardContainer>
+  //   );
+  // }
+
+  if (loading) {
+    return <LoadingPage />;
   }
 
   return (

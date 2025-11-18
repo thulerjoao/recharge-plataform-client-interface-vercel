@@ -17,8 +17,9 @@ import {
   FormErrors,
   validateInfluencerForm,
 } from "../../../utils/influencerValidation";
-import Icon from "../icons/icon.svg";
+import Icon from "../(common)/icons/icon.svg";
 import { CreateInfluencerContainer } from "./style";
+import LoadingPage from "app/loading";
 
 interface CreateInfluencerData {
   name: string;

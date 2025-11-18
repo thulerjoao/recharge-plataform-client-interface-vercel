@@ -13,6 +13,7 @@ import { useEffect, useState } from "react";
 import Search from "./(common)/icons/Search.svg";
 import InfluencerCard from "./(common)/influencerCard";
 import { InfluencerContainer } from "./style";
+import LoadingPage from "app/loading";
 
 interface Props {
   currentPage: number;
@@ -72,7 +73,7 @@ const PartnersPage = ({
   };
 
   const handleAddInfluencer = () => {
-    router.push("/parceiros/create");
+    router.push("/partners/create");
   };
 
   const navigateToPage = (newPage: number) => {
@@ -82,6 +83,10 @@ const PartnersPage = ({
     if (localStatus !== "all") params.append("status", localStatus);
     router.push(`/partners?${params.toString()}`);
   };
+
+  if (loadingInfluencers || !influencers) {
+    return <LoadingPage />;
+  }
 
   return (
     <InfluencerContainer>

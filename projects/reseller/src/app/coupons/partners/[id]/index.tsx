@@ -13,6 +13,7 @@ import { CouponResponseType } from "types/couponType";
 import { apiUrl } from "@4miga/services/connectionAPI/url";
 import { CouponSalesContainer } from "./style";
 import Button from "@4miga/design-system/components/button";
+import LoadingPage from "app/loading";
 
 interface CouponDetailsProps {
   influencerId: string;
@@ -46,30 +47,34 @@ const CouponSales = ({ influencerId }: CouponDetailsProps) => {
     router.push(`/cupons/detalhes/${couponId}`);
   };
 
-  if (loading) {
-    return (
-      <CouponSalesContainer>
-        <div className="desktop">
-          <HeaderEnviroment>
-            <DefaultHeader backWard title="CUPONS DO PARCEIRO" />
-          </HeaderEnviroment>
-        </div>
-        <div className="mobile mobileHeader">
-          <Text align="center" fontName="LARGE_SEMI_BOLD">
-            CUPONS
-          </Text>
-        </div>
-        <div className="loadingContainer">
-          <Text
-            align="center"
-            fontName="REGULAR_MEDIUM"
-            color={Theme.colors.mainlight}
-          >
-            Carregando cupons do parceiro...
-          </Text>
-        </div>
-      </CouponSalesContainer>
-    );
+  // if (loading) {
+  //   return (
+  //     <CouponSalesContainer>
+  //       <div className="desktop">
+  //         <HeaderEnviroment>
+  //           <DefaultHeader backWard title="CUPONS DO PARCEIRO" />
+  //         </HeaderEnviroment>
+  //       </div>
+  //       <div className="mobile mobileHeader">
+  //         <Text align="center" fontName="LARGE_SEMI_BOLD">
+  //           CUPONS
+  //         </Text>
+  //       </div>
+  //       <div className="loadingContainer">
+  //         <Text
+  //           align="center"
+  //           fontName="REGULAR_MEDIUM"
+  //           color={Theme.colors.mainlight}
+  //         >
+  //           Carregando cupons do parceiro...
+  //         </Text>
+  //       </div>
+  //     </CouponSalesContainer>
+  //   );
+  // }
+
+  if (loading || !couponData) {
+    return <LoadingPage />;
   }
 
   return (

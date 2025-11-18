@@ -26,7 +26,7 @@ const AsideBar = () => {
   const route = useRouter();
   const currentRoute = usePathname();
 
-  const handleClickRouteTo = (prop: string) => {
+  const handleClickRouteTo = (prop: AsideSelected) => {
     route.push(`/${prop}`);
   };
 
@@ -85,7 +85,7 @@ const AsideBar = () => {
           </div>
 
           <div
-            onClick={() => handleClickRouteTo("orders?page=1")}
+            onClick={() => handleClickRouteTo("orders")}
             className={`menuOption ${handleCheck("orders") && "selected"}`}
           >
             <span className="inconEnviroment">
@@ -123,7 +123,7 @@ const AsideBar = () => {
           </div>
 
           <div
-            onClick={() => handleClickRouteTo("coupons?page=1")}
+            onClick={() => handleClickRouteTo("coupons")}
             className={`menuOption ${handleCheck("coupons") && "selected"}`}
           >
             <span className="inconEnviroment">
@@ -157,14 +157,14 @@ const AsideBar = () => {
           </div>
 
           <div
-            onClick={() => handleClickRouteTo("store")}
-            className={`menuOption ${handleCheck("store") && "selected"}`}
+            onClick={() => handleClickRouteTo("settings")}
+            className={`menuOption ${handleCheck("settings") && "selected"}`}
           >
             <span className="inconEnviroment">
-              {handleCheck("store") ? <GearSelected /> : <Gear />}
+              {handleCheck("settings") ? <GearSelected /> : <Gear />}
             </span>
             <Text
-              color={handleCheck("store") && Theme.colors.maindark}
+              color={handleCheck("settings") && Theme.colors.maindark}
               margin="0 0 0 16px"
               fontName="REGULAR_SEMI_BOLD"
               className="desktop"

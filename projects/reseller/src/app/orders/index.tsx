@@ -12,6 +12,7 @@ import { useEffect, useState } from "react";
 import { OrderStatus, OrderType } from "types/orderType";
 import Search from "./icons/Search.svg";
 import { OrdersContainer } from "./style";
+import LoadingPage from "app/loading";
 
 interface Props {
   currentPage: number;
@@ -90,6 +91,10 @@ const OrdersPage = ({ currentPage, search, status, productId }: Props) => {
 
     router.push(`/orders?${params.toString()}`);
   };
+
+  if (loadingOrders || !orders) {
+    return <LoadingPage />;
+  }
 
   return (
     <OrdersContainer>

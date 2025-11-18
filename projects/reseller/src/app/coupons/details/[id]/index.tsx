@@ -22,6 +22,7 @@ import { FormErrors, validateCouponForm } from "utils/couponValidation";
 import { formatDate } from "utils/formatDate";
 import { formatPrice } from "utils/formatPrice";
 import { CouponDetailsContainer } from "./style";
+import LoadingPage from "app/loading";
 
 interface CouponDetailsProps {
   couponId: string;
@@ -204,29 +205,33 @@ const CouponDetails = ({ couponId }: CouponDetailsProps) => {
   //   );
   // }
 
-  if (!coupon) {
-    return (
-      <CouponDetailsContainer>
-        <Text
-          align="center"
-          fontName="REGULAR_MEDIUM"
-          color={Theme.colors.refused}
-        >
-          Cupom não encontrado
-        </Text>
-        <Button
-          title="VOLTAR"
-          onClick={handleBack}
-          width={120}
-          height={40}
-          rounded
-          style={{
-            backgroundColor: Theme.colors.mainHighlight,
-            color: Theme.colors.mainlight,
-          }}
-        />
-      </CouponDetailsContainer>
-    );
+  // if (!coupon) {
+  //   return (
+  //     <CouponDetailsContainer>
+  //       <Text
+  //         align="center"
+  //         fontName="REGULAR_MEDIUM"
+  //         color={Theme.colors.refused}
+  //       >
+  //         Cupom não encontrado
+  //       </Text>
+  //       <Button
+  //         title="VOLTAR"
+  //         onClick={handleBack}
+  //         width={120}
+  //         height={40}
+  //         rounded
+  //         style={{
+  //           backgroundColor: Theme.colors.mainHighlight,
+  //           color: Theme.colors.mainlight,
+  //         }}
+  //       />
+  //     </CouponDetailsContainer>
+  //   );
+  // }
+
+  if (loading || !coupon) {
+    return <LoadingPage />;
   }
 
   return (

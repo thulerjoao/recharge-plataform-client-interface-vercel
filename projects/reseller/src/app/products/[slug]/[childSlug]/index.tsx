@@ -27,6 +27,7 @@ import {
 import CameraIcon from "../../common/icons/CameraIcon.svg";
 import PixConfiguration from "./common/pixCard/pixConfiguration";
 import { ConfigPackagePage } from "./style";
+import LoadingPage from "app/loading";
 
 type Props = {
   slug: string;
@@ -35,9 +36,7 @@ type Props = {
 
 const SecondaryProductPage = ({ slug, childSlug }: Props) => {
   const router = useRouter();
-  // const [confirmModal, setconfirmModal] = useState<boolean>(false);
 
-  // Detectar se é modo de criação de novo pacote
   const isCreatingNewPackage = childSlug === "novo_pacote";
 
   const [isEditing, setIsEditing] = useState<boolean>(isCreatingNewPackage);
@@ -344,6 +343,10 @@ const SecondaryProductPage = ({ slug, childSlug }: Props) => {
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [products, childSlug, isCreatingNewPackage]);
+
+  if (!productPackages) {
+    return <LoadingPage />;
+  }
 
   return (
     <ConfigPackagePage>

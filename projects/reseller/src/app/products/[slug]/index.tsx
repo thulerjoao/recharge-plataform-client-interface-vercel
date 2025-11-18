@@ -19,6 +19,7 @@ import CameraIcon from "../common/icons/CameraIcon.svg";
 import Pen from "../common/icons/Pen.svg";
 import AddIcon from "./AddIcon.svg";
 import { ProductsInnerPage } from "./style";
+import LoadingPage from "app/loading";
 
 type Props = {
   slug: string;
@@ -185,6 +186,10 @@ const Productpage = ({ slug }: Props) => {
   const handleAddPackage = () => {
     route.push(`/products/${slug}/novo_pacote`);
   };
+
+  if (!productPackages) {
+    return <LoadingPage />;
+  }
 
   return (
     <ProductsInnerPage>

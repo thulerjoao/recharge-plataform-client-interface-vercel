@@ -9,7 +9,7 @@ import SecondaryBannerUpload from "../common/components/secondaryBannerUpload";
 import SocialNetworksSection from "../common/components/socialNetworksSection";
 import { SettingsPageContainer } from "./style";
 
-const Settings = () => {
+const Store = () => {
   const { store, fetchStore } = useAuth();
 
   return (
@@ -42,4 +42,4 @@ const Settings = () => {
   );
 };
 
-export default Settings;
+export default Store;

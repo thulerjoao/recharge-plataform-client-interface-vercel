@@ -8,6 +8,7 @@ import {
   connectionAPIGet,
   connectionAPIPatch,
 } from "@4miga/services/connectionAPI/connection";
+import LoadingPage from "app/loading";
 import { useAuth } from "context/auth";
 import DefaultHeader from "public/components/defaultHeader";
 import HeaderEnviroment from "public/components/headerEnviroment";
@@ -32,6 +33,7 @@ const AdmPage = () => {
   const [password, setPassword] = useState("");
   const [loadingAction, setLoadingAction] = useState(false);
   const [admins, setAdmins] = useState<emailUserType[]>([]);
+  const [loadingAdmins, setLoadingAdmins] = useState(true);
   const { user } = useAuth();
 
   const searchWrapperRef = useRef<HTMLDivElement>(null);
@@ -59,6 +61,9 @@ const AdmPage = () => {
       })
       .catch((err) => {
         console.error(err);
+      })
+      .finally(() => {
+        setLoadingAdmins(false);
       });
   };
 
@@ -158,6 +163,10 @@ const AdmPage = () => {
     setPassword("");
     setModalAction(null);
   };
+
+  if (loadingAdmins) {
+    return <LoadingPage />;
+  }
 
   return (
     <AdmPageContainer>

@@ -11,10 +11,11 @@ import { useRouter } from "next/navigation";
 import { formatString } from "utils/formatString";
 import { useProducts } from "context/products";
 import { useAuth } from "context/auth";
+import { useState } from "react";
+import LoadingPage from "app/loading";
 
 const ProductsPage = () => {
   const { products } = useProducts();
-  const { user } = useAuth();
   const route = useRouter();
 
   const handleProductClick = (path: string) => {
@@ -22,7 +23,9 @@ const ProductsPage = () => {
     route.push(`/products/${res}`);
   };
 
-  console.log("user", user);
+  if (!products) {
+    return <LoadingPage />;
+  }
 
   return (
     <ProductsPageContainer>

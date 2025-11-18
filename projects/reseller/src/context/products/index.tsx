@@ -2,9 +2,9 @@
 "use client";
 
 import { connectionAPIGet } from "@4miga/services/connectionAPI/connection";
+import { apiUrl } from "@4miga/services/connectionAPI/url";
 import { createContext, ReactNode, useContext, useState } from "react";
 import { ProductType } from "types/productTypes";
-import { apiUrl } from "@4miga/services/connectionAPI/url";
 
 interface ProductsProviderProps {
   children: ReactNode;
@@ -31,6 +31,7 @@ export const ProductsProvider = ({ children }: ProductsProviderProps) => {
       `/product/packages/?storeId=${storeId}`,
       apiUrl,
     );
+
     setProducts(products);
     setProductPackages(
       products.find((product) => product.id === productPackages?.id),
