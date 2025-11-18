@@ -16,7 +16,7 @@ const Page = () => {
       </div>
     );
   } else {
-    route.replace("/produtos");
+    route.replace("/dashboard");
   }
 };
 
