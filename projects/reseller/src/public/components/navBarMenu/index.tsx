@@ -1,15 +1,10 @@
 import { usePathname, useRouter } from "next/navigation";
+import { useState, useEffect, useRef } from "react";
 import { AsideSelected } from "types/asideSelectedType";
-// import RechargeSelected from "../../icons/RechargeSelected.svg";
-// import SalesSelected from "../../icons/SalesSelected.svg";
 import Home from "../../icons/Home.svg";
 import HomeSelected from "../../icons/HomeSelected.svg";
 import Orders from "../../icons/Orders.svg";
 import OrdersSelected from "../../icons/OrdersSelected.svg";
-// import Recharge from "../../icons/Recharge.svg";
-// import Sales from "../../icons/Sales.svg";
-// import Wallet from "../../icons/Wallet.svg";
-// import WalletSelected from "../../icons/WalletSelected.svg";
 import { scrollToTop } from "utils/scrollToTopFunction";
 import Admin from "../../icons/Admin.svg";
 import AdminSelected from "../../icons/AdminSelected.svg";
@@ -21,7 +16,9 @@ import Influencer from "../../icons/Influencer.svg";
 import InfluencerSelected from "../../icons/InfluencerSelected.svg";
 import Products from "../../icons/Products.svg";
 import ProductsSelected from "../../icons/ProductsSelected.svg";
-import { MobileNavBar } from "./style";
+import More from "./icons/More.svg";
+import MoreSelected from "./icons/MoreSelected.svg";
+import { MobileNavBar, MoreMenuPopover, MoreMenuItem } from "./style";
 
 interface Props {
   openMenu: boolean;
@@ -31,6 +28,8 @@ const MobileNavbar = ({ openMenu }: Props) => {
   const currentRoute = usePathname();
   const pathName = usePathname();
   const route = useRouter();
+  const [showMoreMenu, setShowMoreMenu] = useState(false);
+  const moreMenuRef = useRef<HTMLDivElement>(null);
 
   const handleCheck = (prop: AsideSelected) => {
     const propLenght: number = prop.length;
@@ -40,7 +39,59 @@ const MobileNavbar = ({ openMenu }: Props) => {
   const handleClick = (prop: AsideSelected) => {
     if (pathName === `/${prop}`) return scrollToTop();
     route.push(`/${prop}`);
+    setShowMoreMenu(false);
   };
+
+  const handleMoreClick = () => {
+    setShowMoreMenu(!showMoreMenu);
+  };
+
+  // Fechar o menu quando clicar fora
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (
+        moreMenuRef.current &&
+        !moreMenuRef.current.contains(event.target as Node)
+      ) {
+        setShowMoreMenu(false);
+      }
+    };
+
+    if (showMoreMenu) {
+      document.addEventListener("mousedown", handleClickOutside);
+    }
+
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, [showMoreMenu]);
+
+  // Itens do menu "Mais"
+  const moreMenuItems = [
+    {
+      route: "coupons" as AsideSelected,
+      icon: Discount,
+      iconSelected: DiscountSelected,
+      label: "Cupons",
+    },
+    {
+      route: "admin" as AsideSelected,
+      icon: Admin,
+      iconSelected: AdminSelected,
+      label: "Admin",
+    },
+    {
+      route: "settings" as AsideSelected,
+      icon: Gear,
+      iconSelected: GearSelected,
+      label: "Configurações",
+    },
+  ];
+
+  // Verifica se alguma das rotas do menu "Mais" está ativa
+  const isMoreMenuActive = moreMenuItems.some((item) =>
+    handleCheck(item.route),
+  );
 
   return (
     <MobileNavBar openMenu={openMenu}>
@@ -69,22 +120,29 @@ const MobileNavbar = ({ openMenu }: Props) => {
         {handleCheck("partners") ? <InfluencerSelected /> : <Influencer />}
       </span>
       <span
-        onClick={() => handleClick("coupons")}
-        className={handleCheck("coupons") && "selected"}
+        ref={moreMenuRef}
+        onClick={handleMoreClick}
+        className={`more-button ${showMoreMenu || isMoreMenuActive ? "selected" : ""}`}
       >
-        {handleCheck("coupons") ? <DiscountSelected /> : <Discount />}
-      </span>
-      <span
-        onClick={() => handleClick("admin")}
-        className={handleCheck("admin") && "selected"}
-      >
-        {handleCheck("admin") ? <AdminSelected /> : <Admin />}
-      </span>
-      <span
-        onClick={() => handleClick("settings")}
-        className={handleCheck("settings") && "selected"}
-      >
-        {handleCheck("settings") ? <GearSelected /> : <Gear />}
+        {showMoreMenu || isMoreMenuActive ? <MoreSelected /> : <More />}
+        {showMoreMenu && (
+          <MoreMenuPopover>
+            {moreMenuItems.map((item) => (
+              <MoreMenuItem
+                key={item.route}
+                onClick={() => handleClick(item.route)}
+                className={handleCheck(item.route) && "selected"}
+              >
+                {handleCheck(item.route) ? (
+                  <item.iconSelected />
+                ) : (
+                  <item.icon />
+                )}
+                <span>{item.label}</span>
+              </MoreMenuItem>
+            ))}
+          </MoreMenuPopover>
+        )}
       </span>
     </MobileNavBar>
   );
