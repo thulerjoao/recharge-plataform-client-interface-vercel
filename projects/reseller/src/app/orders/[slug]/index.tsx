@@ -1,7 +1,9 @@
-import Button from "@4miga/design-system/components/button";
+"use client";
+
 import Text from "@4miga/design-system/components/Text";
 import { Theme } from "@4miga/design-system/theme/theme";
 import { connectionAPIGet } from "@4miga/services/connectionAPI/connection";
+import LoadingPage from "app/loading";
 import Image from "next/image";
 import DefaultHeader from "public/components/defaultHeader";
 import HeaderEnviroment from "public/components/headerEnviroment";
@@ -12,7 +14,6 @@ import { formatPhone } from "utils/formatPhone";
 import { formatPrice } from "utils/formatPrice";
 import Pix from "../common/icons/Pix.svg";
 import { SalesInnerPageContainer } from "./style";
-import LoadingPage from "app/loading";
 
 const OrdersInnerPage = ({ slug }: { slug: string }) => {
   const handleCheck = () => {

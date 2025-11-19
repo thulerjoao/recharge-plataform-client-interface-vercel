@@ -1,3 +1,5 @@
+"use client";
+
 import Button from "@4miga/design-system/components/button";
 import Input from "@4miga/design-system/components/input";
 import OnOff from "@4miga/design-system/components/onOff";
@@ -10,6 +12,7 @@ import {
   connectionAPIPost,
 } from "@4miga/services/connectionAPI/connection";
 import { apiUrl } from "@4miga/services/connectionAPI/url";
+import LoadingPage from "app/loading";
 import { useAuth } from "context/auth";
 import { useProducts } from "context/products";
 import { useImageUpload } from "hooks/useImageUpload";
@@ -27,7 +30,6 @@ import {
 import CameraIcon from "../../common/icons/CameraIcon.svg";
 import PixConfiguration from "./common/pixCard/pixConfiguration";
 import { ConfigPackagePage } from "./style";
-import LoadingPage from "app/loading";
 
 type Props = {
   slug: string;

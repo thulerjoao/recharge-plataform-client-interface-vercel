@@ -1,5 +1,3 @@
-"use client";
-
 import { OrderStatus } from "types/orderType";
 import OrdersPage from "./index";
 

@@ -1,5 +1,3 @@
-"use client";
-
 import SecondaryProductPage from ".";
 
 type Props = {
