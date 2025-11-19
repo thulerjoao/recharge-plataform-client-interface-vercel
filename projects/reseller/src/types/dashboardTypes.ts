@@ -47,4 +47,3 @@ export type DashboardDataType = {
   salesByProduct: SalesByProductType[];
   firstAvailablePeriod: FirstAvailablePeriodType;
 };
-

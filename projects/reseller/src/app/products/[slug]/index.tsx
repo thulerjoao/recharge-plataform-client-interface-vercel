@@ -1,3 +1,4 @@
+"use client";
 /* eslint-disable react-hooks/exhaustive-deps */
 import Button from "@4miga/design-system/components/button";
 import Text from "@4miga/design-system/components/Text";

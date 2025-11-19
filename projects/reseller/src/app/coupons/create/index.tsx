@@ -40,7 +40,11 @@ interface FormErrors {
   minOrderAmount?: string;
 }
 
-const CreateCoupon = () => {
+const CreateCoupon = ({
+  initialInfluencerId,
+}: {
+  initialInfluencerId?: string;
+}) => {
   const [isLoading, setIsLoading] = useState(false);
   const [discountType, setDiscountType] = useState<"percentage" | "amount">(
     "percentage",
@@ -66,7 +70,7 @@ const CreateCoupon = () => {
   });
 
   useEffect(() => {
-    connectionAPIGet<InfluencerNameIdType[]>(`/influencer/name-id-list`, apiUrl)
+    connectionAPIGet<InfluencerNameIdType[]>(`/influencer/name-id-list`)
       .then((res) => {
         setInfluencersList(res);
       })
@@ -76,15 +80,15 @@ const CreateCoupon = () => {
   }, []);
 
   useEffect(() => {
-    const influencerId = searchParams.get("influencerId");
+    const influencerId = initialInfluencerId;
     if (influencerId) {
-      console.log("influencerId", influencerId);
       const influencer = influencersList.find((i) => i.id === influencerId);
       setSelectedInfluencer(influencer);
       if (influencer) {
         setFormData((prev) => ({ ...prev, influencerId: influencer.id }));
       }
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [influencersList, searchParams]);
 
   const validateForm = (): boolean => {
@@ -197,7 +201,7 @@ const CreateCoupon = () => {
         </Text>
       </div>
 
-      <div className="mainContent">
+      <div className="mainContentContainer">
         <div className="headerSection">
           <div className="titleSection">
             <Text fontName="LARGE_SEMI_BOLD" color={Theme.colors.mainlight}>

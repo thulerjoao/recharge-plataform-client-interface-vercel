@@ -105,7 +105,7 @@ const CouponSales = ({ influencerId }: CouponDetailsProps) => {
             width={145}
             rounded
             onClick={() => {
-              router.push(`/cupons/cadastrar?influencerId=${influencerId}`);
+              router.push(`/coupons/create?influencerId=${influencerId}`);
             }}
           />
         </div>

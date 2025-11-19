@@ -1,11 +1,11 @@
 import CreateCoupon from ".";
 
-// type Props = {
-//   params: { id: string };
-// };
+type Props = {
+  params: { influencerId?: string };
+};
 
-const Page = () => {
-  return <CreateCoupon />;
+const Page = ({ params }: Props) => {
+  return <CreateCoupon initialInfluencerId={params.influencerId} />;
 };
 
 export default Page;

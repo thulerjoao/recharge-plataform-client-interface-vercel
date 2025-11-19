@@ -1,5 +1,3 @@
-"use client";
-
 import AdmPage from "./util";
 
 const Page = () => {

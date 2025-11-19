@@ -1,5 +1,3 @@
-"use client";
-
 import Productpage from ".";
 
 type Props = {

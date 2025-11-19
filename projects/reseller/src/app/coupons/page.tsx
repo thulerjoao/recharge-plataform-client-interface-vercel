@@ -1,5 +1,3 @@
-"use client";
-
 import CouponsPage from ".";
 
 type Props = {

@@ -13,7 +13,7 @@ export const CreateCouponContainer = styled.div`
     display: none;
   }
 
-  .mainContent {
+  .mainContentContainer {
     width: 100%;
     max-width: 900px;
     padding: 24px;
@@ -209,7 +209,7 @@ export const CreateCouponContainer = styled.div`
       height: 0;
     }
 
-    .mainContent {
+    .mainContentContainer {
       padding: 16px;
       gap: 24px;
 
@@ -256,7 +256,7 @@ export const CreateCouponContainer = styled.div`
   }
 
   @media (max-width: 539px) {
-    .mainContent {
+    .mainContentContainer {
       padding: 0px;
       gap: 20px;
 
