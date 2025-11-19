@@ -74,17 +74,6 @@ export const MobileMenuContainer = styled.div<Props>`
       height: 24px;
     }
   }
-  .bottomOptions {
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    width: 100%;
-    margin-bottom: 48px;
-    padding: 0 16px;
-    height: 128px;
-    ${({ openSearch }) => !openSearch && "position: absolute"};
-    ${({ openSearch }) => !openSearch && "bottom: 0"};
-  }
 
   .selected {
     background-color: ${Theme.colors.mainHighlight};
