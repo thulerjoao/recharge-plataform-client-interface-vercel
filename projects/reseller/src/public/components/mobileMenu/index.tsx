@@ -17,12 +17,16 @@ import Search from "./icons/Search.svg";
 import Setting from "./icons/Setting.svg";
 import { MobileMenuContainer } from "./style";
 
+import Admin from "../../icons/Admin.svg";
+import AdminSelected from "../../icons/AdminSelected.svg";
 import Discount from "../../icons/Discount.svg";
 import DiscountSelected from "../../icons/DiscountSelected.svg";
 import InfluencerSelected from "../../icons/GearSelected.svg";
+import Home from "../../icons/Home.svg";
+import HomeSelected from "../../icons/HomeSelected.svg";
 import Influencer from "../../icons/Influencer.svg";
-import Admin from "../../icons/Admin.svg";
-import AdminSelected from "../../icons/AdminSelected.svg";
+import Orders from "../../icons/Orders.svg";
+import OrdersSelected from "../../icons/OrdersSelected.svg";
 
 interface Props {
   search: boolean;
@@ -88,96 +92,93 @@ const MobileMenu = ({ search, openMenu, setOpenMenu }: Props) => {
           )}
         </section>
       )}
-      {/* <div
-        onClick={(e) => {
-          e.stopPropagation();
-          handleClick("home");
-        }}
-        className={`menuOption ${handleCheck("home") && "selected"}`}
-        style={{ margin: "32px 0 16px 0" }}
-      >
-        <span>{handleCheck("home") ? <HomeSelected /> : <Home />}</span>
-
-        <Text
-          color={handleCheck("home") && Theme.colors.maindark}
-          margin="0 0 0 16px"
-          fontName="REGULAR_SEMI_BOLD"
-        >
-          INÍCIO
-        </Text>
-      </div> */}
-      {/* <div
-        onClick={(e) => {
-          e.stopPropagation();
-          handleClick("sales");
-        }}
-        className={`menuOption ${handleCheck("sales") && "selected"}`}
-      >
-        <span>{handleCheck("sales") ? <SalesSelected /> : <Sales />}</span>
-
-        <Text
-          color={handleCheck("sales") && Theme.colors.maindark}
-          margin="0 0 0 16px"
-          fontName="REGULAR_SEMI_BOLD"
-        >
-          VENDAS
-        </Text>
-      </div> */}
-
       <div
         onClick={(e) => {
           e.stopPropagation();
-          handleClick("produtos");
+          handleClick("dashboard");
         }}
-        className={`menuOption ${handleCheck("produtos") && "selected"}`}
+        className={`menuOption ${handleCheck("dashboard") && "selected"}`}
         style={{ margin: "32px 0 16px 0" }}
       >
+        <span>{handleCheck("dashboard") ? <HomeSelected /> : <Home />}</span>
+
+        <Text
+          color={handleCheck("dashboard") && Theme.colors.maindark}
+          margin="0 0 0 16px"
+          fontName="REGULAR_SEMI_BOLD"
+        >
+          PAINEL
+        </Text>
+      </div>
+      <div
+        onClick={(e) => {
+          e.stopPropagation();
+          handleClick("products");
+        }}
+        className={`menuOption ${handleCheck("products") && "selected"}`}
+      >
         <span>
-          {handleCheck("produtos") ? <ProductsSelected /> : <Products />}
+          {handleCheck("products") ? <ProductsSelected /> : <Products />}
         </span>
 
         <Text
-          color={handleCheck("produtos") && Theme.colors.maindark}
+          color={handleCheck("products") && Theme.colors.maindark}
           margin="0 0 0 16px"
           fontName="REGULAR_SEMI_BOLD"
         >
           PRODUTOS
         </Text>
       </div>
-
       <div
         onClick={(e) => {
           e.stopPropagation();
-          handleClick("parceiros");
+          handleClick("orders");
         }}
-        className={`menuOption ${handleCheck("parceiros") && "selected"}`}
+        className={`menuOption ${handleCheck("orders") && "selected"}`}
       >
-        <span>
-          {handleCheck("parceiros") ? <InfluencerSelected /> : <Influencer />}
-        </span>
+        <span>{handleCheck("orders") ? <OrdersSelected /> : <Orders />}</span>
 
         <Text
-          color={handleCheck("parceiros") && Theme.colors.maindark}
+          color={handleCheck("orders") && Theme.colors.maindark}
           margin="0 0 0 16px"
           fontName="REGULAR_SEMI_BOLD"
         >
-          INFLUENCER
+          PEDIDOS
+        </Text>
+      </div>
+      <div
+        onClick={(e) => {
+          e.stopPropagation();
+          handleClick("partners");
+        }}
+        className={`menuOption ${handleCheck("partners") && "selected"}`}
+      >
+        <span>
+          {handleCheck("partners") ? <InfluencerSelected /> : <Influencer />}
+        </span>
+
+        <Text
+          color={handleCheck("partners") && Theme.colors.maindark}
+          margin="0 0 0 16px"
+          fontName="REGULAR_SEMI_BOLD"
+        >
+          PARCEIROS
         </Text>
       </div>
 
       <div
         onClick={(e) => {
           e.stopPropagation();
-          handleClick("cupons");
+          handleClick("coupons");
         }}
-        className={`menuOption ${handleCheck("cupons") && "selected"}`}
+        className={`menuOption ${handleCheck("coupons") && "selected"}`}
       >
         <span>
-          {handleCheck("cupons") ? <DiscountSelected /> : <Discount />}
+          {handleCheck("coupons") ? <DiscountSelected /> : <Discount />}
         </span>
 
         <Text
-          color={handleCheck("cupons") && Theme.colors.maindark}
+          color={handleCheck("coupons") && Theme.colors.maindark}
           margin="0 0 0 16px"
           fontName="REGULAR_SEMI_BOLD"
         >
@@ -202,55 +203,17 @@ const MobileMenu = ({ search, openMenu, setOpenMenu }: Props) => {
           ADMIN
         </Text>
       </div>
-
-      {/* <div
-        onClick={(e) => {
-          e.stopPropagation();
-          handleClick("recharge");
-        }}
-        className={`menuOption ${handleCheck("recharge") && "selected"}`}
-      >
-        <span>
-          {handleCheck("recharge") ? <RechargeSelected /> : <Recharge />}
-        </span>
-
-        <Text
-          color={handleCheck("recharge") && Theme.colors.maindark}
-          margin="0 0 0 16px"
-          fontName="REGULAR_SEMI_BOLD"
-        >
-          RECARREGAR
-        </Text>
-      </div> */}
-
-      {/* <div
-        onClick={(e) => {
-          e.stopPropagation();
-          handleClick("wallet");
-        }}
-        className={`menuOption ${handleCheck("wallet") && "selected"}`}
-      >
-        <span>{handleCheck("wallet") ? <WalletSelected /> : <Wallet />}</span>
-
-        <Text
-          color={handleCheck("wallet") && Theme.colors.maindark}
-          margin="0 0 0 16px"
-          fontName="REGULAR_SEMI_BOLD"
-        >
-          CARTEIRA
-        </Text>
-      </div> */}
       <div
         onClick={(e) => {
           e.stopPropagation();
-          handleClick("loja");
+          handleClick("settings");
         }}
-        className={`menuOption ${handleCheck("loja") && "selected"}`}
+        className={`menuOption ${handleCheck("settings") && "selected"}`}
       >
-        <span>{handleCheck("loja") ? <GearSelected /> : <Gear />}</span>
+        <span>{handleCheck("settings") ? <GearSelected /> : <Gear />}</span>
 
         <Text
-          color={handleCheck("loja") && Theme.colors.maindark}
+          color={handleCheck("settings") && Theme.colors.maindark}
           margin="0 0 0 16px"
           fontName="REGULAR_SEMI_BOLD"
         >
@@ -265,30 +228,6 @@ const MobileMenu = ({ search, openMenu, setOpenMenu }: Props) => {
           SAIR
         </Text>
       </div>
-      {/* <div className="bottomOptions">
-        <div
-          onClick={() => handleClick("config")}
-          className={`menuOption ${handleCheck("config") && "selected"}`}
-        >
-          <span>{handleCheck("config") ? <GearSelected /> : <Gear />}</span>
-
-          <Text
-            color={handleCheck("config") && Theme.colors.maindark}
-            margin="0 0 0 16px"
-            fontName="REGULAR_SEMI_BOLD"
-          >
-            CONFIGURAÇÕES
-          </Text>
-        </div>
-        <div className="menuOption" onClick={() => route.replace("/")}>
-          <span>
-            <Logout />
-          </span>
-          <Text margin="0 0 0 16px" fontName="REGULAR_SEMI_BOLD">
-            SAIR
-          </Text>
-        </div>
-      </div> */}
     </MobileMenuContainer>
   );
 };

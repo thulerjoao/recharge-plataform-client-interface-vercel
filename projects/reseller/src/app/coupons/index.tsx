@@ -102,9 +102,9 @@ const CouponsPage = ({
     router.push(`/coupons?${params.toString()}`);
   };
 
-  if (loadingCoupons || !coupons) {
-    return <LoadingPage />;
-  }
+  // if (loadingCoupons || !coupons) {
+  //   return <LoadingPage />;
+  // }
 
   return (
     <CouponsContainer>

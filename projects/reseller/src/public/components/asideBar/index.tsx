@@ -172,58 +172,7 @@ const AsideBar = () => {
               LOJA
             </Text>
           </div>
-
-          {/* <div
-            onClick={() => handleClick("recharge")}
-            className={`menuOption ${handleCheck("recharge") && "selected"}`}
-          >
-            <span className="inconEnviroment">
-              {handleCheck("recharge") ? <RechargeSelected /> : <Recharge />}
-            </span>
-            <Text
-              color={handleCheck("recharge") && Theme.colors.maindark}
-              margin="0 0 0 16px"
-              fontName="REGULAR_SEMI_BOLD"
-              className="desktop"
-            >
-              RECARREGAR
-            </Text>
-          </div> */}
-
-          {/* <div
-            onClick={() => handleClick("wallet")}
-            className={`menuOption ${handleCheck("wallet") && "selected"}`}
-          >
-            <span className="inconEnviroment">
-              {handleCheck("wallet") ? <WalletSelected /> : <Wallet />}
-            </span>
-            <Text
-              color={handleCheck("wallet") && Theme.colors.maindark}
-              margin="0 0 0 16px"
-              fontName="REGULAR_SEMI_BOLD"
-              className="desktop"
-            >
-              CARTEIRA
-            </Text>
-          </div> */}
-
           <div className="bottomOptions">
-            {/* <div
-              onClick={() => handleClick("config")}
-              className={`menuOption ${handleCheck("config") && "selected"}`}
-            >
-              <span className="inconEnviroment">
-                {handleCheck("config") ? <GearSelected /> : <Gear />}
-              </span>
-              <Text
-                color={handleCheck("config") && Theme.colors.maindark}
-                margin="0 0 0 16px"
-                fontName="REGULAR_SEMI_BOLD"
-                className="desktop"
-              >
-                CONFIGURAÇÕES
-              </Text>
-            </div> */}
             <div className="menuOption" onClick={() => logout()}>
               <span className="inconEnviroment">
                 <Logout />

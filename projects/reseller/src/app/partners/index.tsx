@@ -84,9 +84,9 @@ const PartnersPage = ({
     router.push(`/partners?${params.toString()}`);
   };
 
-  if (loadingInfluencers || !influencers) {
-    return <LoadingPage />;
-  }
+  // if (loadingInfluencers || !influencers) {
+  //   return <LoadingPage />;
+  // }
 
   return (
     <InfluencerContainer>
