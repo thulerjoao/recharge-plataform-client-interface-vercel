@@ -31,11 +31,11 @@ const Order = () => {
 
   useEffect(() => {
     if (!order) {
-      route.replace("/home");
+      route.replace("/under-construction");
     }
     if (!logged) {
       sessionStorage.clear();
-      route.replace("/home");
+      route.replace("/under-construction");
     }
   }, [order, logged, route]);
 
@@ -59,7 +59,7 @@ const Order = () => {
         "userId",
         order.orderItem.recharge.userIdForRecharge,
       );
-      route.push(`/home`);
+      route.push(`/under-construction`);
     }
   };
 
