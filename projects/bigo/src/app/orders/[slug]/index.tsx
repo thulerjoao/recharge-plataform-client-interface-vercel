@@ -65,11 +65,11 @@ const Order = () => {
 
   const goToPayment = () => {
     setLoading(true);
-    connectionAPIGet<OrderType>(`/order/${order.orderId}/user`, apiUrl)
+    connectionAPIGet<OrderType>(`/order/${order.id}/user`, apiUrl)
       .then((res) => {
         sessionStorage.setItem("qrCode", res.payment.qrCode);
         sessionStorage.setItem("copyAndPaste", res.payment.qrCodetextCopyPaste);
-        sessionStorage.setItem("orderId", res.orderId);
+        sessionStorage.setItem("orderId", res.id);
         sessionStorage.setItem(
           "userId",
           res.orderItem.recharge.userIdForRecharge,
