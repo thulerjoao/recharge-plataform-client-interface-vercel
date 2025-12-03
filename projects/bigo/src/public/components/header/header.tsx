@@ -51,7 +51,8 @@ const Header = () => {
   }
 
   const handleLogoClick = () => {
-    pathname === "/home" ? scrollToTop() : route.push("/home");
+    // pathname === "/home" ? scrollToTop() : route.push("/home");
+    pathname === "/home" ? scrollToTop() : route.push("/");
   };
 
   return (
@@ -64,7 +65,7 @@ const Header = () => {
           <div className="loginContainer">
             <span
               className="loginButton getIn"
-              onClick={() => handleOpenLogin(false)}
+              // onClick={() => handleOpenLogin(false)}
             >
               <Text align="start" fontName="SMALL_SEMI_BOLD">
                 Entrar
@@ -72,7 +73,7 @@ const Header = () => {
             </span>
             <span>
               <Button
-                onClick={() => handleOpenLogin(true)}
+                // onClick={() => handleOpenLogin(true)}
                 width={98}
                 height={28}
                 title="Cadastre-se"
@@ -100,7 +101,7 @@ const Header = () => {
               onClick={() => {
                 getOrders(1, 6);
                 setOpenMenu(false);
-                route.push("/my-orders/1");
+                route.push("/my-orders");
               }}
             >
               <span>
