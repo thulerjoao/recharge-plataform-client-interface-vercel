@@ -4,24 +4,23 @@ import Button from "@4miga/design-system/components/button";
 import Text from "@4miga/design-system/components/Text";
 import { Theme } from "@4miga/design-system/theme/theme";
 import { connectionAPIGet } from "@4miga/services/connectionAPI/connection";
+import { apiUrl } from "@4miga/services/connectionAPI/url";
 import { useAuth } from "contexts/auth";
 import { useProducts } from "contexts/products/ProductsProvider";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import BackArrow from "public/icons/BackArrow.svg";
+import Pix from "public/icons/PixBig.svg";
 import { useEffect, useState } from "react";
 import { OrderType } from "types/orderType";
 import { PackageType } from "types/productTypes";
-import { apiUrl } from "@4miga/services/connectionAPI/url";
 import { formatDate } from "utils/formatDate";
 import { formatPrice } from "utils/formatPrice";
-import { formatString } from "utils/formatString";
 import {
   handlePaymentStatus,
   handleRechargeStatus,
   handleStatusColor,
 } from "utils/handleStatus";
-import Pix from "../common/icons/Pix.svg";
 import { OrderContainer } from "./style";
 
 const Order = () => {
@@ -40,10 +39,7 @@ const Order = () => {
     }
   }, [order, logged, route]);
 
-  const { products } = useProducts();
-  const product = order
-    ? products.find((item) => item.id === order.orderItem.productId)
-    : null;
+  const { product } = useProducts();
 
   const handleBuyAgain = () => {
     sessionStorage.removeItem("qrCode");
@@ -57,9 +53,7 @@ const Order = () => {
         "userId",
         order.orderItem.recharge.userIdForRecharge,
       );
-      route.push(
-        `/product/${formatString(product.name)}/${order.orderItem.package.packageId}`,
-      );
+      route.push(`/package/${order.orderItem.package.packageId}`);
     } else {
       sessionStorage.setItem(
         "userId",
@@ -71,18 +65,16 @@ const Order = () => {
 
   const goToPayment = () => {
     setLoading(true);
-    connectionAPIGet<OrderType>(`/order/${order.orderId}/user`, apiUrl)
+    connectionAPIGet<OrderType>(`/order/${order.id}/user`, apiUrl)
       .then((res) => {
         sessionStorage.setItem("qrCode", res.payment.qrCode);
         sessionStorage.setItem("copyAndPaste", res.payment.qrCodetextCopyPaste);
-        sessionStorage.setItem("orderId", res.orderId);
+        sessionStorage.setItem("orderId", res.id);
         sessionStorage.setItem(
           "userId",
           res.orderItem.recharge.userIdForRecharge,
         );
-        route.push(
-          `product/${formatString(res.orderItem.productName)}/${res.orderItem.package.packageId}`,
-        );
+        route.push(`package/${res.orderItem.package.packageId}`);
       })
       .then(() => {});
   };
@@ -108,7 +100,7 @@ const Order = () => {
             />
             <div>
               <Text align="end" fontName="REGULAR_MEDIUM" tag="h2">
-                {order?.orderItem.package.name.toUpperCase()}
+                {order && order.orderItem.package.name.toUpperCase()}
               </Text>
               <Text
                 margin="8px 0 0 0"
@@ -117,23 +109,23 @@ const Order = () => {
                 fontName="TINY"
                 tag="h3"
               >
-                {formatDate(order?.createdAt)}
+                {formatDate(order && order.createdAt)}
               </Text>
             </div>
           </div>
           <Text style={{ marginTop: "8px" }} fontName="REGULAR_MEDIUM">
-            {order?.orderItem.productName}
+            {order && order.orderItem.productName}
           </Text>
           <div className="secondaryRow">
             <Text fontName="SMALL_MEDIUM">Número do pedido</Text>
             <Text fontName="SMALL_MEDIUM" align="end">
-              {order?.orderNumber}
+              {order && order.orderNumber}
             </Text>
           </div>
           <div className="secondaryRow third">
             <Text fontName="SMALL_MEDIUM">ID de usuário</Text>
             <Text fontName="SMALL_MEDIUM" align="end">
-              {order?.orderItem.recharge.userIdForRecharge}
+              {order && order.orderItem.recharge.userIdForRecharge}
             </Text>
           </div>
         </section>
@@ -143,13 +135,15 @@ const Order = () => {
           </Text>
           <div className="outside">
             <span>
-              {order?.payment.name.toUpperCase() === "PIX" && <Pix />}
+              {order && order.payment.name.toUpperCase() === "PIX" && <Pix />}
             </span>
             <div className="allInfos">
               <div className="innerContent">
-                <Text fontName="SMALL_MEDIUM">{order?.payment.name}</Text>
+                <Text fontName="SMALL_MEDIUM">
+                  {order && order.payment.name}
+                </Text>
                 <Text fontName="SMALL_SEMI_BOLD" align="end">
-                  R$ {formatPrice(order?.price)}
+                  R$ {formatPrice(order && order.price)}
                 </Text>
               </div>
               <div className="innerContent">
@@ -166,7 +160,7 @@ const Order = () => {
                   fontName="TINY"
                   tag="h3"
                 >
-                  {formatDate(order?.payment.statusUpdatedAt)}
+                  {formatDate(order && order.payment.statusUpdatedAt)}
                 </Text>
               </div>
             </div>
@@ -179,21 +173,21 @@ const Order = () => {
           <div className="outside">
             <span>
               <Image
-                src={order.orderItem.package.imgCardUrl}
-                alt="imagem do card"
                 height={40}
                 width={40}
+                src={order.orderItem.package.imgCardUrl}
+                alt="imagem do card"
               />
             </span>
             <div className="allInfos">
               <div className="innerContent">
                 <Text fontName="SMALL_MEDIUM">Bigo Live</Text>
                 <Text fontName="SMALL_SEMI_BOLD" align="end">
-                  {order?.orderItem.recharge.amountCredits} DIAMANTES
+                  {order && order.orderItem.recharge.amountCredits} DIAMANTES
                 </Text>
               </div>
               <div className="innerContent">
-                {order?.payment.status === "PAYMENT_APPROVED" && (
+                {order && order.payment.status === "PAYMENT_APPROVED" && (
                   <Text
                     nowrap
                     fontName="TINY"
@@ -218,7 +212,8 @@ const Order = () => {
               </div>
             </div>
           </div>
-          {order?.payment.status === "PAYMENT_APPROVED" &&
+          {order &&
+            order.payment.status === "PAYMENT_APPROVED" &&
             order.orderItem.recharge.status === "RECHARGE_PENDING" && (
               <Text margin="12px 0 -18px 0" align="center" fontName="TINY">
                 O prazo para recarga é de até 24 horas
@@ -226,7 +221,7 @@ const Order = () => {
             )}
         </section>
       </main>
-      {order?.payment.status !== "PAYMENT_PENDING" ? (
+      {order && order.payment.status !== "PAYMENT_PENDING" ? (
         <Button
           margin="32px 0 0 0"
           width={228}

@@ -14,20 +14,10 @@ interface OrderCardProps {
 
 const OrderCard = ({ order }: OrderCardProps) => {
   const route = useRouter();
-  // const [isImageValid, setIsImageValid] = useState<boolean>(false);
-
-  // useEffect(() => {
-  //   const checkImage = async () => {
-  //     const valid = await checkImageUrl(order.orderItem.package.imgCardUrl);
-  //     setIsImageValid(valid);
-  //   };
-
-  //   checkImage();
-  // }, [order.orderItem.package.imgCardUrl]);
 
   const handleSeeMore = () => {
     sessionStorage.setItem("order", JSON.stringify(order));
-    route.push("/order");
+    route.push(`/orders/${order.id}`);
   };
 
   return (

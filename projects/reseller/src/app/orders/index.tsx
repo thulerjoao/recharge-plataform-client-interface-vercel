@@ -2,6 +2,7 @@
 
 import Input from "@4miga/design-system/components/input";
 import Text from "@4miga/design-system/components/Text";
+import LoadingPage from "app/loading";
 import { useOrders } from "context/orders";
 import { useRouter } from "next/navigation";
 import OrderCard from "public/cards/orderCard/card";
@@ -12,7 +13,6 @@ import { useEffect, useState } from "react";
 import { OrderStatus, OrderType } from "types/orderType";
 import Search from "./icons/Search.svg";
 import { OrdersContainer } from "./style";
-import LoadingPage from "app/loading";
 
 interface Props {
   currentPage: number;
@@ -31,7 +31,6 @@ const OrdersPage = ({ currentPage, search, status, productId }: Props) => {
     setFilter,
     setStatus,
     setProductFilter,
-    productFilter,
   } = useOrders();
 
   const [localFilter, setLocalFilter] = useState(search);

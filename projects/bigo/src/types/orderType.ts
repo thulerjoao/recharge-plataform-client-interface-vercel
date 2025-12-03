@@ -1,5 +1,5 @@
 export interface OrderType {
-  orderId: string;
+  id: string;
   orderNumber: string;
   price: number;
   orderStatus: OrderStatus;

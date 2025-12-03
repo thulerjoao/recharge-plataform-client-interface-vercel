@@ -4,23 +4,23 @@ import Button from "@4miga/design-system/components/button";
 import Text from "@4miga/design-system/components/Text";
 import { Theme } from "@4miga/design-system/theme/theme";
 import { connectionAPIGet } from "@4miga/services/connectionAPI/connection";
-import { apiUrl } from "@4miga/services/connectionAPI/url";
 import { useAuth } from "contexts/auth";
 import { useProducts } from "contexts/products/ProductsProvider";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import BackArrow from "public/icons/BackArrow.svg";
-import Pix from "public/icons/PixBig.svg";
 import { useEffect, useState } from "react";
 import { OrderType } from "types/orderType";
 import { PackageType } from "types/productTypes";
 import { formatDate } from "utils/formatDate";
 import { formatPrice } from "utils/formatPrice";
+import { formatString } from "utils/formatString";
 import {
   handlePaymentStatus,
   handleRechargeStatus,
   handleStatusColor,
 } from "utils/handleStatus";
+import Pix from "public/icons/PixBig.svg";
 import { OrderContainer } from "./style";
 
 const Order = () => {
@@ -31,15 +31,18 @@ const Order = () => {
 
   useEffect(() => {
     if (!order) {
-      route.replace("/under-construction");
+      route.replace("/home");
     }
     if (!logged) {
       sessionStorage.clear();
-      route.replace("/under-construction");
+      route.replace("/home");
     }
   }, [order, logged, route]);
 
-  const { product } = useProducts();
+  const { products } = useProducts();
+  const product = order
+    ? products.find((item) => item.id === order.orderItem.productId)
+    : null;
 
   const handleBuyAgain = () => {
     sessionStorage.removeItem("qrCode");
@@ -53,30 +56,36 @@ const Order = () => {
         "userId",
         order.orderItem.recharge.userIdForRecharge,
       );
-      route.push(`/package/${order.orderItem.package.packageId}`);
+      route.push(
+        `/product/${formatString(product.name)}/${order.orderItem.package.packageId}`,
+      );
     } else {
       sessionStorage.setItem(
         "userId",
         order.orderItem.recharge.userIdForRecharge,
       );
-      route.push(`/under-construction`);
+      route.push(`/home`);
     }
   };
 
   const goToPayment = () => {
     setLoading(true);
-    connectionAPIGet<OrderType>(`/order/${order.orderId}/user`, apiUrl)
+    connectionAPIGet<OrderType>(`/orders/${order.id}`)
       .then((res) => {
         sessionStorage.setItem("qrCode", res.payment.qrCode);
         sessionStorage.setItem("copyAndPaste", res.payment.qrCodetextCopyPaste);
-        sessionStorage.setItem("orderId", res.orderId);
+        sessionStorage.setItem("orderId", res.id);
         sessionStorage.setItem(
           "userId",
           res.orderItem.recharge.userIdForRecharge,
         );
-        route.push(`package/${res.orderItem.package.packageId}`);
+        route.push(
+          `product/${formatString(res.orderItem.productName)}/${res.orderItem.package.packageId}`,
+        );
       })
-      .then(() => {});
+      .finally(() => {
+        setLoading(false);
+      });
   };
 
   return (
@@ -100,7 +109,7 @@ const Order = () => {
             />
             <div>
               <Text align="end" fontName="REGULAR_MEDIUM" tag="h2">
-                {order && order.orderItem.package.name.toUpperCase()}
+                {order?.orderItem.package.name.toUpperCase()}
               </Text>
               <Text
                 margin="8px 0 0 0"
@@ -109,23 +118,23 @@ const Order = () => {
                 fontName="TINY"
                 tag="h3"
               >
-                {formatDate(order && order.createdAt)}
+                {formatDate(order?.createdAt)}
               </Text>
             </div>
           </div>
           <Text style={{ marginTop: "8px" }} fontName="REGULAR_MEDIUM">
-            {order && order.orderItem.productName}
+            {order?.orderItem.productName}
           </Text>
           <div className="secondaryRow">
             <Text fontName="SMALL_MEDIUM">Número do pedido</Text>
             <Text fontName="SMALL_MEDIUM" align="end">
-              {order && order.orderNumber}
+              {order?.orderNumber}
             </Text>
           </div>
           <div className="secondaryRow third">
             <Text fontName="SMALL_MEDIUM">ID de usuário</Text>
             <Text fontName="SMALL_MEDIUM" align="end">
-              {order && order.orderItem.recharge.userIdForRecharge}
+              {order?.orderItem.recharge.userIdForRecharge}
             </Text>
           </div>
         </section>
@@ -135,15 +144,13 @@ const Order = () => {
           </Text>
           <div className="outside">
             <span>
-              {order && order.payment.name.toUpperCase() === "PIX" && <Pix />}
+              {order?.payment.name.toUpperCase() === "PIX" && <Pix />}
             </span>
             <div className="allInfos">
               <div className="innerContent">
-                <Text fontName="SMALL_MEDIUM">
-                  {order && order.payment.name}
-                </Text>
+                <Text fontName="SMALL_MEDIUM">{order?.payment.name}</Text>
                 <Text fontName="SMALL_SEMI_BOLD" align="end">
-                  R$ {formatPrice(order && order.price)}
+                  R$ {formatPrice(order?.price)}
                 </Text>
               </div>
               <div className="innerContent">
@@ -160,7 +167,7 @@ const Order = () => {
                   fontName="TINY"
                   tag="h3"
                 >
-                  {formatDate(order && order.payment.statusUpdatedAt)}
+                  {formatDate(order?.payment.statusUpdatedAt)}
                 </Text>
               </div>
             </div>
@@ -173,21 +180,21 @@ const Order = () => {
           <div className="outside">
             <span>
               <Image
-                height={40}
-                width={40}
                 src={order.orderItem.package.imgCardUrl}
                 alt="imagem do card"
+                height={40}
+                width={40}
               />
             </span>
             <div className="allInfos">
               <div className="innerContent">
                 <Text fontName="SMALL_MEDIUM">Bigo Live</Text>
                 <Text fontName="SMALL_SEMI_BOLD" align="end">
-                  {order && order.orderItem.recharge.amountCredits} DIAMANTES
+                  {order?.orderItem.recharge.amountCredits} DIAMANTES
                 </Text>
               </div>
               <div className="innerContent">
-                {order && order.payment.status === "PAYMENT_APPROVED" && (
+                {order?.payment.status === "PAYMENT_APPROVED" && (
                   <Text
                     nowrap
                     fontName="TINY"
@@ -212,8 +219,7 @@ const Order = () => {
               </div>
             </div>
           </div>
-          {order &&
-            order.payment.status === "PAYMENT_APPROVED" &&
+          {order?.payment.status === "PAYMENT_APPROVED" &&
             order.orderItem.recharge.status === "RECHARGE_PENDING" && (
               <Text margin="12px 0 -18px 0" align="center" fontName="TINY">
                 O prazo para recarga é de até 24 horas
@@ -221,7 +227,7 @@ const Order = () => {
             )}
         </section>
       </main>
-      {order && order.payment.status !== "PAYMENT_PENDING" ? (
+      {order?.payment.status !== "PAYMENT_PENDING" ? (
         <Button
           margin="32px 0 0 0"
           width={228}

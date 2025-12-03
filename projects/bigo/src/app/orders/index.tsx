@@ -18,15 +18,20 @@ interface Props {
 
 const MyOrders = ({ currentPage }: Props) => {
   const route = useRouter();
-  const { loadingOrders, orders, getOrders } = useOrders();
+  const { loadingOrders, orders, getOrders, setPage } = useOrders();
   const { logged } = useAuth();
-  const [page, setPage] = useState<number>(currentPage);
 
   useEffect(() => {
-    getOrders(page, 6);
-    route.push(`/my-orders/${page}`);
+    setPage(currentPage);
+    getOrders(currentPage, 6);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [page]);
+  }, [currentPage]);
+
+  const navigateToPage = (newPage: number) => {
+    const params = new URLSearchParams();
+    params.append("page", newPage.toString());
+    route.push(`/orders?${params.toString()}`);
+  };
 
   return (
     <MyOrderContainer>
@@ -54,7 +59,7 @@ const MyOrders = ({ currentPage }: Props) => {
       {orders && (
         <Pagination
           page={orders?.page}
-          setPage={setPage}
+          setPage={navigateToPage}
           totalPages={orders?.totalPages}
         />
       )}
