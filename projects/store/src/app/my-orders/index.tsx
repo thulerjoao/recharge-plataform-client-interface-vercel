@@ -9,7 +9,7 @@ import SkeletonOrderCard from "public/cards/orderCard/skeletonOrderCard";
 import LoginModal from "public/components/loginModal";
 import Pagination from "public/components/pagination";
 import BackArrow from "public/icons/BackArrow.svg";
-import { useState, useEffect } from "react";
+import { useEffect } from "react";
 import { MyOrderContainer } from "./style";
 
 interface Props {
@@ -18,15 +18,20 @@ interface Props {
 
 const MyOrders = ({ currentPage }: Props) => {
   const route = useRouter();
-  const { loadingOrders, orders, getOrders } = useOrders();
+  const { loadingOrders, orders, getOrders, setPage } = useOrders();
   const { logged } = useAuth();
-  const [page, setPage] = useState<number>(currentPage);
 
   useEffect(() => {
-    getOrders(page, 6);
-    route.push(`/my-orders/${page}`);
+    setPage(currentPage);
+    getOrders(currentPage, 6);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [page]);
+  }, [currentPage]);
+
+  const navigateToPage = (newPage: number) => {
+    const params = new URLSearchParams();
+    params.append("page", newPage.toString());
+    route.push(`/my-orders?${params.toString()}`);
+  };
 
   return (
     <MyOrderContainer>
@@ -54,7 +59,7 @@ const MyOrders = ({ currentPage }: Props) => {
       {orders && (
         <Pagination
           page={orders?.page}
-          setPage={setPage}
+          setPage={navigateToPage}
           totalPages={orders?.totalPages}
         />
       )}

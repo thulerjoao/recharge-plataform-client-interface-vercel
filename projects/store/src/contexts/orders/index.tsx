@@ -13,6 +13,8 @@ interface OrdersProviderProps {
 
 interface OrdersProviderData {
   loadingOrders: boolean;
+  page: number;
+  setPage: (page: number) => void;
   orders: OrderResponseType | undefined;
   getOrders: (page: number, limit: number) => void;
   // updateOrders: () => void;
@@ -25,11 +27,16 @@ const OrdersContext = createContext<OrdersProviderData>(
 export const OrdersProvider = ({ children }: OrdersProviderProps) => {
   const [loadingOrders, setLoadingOrders] = useState<boolean>(true);
   const [orders, setOrders] = useState<OrderResponseType>();
+  const [page, setPage] = useState<number>(1);
 
-  const getOrders = (page: number, limit: number) => {
+  const getOrders = async (page: number, limit: number) => {
     setLoadingOrders(true);
-    connectionAPIGet<OrderResponseType>(
-      `/orders?page=${page}&limit=${limit}`,
+    const params = new URLSearchParams();
+    params.append("page", page.toString());
+    params.append("limit", limit.toString());
+
+    await connectionAPIGet<OrderResponseType>(
+      `/orders?${params.toString()}`,
       apiUrl,
     )
       .then((res) => {
@@ -41,7 +48,9 @@ export const OrdersProvider = ({ children }: OrdersProviderProps) => {
   };
 
   return (
-    <OrdersContext.Provider value={{ loadingOrders, orders, getOrders }}>
+    <OrdersContext.Provider
+      value={{ loadingOrders, orders, getOrders, page, setPage }}
+    >
       {children}
     </OrdersContext.Provider>
   );

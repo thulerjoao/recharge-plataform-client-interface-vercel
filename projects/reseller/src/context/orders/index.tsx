@@ -73,11 +73,8 @@ export const OrdersProvider = ({ children }: OrdersProviderProps) => {
     )
       .then((res) => {
         setOrders(res);
-        console.log(params.toString());
       })
-      .catch((err) => {
-        console.log(err);
-      })
+      .catch(() => {})
       .finally(() => {
         setLoadingOrders(false);
       });

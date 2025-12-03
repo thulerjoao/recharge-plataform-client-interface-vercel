@@ -100,7 +100,7 @@ const Header = () => {
               onClick={() => {
                 getOrders(1, 6);
                 setOpenMenu(false);
-                route.push("/my-orders/1");
+                route.push("/my-orders");
               }}
             >
               <span>
