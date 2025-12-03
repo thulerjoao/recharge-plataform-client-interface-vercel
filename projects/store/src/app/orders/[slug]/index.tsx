@@ -12,7 +12,6 @@ import BackArrow from "public/icons/BackArrow.svg";
 import { useEffect, useState } from "react";
 import { OrderType } from "types/orderType";
 import { PackageType } from "types/productTypes";
-import { apiUrl } from "@4miga/services/connectionAPI/url";
 import { formatDate } from "utils/formatDate";
 import { formatPrice } from "utils/formatPrice";
 import { formatString } from "utils/formatString";
@@ -21,7 +20,7 @@ import {
   handleRechargeStatus,
   handleStatusColor,
 } from "utils/handleStatus";
-import Pix from "../common/icons/Pix.svg";
+import Pix from "public/icons/PixBig.svg";
 import { OrderContainer } from "./style";
 
 const Order = () => {
@@ -71,11 +70,11 @@ const Order = () => {
 
   const goToPayment = () => {
     setLoading(true);
-    connectionAPIGet<OrderType>(`/order/${order.orderId}/user`, apiUrl)
+    connectionAPIGet<OrderType>(`/orders/${order.id}`)
       .then((res) => {
         sessionStorage.setItem("qrCode", res.payment.qrCode);
         sessionStorage.setItem("copyAndPaste", res.payment.qrCodetextCopyPaste);
-        sessionStorage.setItem("orderId", res.orderId);
+        sessionStorage.setItem("orderId", res.id);
         sessionStorage.setItem(
           "userId",
           res.orderItem.recharge.userIdForRecharge,
@@ -84,7 +83,9 @@ const Order = () => {
           `product/${formatString(res.orderItem.productName)}/${res.orderItem.package.packageId}`,
         );
       })
-      .then(() => {});
+      .finally(() => {
+        setLoading(false);
+      });
   };
 
   return (

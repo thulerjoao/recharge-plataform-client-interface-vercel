@@ -30,7 +30,7 @@ const MyOrders = ({ currentPage }: Props) => {
   const navigateToPage = (newPage: number) => {
     const params = new URLSearchParams();
     params.append("page", newPage.toString());
-    route.push(`/my-orders?${params.toString()}`);
+    route.push(`/orders?${params.toString()}`);
   };
 
   return (

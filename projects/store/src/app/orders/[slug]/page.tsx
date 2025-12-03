@@ -1,4 +1,4 @@
-import Order from "./util/order";
+import Order from ".";
 
 const Page = () => {
   return <Order />;
