@@ -1,18 +1,24 @@
 import Text from "@4miga/design-system/components/Text";
 import { Theme } from "@4miga/design-system/theme/theme";
 import Image from "next/image";
+import { useState } from "react";
 import { PackageType } from "types/productTypes";
 import { formatPrice } from "utils/formatPrice";
 import { PackageCardContainer } from "./style";
-import { useState } from "react";
 
 interface PackageCardProps {
   item: PackageType;
   selected: boolean;
   paymentIndex?: number;
+  discountAmount?: number;
 }
 
-const PackageCard = ({ item, selected, paymentIndex }: PackageCardProps) => {
+const PackageCard = ({
+  item,
+  selected,
+  paymentIndex,
+  discountAmount,
+}: PackageCardProps) => {
   const [isHovered, setIsHovered] = useState(false);
 
   return (
@@ -45,12 +51,39 @@ const PackageCard = ({ item, selected, paymentIndex }: PackageCardProps) => {
       >
         POR APENAS
       </Text>
-      <Text margin="0 0 0 8px" tag="h4" fontName="REGULAR_SEMI_BOLD">
-        R${" "}
-        {formatPrice(
-          item.paymentMethods[paymentIndex ? paymentIndex : 0].price,
+      <div className="priceContainer">
+        <Text
+          align="start"
+          nowrap
+          margin="0 0 0 4px"
+          tag="h4"
+          // fontName={discountAmount ? "SUPER_TINY_MEDIUM" : "REGULAR_SEMI_BOLD"}
+          fontName="REGULAR_SEMI_BOLD"
+          style={
+            discountAmount
+              ? { textDecoration: "line-through", width: "auto" }
+              : undefined
+          }
+        >
+          R${" "}
+          {formatPrice(
+            item.paymentMethods[paymentIndex ? paymentIndex : 0].price,
+          )}
+        </Text>
+        {discountAmount && (
+          <Text
+            align="start"
+            color={Theme.colors.approved}
+            nowrap
+            margin="0 0 0 4px"
+            tag="h4"
+            fontName="SUPER_TINY_MEDIUM"
+          >
+            R$ {formatPrice(discountAmount)}
+          </Text>
         )}
-      </Text>
+      </div>
+
       {item.isOffer && (
         <div className="bestPriceContainer">
           <span className="bestPrice">

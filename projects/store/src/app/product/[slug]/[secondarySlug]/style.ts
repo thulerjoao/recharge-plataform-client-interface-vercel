@@ -6,6 +6,17 @@ export const ProductInnerPage = styled.div`
   flex-direction: column;
   align-items: center;
 
+  .couponContainer {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 32px;
+    gap: 8px;
+    margin-top: 16px;
+    margin-bottom: 4px;
+  }
+
   .cardEnviroment {
     width: 100%;
     display: flex;
