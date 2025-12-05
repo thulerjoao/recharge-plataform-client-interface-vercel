@@ -77,6 +77,7 @@ const ProductPage = ({ slug }: Props) => {
         INSIRA SEU ID DE USUÁRIO
       </Text>
       <Input
+        type="number"
         ref={userIdInputRef}
         placeholder="Insira o ID de usuário"
         margin="16px 0 0 0"
