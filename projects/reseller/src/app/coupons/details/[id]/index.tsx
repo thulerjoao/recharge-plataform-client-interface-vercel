@@ -175,7 +175,7 @@ const CouponDetails = ({ couponId }: CouponDetailsProps) => {
     if (confirm("Tem certeza que deseja excluir este cupom?")) {
       connectionAPIDelete(`/coupon/${couponId}`, apiUrl)
         .then(() => {
-          router.push("/cupons/1");
+          router.push("/coupons");
         })
         .catch(() => {
           alert("Algo deu errado, tente novamente");

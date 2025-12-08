@@ -159,7 +159,7 @@ const CreateCoupon = ({
     setIsLoading(true);
     await connectionAPIPost<CreateCouponData>(`/coupon`, formData, apiUrl)
       .then(() => {
-        router.push(`/cupons/parceiros/${formData.influencerId}`);
+        router.push(`/coupons/influencer/${formData.influencerId}`);
         alert("Cupom criado com sucesso");
       })
       .catch((err) => {
