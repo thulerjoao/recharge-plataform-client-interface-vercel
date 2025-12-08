@@ -115,8 +115,6 @@ const PaymentPage = ({ id, slug, initialCoupon }: Props) => {
       });
   };
 
-  // {valid: false, message: 'Coupon not found'}
-
   return (
     <ProductInnerPage onMouseDown={handleMouseDown}>
       <Text align="center" fontName="REGULAR_SEMI_BOLD">

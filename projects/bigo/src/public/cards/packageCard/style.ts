@@ -46,6 +46,14 @@ export const PackageCardContainer = styled.article<PackageCardProps>`
     overflow: hidden;
   }
 
+  .priceContainer {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    width: 100%;
+    padding: 0;
+  }
+
   .bestPriceContainer {
     width: 100%;
     display: flex;
