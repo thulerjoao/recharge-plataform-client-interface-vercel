@@ -12,6 +12,7 @@ import React, { useEffect, useState } from "react";
 import { CouponValidationResponse } from "types/couponType";
 import { PackageType } from "types/productTypes";
 import { ProductInnerPage } from "./style";
+import { useAuth } from "contexts/auth";
 
 type Props = {
   slug: string;
@@ -36,16 +37,17 @@ const PaymentPage = ({ slug }: Props) => {
   const [couponError, setCouponError] = useState<string>("");
   const [couponSuccess, setCouponSuccess] =
     useState<CouponValidationResponse>();
+  const { logged } = useAuth();
 
   useEffect(() => {
-    if (initialCoupon && item) {
+    if (initialCoupon && item && logged) {
       const upperCoupon = initialCoupon.toUpperCase();
       setCoupon(upperCoupon);
       handleApplyCoupon(upperCoupon);
       setOpenCoupon(true);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [initialCoupon, item]);
+  }, [initialCoupon, item, logged]);
 
   useEffect(() => {
     const paymentIndex = sessionStorage.getItem("paymentMethod");
@@ -84,20 +86,24 @@ const PaymentPage = ({ slug }: Props) => {
           ) {
             setCouponError("Cupom expirado");
             setCouponSuccess(null);
+            sessionStorage.removeItem("coupon");
           } else if (
             message ===
             "First purchase coupon can only be used by new customers"
           ) {
             setCouponError("Cupom exclusivo para primeira compra");
             setCouponSuccess(null);
+            sessionStorage.removeItem("coupon");
           } else {
             setCouponError("Cupom inválido");
             setCouponSuccess(null);
+            sessionStorage.removeItem("coupon");
           }
         }
       })
       .catch(() => {
-        setCouponError("Erro ao aplicar cupom");
+        setCouponError("Não foi possível aplicar o cupom");
+        sessionStorage.removeItem("coupon");
       })
       .finally(() => {
         setCouponLoading(false);
@@ -173,7 +179,16 @@ const PaymentPage = ({ slug }: Props) => {
       </Text>
       <div className="cardEnviroment">
         {product && item && (
-          <PackageCard paymentIndex={paymentIndex} item={item} selected />
+          <PackageCard
+            paymentIndex={paymentIndex}
+            item={item}
+            discountAmount={
+              couponSuccess && couponSuccess.valid
+                ? couponSuccess.finalAmount
+                : undefined
+            }
+            selected
+          />
         )}
       </div>
       <Text margin="32px 0 0 0" align="center" fontName="REGULAR_SEMI_BOLD">
@@ -185,7 +200,11 @@ const PaymentPage = ({ slug }: Props) => {
             userId={userId}
             packageId={item.id}
             paymentMethodName={item.paymentMethods[0].name}
-            price={item && item.paymentMethods[0].price}
+            price={
+              couponSuccess && couponSuccess.valid
+                ? couponSuccess.finalAmount
+                : item && item.paymentMethods[0].price
+            }
             setError={setError}
             setBlockId={setBlockId}
           />

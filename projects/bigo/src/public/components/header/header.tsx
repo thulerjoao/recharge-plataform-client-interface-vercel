@@ -65,7 +65,7 @@ const Header = () => {
           <div className="loginContainer">
             <span
               className="loginButton getIn"
-              // onClick={() => handleOpenLogin(false)}
+              onClick={() => handleOpenLogin(false)}
             >
               <Text align="start" fontName="SMALL_SEMI_BOLD">
                 Entrar
@@ -73,7 +73,7 @@ const Header = () => {
             </span>
             <span>
               <Button
-                // onClick={() => handleOpenLogin(true)}
+                onClick={() => handleOpenLogin(true)}
                 width={98}
                 height={28}
                 title="Cadastre-se"
