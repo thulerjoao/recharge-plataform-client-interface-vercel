@@ -95,7 +95,7 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
         });
 
         const refreshToken = response.data?.refreshToken;
-        const rememberMe = localStorage.getItem("rememberMe") ? true : false;
+        const rememberMe = !!localStorage.getItem("accessToken");
         if (!refreshToken) {
           await axios.delete("/api/logout", {
             withCredentials: true,

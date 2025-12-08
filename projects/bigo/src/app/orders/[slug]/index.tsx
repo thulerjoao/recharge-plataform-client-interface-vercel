@@ -46,7 +46,7 @@ const Order = () => {
     sessionStorage.removeItem("copyAndPaste");
     sessionStorage.removeItem("orderId");
     const currentPackage = product.packages.find(
-      (item: PackageType) => (item.id = order.orderItem.package.packageId),
+      (item: PackageType) => item.id === order.orderItem.package.packageId,
     );
     if (currentPackage) {
       sessionStorage.setItem(

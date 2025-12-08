@@ -9,7 +9,7 @@ import SkeletonOrderCard from "public/cards/orderCard/skeletonOrderCard";
 import LoginModal from "public/components/loginModal";
 import Pagination from "public/components/pagination";
 import BackArrow from "public/icons/BackArrow.svg";
-import { useState, useEffect } from "react";
+import { useEffect } from "react";
 import { MyOrderContainer } from "./style";
 
 interface Props {
@@ -22,8 +22,11 @@ const MyOrders = ({ currentPage }: Props) => {
   const { logged } = useAuth();
 
   useEffect(() => {
-    setPage(currentPage);
-    getOrders(currentPage, 6);
+    const fetchOrders = () => {
+      setPage(currentPage);
+      getOrders(currentPage, 6);
+    };
+    fetchOrders();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [currentPage]);
 
