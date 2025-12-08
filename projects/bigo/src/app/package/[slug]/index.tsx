@@ -4,6 +4,7 @@ import Button from "@4miga/design-system/components/button";
 import Input from "@4miga/design-system/components/input";
 import Text from "@4miga/design-system/components/Text";
 import { Theme } from "@4miga/design-system/theme/theme";
+import { connectionAPIPost } from "@4miga/services/connectionAPI/connection";
 import { useProducts } from "contexts/products/ProductsProvider";
 import PackageCard from "public/cards/packageCard/card";
 import PixCard from "public/components/payment/pixCard/pixCard";
@@ -11,7 +12,6 @@ import React, { useEffect, useState } from "react";
 import { CouponValidationResponse } from "types/couponType";
 import { PackageType } from "types/productTypes";
 import { ProductInnerPage } from "./style";
-import { connectionAPIPost } from "@4miga/services/connectionAPI/connection";
 
 type Props = {
   slug: string;
@@ -20,6 +20,7 @@ type Props = {
 const PaymentPage = ({ slug }: Props) => {
   const { product } = useProducts();
   const initialUserId = sessionStorage.getItem("userId");
+  const initialCoupon = sessionStorage.getItem("coupon");
   const [blockId, setBlockId] = useState<boolean>(false);
 
   const item =
@@ -35,6 +36,16 @@ const PaymentPage = ({ slug }: Props) => {
   const [couponError, setCouponError] = useState<string>("");
   const [couponSuccess, setCouponSuccess] =
     useState<CouponValidationResponse>();
+
+  useEffect(() => {
+    if (initialCoupon && item) {
+      const upperCoupon = initialCoupon.toUpperCase();
+      setCoupon(upperCoupon);
+      handleApplyCoupon(upperCoupon);
+      setOpenCoupon(true);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [initialCoupon, item]);
 
   useEffect(() => {
     const paymentIndex = sessionStorage.getItem("paymentMethod");

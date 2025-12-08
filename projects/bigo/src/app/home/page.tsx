@@ -1,6 +1,13 @@
 import Home from "./util/home";
 
-const Page = async () => {
-  return <Home />;
+type Props = {
+  searchParams: {
+    coupon?: string;
+  };
+};
+
+const Page = async ({ searchParams }: Props) => {
+  const { coupon } = searchParams;
+  return <Home coupon={coupon} />;
 };
 export default Page;

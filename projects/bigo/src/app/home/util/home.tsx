@@ -14,23 +14,26 @@ import Lines from "../../../public/components/lines/lines";
 import InvisibleCards from "./invisivleCards";
 import { HomeContainer } from "./style";
 
-const Home = () => {
+type Props = {
+  coupon?: string;
+};
+
+const Home = ({ coupon }: Props) => {
   const route = useRouter();
   const { product } = useProducts();
   const { store } = useStore();
   const bannerList: string[] = store?.bannersUrl || [];
-  console.log("product", product);
 
   const handleClick = (item: PackageType) => {
     sessionStorage.removeItem("userId");
     sessionStorage.removeItem("orderId");
     sessionStorage.removeItem("qrCode");
     sessionStorage.removeItem("copyAndPaste");
-    sessionStorage.setItem("package", JSON.stringify(item));
+    if (coupon) {
+      sessionStorage.setItem("coupon", coupon);
+    }
     route.push(`/package/${formatString(item.id)}`);
   };
-
-  console.log("product", product);
 
   return (
     <HomeContainer>
