@@ -5,6 +5,7 @@ import Input from "@4miga/design-system/components/input";
 import Text from "@4miga/design-system/components/Text";
 import { Theme } from "@4miga/design-system/theme/theme";
 import { connectionAPIPost } from "@4miga/services/connectionAPI/connection";
+import { useAuth } from "contexts/auth";
 import { useProducts } from "contexts/products/ProductsProvider";
 import PackageCard from "public/cards/packageCard/card";
 import PixCard from "public/components/payment/pixCard/pixCard";
@@ -12,20 +13,21 @@ import React, { useEffect, useState } from "react";
 import { CouponValidationResponse } from "types/couponType";
 import { PackageType } from "types/productTypes";
 import { ProductInnerPage } from "./style";
-import { useAuth } from "contexts/auth";
 
 type Props = {
-  slug: string;
+  packageId: string;
+  couponFromParams?: string;
 };
 
-const PaymentPage = ({ slug }: Props) => {
+const PaymentPage = ({ packageId, couponFromParams }: Props) => {
   const { product } = useProducts();
   const initialUserId = sessionStorage.getItem("userId");
-  const initialCoupon = sessionStorage.getItem("coupon");
+  const initialCoupon = sessionStorage.getItem("coupon") || couponFromParams;
   const [blockId, setBlockId] = useState<boolean>(false);
 
   const item =
-    product && product.packages.find((item: PackageType) => item.id === slug);
+    product &&
+    product.packages.find((item: PackageType) => item.id === packageId);
   const [userId, setUserId] = useState<string>(
     initialUserId ? initialUserId : "",
   );

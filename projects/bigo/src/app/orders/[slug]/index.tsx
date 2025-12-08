@@ -53,7 +53,7 @@ const Order = () => {
         "userId",
         order.orderItem.recharge.userIdForRecharge,
       );
-      route.push(`/package/${order.orderItem.package.packageId}`);
+      route.push(`/product?package=${order.orderItem.package.packageId}`);
     } else {
       sessionStorage.setItem(
         "userId",
@@ -74,7 +74,7 @@ const Order = () => {
           "userId",
           res.orderItem.recharge.userIdForRecharge,
         );
-        route.push(`package/${res.orderItem.package.packageId}`);
+        route.push(`product?package=${res.orderItem.package.packageId}`);
       })
       .then(() => {});
   };

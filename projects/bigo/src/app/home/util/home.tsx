@@ -32,7 +32,9 @@ const Home = ({ coupon }: Props) => {
     if (coupon) {
       sessionStorage.setItem("coupon", coupon);
     }
-    route.push(`/package/${formatString(item.id)}`);
+    route.push(
+      `/product?package=${formatString(item.id)}${coupon ? `&coupon=${formatString(coupon)}` : ""}`,
+    );
   };
 
   return (
