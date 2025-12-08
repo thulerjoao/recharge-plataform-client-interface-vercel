@@ -7,7 +7,7 @@ type Props = {
 };
 
 const Page = async ({ searchParams }: Props) => {
-  const { coupon } = searchParams;
+  const coupon = searchParams.coupon;
   return <Home coupon={coupon} />;
 };
 export default Page;

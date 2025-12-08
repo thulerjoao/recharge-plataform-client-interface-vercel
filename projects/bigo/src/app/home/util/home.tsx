@@ -19,6 +19,8 @@ type Props = {
 };
 
 const Home = ({ coupon }: Props) => {
+  const initialCoupon = sessionStorage.getItem("coupon") || coupon;
+  console.log("initialCoupon", coupon, sessionStorage.getItem("coupon"));
   const route = useRouter();
   const { product } = useProducts();
   const { store } = useStore();
@@ -29,11 +31,11 @@ const Home = ({ coupon }: Props) => {
     sessionStorage.removeItem("orderId");
     sessionStorage.removeItem("qrCode");
     sessionStorage.removeItem("copyAndPaste");
-    if (coupon) {
-      sessionStorage.setItem("coupon", coupon);
+    if (initialCoupon) {
+      sessionStorage.setItem("coupon", initialCoupon);
     }
     route.push(
-      `/product?package=${formatString(item.id)}${coupon ? `&coupon=${formatString(coupon)}` : ""}`,
+      `/product?package=${formatString(item.id)}${coupon ? `&coupon=${formatString(initialCoupon)}` : ""}`,
     );
   };
 

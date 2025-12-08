@@ -8,6 +8,7 @@ import { connectionAPIPost } from "@4miga/services/connectionAPI/connection";
 import { useAuth } from "contexts/auth";
 import { useProducts } from "contexts/products/ProductsProvider";
 import PackageCard from "public/cards/packageCard/card";
+import LoginModal from "public/components/loginModal";
 import PixCard from "public/components/payment/pixCard/pixCard";
 import React, { useEffect, useState } from "react";
 import { CouponValidationResponse } from "types/couponType";
@@ -40,13 +41,18 @@ const PaymentPage = ({ packageId, couponFromParams }: Props) => {
   const [couponSuccess, setCouponSuccess] =
     useState<CouponValidationResponse>();
   const { logged } = useAuth();
+  const [loginModal, setLoginModal] = useState<boolean>(false);
 
   useEffect(() => {
+    const upperCoupon = initialCoupon.toUpperCase();
+    setCoupon(upperCoupon);
+    setOpenCoupon(true);
+    sessionStorage.setItem("coupon", upperCoupon);
+
     if (initialCoupon && item && logged) {
-      const upperCoupon = initialCoupon.toUpperCase();
-      setCoupon(upperCoupon);
       handleApplyCoupon(upperCoupon);
-      setOpenCoupon(true);
+    } else if (initialCoupon && !logged) {
+      setCouponError("Login necessário para aplicar o cupom");
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [initialCoupon, item, logged]);
@@ -62,6 +68,10 @@ const PaymentPage = ({ packageId, couponFromParams }: Props) => {
   };
 
   const handleApplyCoupon = (couponValue?: string) => {
+    if (!logged) {
+      setLoginModal(true);
+      return;
+    }
     if (!item) return;
     const couponToUse = couponValue || coupon;
     setCouponLoading(true);
@@ -159,7 +169,19 @@ const PaymentPage = ({ packageId, couponFromParams }: Props) => {
               height={28}
               rounded
               loading={couponLoading}
-              disabled={couponLoading}
+              disabled={
+                couponLoading ||
+                (couponSuccess && couponSuccess.valid
+                  ? couponSuccess.coupon.title.toUpperCase() ===
+                    coupon.toUpperCase()
+                  : false)
+              }
+              isNotSelected={
+                couponSuccess && couponSuccess.valid
+                  ? couponSuccess.coupon.title.toUpperCase() ===
+                    coupon.toUpperCase()
+                  : false
+              }
             />
           </form>
           {(couponError || couponSuccess) && (
@@ -222,6 +244,7 @@ const PaymentPage = ({ packageId, couponFromParams }: Props) => {
           </Text>
         </div>
       </section>
+      {loginModal && <LoginModal setLoginModal={() => setLoginModal(false)} />}
     </ProductInnerPage>
   );
 };
