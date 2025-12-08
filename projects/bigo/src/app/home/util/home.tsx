@@ -1,6 +1,7 @@
 "use client";
 
 import Text from "@4miga/design-system/components/Text";
+import { useAuth } from "contexts/auth";
 import { useProducts } from "contexts/products/ProductsProvider";
 import { useStore } from "contexts/store/StoreProvider";
 import { useRouter } from "next/navigation";
@@ -19,8 +20,6 @@ type Props = {
 };
 
 const Home = ({ coupon }: Props) => {
-  const initialCoupon = sessionStorage.getItem("coupon") || coupon;
-  console.log("initialCoupon", coupon, sessionStorage.getItem("coupon"));
   const route = useRouter();
   const { product } = useProducts();
   const { store } = useStore();
@@ -31,11 +30,8 @@ const Home = ({ coupon }: Props) => {
     sessionStorage.removeItem("orderId");
     sessionStorage.removeItem("qrCode");
     sessionStorage.removeItem("copyAndPaste");
-    if (initialCoupon) {
-      sessionStorage.setItem("coupon", initialCoupon);
-    }
     route.push(
-      `/product?package=${formatString(item.id)}${coupon ? `&coupon=${formatString(initialCoupon)}` : ""}`,
+      `/product?package=${formatString(item.id)}${coupon ? `&coupon=${formatString(coupon)}` : ""}`,
     );
   };
 

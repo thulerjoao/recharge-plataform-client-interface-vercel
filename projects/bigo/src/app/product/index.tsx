@@ -23,7 +23,6 @@ type Props = {
 const PaymentPage = ({ packageId, couponFromParams }: Props) => {
   const { product } = useProducts();
   const initialUserId = sessionStorage.getItem("userId");
-  const initialCoupon = sessionStorage.getItem("coupon") || couponFromParams;
   const [blockId, setBlockId] = useState<boolean>(false);
 
   const item =
@@ -44,18 +43,19 @@ const PaymentPage = ({ packageId, couponFromParams }: Props) => {
   const [loginModal, setLoginModal] = useState<boolean>(false);
 
   useEffect(() => {
-    const upperCoupon = initialCoupon.toUpperCase();
+    if (!couponFromParams) {
+      return;
+    }
+    const upperCoupon = couponFromParams.toUpperCase();
     setCoupon(upperCoupon);
     setOpenCoupon(true);
-    sessionStorage.setItem("coupon", upperCoupon);
-
-    if (initialCoupon && item && logged) {
+    if (couponFromParams && item && logged) {
       handleApplyCoupon(upperCoupon);
-    } else if (initialCoupon && !logged) {
+    } else if (couponFromParams && !logged) {
       setCouponError("Login necessário para aplicar o cupom");
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [initialCoupon, item, logged]);
+  }, [couponFromParams, item, logged]);
 
   useEffect(() => {
     const paymentIndex = sessionStorage.getItem("paymentMethod");
@@ -98,24 +98,20 @@ const PaymentPage = ({ packageId, couponFromParams }: Props) => {
           ) {
             setCouponError("Cupom expirado");
             setCouponSuccess(null);
-            sessionStorage.removeItem("coupon");
           } else if (
             message ===
             "First purchase coupon can only be used by new customers"
           ) {
             setCouponError("Cupom exclusivo para primeira compra");
             setCouponSuccess(null);
-            sessionStorage.removeItem("coupon");
           } else {
             setCouponError("Cupom inválido");
             setCouponSuccess(null);
-            sessionStorage.removeItem("coupon");
           }
         }
       })
       .catch(() => {
         setCouponError("Não foi possível aplicar o cupom");
-        sessionStorage.removeItem("coupon");
       })
       .finally(() => {
         setCouponLoading(false);
@@ -158,7 +154,7 @@ const PaymentPage = ({ packageId, couponFromParams }: Props) => {
           >
             <Input
               height={36}
-              value={coupon.toUpperCase()}
+              value={coupon?.toUpperCase()}
               onChange={(e) => setCoupon(e.target.value)}
               placeholder="Insira o cupom"
             />
