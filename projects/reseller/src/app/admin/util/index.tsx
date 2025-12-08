@@ -132,7 +132,14 @@ const AdmPage = () => {
           handleCleanResults();
         })
         .catch((err) => {
-          alert("Erro ao promover usuário");
+          if (
+            err.response.data.message ===
+            "This email is already an administrator in another store"
+          ) {
+            alert("Este email já é um administrador em outra loja");
+          } else {
+            alert("Erro ao promover usuário");
+          }
           handleCloseModal();
           setSelectedUser(null);
           setModalAction(null);
