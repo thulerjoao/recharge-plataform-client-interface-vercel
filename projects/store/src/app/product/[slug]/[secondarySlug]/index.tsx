@@ -19,9 +19,10 @@ import { ProductInnerPage } from "./style";
 type Props = {
   id: string;
   slug: string;
+  initialCoupon?: string;
 };
 
-const PaymentPage = ({ id, slug }: Props) => {
+const PaymentPage = ({ id, slug, initialCoupon }: Props) => {
   const { products } = useProducts();
   const product = products.find(
     (item: ProductType) => formatString(item.name) === slug,
@@ -45,10 +46,21 @@ const PaymentPage = ({ id, slug }: Props) => {
   const { logged } = useAuth();
 
   useEffect(() => {
+    if (initialCoupon && item) {
+      const upperCoupon = initialCoupon.toUpperCase();
+      setCoupon(upperCoupon);
+      handleApplyCoupon(upperCoupon);
+      setOpenCoupon(true);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [initialCoupon, item]);
+
+  useEffect(() => {
     const paymentIndex = sessionStorage.getItem("paymentMethod");
     setPaymentIndex(+paymentIndex);
     const memoryUserId = sessionStorage.getItem("userId");
     setUserId(memoryUserId);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const handleMouseDown = (e: React.MouseEvent<HTMLDivElement>) => {
@@ -56,19 +68,20 @@ const PaymentPage = ({ id, slug }: Props) => {
     !couponSuccess && setCouponError("");
   };
 
-  const handleApplyCoupon = () => {
+  const handleApplyCoupon = (couponValue?: string) => {
+    if (!item) return;
+    const couponToUse = couponValue || coupon;
     setCouponLoading(true);
     connectionAPIPost<CouponValidationResponse>(
       "/orders/validate-coupon-by-package",
       {
         packageId: item.id,
         paymentMethodId: item.paymentMethods[0].id,
-        couponTitle: coupon.toUpperCase(),
+        couponTitle: couponToUse.toUpperCase(),
       },
     )
       .then((res) => {
         if (res.valid === true) {
-          // setCouponError("Cupom aplicado!");
           setCouponError(
             `Cupom de ${res.coupon.discountAmount ? "R$ " + res.coupon.discountAmount : res.coupon.discountPercentage + "%"} aplicado!`,
           );
@@ -131,7 +144,13 @@ const PaymentPage = ({ id, slug }: Props) => {
       )}
       {openCoupon && (
         <>
-          <div className="couponContainer">
+          <form
+            className="couponContainer"
+            onSubmit={(e) => {
+              e.preventDefault();
+              handleApplyCoupon();
+            }}
+          >
             <Input
               height={36}
               value={coupon.toUpperCase()}
@@ -147,7 +166,7 @@ const PaymentPage = ({ id, slug }: Props) => {
               loading={couponLoading}
               disabled={couponLoading}
             />
-          </div>
+          </form>
           {(couponError || couponSuccess) && (
             <Text
               align="center"
