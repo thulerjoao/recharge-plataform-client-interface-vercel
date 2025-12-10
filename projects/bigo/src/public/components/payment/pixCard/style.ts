@@ -143,13 +143,14 @@ export const BottomElement = styled.div<AnimationProps>`
     align-items: center;
     justify-content: space-between;
     overflow: hidden;
-    height: ${({ secondExpand }) => (secondExpand ? "396px" : "0")};
+    height: ${({ secondExpand }) => (secondExpand ? "356px" : "0")};
     animation: 0.5s easy-in-out;
 
     img {
       margin-top: 16px;
       width: 100%;
       max-width: 320px;
+      max-width: 280px;
       height: auto;
       object-fit: contain;
     }
