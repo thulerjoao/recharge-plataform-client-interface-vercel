@@ -95,7 +95,7 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
         });
 
         const refreshToken = response.data?.refreshToken;
-        const rememberMe = localStorage.getItem("rememberMe") ? true : false;
+        const rememberMe = !!localStorage.getItem("accessToken");
         if (!refreshToken) {
           await axios.delete("/api/logout", {
             withCredentials: true,
@@ -192,7 +192,14 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
 
   return (
     <AuthContext.Provider
-      value={{ logged, checkingToken, login, logout, user, setUser }}
+      value={{
+        logged,
+        checkingToken,
+        login,
+        logout,
+        user,
+        setUser,
+      }}
     >
       {children}
     </AuthContext.Provider>

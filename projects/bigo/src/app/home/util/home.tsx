@@ -1,6 +1,7 @@
 "use client";
 
 import Text from "@4miga/design-system/components/Text";
+import { useAuth } from "contexts/auth";
 import { useProducts } from "contexts/products/ProductsProvider";
 import { useStore } from "contexts/store/StoreProvider";
 import { useRouter } from "next/navigation";
@@ -14,23 +15,25 @@ import Lines from "../../../public/components/lines/lines";
 import InvisibleCards from "./invisivleCards";
 import { HomeContainer } from "./style";
 
-const Home = () => {
+type Props = {
+  coupon?: string;
+};
+
+const Home = ({ coupon }: Props) => {
   const route = useRouter();
   const { product } = useProducts();
   const { store } = useStore();
   const bannerList: string[] = store?.bannersUrl || [];
-  console.log("product", product);
 
   const handleClick = (item: PackageType) => {
     sessionStorage.removeItem("userId");
     sessionStorage.removeItem("orderId");
     sessionStorage.removeItem("qrCode");
     sessionStorage.removeItem("copyAndPaste");
-    sessionStorage.setItem("package", JSON.stringify(item));
-    route.push(`/package/${formatString(item.id)}`);
+    route.push(
+      `/product?package=${formatString(item.id)}${coupon ? `&coupon=${formatString(coupon)}` : ""}`,
+    );
   };
-
-  console.log("product", product);
 
   return (
     <HomeContainer>

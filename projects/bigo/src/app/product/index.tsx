@@ -7,31 +7,27 @@ import { Theme } from "@4miga/design-system/theme/theme";
 import { connectionAPIPost } from "@4miga/services/connectionAPI/connection";
 import { useAuth } from "contexts/auth";
 import { useProducts } from "contexts/products/ProductsProvider";
+import PackageCard from "public/cards/packageCard/card";
 import LoginModal from "public/components/loginModal";
 import PixCard from "public/components/payment/pixCard/pixCard";
 import React, { useEffect, useState } from "react";
 import { CouponValidationResponse } from "types/couponType";
-import { PackageType, ProductType } from "types/productTypes";
-import { formatString } from "utils/formatString";
-import PackageCard from "../../../../public/cards/packageCard/card";
+import { PackageType } from "types/productTypes";
 import { ProductInnerPage } from "./style";
 
 type Props = {
-  id: string;
-  slug: string;
-  initialCoupon?: string;
+  packageId: string;
+  couponFromParams?: string;
 };
 
-const PaymentPage = ({ id, slug, initialCoupon }: Props) => {
-  const { products } = useProducts();
-  const product = products.find(
-    (item: ProductType) => formatString(item.name) === slug,
-  );
-  const item =
-    product &&
-    product.packages.find((item: PackageType) => formatString(item.id) === id);
+const PaymentPage = ({ packageId, couponFromParams }: Props) => {
+  const { product } = useProducts();
   const initialUserId = sessionStorage.getItem("userId");
   const [blockId, setBlockId] = useState<boolean>(false);
+
+  const item =
+    product &&
+    product.packages.find((item: PackageType) => item.id === packageId);
   const [userId, setUserId] = useState<string>(
     initialUserId ? initialUserId : "",
   );
@@ -44,23 +40,26 @@ const PaymentPage = ({ id, slug, initialCoupon }: Props) => {
   const [couponSuccess, setCouponSuccess] =
     useState<CouponValidationResponse>();
   const { logged } = useAuth();
+  const [loginModal, setLoginModal] = useState<boolean>(false);
 
   useEffect(() => {
-    if (initialCoupon && item) {
-      const upperCoupon = initialCoupon.toUpperCase();
-      setCoupon(upperCoupon);
+    if (!couponFromParams) {
+      return;
+    }
+    const upperCoupon = couponFromParams.toUpperCase();
+    setCoupon(upperCoupon);
+    setOpenCoupon(true);
+    if (couponFromParams && item && logged) {
       handleApplyCoupon(upperCoupon);
-      setOpenCoupon(true);
+    } else if (couponFromParams && !logged) {
+      setCouponError("Login necessário para aplicar o cupom");
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [initialCoupon, item]);
+  }, [couponFromParams, item, logged]);
 
   useEffect(() => {
     const paymentIndex = sessionStorage.getItem("paymentMethod");
     setPaymentIndex(+paymentIndex);
-    const memoryUserId = sessionStorage.getItem("userId");
-    setUserId(memoryUserId);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const handleMouseDown = (e: React.MouseEvent<HTMLDivElement>) => {
@@ -69,6 +68,10 @@ const PaymentPage = ({ id, slug, initialCoupon }: Props) => {
   };
 
   const handleApplyCoupon = (couponValue?: string) => {
+    if (!logged) {
+      setLoginModal(true);
+      return;
+    }
     if (!item) return;
     const couponToUse = couponValue || coupon;
     setCouponLoading(true);
@@ -107,8 +110,8 @@ const PaymentPage = ({ id, slug, initialCoupon }: Props) => {
           }
         }
       })
-      .catch((err) => {
-        setCouponError("Erro ao aplicar cupom");
+      .catch(() => {
+        setCouponError("Não foi possível aplicar o cupom");
       })
       .finally(() => {
         setCouponLoading(false);
@@ -151,7 +154,7 @@ const PaymentPage = ({ id, slug, initialCoupon }: Props) => {
           >
             <Input
               height={36}
-              value={coupon.toUpperCase()}
+              value={coupon?.toUpperCase()}
               onChange={(e) => setCoupon(e.target.value)}
               placeholder="Insira o cupom"
             />
@@ -162,7 +165,19 @@ const PaymentPage = ({ id, slug, initialCoupon }: Props) => {
               height={28}
               rounded
               loading={couponLoading}
-              disabled={couponLoading}
+              disabled={
+                couponLoading ||
+                (couponSuccess && couponSuccess.valid
+                  ? couponSuccess.coupon.title.toUpperCase() ===
+                    coupon.toUpperCase()
+                  : false)
+              }
+              isNotSelected={
+                couponSuccess && couponSuccess.valid
+                  ? couponSuccess.coupon.title.toUpperCase() ===
+                    coupon.toUpperCase()
+                  : false
+              }
             />
           </form>
           {(couponError || couponSuccess) && (
@@ -183,16 +198,16 @@ const PaymentPage = ({ id, slug, initialCoupon }: Props) => {
         PACOTE PARA RECARGA
       </Text>
       <div className="cardEnviroment">
-        {product && (
+        {product && item && (
           <PackageCard
             paymentIndex={paymentIndex}
             item={item}
-            selected
             discountAmount={
               couponSuccess && couponSuccess.valid
                 ? couponSuccess.finalAmount
                 : undefined
             }
+            selected
           />
         )}
       </div>
@@ -200,21 +215,20 @@ const PaymentPage = ({ id, slug, initialCoupon }: Props) => {
         FORMAS DE PAGAMENTO
       </Text>
       <section className="paymentMethods">
-        <PixCard
-          userId={userId}
-          packageId={item.id}
-          paymentMethodName={item.paymentMethods[0].name}
-          // price={item && item.paymentMethods[0].price}
-          price={
-            couponSuccess
-              ? couponSuccess.valid
+        {item && (
+          <PixCard
+            userId={userId}
+            packageId={item.id}
+            paymentMethodName={item.paymentMethods[0].name}
+            price={
+              couponSuccess && couponSuccess.valid
                 ? couponSuccess.finalAmount
                 : item && item.paymentMethods[0].price
-              : item && item.paymentMethods[0].price
-          }
-          setError={setError}
-          setBlockId={setBlockId}
-        />
+            }
+            setError={setError}
+            setBlockId={setBlockId}
+          />
+        )}
         {/* <CreditcardCard /> */}
         <div className="errorMessage">
           <Text
@@ -226,7 +240,7 @@ const PaymentPage = ({ id, slug, initialCoupon }: Props) => {
           </Text>
         </div>
       </section>
-      {!logged && <LoginModal />}
+      {loginModal && <LoginModal setLoginModal={() => setLoginModal(false)} />}
     </ProductInnerPage>
   );
 };

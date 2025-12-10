@@ -57,7 +57,6 @@ const PackageCard = ({
           nowrap
           margin="0 0 0 4px"
           tag="h4"
-          // fontName={discountAmount ? "SUPER_TINY_MEDIUM" : "REGULAR_SEMI_BOLD"}
           fontName="REGULAR_SEMI_BOLD"
           style={
             discountAmount

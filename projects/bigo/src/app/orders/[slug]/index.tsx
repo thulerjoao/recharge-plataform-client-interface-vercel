@@ -46,14 +46,14 @@ const Order = () => {
     sessionStorage.removeItem("copyAndPaste");
     sessionStorage.removeItem("orderId");
     const currentPackage = product.packages.find(
-      (item: PackageType) => (item.id = order.orderItem.package.packageId),
+      (item: PackageType) => item.id === order.orderItem.package.packageId,
     );
     if (currentPackage) {
       sessionStorage.setItem(
         "userId",
         order.orderItem.recharge.userIdForRecharge,
       );
-      route.push(`/package/${order.orderItem.package.packageId}`);
+      route.push(`/product?package=${order.orderItem.package.packageId}`);
     } else {
       sessionStorage.setItem(
         "userId",
@@ -74,7 +74,7 @@ const Order = () => {
           "userId",
           res.orderItem.recharge.userIdForRecharge,
         );
-        route.push(`package/${res.orderItem.package.packageId}`);
+        route.push(`product?package=${res.orderItem.package.packageId}`);
       })
       .then(() => {});
   };
