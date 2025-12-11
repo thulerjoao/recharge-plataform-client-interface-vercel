@@ -28,7 +28,7 @@ const PaymentPage = ({ packageId, couponFromParams }: Props) => {
   const item =
     product &&
     product.packages.find((item: PackageType) => item.id === packageId);
-  const [userId, setUserId] = useState<string>(
+  const [rechargeBigoId, setRechargeBigoId] = useState<string>(
     initialUserId ? initialUserId : "",
   );
   const [paymentIndex, setPaymentIndex] = useState<number>();
@@ -127,8 +127,8 @@ const PaymentPage = ({ packageId, couponFromParams }: Props) => {
         placeholder="Insira seu ID de usuário"
         margin="16px 0 0 0"
         height={48}
-        value={userId && userId}
-        onChange={(e) => !blockId && setUserId(e.target.value)}
+        value={rechargeBigoId && rechargeBigoId}
+        onChange={(e) => !blockId && setRechargeBigoId(e.target.value)}
       />
       {!openCoupon && (
         <Text
@@ -217,11 +217,14 @@ const PaymentPage = ({ packageId, couponFromParams }: Props) => {
       <section className="paymentMethods">
         {item && (
           <PixCard
-            userId={userId}
+            couponTitle={
+              couponSuccess?.valid && couponSuccess.coupon.title.toUpperCase()
+            }
+            rechargeBigoId={rechargeBigoId}
             packageId={item.id}
-            paymentMethodName={item.paymentMethods[0].name}
+            paymentMethodId={item.paymentMethods[0].id}
             price={
-              couponSuccess && couponSuccess.valid
+              couponSuccess?.valid
                 ? couponSuccess.finalAmount
                 : item && item.paymentMethods[0].price
             }
