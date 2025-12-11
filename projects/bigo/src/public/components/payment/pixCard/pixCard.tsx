@@ -21,7 +21,7 @@ interface Props {
   price: number;
   couponTitle?: string;
   setError: React.Dispatch<React.SetStateAction<string>>;
-  setBlockId: React.Dispatch<React.SetStateAction<boolean>>;
+  setBlockInput: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 const PixCard = ({
@@ -31,7 +31,7 @@ const PixCard = ({
   price,
   couponTitle,
   setError,
-  setBlockId,
+  setBlockInput,
 }: Props) => {
   const [initialized, setInitialized] = useState<boolean>(true);
   const [firstExpand, setFirstExpand] = useState<boolean>(true);
@@ -63,7 +63,7 @@ const PixCard = ({
       return;
     }
     setPixLoading(true);
-    setBlockId(true);
+    setBlockInput(true);
     const body = !couponTitle
       ? {
           price,
@@ -96,7 +96,6 @@ const PixCard = ({
       })
       .finally(() => {
         setPixLoading(false);
-        setBlockId(false);
       });
   };
 

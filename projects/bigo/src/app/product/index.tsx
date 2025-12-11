@@ -23,7 +23,7 @@ type Props = {
 const PaymentPage = ({ packageId, couponFromParams }: Props) => {
   const { product } = useProducts();
   const initialUserId = sessionStorage.getItem("userId");
-  const [blockId, setBlockId] = useState<boolean>(false);
+  const [blockInput, setBlockInput] = useState<boolean>(false);
 
   const item =
     product &&
@@ -128,7 +128,7 @@ const PaymentPage = ({ packageId, couponFromParams }: Props) => {
         margin="16px 0 0 0"
         height={48}
         value={rechargeBigoId && rechargeBigoId}
-        onChange={(e) => !blockId && setRechargeBigoId(e.target.value)}
+        onChange={(e) => !blockInput && setRechargeBigoId(e.target.value)}
       />
       {!openCoupon && (
         <Text
@@ -138,7 +138,7 @@ const PaymentPage = ({ packageId, couponFromParams }: Props) => {
           margin="8px 12px 0 0"
           align="end"
           pointer
-          onClick={() => setOpenCoupon(!openCoupon)}
+          onClick={() => !blockInput && setOpenCoupon(!openCoupon)}
         >
           Cupom de desconto
         </Text>
@@ -155,7 +155,7 @@ const PaymentPage = ({ packageId, couponFromParams }: Props) => {
             <Input
               height={36}
               value={coupon?.toUpperCase()}
-              onChange={(e) => setCoupon(e.target.value)}
+              onChange={(e) => !blockInput && setCoupon(e.target.value)}
               placeholder="Insira o cupom"
             />
             <Button
@@ -229,7 +229,7 @@ const PaymentPage = ({ packageId, couponFromParams }: Props) => {
                 : item && item.paymentMethods[0].price
             }
             setError={setError}
-            setBlockId={setBlockId}
+            setBlockInput={setBlockInput}
           />
         )}
         {/* <CreditcardCard /> */}
