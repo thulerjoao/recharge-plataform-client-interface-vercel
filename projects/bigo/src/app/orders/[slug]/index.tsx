@@ -3,6 +3,7 @@
 import Button from "@4miga/design-system/components/button";
 import Text from "@4miga/design-system/components/Text";
 import { Theme } from "@4miga/design-system/theme/theme";
+import { connectionAPIGet } from "@4miga/services/connectionAPI/connection";
 import { useAuth } from "contexts/auth";
 import { useProducts } from "contexts/products/ProductsProvider";
 import Image from "next/image";
@@ -11,9 +12,9 @@ import BackArrow from "public/icons/BackArrow.svg";
 import Pix from "public/icons/PixBig.svg";
 import { useEffect, useState } from "react";
 import { OrderType } from "types/orderType";
-import { PackageType } from "types/productTypes";
 import { formatDate } from "utils/formatDate";
 import { formatPrice } from "utils/formatPrice";
+import { formatString } from "utils/formatString";
 import {
   handlePaymentStatus,
   handleRechargeStatus,
@@ -29,7 +30,7 @@ const Order = () => {
 
   useEffect(() => {
     if (!order) {
-      route.replace("/home");
+      route.replace("/orders");
     }
     if (!logged) {
       sessionStorage.clear();
@@ -40,34 +41,34 @@ const Order = () => {
   const { product } = useProducts();
 
   const handleBuyAgain = () => {
-    sessionStorage.removeItem("qrCode");
-    sessionStorage.removeItem("copyAndPaste");
-    sessionStorage.removeItem("orderId");
-    const currentPackage = product.packages.find(
-      (item: PackageType) => item.id === order.orderItem.package.packageId,
-    );
-    if (currentPackage) {
-      sessionStorage.setItem(
-        "userId",
-        order.orderItem.recharge.userIdForRecharge,
-      );
-      route.push(`/product?package=${order.orderItem.package.packageId}`);
-    } else {
-      sessionStorage.setItem(
-        "userId",
-        order.orderItem.recharge.userIdForRecharge,
-      );
-      route.push(`/home`);
-    }
+    sessionStorage.removeItem("order");
+    const packageId = order.orderItem.package.packageId;
+
+    route.push(`/product?package=${packageId}`);
   };
 
-  const goToPayment = () => {
+  const goToPayment = async () => {
+    if (order.orderStatus === "EXPIRED") {
+      return;
+    }
     setLoading(true);
     if (order) {
-      route.push(`/product?package=${order.orderItem.packageId}`);
+      await connectionAPIGet<OrderType>(`/orders/${order.id}`).then((res) => {
+        if (
+          res.payment.status === "PAYMENT_PENDING" &&
+          res.orderStatus !== "EXPIRED"
+        ) {
+          sessionStorage.setItem("order", JSON.stringify(res));
+          route.push(`/product?package=${res.orderItem.package.packageId}`);
+        } else {
+          return;
+        }
+      });
     }
     setLoading(false);
   };
+
+  console.log(order);
 
   return (
     <OrderContainer>
@@ -165,7 +166,7 @@ const Order = () => {
               <Image
                 height={40}
                 width={40}
-                src={order.orderItem.package.imgCardUrl}
+                src={order?.orderItem.package.imgCardUrl}
                 alt="imagem do card"
               />
             </span>
@@ -211,16 +212,9 @@ const Order = () => {
             )}
         </section>
       </main>
-      {order && order.payment.status !== "PAYMENT_PENDING" ? (
-        <Button
-          margin="32px 0 0 0"
-          width={228}
-          rounded
-          height={40}
-          title="Comprar novamente"
-          onClick={() => handleBuyAgain()}
-        />
-      ) : (
+      {order &&
+      order.payment.status === "PAYMENT_PENDING" &&
+      order.orderStatus === "CREATED" ? (
         <Button
           loading={loading}
           disabled={loading}
@@ -230,6 +224,15 @@ const Order = () => {
           height={40}
           title="Prosseguir para pagamento"
           onClick={() => goToPayment()}
+        />
+      ) : (
+        <Button
+          margin="32px 0 0 0"
+          width={228}
+          rounded
+          height={40}
+          title="Repetir pedido"
+          onClick={() => handleBuyAgain()}
         />
       )}
     </OrderContainer>

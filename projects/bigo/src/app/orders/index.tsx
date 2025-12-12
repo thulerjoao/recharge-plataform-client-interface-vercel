@@ -11,7 +11,7 @@ import Pagination from "public/components/pagination";
 import BackArrow from "public/icons/BackArrow.svg";
 import { useEffect } from "react";
 import { MyOrderContainer } from "./style";
-
+import Loading from "app/loading";
 interface Props {
   currentPage: number;
 }

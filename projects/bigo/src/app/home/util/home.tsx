@@ -1,7 +1,6 @@
 "use client";
 
 import Text from "@4miga/design-system/components/Text";
-import { useAuth } from "contexts/auth";
 import { useProducts } from "contexts/products/ProductsProvider";
 import { useStore } from "contexts/store/StoreProvider";
 import { useRouter } from "next/navigation";
@@ -14,7 +13,6 @@ import { formatString } from "utils/formatString";
 import Lines from "../../../public/components/lines/lines";
 import InvisibleCards from "./invisivleCards";
 import { HomeContainer } from "./style";
-import { useEffect } from "react";
 
 type Props = {
   coupon?: string;
@@ -29,7 +27,7 @@ const Home = ({ coupon }: Props) => {
   const handleClick = (item: PackageType) => {
     sessionStorage.removeItem("order");
     route.push(
-      `/product?package=${formatString(item.id)}${coupon ? `&coupon=${formatString(coupon)}` : ""}`,
+      `/product?package=${item.id}${coupon ? `&coupon=${formatString(coupon)}` : ""}`,
     );
   };
 

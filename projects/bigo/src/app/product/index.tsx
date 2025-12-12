@@ -24,7 +24,6 @@ type Props = {
 
 const PaymentPage = ({ packageId, couponFromParams }: Props) => {
   const { product } = useProducts();
-  // const initialUserId = sessionStorage.getItem("userId");
   const [blockInput, setBlockInput] = useState<boolean>(false);
   const { logged, user } = useAuth();
 
@@ -103,6 +102,26 @@ const PaymentPage = ({ packageId, couponFromParams }: Props) => {
     }
   }, [logged, user, sessionOrder, rechargeBigoId]);
 
+  // Validate package exists only for new purchases (not for pending orders)
+  useEffect(() => {
+    const sessionOrderStorage = sessionStorage.getItem("order");
+    if (sessionOrderStorage) return;
+    if (
+      product &&
+      product.packages &&
+      product.packages.length > 0 &&
+      packageId
+    ) {
+      const packageExists = product.packages.some(
+        (pkg: PackageType) => pkg.id === packageId,
+      );
+
+      if (!packageExists) {
+        route.replace("/home");
+      }
+    }
+  }, [product, packageId, route]);
+
   useEffect(() => {
     if (!couponFromParams) {
       return;
@@ -124,7 +143,9 @@ const PaymentPage = ({ packageId, couponFromParams }: Props) => {
   };
 
   const handleApplyCoupon = (couponValue?: string) => {
-    if (coupon === "") {
+    const couponToUse = couponValue || coupon;
+
+    if (couponToUse === "") {
       setCouponError("Insira um cupom");
       return;
     }
@@ -133,7 +154,7 @@ const PaymentPage = ({ packageId, couponFromParams }: Props) => {
       return;
     }
     if (!item) return;
-    const couponToUse = couponValue || coupon;
+
     setCouponLoading(true);
     connectionAPIPost<CouponValidationResponse>(
       "/orders/validate-coupon-by-package",
@@ -177,20 +198,6 @@ const PaymentPage = ({ packageId, couponFromParams }: Props) => {
         setCouponLoading(false);
       });
   };
-
-  // const handleHaveDiscountValue = () => {
-  //   if (sessionOrder) {
-  //     if (sessionOrder.price !== sessionOrder.basePrice) {
-  //       return sessionOrder.price;
-  //     } else {
-  //       return undefined;
-  //     }
-  //   } else if (item) {
-  //     couponSuccess && couponSuccess.valid
-  //       ? couponSuccess.finalAmount
-  //       : undefined;
-  //   }
-  // };
 
   return (
     <ProductInnerPage onMouseDown={handleMouseDown}>
