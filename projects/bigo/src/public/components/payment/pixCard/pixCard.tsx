@@ -100,8 +100,12 @@ const PixCard = ({
       setError("É necessário informar o ID do usuário");
       return;
     }
-    if (rechargeBigoId !== user.rechargeBigoId) {
-      connectionAPIPatch("/user/recharge-bigo-id", {
+    if (!item) {
+      setError("Pacote não encontrado");
+      return;
+    }
+    if (user && rechargeBigoId !== user?.rechargeBigoId) {
+      await connectionAPIPatch("/user/recharge-bigo-id", {
         rechargeBigoId,
       }).then(() => {
         setUser({ ...user, rechargeBigoId });

@@ -59,7 +59,11 @@ const PaymentPage = ({ packageId, couponFromParams }: Props) => {
       }
       const order = JSON.parse(sessionOrder);
       setRechargeBigoId(order.orderItem.recharge.userIdForRecharge);
-      if (order.orderStatus !== "CREATED" || user.id !== order.userId) {
+      if (
+        order.orderStatus !== "CREATED" ||
+        !user ||
+        user.id !== order.userId
+      ) {
         sessionStorage.clear();
         return route.replace("/home");
       }
@@ -80,7 +84,7 @@ const PaymentPage = ({ packageId, couponFromParams }: Props) => {
         paymentMethods: [
           {
             id: order.paymentId,
-            name: order.payment.paymentMethod,
+            name: order.payment.name,
             price: +order.price,
           },
         ],
