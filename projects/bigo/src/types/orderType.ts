@@ -1,32 +1,62 @@
+import { UserType } from "./userTypes";
+
 export interface OrderType {
-  id: string;
-  orderNumber: string;
-  price: number;
-  orderStatus: OrderStatus;
+  couponUsages: {
+    coupon: {
+      discountAmount?: string | number;
+      discountPercentage?: string | number;
+      id: string;
+      isFirstPurchase: boolean;
+      title: string;
+    };
+    couponId: string;
+    id: string;
+    orderId: string;
+    usedAt: string;
+  }[];
   createdAt: string;
-  payment: {
-    name: string;
-    status: PaymentStatus;
-    statusUpdatedAt: string | null;
-    qrCode?: string;
-    qrCodetextCopyPaste?: string;
-  };
+  id: string;
   orderItem: {
+    id: string;
+    package: {
+      id: string;
+      imgCardUrl: string;
+      name: string;
+      packageId: string;
+      userIdForRecharge: string;
+    };
+    packageId: string;
     productId: string;
     productName: string;
     recharge: {
-      userIdForRecharge: string;
-      status: RechargeStatus;
       amountCredits: number;
-      statusUpdatedAt: string | null;
-    };
-    package: {
-      packageId: string;
-      name: string;
+      id: string;
+      status: RechargeStatus;
+      statusUpdatedAt: string;
       userIdForRecharge: string;
-      imgCardUrl: string;
     };
+    rechargeId: string;
   };
+  orderItemId: string;
+  orderNumber: string;
+  orderStatus: OrderStatus;
+  payment: {
+    externalId: string;
+    id: string;
+    name: string;
+    paymentProvider: string;
+    qrCode: string;
+    qrCodetextCopyPaste: string;
+    status: PaymentStatus;
+    statusUpdatedAt: string;
+  };
+  paymentId: string;
+  price: number;
+  basePrice: number;
+  storeId: string;
+  updatedAt: Date;
+  user: UserType;
+  userId: string;
 }
 
 export type PaymentStatus =

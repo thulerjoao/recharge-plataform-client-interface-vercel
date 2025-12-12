@@ -149,6 +149,7 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
       phone: data.user.phone,
       documentType: data.user.documentType,
       documentValue: data.user.documentValue,
+      rechargeBigoId: data.user.rechargeBigoId,
     };
     try {
       const res = await fetch("/api/login", {

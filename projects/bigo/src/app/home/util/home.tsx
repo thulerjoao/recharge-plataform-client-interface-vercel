@@ -14,6 +14,7 @@ import { formatString } from "utils/formatString";
 import Lines from "../../../public/components/lines/lines";
 import InvisibleCards from "./invisivleCards";
 import { HomeContainer } from "./style";
+import { useEffect } from "react";
 
 type Props = {
   coupon?: string;
@@ -26,10 +27,7 @@ const Home = ({ coupon }: Props) => {
   const bannerList: string[] = store?.bannersUrl || [];
 
   const handleClick = (item: PackageType) => {
-    sessionStorage.removeItem("userId");
-    sessionStorage.removeItem("orderId");
-    sessionStorage.removeItem("qrCode");
-    sessionStorage.removeItem("copyAndPaste");
+    sessionStorage.removeItem("order");
     route.push(
       `/product?package=${formatString(item.id)}${coupon ? `&coupon=${formatString(coupon)}` : ""}`,
     );

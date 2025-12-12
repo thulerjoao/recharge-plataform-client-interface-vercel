@@ -3,33 +3,36 @@
 import Button from "@4miga/design-system/components/button";
 import Text from "@4miga/design-system/components/Text";
 import { Theme } from "@4miga/design-system/theme/theme";
-import { connectionAPIPost } from "@4miga/services/connectionAPI/connection";
+import {
+  connectionAPIPatch,
+  connectionAPIPost,
+} from "@4miga/services/connectionAPI/connection";
 import { useAuth } from "contexts/auth";
-import { useRouter } from "next/navigation";
 import LoginModal from "public/components/loginModal";
 import Pix from "public/icons/Pix.svg";
 import React, { useEffect, useState } from "react";
 import { StyleSheetManager } from "styled-components";
-import { PixPaymentResponse } from "types/paymentType";
+import { OrderType } from "types/orderType";
+import { PackageType } from "types/productTypes";
 import { formatPrice } from "utils/formatPrice";
 import { BottomElement, PixCardContainer } from "./style";
 
 interface Props {
   rechargeBigoId: string;
-  packageId: string;
-  paymentMethodId: string;
-  price: number;
   couponTitle?: string;
+  item: PackageType | null;
+  // sessionOrder: OrderType | null;
+  valueWithDicount?: number;
   setError: React.Dispatch<React.SetStateAction<string>>;
   setBlockInput: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 const PixCard = ({
   rechargeBigoId,
-  packageId,
-  paymentMethodId,
-  price,
+  item,
+  valueWithDicount,
   couponTitle,
+  // sessionOrder,
   setError,
   setBlockInput,
 }: Props) => {
@@ -42,10 +45,42 @@ const PixCard = ({
   const [qrCode, setQrCode] = useState<string>(undefined);
   const [copyAndPaste, setCopyAndPaste] = useState<string>(undefined);
   const [orderId, setOrderId] = useState<string>(undefined);
+  const [sessionOrder, setSessionOrder] = useState<OrderType | null>(null);
   const [modal, setModal] = useState<boolean>(false);
   const [clicked, setClicked] = useState<boolean>(false);
-  const { logged } = useAuth();
-  const route = useRouter();
+  const [countdown, setCountdown] = useState<string>("00:00:00");
+  const { logged, user, setUser } = useAuth();
+
+  // console.log("sessionOrder", sessionOrder);
+  // console.log("item", item);
+
+  const packageId = item ? item.id : sessionOrder?.orderItem.package.id;
+  const handleGetPrice = () => {
+    if (sessionOrder) {
+      return sessionOrder.price;
+    }
+    if (item) {
+      if (valueWithDicount) {
+        return valueWithDicount;
+      } else {
+        return item.basePrice;
+      }
+    }
+  };
+
+  const handleCopy = async () => {
+    if (!copyAndPaste) {
+      alert("Nenhum código para copiar.");
+      return;
+    }
+
+    try {
+      await navigator.clipboard.writeText(copyAndPaste);
+      alert("Código copiado para área de transferência");
+    } catch (err) {
+      alert("Erro ao copiar o código.");
+    }
+  };
 
   const handleClick = () => {
     setClicked(true);
@@ -58,12 +93,24 @@ const PixCard = ({
   };
 
   const handleCreateOrder = async () => {
+    if (sessionOrder) {
+      return;
+    }
     if (!rechargeBigoId) {
       setError("É necessário informar o ID do usuário");
       return;
     }
+    if (rechargeBigoId !== user.rechargeBigoId) {
+      connectionAPIPatch("/user/recharge-bigo-id", {
+        rechargeBigoId,
+      }).then(() => {
+        setUser({ ...user, rechargeBigoId });
+      });
+    }
     setPixLoading(true);
     setBlockInput(true);
+    const price = handleGetPrice();
+    const paymentMethodId = item.paymentMethods[0].id;
     const body = !couponTitle
       ? {
           price,
@@ -78,20 +125,20 @@ const PixCard = ({
           userIdForRecharge: rechargeBigoId,
           couponTitle,
         };
-    await connectionAPIPost<PixPaymentResponse>("/orders", body)
+    await connectionAPIPost<OrderType>("/orders", body)
       .then((res) => {
-        console.log("res", res);
+        console.log("res order creation", res);
         setQrCode(res.payment.qrCode);
         setCopyAndPaste(res.payment.qrCodetextCopyPaste);
         setOrderId(res.orderItemId);
-        sessionStorage.setItem("qrCode", res.payment.qrCode);
-        sessionStorage.setItem("copyAndPaste", res.payment.qrCodetextCopyPaste);
-        sessionStorage.setItem("orderId", res.orderItemId);
+        sessionStorage.setItem("order", JSON.stringify(res));
+        setSessionOrder(res);
         setSecondExpand(true);
       })
       .catch((err) => {
         if (err.response.data.message === "Invalid userId for recharge") {
           setError("ID de usuário inválido");
+          setBlockInput(false);
         }
       })
       .finally(() => {
@@ -122,16 +169,38 @@ const PixCard = ({
     }
   }, [firstExpand]);
 
-  console.log(qrCode);
+  useEffect(() => {
+    const checkSessionOrder = JSON.parse(sessionStorage.getItem("order"));
+    setSessionOrder(checkSessionOrder);
+    if (checkSessionOrder) {
+      setFirstExpand(true);
+      setInitialized(true);
+      setSecondExpand(true);
+      setQrCode(checkSessionOrder.payment.qrCode);
+      setCopyAndPaste(checkSessionOrder.payment.qrCodetextCopyPaste);
+      setOrderId(checkSessionOrder.orderItemId);
+    }
+  }, []);
+
+  useEffect(() => {
+    if (!sessionOrder) return;
+
+    handleCountDown();
+    const interval = setInterval(() => {
+      handleCountDown();
+    }, 1000);
+
+    return () => clearInterval(interval);
+  }, [sessionOrder]);
 
   // IF ORDERID IN SESSION STORAGE, CHECK IF ORDER IS APPROVED. IF NOT, CREAT PAYMENT PAGE
   // useEffect(() => {
   //   if (logged) {
   //     const orderId = sessionStorage.getItem("orderId");
   //     if (orderId) {
+  //       connectionAPIGet<OrderType>(`/order/${orderId}/user`)
   //       setBlockId(true);
   //       setPixLoading(true);
-  //       connectionAPIGet<OrderType>(`/order/${orderId}/user`)
   //         .then((res) => {
   //           if (res.payment.status === "PAYMENT_APPROVED") {
   //             sessionStorage.removeItem("orderId");
@@ -167,20 +236,6 @@ const PixCard = ({
   //     }
   //   }
   // }, [logged]);
-
-  const handleCopy = async () => {
-    if (!copyAndPaste) {
-      alert("Nenhum código para copiar.");
-      return;
-    }
-
-    try {
-      await navigator.clipboard.writeText(copyAndPaste);
-      alert("Código copiado para área de transferência");
-    } catch (err) {
-      alert("Erro ao copiar o código.");
-    }
-  };
 
   // DECIDE WHAT TO DO WHRN CLICK IN CREATE ORDER
   // const handleClick = () => {
@@ -222,11 +277,11 @@ const PixCard = ({
   // };
 
   // CREATING ORDER AUTOMATICALLY
-  // useEffect(() => {
-  //   if (logged && clicked) {
-  //     handleClick();
-  //   }
-  // }, [logged, clicked]);
+  useEffect(() => {
+    if (logged && clicked) {
+      handleClick();
+    }
+  }, [logged, clicked]);
 
   // CHECKING ORDER STATUS
   // const handleCheckOrder = () => {
@@ -306,6 +361,30 @@ const PixCard = ({
   //   }
   // };
 
+  const handleCountDown = () => {
+    if (!sessionOrder) {
+      setCountdown("00:00:00");
+      return;
+    }
+
+    const createdAt = new Date(sessionOrder.createdAt);
+    const expirationTime = new Date(createdAt.getTime() + 24 * 60 * 60 * 1000);
+    const now = new Date();
+    const difference = expirationTime.getTime() - now.getTime();
+
+    if (difference <= 0) {
+      setCountdown("00:00:00");
+      return;
+    }
+
+    const hours = Math.floor(difference / (1000 * 60 * 60));
+    const minutes = Math.floor((difference % (1000 * 60 * 60)) / (1000 * 60));
+    const seconds = Math.floor((difference % (1000 * 60)) / 1000);
+
+    const formattedTime = `${String(hours).padStart(2, "0")}:${String(minutes).padStart(2, "0")}:${String(seconds).padStart(2, "0")}`;
+    setCountdown(formattedTime);
+  };
+
   return (
     <StyleSheetManager
       shouldForwardProp={(prop) =>
@@ -335,7 +414,7 @@ const PixCard = ({
             fontName="REGULAR_SEMI_BOLD"
             color={Theme.colors.secondaryAction}
           >
-            R$ {formatPrice(price)}
+            R$ {formatPrice(handleGetPrice())}
           </Text>
         </span>
       </PixCardContainer>
@@ -383,6 +462,15 @@ const PixCard = ({
               />
             </div>
           </>
+        )}
+        {sessionOrder && (
+          <Text
+            fontName="SMALL_MEDIUM"
+            className="countDown"
+            color={Theme.colors.mainlight}
+          >
+            Prazo para pagamento: {countdown}
+          </Text>
         )}
       </BottomElement>
       {modal && <LoginModal setLoginModal={() => setModal(false)} />}

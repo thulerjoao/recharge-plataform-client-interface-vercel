@@ -3,8 +3,6 @@
 import Button from "@4miga/design-system/components/button";
 import Text from "@4miga/design-system/components/Text";
 import { Theme } from "@4miga/design-system/theme/theme";
-import { connectionAPIGet } from "@4miga/services/connectionAPI/connection";
-import { apiUrl } from "@4miga/services/connectionAPI/url";
 import { useAuth } from "contexts/auth";
 import { useProducts } from "contexts/products/ProductsProvider";
 import Image from "next/image";
@@ -65,18 +63,10 @@ const Order = () => {
 
   const goToPayment = () => {
     setLoading(true);
-    connectionAPIGet<OrderType>(`/order/${order.id}/user`, apiUrl)
-      .then((res) => {
-        sessionStorage.setItem("qrCode", res.payment.qrCode);
-        sessionStorage.setItem("copyAndPaste", res.payment.qrCodetextCopyPaste);
-        sessionStorage.setItem("orderId", res.id);
-        sessionStorage.setItem(
-          "userId",
-          res.orderItem.recharge.userIdForRecharge,
-        );
-        route.push(`product?package=${res.orderItem.package.packageId}`);
-      })
-      .then(() => {});
+    if (order) {
+      route.push(`/product?package=${order.orderItem.packageId}`);
+    }
+    setLoading(false);
   };
 
   return (

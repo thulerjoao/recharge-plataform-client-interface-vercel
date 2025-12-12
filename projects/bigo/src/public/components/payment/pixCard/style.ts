@@ -19,7 +19,7 @@ export const PixCardContainer = styled.div<AnimationProps>`
   width: 100%;
   border: 2px solid ${Theme.colors.secondaryAction};
   ${({ firstExpand }) =>
-    firstExpand && `border: 4px solid ${Theme.colors.mainHighlight}`};
+    firstExpand && `border: 3px solid ${Theme.colors.mainHighlight}`};
   border-radius: 8px;
   padding: 0px 16px;
   padding-top: 12px;
@@ -143,7 +143,7 @@ export const BottomElement = styled.div<AnimationProps>`
     align-items: center;
     justify-content: space-between;
     overflow: hidden;
-    height: ${({ secondExpand }) => (secondExpand ? "356px" : "0")};
+    height: ${({ secondExpand }) => (secondExpand ? "346px" : "0")};
     animation: 0.5s easy-in-out;
 
     img {
@@ -154,6 +154,11 @@ export const BottomElement = styled.div<AnimationProps>`
       height: auto;
       object-fit: contain;
     }
+  }
+
+  .countDown {
+    margin-top: 16px;
+    max-width: 230px;
   }
 
   @media (max-width: 767px) {
