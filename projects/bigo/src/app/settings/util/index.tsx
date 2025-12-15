@@ -209,26 +209,22 @@ const Settings = () => {
             setIsEditing((prev) => ({ ...prev, personal: false }));
             return;
           }
-          await connectionAPIPatch(
-            `/user/${user.id}`,
-            {
-              name: formData.name,
-              phone: formData.phone,
-            },
-            apiUrl,
-          )
+          const body = {
+            name: formData.name,
+            phone: formData.phone,
+          };
+          await connectionAPIPatch(`/user`, body, apiUrl)
             .then((res) => {
               setUser(res);
               alert("Informações atualizadas com sucesso");
             })
             .catch((res) => {
-              console.log(res);
               setFormData((prev) => ({
                 ...prev,
                 name: user.name || "",
                 phone: user.phone || "",
               }));
-              alert("Erro ao atualizar informaçõesssss");
+              alert("Erro ao atualizar informações");
             });
         }
         if (section === "email") {
@@ -250,6 +246,11 @@ const Settings = () => {
                 alert("Enviamos um código de confirmação para seu novo e-mail");
               })
               .catch((err) => {
+                if (
+                  err.response.data.message === "New email is already in use"
+                ) {
+                  alert("Email já cadastrado");
+                }
                 alert("Falha ao solicitar. Tente novamente mais tarde");
               });
           } else {
