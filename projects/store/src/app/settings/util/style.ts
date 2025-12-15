@@ -67,10 +67,16 @@ export const SettingsContainer = styled.div`
           display: block;
         }
 
-        input,
+        input:disabled {
+          color: ${Theme.colors.mainlight} !important;
+          -webkit-text-fill-color: ${Theme.colors.mainlight} !important;
+          opacity: 1 !important;
+        }
+
         select {
           width: 100%;
           padding: 12px 16px;
+          padding-right: 40px;
           border: 2px solid ${Theme.colors.mainTransparent};
           border-radius: 8px;
           background-color: ${Theme.colors.mainBbackgroundSolid};
@@ -78,6 +84,12 @@ export const SettingsContainer = styled.div`
           font-size: 14px;
           transition: all 0.2s ease;
           box-sizing: border-box;
+          cursor: pointer;
+          appearance: none;
+          background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='white' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6,9 12,15 18,9'%3e%3c/polyline%3e%3c/svg%3e");
+          background-repeat: no-repeat;
+          background-position: right 12px center;
+          background-size: 16px;
 
           &:focus {
             outline: none;
@@ -88,27 +100,7 @@ export const SettingsContainer = styled.div`
           &:disabled {
             opacity: 0.6;
             cursor: not-allowed;
-            /* background-color: ${Theme.colors.mainTransparent}20; */
           }
-
-          /* &.error {
-            border-color: #${Theme.colors.refused};
-            box-shadow: 0 0 0 3px #${Theme.colors.pending}40;
-          } */
-
-          &::placeholder {
-            color: ${Theme.colors.mainlight}60;
-          }
-        }
-
-        select {
-          cursor: pointer;
-          appearance: none;
-          background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='white' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6,9 12,15 18,9'%3e%3c/polyline%3e%3c/svg%3e");
-          background-repeat: no-repeat;
-          background-position: right 12px center;
-          background-size: 16px;
-          padding-right: 40px;
         }
 
         .error-message {

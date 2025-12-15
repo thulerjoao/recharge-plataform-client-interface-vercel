@@ -3,35 +3,38 @@
 import Button from "@4miga/design-system/components/button";
 import Text from "@4miga/design-system/components/Text";
 import { Theme } from "@4miga/design-system/theme/theme";
-import { connectionAPIPost } from "@4miga/services/connectionAPI/connection";
+import {
+  connectionAPIPatch,
+  connectionAPIPost,
+} from "@4miga/services/connectionAPI/connection";
 import { useAuth } from "contexts/auth";
-import { useRouter } from "next/navigation";
 import LoginModal from "public/components/loginModal";
 import Pix from "public/icons/Pix.svg";
 import React, { useEffect, useState } from "react";
 import { StyleSheetManager } from "styled-components";
-import { PixPaymentResponse } from "types/paymentType";
+import { OrderType } from "types/orderType";
+import { PackageType } from "types/productTypes";
 import { formatPrice } from "utils/formatPrice";
 import { BottomElement, PixCardContainer } from "./style";
 
 interface Props {
   rechargeBigoId: string;
-  packageId: string;
-  paymentMethodId: string;
-  price: number;
   couponTitle?: string;
+  item: PackageType | null;
+  // sessionOrder: OrderType | null;
+  valueWithDicount?: number;
   setError: React.Dispatch<React.SetStateAction<string>>;
-  setBlockId: React.Dispatch<React.SetStateAction<boolean>>;
+  setBlockInput: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 const PixCard = ({
   rechargeBigoId,
-  packageId,
-  paymentMethodId,
-  price,
+  item,
+  valueWithDicount,
   couponTitle,
+  // sessionOrder,
   setError,
-  setBlockId,
+  setBlockInput,
 }: Props) => {
   const [initialized, setInitialized] = useState<boolean>(true);
   const [firstExpand, setFirstExpand] = useState<boolean>(true);
@@ -42,10 +45,42 @@ const PixCard = ({
   const [qrCode, setQrCode] = useState<string>(undefined);
   const [copyAndPaste, setCopyAndPaste] = useState<string>(undefined);
   const [orderId, setOrderId] = useState<string>(undefined);
+  const [sessionOrder, setSessionOrder] = useState<OrderType | null>(null);
   const [modal, setModal] = useState<boolean>(false);
   const [clicked, setClicked] = useState<boolean>(false);
-  const { logged } = useAuth();
-  const route = useRouter();
+  const [countdown, setCountdown] = useState<string>("00:00:00");
+  const { logged, user, setUser } = useAuth();
+
+  // console.log("sessionOrder", sessionOrder);
+  // console.log("item", item);
+
+  const packageId = item ? item.id : sessionOrder?.orderItem.package.id;
+  const handleGetPrice = () => {
+    if (sessionOrder) {
+      return sessionOrder.price;
+    }
+    if (item) {
+      if (valueWithDicount) {
+        return valueWithDicount;
+      } else {
+        return item.basePrice;
+      }
+    }
+  };
+
+  const handleCopy = async () => {
+    if (!copyAndPaste) {
+      alert("Nenhum código para copiar.");
+      return;
+    }
+
+    try {
+      await navigator.clipboard.writeText(copyAndPaste);
+      alert("Código copiado para área de transferência");
+    } catch (err) {
+      alert("Erro ao copiar o código.");
+    }
+  };
 
   const handleClick = () => {
     setClicked(true);
@@ -58,12 +93,28 @@ const PixCard = ({
   };
 
   const handleCreateOrder = async () => {
+    if (sessionOrder) {
+      return;
+    }
     if (!rechargeBigoId) {
       setError("É necessário informar o ID do usuário");
       return;
     }
+    if (!item) {
+      setError("Pacote não encontrado");
+      return;
+    }
+    if (user && rechargeBigoId !== user?.rechargeBigoId) {
+      await connectionAPIPatch("/user/recharge-bigo-id", {
+        rechargeBigoId,
+      }).then(() => {
+        setUser({ ...user, rechargeBigoId });
+      });
+    }
     setPixLoading(true);
-    setBlockId(true);
+    setBlockInput(true);
+    const price = handleGetPrice();
+    const paymentMethodId = item.paymentMethods[0].id;
     const body = !couponTitle
       ? {
           price,
@@ -78,25 +129,24 @@ const PixCard = ({
           userIdForRecharge: rechargeBigoId,
           couponTitle,
         };
-    await connectionAPIPost<PixPaymentResponse>("/orders", body)
+    await connectionAPIPost<OrderType>("/orders", body)
       .then((res) => {
-        console.log("res", res);
+        console.log("res order creation", res);
         setQrCode(res.payment.qrCode);
         setCopyAndPaste(res.payment.qrCodetextCopyPaste);
         setOrderId(res.orderItemId);
-        sessionStorage.setItem("qrCode", res.payment.qrCode);
-        sessionStorage.setItem("copyAndPaste", res.payment.qrCodetextCopyPaste);
-        sessionStorage.setItem("orderId", res.orderItemId);
+        sessionStorage.setItem("order", JSON.stringify(res));
+        setSessionOrder(res);
         setSecondExpand(true);
       })
       .catch((err) => {
         if (err.response.data.message === "Invalid userId for recharge") {
           setError("ID de usuário inválido");
+          setBlockInput(false);
         }
       })
       .finally(() => {
         setPixLoading(false);
-        setBlockId(false);
       });
   };
 
@@ -123,189 +173,60 @@ const PixCard = ({
     }
   }, [firstExpand]);
 
-  console.log(qrCode);
+  useEffect(() => {
+    const checkSessionOrder = JSON.parse(sessionStorage.getItem("order"));
+    setSessionOrder(checkSessionOrder);
+    if (checkSessionOrder) {
+      setFirstExpand(true);
+      setInitialized(true);
+      setSecondExpand(true);
+      setQrCode(checkSessionOrder.payment.qrCode);
+      setCopyAndPaste(checkSessionOrder.payment.qrCodetextCopyPaste);
+      setOrderId(checkSessionOrder.orderItemId);
+    }
+  }, []);
 
-  // IF ORDERID IN SESSION STORAGE, CHECK IF ORDER IS APPROVED. IF NOT, CREAT PAYMENT PAGE
-  // useEffect(() => {
-  //   if (logged) {
-  //     const orderId = sessionStorage.getItem("orderId");
-  //     if (orderId) {
-  //       setBlockId(true);
-  //       setPixLoading(true);
-  //       connectionAPIGet<OrderType>(`/order/${orderId}/user`)
-  //         .then((res) => {
-  //           if (res.payment.status === "PAYMENT_APPROVED") {
-  //             sessionStorage.removeItem("orderId");
-  //             sessionStorage.removeItem("qrCode");
-  //             sessionStorage.removeItem("copyAndPaste");
-  //             setFirstExpand(true);
-  //             setInitialized(true);
-  //             setBlockId(false);
-  //           } else {
-  //             setOrderId(orderId);
-  //             const qrCode = sessionStorage.getItem("qrCode");
-  //             if (qrCode) setQrCode(qrCode);
-  //             const copyAndPaste = sessionStorage.getItem("copyAndPaste");
-  //             if (copyAndPaste) setCopyAndPaste(copyAndPaste);
-  //             if (qrCode && copyAndPaste && orderId) {
-  //               setFirstExpand(true);
-  //               setInitialized(true);
-  //               setSecondExpand(true);
-  //             }
-  //           }
-  //           setPixLoading(false);
-  //         })
-  //         .catch(() => {
-  //           sessionStorage.removeItem("orderId");
-  //           sessionStorage.removeItem("qrCode");
-  //           sessionStorage.removeItem("copyAndPaste");
-  //           setPixLoading(false);
-  //           setBlockId(false);
-  //         });
-  //     } else {
-  //       setFirstExpand(true);
-  //       setInitialized(true);
-  //     }
-  //   }
-  // }, [logged]);
+  useEffect(() => {
+    if (!sessionOrder) return;
 
-  const handleCopy = async () => {
-    if (!copyAndPaste) {
-      alert("Nenhum código para copiar.");
+    handleCountDown();
+    const interval = setInterval(() => {
+      handleCountDown();
+    }, 1000);
+
+    return () => clearInterval(interval);
+  }, [sessionOrder]);
+
+  // CREATING ORDER AUTOMATICALLY
+  useEffect(() => {
+    if (logged && clicked) {
+      handleClick();
+    }
+  }, [logged, clicked]);
+
+  const handleCountDown = () => {
+    if (!sessionOrder) {
+      setCountdown("00:00:00");
       return;
     }
 
-    try {
-      await navigator.clipboard.writeText(copyAndPaste);
-      alert("Código copiado para área de transferência");
-    } catch (err) {
-      alert("Erro ao copiar o código.");
+    const createdAt = new Date(sessionOrder.createdAt);
+    const expirationTime = new Date(createdAt.getTime() + 24 * 60 * 60 * 1000);
+    const now = new Date();
+    const difference = expirationTime.getTime() - now.getTime();
+
+    if (difference <= 0) {
+      setCountdown("00:00:00");
+      return;
     }
+
+    const hours = Math.floor(difference / (1000 * 60 * 60));
+    const minutes = Math.floor((difference % (1000 * 60 * 60)) / (1000 * 60));
+    const seconds = Math.floor((difference % (1000 * 60)) / 1000);
+
+    const formattedTime = `${String(hours).padStart(2, "0")}:${String(minutes).padStart(2, "0")}:${String(seconds).padStart(2, "0")}`;
+    setCountdown(formattedTime);
   };
-
-  // DECIDE WHAT TO DO WHRN CLICK IN CREATE ORDER
-  // const handleClick = () => {
-  //   setClicked(true);
-  //   if (secondExpand) {
-  //     handleCopy();
-  //     return;
-  //   } else if (firstExpand) {
-  //     if (rechargeBigoId) {
-  //       if (!logged) return setModal(true);
-  //       setPixLoading(true);
-  //       const body = {
-  //         userIdForRecharge: rechargeBigoId,
-  //         packageId,
-  //         paymentMethodName,
-  //         price,
-  //       };
-  //       connectionAPIPost<PixPaymentResponse>("/order", body, apiUrl)
-  //         .then((res) => {
-  //           setQrCode(res.qrCode);
-  //           setCopyAndPaste(res.qrCodetextCopyPaste);
-  //           setOrderId(res.orderId);
-  //           sessionStorage.setItem("qrCode", res.qrCode);
-  //           sessionStorage.setItem("copyAndPaste", res.qrCodetextCopyPaste);
-  //           sessionStorage.setItem("orderId", res.orderId);
-  //           setPixLoading(false);
-  //           setSecondExpand(true);
-  //         })
-  //         .catch((error) => {
-  //           const message = error.response.data.message[0];
-  //           setPixLoading(false);
-  //           handleResponse(message);
-  //         });
-  //     } else {
-  //       setError("ID de usuário inválido");
-  //       setPixLoading(false);
-  //     }
-  //   }
-  // };
-
-  // CREATING ORDER AUTOMATICALLY
-  // useEffect(() => {
-  //   if (logged && clicked) {
-  //     handleClick();
-  //   }
-  // }, [logged, clicked]);
-
-  // CHECKING ORDER STATUS
-  // const handleCheckOrder = () => {
-  //   setOrderLoading(true);
-  //   connectionAPIGet<OrderType>(`/order/${orderId}/user`, apiUrl)
-  //     .then((res) => {
-  //       sessionStorage.setItem("order", JSON.stringify(res));
-  //       route.push("/order");
-  //     })
-  //     .catch((error) => {
-  //       console.log(error);
-  //       setError("Erro ao verificar o pedido");
-  //       setOrderLoading(false);
-  //     });
-  // };
-
-  // CHECKING ORDER STATUS EVERY 30 SECONDS
-  // useEffect(() => {
-  //   if (!qrCode || !copyAndPaste || !orderId) return;
-
-  //   const interval = setInterval(() => {
-  //     connectionAPIGet<OrderType>(`/order/${orderId}/user`, apiUrl)
-  //       .then((res) => {
-  //         if (res.payment.status === "PAYMENT_APPROVED") {
-  //           sessionStorage.setItem("order", JSON.stringify(res));
-  //           route.push("/order");
-  //           clearInterval(interval);
-  //         } else {
-  //           return;
-  //         }
-  //       })
-  //       .catch(() => {
-  //         clearInterval(interval);
-  //       });
-  //   }, 30000);
-
-  //   return () => clearInterval(interval);
-  // }, [qrCode, copyAndPaste, orderId, setError, route]);
-
-  // Package with id: e5866dd3-e5f9-4392-9296-87f4f10af5b1 not found
-  // userIdForRecharge must be longer than or equal to 1 characters
-  // userIdForRecharge must be a string
-  // "Invalid UUID: 'e5866dd3-e5f9-4392-9296-87f4f10af5b'"
-  // "paymentMethodName must be one of the following values: PIX"
-  // "price is not equal to package payment method selling price"
-  // price must be a number conforming to the specified constraints
-  // "The server was acting as a gateway or proxy and did not receive a timely response from the upstream server."
-  // "Something went wrong. Please try again later."
-
-  // const handleResponse = (text: string) => {
-  //   if (
-  //     text.toLowerCase() === "useridforrecharge must be a string" ||
-  //     text.toLowerCase() ===
-  //       "useridforrecharge must be longer than or equal to 1 characters"
-  //   ) {
-  //     setError("ID de usuário inválido");
-  //   } else if (
-  //     text.toLowerCase() === `invalid uuid: '${packageId.toLowerCase()}'` ||
-  //     text.toLowerCase() ===
-  //       `package with id: ${packageId.toLowerCase()} not found`
-  //   ) {
-  //     setError("Pacote indisponível");
-  //   } else if (
-  //     text.toLowerCase() ===
-  //     "paymentmethodname must be one of the following values: pix"
-  //   ) {
-  //     setError("Método de pagamento indisponível");
-  //   } else if (
-  //     text.toLowerCase() ===
-  //       "price is not equal to package payment method selling price" ||
-  //     text.toLowerCase() ===
-  //       "price must be a number conforming to the specified constraints"
-  //   ) {
-  //     setError("Valor de pacote desatualizado");
-  //   } else {
-  //     setError("Algo deu errado. Tente novamente mais tarde.");
-  //   }
-  // };
 
   return (
     <StyleSheetManager
@@ -336,7 +257,7 @@ const PixCard = ({
             fontName="REGULAR_SEMI_BOLD"
             color={Theme.colors.secondaryAction}
           >
-            R$ {formatPrice(price)}
+            R$ {formatPrice(handleGetPrice())}
           </Text>
         </span>
       </PixCardContainer>
@@ -384,6 +305,15 @@ const PixCard = ({
               />
             </div>
           </>
+        )}
+        {sessionOrder && (
+          <Text
+            fontName="SMALL_MEDIUM"
+            className="countDown"
+            color={Theme.colors.mainlight}
+          >
+            Prazo para pagamento: {countdown}
+          </Text>
         )}
       </BottomElement>
       {modal && <LoginModal setLoginModal={() => setModal(false)} />}

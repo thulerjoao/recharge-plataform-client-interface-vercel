@@ -7,11 +7,13 @@ import { Theme } from "@4miga/design-system/theme/theme";
 import { connectionAPIPost } from "@4miga/services/connectionAPI/connection";
 import { useAuth } from "contexts/auth";
 import { useProducts } from "contexts/products/ProductsProvider";
+import { useRouter } from "next/navigation";
 import PackageCard from "public/cards/packageCard/card";
 import LoginModal from "public/components/loginModal";
 import PixCard from "public/components/payment/pixCard/pixCard";
 import React, { useEffect, useState } from "react";
 import { CouponValidationResponse } from "types/couponType";
+import { OrderType } from "types/orderType";
 import { PackageType } from "types/productTypes";
 import { ProductInnerPage } from "./style";
 
@@ -22,16 +24,15 @@ type Props = {
 
 const PaymentPage = ({ packageId, couponFromParams }: Props) => {
   const { product } = useProducts();
-  const initialUserId = sessionStorage.getItem("userId");
-  const [blockId, setBlockId] = useState<boolean>(false);
+  const [blockInput, setBlockInput] = useState<boolean>(false);
+  const { logged, user } = useAuth();
 
-  const item =
+  const item: PackageType =
     product &&
     product.packages.find((item: PackageType) => item.id === packageId);
   const [rechargeBigoId, setRechargeBigoId] = useState<string>(
-    initialUserId ? initialUserId : "",
+    logged && user?.rechargeBigoId ? user.rechargeBigoId : "",
   );
-  const [paymentIndex, setPaymentIndex] = useState<number>();
   const [error, setError] = useState<string>();
   const [coupon, setCoupon] = useState<string>("");
   const [openCoupon, setOpenCoupon] = useState<boolean>(false);
@@ -39,8 +40,87 @@ const PaymentPage = ({ packageId, couponFromParams }: Props) => {
   const [couponError, setCouponError] = useState<string>("");
   const [couponSuccess, setCouponSuccess] =
     useState<CouponValidationResponse>();
-  const { logged } = useAuth();
+  const [sessionOrder, setSessionOrder] = useState<OrderType | null>(null);
+  const [sessionPackage, setSessionPackage] = useState<PackageType | null>(
+    null,
+  );
   const [loginModal, setLoginModal] = useState<boolean>(false);
+  const route = useRouter();
+
+  console.log(user);
+
+  useEffect(() => {
+    const sessionOrder = sessionStorage.getItem("order");
+    if (sessionOrder) {
+      if (!logged) {
+        setLoginModal(true);
+        return;
+      }
+      const order = JSON.parse(sessionOrder);
+      setRechargeBigoId(order.orderItem.recharge.userIdForRecharge);
+      if (
+        order.orderStatus !== "CREATED" ||
+        !user ||
+        user.id !== order.userId
+      ) {
+        sessionStorage.clear();
+        return route.replace("/home");
+      }
+      if (order.couponUsages.length > 0) {
+        setCoupon(order.couponUsages[0].coupon.title);
+        setOpenCoupon(true);
+      }
+      const sessionPackage: PackageType = {
+        id: order.orderItem.package.id,
+        name: order.orderItem.package.name,
+        amountCredits: order.orderItem.recharge.amountCredits,
+        imgCardUrl: order.orderItem.package.imgCardUrl,
+        isActive: true,
+        isOffer: false,
+        price: +order.price,
+        basePrice: +order.basePrice,
+        productId: order.productId,
+        paymentMethods: [
+          {
+            id: order.paymentId,
+            name: order.payment.name,
+            price: +order.price,
+          },
+        ],
+      };
+      setSessionPackage(sessionPackage);
+      setBlockInput(true);
+      setSessionOrder(order);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  //update rechargeBigoId when user is loaded (only if there is no sessionOrder)
+  useEffect(() => {
+    if (!sessionOrder && logged && user?.rechargeBigoId && !rechargeBigoId) {
+      setRechargeBigoId(user.rechargeBigoId);
+    }
+  }, [logged, user, sessionOrder, rechargeBigoId]);
+
+  // Validate package exists only for new purchases (not for pending orders)
+  useEffect(() => {
+    const sessionOrderStorage = sessionStorage.getItem("order");
+    if (sessionOrderStorage) return;
+    if (
+      product &&
+      product.packages &&
+      product.packages.length > 0 &&
+      packageId
+    ) {
+      const packageExists = product.packages.some(
+        (pkg: PackageType) => pkg.id === packageId,
+      );
+
+      if (!packageExists) {
+        route.replace("/home");
+      }
+    }
+  }, [product, packageId, route]);
 
   useEffect(() => {
     if (!couponFromParams) {
@@ -57,23 +137,24 @@ const PaymentPage = ({ packageId, couponFromParams }: Props) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [couponFromParams, item, logged]);
 
-  useEffect(() => {
-    const paymentIndex = sessionStorage.getItem("paymentMethod");
-    setPaymentIndex(+paymentIndex);
-  }, []);
-
   const handleMouseDown = (e: React.MouseEvent<HTMLDivElement>) => {
     setError("");
     !couponSuccess && setCouponError("");
   };
 
   const handleApplyCoupon = (couponValue?: string) => {
+    const couponToUse = couponValue || coupon;
+
+    if (couponToUse === "") {
+      setCouponError("Insira um cupom");
+      return;
+    }
     if (!logged) {
       setLoginModal(true);
       return;
     }
     if (!item) return;
-    const couponToUse = couponValue || coupon;
+
     setCouponLoading(true);
     connectionAPIPost<CouponValidationResponse>(
       "/orders/validate-coupon-by-package",
@@ -128,7 +209,7 @@ const PaymentPage = ({ packageId, couponFromParams }: Props) => {
         margin="16px 0 0 0"
         height={48}
         value={rechargeBigoId && rechargeBigoId}
-        onChange={(e) => !blockId && setRechargeBigoId(e.target.value)}
+        onChange={(e) => !blockInput && setRechargeBigoId(e.target.value)}
       />
       {!openCoupon && (
         <Text
@@ -138,7 +219,7 @@ const PaymentPage = ({ packageId, couponFromParams }: Props) => {
           margin="8px 12px 0 0"
           align="end"
           pointer
-          onClick={() => setOpenCoupon(!openCoupon)}
+          onClick={() => !blockInput && setOpenCoupon(!openCoupon)}
         >
           Cupom de desconto
         </Text>
@@ -155,7 +236,7 @@ const PaymentPage = ({ packageId, couponFromParams }: Props) => {
             <Input
               height={36}
               value={coupon?.toUpperCase()}
-              onChange={(e) => setCoupon(e.target.value)}
+              onChange={(e) => !blockInput && setCoupon(e.target.value)}
               placeholder="Insira o cupom"
             />
             <Button
@@ -163,20 +244,21 @@ const PaymentPage = ({ packageId, couponFromParams }: Props) => {
               onClick={() => handleApplyCoupon()}
               width={185}
               height={28}
-              rounded
               loading={couponLoading}
               disabled={
                 couponLoading ||
+                blockInput ||
                 (couponSuccess && couponSuccess.valid
                   ? couponSuccess.coupon.title.toUpperCase() ===
                     coupon.toUpperCase()
                   : false)
               }
               isNotSelected={
-                couponSuccess && couponSuccess.valid
+                blockInput ||
+                (couponSuccess && couponSuccess.valid
                   ? couponSuccess.coupon.title.toUpperCase() ===
                     coupon.toUpperCase()
-                  : false
+                  : false)
               }
             />
           </form>
@@ -198,14 +280,14 @@ const PaymentPage = ({ packageId, couponFromParams }: Props) => {
         PACOTE PARA RECARGA
       </Text>
       <div className="cardEnviroment">
-        {product && item && (
+        {((product && item) || sessionPackage) && (
           <PackageCard
-            paymentIndex={paymentIndex}
-            item={item}
-            discountAmount={
-              couponSuccess && couponSuccess.valid
+            paymentIndex={0}
+            item={sessionPackage ? sessionPackage : item}
+            valueWithDicount={
+              couponSuccess?.valid
                 ? couponSuccess.finalAmount
-                : undefined
+                : sessionOrder?.price
             }
             selected
           />
@@ -215,21 +297,20 @@ const PaymentPage = ({ packageId, couponFromParams }: Props) => {
         FORMAS DE PAGAMENTO
       </Text>
       <section className="paymentMethods">
-        {item && (
+        {(item || sessionPackage) && (
           <PixCard
             couponTitle={
               couponSuccess?.valid && couponSuccess.coupon.title.toUpperCase()
             }
-            rechargeBigoId={rechargeBigoId}
-            packageId={item.id}
-            paymentMethodId={item.paymentMethods[0].id}
-            price={
+            item={sessionPackage ? sessionPackage : item}
+            valueWithDicount={
               couponSuccess?.valid
                 ? couponSuccess.finalAmount
-                : item && item.paymentMethods[0].price
+                : sessionOrder?.price
             }
+            rechargeBigoId={rechargeBigoId}
             setError={setError}
-            setBlockId={setBlockId}
+            setBlockInput={setBlockInput}
           />
         )}
         {/* <CreditcardCard /> */}

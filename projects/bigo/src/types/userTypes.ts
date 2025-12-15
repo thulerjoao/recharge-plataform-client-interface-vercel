@@ -7,6 +7,7 @@ export type UserType = {
   documentType: "cpf" | "cnpj";
   documentValue: string;
   storeId: string;
+  rechargeBigoId?: string;
   createdAt?: Date;
   updatedAt?: Date;
 };

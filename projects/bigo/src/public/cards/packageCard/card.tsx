@@ -10,14 +10,13 @@ interface PackageCardProps {
   item: PackageType;
   selected: boolean;
   paymentIndex?: number;
-  discountAmount?: number;
+  valueWithDicount?: number;
 }
 
 const PackageCard = ({
   item,
   selected,
-  paymentIndex,
-  discountAmount,
+  valueWithDicount,
 }: PackageCardProps) => {
   const [isHovered, setIsHovered] = useState(false);
 
@@ -59,17 +58,14 @@ const PackageCard = ({
           tag="h4"
           fontName="REGULAR_SEMI_BOLD"
           style={
-            discountAmount
+            valueWithDicount && +valueWithDicount !== +item.basePrice
               ? { textDecoration: "line-through", width: "auto" }
               : undefined
           }
         >
-          R${" "}
-          {formatPrice(
-            item.paymentMethods[paymentIndex ? paymentIndex : 0].price,
-          )}
+          R$ {formatPrice(item.basePrice)}
         </Text>
-        {discountAmount && (
+        {valueWithDicount && +valueWithDicount !== +item.basePrice && (
           <Text
             align="start"
             color={Theme.colors.approved}
@@ -78,7 +74,7 @@ const PackageCard = ({
             tag="h4"
             fontName="SUPER_TINY_MEDIUM"
           >
-            R$ {formatPrice(discountAmount)}
+            R$ {formatPrice(valueWithDicount)}
           </Text>
         )}
       </div>
