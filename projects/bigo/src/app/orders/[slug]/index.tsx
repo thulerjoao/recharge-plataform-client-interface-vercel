@@ -273,7 +273,8 @@ const Order = () => {
                 </div>
               </div>
             </div>
-            {order?.payment?.status === "PAYMENT_PENDING" && (
+            {(order?.orderStatus === "CREATED" ||
+              order?.orderStatus === "PROCESSING") && (
               <Text
                 color={Theme.colors.pending}
                 margin="12px 0 -18px 0"

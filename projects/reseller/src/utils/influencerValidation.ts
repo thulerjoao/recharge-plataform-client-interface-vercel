@@ -30,8 +30,8 @@ export const validateInfluencerForm = (formData: {
   // Phone validation (if provided)
   if (formData.phone.trim()) {
     const phoneDigits = formData.phone.replace(/\D/g, "");
-    if (phoneDigits.length !== 11) {
-      newErrors.phone = "Telefone deve ter 11 dígitos";
+    if (phoneDigits.length < 1) {
+      newErrors.phone = "Telefone não pode ser vazio";
     }
   }
 
@@ -64,11 +64,8 @@ export const validateInfluencerForm = (formData: {
       !/\S+@\S+\.\S+/.test(formData.paymentData)
     ) {
       newErrors.paymentData = "Email inválido";
-    } else if (
-      formData.paymentMethod === "PHONE" &&
-      paymentData.length !== 11
-    ) {
-      newErrors.paymentData = "Telefone deve ter 11 dígitos";
+    } else if (formData.paymentMethod === "PHONE" && paymentData.length < 1) {
+      newErrors.paymentData = "Telefone não pode ser vazio";
     } else if (
       formData.paymentMethod === "RANDOM" &&
       formData.paymentData.length !== 32
