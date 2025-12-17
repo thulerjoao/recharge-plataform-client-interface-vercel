@@ -8,6 +8,7 @@ import {
   connectionAPIPost,
 } from "@4miga/services/connectionAPI/connection";
 import { useAuth } from "contexts/auth";
+import { useRouter } from "next/navigation";
 import LoginModal from "public/components/loginModal";
 import Pix from "public/icons/Pix.svg";
 import React, { useEffect, useState } from "react";
@@ -50,6 +51,7 @@ const PixCard = ({
   const [clicked, setClicked] = useState<boolean>(false);
   const [countdown, setCountdown] = useState<string>("00:00:00");
   const { logged, user, setUser } = useAuth();
+  const route = useRouter();
 
   // console.log("sessionOrder", sessionOrder);
   // console.log("item", item);
@@ -83,7 +85,11 @@ const PixCard = ({
   };
 
   const handleClick = () => {
-    setClicked(true);
+    if (!logged) {
+      setModal(true);
+      setClicked(true);
+      return;
+    }
     if (secondExpand) {
       handleCopy();
       return;
@@ -93,7 +99,12 @@ const PixCard = ({
   };
 
   const handleCreateOrder = async () => {
-    if (sessionOrder) {
+    if (sessionOrder || pixLoading) {
+      return;
+    }
+    if (!logged) {
+      setModal(true);
+      setClicked(true);
       return;
     }
     if (!rechargeBigoId) {
@@ -104,6 +115,10 @@ const PixCard = ({
       setError("Pacote não encontrado");
       return;
     }
+
+    setPixLoading(true);
+    setBlockInput(true);
+
     if (user && rechargeBigoId !== user?.rechargeBigoId) {
       await connectionAPIPatch("/user/recharge-bigo-id", {
         rechargeBigoId,
@@ -111,8 +126,6 @@ const PixCard = ({
         setUser({ ...user, rechargeBigoId });
       });
     }
-    setPixLoading(true);
-    setBlockInput(true);
     const price = handleGetPrice();
     const paymentMethodId = item.paymentMethods[0].id;
     const body = !couponTitle
@@ -131,10 +144,9 @@ const PixCard = ({
         };
     await connectionAPIPost<OrderType>("/orders", body)
       .then((res) => {
-        console.log("res order creation", res);
         setQrCode(res.payment.qrCode);
         setCopyAndPaste(res.payment.qrCodetextCopyPaste);
-        setOrderId(res.orderItemId);
+        setOrderId(res.id);
         sessionStorage.setItem("order", JSON.stringify(res));
         setSessionOrder(res);
         setSecondExpand(true);
@@ -182,7 +194,7 @@ const PixCard = ({
       setSecondExpand(true);
       setQrCode(checkSessionOrder.payment.qrCode);
       setCopyAndPaste(checkSessionOrder.payment.qrCodetextCopyPaste);
-      setOrderId(checkSessionOrder.orderItemId);
+      setOrderId(checkSessionOrder.id);
     }
   }, []);
 
@@ -199,10 +211,13 @@ const PixCard = ({
 
   // CREATING ORDER AUTOMATICALLY
   useEffect(() => {
-    if (logged && clicked) {
-      handleClick();
+    if (logged && clicked && !sessionOrder && !pixLoading) {
+      setClicked(false);
+      if (firstExpand && !secondExpand) {
+        handleCreateOrder();
+      }
     }
-  }, [logged, clicked]);
+  }, [logged, clicked, sessionOrder, pixLoading, firstExpand, secondExpand]);
 
   const handleCountDown = () => {
     if (!sessionOrder) {
@@ -226,6 +241,12 @@ const PixCard = ({
 
     const formattedTime = `${String(hours).padStart(2, "0")}:${String(minutes).padStart(2, "0")}:${String(seconds).padStart(2, "0")}`;
     setCountdown(formattedTime);
+  };
+
+  const handleCheckPayment = () => {
+    if (!orderId) return;
+    // Redireciona para a página de detalhes do pedido onde o polling será feito
+    route.push(`/orders/${orderId}`);
   };
 
   return (
@@ -291,15 +312,15 @@ const PixCard = ({
           <>
             <Text margin="24px 0 0 0" align="center" fontName="SMALL_MEDIUM">
               {
-                "Após o pagamento, clique no botão abaixo para confirmar o andamento do seu pedido"
+                "Após o pagamento, clique no botão abaixo para acompanhar o seu pedido"
               }
             </Text>
             <div className="confirmButton">
               <Button
-                // onClick={() => handleCheckOrder()}
+                onClick={() => handleCheckPayment()}
                 height={40}
                 rounded
-                title="Confirmar pagamento"
+                title="Acompanhar pedido"
                 disabled={orderLoading}
                 loading={orderLoading}
               />

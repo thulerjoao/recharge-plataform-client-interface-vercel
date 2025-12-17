@@ -47,8 +47,6 @@ const PaymentPage = ({ packageId, couponFromParams }: Props) => {
   const [loginModal, setLoginModal] = useState<boolean>(false);
   const route = useRouter();
 
-  console.log(user);
-
   useEffect(() => {
     const sessionOrder = sessionStorage.getItem("order");
     if (sessionOrder) {

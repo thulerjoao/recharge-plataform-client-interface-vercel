@@ -8,13 +8,13 @@ import { useAuth } from "contexts/auth";
 import { useProducts } from "contexts/products/ProductsProvider";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
+import LoadingDots from "public/components/loadingDots";
 import BackArrow from "public/icons/BackArrow.svg";
 import Pix from "public/icons/PixBig.svg";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { OrderType } from "types/orderType";
 import { formatDate } from "utils/formatDate";
 import { formatPrice } from "utils/formatPrice";
-import { formatString } from "utils/formatString";
 import {
   handlePaymentStatus,
   handleRechargeStatus,
@@ -24,8 +24,13 @@ import { OrderContainer } from "./style";
 
 const Order = () => {
   const [loading, setLoading] = useState<boolean>(false);
+  const [order, setOrder] = useState<OrderType | null>(
+    typeof window !== "undefined"
+      ? JSON.parse(sessionStorage.getItem("order") || "null")
+      : null,
+  );
+  const intervalRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const route = useRouter();
-  const order: OrderType = JSON.parse(sessionStorage.getItem("order"));
   const { logged } = useAuth();
 
   useEffect(() => {
@@ -41,6 +46,7 @@ const Order = () => {
   const { product } = useProducts();
 
   const handleBuyAgain = () => {
+    if (!order?.orderItem?.package?.packageId) return;
     sessionStorage.removeItem("order");
     const packageId = order.orderItem.package.packageId;
 
@@ -48,27 +54,92 @@ const Order = () => {
   };
 
   const goToPayment = async () => {
-    if (order.orderStatus === "EXPIRED") {
+    if (!order || order.orderStatus === "EXPIRED") {
       return;
     }
-    setLoading(true);
-    if (order) {
-      await connectionAPIGet<OrderType>(`/orders/${order.id}`).then((res) => {
-        if (
-          res.payment.status === "PAYMENT_PENDING" &&
-          res.orderStatus !== "EXPIRED"
-        ) {
-          sessionStorage.setItem("order", JSON.stringify(res));
-          route.push(`/product?package=${res.orderItem.package.packageId}`);
-        } else {
-          return;
-        }
-      });
+
+    const confirmed = window.confirm(
+      "Não nos responsabilizamos por pagamentos duplicados. \nRealize somente se estiver pendente.",
+    );
+
+    if (!confirmed) {
+      return;
     }
+
+    setLoading(true);
+    await connectionAPIGet<OrderType>(
+      `/bravive/check-payment/${order.id}`,
+    ).then((res) => {
+      if (
+        res.payment?.status === "PAYMENT_PENDING" &&
+        res.orderStatus !== "EXPIRED"
+      ) {
+        sessionStorage.setItem("order", JSON.stringify(res));
+        route.push(`/product?package=${res.orderItem?.package?.packageId}`);
+      } else {
+        return;
+      }
+    });
     setLoading(false);
   };
 
-  console.log(order);
+  // Simple polling to check payment and recharge status
+  useEffect(() => {
+    if (!order?.id) return;
+
+    // Check if we need to poll
+    const needsPolling =
+      order.payment?.status === "PAYMENT_PENDING" ||
+      (order.payment?.status === "PAYMENT_APPROVED" &&
+        order.orderStatus !== "COMPLETED");
+
+    if (!needsPolling) {
+      // Clear interval if it exists and no longer needs polling
+      if (intervalRef.current) {
+        clearInterval(intervalRef.current);
+        intervalRef.current = null;
+      }
+      return;
+    }
+
+    const orderId = order.id;
+
+    const checkPayment = async () => {
+      try {
+        const res = await connectionAPIGet<OrderType>(`/orders/${orderId}`);
+        // Only update if still polling (status might have changed)
+        const stillNeedsPolling =
+          res.payment?.status === "PAYMENT_PENDING" ||
+          (res.payment?.status === "PAYMENT_APPROVED" &&
+            res.orderStatus !== "COMPLETED");
+
+        setOrder(res);
+        sessionStorage.setItem("order", JSON.stringify(res));
+
+        // Stop polling if completed
+        if (!stillNeedsPolling && intervalRef.current) {
+          clearInterval(intervalRef.current);
+          intervalRef.current = null;
+        }
+      } catch (err) {
+        /* empty */
+      }
+    };
+
+    // First check immediately
+    checkPayment();
+    intervalRef.current = setInterval(() => {
+      checkPayment();
+    }, 15000);
+
+    // Cleanup
+    return () => {
+      if (intervalRef.current) {
+        clearInterval(intervalRef.current);
+        intervalRef.current = null;
+      }
+    };
+  }, [order?.id, order?.payment?.status, order?.orderStatus]);
 
   return (
     <OrderContainer>
@@ -86,12 +157,12 @@ const Order = () => {
             <Image
               height={72}
               width={72}
-              src={product.imgCardUrl}
+              src={product?.imgCardUrl || ""}
               alt="imagem do card"
             />
             <div>
               <Text align="end" fontName="REGULAR_MEDIUM" tag="h2">
-                {order && order.orderItem.package.name.toUpperCase()}
+                {order?.orderItem?.package?.name?.toUpperCase()}
               </Text>
               <Text
                 margin="8px 0 0 0"
@@ -100,23 +171,23 @@ const Order = () => {
                 fontName="TINY"
                 tag="h3"
               >
-                {formatDate(order && order.createdAt)}
+                {formatDate(order?.createdAt)}
               </Text>
             </div>
           </div>
           <Text style={{ marginTop: "8px" }} fontName="REGULAR_MEDIUM">
-            {order && order.orderItem.productName}
+            {order?.orderItem?.productName}
           </Text>
           <div className="secondaryRow">
             <Text fontName="SMALL_MEDIUM">Número do pedido</Text>
             <Text fontName="SMALL_MEDIUM" align="end">
-              {order && order.orderNumber}
+              {order?.orderNumber}
             </Text>
           </div>
           <div className="secondaryRow third">
             <Text fontName="SMALL_MEDIUM">ID de usuário</Text>
             <Text fontName="SMALL_MEDIUM" align="end">
-              {order && order.orderItem.recharge.userIdForRecharge}
+              {order?.orderItem?.recharge?.userIdForRecharge}
             </Text>
           </div>
         </section>
@@ -126,24 +197,25 @@ const Order = () => {
           </Text>
           <div className="outside">
             <span>
-              {order && order.payment.name.toUpperCase() === "PIX" && <Pix />}
+              {order?.payment?.name?.toUpperCase() === "PIX" && <Pix />}
             </span>
             <div className="allInfos">
               <div className="innerContent">
-                <Text fontName="SMALL_MEDIUM">
-                  {order && order.payment.name}
-                </Text>
+                <Text fontName="SMALL_MEDIUM">{order?.payment?.name}</Text>
                 <Text fontName="SMALL_SEMI_BOLD" align="end">
-                  R$ {formatPrice(order && order.price)}
+                  R$ {formatPrice(order?.price)}
                 </Text>
               </div>
               <div className="innerContent">
                 <Text
                   nowrap
                   fontName="TINY"
-                  color={order && handleStatusColor(order.payment.status)}
+                  color={handleStatusColor(order?.payment?.status)}
                 >
-                  {order && handlePaymentStatus(order.payment.status)}
+                  {handlePaymentStatus(order?.payment?.status)}
+                  {order?.payment?.status === "PAYMENT_PENDING" && (
+                    <LoadingDots />
+                  )}
                 </Text>
                 <Text
                   align="end"
@@ -151,7 +223,7 @@ const Order = () => {
                   fontName="TINY"
                   tag="h3"
                 >
-                  {formatDate(order && order.payment.statusUpdatedAt)}
+                  {formatDate(order?.payment?.statusUpdatedAt)}
                 </Text>
               </div>
             </div>
@@ -166,7 +238,7 @@ const Order = () => {
               <Image
                 height={40}
                 width={40}
-                src={order?.orderItem.package.imgCardUrl}
+                src={order?.orderItem?.package?.imgCardUrl}
                 alt="imagem do card"
               />
             </span>
@@ -174,21 +246,19 @@ const Order = () => {
               <div className="innerContent">
                 <Text fontName="SMALL_MEDIUM">Bigo Live</Text>
                 <Text fontName="SMALL_SEMI_BOLD" align="end">
-                  {order && order.orderItem.recharge.amountCredits} DIAMANTES
+                  {order?.orderItem?.recharge?.amountCredits} DIAMANTES
                 </Text>
               </div>
               <div className="innerContent">
-                {order && order.payment.status === "PAYMENT_APPROVED" && (
+                {order?.payment?.status === "PAYMENT_APPROVED" && (
                   <Text
                     nowrap
                     fontName="TINY"
-                    color={
-                      order &&
-                      handleStatusColor(order.orderItem.recharge.status)
-                    }
+                    color={handleStatusColor(
+                      order?.orderItem?.recharge?.status,
+                    )}
                   >
-                    {order &&
-                      handleRechargeStatus(order.orderItem.recharge.status)}
+                    {handleRechargeStatus(order?.orderItem?.recharge?.status)}
                   </Text>
                 )}
                 <Text
@@ -197,32 +267,29 @@ const Order = () => {
                   fontName="TINY"
                   tag="h3"
                 >
-                  {order &&
-                    formatDate(order.orderItem.recharge.statusUpdatedAt)}
+                  {formatDate(order?.orderItem?.recharge?.statusUpdatedAt)}
                 </Text>
               </div>
             </div>
           </div>
-          {order &&
-            order.payment.status === "PAYMENT_APPROVED" &&
-            order.orderItem.recharge.status === "RECHARGE_PENDING" && (
+          {order?.payment?.status === "PAYMENT_APPROVED" &&
+            order?.orderItem?.recharge?.status === "RECHARGE_PENDING" && (
               <Text margin="12px 0 -18px 0" align="center" fontName="TINY">
                 O prazo para recarga é de até 24 horas
               </Text>
             )}
         </section>
       </main>
-      {order &&
-      order.payment.status === "PAYMENT_PENDING" &&
-      order.orderStatus === "CREATED" ? (
+      {order?.payment?.status === "PAYMENT_PENDING" &&
+      order?.orderStatus === "CREATED" ? (
         <Button
           loading={loading}
           disabled={loading}
           margin="32px 0 0 0"
           width={248}
           rounded
-          height={40}
-          title="Prosseguir para pagamento"
+          height={38}
+          title="Realizar pagamento"
           onClick={() => goToPayment()}
         />
       ) : (
