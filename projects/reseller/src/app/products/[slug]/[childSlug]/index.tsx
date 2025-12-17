@@ -57,7 +57,7 @@ const SecondaryProductPage = ({ slug, childSlug }: Props) => {
     name: "",
     amountCredits: null,
     imgCardUrl:
-      productPackages?.packages[0].imgCardUrl || productPackages?.imgCardUrl,
+      productPackages?.packages[0]?.imgCardUrl || productPackages?.imgCardUrl,
     isActive: true,
     isOffer: false,
     basePrice: null,
