@@ -69,8 +69,9 @@ export const SettingsContainer = styled.div`
 
         input:disabled {
           color: ${Theme.colors.mainlight} !important;
-          -webkit-text-fill-color: ${Theme.colors.mainlight}50 !important;
+          -webkit-text-fill-color: ${Theme.colors.mainlight}90 !important;
           opacity: 1 !important;
+          background-color: ${Theme.colors.mainTransparent} !important;
         }
 
         select {
