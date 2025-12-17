@@ -226,7 +226,7 @@ const PixCard = ({
     }
 
     const createdAt = new Date(sessionOrder.createdAt);
-    const expirationTime = new Date(createdAt.getTime() + 24 * 60 * 60 * 1000);
+    const expirationTime = new Date(createdAt.getTime() + 3 * 60 * 60 * 1000);
     const now = new Date();
     const difference = expirationTime.getTime() - now.getTime();
 
