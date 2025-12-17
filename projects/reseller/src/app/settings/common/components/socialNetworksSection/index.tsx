@@ -103,8 +103,8 @@ const SocialNetworksSection: React.FC<SocialNetworksSectionProps> = ({
     // Phone validation (if provided)
     if (whatsapp.trim()) {
       const phoneDigits = whatsapp.replace(/\D/g, "");
-      if (phoneDigits.length !== 11) {
-        newErrors.whatsapp = "Telefone deve ter 11 dígitos";
+      if (phoneDigits.length < 1) {
+        newErrors.whatsapp = "Telefone não pode ser vazio";
       }
     }
 

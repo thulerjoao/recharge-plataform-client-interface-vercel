@@ -11,7 +11,7 @@ import { useRouter } from "next/navigation";
 import PackageCard from "public/cards/packageCard/card";
 import LoginModal from "public/components/loginModal";
 import PixCard from "public/components/payment/pixCard/pixCard";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { CouponValidationResponse } from "types/couponType";
 import { OrderType } from "types/orderType";
 import { PackageType } from "types/productTypes";
@@ -33,6 +33,7 @@ const PaymentPage = ({ packageId, couponFromParams }: Props) => {
   const [rechargeBigoId, setRechargeBigoId] = useState<string>(
     logged && user?.rechargeBigoId ? user.rechargeBigoId : "",
   );
+  const hasInitializedFromUser = useRef<boolean>(false);
   const [error, setError] = useState<string>();
   const [coupon, setCoupon] = useState<string>("");
   const [openCoupon, setOpenCoupon] = useState<boolean>(false);
@@ -95,10 +96,16 @@ const PaymentPage = ({ packageId, couponFromParams }: Props) => {
 
   //update rechargeBigoId when user is loaded (only if there is no sessionOrder)
   useEffect(() => {
-    if (!sessionOrder && logged && user?.rechargeBigoId && !rechargeBigoId) {
+    if (
+      !sessionOrder &&
+      logged &&
+      user?.rechargeBigoId &&
+      !hasInitializedFromUser.current
+    ) {
       setRechargeBigoId(user.rechargeBigoId);
+      hasInitializedFromUser.current = true;
     }
-  }, [logged, user, sessionOrder, rechargeBigoId]);
+  }, [logged, user, sessionOrder]);
 
   // Validate package exists only for new purchases (not for pending orders)
   useEffect(() => {
@@ -206,7 +213,7 @@ const PaymentPage = ({ packageId, couponFromParams }: Props) => {
         placeholder="Insira seu ID de usuário"
         margin="16px 0 0 0"
         height={48}
-        value={rechargeBigoId && rechargeBigoId}
+        value={rechargeBigoId || ""}
         onChange={(e) => !blockInput && setRechargeBigoId(e.target.value)}
       />
       {!openCoupon && (

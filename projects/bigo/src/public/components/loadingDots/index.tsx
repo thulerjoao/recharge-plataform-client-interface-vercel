@@ -6,12 +6,22 @@ const LoadingDots = () => {
   useEffect(() => {
     const interval = setInterval(() => {
       setDots((prev) => (prev.length >= 3 ? "" : prev + "."));
-    }, 300);
+    }, 400);
 
     return () => clearInterval(interval);
   }, []);
 
-  return <span>{dots}</span>;
+  return (
+    <span
+      style={{
+        minWidth: "10px",
+        display: "inline-block",
+        textAlign: "start",
+      }}
+    >
+      {dots}
+    </span>
+  );
 };
 
 export default LoadingDots;

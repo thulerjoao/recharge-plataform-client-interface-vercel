@@ -40,7 +40,7 @@ const Contact = () => {
               <Wpp />
             </figure>
             <Text align="center" fontName="REGULAR" margin="0 0 0 8px">
-              (11) 9 9999-9999
+              {store?.wppNumber}
             </Text>
           </a>
         )}

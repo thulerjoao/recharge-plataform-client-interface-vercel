@@ -110,11 +110,31 @@ export const OrderContainer = styled.div`
       border-bottom: none;
     }
   }
+  .paymentPendingContainer {
+    padding-left: 16px;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 4px;
+    width: 100%;
+    margin-top: 16px;
+
+    p {
+      width: auto;
+    }
+  }
+
   @media (min-width: 768px) and (max-width: 1024px) {
     padding: 0 72px;
   }
   @media (max-width: 767px) {
     padding: 0 16px;
     margin-top: 16px;
+
+    .paymentPendingContainer {
+      justify-content: center;
+      padding-left: 0;
+    }
   }
 `;

@@ -5,7 +5,7 @@ export const handlePaymentStatus = (status: PaymentStatus) => {
   if (status === "PAYMENT_APPROVED") {
     return "Pagamento aprovado";
   } else if (status === "PAYMENT_PENDING") {
-    return "Aguarde, processando pagamento";
+    return "";
   } else if (status === "PAYMENT_REJECTED") {
     return "Pagamento cancelado";
   }
@@ -25,7 +25,7 @@ export const handleOrderStatus = (status: OrderStatus) => {
   if (status === "CREATED") {
     return "Pendente";
   } else if (status === "PROCESSING") {
-    return "Pendente";
+    return "Processando";
   } else if (status === "EXPIRED") {
     return "Expirado";
   } else if (status === "COMPLETED") {
