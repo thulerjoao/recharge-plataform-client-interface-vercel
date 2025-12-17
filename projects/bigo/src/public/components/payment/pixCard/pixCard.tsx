@@ -320,7 +320,7 @@ const PixCard = ({
                 onClick={() => handleCheckPayment()}
                 height={40}
                 rounded
-                title="Confirmar pagamento"
+                title="Acompanhar pedido"
                 disabled={orderLoading}
                 loading={orderLoading}
               />
