@@ -51,13 +51,42 @@ export const FooterContainer = styled.footer`
       justify-content: space-between;
       min-height: 48px;
       margin-bottom: 8px;
+      padding: 5px 0;
 
       .topPhrase {
         display: flex;
-        align-items: center;
+        align-items: start;
         justify-content: center;
         gap: 8px;
         margin-bottom: 4px;
+        width: 100%;
+        height: auto;
+        margin-bottom: 8px;
+
+        .termsAndConditions {
+          margin-bottom: 16px;
+          width: auto;
+          height: 100%;
+          display: flex;
+          justify-content: flex-end;
+          align-items: center;
+          text-align: center;
+        }
+        .dot {
+          width: 8px;
+          height: 100%;
+          display: flex;
+          flex-direction: column;
+          justify-content: center;
+          align-items: center;
+        }
+        .developedBy {
+          width: auto;
+          height: 100%;
+          display: flex;
+          justify-content: flex-start;
+          align-items: center;
+        }
       }
 
       .bottomPhrase {

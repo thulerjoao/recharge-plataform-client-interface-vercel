@@ -2,14 +2,7 @@
 
 import Text from "@4miga/design-system/components/Text";
 import { Theme } from "@4miga/design-system/theme/theme";
-import Ame from "./icons/Ame.svg";
-import Boleto from "./icons/Boleto.svg";
 import FooterLogo from "./icons/FooterLogo.svg";
-import MercadoPago from "./icons/MercadoPago.svg";
-import Paypal from "./icons/Paypal.svg";
-import PicPay from "./icons/PicPay.svg";
-import Pix from "./icons/Pix.svg";
-import Transfer from "./icons/Transfer.svg";
 import { FooterContainer } from "./style";
 
 const Footer = () => {
@@ -39,29 +32,33 @@ const Footer = () => {
         </div>
         <div className="bottomComponent">
           <div className="topPhrase">
-            {/* <Text nowrap align="center" fontName="TINY">
-              Termos de uso
-            </Text>
-            <Text align="center" fontName="BIG_SEMI_BOLD">
+            <div className="termsAndConditions">
+              <Text align="center" underline nowrap pointer fontName="TINY">
+                Termos e condições
+              </Text>
+            </div>
+            <Text className="dot" align="center" fontName="BIG_SEMI_BOLD">
               •
             </Text>
-            <Text nowrap fontName="TINY">
+            <div className="developedBy">
+              <Text nowrap align="center" fontName="TINY">
+                Desenvolvido por
+              </Text>
+              <Text
+                tag="a"
+                nowrap
+                align="center"
+                fontName="TINY"
+                color={Theme.colors.mainHighlight}
+                style={{ marginLeft: "4px" }}
+              >
+                4MIGA GAMES
+              </Text>
+            </div>
+
+            {/* <Text nowrap fontName="TINY">
               Política de privacidade
             </Text> */}
-            <Text nowrap align="center" fontName="TINY">
-              Desenvolvido por
-            </Text>
-            <Text
-              tag="a"
-              pointer
-              underline
-              nowrap
-              align="center"
-              fontName="TINY"
-              color={Theme.colors.mainHighlight}
-            >
-              4MIGA GAMES
-            </Text>
           </div>
           <div className="bottomPhrase">
             <Text align="center" fontName="TINY">
