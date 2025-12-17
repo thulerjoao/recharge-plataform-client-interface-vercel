@@ -142,167 +142,204 @@ const Order = () => {
   }, [order?.id, order?.payment?.status, order?.orderStatus]);
 
   return (
-    <OrderContainer>
-      <div className="topMessage">
-        <span onClick={() => route.back()}>
-          <BackArrow />
-        </span>
-        <Text tag="h1" align="center" fontName="REGULAR_SEMI_BOLD">
-          DETALHES DO PEDIDO
-        </Text>
-      </div>
-      <main>
-        <section className="fisrtSection">
-          <div className="fisrtRow">
-            <Image
-              height={72}
-              width={72}
-              src={product?.imgCardUrl || ""}
-              alt="imagem do card"
-            />
-            <div>
-              <Text align="end" fontName="REGULAR_MEDIUM" tag="h2">
-                {order?.orderItem?.package?.name?.toUpperCase()}
-              </Text>
-              <Text
-                margin="8px 0 0 0"
-                align="end"
-                color={Theme.colors.secondaryText}
-                fontName="TINY"
-                tag="h3"
-              >
-                {formatDate(order?.createdAt)}
-              </Text>
-            </div>
-          </div>
-          <Text style={{ marginTop: "8px" }} fontName="REGULAR_MEDIUM">
-            {order?.orderItem?.productName}
+    <>
+      <OrderContainer>
+        <div className="topMessage">
+          <span onClick={() => route.back()}>
+            <BackArrow />
+          </span>
+          <Text tag="h1" align="center" fontName="REGULAR_SEMI_BOLD">
+            DETALHES DO PEDIDO
           </Text>
-          <div className="secondaryRow">
-            <Text fontName="SMALL_MEDIUM">Número do pedido</Text>
-            <Text fontName="SMALL_MEDIUM" align="end">
-              {order?.orderNumber}
-            </Text>
-          </div>
-          <div className="secondaryRow third">
-            <Text fontName="SMALL_MEDIUM">ID de usuário</Text>
-            <Text fontName="SMALL_MEDIUM" align="end">
-              {order?.orderItem?.recharge?.userIdForRecharge}
-            </Text>
-          </div>
-        </section>
-        <section className="secondarySection">
-          <Text fontName="REGULAR_MEDIUM" tag="h2">
-            Detalhes do pagamento
-          </Text>
-          <div className="outside">
-            <span>
-              {order?.payment?.name?.toUpperCase() === "PIX" && <Pix />}
-            </span>
-            <div className="allInfos">
-              <div className="innerContent">
-                <Text fontName="SMALL_MEDIUM">{order?.payment?.name}</Text>
-                <Text fontName="SMALL_SEMI_BOLD" align="end">
-                  R$ {formatPrice(order?.price)}
-                </Text>
-              </div>
-              <div className="innerContent">
-                <Text
-                  nowrap
-                  fontName="TINY"
-                  color={handleStatusColor(order?.payment?.status)}
-                >
-                  {handlePaymentStatus(order?.payment?.status)}
-                  {order?.payment?.status === "PAYMENT_PENDING" && (
-                    <LoadingDots />
-                  )}
+        </div>
+        <main>
+          <section className="fisrtSection">
+            <div className="fisrtRow">
+              <Image
+                height={72}
+                width={72}
+                src={product?.imgCardUrl || ""}
+                alt="imagem do card"
+              />
+              <div>
+                <Text align="end" fontName="REGULAR_MEDIUM" tag="h2">
+                  {order?.orderItem?.package?.name?.toUpperCase()}
                 </Text>
                 <Text
+                  margin="8px 0 0 0"
                   align="end"
                   color={Theme.colors.secondaryText}
                   fontName="TINY"
                   tag="h3"
                 >
-                  {formatDate(order?.payment?.statusUpdatedAt)}
+                  {formatDate(order?.createdAt)}
                 </Text>
               </div>
             </div>
-          </div>
-        </section>
-        <section className="thirdSection">
-          <Text fontName="REGULAR_MEDIUM" tag="h2">
-            Detalhes da recarga
-          </Text>
-          <div className="outside">
-            <span>
-              <Image
-                height={40}
-                width={40}
-                src={order?.orderItem?.package?.imgCardUrl}
-                alt="imagem do card"
-              />
-            </span>
-            <div className="allInfos">
-              <div className="innerContent">
-                <Text fontName="SMALL_MEDIUM">Bigo Live</Text>
-                <Text fontName="SMALL_SEMI_BOLD" align="end">
-                  {order?.orderItem?.recharge?.amountCredits} DIAMANTES
-                </Text>
-              </div>
-              <div className="innerContent">
-                {order?.payment?.status === "PAYMENT_APPROVED" && (
+            <Text style={{ marginTop: "8px" }} fontName="REGULAR_MEDIUM">
+              {order?.orderItem?.productName}
+            </Text>
+            <div className="secondaryRow">
+              <Text fontName="SMALL_MEDIUM">Número do pedido</Text>
+              <Text fontName="SMALL_MEDIUM" align="end">
+                {order?.orderNumber}
+              </Text>
+            </div>
+            <div className="secondaryRow third">
+              <Text fontName="SMALL_MEDIUM">ID de usuário</Text>
+              <Text fontName="SMALL_MEDIUM" align="end">
+                {order?.orderItem?.recharge?.userIdForRecharge}
+              </Text>
+            </div>
+          </section>
+          <section className="secondarySection">
+            <Text fontName="REGULAR_MEDIUM" tag="h2">
+              Detalhes do pagamento
+            </Text>
+            <div className="outside">
+              <span>
+                {order?.payment?.name?.toUpperCase() === "PIX" && <Pix />}
+              </span>
+              <div className="allInfos">
+                <div className="innerContent">
+                  <Text fontName="SMALL_MEDIUM">{order?.payment?.name}</Text>
+                  <Text fontName="SMALL_SEMI_BOLD" align="end">
+                    R$ {formatPrice(order?.price)}
+                  </Text>
+                </div>
+                <div className="innerContent">
                   <Text
                     nowrap
                     fontName="TINY"
-                    color={handleStatusColor(
-                      order?.orderItem?.recharge?.status,
-                    )}
+                    color={handleStatusColor(order?.payment?.status)}
                   >
-                    {handleRechargeStatus(order?.orderItem?.recharge?.status)}
+                    {handlePaymentStatus(order?.payment?.status)}
+                    {/* {order?.payment?.status === "PAYMENT_PENDING" && (
+                      
+                    )} */}
                   </Text>
-                )}
-                <Text
-                  align="end"
-                  color={Theme.colors.secondaryText}
-                  fontName="TINY"
-                  tag="h3"
-                >
-                  {formatDate(order?.orderItem?.recharge?.statusUpdatedAt)}
-                </Text>
+                  <Text
+                    align="end"
+                    color={Theme.colors.secondaryText}
+                    fontName="TINY"
+                    tag="h3"
+                  >
+                    {formatDate(order?.payment?.statusUpdatedAt)}
+                  </Text>
+                </div>
               </div>
             </div>
-          </div>
-          {order?.payment?.status === "PAYMENT_APPROVED" &&
-            order?.orderItem?.recharge?.status === "RECHARGE_PENDING" && (
-              <Text margin="12px 0 -18px 0" align="center" fontName="TINY">
-                O prazo para recarga é de até 24 horas
+          </section>
+          <section className="thirdSection">
+            <Text fontName="REGULAR_MEDIUM" tag="h2">
+              Detalhes da recarga
+            </Text>
+            <div className="outside">
+              <span>
+                <Image
+                  height={40}
+                  width={40}
+                  src={order?.orderItem?.package?.imgCardUrl}
+                  alt="imagem do card"
+                />
+              </span>
+              <div className="allInfos">
+                <div className="innerContent">
+                  <Text fontName="SMALL_MEDIUM">Bigo Live</Text>
+                  <Text fontName="SMALL_SEMI_BOLD" align="end">
+                    {order?.orderItem?.recharge?.amountCredits} DIAMANTES
+                  </Text>
+                </div>
+                <div className="innerContent">
+                  {order?.payment?.status === "PAYMENT_APPROVED" && (
+                    <Text
+                      nowrap
+                      fontName="TINY"
+                      color={handleStatusColor(
+                        order?.orderItem?.recharge?.status,
+                      )}
+                    >
+                      {handleRechargeStatus(order?.orderItem?.recharge?.status)}
+                    </Text>
+                  )}
+                  <Text
+                    align="end"
+                    color={Theme.colors.secondaryText}
+                    fontName="TINY"
+                    tag="h3"
+                  >
+                    {formatDate(order?.orderItem?.recharge?.statusUpdatedAt)}
+                  </Text>
+                </div>
+              </div>
+            </div>
+            {order?.payment?.status === "PAYMENT_PENDING" && (
+              <Text
+                color={Theme.colors.pending}
+                margin="12px 0 -18px 0"
+                align="center"
+                fontName="TINY"
+              >
+                Aguarde enquanto processamos seu pedido{<LoadingDots />}
               </Text>
             )}
-        </section>
-      </main>
-      {order?.payment?.status === "PAYMENT_PENDING" &&
-      order?.orderStatus === "CREATED" ? (
-        <Button
-          loading={loading}
-          disabled={loading}
-          margin="32px 0 0 0"
-          width={248}
-          rounded
-          height={38}
-          title="Realizar pagamento"
-          onClick={() => goToPayment()}
-        />
-      ) : (
-        <Button
-          margin="32px 0 0 0"
-          width={228}
-          rounded
-          height={40}
-          title="Repetir pedido"
-          onClick={() => handleBuyAgain()}
-        />
-      )}
-    </OrderContainer>
+          </section>
+        </main>
+        {/* {order?.orderStatus === "COMPLETED" && (
+          <Button
+            margin="32px 0 0 0"
+            width={228}
+            rounded
+            height={40}
+            title="Repetir pedido"
+            onClick={() => handleBuyAgain()}
+          />
+        )} */}
+        {order?.payment?.status === "PAYMENT_PENDING" &&
+        order?.orderStatus === "CREATED" ? (
+          // <Button
+          //   loading={loading}
+          //   disabled={loading}
+          //   margin="32px 0 0 0"
+          //   width={248}
+          //   rounded
+          //   height={38}
+          //   title="Realizar pagamento"
+          //   onClick={() => goToPayment()}
+          // />
+          <div className="paymentPendingContainer">
+            <Text
+              nowrap
+              color={Theme.colors.secondaryText}
+              align="start"
+              fontName="TINY"
+            >
+              Ainda nao realizou o pagamento?
+            </Text>
+            <Text
+              nowrap
+              color={Theme.colors.mainHighlight}
+              underline
+              pointer
+              fontName="TINY"
+              align="start"
+              onClick={() => goToPayment()}
+            >
+              Pagar agora
+            </Text>
+          </div>
+        ) : (
+          <Button
+            margin="32px 0 0 0"
+            width={228}
+            rounded
+            height={40}
+            title="Repetir pedido"
+            onClick={() => handleBuyAgain()}
+          />
+        )}
+      </OrderContainer>
+    </>
   );
 };
 
