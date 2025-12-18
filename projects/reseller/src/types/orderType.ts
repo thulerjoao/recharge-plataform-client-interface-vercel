@@ -1,50 +1,62 @@
+import { UserType } from "./userTypes";
+
 export interface OrderType {
-  id: string;
-  orderNumber: string;
-  price: number;
-  orderStatus: OrderStatus;
-  paymentId: string;
-  orderItemId: string;
-  createdAt: string;
-  updatedAt: string;
-  storeId: string;
-  userId: string;
-  payment: {
+  couponUsages: {
+    coupon: {
+      discountAmount?: string | number;
+      discountPercentage?: string | number;
+      id: string;
+      isFirstPurchase: boolean;
+      title: string;
+    };
+    couponId: string;
     id: string;
-    name: string;
-    status: PaymentStatus;
-    statusUpdatedAt: string | null;
-    qrCode?: string;
-    qrCodetextCopyPaste?: string;
-  };
+    orderId: string;
+    usedAt: string;
+  }[];
+  createdAt: string;
+  id: string;
   orderItem: {
     id: string;
-    productId: string;
-    productName: string;
-    rechargeId: string;
-    packageId: string;
-    recharge: {
-      id: string;
-      userIdForRecharge: string;
-      status: RechargeStatus;
-      amountCredits: number;
-      statusUpdatedAt: string | null;
-    };
     package: {
       id: string;
-      packageId: string;
-      name: string;
-      userIdForRecharge: string;
       imgCardUrl: string;
+      name: string;
+      packageId: string;
+      userIdForRecharge: string;
     };
+    packageId: string;
+    productId: string;
+    productName: string;
+    recharge: {
+      amountCredits: number;
+      id: string;
+      status: RechargeStatus;
+      statusUpdatedAt: string;
+      userIdForRecharge: string;
+    };
+    rechargeId: string;
   };
-  couponUsages: string[];
-  user: {
+  orderItemId: string;
+  orderNumber: string;
+  orderStatus: OrderStatus;
+  payment: {
+    externalId: string;
     id: string;
     name: string;
-    email: string;
-    phone: string;
+    paymentProvider: string;
+    qrCode: string;
+    qrCodetextCopyPaste: string;
+    status: PaymentStatus;
+    statusUpdatedAt: string;
   };
+  paymentId: string;
+  price: number;
+  basePrice: number;
+  storeId: string;
+  updatedAt: Date;
+  user: UserType;
+  userId: string;
 }
 
 export type PaymentStatus =
@@ -69,8 +81,4 @@ export interface OrderResponseType {
   totalOrders: number;
   page: number;
   totalPages: number;
-  products: {
-    id: string;
-    name: string;
-  }[];
 }

@@ -116,14 +116,6 @@ export const OrdersContainer = styled.div`
         height: 0;
       }
 
-      .desktop {
-        display: none;
-      }
-      .mobile {
-        display: flex;
-        width: 100%;
-      }
-
       .filtersSection {
         flex-direction: column;
         gap: 16px;

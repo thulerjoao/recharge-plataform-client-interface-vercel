@@ -9,7 +9,9 @@ export const OrderCardContainer = styled.article<OrderCardProps>`
   margin-bottom: 16px;
   display: flex;
   align-items: center;
-  /* justify-content: space-between; */
+  -webkit-box-shadow: 0px 0px 5px 2px rgba(7, 29, 35, 1);
+  -moz-box-shadow: 0px 0px 5px 2px rgba(7, 29, 35, 1);
+  box-shadow: 0px 0px 5px 2px rgba(7, 29, 35, 1);
   padding: 0 16px;
   border-radius: 8px;
   cursor: pointer;
@@ -76,15 +78,9 @@ export const OrderCardContainer = styled.article<OrderCardProps>`
     }
   }
 
-  .forwardIcon {
-  }
-
   @media (min-width: 768px) and (max-width: 1024px) {
     .allInfoSection {
       gap: 12px;
-    }
-    .forwardIcon {
-      /* display: none; */
     }
   }
   @media (max-width: 767px) {

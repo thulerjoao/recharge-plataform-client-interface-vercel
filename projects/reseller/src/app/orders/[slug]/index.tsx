@@ -3,7 +3,6 @@
 import Text from "@4miga/design-system/components/Text";
 import { Theme } from "@4miga/design-system/theme/theme";
 import { connectionAPIGet } from "@4miga/services/connectionAPI/connection";
-import LoadingPage from "app/loading";
 import Image from "next/image";
 import DefaultHeader from "public/components/defaultHeader";
 import HeaderEnviroment from "public/components/headerEnviroment";
@@ -12,21 +11,21 @@ import { OrderType } from "types/orderType";
 import { formatDate } from "utils/formatDate";
 import { formatPhone } from "utils/formatPhone";
 import { formatPrice } from "utils/formatPrice";
+import {
+  handlePaymentStatus,
+  handleRechargeStatus,
+  handleStatusColor,
+} from "utils/handleStatus";
 import Pix from "../common/icons/Pix.svg";
 import { SalesInnerPageContainer } from "./style";
 
 const OrdersInnerPage = ({ slug }: { slug: string }) => {
-  const handleCheck = () => {
-    // return params.secondarySlug == "123456" ? 1 : 0;
-    return 1;
-  };
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
   const [order, setOrder] = useState<OrderType>();
   useEffect(() => {
-    const response = connectionAPIGet<OrderType>(`/orders/${slug}`)
+    connectionAPIGet<OrderType>(`/orders/${slug}`)
       .then((res) => {
         setOrder(res);
-        console.log(res);
       })
       .catch((err) => {})
       .finally(() => {
@@ -34,16 +33,40 @@ const OrdersInnerPage = ({ slug }: { slug: string }) => {
       });
   }, [slug]);
 
-  if (!order) {
-    return <LoadingPage />;
-  }
+  const handleGetOrder = () => {
+    setLoading(true);
+    const sessionOrder = JSON.parse(sessionStorage.getItem("order") || "null");
+    if (sessionOrder) {
+      setOrder(sessionOrder);
+      return;
+    } else {
+      connectionAPIGet<OrderType>(`/orders/${slug}`)
+        .then((res) => {
+          setOrder(res);
+        })
+        .catch(() => {})
+        .finally(() => {
+          setLoading(false);
+        });
+    }
+  };
+
+  useEffect(() => {
+    handleGetOrder();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [slug]);
 
   return (
     <SalesInnerPageContainer>
       <div className="desktop">
         <HeaderEnviroment>
-          <DefaultHeader backWard title="DETALHES DA VENDA" />
+          <DefaultHeader title="DETALHES DA VENDA" />
         </HeaderEnviroment>
+      </div>
+      <div className="mobile mobileHeader">
+        <Text align="center" fontName="LARGE_SEMI_BOLD">
+          PEDIDO
+        </Text>
       </div>
       <main>
         <section className="top">
@@ -104,18 +127,14 @@ const OrdersInnerPage = ({ slug }: { slug: string }) => {
               <Text
                 fontName="TINY"
                 color={
-                  order?.payment.status === "PAYMENT_APPROVED"
-                    ? Theme.colors.approved
-                    : order?.payment.status === "PAYMENT_REJECTED"
-                      ? Theme.colors.refused
-                      : Theme.colors.pending
+                  order?.orderStatus === "EXPIRED"
+                    ? Theme.colors.refused
+                    : handleStatusColor(order?.payment.status)
                 }
               >
-                {order?.payment.status === "PAYMENT_APPROVED"
-                  ? "Pagamento aprovado"
-                  : order?.payment.status === "PAYMENT_REJECTED"
-                    ? "Pagamento rejeitado"
-                    : "Pagamento pendente"}
+                {order?.orderStatus === "EXPIRED"
+                  ? "Pagamento cancelado"
+                  : handlePaymentStatus(order?.payment.status)}
               </Text>
             </div>
             <div className="rightMedium">
@@ -145,22 +164,14 @@ const OrdersInnerPage = ({ slug }: { slug: string }) => {
           <section>
             <div className="leftMedium">
               <Text fontName="SMALL_MEDIUM">Bigo Live</Text>
-              <Text
-                fontName="TINY"
-                color={
-                  order?.orderItem.recharge.status === "RECHARGE_APPROVED"
-                    ? Theme.colors.approved
-                    : order?.orderItem.recharge.status === "RECHARGE_REJECTED"
-                      ? Theme.colors.refused
-                      : Theme.colors.pending
-                }
-              >
-                {order?.orderItem.recharge.status === "RECHARGE_APPROVED"
-                  ? "Recarga realizada"
-                  : order?.orderItem.recharge.status === "RECHARGE_REJECTED"
-                    ? "Cancelada"
-                    : "Processando"}
-              </Text>
+              {order?.payment?.status === "PAYMENT_APPROVED" && (
+                <Text
+                  fontName="TINY"
+                  color={handleStatusColor(order?.orderItem.recharge.status)}
+                >
+                  {handleRechargeStatus(order?.orderItem.recharge.status)}
+                </Text>
+              )}
             </div>
             <div className="rightMedium">
               <Text align="end" fontName="SMALL_SEMI_BOLD">
