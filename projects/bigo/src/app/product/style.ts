@@ -6,6 +6,15 @@ export const ProductInnerPage = styled.div`
   flex-direction: column;
   align-items: center;
 
+  .couponButton {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    margin-top: 16px;
+    height: 32px;
+  }
+
   .couponContainer {
     width: 100%;
     display: flex;

@@ -217,17 +217,14 @@ const PaymentPage = ({ packageId, couponFromParams }: Props) => {
         onChange={(e) => !blockInput && setRechargeBigoId(e.target.value)}
       />
       {!openCoupon && (
-        <Text
-          fontName="SMALL_MEDIUM"
-          color={Theme.colors.secondaryText}
-          underline
-          margin="8px 12px 0 0"
-          align="end"
-          pointer
-          onClick={() => !blockInput && setOpenCoupon(!openCoupon)}
-        >
-          Cupom de desconto
-        </Text>
+        <div className="couponButton">
+          <Button
+            title="Cupom de desconto"
+            height={28}
+            width={150}
+            onClick={() => !blockInput && setOpenCoupon(!openCoupon)}
+          />
+        </div>
       )}
       {openCoupon && (
         <>
@@ -242,6 +239,7 @@ const PaymentPage = ({ packageId, couponFromParams }: Props) => {
               height={36}
               value={coupon?.toUpperCase()}
               onChange={(e) => !blockInput && setCoupon(e.target.value)}
+              onBlur={() => !blockInput && coupon && handleApplyCoupon()}
               placeholder="Insira o cupom"
             />
             <Button
