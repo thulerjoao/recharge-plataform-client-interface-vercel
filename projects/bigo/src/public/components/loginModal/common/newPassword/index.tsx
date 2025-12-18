@@ -94,9 +94,17 @@ const NewPassword = ({ closeModal }: Props) => {
       <Text margin="24px 0 0 0" align="center" fontName="REGULAR_MEDIUM">
         Crie uma nova senha
       </Text>
+      <Text
+        margin="2px 0 0 0"
+        align="center"
+        fontName="TINY"
+        color={Theme.colors.secondaryTextAction}
+      >
+        Mínimo 6 caracteres, 1 maiúscula e 1 caractere especial
+      </Text>
       <Input
         type="password"
-        margin="24px 0 0 0"
+        margin="20px 0 0 0"
         padding="0 8px 0px 40px"
         height={40}
         placeholder="Senha"

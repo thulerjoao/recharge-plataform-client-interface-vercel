@@ -124,8 +124,11 @@ const NewAccount = ({ setNewUser, setStep, setPreviousStep }: Props) => {
     } else if (res === "User with this document already exists") {
       setErrorMessage("CPF já cadastrado");
       setLoading(false);
-    } else if (res.toLocaleLowerCase() === "Name is required") {
-      setErrorMessage("Nome inválido");
+    } else if (
+      res.toLocaleLowerCase() === "Name is required" ||
+      res.includes("Name must contain at least two words")
+    ) {
+      setErrorMessage("Nome completo obrigatório");
       setLoading(false);
     } else {
       setErrorMessage("Erro ao criar conta");
@@ -214,6 +217,14 @@ const NewAccount = ({ setNewUser, setStep, setPreviousStep }: Props) => {
         onFocus={() => setErrorMessage("")}
         onChange={(e) => setValue("password", e.target.value)}
       />
+      <Text
+        margin="2px 0 0 0"
+        align="center"
+        fontName="TINY"
+        color={Theme.colors.secondaryTextAction}
+      >
+        Mínimo 6 caracteres, 1 maiúscula e 1 caractere especial
+      </Text>
       <span className="termsAndConditions" style={{ cursor: "pointer" }}>
         <input
           type="checkbox"

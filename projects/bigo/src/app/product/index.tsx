@@ -220,8 +220,8 @@ const PaymentPage = ({ packageId, couponFromParams }: Props) => {
         <div className="couponButton">
           <Button
             title="Cupom de desconto"
-            height={28}
             width={150}
+            height={28}
             onClick={() => !blockInput && setOpenCoupon(!openCoupon)}
           />
         </div>
@@ -245,7 +245,7 @@ const PaymentPage = ({ packageId, couponFromParams }: Props) => {
             <Button
               title="Aplicar"
               onClick={() => handleApplyCoupon()}
-              width={185}
+              width={200}
               height={28}
               loading={couponLoading}
               disabled={
