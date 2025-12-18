@@ -4,7 +4,7 @@ import styled from "styled-components";
 interface OrderCardProps {}
 
 export const OrderCardContainer = styled.article<OrderCardProps>`
-  height: 64px;
+  height: 72px;
   background-color: ${Theme.colors.maindark};
   margin-bottom: 16px;
   display: flex;
@@ -21,8 +21,8 @@ export const OrderCardContainer = styled.article<OrderCardProps>`
   }
 
   img {
-    height: 48px;
-    width: 48px;
+    height: 58px;
+    width: 58px;
     border-radius: 8px;
   }
 
