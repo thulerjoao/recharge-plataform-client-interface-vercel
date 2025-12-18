@@ -35,6 +35,7 @@ const NewAccount = ({ setNewUser, setStep, setPreviousStep }: Props) => {
   const {
     handleSubmit,
     setValue,
+    watch,
     formState: { errors },
   } = useForm<RegisterSchema>({
     resolver: zodResolver(registerSchema),
@@ -44,10 +45,12 @@ const NewAccount = ({ setNewUser, setStep, setPreviousStep }: Props) => {
       phone: "",
       cpf: "",
       password: "",
+      termsAccepted: false,
     },
   });
   const [errorMessage, setErrorMessage] = useState<string>("");
   const [visible, setVisible] = useState<boolean>(false);
+  const termsAccepted = watch("termsAccepted");
 
   const ChangeVisibilaty = () => {
     setVisible(!visible);
@@ -106,6 +109,10 @@ const NewAccount = ({ setNewUser, setStep, setPreviousStep }: Props) => {
     }
     if (errors.password) {
       setErrorMessage(errors.password.message);
+      return;
+    }
+    if (errors.termsAccepted) {
+      setErrorMessage(errors.termsAccepted.message);
       return;
     }
   }, [errors]);
@@ -207,14 +214,27 @@ const NewAccount = ({ setNewUser, setStep, setPreviousStep }: Props) => {
         onFocus={() => setErrorMessage("")}
         onChange={(e) => setValue("password", e.target.value)}
       />
-      <span style={{ cursor: "pointer" }}>
+      <span className="termsAndConditions" style={{ cursor: "pointer" }}>
+        <input
+          type="checkbox"
+          checked={termsAccepted}
+          onChange={(e) => {
+            setValue("termsAccepted", e.target.checked);
+            setErrorMessage("");
+          }}
+        ></input>
+        <Text color={Theme.colors.secondaryText} fontName="TINY">
+          Concordo com os
+        </Text>
         <Text
-          margin="4px 0 0 0"
+          underline
+          pointer
           align="center"
           color={Theme.colors.secondaryText}
           fontName="TINY"
+          onClick={() => window.open("/terms", "_blank")}
         >
-          Termos de uso e Políticas de Privacidade
+          termos e condições
         </Text>
       </span>
       <Button

@@ -33,7 +33,14 @@ const Footer = () => {
         <div className="bottomComponent">
           <div className="topPhrase">
             <div className="termsAndConditions">
-              <Text align="center" underline nowrap pointer fontName="TINY">
+              <Text
+                onClick={() => window.open("/terms", "_blank")}
+                align="center"
+                underline
+                nowrap
+                pointer
+                fontName="TINY"
+              >
                 Termos e condições
               </Text>
             </div>

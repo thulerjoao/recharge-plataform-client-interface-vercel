@@ -278,6 +278,9 @@ const ConfirmCode = ({
           </Text>
         )}
       </SendCode>
+      <Text margin="8px 0 0 0" align="center" fontName="TINY">
+        Confira sua caixa de spam antes de solicitar um novo código.
+      </Text>
       <ErrorMessage>
         <Text
           align="center"

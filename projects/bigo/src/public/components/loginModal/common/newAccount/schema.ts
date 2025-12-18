@@ -19,6 +19,9 @@ export const registerSchema = z.object({
       /[^a-zA-Z0-9]/,
       "A senha deve conter ao menos um caractere especial",
     ),
+  termsAccepted: z.boolean().refine((value) => value === true, {
+    message: "Concorde com os termos e condições",
+  }),
 });
 
 export type RegisterSchema = z.infer<typeof registerSchema>;
