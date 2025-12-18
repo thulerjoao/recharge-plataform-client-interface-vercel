@@ -35,6 +35,7 @@ const NewAccount = ({ setNewUser, setStep, setPreviousStep }: Props) => {
   const {
     handleSubmit,
     setValue,
+    watch,
     formState: { errors },
   } = useForm<RegisterSchema>({
     resolver: zodResolver(registerSchema),
@@ -44,10 +45,12 @@ const NewAccount = ({ setNewUser, setStep, setPreviousStep }: Props) => {
       phone: "",
       cpf: "",
       password: "",
+      termsAccepted: false,
     },
   });
   const [errorMessage, setErrorMessage] = useState<string>("");
   const [visible, setVisible] = useState<boolean>(false);
+  const termsAccepted = watch("termsAccepted");
 
   const ChangeVisibilaty = () => {
     setVisible(!visible);
@@ -108,6 +111,10 @@ const NewAccount = ({ setNewUser, setStep, setPreviousStep }: Props) => {
       setErrorMessage(errors.password.message);
       return;
     }
+    if (errors.termsAccepted) {
+      setErrorMessage(errors.termsAccepted.message);
+      return;
+    }
   }, [errors]);
 
   const handleErrorResponse = (res: string) => {
@@ -117,8 +124,11 @@ const NewAccount = ({ setNewUser, setStep, setPreviousStep }: Props) => {
     } else if (res === "User with this document already exists") {
       setErrorMessage("CPF já cadastrado");
       setLoading(false);
-    } else if (res.toLocaleLowerCase() === "Name is required") {
-      setErrorMessage("Nome inválido");
+    } else if (
+      res.toLocaleLowerCase() === "Name is required" ||
+      res.includes("Name must contain at least two words")
+    ) {
+      setErrorMessage("Nome completo obrigatório");
       setLoading(false);
     } else {
       setErrorMessage("Erro ao criar conta");
@@ -207,14 +217,35 @@ const NewAccount = ({ setNewUser, setStep, setPreviousStep }: Props) => {
         onFocus={() => setErrorMessage("")}
         onChange={(e) => setValue("password", e.target.value)}
       />
-      <span style={{ cursor: "pointer" }}>
+      <Text
+        margin="2px 0 0 0"
+        align="center"
+        fontName="TINY"
+        color={Theme.colors.secondaryTextAction}
+      >
+        Mínimo 6 caracteres, 1 maiúscula e 1 caractere especial
+      </Text>
+      <span className="termsAndConditions" style={{ cursor: "pointer" }}>
+        <input
+          type="checkbox"
+          checked={termsAccepted}
+          onChange={(e) => {
+            setValue("termsAccepted", e.target.checked);
+            setErrorMessage("");
+          }}
+        ></input>
+        <Text color={Theme.colors.secondaryText} fontName="TINY">
+          Concordo com os
+        </Text>
         <Text
-          margin="4px 0 0 0"
+          underline
+          pointer
           align="center"
           color={Theme.colors.secondaryText}
           fontName="TINY"
+          onClick={() => window.open("/terms", "_blank")}
         >
-          Termos de uso e Políticas de Privacidade
+          termos e condições
         </Text>
       </span>
       <Button

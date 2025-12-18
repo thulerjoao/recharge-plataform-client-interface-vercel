@@ -10,6 +10,7 @@ import { ContactContainer } from "./style";
 
 const Contact = () => {
   const { store } = useStore();
+  console.log(store);
 
   const copyEmailToClipboard = async () => {
     try {
@@ -18,6 +19,12 @@ const Contact = () => {
     } catch (err) {
       alert("Erro ao copiar email");
     }
+  };
+
+  const formatPhoneNumber = (phoneNumber: string) => {
+    if (!phoneNumber) return "";
+    console.log(phoneNumber);
+    return phoneNumber.replace(/\D/g, "");
   };
 
   return (
@@ -32,7 +39,7 @@ const Contact = () => {
         </Text>
         {store?.wppNumber && (
           <a
-            href={`https://api.whatsapp.com/send?phone=${store?.wppNumber}`}
+            href={`https://api.whatsapp.com/send?phone=55${formatPhoneNumber(store?.wppNumber)}`}
             target="_blank"
             rel="noopener noreferrer"
           >

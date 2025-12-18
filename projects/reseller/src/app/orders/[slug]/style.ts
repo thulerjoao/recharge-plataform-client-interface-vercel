@@ -5,8 +5,11 @@ export const SalesInnerPageContainer = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding-top: 64px;
   padding-bottom: 97px;
+
+  .mobile {
+    display: none;
+  }
 
   .mainTitle {
     margin-top: 32px;
@@ -14,11 +17,14 @@ export const SalesInnerPageContainer = styled.div`
 
   main {
     background-color: ${Theme.colors.maindark};
-    margin-top: 24px;
+    margin-top: 96px;
     width: 100%;
-    max-width: 628px;
+    max-width: 852px;
     border-radius: 8px;
     padding: 16px;
+    -webkit-box-shadow: 0px 0px 5px 2px rgba(7, 29, 35, 1);
+    -moz-box-shadow: 0px 0px 5px 2px rgba(7, 29, 35, 1);
+    box-shadow: 0px 0px 5px 2px rgba(7, 29, 35, 1);
 
     .top {
       display: flex;
@@ -110,21 +116,32 @@ export const SalesInnerPageContainer = styled.div`
     }
   }
 
-  @media (min-width: 768px) and (max-width: 1024px) {
+  @media (min-width: 769px) and (max-width: 1024px) {
     main {
       max-width: 100%;
     }
   }
-  @media (max-width: 767px) {
-    padding-top: 64px;
+  @media (max-width: 768px) {
+    main {
+      margin-top: 64px;
+    }
 
-    /* .desktop {
+    .desktop {
       display: none;
     }
     .mobile {
       display: flex;
       width: 100%;
-    } */
+    }
+
+    .mobileHeader {
+      position: fixed;
+      top: 0;
+      z-index: 10;
+      margin-top: 12px;
+      width: auto;
+      height: 0;
+    }
 
     .mainTitle {
       margin-top: 24px;

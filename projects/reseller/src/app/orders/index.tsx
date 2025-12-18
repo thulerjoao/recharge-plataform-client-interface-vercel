@@ -95,6 +95,11 @@ const OrdersPage = ({ currentPage, search, status, productId }: Props) => {
     return <LoadingPage />;
   }
 
+  const handleNavigateToOrder = (order: OrderType) => {
+    sessionStorage.setItem("order", JSON.stringify(order));
+    router.push(`/orders/${order.id}`);
+  };
+
   return (
     <OrdersContainer>
       <div className="centerContainer">
@@ -132,7 +137,7 @@ const OrdersPage = ({ currentPage, search, status, productId }: Props) => {
             </div>
           </form>
           <div className="filterControls">
-            <select
+            {/* <select
               value={localProductFilter}
               onChange={(e) =>
                 handleChangeProductFilter(e.target.value as string)
@@ -140,14 +145,14 @@ const OrdersPage = ({ currentPage, search, status, productId }: Props) => {
               className="filterSelect"
             >
               <option value="">Plataforma</option>
-              {orders?.products?.map((item, index) => {
+              {orders?.data?.map((item, index) => {
                 return (
                   <option key={index} value={item.id}>
-                    {item.name}
+                    {item.orderItem.package.name}
                   </option>
                 );
               })}
-            </select>
+            </select> */}
             <select
               value={localStatus}
               onChange={(e) => {
@@ -177,7 +182,7 @@ const OrdersPage = ({ currentPage, search, status, productId }: Props) => {
             <div
               className="orderCardContainer"
               key={order.id}
-              onClick={() => router.push(`/orders/${order.id}`)}
+              onClick={() => handleNavigateToOrder(order)}
             >
               <OrderCard order={order} />
             </div>

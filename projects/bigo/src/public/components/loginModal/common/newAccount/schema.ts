@@ -2,7 +2,9 @@ import { cpf } from "cpf-cnpj-validator";
 import { z } from "zod";
 
 export const registerSchema = z.object({
-  name: z.string().min(3, "O nome deve ter pelo menos 3 caracteres"),
+  name: z.string().refine((value) => /^\S+\s+\S+/.test(value.trim()), {
+    message: "Nome completo obrigatório",
+  }),
   email: z.string().email("E-mail inválido"),
   phone: z
     .string()
@@ -15,10 +17,14 @@ export const registerSchema = z.object({
     .string()
     .min(6, "A senha deve ter no mínimo 6 caracteres")
     .regex(/[A-Z]/, "A senha deve conter ao menos uma letra maiúscula")
+    .regex(/[a-z]/, "A senha deve conter ao menos uma letra minúscula")
     .regex(
       /[^a-zA-Z0-9]/,
       "A senha deve conter ao menos um caractere especial",
     ),
+  termsAccepted: z.boolean().refine((value) => value === true, {
+    message: "Concorde com os termos e condições",
+  }),
 });
 
 export type RegisterSchema = z.infer<typeof registerSchema>;

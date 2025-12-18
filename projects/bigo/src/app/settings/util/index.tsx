@@ -3,6 +3,7 @@
 import Button from "@4miga/design-system/components/button";
 import Input from "@4miga/design-system/components/input";
 import Text from "@4miga/design-system/components/Text";
+import { Theme } from "@4miga/design-system/theme/theme";
 import {
   connectionAPIPatch,
   connectionAPIPost,
@@ -85,7 +86,9 @@ const Settings = () => {
 
     if (section === "personal") {
       if (!formData.name.trim()) {
-        newErrors.name = "Nome é obrigatório";
+        newErrors.name = "Insira um nome válido";
+      } else if (!/^\S+\s+\S+/.test(formData.name.trim())) {
+        newErrors.name = "Nome completo obrigatório";
       }
       if (!formData.phone.trim()) {
         newErrors.phone = "Telefone é obrigatório";
@@ -134,6 +137,9 @@ const Settings = () => {
         } else if (!/[A-Z]/.test(securityData.password)) {
           newErrors.password =
             "A senha deve conter ao menos uma letra maiúscula";
+        } else if (!/[a-z]/.test(securityData.password)) {
+          newErrors.password =
+            "A senha deve conter ao menos uma letra minúscula";
         } else if (!/[^a-zA-Z0-9]/.test(securityData.password)) {
           newErrors.password =
             "A senha deve conter ao menos um caractere especial";
@@ -219,12 +225,23 @@ const Settings = () => {
               alert("Informações atualizadas com sucesso");
             })
             .catch((res) => {
-              setFormData((prev) => ({
-                ...prev,
-                name: user.name || "",
-                phone: user.phone || "",
-              }));
-              alert("Erro ao atualizar informações");
+              const errorMessage = res?.response?.data?.message || "";
+
+              if (
+                errorMessage.includes("Name must contain at least two words")
+              ) {
+                setErrors((prev) => ({
+                  ...prev,
+                  name: "Nome completo obrigatório",
+                }));
+              } else {
+                setFormData((prev) => ({
+                  ...prev,
+                  name: user.name || "",
+                  phone: user.phone || "",
+                }));
+                alert("Erro ao atualizar informações");
+              }
             });
         }
         if (section === "email") {
@@ -303,15 +320,50 @@ const Settings = () => {
             )
               .then(() => {
                 alert("Senha atualizada com sucesso");
-              })
-              .catch(() => {
-                alert("Falha ao atualizar senha. Tente novamente");
-              })
-              .finally(() => {
-                setIsLoading((prev) => ({ ...prev, security: false }));
                 setIsEditing((prev) => ({ ...prev, security: false }));
                 setSecurityData({ oldPassword: "", password: "" });
                 setShowNewPassword(false);
+              })
+              .catch((err) => {
+                const errorMessage = err?.response?.data?.message || "";
+
+                if (
+                  errorMessage.includes(
+                    "Password must be at least 6 characters",
+                  )
+                ) {
+                  setErrors((prev) => ({
+                    ...prev,
+                    password: "A senha deve ter no mínimo 6 caracteres",
+                  }));
+                  alert("A senha deve ter no mínimo 6 caracteres");
+                } else if (errorMessage.includes("uppercase letter")) {
+                  setErrors((prev) => ({
+                    ...prev,
+                    password:
+                      "A senha deve conter ao menos uma letra maiúscula",
+                  }));
+                  alert("A senha deve conter ao menos uma letra maiúscula");
+                } else if (errorMessage.includes("lowercase letter")) {
+                  setErrors((prev) => ({
+                    ...prev,
+                    password:
+                      "A senha deve conter ao menos uma letra minúscula",
+                  }));
+                  alert("A senha deve conter ao menos uma letra minúscula");
+                } else if (errorMessage.includes("special character")) {
+                  setErrors((prev) => ({
+                    ...prev,
+                    password:
+                      "A senha deve conter ao menos um caractere especial",
+                  }));
+                  alert("A senha deve conter ao menos um caractere especial");
+                } else {
+                  alert("Falha ao atualizar senha. Tente novamente");
+                }
+              })
+              .finally(() => {
+                setIsLoading((prev) => ({ ...prev, security: false }));
               });
           }
         }
@@ -544,8 +596,6 @@ const Settings = () => {
             </div>
           </form>
         </div>
-
-        {/* Seção: Documento */}
         <div className="form-section">
           <Text fontName="REGULAR_SEMI_BOLD" className="section-title">
             Documento
@@ -783,13 +833,19 @@ const Settings = () => {
                 height={40}
                 rightElement={
                   showNewPassword ? (
-                    <EyeOff
-                      style={{ cursor: "pointer", color: "white" }}
+                    <EyeOn
+                      style={{
+                        cursor: "pointer",
+                        color: Theme.colors.maindark,
+                      }}
                       onClick={() => setShowNewPassword((v) => !v)}
                     />
                   ) : (
-                    <EyeOn
-                      style={{ cursor: "pointer", color: "white" }}
+                    <EyeOff
+                      style={{
+                        cursor: "pointer",
+                        color: Theme.colors.maindark,
+                      }}
                       onClick={() => setShowNewPassword((v) => !v)}
                     />
                   )

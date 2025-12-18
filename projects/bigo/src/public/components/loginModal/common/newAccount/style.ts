@@ -7,14 +7,16 @@ export const NewAccountContainer = styled.form`
   width: 100%;
   align-items: center;
 
-  .politics {
+  .termsAndConditions {
+    width: 100%;
     display: flex;
-    flex-direction: column;
+    align-items: end;
+    justify-content: center;
     margin-top: 16px;
+    gap: 4px;
 
     p {
-      width: 100%;
-      background-color: pink;
+      width: auto;
     }
   }
 `;
