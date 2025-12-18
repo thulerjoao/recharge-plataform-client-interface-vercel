@@ -9,8 +9,19 @@ export const metadata = {
     template: "%s - 4miga",
     default: "4miga Games",
   },
-  description: "Project created by 4miga",
-  charset: "utf-8",
+  description:
+    "Recargas Bigo Live - Recarregue seus diamantes Bigo Live de forma rápida e segura",
+  keywords: ["Bigo Live", "recargas", "diamantes", "4miga", "games"],
+  robots: {
+    index: true,
+    follow: true,
+  },
+  openGraph: {
+    title: "4miga Games - Recargas Bigo Live",
+    description: "Recarregue seus diamantes Bigo Live de forma rápida e segura",
+    type: "website",
+    locale: "pt_BR",
+  },
 };
 
 export const viewport = {
