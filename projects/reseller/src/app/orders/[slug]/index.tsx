@@ -77,13 +77,24 @@ const OrdersInnerPage = ({ slug }: { slug: string }) => {
               src={order?.orderItem.package.imgCardUrl || ""}
               alt="Card do jogo"
             />
-            <Text margin="24px 0 0 0" fontName="SMALL_MEDIUM">
+            <Text nowrap margin="24px 0 0 0" fontName="SMALL_MEDIUM">
               Número do pedido
             </Text>
-            <Text fontName="SMALL_MEDIUM">ID de usuário</Text>
-            <Text fontName="SMALL_MEDIUM">Nome</Text>
-            <Text fontName="SMALL_MEDIUM">E-mail</Text>
-            <Text fontName="SMALL_MEDIUM">Telefone</Text>
+            <Text nowrap fontName="SMALL_MEDIUM">
+              ID de usuário
+            </Text>
+            <Text nowrap fontName="SMALL_MEDIUM">
+              Cupom
+            </Text>
+            <Text nowrap fontName="SMALL_MEDIUM">
+              Nome
+            </Text>
+            <Text nowrap fontName="SMALL_MEDIUM">
+              E-mail
+            </Text>
+            <Text nowrap fontName="SMALL_MEDIUM">
+              Telefone
+            </Text>
           </div>
           <div className="rightTop">
             <Text tag="h2" align="end" fontName="REGULAR_MEDIUM">
@@ -102,6 +113,11 @@ const OrdersInnerPage = ({ slug }: { slug: string }) => {
             </Text>
             <Text align="end" fontName="SMALL_MEDIUM">
               {order?.orderItem.recharge.userIdForRecharge || "-"}
+            </Text>
+            <Text align="end" fontName="SMALL_MEDIUM">
+              {order?.couponUsages.length > 0
+                ? order?.couponUsages[0].coupon.title
+                : "-"}
             </Text>
             <Text align="end" fontName="SMALL_MEDIUM">
               {order?.user?.name || "-"}
