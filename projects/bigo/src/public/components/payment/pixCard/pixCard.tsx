@@ -155,6 +155,8 @@ const PixCard = ({
         if (err.response.data.message === "Invalid userId for recharge") {
           setError("ID de usuário inválido");
           setBlockInput(false);
+        } else {
+          setError("Algo deu errado. Tente novamente mais tarde.");
         }
       })
       .finally(() => {

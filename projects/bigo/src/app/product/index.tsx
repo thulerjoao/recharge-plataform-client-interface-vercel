@@ -1,6 +1,5 @@
 "use client";
 
-import Button from "@4miga/design-system/components/button";
 import Input from "@4miga/design-system/components/input";
 import Text from "@4miga/design-system/components/Text";
 import { Theme } from "@4miga/design-system/theme/theme";
@@ -9,6 +8,7 @@ import { useAuth } from "contexts/auth";
 import { useProducts } from "contexts/products/ProductsProvider";
 import { useRouter } from "next/navigation";
 import PackageCard from "public/cards/packageCard/card";
+import Coupon from "public/components/coupon";
 import LoginModal from "public/components/loginModal";
 import PixCard from "public/components/payment/pixCard/pixCard";
 import React, { useEffect, useRef, useState } from "react";
@@ -39,7 +39,8 @@ const PaymentPage = ({ packageId, couponFromParams }: Props) => {
   const [openCoupon, setOpenCoupon] = useState<boolean>(false);
   const [couponLoading, setCouponLoading] = useState<boolean>(false);
   const [couponError, setCouponError] = useState<string>("");
-  const [couponSuccess, setCouponSuccess] =
+  const [couponSuccess, setCouponSuccess] = useState<string>("");
+  const [couponApplied, setCouponApplied] =
     useState<CouponValidationResponse>();
   const [sessionOrder, setSessionOrder] = useState<OrderType | null>(null);
   const [sessionPackage, setSessionPackage] = useState<PackageType | null>(
@@ -66,8 +67,34 @@ const PaymentPage = ({ packageId, couponFromParams }: Props) => {
         return route.replace("/home");
       }
       if (order.couponUsages.length > 0) {
-        setCoupon(order.couponUsages[0].coupon.title);
-        setOpenCoupon(true);
+        const couponUsage = order.couponUsages[0];
+        const couponData = couponUsage.coupon;
+        const discountAmount = order.basePrice - order.price;
+        const appliedCoupon: CouponValidationResponse = {
+          valid: true,
+          discountAmount: discountAmount,
+          finalAmount: order.price,
+          coupon: {
+            id: couponData.id,
+            title: couponData.title,
+            discountPercentage: couponData.discountPercentage
+              ? Number(couponData.discountPercentage)
+              : null,
+            discountAmount: couponData.discountAmount
+              ? Number(couponData.discountAmount)
+              : null,
+            isFirstPurchase: couponData.isFirstPurchase,
+          },
+        };
+        setCoupon(couponData.title);
+        setCouponApplied(appliedCoupon);
+        setCouponSuccess(
+          `Cupom de ${
+            couponData.discountAmount
+              ? "R$ " + Number(couponData.discountAmount).toFixed(2)
+              : couponData.discountPercentage + "%"
+          } aplicado!`,
+        );
       }
       const sessionPackage: PackageType = {
         id: order.orderItem.package.id,
@@ -138,16 +165,28 @@ const PaymentPage = ({ packageId, couponFromParams }: Props) => {
       handleApplyCoupon(upperCoupon);
     } else if (couponFromParams && !logged) {
       setCouponError("Login necessário para aplicar o cupom");
+      setCouponSuccess("");
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [couponFromParams, item, logged]);
 
   const handleMouseDown = (e: React.MouseEvent<HTMLDivElement>) => {
     setError("");
-    !couponSuccess && setCouponError("");
+    if (!couponApplied?.valid) {
+      setCouponError("");
+      setCouponSuccess("");
+    } else {
+      setCouponError("");
+    }
   };
 
   const handleApplyCoupon = (couponValue?: string) => {
+    if (
+      couponApplied?.valid &&
+      couponApplied.coupon.title.toUpperCase() === coupon.toUpperCase()
+    ) {
+      return;
+    }
     const couponToUse = couponValue || coupon;
 
     if (couponToUse === "") {
@@ -171,10 +210,12 @@ const PaymentPage = ({ packageId, couponFromParams }: Props) => {
     )
       .then((res) => {
         if (res.valid === true) {
-          setCouponError(
+          setCouponSuccess(
             `Cupom de ${res.coupon.discountAmount ? "R$ " + res.coupon.discountAmount : res.coupon.discountPercentage + "%"} aplicado!`,
           );
-          setCouponSuccess(res);
+          setCouponApplied(res);
+          setOpenCoupon(false);
+          setCouponError("");
         } else {
           const message = res.message;
           if (
@@ -183,21 +224,26 @@ const PaymentPage = ({ packageId, couponFromParams }: Props) => {
             message === "Coupon usage limit reached"
           ) {
             setCouponError("Cupom expirado");
-            setCouponSuccess(null);
+            setCouponSuccess("");
+            setCouponApplied(null);
           } else if (
             message ===
             "First purchase coupon can only be used by new customers"
           ) {
             setCouponError("Cupom exclusivo para primeira compra");
-            setCouponSuccess(null);
+            setCouponSuccess("");
+            setCouponApplied(null);
           } else {
             setCouponError("Cupom inválido");
-            setCouponSuccess(null);
+            setCouponSuccess("");
+            setCouponApplied(null);
           }
         }
       })
       .catch(() => {
         setCouponError("Não foi possível aplicar o cupom");
+        setCouponSuccess("");
+        setCouponApplied(null);
       })
       .finally(() => {
         setCouponLoading(false);
@@ -216,69 +262,6 @@ const PaymentPage = ({ packageId, couponFromParams }: Props) => {
         value={rechargeBigoId || ""}
         onChange={(e) => !blockInput && setRechargeBigoId(e.target.value)}
       />
-      {!openCoupon && (
-        <div className="couponButton">
-          <Button
-            title="Cupom de desconto"
-            width={150}
-            height={28}
-            onClick={() => !blockInput && setOpenCoupon(!openCoupon)}
-          />
-        </div>
-      )}
-      {openCoupon && (
-        <>
-          <form
-            className="couponContainer"
-            onSubmit={(e) => {
-              e.preventDefault();
-              handleApplyCoupon();
-            }}
-          >
-            <Input
-              height={36}
-              value={coupon?.toUpperCase()}
-              onChange={(e) => !blockInput && setCoupon(e.target.value)}
-              onBlur={() => !blockInput && coupon && handleApplyCoupon()}
-              placeholder="Insira o cupom"
-            />
-            <Button
-              title="Aplicar"
-              onClick={() => handleApplyCoupon()}
-              width={200}
-              height={28}
-              loading={couponLoading}
-              disabled={
-                couponLoading ||
-                blockInput ||
-                (couponSuccess && couponSuccess.valid
-                  ? couponSuccess.coupon.title.toUpperCase() ===
-                    coupon.toUpperCase()
-                  : false)
-              }
-              isNotSelected={
-                blockInput ||
-                (couponSuccess && couponSuccess.valid
-                  ? couponSuccess.coupon.title.toUpperCase() ===
-                    coupon.toUpperCase()
-                  : false)
-              }
-            />
-          </form>
-          {(couponError || couponSuccess) && (
-            <Text
-              align="center"
-              fontName="TINY_MEDIUM"
-              color={
-                couponSuccess ? Theme.colors.approved : Theme.colors.pending
-              }
-              margin="2px 0 -16.5px 0"
-            >
-              {couponError}
-            </Text>
-          )}
-        </>
-      )}
       <Text margin="32px 0 0 0" align="center" fontName="REGULAR_SEMI_BOLD">
         PACOTE PARA RECARGA
       </Text>
@@ -288,27 +271,42 @@ const PaymentPage = ({ packageId, couponFromParams }: Props) => {
             paymentIndex={0}
             item={sessionPackage ? sessionPackage : item}
             valueWithDicount={
-              couponSuccess?.valid
-                ? couponSuccess.finalAmount
+              couponApplied?.valid
+                ? couponApplied.finalAmount
                 : sessionOrder?.price
             }
             selected
           />
         )}
       </div>
-      <Text margin="32px 0 0 0" align="center" fontName="REGULAR_SEMI_BOLD">
-        FORMAS DE PAGAMENTO
+      <Text margin="32px 0 16px 0" align="center" fontName="REGULAR_SEMI_BOLD">
+        PAGAMENTO
       </Text>
+
+      <Coupon
+        coupon={coupon?.toUpperCase() || ""}
+        setCoupon={setCoupon}
+        handleApplyCoupon={handleApplyCoupon}
+        blockInput={blockInput}
+        couponLoading={couponLoading}
+        couponError={couponError}
+        setCouponError={setCouponError}
+        couponSuccess={couponSuccess}
+        openCoupon={openCoupon}
+        setOpenCoupon={setOpenCoupon}
+        couponApplied={couponApplied}
+      />
+
       <section className="paymentMethods">
         {(item || sessionPackage) && (
           <PixCard
             couponTitle={
-              couponSuccess?.valid && couponSuccess.coupon.title.toUpperCase()
+              couponApplied?.valid && couponApplied.coupon.title.toUpperCase()
             }
             item={sessionPackage ? sessionPackage : item}
             valueWithDicount={
-              couponSuccess?.valid
-                ? couponSuccess.finalAmount
+              couponApplied?.valid
+                ? couponApplied.finalAmount
                 : sessionOrder?.price
             }
             rechargeBigoId={rechargeBigoId}
