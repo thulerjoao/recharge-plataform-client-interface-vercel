@@ -111,7 +111,7 @@ const Coupon = ({
               ? couponApplied.coupon.title
               : blockInput
                 ? "Nenhum cupom foi aplicado"
-                : "Selecione ou insira o código"}
+                : "Insira ou informe o código"}
           </Text>
         </div>
       </section>
