@@ -1,6 +1,7 @@
 "use client";
 
 import Text from "@4miga/design-system/components/Text";
+import { Theme } from "@4miga/design-system/theme/theme";
 import { useProducts } from "contexts/products/ProductsProvider";
 import { useStore } from "contexts/store/StoreProvider";
 import { useRouter } from "next/navigation";
@@ -44,14 +45,6 @@ const Home = ({ coupon }: Props) => {
         >
           RECARREGUE AGORA!
         </Text>
-        {/* <Text
-          tag="h2"
-          align="center"
-          fontName="REGULAR"
-          margin="8px 0px 0px 0px"
-        >
-          Texto de exemplo
-        </Text> */}
         <section className="cardsContainer">
           {product &&
             product?.packages.map((packageItem, index) => (
@@ -67,6 +60,29 @@ const Home = ({ coupon }: Props) => {
         </section>
       </main>
       <SecurityAdvertise />
+      {/* <div className="couponsLink">
+        <Text
+          tag="p"
+          align="center"
+          fontName="REGULAR"
+          color={Theme.colors.secondaryText}
+          margin="32px 0 16px 0"
+        >
+          Quer economizar ainda mais?
+        </Text>
+        <Text
+          tag="a"
+          align="center"
+          fontName="REGULAR_MEDIUM"
+          color={Theme.colors.mainHighlight}
+          underline
+          pointer
+          onClick={() => route.push("/coupons")}
+          style={{ cursor: "pointer" }}
+        >
+          Ver cupons disponíveis
+        </Text>
+      </div> */}
       <BottomOffer />
     </HomeContainer>
   );

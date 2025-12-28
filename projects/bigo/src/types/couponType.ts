@@ -9,6 +9,7 @@ export type CouponValidationResponse =
         discountPercentage: number | null;
         discountAmount: number | null;
         isFirstPurchase: boolean;
+        minOrderAmount?: number;
       };
     }
   | {
@@ -22,3 +23,28 @@ export type CouponValidationResponse =
         | "First purchase coupon can only be used by new customers"
         | "Failed to validate coupon";
     };
+
+export type FeaturedCoupon = {
+  id: string;
+  title: string;
+  influencerId: string;
+  discountPercentage: string;
+  discountAmount: string | null;
+  expiresAt: string | null;
+  timesUsed: number;
+  totalSalesAmount: string;
+  maxUses: number | null;
+  minOrderAmount: string;
+  isActive: boolean;
+  isFirstPurchase: boolean;
+  storeId: string;
+  createdAt: string;
+  updatedAt: string;
+  deletedAt: string | null;
+  influencer: {
+    id: string;
+    name: string;
+    email: string;
+  };
+  featuredAt: string;
+};

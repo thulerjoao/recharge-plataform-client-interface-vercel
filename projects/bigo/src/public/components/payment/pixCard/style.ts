@@ -15,19 +15,18 @@ export const PixCardContainer = styled.div<AnimationProps>`
   flex-direction: row;
   background-color: ${Theme.colors.mainlight};
   box-sizing: border-box;
-  height: 72px;
+  height: 48px;
   width: 100%;
   border: 2px solid ${Theme.colors.secondaryAction};
-  ${({ firstExpand }) =>
-    firstExpand && `border: 3px solid ${Theme.colors.mainHighlight}`};
+  /* ${({ firstExpand }) =>
+    firstExpand && `border: 2px solid ${Theme.colors.mainHighlight}`}; */
   border-radius: 8px;
   padding: 0px 16px;
   padding-top: 12px;
   cursor: pointer;
-  margin-top: 24px;
   position: relative;
-  box-shadow: ${({ firstExpand }) =>
-    firstExpand && `0px 0px 12px 0px ${Theme.colors.mainHighlight}`};
+  /* box-shadow: ${({ firstExpand }) =>
+    firstExpand && `0px 0px 6px 0px ${Theme.colors.mainHighlight}`}; */
 
   .pixText {
     position: absolute;
@@ -71,7 +70,7 @@ export const BottomElement = styled.div<AnimationProps>`
             ? shrinkSecondStep
             : shrinkFirstStep
         : "none"}
-    0.5s forwards;
+    0.4s forwards;
   overflow: hidden;
 
   .valueToPay {
@@ -96,10 +95,11 @@ export const BottomElement = styled.div<AnimationProps>`
     border: ${({ secondExpand }) =>
       secondExpand ? `2px solid ${Theme.colors.secondaryAction};` : "none"};
     overflow: hidden;
-    height: ${({ secondExpand }) => (secondExpand ? "56px" : "0")};
-    animation: 0.5s easy-in-out;
+    height: ${({ secondExpand }) => (secondExpand ? "48px" : "0")};
+    animation: 0.4s easy-in-out;
     background-color: ${Theme.colors.mainlight};
-    margin-top: 16px;
+    margin-top: 18px;
+    margin-bottom: 18px;
     padding: 0 16px;
 
     input {
@@ -126,7 +126,6 @@ export const BottomElement = styled.div<AnimationProps>`
     max-width: 400px;
     overflow: hidden;
     z-index: 10;
-    margin-top: 16px;
   }
   .confirmButton {
     width: 100%;
@@ -144,7 +143,7 @@ export const BottomElement = styled.div<AnimationProps>`
     justify-content: space-between;
     overflow: hidden;
     height: ${({ secondExpand }) => (secondExpand ? "346px" : "0")};
-    animation: 0.5s easy-in-out;
+    animation: 0.4s easy-in-out;
 
     img {
       margin-top: 16px;

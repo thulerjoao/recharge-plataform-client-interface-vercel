@@ -54,6 +54,22 @@ export const HomeContainer = styled.div`
     }
   }
 
+  .couponsLink {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: 32px 0;
+
+    a {
+      transition: opacity 0.2s ease;
+
+      &:hover {
+        opacity: 0.8;
+      }
+    }
+  }
+
   @media (min-width: 540px) and (max-width: 1024px) {
   }
   @media (max-width: 539px) {
@@ -70,6 +86,11 @@ export const HomeContainer = styled.div`
           display: none;
         }
       }
+    }
+
+    .couponsLink {
+      margin: 24px 0;
+      padding: 0 16px;
     }
   }
 `;

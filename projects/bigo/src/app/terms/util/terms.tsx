@@ -579,6 +579,47 @@ const Terms = () => {
             color={Theme.colors.mainlight}
             margin="0 0 16px 0"
           >
+            Reembolso ou Cancelamento
+          </Text>
+
+          <Text
+            tag="p"
+            fontName="REGULAR"
+            color={Theme.colors.mainlight}
+            margin="0 0 16px 0"
+          >
+            Para que o reembolso possa ser efetuado, antes o cancelamento da
+            recarga precisa ser realizado.
+          </Text>
+
+          <Text
+            tag="p"
+            fontName="REGULAR"
+            color={Theme.colors.mainlight}
+            margin="0 0 16px 0"
+          >
+            O processo pode durar até 30 dias. E o usuário que recebeu as moedas
+            não pode usá-las, a fim de que o aplicativo possa recuperar.
+          </Text>
+
+          <Text
+            tag="p"
+            fontName="REGULAR"
+            color={Theme.colors.mainlight}
+            margin="0 0 24px 0"
+          >
+            Caso as moedas sejam usadas, os aplicativos ficam isentos da
+            recuperação, como previsto nos termos dos próprios.
+          </Text>
+        </section>
+
+        <section className="section">
+          <Text
+            tag="h2"
+            fontName="BIG_SEMI_BOLD"
+            color={Theme.colors.mainlight}
+            margin="0 0 16px 0"
+          >
             Legislação Aplicável e Jurisdição
           </Text>
 
