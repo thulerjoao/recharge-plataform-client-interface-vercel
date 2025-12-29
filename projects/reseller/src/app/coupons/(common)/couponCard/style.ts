@@ -3,14 +3,25 @@ import styled from "styled-components";
 
 export const CouponCardContainer = styled.div`
   display: grid;
-  grid-template-columns: 2fr 2fr 0.5fr;
+  grid-template-columns: 2fr 2fr 1.2fr 1fr;
   padding: 16px 20px;
   gap: 16px;
-  border-bottom: 1px solid ${Theme.colors.secondaryTextAction}20;
+  border-bottom: 1px solid ${Theme.colors.secondaryTextAction}50;
   align-items: center;
   cursor: pointer;
   transition: all 0.2s ease;
   min-height: 65px;
+
+  .actionCell {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: default;
+
+    button {
+      cursor: pointer;
+    }
+  }
 
   &:hover {
     background: ${Theme.colors.secondaryTextAction}10;
@@ -25,6 +36,17 @@ export const CouponCardContainer = styled.div`
     flex-direction: column;
     gap: 4px;
 
+    .firstPurchaseBadge {
+      background: ${Theme.colors.mainHighlight};
+      color: ${Theme.colors.maindark};
+      padding: 2px 8px;
+      border-radius: 4px;
+      font-size: 10px;
+      font-weight: 600;
+      align-self: flex-start;
+      margin-bottom: 4px;
+    }
+
     .couponTitle {
       display: flex;
       align-items: center;
@@ -33,20 +55,6 @@ export const CouponCardContainer = styled.div`
 
       p {
         width: auto;
-      }
-
-      .firstPurchaseBadge {
-        background: ${Theme.colors.mainHighlight};
-        color: ${Theme.colors.maindark};
-        width: 20px;
-        height: 20px;
-        border-radius: 5px;
-        font-size: 13px;
-        padding-left: 3px;
-        font-weight: 600;
-        display: flex;
-        align-items: center;
-        justify-content: center;
       }
     }
 
@@ -78,17 +86,14 @@ export const CouponCardContainer = styled.div`
 
   /* Breakpoint para telas médias (1200px e menores) */
   @media (max-width: 1200px) {
-    grid-template-columns: 2fr 2fr 0.5fr;
+    grid-template-columns: 2fr 2fr 1fr 1.2fr;
     gap: 12px;
     padding: 14px 16px;
 
     .tableCell {
-      .couponTitle {
-        .firstPurchaseBadge {
-          width: 18px;
-          height: 18px;
-          font-size: 12px;
-        }
+      .firstPurchaseBadge {
+        font-size: 9px;
+        padding: 2px 6px;
       }
 
       .statusBadge {
@@ -103,7 +108,7 @@ export const CouponCardContainer = styled.div`
 
   /* Breakpoint para tablets (768px e menores) */
   @media (max-width: 768px) {
-    grid-template-columns: 2fr 2fr 0.5fr;
+    grid-template-columns: 2fr 2fr 1fr 1.2fr;
     gap: 10px;
     padding: 12px 16px;
 
@@ -113,12 +118,9 @@ export const CouponCardContainer = styled.div`
     }
 
     .tableCell {
-      .couponTitle {
-        .firstPurchaseBadge {
-          width: 16px;
-          height: 16px;
-          font-size: 11px;
-        }
+      .firstPurchaseBadge {
+        font-size: 9px;
+        padding: 2px 6px;
       }
 
       .statusBadge {
@@ -137,21 +139,38 @@ export const CouponCardContainer = styled.div`
     gap: 8px;
     padding: 12px 16px;
     text-align: left;
-    position: relative; /* Para posicionar o status badge */
+    position: relative;
+    display: flex;
+    flex-direction: column;
+
+    .actionCell {
+      order: 999;
+      width: 100%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      margin-bottom: 8px;
+    }
 
     .tableCell {
       text-align: left;
       gap: 6px;
+      width: 100%;
+
+      &:nth-child(3) {
+        position: static !important;
+        order: 3;
+      }
+
+      .firstPurchaseBadge {
+        font-size: 9px;
+        padding: 2px 6px;
+        margin-bottom: 2px;
+      }
 
       .couponTitle {
         justify-content: flex-start;
         gap: 6px;
-
-        .firstPurchaseBadge {
-          width: 18px;
-          height: 18px;
-          font-size: 12px;
-        }
       }
 
       .mobileInfo {
@@ -159,20 +178,12 @@ export const CouponCardContainer = styled.div`
         margin-top: 2px;
       }
 
-      /* Status badge posicionado no canto superior direito */
-      &:last-child {
-        position: absolute;
-        top: 12px;
-        right: 10px;
-        z-index: 2;
-
-        .statusBadge {
-          min-width: 55px;
-          font-size: 10px;
-          height: 16px;
-          line-height: 14px;
-          padding: 1px 4px;
-        }
+      .statusBadge {
+        min-width: 55px;
+        font-size: 10px;
+        height: 16px;
+        line-height: 14px;
+        padding: 1px 4px;
       }
     }
   }
@@ -185,14 +196,14 @@ export const CouponCardContainer = styled.div`
     .tableCell {
       gap: 4px;
 
+      .firstPurchaseBadge {
+        font-size: 8px;
+        padding: 2px 5px;
+        margin-bottom: 2px;
+      }
+
       .couponTitle {
         gap: 4px;
-
-        .firstPurchaseBadge {
-          width: 16px;
-          height: 16px;
-          font-size: 10px;
-        }
       }
 
       .statusBadge {

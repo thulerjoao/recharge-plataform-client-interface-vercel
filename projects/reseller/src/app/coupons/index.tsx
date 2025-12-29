@@ -22,6 +22,8 @@ interface Props {
   type: "all" | "percentage" | "fixed" | "first-purchase";
 }
 
+type ViewType = "all" | "featured";
+
 const CouponsPage = ({
   currentPage,
   search,
@@ -42,16 +44,27 @@ const CouponsPage = ({
   const [localFilter, setLocalFilter] = useState(search);
   const [localStatus, setLocalStatus] = useState(initialStatus);
   const [localType, setLocalType] = useState(initialType);
+  const [currentView, setCurrentView] = useState<ViewType>("all");
+  const [featuredCouponIds, setFeaturedCouponIds] = useState<string[]>([]);
 
   useEffect(() => {
-    setPage(currentPage);
-    setFilter(search);
-    setLocalFilter(search);
-    setStatus(initialStatus);
-    setCouponType(initialType);
-    getCoupons(currentPage, 8, search, initialStatus, initialType);
+    if (currentView === "all") {
+      setPage(currentPage);
+      setFilter(search);
+      setLocalFilter(search);
+      setStatus(initialStatus);
+      setCouponType(initialType);
+      getCoupons(currentPage, 8, search, initialStatus, initialType);
+    }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [currentPage, search, initialStatus, initialType]);
+  }, [currentPage, search, initialStatus, initialType, currentView]);
+
+  useEffect(() => {
+    if (currentView === "featured") {
+      getCoupons(1, 100, "", "active", "all");
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [currentView]);
 
   const handleChangeStatus = (newStatus: "all" | "active" | "inactive") => {
     setLocalStatus(newStatus);
@@ -93,6 +106,14 @@ const CouponsPage = ({
     router.push(`/coupons/details/${couponId}`);
   };
 
+  const handleAddToFeatured = (couponId: string) => {
+    setFeaturedCouponIds((prev) => [...prev, couponId]);
+  };
+
+  const handleRemoveFromFeatured = (couponId: string) => {
+    setFeaturedCouponIds((prev) => prev.filter((id) => id !== couponId));
+  };
+
   const navigateToPage = (newPage: number) => {
     const params = new URLSearchParams();
     params.append("page", newPage.toString());
@@ -101,6 +122,13 @@ const CouponsPage = ({
     if (localType !== "all") params.append("type", localType);
     router.push(`/coupons?${params.toString()}`);
   };
+
+  const featuredCoupons = coupons?.data?.filter((coupon) =>
+    featuredCouponIds.includes(coupon.id),
+  );
+
+  const displayCoupons =
+    currentView === "all" ? coupons?.data : featuredCoupons;
 
   // if (loadingCoupons || !coupons) {
   //   return <LoadingPage />;
@@ -138,118 +166,190 @@ const CouponsPage = ({
           />
         </div>
 
-        <div className="filtersSection">
-          <form
-            className="searchSection"
-            onSubmit={(e) => {
-              e.preventDefault();
-              e.stopPropagation();
-              handleChangeFilter(localFilter);
-            }}
+        <div className="tabsSection">
+          <button
+            className={`tabButton ${currentView === "all" ? "active" : ""}`}
+            onClick={() => setCurrentView("all")}
           >
-            <Input
-              value={localFilter}
-              onChange={(e) => setLocalFilter(e.target.value)}
-              onBlur={() => handleChangeFilter(localFilter)}
-              placeholder="Buscar por título ou influencer..."
-              height={36}
-            />
-            <div
-              className="searchButton"
-              onClick={() => handleChangeFilter(localFilter)}
-            >
-              <Search />
-            </div>
-          </form>
-          <div className="filterControls">
-            <select
-              value={localStatus}
-              onChange={(e) =>
-                handleChangeStatus(
-                  e.target.value as "all" | "active" | "inactive",
-                )
+            <Text
+              fontName="REGULAR_SEMI_BOLD"
+              color={
+                currentView === "all"
+                  ? Theme.colors.mainlight
+                  : Theme.colors.secondaryText
               }
-              className="filterSelect"
             >
-              <option value="all">Todos os status</option>
-              <option value="active">Ativos</option>
-              <option value="inactive">Inativos</option>
-            </select>
-            <select
-              value={localType}
-              onChange={(e) =>
-                handleChangeType(
-                  e.target.value as
-                    | "all"
-                    | "percentage"
-                    | "fixed"
-                    | "first-purchase",
-                )
+              Todos os Cupons
+            </Text>
+          </button>
+          <button
+            className={`tabButton ${currentView === "featured" ? "active" : ""}`}
+            onClick={() => setCurrentView("featured")}
+          >
+            <Text
+              fontName="REGULAR_SEMI_BOLD"
+              color={
+                currentView === "featured"
+                  ? Theme.colors.mainlight
+                  : Theme.colors.secondaryText
               }
-              className="filterSelect"
             >
-              <option value="all">Todos os tipos</option>
-              <option value="percentage">Porcentagem</option>
-              <option value="fixed">Valor fixo</option>
-              <option value="first-purchase">Primeira compra</option>
-            </select>
-          </div>
+              Cupons em Destaque
+            </Text>
+          </button>
         </div>
 
-        {loadingCoupons && (
-          <div style={{ textAlign: "center", padding: "50px" }}>
-            <Text
-              align="center"
-              fontName="REGULAR_MEDIUM"
-              color={Theme.colors.secondaryText}
+        {currentView === "all" && (
+          <div className="filtersSection">
+            <form
+              className="searchSection"
+              onSubmit={(e) => {
+                e.preventDefault();
+                e.stopPropagation();
+                handleChangeFilter(localFilter);
+              }}
             >
+              <Input
+                value={localFilter}
+                onChange={(e) => setLocalFilter(e.target.value)}
+                onBlur={() => handleChangeFilter(localFilter)}
+                placeholder="Buscar por título ou influencer..."
+                height={36}
+              />
+              <div
+                className="searchButton"
+                onClick={() => handleChangeFilter(localFilter)}
+              >
+                <Search />
+              </div>
+            </form>
+            <div className="filterControls">
+              <select
+                value={localStatus}
+                onChange={(e) =>
+                  handleChangeStatus(
+                    e.target.value as "all" | "active" | "inactive",
+                  )
+                }
+                className="filterSelect"
+              >
+                <option value="all">Todos os status</option>
+                <option value="active">Ativos</option>
+                <option value="inactive">Inativos</option>
+              </select>
+              <select
+                value={localType}
+                onChange={(e) =>
+                  handleChangeType(
+                    e.target.value as
+                      | "all"
+                      | "percentage"
+                      | "fixed"
+                      | "first-purchase",
+                  )
+                }
+                className="filterSelect"
+              >
+                <option value="all">Todos os tipos</option>
+                <option value="percentage">Porcentagem</option>
+                <option value="fixed">Valor fixo</option>
+                <option value="first-purchase">Primeira compra</option>
+              </select>
+            </div>
+          </div>
+        )}
+
+        {loadingCoupons && (
+          <div className="emptyState">
+            <Text align="center" fontName="REGULAR_MEDIUM" color="#666">
               Carregando cupons...
             </Text>
           </div>
         )}
-        {!loadingCoupons && (!coupons?.data || coupons.data.length === 0) && (
-          <div className="emptyState">
-            <Text align="center" fontName="REGULAR_MEDIUM" color="#666">
-              Nenhum cupom encontrado
-            </Text>
-          </div>
-        )}
-        {!loadingCoupons && !(!coupons?.data || coupons.data.length === 0) && (
+
+        {!loadingCoupons &&
+          (!displayCoupons || displayCoupons.length === 0) && (
+            <div className="emptyState">
+              <Text align="center" fontName="REGULAR_MEDIUM" color="#666">
+                {currentView === "all"
+                  ? "Nenhum cupom encontrado"
+                  : "Nenhum cupom em destaque"}
+              </Text>
+              {currentView === "featured" && (
+                <Text
+                  align="center"
+                  fontName="SMALL"
+                  color={Theme.colors.secondaryText}
+                  style={{ marginTop: "8px" }}
+                >
+                  Adicione cupons da aba &quot;Todos os Cupons&quot;
+                </Text>
+              )}
+            </div>
+          )}
+
+        {!loadingCoupons && displayCoupons && displayCoupons.length > 0 && (
           <section className="tableSection">
             <div className="tableHeader">
               <div className="tableCell">Título</div>
               <div className="tableCell">Desconto</div>
               <div className="tableCell">Status</div>
+              <div className="tableCell actionHeader">Destaque</div>
             </div>
 
-            {loadingCoupons ? (
-              <div style={{ textAlign: "center", padding: "20px" }}>
-                <Text fontName="REGULAR_MEDIUM">Carregando...</Text>
-              </div>
-            ) : (
-              coupons?.data?.map((coupon) => (
+            {displayCoupons.map((coupon) => {
+              const isFeatured = featuredCouponIds.includes(coupon.id);
+              return (
                 <CouponCard
                   key={coupon.id}
                   coupon={coupon}
                   onClick={handleViewCoupon}
+                  onAddToFeatured={
+                    currentView === "all" && !isFeatured
+                      ? () => handleAddToFeatured(coupon.id)
+                      : undefined
+                  }
+                  onRemoveFromFeatured={
+                    currentView === "all" && isFeatured
+                      ? () => handleRemoveFromFeatured(coupon.id)
+                      : currentView === "featured"
+                        ? () => handleRemoveFromFeatured(coupon.id)
+                        : undefined
+                  }
+                  isFeatured={isFeatured}
+                  currentView={currentView}
                 />
-              ))
-            )}
+              );
+            })}
           </section>
         )}
       </div>
-      {coupons?.data.length !== 0 && coupons !== undefined && (
-        <Pagination
-          page={coupons?.page || 1}
-          setPage={navigateToPage}
-          totalPages={coupons?.totalPages || 1}
-        />
+
+      {currentView === "all" &&
+        coupons?.data.length !== 0 &&
+        coupons !== undefined && (
+          <Pagination
+            page={coupons?.page || 1}
+            setPage={navigateToPage}
+            totalPages={coupons?.totalPages || 1}
+          />
+        )}
+
+      {currentView === "all" && (
+        <div style={{ marginTop: "16px", textAlign: "center" }}>
+          <Text fontName="TINY" color={Theme.colors.secondaryText}>
+            Total: {coupons?.totalCoupons || 0} cupons encontrados
+          </Text>
+        </div>
       )}
-      <div style={{ marginTop: "16px", textAlign: "center" }}>
-        <Text fontName="TINY" color={Theme.colors.secondaryText}>
-          Total: {coupons?.totalCoupons || 0} cupons encontrados
-        </Text>
-      </div>
+
+      {currentView === "featured" && (
+        <div style={{ marginTop: "16px", textAlign: "center" }}>
+          <Text fontName="TINY" color={Theme.colors.secondaryText}>
+            {featuredCoupons?.length || 0} cupons em destaque
+          </Text>
+        </div>
+      )}
     </CouponsContainer>
   );
 };

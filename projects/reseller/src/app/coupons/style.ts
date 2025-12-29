@@ -39,6 +39,31 @@ export const CouponsContainer = styled.div`
       }
     }
 
+    .tabsSection {
+      display: flex;
+      gap: 8px;
+      background: ${Theme.colors.maindark};
+      border-radius: 12px;
+      padding: 8px;
+      -webkit-box-shadow: 0px 0px 5px 2px rgba(7, 29, 35, 1);
+      -moz-box-shadow: 0px 0px 5px 2px rgba(7, 29, 35, 1);
+      box-shadow: 0px 0px 5px 2px rgba(7, 29, 35, 1);
+
+      .tabButton {
+        flex: 1;
+        padding: 12px 24px;
+        border: none;
+        background: transparent;
+        border-radius: 8px;
+        cursor: pointer;
+        transition: all 0.2s ease;
+
+        &.active {
+          background: ${Theme.colors.mainHighlight};
+        }
+      }
+    }
+
     .filtersSection {
       display: flex;
       justify-content: space-between;
@@ -109,7 +134,7 @@ export const CouponsContainer = styled.div`
 
       .tableHeader {
         display: grid;
-        grid-template-columns: 2fr 2fr 0.4fr;
+        grid-template-columns: 2fr 2fr 1.2fr 1fr;
         background: ${Theme.colors.secondaryTextAction};
         padding: 16px 20px;
         gap: 16px;
@@ -118,9 +143,12 @@ export const CouponsContainer = styled.div`
           font-weight: 600;
           color: ${Theme.colors.mainlight};
           font-size: 14px;
+
+          &.actionHeader {
+            text-align: center;
+          }
         }
 
-        /* Classes para controle de visibilidade responsiva */
         .desktopOnly {
           @media (max-width: 539px) {
             display: none;
@@ -141,7 +169,7 @@ export const CouponsContainer = styled.div`
     .mainContentComponent {
       .tableSection {
         .tableHeader {
-          grid-template-columns: 2fr 2fr 0.4fr;
+          grid-template-columns: 2fr 2fr 1fr 1.2fr;
           gap: 12px;
           padding: 14px 16px;
 
@@ -185,6 +213,12 @@ export const CouponsContainer = styled.div`
         margin-bottom: 20px;
       }
 
+      .tabsSection {
+        .tabButton {
+          padding: 10px 16px;
+        }
+      }
+
       .filtersSection {
         flex-direction: column;
         gap: 16px;
@@ -208,7 +242,7 @@ export const CouponsContainer = styled.div`
 
       .tableSection {
         .tableHeader {
-          grid-template-columns: 2fr 2fr 0.4fr;
+          grid-template-columns: 2fr 2fr 1fr 1.2fr;
           gap: 10px;
           padding: 12px 20px;
 
@@ -239,6 +273,14 @@ export const CouponsContainer = styled.div`
         padding: 16px;
         margin-bottom: 16px;
         gap: 12px;
+      }
+
+      .tabsSection {
+        padding: 8px;
+
+        .tabButton {
+          padding: 8px 12px;
+        }
       }
 
       .filtersSection {
@@ -273,6 +315,14 @@ export const CouponsContainer = styled.div`
         padding: 14px;
         margin-bottom: 14px;
         gap: 10px;
+      }
+
+      .tabsSection {
+        padding: 6px;
+
+        .tabButton {
+          padding: 8px 12px;
+        }
       }
 
       .filtersSection {
