@@ -1,75 +1,24 @@
 "use client";
 
 import Text from "@4miga/design-system/components/Text";
+import Button from "@4miga/design-system/components/button";
+import { Theme } from "@4miga/design-system/theme/theme";
+import {
+  connectionAPIGet,
+  connectionAPIPost,
+} from "@4miga/services/connectionAPI/connection";
+import { apiUrl } from "@4miga/services/connectionAPI/url";
+import LoadingPage from "app/loading";
 import DefaultHeader from "public/components/defaultHeader";
 import HeaderEnviroment from "public/components/headerEnviroment";
 import { useEffect, useRef, useState } from "react";
 import { DashboardDataType, PeriodType } from "types/dashboardTypes";
+import CronHealthIndicator from "../common/components/cronHealthIndicator";
 import DailyTrend from "../common/components/dailyTrend";
 import MetricsCards from "../common/components/metricsCards";
 import PeriodSelector from "../common/components/periodSelector";
 import SalesByProduct from "../common/components/salesByProduct";
 import { DashboardContainer } from "./style";
-import LoadingPage from "app/loading";
-
-// Function to generate mock data based on the period
-const generateMockData = (
-  period: PeriodType,
-  firstAvailablePeriod: { year: number; month: number; period: string },
-): DashboardDataType => {
-  // Data variation based on month/year to simulate different periods
-  const variation = period.year * 100 + period.month;
-  const baseMultiplier = 1 + (variation % 10) * 0.1;
-
-  // Generate dates for the period
-  const daysInMonth = new Date(period.year, period.month, 0).getDate();
-  const dailyTrend = [];
-  for (let i = daysInMonth; i > Math.max(0, daysInMonth - 7); i--) {
-    const date = new Date(period.year, period.month - 1, i);
-    dailyTrend.push({
-      date: date.toISOString().split("T")[0],
-      totalSales: (2000 + Math.random() * 1500) * baseMultiplier,
-      totalOrders: Math.floor(15 + Math.random() * 15),
-    });
-  }
-
-  return {
-    period,
-    summary: {
-      totalSales: 50000.0 * baseMultiplier,
-      totalOrders: Math.floor(150 * baseMultiplier),
-      totalCompletedOrders: Math.floor(140 * baseMultiplier),
-      totalExpiredOrders: Math.floor(5 * baseMultiplier),
-      totalRefundedOrders: Math.floor(5 * baseMultiplier),
-      averageTicket: 357.14 * baseMultiplier,
-      totalCustomers: Math.floor(120 * baseMultiplier),
-      newCustomers: Math.floor(30 * baseMultiplier),
-      ordersWithCoupon: Math.floor(80 * baseMultiplier),
-      ordersWithoutCoupon: Math.floor(70 * baseMultiplier),
-    },
-    dailyTrend: dailyTrend.reverse(),
-    salesByProduct: [
-      {
-        productId: "prod-123",
-        productName: "Bigo Live Coins",
-        imgCardUrl:
-          "https://storage.example.com/store/store-123/product/prod-123/card/card.png",
-        totalSales: 30000.0 * baseMultiplier,
-        totalOrders: Math.floor(90 * baseMultiplier),
-        percentage: 60.0,
-      },
-      {
-        productId: "prod-456",
-        productName: "Free Fire Diamonds",
-        imgCardUrl: "https://storage.example.com/product/prod-456/card.png",
-        totalSales: 20000.0 * baseMultiplier,
-        totalOrders: Math.floor(60 * baseMultiplier),
-        percentage: 40.0,
-      },
-    ],
-    firstAvailablePeriod,
-  };
-};
 
 // Initial period (current month)
 const getCurrentPeriod = (): PeriodType => {
@@ -86,11 +35,19 @@ const getCurrentPeriod = (): PeriodType => {
   };
 };
 
-// Mocked first available period (based on example)
-const mockFirstAvailablePeriod = {
-  year: 2023,
-  month: 1,
-  period: "2023-01",
+// Convert PeriodType to API format ("YYYY-MM" or "current_month")
+const getPeriodParam = (period: PeriodType): string => {
+  const now = new Date();
+  const currentYear = now.getFullYear();
+  const currentMonth = now.getMonth() + 1;
+
+  // Se for o mês atual, retorna "current_month"
+  if (period.year === currentYear && period.month === currentMonth) {
+    return "current_month";
+  }
+
+  // Caso contrário, retorna "YYYY-MM"
+  return `${period.year}-${String(period.month).padStart(2, "0")}`;
 };
 
 const Dashboard = () => {
@@ -100,89 +57,159 @@ const Dashboard = () => {
     null,
   );
   const [loading, setLoading] = useState<boolean>(true);
-  const [firstAvailablePeriod, setFirstAvailablePeriod] = useState(
-    mockFirstAvailablePeriod,
-  );
+  const [recalculating, setRecalculating] = useState<boolean>(false);
+  const [refreshing, setRefreshing] = useState<boolean>(false);
+  const [error, setError] = useState<string | null>(null);
+  const [firstAvailablePeriod, setFirstAvailablePeriod] = useState<{
+    year: number;
+    month: number;
+    period: string;
+  } | null>(null);
   const hasAdjustedPeriod = useRef(false);
 
-  useEffect(() => {
-    // Simulate loading delay when changing period
-    setLoading(true);
-    const timer = setTimeout(() => {
-      const mockData = generateMockData(selectedPeriod, firstAvailablePeriod);
-      setDashboardData(mockData);
-      setLoading(false);
-    }, 300);
+  // Função para buscar dados do dashboard
+  const fetchDashboardData = async (period: PeriodType) => {
+    try {
+      setLoading(true);
+      setError(null);
+      const periodParam = getPeriodParam(period);
+      const response = await connectionAPIGet<DashboardDataType>(
+        `/metrics/dashboard?period=${periodParam}`,
+        apiUrl,
+      );
 
-    return () => clearTimeout(timer);
+      setDashboardData(response);
+
+      // Atualizar firstAvailablePeriod se ainda não foi ajustado
+      if (response.firstAvailablePeriod && !hasAdjustedPeriod.current) {
+        setFirstAvailablePeriod(response.firstAvailablePeriod);
+
+        // Ajustar período se necessário
+        const currentYear = new Date().getFullYear();
+        const currentMonth = new Date().getMonth() + 1;
+
+        let adjustedPeriod = { ...period };
+
+        // Se selected year é antes do primeiro disponível
+        if (period.year < response.firstAvailablePeriod.year) {
+          adjustedPeriod = {
+            ...period,
+            year: response.firstAvailablePeriod.year,
+            month: response.firstAvailablePeriod.month,
+          };
+        }
+        // Se é o primeiro ano e mês é antes do primeiro disponível
+        else if (
+          period.year === response.firstAvailablePeriod.year &&
+          period.month < response.firstAvailablePeriod.month
+        ) {
+          adjustedPeriod = {
+            ...period,
+            month: response.firstAvailablePeriod.month,
+          };
+        }
+        // Se ano é futuro ou mês é futuro
+        else if (
+          period.year > currentYear ||
+          (period.year === currentYear && period.month > currentMonth)
+        ) {
+          adjustedPeriod = {
+            ...period,
+            year: currentYear,
+            month: currentMonth,
+          };
+        }
+
+        // Recalcular datas se período foi ajustado
+        if (
+          adjustedPeriod.year !== period.year ||
+          adjustedPeriod.month !== period.month
+        ) {
+          const daysInMonth = new Date(
+            adjustedPeriod.year,
+            adjustedPeriod.month,
+            0,
+          ).getDate();
+          adjustedPeriod.startDate = `${adjustedPeriod.year}-${String(adjustedPeriod.month).padStart(2, "0")}-01`;
+          adjustedPeriod.endDate = `${adjustedPeriod.year}-${String(adjustedPeriod.month).padStart(2, "0")}-${String(daysInMonth).padStart(2, "0")}`;
+          adjustedPeriod.type = `${adjustedPeriod.year}-${String(adjustedPeriod.month).padStart(2, "0")}`;
+          setSelectedPeriod(adjustedPeriod);
+          hasAdjustedPeriod.current = true;
+          // Recarregar dados com período ajustado
+          await fetchDashboardData(adjustedPeriod);
+          return;
+        } else {
+          hasAdjustedPeriod.current = true;
+        }
+      }
+    } catch (err: any) {
+      const errorMessage =
+        err?.response?.data?.message ||
+        "Erro ao carregar dados do dashboard. Tente novamente.";
+      setError(errorMessage);
+      alert(errorMessage);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  // Buscar dados quando o período muda
+  useEffect(() => {
+    fetchDashboardData(selectedPeriod);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [selectedPeriod]);
 
-  // Update firstAvailablePeriod only once when data arrives
-  useEffect(() => {
-    if (dashboardData?.firstAvailablePeriod && !hasAdjustedPeriod.current) {
-      const newFirstAvailable = dashboardData.firstAvailablePeriod;
-      setFirstAvailablePeriod(newFirstAvailable);
+  // Função para recalcular métricas
+  const handleRecalculate = async () => {
+    if (!dashboardData) return;
 
-      // Adjust selected period if it's outside the available range
-      const currentYear = new Date().getFullYear();
-      const currentMonth = new Date().getMonth() + 1;
+    try {
+      setRecalculating(true);
+      setError(null);
+      const periodParam = getPeriodParam(selectedPeriod);
+      const response = await connectionAPIPost<DashboardDataType>(
+        `/metrics/recalculate`,
+        { period: periodParam },
+        apiUrl,
+      );
 
-      let adjustedPeriod = { ...selectedPeriod };
-
-      // If selected year is before the first available
-      if (selectedPeriod.year < newFirstAvailable.year) {
-        adjustedPeriod = {
-          ...selectedPeriod,
-          year: newFirstAvailable.year,
-          month: newFirstAvailable.month,
-        };
-      }
-      // If it's the first year and month is before the first available
-      else if (
-        selectedPeriod.year === newFirstAvailable.year &&
-        selectedPeriod.month < newFirstAvailable.month
-      ) {
-        adjustedPeriod = {
-          ...selectedPeriod,
-          month: newFirstAvailable.month,
-        };
-      }
-      // If year is future or month is future
-      else if (
-        selectedPeriod.year > currentYear ||
-        (selectedPeriod.year === currentYear &&
-          selectedPeriod.month > currentMonth)
-      ) {
-        adjustedPeriod = {
-          ...selectedPeriod,
-          year: currentYear,
-          month: currentMonth,
-        };
-      }
-
-      // Recalculate dates if period was adjusted
-      if (
-        adjustedPeriod.year !== selectedPeriod.year ||
-        adjustedPeriod.month !== selectedPeriod.month
-      ) {
-        const daysInMonth = new Date(
-          adjustedPeriod.year,
-          adjustedPeriod.month,
-          0,
-        ).getDate();
-        adjustedPeriod.startDate = `${adjustedPeriod.year}-${String(adjustedPeriod.month).padStart(2, "0")}-01`;
-        adjustedPeriod.endDate = `${adjustedPeriod.year}-${String(adjustedPeriod.month).padStart(2, "0")}-${String(daysInMonth).padStart(2, "0")}`;
-        adjustedPeriod.type = `${adjustedPeriod.year}-${String(adjustedPeriod.month).padStart(2, "0")}`;
-        setSelectedPeriod(adjustedPeriod);
-        hasAdjustedPeriod.current = true;
-      } else {
-        hasAdjustedPeriod.current = true;
-      }
+      setDashboardData(response);
+    } catch (err: any) {
+      const errorMessage =
+        err?.response?.data?.message ||
+        "Erro ao recalcular métricas. Tente novamente.";
+      setError(errorMessage);
+      alert(errorMessage);
+    } finally {
+      setRecalculating(false);
     }
-  }, [dashboardData?.firstAvailablePeriod, selectedPeriod]);
+  };
+
+  // Função para refresh (atualizar métricas em tempo real)
+  const handleRefresh = async () => {
+    try {
+      setRefreshing(true);
+      setError(null);
+      const response = await connectionAPIPost<DashboardDataType>(
+        `/metrics/refresh`,
+        {},
+        apiUrl,
+      );
+
+      setDashboardData(response);
+    } catch (err: any) {
+      const errorMessage =
+        err?.response?.data?.message ||
+        "Erro ao atualizar métricas. Tente novamente.";
+      setError(errorMessage);
+      alert(errorMessage);
+    } finally {
+      setRefreshing(false);
+    }
+  };
 
   const handlePeriodChange = (period: PeriodType) => {
+    hasAdjustedPeriod.current = false; // Reset flag ao mudar período manualmente
     setSelectedPeriod(period);
   };
 
@@ -206,24 +233,20 @@ const Dashboard = () => {
     return `${monthNames[month - 1]} ${year}`;
   };
 
-  // if (loading) {
-  //   return (
-  //     <DashboardContainer>
-  //       <Text fontName="LARGE_SEMI_BOLD">Carregando dashboard...</Text>
-  //     </DashboardContainer>
-  //   );
-  // }
-
-  // if (!dashboardData) {
-  //   return (
-  //     <DashboardContainer>
-  //       <Text fontName="LARGE_SEMI_BOLD">Nenhum dado disponível</Text>
-  //     </DashboardContainer>
-  //   );
-  // }
-
-  if (loading) {
+  if (loading && !dashboardData) {
     return <LoadingPage />;
+  }
+
+  if (!dashboardData) {
+    return (
+      <DashboardContainer>
+        <div className="centerContainer">
+          <Text fontName="LARGE_SEMI_BOLD">
+            {error || "Nenhum dado disponível"}
+          </Text>
+        </div>
+      </DashboardContainer>
+    );
   }
 
   return (
@@ -240,16 +263,27 @@ const Dashboard = () => {
           </Text>
         </div>
         <div className="header">
+          <CronHealthIndicator
+            cronHealthStatus={dashboardData.cronHealthStatus}
+            onRecalculate={handleRecalculate}
+            recalculating={recalculating}
+          />
           <div className="headerTop">
             <Text fontName="LARGE_SEMI_BOLD">Performance da loja</Text>
-            <PeriodSelector
-              period={selectedPeriod}
-              firstAvailablePeriod={firstAvailablePeriod}
-              onPeriodChange={handlePeriodChange}
-            />
+            <div className="headerControls">
+              <PeriodSelector
+                period={selectedPeriod}
+                firstAvailablePeriod={firstAvailablePeriod || undefined}
+                onPeriodChange={handlePeriodChange}
+              />
+            </div>
           </div>
           {dashboardData.period && (
-            <Text margin="8px 0 0 0" fontName="REGULAR" color="#999">
+            <Text
+              margin="8px 0 0 0"
+              fontName="REGULAR"
+              color={Theme.colors.secondaryText}
+            >
               Período: {formatPeriod()}
             </Text>
           )}
