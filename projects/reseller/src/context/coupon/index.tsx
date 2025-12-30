@@ -1,9 +1,13 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 "use client";
 
-import { connectionAPIGet } from "@4miga/services/connectionAPI/connection";
+import {
+  connectionAPIGet,
+  connectionAPIPost,
+  connectionAPIDelete,
+} from "@4miga/services/connectionAPI/connection";
 import { createContext, ReactNode, useContext, useState } from "react";
-import { CouponResponseType } from "types/couponType";
+import { CouponResponseType, CouponType } from "types/couponType";
 import { apiUrl } from "@4miga/services/connectionAPI/url";
 
 interface CouponsProviderProps {
@@ -31,6 +35,13 @@ interface CouponsProviderData {
     isActive?: "all" | "active" | "inactive",
     couponType?: "all" | "percentage" | "fixed" | "first-purchase",
   ) => void;
+  featuredCoupons: CouponType[];
+  loadingFeatured: boolean;
+  hasLoadedFeatured: boolean;
+  loadingFeaturedAction: Set<string>;
+  getFeaturedCoupons: () => Promise<void>;
+  addToFeatured: (couponId: string) => Promise<void>;
+  removeFromFeatured: (couponId: string) => Promise<void>;
 }
 
 const CouponsContext = createContext<CouponsProviderData>(
@@ -46,6 +57,12 @@ export const CouponsProvider = ({ children }: CouponsProviderProps) => {
     "all" | "percentage" | "fixed" | "first-purchase"
   >("all");
   const [page, setPage] = useState<number>(1);
+  const [featuredCoupons, setFeaturedCoupons] = useState<CouponType[]>([]);
+  const [loadingFeatured, setLoadingFeatured] = useState<boolean>(false);
+  const [hasLoadedFeatured, setHasLoadedFeatured] = useState<boolean>(false);
+  const [loadingFeaturedAction, setLoadingFeaturedAction] = useState<
+    Set<string>
+  >(new Set());
 
   const getCoupons = async (
     page: number,
@@ -84,6 +101,68 @@ export const CouponsProvider = ({ children }: CouponsProviderProps) => {
       });
   };
 
+  const getFeaturedCoupons = async () => {
+    if (hasLoadedFeatured) {
+      return;
+    }
+
+    setLoadingFeatured(true);
+    try {
+      const featured = await connectionAPIGet<CouponType[]>(
+        "/coupon/featured",
+        apiUrl,
+      );
+      setFeaturedCoupons(featured);
+      setHasLoadedFeatured(true);
+    } catch (error) {
+      console.error("Erro ao buscar cupons em destaque:", error);
+    } finally {
+      setLoadingFeatured(false);
+    }
+  };
+
+  const addToFeatured = async (couponId: string) => {
+    setLoadingFeaturedAction((prev) => new Set(prev).add(couponId));
+    try {
+      await connectionAPIPost(`/coupon/featured`, { couponId }, apiUrl);
+      const coupon = coupons?.data?.find((c) => c.id === couponId);
+      if (coupon) {
+        setFeaturedCoupons((prev) => {
+          if (!prev.some((c) => c.id === couponId)) {
+            return [...prev, coupon];
+          }
+          return prev;
+        });
+      }
+    } catch (error) {
+      console.error("Erro ao adicionar cupom em destaque:", error);
+      throw error;
+    } finally {
+      setLoadingFeaturedAction((prev) => {
+        const next = new Set(prev);
+        next.delete(couponId);
+        return next;
+      });
+    }
+  };
+
+  const removeFromFeatured = async (couponId: string) => {
+    setLoadingFeaturedAction((prev) => new Set(prev).add(couponId));
+    try {
+      await connectionAPIDelete(`/coupon/featured/${couponId}`, apiUrl);
+      setFeaturedCoupons((prev) => prev.filter((c) => c.id !== couponId));
+    } catch (error) {
+      console.error("Erro ao remover cupom de destaque:", error);
+      throw error;
+    } finally {
+      setLoadingFeaturedAction((prev) => {
+        const next = new Set(prev);
+        next.delete(couponId);
+        return next;
+      });
+    }
+  };
+
   return (
     <CouponsContext.Provider
       value={{
@@ -99,6 +178,13 @@ export const CouponsProvider = ({ children }: CouponsProviderProps) => {
         couponType,
         setCouponType,
         getCoupons,
+        featuredCoupons,
+        loadingFeatured,
+        hasLoadedFeatured,
+        loadingFeaturedAction,
+        getFeaturedCoupons,
+        addToFeatured,
+        removeFromFeatured,
       }}
     >
       {children}

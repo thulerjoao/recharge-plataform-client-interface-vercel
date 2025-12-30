@@ -15,6 +15,7 @@ interface CouponCardProps {
   onRemoveFromFeatured?: (couponId: string) => void;
   isFeatured?: boolean;
   currentView?: "all" | "featured";
+  isLoading?: boolean;
 }
 
 const CouponCard = ({
@@ -24,6 +25,7 @@ const CouponCard = ({
   onRemoveFromFeatured,
   isFeatured,
   currentView,
+  isLoading = false,
 }: CouponCardProps) => {
   const getDiscountText = (coupon: CouponType) => {
     if (coupon.discountPercentage) {
@@ -37,6 +39,9 @@ const CouponCard = ({
 
   const handleActionClick = (e: React.MouseEvent) => {
     e.stopPropagation();
+
+    if (isLoading) return;
+
     if (currentView === "all") {
       if (isFeatured && onRemoveFromFeatured) {
         onRemoveFromFeatured(coupon.id);
@@ -126,6 +131,7 @@ const CouponCard = ({
           width={getButtonWidth()}
           height={28}
           rounded
+          loading={isLoading}
           style={
             (currentView === "all" && isFeatured) || currentView === "featured"
               ? {

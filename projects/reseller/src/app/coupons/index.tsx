@@ -13,7 +13,6 @@ import { useEffect, useState } from "react";
 import CouponCard from "./(common)/couponCard";
 import Search from "./(common)/icons/Search.svg";
 import { CouponsContainer } from "./style";
-import LoadingPage from "app/loading";
 
 interface Props {
   currentPage: number;
@@ -39,29 +38,32 @@ const CouponsPage = ({
     setFilter,
     setStatus,
     setCouponType,
+    featuredCoupons,
+    loadingFeatured,
+    loadingFeaturedAction,
+    getFeaturedCoupons,
+    addToFeatured,
+    removeFromFeatured,
   } = useCoupons();
 
   const [localFilter, setLocalFilter] = useState(search);
   const [localStatus, setLocalStatus] = useState(initialStatus);
   const [localType, setLocalType] = useState(initialType);
   const [currentView, setCurrentView] = useState<ViewType>("all");
-  const [featuredCouponIds, setFeaturedCouponIds] = useState<string[]>([]);
 
   useEffect(() => {
-    if (currentView === "all") {
-      setPage(currentPage);
-      setFilter(search);
-      setLocalFilter(search);
-      setStatus(initialStatus);
-      setCouponType(initialType);
-      getCoupons(currentPage, 8, search, initialStatus, initialType);
-    }
+    setPage(currentPage);
+    setFilter(search);
+    setLocalFilter(search);
+    setStatus(initialStatus);
+    setCouponType(initialType);
+    getCoupons(currentPage, 8, search, initialStatus, initialType);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [currentPage, search, initialStatus, initialType, currentView]);
+  }, [currentPage, search, initialStatus, initialType]);
 
   useEffect(() => {
     if (currentView === "featured") {
-      getCoupons(1, 100, "", "active", "all");
+      getFeaturedCoupons();
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [currentView]);
@@ -106,12 +108,20 @@ const CouponsPage = ({
     router.push(`/coupons/details/${couponId}`);
   };
 
-  const handleAddToFeatured = (couponId: string) => {
-    setFeaturedCouponIds((prev) => [...prev, couponId]);
+  const handleAddToFeatured = async (couponId: string) => {
+    try {
+      await addToFeatured(couponId);
+    } catch (error) {
+      alert("Erro ao adicionar cupom ao destaque");
+    }
   };
 
-  const handleRemoveFromFeatured = (couponId: string) => {
-    setFeaturedCouponIds((prev) => prev.filter((id) => id !== couponId));
+  const handleRemoveFromFeatured = async (couponId: string) => {
+    try {
+      await removeFromFeatured(couponId);
+    } catch (error) {
+      alert("Erro ao remover cupom do destaque");
+    }
   };
 
   const navigateToPage = (newPage: number) => {
@@ -122,10 +132,6 @@ const CouponsPage = ({
     if (localType !== "all") params.append("type", localType);
     router.push(`/coupons?${params.toString()}`);
   };
-
-  const featuredCoupons = coupons?.data?.filter((coupon) =>
-    featuredCouponIds.includes(coupon.id),
-  );
 
   const displayCoupons =
     currentView === "all" ? coupons?.data : featuredCoupons;
@@ -173,6 +179,7 @@ const CouponsPage = ({
           >
             <Text
               fontName="REGULAR_SEMI_BOLD"
+              align="center"
               color={
                 currentView === "all"
                   ? Theme.colors.mainlight
@@ -188,13 +195,14 @@ const CouponsPage = ({
           >
             <Text
               fontName="REGULAR_SEMI_BOLD"
+              align="center"
               color={
                 currentView === "featured"
                   ? Theme.colors.mainlight
                   : Theme.colors.secondaryText
               }
             >
-              Cupons em Destaque
+              Cupons para tela de Destaque
             </Text>
           </button>
         </div>
@@ -259,7 +267,8 @@ const CouponsPage = ({
           </div>
         )}
 
-        {loadingCoupons && (
+        {(loadingCoupons ||
+          (currentView === "featured" && loadingFeatured)) && (
           <div className="emptyState">
             <Text align="center" fontName="REGULAR_MEDIUM" color="#666">
               Carregando cupons...
@@ -268,6 +277,7 @@ const CouponsPage = ({
         )}
 
         {!loadingCoupons &&
+          !(currentView === "featured" && loadingFeatured) &&
           (!displayCoupons || displayCoupons.length === 0) && (
             <div className="emptyState">
               <Text align="center" fontName="REGULAR_MEDIUM" color="#666">
@@ -288,41 +298,48 @@ const CouponsPage = ({
             </div>
           )}
 
-        {!loadingCoupons && displayCoupons && displayCoupons.length > 0 && (
-          <section className="tableSection">
-            <div className="tableHeader">
-              <div className="tableCell">Título</div>
-              <div className="tableCell">Desconto</div>
-              <div className="tableCell">Status</div>
-              <div className="tableCell actionHeader">Destaque</div>
-            </div>
+        {!loadingCoupons &&
+          !(currentView === "featured" && loadingFeatured) &&
+          displayCoupons &&
+          displayCoupons.length > 0 && (
+            <section className="tableSection">
+              <div className="tableHeader">
+                <div className="tableCell">Título</div>
+                <div className="tableCell">Desconto</div>
+                <div className="tableCell">Status</div>
+                <div className="tableCell actionHeader">Destaque</div>
+              </div>
 
-            {displayCoupons.map((coupon) => {
-              const isFeatured = featuredCouponIds.includes(coupon.id);
-              return (
-                <CouponCard
-                  key={coupon.id}
-                  coupon={coupon}
-                  onClick={handleViewCoupon}
-                  onAddToFeatured={
-                    currentView === "all" && !isFeatured
-                      ? () => handleAddToFeatured(coupon.id)
-                      : undefined
-                  }
-                  onRemoveFromFeatured={
-                    currentView === "all" && isFeatured
-                      ? () => handleRemoveFromFeatured(coupon.id)
-                      : currentView === "featured"
-                        ? () => handleRemoveFromFeatured(coupon.id)
+              {displayCoupons.map((coupon) => {
+                const isFeatured = featuredCoupons.some(
+                  (fc) => fc.id === coupon.id,
+                );
+                const isLoading = loadingFeaturedAction.has(coupon.id);
+                return (
+                  <CouponCard
+                    key={coupon.id}
+                    coupon={coupon}
+                    onClick={handleViewCoupon}
+                    onAddToFeatured={
+                      currentView === "all" && !isFeatured
+                        ? () => handleAddToFeatured(coupon.id)
                         : undefined
-                  }
-                  isFeatured={isFeatured}
-                  currentView={currentView}
-                />
-              );
-            })}
-          </section>
-        )}
+                    }
+                    onRemoveFromFeatured={
+                      currentView === "all" && isFeatured
+                        ? () => handleRemoveFromFeatured(coupon.id)
+                        : currentView === "featured"
+                          ? () => handleRemoveFromFeatured(coupon.id)
+                          : undefined
+                    }
+                    isFeatured={isFeatured}
+                    currentView={currentView}
+                    isLoading={isLoading}
+                  />
+                );
+              })}
+            </section>
+          )}
       </div>
 
       {currentView === "all" &&
