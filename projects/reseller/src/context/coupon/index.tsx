@@ -42,6 +42,7 @@ interface CouponsProviderData {
   getFeaturedCoupons: () => Promise<void>;
   addToFeatured: (couponId: string) => Promise<void>;
   removeFromFeatured: (couponId: string) => Promise<void>;
+  updateCoupon: (updatedCoupon: CouponType) => void;
 }
 
 const CouponsContext = createContext<CouponsProviderData>(
@@ -163,6 +164,22 @@ export const CouponsProvider = ({ children }: CouponsProviderProps) => {
     }
   };
 
+  const updateCoupon = (updatedCoupon: CouponType) => {
+    setCoupons((prev) => {
+      if (!prev) return prev;
+      return {
+        ...prev,
+        data: prev.data.map((c) =>
+          c.id === updatedCoupon.id ? updatedCoupon : c,
+        ),
+      };
+    });
+
+    setFeaturedCoupons((prev) =>
+      prev.map((c) => (c.id === updatedCoupon.id ? updatedCoupon : c)),
+    );
+  };
+
   return (
     <CouponsContext.Provider
       value={{
@@ -185,6 +202,7 @@ export const CouponsProvider = ({ children }: CouponsProviderProps) => {
         getFeaturedCoupons,
         addToFeatured,
         removeFromFeatured,
+        updateCoupon,
       }}
     >
       {children}
