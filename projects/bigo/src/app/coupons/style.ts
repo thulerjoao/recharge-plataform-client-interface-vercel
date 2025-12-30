@@ -18,6 +18,10 @@ export const CouponsContainer = styled.div`
     margin-bottom: 24px;
   }
 
+  .emptyState {
+    padding: 120px 16px;
+  }
+
   .couponsList {
     width: 100%;
     max-width: 900px;

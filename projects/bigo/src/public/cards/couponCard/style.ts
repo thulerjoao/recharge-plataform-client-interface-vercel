@@ -24,7 +24,6 @@ export const CouponCardContainer = styled.article<Props>`
     left: 0;
     right: 0;
     bottom: 0;
-    background-color: ${Theme.colors.maindark}90;
     background-color: ${Theme.colors.refused}80;
     display: flex;
     align-items: center;
@@ -48,11 +47,11 @@ export const CouponCardContainer = styled.article<Props>`
       100% 100%;
 
     p {
-      transform: rotate(-7deg);
-      border: 3px solid ${Theme.colors.refused}90;
+      transform: rotate(-6deg);
+      border: 3px solid ${Theme.colors.refused}60;
       width: 80%;
       max-width: 340px;
-      padding: 4px 12px;
+      padding: 8px 16px;
     }
   }
 
