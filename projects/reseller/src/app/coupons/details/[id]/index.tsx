@@ -16,6 +16,7 @@ import { useRouter } from "next/navigation";
 import DefaultHeader from "public/components/defaultHeader";
 import HeaderEnviroment from "public/components/headerEnviroment";
 import { useEffect, useState } from "react";
+import { useCoupons } from "context/coupon";
 import InputMask from "react-input-mask";
 import { CouponType } from "types/couponType";
 import { FormErrors, validateCouponForm } from "utils/couponValidation";
@@ -30,6 +31,7 @@ interface CouponDetailsProps {
 
 const CouponDetails = ({ couponId }: CouponDetailsProps) => {
   const router = useRouter();
+  const { updateCoupon } = useCoupons();
 
   const [errors, setErrors] = useState<FormErrors>({});
   const [loading, setLoading] = useState(true);
@@ -40,17 +42,19 @@ const CouponDetails = ({ couponId }: CouponDetailsProps) => {
     "percentage" | "amount"
   >("percentage");
 
-  const getCoupon = async () => {
-    await connectionAPIGet<CouponType>(`/coupon/${couponId}`, apiUrl)
+  const getCoupon = async (): Promise<CouponType | null> => {
+    return connectionAPIGet<CouponType>(`/coupon/${couponId}`, apiUrl)
       .then((res) => {
         setCoupon(res);
         setEditData(res);
         setSelectedDiscountType(
           res.discountPercentage ? "percentage" : "amount",
         );
+        return res;
       })
       .catch((err) => {
         console.log("err", err);
+        return null;
       })
       .finally(() => {
         setLoading(false);
@@ -128,7 +132,10 @@ const CouponDetails = ({ couponId }: CouponDetailsProps) => {
     setLoading(true);
     connectionAPIPatch(`/coupon/${couponId}`, data, apiUrl)
       .then(async () => {
-        await getCoupon();
+        const updatedCoupon = await getCoupon();
+        if (updatedCoupon) {
+          updateCoupon(updatedCoupon);
+        }
         setIsEditing(false);
         alert("Cupom atualizado!");
       })

@@ -3,7 +3,6 @@
 import Text from "@4miga/design-system/components/Text";
 import { Theme } from "@4miga/design-system/theme/theme";
 import { connectionAPIGet } from "@4miga/services/connectionAPI/connection";
-import Loading from "app/loading";
 import CouponCard from "public/cards/couponCard";
 import { useEffect, useState } from "react";
 import { FeaturedCoupon } from "types/couponType";
@@ -23,10 +22,6 @@ const CouponsPage = () => {
         setLoading(false);
       });
   }, []);
-
-  if (loading) {
-    return <Loading>{null}</Loading>;
-  }
 
   return (
     <CouponsContainer>
@@ -51,16 +46,22 @@ const CouponsPage = () => {
         </Text>
       </div>
 
+      {featuredCoupons.length === 0 && !loading && (
+        <div className="emptyState">
+          <Text fontName="REGULAR" color={Theme.colors.pending} align="center">
+            Ainda não temos cupons disponíveis, volte mais tarde!
+          </Text>
+        </div>
+      )}
+
       <div className="couponsList">
         {featuredCoupons?.length > 0 &&
           featuredCoupons?.map((coupon) => (
-            <CouponCard key={coupon.id} coupon={coupon} />
-          ))}
-      </div>
-      <div className="couponsList" style={{ marginTop: "16px" }}>
-        {featuredCoupons?.length > 0 &&
-          featuredCoupons?.map((coupon) => (
-            <CouponCard key={coupon.id} coupon={coupon} isActiveOut={true} />
+            <CouponCard
+              key={coupon.id}
+              coupon={coupon}
+              isActiveOut={!coupon.isActive}
+            />
           ))}
       </div>
     </CouponsContainer>
