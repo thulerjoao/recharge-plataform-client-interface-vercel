@@ -46,4 +46,5 @@ export type DashboardDataType = {
   dailyTrend: DailyTrendType[];
   salesByProduct: SalesByProductType[];
   firstAvailablePeriod: FirstAvailablePeriodType;
+  cronHealthStatus?: string;
 };

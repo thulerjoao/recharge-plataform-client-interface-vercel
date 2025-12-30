@@ -27,6 +27,17 @@ export const DashboardContainer = styled.div`
         flex-wrap: wrap;
         gap: 16px;
       }
+
+      .headerControls {
+        display: flex;
+        gap: 8px;
+        align-items: center;
+
+        button {
+          min-width: auto;
+          padding: 8px 16px;
+        }
+      }
     }
 
     .bottomContainer {
