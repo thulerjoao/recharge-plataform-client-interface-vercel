@@ -60,7 +60,8 @@ const Home = ({ coupon }: Props) => {
         </section>
       </main>
       <SecurityAdvertise />
-      {/* <div className="couponsLink">
+      <BottomOffer />
+      <div className="couponsLink">
         <Text
           tag="p"
           align="center"
@@ -82,8 +83,7 @@ const Home = ({ coupon }: Props) => {
         >
           Ver cupons disponíveis
         </Text>
-      </div> */}
-      <BottomOffer />
+      </div>
     </HomeContainer>
   );
 };

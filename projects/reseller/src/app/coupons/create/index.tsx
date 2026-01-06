@@ -28,6 +28,7 @@ interface CreateCouponData {
   minOrderAmount?: number;
   isActive?: boolean;
   isFirstPurchase?: boolean;
+  isOneTimePerBigoId?: boolean;
 }
 
 interface FormErrors {
@@ -67,6 +68,7 @@ const CreateCoupon = ({
     minOrderAmount: undefined,
     isActive: true,
     isFirstPurchase: false,
+    isOneTimePerBigoId: false,
   });
 
   useEffect(() => {
@@ -159,11 +161,10 @@ const CreateCoupon = ({
     setIsLoading(true);
     await connectionAPIPost<CreateCouponData>(`/coupon`, formData, apiUrl)
       .then(() => {
-        router.push(`/coupons/influencer/${formData.influencerId}`);
+        router.push(`/coupons`);
         alert("Cupom criado com sucesso");
       })
       .catch((err) => {
-        console.log("error", err);
         if (
           err.response.data.message ===
           "Coupon with this title already exists for this store"
@@ -255,7 +256,7 @@ const CreateCoupon = ({
                   onChange={(e) => {
                     const value = e.target.value
                       .toUpperCase()
-                      .replace(/\s/g, "");
+                      .replace(/[^A-Z0-9]/g, "");
                     handleInputChange("title", value);
                   }}
                   placeholder="Ex: DESCONTO10"
@@ -510,6 +511,27 @@ const CreateCoupon = ({
                   />
                   <Text fontName="SMALL_MEDIUM" color={Theme.colors.mainlight}>
                     Marcar se for cupom exclusivo para primeira compra
+                  </Text>
+                </div>
+              </div>
+              <div className="infoItem">
+                <Text
+                  fontName="SMALL_MEDIUM"
+                  color={Theme.colors.secondaryText}
+                >
+                  Cupom para compra única:
+                </Text>
+                <div className="checkboxSection">
+                  <input
+                    type="checkbox"
+                    checked={formData.isOneTimePerBigoId}
+                    onChange={(e) =>
+                      handleInputChange("isOneTimePerBigoId", e.target.checked)
+                    }
+                    className="checkbox"
+                  />
+                  <Text fontName="SMALL_MEDIUM" color={Theme.colors.mainlight}>
+                    Marcar para limitar a venda única por Bigo Id
                   </Text>
                 </div>
               </div>
