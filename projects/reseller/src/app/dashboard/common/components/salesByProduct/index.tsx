@@ -31,7 +31,7 @@ const SalesByProduct = ({ salesByProduct }: SalesByProductProps) => {
         <div key={product.productId} className="productCard">
           {product.imgCardUrl && (
             <Image
-              src="https://loja.4miga.games/_next/image?url=https%3A%2F%2Fstorage.googleapis.com%2F4miga-images%2Fstore%2Fe48621d1-82ea-4866-a279-66c13baab8b2%2Fproduct%2F2c768b9a-6884-4318-a876-0b4b2ea05d38%2Fcard%2Fcard.png%3Fv%3D1761577328583&w=640&q=75"
+              src={product.imgCardUrl || ""}
               alt={product.productName}
               width={64}
               height={64}

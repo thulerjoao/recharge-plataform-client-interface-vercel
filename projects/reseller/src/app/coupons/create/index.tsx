@@ -531,7 +531,7 @@ const CreateCoupon = ({
                     className="checkbox"
                   />
                   <Text fontName="SMALL_MEDIUM" color={Theme.colors.mainlight}>
-                    Marcar para limitar a venda única por Bigo Id
+                    Marcar para limitar como venda única por Bigo Id
                   </Text>
                 </div>
               </div>
