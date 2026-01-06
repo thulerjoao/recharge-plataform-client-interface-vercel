@@ -12,18 +12,18 @@ import {
   connectionAPIPatch,
 } from "@4miga/services/connectionAPI/connection";
 import { apiUrl } from "@4miga/services/connectionAPI/url";
+import LoadingPage from "app/loading";
+import { useCoupons } from "context/coupon";
 import { useRouter } from "next/navigation";
 import DefaultHeader from "public/components/defaultHeader";
 import HeaderEnviroment from "public/components/headerEnviroment";
 import { useEffect, useState } from "react";
-import { useCoupons } from "context/coupon";
 import InputMask from "react-input-mask";
 import { CouponType } from "types/couponType";
 import { FormErrors, validateCouponForm } from "utils/couponValidation";
 import { formatDate } from "utils/formatDate";
 import { formatPrice } from "utils/formatPrice";
 import { CouponDetailsContainer } from "./style";
-import LoadingPage from "app/loading";
 
 interface CouponDetailsProps {
   couponId: string;
@@ -75,8 +75,38 @@ const CouponDetails = ({ couponId }: CouponDetailsProps) => {
     return "N/A";
   };
 
-  const handleBack = () => {
-    router.back();
+  const convertDateToInputFormat = (
+    dateString: string | null | undefined,
+  ): string => {
+    if (!dateString) return "";
+
+    if (/^\d{4}-\d{2}-\d{2}$/.test(dateString)) {
+      return dateString;
+    }
+
+    if (/^\d{2}\/\d{2}\/\d{4}$/.test(dateString)) {
+      const [day, month, year] = dateString.split("/");
+      return `${year}-${month}-${day}`;
+    }
+
+    try {
+      const date = new Date(dateString);
+      if (!isNaN(date.getTime())) {
+        const year = date.getFullYear();
+        const month = String(date.getMonth() + 1).padStart(2, "0");
+        const day = String(date.getDate()).padStart(2, "0");
+        return `${year}-${month}-${day}`;
+      }
+    } catch (e) {
+      // Empty catch block
+    }
+
+    return "";
+  };
+
+  const convertDateFromInputFormat = (dateString: string): string => {
+    if (!dateString) return "";
+    return dateString;
   };
 
   const handleEdit = () => {
@@ -98,9 +128,8 @@ const CouponDetails = ({ couponId }: CouponDetailsProps) => {
       minOrderAmount: +editData.minOrderAmount,
       isActive: editData.isActive,
       isFirstPurchase: editData.isFirstPurchase,
+      isOneTimePerBigoId: editData.isOneTimePerBigoId,
     };
-
-    // return console.log("data", data);
 
     if (
       data.title === coupon.title &&
@@ -110,7 +139,8 @@ const CouponDetails = ({ couponId }: CouponDetailsProps) => {
       data.maxUses === coupon.maxUses &&
       data.minOrderAmount === +coupon.minOrderAmount &&
       data.isActive === coupon.isActive &&
-      data.isFirstPurchase === coupon.isFirstPurchase
+      data.isFirstPurchase === coupon.isFirstPurchase &&
+      data.isOneTimePerBigoId === coupon.isOneTimePerBigoId
     ) {
       return handleCancel();
     }
@@ -133,6 +163,7 @@ const CouponDetails = ({ couponId }: CouponDetailsProps) => {
     connectionAPIPatch(`/coupon/${couponId}`, data, apiUrl)
       .then(async () => {
         const updatedCoupon = await getCoupon();
+        console.log("updatedCoupon", updatedCoupon);
         if (updatedCoupon) {
           updateCoupon(updatedCoupon);
         }
@@ -313,7 +344,7 @@ const CouponDetails = ({ couponId }: CouponDetailsProps) => {
               </Text>
             </div>
             <div className="infoGrid">
-              <div className="infoItem">
+              {/* <div className="infoItem">
                 <Text
                   fontName="SMALL_MEDIUM"
                   color={Theme.colors.secondaryText}
@@ -341,6 +372,17 @@ const CouponDetails = ({ couponId }: CouponDetailsProps) => {
                 {isEditing && errors.title && (
                   <span className="error-message">{errors.title}</span>
                 )}
+              </div> */}
+              <div className="infoItem">
+                <Text
+                  fontName="SMALL_MEDIUM"
+                  color={Theme.colors.secondaryText}
+                >
+                  Título:
+                </Text>
+                <Text fontName="SMALL_MEDIUM" color={Theme.colors.mainlight}>
+                  {coupon.title}
+                </Text>
               </div>
               <div className="infoItem">
                 <Text
@@ -408,7 +450,7 @@ const CouponDetails = ({ couponId }: CouponDetailsProps) => {
                             ? undefined
                             : parseInt(e.target.value);
                         if (value !== undefined && (value < 0 || value > 100)) {
-                          return; // Não atualiza se estiver fora do intervalo
+                          return;
                         }
                         handleInputChange("discountPercentage", value);
                       }}
@@ -481,23 +523,41 @@ const CouponDetails = ({ couponId }: CouponDetailsProps) => {
                   Data de expiração:
                 </Text>
                 {isEditing ? (
-                  <InputMask
-                    mask="99/99/9999"
-                    maskChar=""
-                    value={editData.expiresAt || ""}
+                  <input
+                    type="date"
+                    value={convertDateToInputFormat(editData.expiresAt)}
                     onChange={(e) =>
-                      handleInputChange("expiresAt", e.target.value)
+                      handleInputChange(
+                        "expiresAt",
+                        convertDateFromInputFormat(e.target.value),
+                      )
                     }
-                  >
-                    {(inputProps: any) => (
-                      <Input
-                        {...inputProps}
-                        placeholder="dd/mm/aaaa"
-                        height={32}
-                        className={errors.expiresAt ? "error" : ""}
-                      />
-                    )}
-                  </InputMask>
+                    min={new Date().toISOString().split("T")[0]}
+                    className={`dateInput ${errors.expiresAt ? "error" : ""}`}
+                    onKeyDown={(e) => {
+                      // Allow only navigation keys and prevent typing
+                      const allowedKeys = [
+                        "Tab",
+                        "Enter",
+                        "Escape",
+                        "ArrowUp",
+                        "ArrowDown",
+                        "ArrowLeft",
+                        "ArrowRight",
+                      ];
+                      if (
+                        !allowedKeys.includes(e.key) &&
+                        !e.ctrlKey &&
+                        !e.metaKey
+                      ) {
+                        e.preventDefault();
+                      }
+                    }}
+                    onInput={(e) => {
+                      // Prevent manual input
+                      e.preventDefault();
+                    }}
+                  />
                 ) : (
                   <Text fontName="SMALL_MEDIUM" color={Theme.colors.mainlight}>
                     {coupon.expiresAt
@@ -608,6 +668,39 @@ const CouponDetails = ({ couponId }: CouponDetailsProps) => {
                 ) : (
                   <Text fontName="SMALL_MEDIUM" color={Theme.colors.mainlight}>
                     {coupon.isFirstPurchase ? "Sim" : "Não"}
+                  </Text>
+                )}
+              </div>
+              <div className="infoItem">
+                <Text
+                  fontName="SMALL_MEDIUM"
+                  color={Theme.colors.secondaryText}
+                >
+                  Cupom para compra única:
+                </Text>
+                {isEditing ? (
+                  <div className="checkboxSection">
+                    <input
+                      type="checkbox"
+                      checked={editData.isOneTimePerBigoId || false}
+                      onChange={(e) =>
+                        handleInputChange(
+                          "isOneTimePerBigoId",
+                          e.target.checked,
+                        )
+                      }
+                      className="checkbox"
+                    />
+                    <Text
+                      fontName="SMALL_MEDIUM"
+                      color={Theme.colors.mainlight}
+                    >
+                      Marcar para limitar a venda única por Bigo Id
+                    </Text>
+                  </div>
+                ) : (
+                  <Text fontName="SMALL_MEDIUM" color={Theme.colors.mainlight}>
+                    {coupon.isOneTimePerBigoId ? "Sim" : "Não"}
                   </Text>
                 )}
               </div>

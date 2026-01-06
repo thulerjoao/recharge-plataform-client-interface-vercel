@@ -14,6 +14,7 @@ export interface CouponType {
   updatedAt: string;
   influencerId: string;
   isFirstPurchase: boolean;
+  isOneTimePerBigoId: boolean;
   influencer: {
     id: string;
     name: string;

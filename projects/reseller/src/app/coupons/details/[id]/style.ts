@@ -135,7 +135,8 @@ export const CouponDetailsContainer = styled.div`
             flex-direction: column;
             gap: 8px;
 
-            .discountTypeSelect {
+            .discountTypeSelect,
+            .dateInput {
               box-sizing: border-box;
               padding: 0px 16px;
               width: 100%;
@@ -151,6 +152,11 @@ export const CouponDetailsContainer = styled.div`
                 outline: none;
                 box-shadow: 0px 0px 7px 0px ${Theme.colors.mainHighlight};
                 border: 2px solid ${Theme.colors.mainHighlight};
+              }
+
+              &.error {
+                border-color: ${Theme.colors.pending};
+                box-shadow: 0 0 0 3px ${Theme.colors.pending}40;
               }
 
               option {
