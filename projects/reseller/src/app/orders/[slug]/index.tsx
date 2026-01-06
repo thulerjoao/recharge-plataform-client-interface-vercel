@@ -60,7 +60,7 @@ const OrdersInnerPage = ({ slug }: { slug: string }) => {
     <SalesInnerPageContainer>
       <div className="desktop">
         <HeaderEnviroment>
-          <DefaultHeader title="DETALHES DA VENDA" />
+          <DefaultHeader backWard title="DETALHES DA VENDA" />
         </HeaderEnviroment>
       </div>
       <div className="mobile mobileHeader">

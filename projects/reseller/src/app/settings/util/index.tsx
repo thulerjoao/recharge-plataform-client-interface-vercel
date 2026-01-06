@@ -16,7 +16,7 @@ const Store = () => {
     <SettingsPageContainer>
       <div className="desktop">
         <HeaderEnviroment>
-          <DefaultHeader backWard title="LOJA" />
+          <DefaultHeader title="LOJA" />
         </HeaderEnviroment>
       </div>
       <div className="mobile mobileHeader">
