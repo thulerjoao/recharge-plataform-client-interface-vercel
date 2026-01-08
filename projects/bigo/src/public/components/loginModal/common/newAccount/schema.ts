@@ -13,15 +13,13 @@ export const registerSchema = z.object({
   cpf: z.string().refine((value) => cpf.isValid(value.replace(/\D/g, "")), {
     message: "CPF inválido",
   }),
-  password: z
-    .string()
-    .min(6, "A senha deve ter no mínimo 6 caracteres")
-    .regex(/[A-Z]/, "A senha deve conter ao menos uma letra maiúscula")
-    .regex(/[a-z]/, "A senha deve conter ao menos uma letra minúscula")
-    .regex(
-      /[^a-zA-Z0-9]/,
-      "A senha deve conter ao menos um caractere especial",
-    ),
+  password: z.string().min(6, "A senha deve ter no mínimo 6 caracteres"),
+  // .regex(/[A-Z]/, "A senha deve conter ao menos uma letra maiúscula")
+  // .regex(/[a-z]/, "A senha deve conter ao menos uma letra minúscula")
+  // .regex(
+  //   /[^a-zA-Z0-9]/,
+  //   "A senha deve conter ao menos um caractere especial",
+  // ),
   termsAccepted: z.boolean().refine((value) => value === true, {
     message: "Concorde com os termos e condições",
   }),

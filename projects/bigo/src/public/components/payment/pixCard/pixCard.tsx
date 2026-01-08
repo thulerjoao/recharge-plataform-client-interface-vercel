@@ -157,6 +157,7 @@ const PixCard = ({
           setBlockInput(false);
         } else {
           setError("Algo deu errado. Tente novamente mais tarde.");
+          setBlockInput(false);
         }
       })
       .finally(() => {

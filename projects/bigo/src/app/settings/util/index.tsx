@@ -134,16 +134,17 @@ const Settings = () => {
         }
         if (securityData.password.length < 6) {
           newErrors.password = "A senha deve ter no mínimo 6 caracteres";
-        } else if (!/[A-Z]/.test(securityData.password)) {
-          newErrors.password =
-            "A senha deve conter ao menos uma letra maiúscula";
-        } else if (!/[a-z]/.test(securityData.password)) {
-          newErrors.password =
-            "A senha deve conter ao menos uma letra minúscula";
-        } else if (!/[^a-zA-Z0-9]/.test(securityData.password)) {
-          newErrors.password =
-            "A senha deve conter ao menos um caractere especial";
         }
+        // else if (!/[A-Z]/.test(securityData.password)) {
+        //   newErrors.password =
+        //     "A senha deve conter ao menos uma letra maiúscula";
+        // } else if (!/[a-z]/.test(securityData.password)) {
+        //   newErrors.password =
+        //     "A senha deve conter ao menos uma letra minúscula";
+        // } else if (!/[^a-zA-Z0-9]/.test(securityData.password)) {
+        //   newErrors.password =
+        //     "A senha deve conter ao menos um caractere especial";
+        // }
       }
     }
 
@@ -337,28 +338,30 @@ const Settings = () => {
                     password: "A senha deve ter no mínimo 6 caracteres",
                   }));
                   alert("A senha deve ter no mínimo 6 caracteres");
-                } else if (errorMessage.includes("uppercase letter")) {
-                  setErrors((prev) => ({
-                    ...prev,
-                    password:
-                      "A senha deve conter ao menos uma letra maiúscula",
-                  }));
-                  alert("A senha deve conter ao menos uma letra maiúscula");
-                } else if (errorMessage.includes("lowercase letter")) {
-                  setErrors((prev) => ({
-                    ...prev,
-                    password:
-                      "A senha deve conter ao menos uma letra minúscula",
-                  }));
-                  alert("A senha deve conter ao menos uma letra minúscula");
-                } else if (errorMessage.includes("special character")) {
-                  setErrors((prev) => ({
-                    ...prev,
-                    password:
-                      "A senha deve conter ao menos um caractere especial",
-                  }));
-                  alert("A senha deve conter ao menos um caractere especial");
-                } else {
+                }
+                // else if (errorMessage.includes("uppercase letter")) {
+                //   setErrors((prev) => ({
+                //     ...prev,
+                //     password:
+                //       "A senha deve conter ao menos uma letra maiúscula",
+                //   }));
+                //   alert("A senha deve conter ao menos uma letra maiúscula");
+                // } else if (errorMessage.includes("lowercase letter")) {
+                //   setErrors((prev) => ({
+                //     ...prev,
+                //     password:
+                //       "A senha deve conter ao menos uma letra minúscula",
+                //   }));
+                //   alert("A senha deve conter ao menos uma letra minúscula");
+                // } else if (errorMessage.includes("special character")) {
+                //   setErrors((prev) => ({
+                //     ...prev,
+                //     password:
+                //       "A senha deve conter ao menos um caractere especial",
+                //   }));
+                //   alert("A senha deve conter ao menos um caractere especial");
+                // }
+                else {
                   alert("Falha ao atualizar senha. Tente novamente");
                 }
               })
@@ -852,7 +855,7 @@ const Settings = () => {
                 }
               />
               <Text fontName="SMALL" color="secondary">
-                Mínimo 6 caracteres, 1 maiúscula e 1 caractere especial
+                Mínimo 6 caracteres
               </Text>
               {errors.password && (
                 <span className="error-message">{errors.password}</span>

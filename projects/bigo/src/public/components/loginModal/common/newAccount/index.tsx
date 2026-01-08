@@ -223,7 +223,7 @@ const NewAccount = ({ setNewUser, setStep, setPreviousStep }: Props) => {
         fontName="TINY"
         color={Theme.colors.secondaryTextAction}
       >
-        Mínimo 6 caracteres, 1 maiúscula e 1 caractere especial
+        Mínimo 6 caracteres
       </Text>
       <span className="termsAndConditions" style={{ cursor: "pointer" }}>
         <input
