@@ -21,7 +21,8 @@ export type CouponValidationResponse =
         | "Coupon usage limit reached"
         | `Minimum order amount required: ${number}`
         | "First purchase coupon can only be used by new customers"
-        | "Failed to validate coupon";
+        | "Failed to validate coupon"
+        | "This coupon can only be used once per bigoId";
     };
 
 export type FeaturedCoupon = {

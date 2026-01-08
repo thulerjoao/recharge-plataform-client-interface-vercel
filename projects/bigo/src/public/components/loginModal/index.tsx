@@ -10,7 +10,7 @@ import { useDisableScroll } from "@4miga/hooks/useDisableScroll";
 import ConfirmCode from "./common/confirmCode";
 import ForgotPassword from "./common/forgotPassword";
 import LoginComponent from "./common/login";
-import NewAccount from "./common/newAccount";
+import NewAccountDirect from "./common/newAccountDirect";
 import NewPassword from "./common/newPassword";
 import Backward from "./icons/Backward.svg";
 import Close from "./icons/Close.svg";
@@ -130,13 +130,7 @@ const LoginModal = ({ setLoginModal, openInNewAccount }: LoginModalProps) => {
             closeModal={closeModal}
           />
         )}
-        {step === "newAccount" && (
-          <NewAccount
-            setNewUser={setNewUser}
-            setStep={setStep}
-            setPreviousStep={setPreviousStep}
-          />
-        )}
+        {step === "newAccount" && <NewAccountDirect closeModal={closeModal} />}
         {step === "forgotPassword" && (
           <ForgotPassword
             setStep={setStep}

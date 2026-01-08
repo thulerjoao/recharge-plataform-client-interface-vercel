@@ -206,6 +206,7 @@ const PaymentPage = ({ packageId, couponFromParams }: Props) => {
         packageId: item.id,
         paymentMethodId: item.paymentMethods[0].id,
         couponTitle: couponToUse.toUpperCase(),
+        userIdForRecharge: rechargeBigoId,
       },
     )
       .then((res) => {
@@ -233,6 +234,12 @@ const PaymentPage = ({ packageId, couponFromParams }: Props) => {
             setCouponError("Cupom exclusivo para primeira compra");
             setCouponSuccess("");
             setCouponApplied(null);
+          } else if (
+            message === "This coupon can only be used once per bigoId"
+          ) {
+            setCouponError("Cupom já utilizado");
+            setCouponSuccess("");
+            setCouponApplied(null);
           } else {
             setCouponError("Cupom inválido");
             setCouponSuccess("");
@@ -240,7 +247,7 @@ const PaymentPage = ({ packageId, couponFromParams }: Props) => {
           }
         }
       })
-      .catch(() => {
+      .catch((error) => {
         setCouponError("Não foi possível aplicar o cupom");
         setCouponSuccess("");
         setCouponApplied(null);
@@ -260,7 +267,9 @@ const PaymentPage = ({ packageId, couponFromParams }: Props) => {
         margin="16px 0 0 0"
         height={48}
         value={rechargeBigoId || ""}
-        onChange={(e) => !blockInput && setRechargeBigoId(e.target.value)}
+        onChange={(e) =>
+          !blockInput && setRechargeBigoId(e.target.value.replace(/\s/g, ""))
+        }
       />
       <Text margin="32px 0 0 0" align="center" fontName="REGULAR_SEMI_BOLD">
         PACOTE PARA RECARGA
