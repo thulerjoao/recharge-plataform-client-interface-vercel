@@ -16,4 +16,5 @@ export type fontNames =
   | "LARGE_SEMI_BOLD"
   | "BIG" //24PX
   | "BIG_MEDIUM"
-  | "BIG_SEMI_BOLD";
+  | "BIG_SEMI_BOLD"
+  | "BIG_BOLD";

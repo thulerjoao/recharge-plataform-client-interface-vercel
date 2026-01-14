@@ -54,6 +54,7 @@ const Text = ({
       case "BIG":
       case "BIG_MEDIUM":
       case "BIG_SEMI_BOLD":
+      case "BIG_BOLD":
         return "24px";
       default:
         return "16px";
@@ -83,6 +84,8 @@ const Text = ({
       case "BIG_SEMI_BOLD":
       case "SUPER_TINY_SEMI_BOLD":
         return 600;
+      case "BIG_BOLD":
+        return 700;
       default:
         return 400;
     }
