@@ -118,7 +118,7 @@ export const HomeTestContainer = styled.div`
         max-width: 200px;
       }
       .cardsContainer {
-        grid-template-columns: repeat(2, 1fr);
+        grid-template-columns: repeat(3, 1fr);
         gap: 10px;
         padding: 0 14px;
         margin-top: 24px;

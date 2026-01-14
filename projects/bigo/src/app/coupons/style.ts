@@ -28,7 +28,7 @@ export const CouponsContainer = styled.div`
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 16px;
+    gap: 20px;
 
     .emptyState {
       width: 100%;
@@ -70,7 +70,7 @@ export const CouponsContainer = styled.div`
 
     .couponsList {
       max-width: 100%;
-      gap: 8px;
+      gap: 12px;
     }
   }
 `;

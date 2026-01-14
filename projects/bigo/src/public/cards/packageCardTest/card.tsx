@@ -4,8 +4,8 @@ import Image from "next/image";
 import { useState } from "react";
 import { PackageType } from "types/productTypes";
 import { formatPrice } from "utils/formatPrice";
-import Offer from "./img/Offer2.png";
-import Reddiamond from "./img/Reddiamond.png";
+import Offer3 from "./img/Offer3.png";
+import Offer from "./img/Offer.png";
 import DiamondIcon from "./img/UniDiamond.png";
 
 import { PackageCardContainerTest } from "./style";
@@ -37,33 +37,34 @@ const PackageCardTest = ({
       selected={selected ? selected : isHovered}
     >
       <div className="diamondContainer">
-        <Text
-          tag="h2"
-          fontName="BIG_SEMI_BOLD"
-          margin="12px 0 0 0"
-          color={Theme.colors.mainText}
-        >
+        <Text tag="h2" fontName="LARGE_SEMI_BOLD" color={Theme.colors.mainText}>
           {formatNumber(item.amountCredits)}
         </Text>
         <figure>
           <Image
-            src={item.isOffer ? Reddiamond : DiamondIcon}
+            src={DiamondIcon}
             alt={`Imagem do pacote ${item.name}`}
-            height={65}
-            width={48}
+            height={50}
+            width={40}
           />
         </figure>
       </div>
       <Text
-        className="diamondText"
-        fontName="REGULAR"
+        className="diamondText desktop"
+        fontName="SMALL_MEDIUM"
         align="center"
         color={Theme.colors.maindark}
-        margin="2px 0 0 0"
       >
         {item.amountCredits > 1 ? "Diamantes Bigo" : "Diamante Bigo"}
       </Text>
-
+      <Text
+        className="diamondText mobile"
+        fontName="SMALL_MEDIUM"
+        align="center"
+        color={Theme.colors.maindark}
+      >
+        {item.amountCredits > 1 ? "Diamantes" : "Diamante"}
+      </Text>
       {/* <Text
         color={Theme.colors.secondaryAction}
         // margin={item.isOffer ? "8px 0 0 8px" : "24px 0 0 8px"}
@@ -87,8 +88,8 @@ const PackageCardTest = ({
           align="start"
           nowrap
           margin="0 0 0 4px"
-          tag="h4"
-          fontName="BIG_MEDIUM"
+          tag="h3"
+          fontName="LARGE_MEDIUM"
           style={{ width: "auto" }}
           color={Theme.colors.maindark}
         >

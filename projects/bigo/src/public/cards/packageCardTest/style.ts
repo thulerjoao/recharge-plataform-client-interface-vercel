@@ -19,16 +19,16 @@ export const PackageCardContainerTest = styled.article<PackageCardProps>`
   align-items: center;
   padding: 8px;
 
-  background: linear-gradient(
+  .mobile {
+    display: none;
+  }
+
+  /* background: linear-gradient(
     ${Theme.colors.secondaryHighlight} 0%,
     ${Theme.colors.couponsBackground} 60%
-  );
+  ); */
   border: 2px solid ${Theme.colors.secondaryHighlight};
-
-  /* ${({ isOffer }) =>
-    isOffer &&
-    `border: 2px solid ${Theme.colors.refused};
-  `}; */
+  background-color: ${Theme.colors.couponsBackground};
   position: relative;
 
   .diamondContainer {
@@ -43,6 +43,7 @@ export const PackageCardContainerTest = styled.article<PackageCardProps>`
     h2 {
       width: auto;
       height: 100%;
+      margin-top: 16px;
     }
 
     figure {
@@ -72,11 +73,57 @@ export const PackageCardContainerTest = styled.article<PackageCardProps>`
   }
 
   .offerContainer {
-    width: auto;
     position: absolute;
-    bottom: -29px;
+    bottom: -28.5px;
     right: -17px;
     z-index: 1;
     /* transform: rotate(-20deg); */
+  }
+
+  @media (max-width: 539px) {
+    padding: 0 4px !important;
+    .desktop {
+      display: none;
+    }
+
+    .mobile {
+      display: block;
+    }
+
+    .diamondContainer {
+      align-items: flex-start;
+
+      h2 {
+        font-size: 16px !important;
+        margin-top: 10px;
+      }
+
+      img {
+        height: 35px !important;
+        width: 28px !important;
+      }
+    }
+
+    .diamondText {
+      font-size: 12px !important;
+      padding-bottom: 4px !important;
+    }
+
+    .priceContainer {
+      margin-top: 8px;
+      margin-bottom: 16px;
+      h3 {
+        font-size: 14px !important;
+      }
+    }
+
+    .offerContainer {
+      bottom: -23px;
+      right: -13px;
+      img {
+        height: 75px !important;
+        width: 75px !important;
+      }
+    }
   }
 `;
