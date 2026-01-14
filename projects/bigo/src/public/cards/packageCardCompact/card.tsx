@@ -4,23 +4,23 @@ import Image from "next/image";
 import { useState } from "react";
 import { PackageType } from "types/productTypes";
 import { formatPrice } from "utils/formatPrice";
-import Offer3 from "./img/Offer3.png";
 import Offer from "./img/Offer.png";
 import DiamondIcon from "./img/UniDiamond.png";
-
-import { PackageCardContainerTest } from "./style";
+import { PackageCardCompactContainer } from "./style";
 
 interface PackageCardProps {
   item: PackageType;
   selected: boolean;
   paymentIndex?: number;
   valueWithDicount?: number;
+  paymentPage?: boolean;
 }
 
-const PackageCardTest = ({
+const PackageCardCompact = ({
   item,
   selected,
   valueWithDicount,
+  paymentPage,
 }: PackageCardProps) => {
   const [isHovered, setIsHovered] = useState(false);
 
@@ -30,11 +30,12 @@ const PackageCardTest = ({
   };
 
   return (
-    <PackageCardContainerTest
+    <PackageCardCompactContainer
       isOffer={item.isOffer}
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
       selected={selected ? selected : isHovered}
+      paymentPage={paymentPage}
     >
       <div className="diamondContainer">
         <Text tag="h2" fontName="LARGE_SEMI_BOLD" color={Theme.colors.mainText}>
@@ -74,9 +75,19 @@ const PackageCardTest = ({
         POR APENAS
       </Text> */}
       <div className="priceContainer">
+        {valueWithDicount && (
+          <Text
+            className="basePriceDiscount"
+            fontName="TINY"
+            color={Theme.colors.secondaryTextAction}
+            style={{ textDecoration: "line-through" }}
+          >
+            R$ {formatPrice(item.basePrice)}
+          </Text>
+        )}
         <Text
           nowrap
-          margin="0 0 0 4px"
+          margin={valueWithDicount ? "4px 0 0 4px" : "0 0 0 4px"}
           tag="h4"
           fontName="TINY_MEDIUM"
           style={{ width: "16px" }}
@@ -87,29 +98,16 @@ const PackageCardTest = ({
         <Text
           align="start"
           nowrap
-          margin="0 0 0 4px"
+          margin={valueWithDicount ? "4px 0 0 4px" : "0 0 0 4px"}
           tag="h3"
           fontName="LARGE_MEDIUM"
           style={{ width: "auto" }}
           color={Theme.colors.maindark}
         >
-          {formatPrice(item.basePrice)}
+          {formatPrice(valueWithDicount ? +valueWithDicount : item.basePrice)}
         </Text>
-        {/* <Text
-          align="start"
-          nowrap
-          margin="0 0 0 4px"
-          tag="h4"
-          fontName="REGULAR_SEMI_BOLD"
-          style={
-            valueWithDicount && +valueWithDicount !== +item.basePrice
-              ? { textDecoration: "line-through", width: "auto" }
-              : undefined
-          }
-        >
-          R$ {formatPrice(item.basePrice)}
-        </Text>
-        {valueWithDicount && +valueWithDicount !== +item.basePrice && (
+
+        {/* {valueWithDicount && +valueWithDicount !== +item.basePrice && (
           <Text
             align="start"
             color={Theme.colors.approved}
@@ -132,8 +130,8 @@ const PackageCardTest = ({
           />
         </figure>
       )}
-    </PackageCardContainerTest>
+    </PackageCardCompactContainer>
   );
 };
 
-export default PackageCardTest;
+export default PackageCardCompact;

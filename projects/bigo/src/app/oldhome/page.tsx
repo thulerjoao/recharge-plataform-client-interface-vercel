@@ -1,4 +1,4 @@
-import HomeTest from "./util/hometest";
+import Home from "./util/home";
 
 type Props = {
   searchParams: {
@@ -8,6 +8,6 @@ type Props = {
 
 const Page = async ({ searchParams }: Props) => {
   const coupon = searchParams.coupon;
-  return <HomeTest coupon={coupon} />;
+  return <Home coupon={coupon} />;
 };
 export default Page;

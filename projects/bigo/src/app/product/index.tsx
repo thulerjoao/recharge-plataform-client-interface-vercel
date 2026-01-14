@@ -16,6 +16,7 @@ import { CouponValidationResponse } from "types/couponType";
 import { OrderType } from "types/orderType";
 import { PackageType } from "types/productTypes";
 import { ProductInnerPage } from "./style";
+import PackageCardTest from "public/cards/packageCardCompact/card";
 
 type Props = {
   packageId: string;
@@ -276,7 +277,18 @@ const PaymentPage = ({ packageId, couponFromParams }: Props) => {
       </Text>
       <div className="cardEnviroment">
         {((product && item) || sessionPackage) && (
-          <PackageCard
+          // <PackageCard
+          //   paymentIndex={0}
+          //   item={sessionPackage ? sessionPackage : item}
+          //   valueWithDicount={
+          //     couponApplied?.valid
+          //       ? couponApplied.finalAmount
+          //       : sessionOrder?.price
+          //   }
+          //   selected
+          // />
+          <PackageCardTest
+            paymentPage
             paymentIndex={0}
             item={sessionPackage ? sessionPackage : item}
             valueWithDicount={
