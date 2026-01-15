@@ -3,6 +3,7 @@
 import Text from "@4miga/design-system/components/Text";
 import { Theme } from "@4miga/design-system/theme/theme";
 import { useRouter } from "next/navigation";
+import toast from "react-hot-toast";
 import { FeaturedCoupon } from "types/couponType";
 import { formatPrice } from "utils/formatPrice";
 import { CouponCardContainer } from "./style";
@@ -44,7 +45,7 @@ const CouponCard = ({ coupon, isActiveOut }: CouponCardProps) => {
   const handleClick = async () => {
     try {
       await navigator.clipboard.writeText(title);
-      alert("Cupom copiado para área de transferência");
+      toast.success("Cupom copiado para área de transferência");
       router.push(`/home?coupon=${title}`);
     } catch (err) {
       return;

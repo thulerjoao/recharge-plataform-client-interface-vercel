@@ -7,6 +7,7 @@ import Instagram from "../../icons/Instagram.svg";
 import TikTok from "../../icons/TikTok.svg";
 import Wpp from "../../icons/Wpp.svg";
 import { ContactContainer } from "./style";
+import toast from "react-hot-toast";
 
 const Contact = () => {
   const { store } = useStore();
@@ -15,9 +16,9 @@ const Contact = () => {
   const copyEmailToClipboard = async () => {
     try {
       await navigator.clipboard.writeText(store?.email);
-      alert("Email copiado para área de transferência");
+      toast.success("Email copiado para área de transferência");
     } catch (err) {
-      alert("Erro ao copiar email");
+      toast.error("Erro ao copiar email");
     }
   };
 

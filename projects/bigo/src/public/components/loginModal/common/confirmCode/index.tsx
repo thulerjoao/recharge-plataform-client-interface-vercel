@@ -12,6 +12,7 @@ import { UserType } from "types/userTypes";
 import { storeId } from "utils/apiUrl";
 import { LoginSteps } from "../../types/types";
 import { ConfirmCodeContainer, ErrorMessage, SendCode } from "./style";
+import toast from "react-hot-toast";
 
 interface Props {
   askToRecover: boolean;
@@ -85,7 +86,7 @@ const ConfirmCode = ({
           login(res, true);
           sessionStorage.removeItem("emailToConfirm");
           closeModal();
-          alert("Conta criada com sucesso!");
+          toast.success("Conta criada com sucesso!");
         })
         .catch((error) => {
           const message: string = error.response.data.message;
@@ -151,7 +152,7 @@ const ConfirmCode = ({
 
           setErrorMessage("");
           setStep("login");
-          alert("Email verificado! Faça login para continuar.");
+          toast.success("Email verificado! Faça login para continuar.");
         } catch {
           setStep("login");
         }
@@ -187,7 +188,7 @@ const ConfirmCode = ({
       connectionAPIPost<null>("/auth/resend-email-confirmation", data, apiUrl)
         .then(() => {
           activateTimer();
-          alert("Um novo código foi enviado para seu e-mail");
+          toast.success("Um novo código foi enviado para seu e-mail");
         })
         .catch((error) => {
           const message = error.response.data.message;
@@ -210,7 +211,7 @@ const ConfirmCode = ({
       connectionAPIPost<null>("/auth/forgot-password", data, apiUrl)
         .then(() => {
           activateTimer();
-          alert("Um novo código foi enviado para seu e-mail");
+          toast.success("Um novo código foi enviado para seu e-mail");
         })
         .catch(() => {
           setErrorMessage("Falha ao enviar novo código");

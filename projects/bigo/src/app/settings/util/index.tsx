@@ -11,6 +11,7 @@ import {
 import { apiUrl } from "@4miga/services/connectionAPI/url";
 import { useAuth } from "contexts/auth";
 import React, { useEffect, useState } from "react";
+import toast from "react-hot-toast";
 import InputMask from "react-input-mask";
 import EyeOff from "../../../public/icons/EyeOff.svg";
 import EyeOn from "../../../public/icons/EyeOn.svg";
@@ -223,7 +224,7 @@ const Settings = () => {
           await connectionAPIPatch(`/user`, body, apiUrl)
             .then((res) => {
               setUser(res);
-              alert("Informações atualizadas com sucesso");
+              toast.success("Informações atualizadas com sucesso");
             })
             .catch((res) => {
               const errorMessage = res?.response?.data?.message || "";
@@ -241,7 +242,7 @@ const Settings = () => {
                   name: user.name || "",
                   phone: user.phone || "",
                 }));
-                alert("Erro ao atualizar informações");
+                toast.error("Erro ao atualizar informações");
               }
             });
         }
@@ -261,15 +262,17 @@ const Settings = () => {
               .then(() => {
                 setIsEditing((prev) => ({ ...prev, email: true }));
                 setEmailVerification({ requested: true, code: "" });
-                alert("Enviamos um código de confirmação para seu novo e-mail");
+                toast.success(
+                  "Enviamos um código de confirmação para seu novo e-mail",
+                );
               })
               .catch((err) => {
                 if (
                   err.response.data.message === "New email is already in use"
                 ) {
-                  alert("Email já cadastrado");
+                  toast.error("Email já cadastrado");
                 }
-                alert("Falha ao solicitar. Tente novamente mais tarde");
+                toast.error("Falha ao solicitar. Tente novamente mais tarde");
               });
           } else {
             // STEP 2
@@ -287,7 +290,7 @@ const Settings = () => {
             )
               .then(() => {
                 setUser({ ...user, email: formData.email });
-                alert("Email atualizado com sucesso");
+                toast.success("Email atualizado com sucesso");
                 setIsEditing((prev) => ({ ...prev, email: false }));
                 setEmailVerification({ requested: false, code: "" });
               })
@@ -296,7 +299,7 @@ const Settings = () => {
                   ...prev,
                   email: user.email || "",
                 }));
-                alert("Falha ao confirmar. Tente novamente mais tarde");
+                toast.error("Falha ao confirmar. Tente novamente mais tarde");
               });
           }
         }
@@ -320,7 +323,7 @@ const Settings = () => {
               apiUrl,
             )
               .then(() => {
-                alert("Senha atualizada com sucesso");
+                toast.success("Senha atualizada com sucesso");
                 setIsEditing((prev) => ({ ...prev, security: false }));
                 setSecurityData({ oldPassword: "", password: "" });
                 setShowNewPassword(false);
@@ -337,7 +340,7 @@ const Settings = () => {
                     ...prev,
                     password: "A senha deve ter no mínimo 6 caracteres",
                   }));
-                  alert("A senha deve ter no mínimo 6 caracteres");
+                  toast.error("A senha deve ter no mínimo 6 caracteres");
                 }
                 // else if (errorMessage.includes("uppercase letter")) {
                 //   setErrors((prev) => ({
@@ -345,24 +348,24 @@ const Settings = () => {
                 //     password:
                 //       "A senha deve conter ao menos uma letra maiúscula",
                 //   }));
-                //   alert("A senha deve conter ao menos uma letra maiúscula");
+                //   toast.error("A senha deve conter ao menos uma letra maiúscula");
                 // } else if (errorMessage.includes("lowercase letter")) {
                 //   setErrors((prev) => ({
                 //     ...prev,
                 //     password:
                 //       "A senha deve conter ao menos uma letra minúscula",
                 //   }));
-                //   alert("A senha deve conter ao menos uma letra minúscula");
+                //   toast.error("A senha deve conter ao menos uma letra minúscula");
                 // } else if (errorMessage.includes("special character")) {
                 //   setErrors((prev) => ({
                 //     ...prev,
                 //     password:
                 //       "A senha deve conter ao menos um caractere especial",
                 //   }));
-                //   alert("A senha deve conter ao menos um caractere especial");
+                //   toast.error("A senha deve conter ao menos um caractere especial");
                 // }
                 else {
-                  alert("Falha ao atualizar senha. Tente novamente");
+                  toast.error("Falha ao atualizar senha. Tente novamente");
                 }
               })
               .finally(() => {

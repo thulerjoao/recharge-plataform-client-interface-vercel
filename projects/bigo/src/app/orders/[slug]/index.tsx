@@ -15,6 +15,7 @@ import { useEffect, useRef, useState } from "react";
 import { OrderType } from "types/orderType";
 import { formatDate } from "utils/formatDate";
 import { formatPrice } from "utils/formatPrice";
+import { confirmToast } from "utils/confirm";
 import {
   handlePaymentStatus,
   handleRechargeStatus,
@@ -58,7 +59,7 @@ const Order = () => {
       return;
     }
 
-    const confirmed = window.confirm(
+    const confirmed = await confirmToast(
       "Não nos responsabilizamos por pagamentos duplicados. \nRealize somente se estiver pendente.",
     );
 

@@ -21,6 +21,7 @@ import Password from "../../icons/Password.svg";
 import Phone from "../../icons/Phone.svg";
 import { registerSchema, RegisterSchema } from "./schema";
 import { ErrorMessage, NewAccountDirectContainer } from "./style";
+import toast from "react-hot-toast";
 
 interface Props {
   closeModal: () => void;
@@ -69,7 +70,7 @@ const NewAccountDirect = ({ closeModal }: Props) => {
       .then(async (res) => {
         await login(res, true);
         closeModal();
-        alert("Conta criada com sucesso!");
+        toast.success("Conta criada com sucesso!");
       })
       .catch((err) => {
         handleErrorResponse(

@@ -12,6 +12,7 @@ import { useRouter } from "next/navigation";
 import LoginModal from "public/components/loginModal";
 import Pix from "public/icons/Pix.svg";
 import React, { useEffect, useState } from "react";
+import toast from "react-hot-toast";
 import { StyleSheetManager } from "styled-components";
 import { OrderType } from "types/orderType";
 import { PackageType } from "types/productTypes";
@@ -72,15 +73,15 @@ const PixCard = ({
 
   const handleCopy = async () => {
     if (!copyAndPaste) {
-      alert("Nenhum código para copiar.");
+      toast("Nenhum código para copiar.");
       return;
     }
 
     try {
       await navigator.clipboard.writeText(copyAndPaste);
-      alert("Código copiado para área de transferência");
+      toast.success("Código PIX copiado para área de transferência");
     } catch (err) {
-      alert("Erro ao copiar o código.");
+      toast.error("Erro ao copiar o código");
     }
   };
 
@@ -143,13 +144,20 @@ const PixCard = ({
           couponTitle,
         };
     await connectionAPIPost<OrderType>("/orders", body)
-      .then((res) => {
+      .then(async (res) => {
         setQrCode(res.payment.qrCode);
         setCopyAndPaste(res.payment.qrCodetextCopyPaste);
         setOrderId(res.id);
         sessionStorage.setItem("order", JSON.stringify(res));
         setSessionOrder(res);
         setSecondExpand(true);
+
+        try {
+          await navigator.clipboard.writeText(res.payment.qrCodetextCopyPaste);
+          toast.success("Código PIX copiado para área de transferência");
+        } catch (err) {
+          return;
+        }
       })
       .catch((err) => {
         if (err.response.data.message === "Invalid userId for recharge") {
