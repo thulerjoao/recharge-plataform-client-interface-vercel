@@ -15,4 +15,5 @@ export const colors = {
   approved: "#01FF0B",
   pending: "#FFFF00",
   refused: "#FF6565",
+  whatsappBackground: "#25D366",
 };

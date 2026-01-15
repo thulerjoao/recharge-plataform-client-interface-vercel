@@ -9,6 +9,7 @@ import SecurityAdvertise from "public/components/securityAdvertise/securityAdver
 import React, { useEffect } from "react";
 import { StyleSheetManager } from "styled-components";
 import { LayoutStyle } from "./style";
+import WhatsAppFloatingButton from "public/components/whatsappFloatingButton";
 interface LayoutProps {
   children: React.ReactNode;
 }
@@ -29,6 +30,7 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
     <StyleSheetManager shouldForwardProp={(prop) => prop !== "device"}>
       <LayoutStyle>
         <Header />
+        <WhatsAppFloatingButton />
         <section className="mainContent">
           <Description />
           {children}
