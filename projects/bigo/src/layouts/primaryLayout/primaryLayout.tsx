@@ -7,6 +7,7 @@ import Header from "public/components/header/header";
 import React, { useEffect } from "react";
 import { StyleSheetManager } from "styled-components";
 import { LayoutStyle } from "./style";
+import WhatsAppFloatingButton from "public/components/whatsappFloatingButton";
 
 interface LayoutProps {
   children: React.ReactNode;
@@ -27,6 +28,7 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
   return (
     <StyleSheetManager shouldForwardProp={(prop) => prop !== "device"}>
       <LayoutStyle>
+        <WhatsAppFloatingButton />
         <Header />
         {children}
         <Contact />

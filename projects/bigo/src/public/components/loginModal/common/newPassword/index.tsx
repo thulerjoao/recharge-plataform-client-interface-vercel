@@ -13,6 +13,7 @@ import { storeId } from "utils/apiUrl";
 import Password from "../../icons/Password.svg";
 import { newPassSchema, NewPassSchema } from "./schema";
 import { ErrorMessage, NewPasswordContainer } from "./style";
+import toast from "react-hot-toast";
 
 interface Props {
   closeModal: () => void;
@@ -59,7 +60,7 @@ const NewPassword = ({ closeModal }: Props) => {
         sessionStorage.clear();
         login(res, true);
         closeModal();
-        alert("Senha atualizada com sucesso!");
+        toast.success("Senha atualizada com sucesso!");
       })
       .catch((err) => {
         const message = err.response.data.message;
@@ -100,7 +101,7 @@ const NewPassword = ({ closeModal }: Props) => {
         fontName="TINY"
         color={Theme.colors.secondaryTextAction}
       >
-        Mínimo 6 caracteres, 1 maiúscula e 1 caractere especial
+        Mínimo 6 caracteres
       </Text>
       <Input
         type="password"

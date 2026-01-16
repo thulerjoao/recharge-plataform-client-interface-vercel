@@ -1,5 +1,6 @@
 export const colors = {
   mainHighlight: "#00C8FF",
+  secondaryHighlight: "rgb(176, 199, 199)",
   mainlight: "#FFFFFF",
   maindark: "#071116",
   secondaryAction: "#525F63",
@@ -7,9 +8,12 @@ export const colors = {
   mainTransparent: "#010a0e99",
   modalBackground: "#00000099",
   couponsBackground: "#eff1f1",
+  couponsBackground2: "rgb(255, 255, 239)",
+  mainText: "#010a0e",
   secondaryText: "#76B4C3",
   secondaryTextAction: "#8A979B",
   approved: "#01FF0B",
   pending: "#FFFF00",
   refused: "#FF6565",
+  whatsappBackground: "#25D366",
 };

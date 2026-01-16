@@ -1,5 +1,4 @@
 import { ReactNode } from "react";
-// import { AuthProvider } from "./auth";
 import { AuthProvider } from "./auth";
 import { OrdersProvider } from "./orders";
 import ProductsProviderWrapper from "./products/ProductsProviderWrapper";

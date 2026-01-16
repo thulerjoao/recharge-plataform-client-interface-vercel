@@ -3,13 +3,14 @@ import "swiper/css";
 import "swiper/css/navigation";
 import "swiper/css/pagination";
 
-export const HomeContainer = styled.div`
+export const HomeTestContainer = styled.div`
   width: 100%;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: flex-start;
   height: auto;
+  overflow-x: hidden;
 
   .slide {
     max-width: 50rem;
@@ -28,28 +29,23 @@ export const HomeContainer = styled.div`
 
     .cardsContainer {
       width: 100%;
-      max-width: 605px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      flex-wrap: wrap;
-      margin-top: 24px;
+      max-width: 1000px;
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 16px;
+      margin-top: 32px;
       margin-bottom: 56px;
+      padding: 0 24px;
+      box-sizing: border-box;
 
       .cardEnviroment {
-        height: auto;
-        flex: 0 1 calc(33.33% - 16px);
+        width: 100%;
+        min-width: 0;
+        max-width: 100%;
         display: flex;
         align-items: center;
         justify-content: center;
-        width: 100%;
-        margin-bottom: 24px;
-
-        .invisibleCard {
-          width: 100%;
-          max-width: 174px;
-          height: 0px;
-        }
+        margin-bottom: 8px;
       }
     }
   }
@@ -70,20 +66,66 @@ export const HomeContainer = styled.div`
     }
   }
 
-  @media (min-width: 540px) and (max-width: 1024px) {
-  }
-  @media (max-width: 539px) {
+  @media (min-width: 1025px) and (max-width: 1400px) {
     main {
       .cardsContainer {
-        padding: 0 14px;
-        box-sizing: border-box;
+        grid-template-columns: repeat(4, 1fr);
+        max-width: 820px;
 
         .cardEnviroment {
-          flex: 0 1 calc(50% - 10px);
+          min-width: 0;
+          max-width: 100%;
         }
+      }
+    }
+  }
 
-        .invisible {
-          display: none;
+  @media (min-width: 768px) and (max-width: 1024px) {
+    main {
+      .cardsContainer {
+        grid-template-columns: repeat(4, 1fr);
+        max-width: 820px;
+        gap: 12px;
+        padding: 0 16px;
+
+        .cardEnviroment {
+          min-width: 0;
+          max-width: 100%;
+        }
+      }
+    }
+  }
+
+  @media (min-width: 540px) and (max-width: 767px) {
+    main {
+      .cardsContainer {
+        grid-template-columns: repeat(3, 1fr);
+        max-width: 620px;
+        gap: 12px;
+        padding: 0 16px;
+
+        .cardEnviroment {
+          min-width: 0;
+          max-width: 100%;
+        }
+      }
+    }
+  }
+
+  @media (max-width: 539px) {
+    main {
+      .homeTestText {
+        max-width: 200px;
+      }
+      .cardsContainer {
+        grid-template-columns: repeat(3, 1fr);
+        gap: 10px;
+        padding: 0 14px;
+        margin-top: 24px;
+
+        .cardEnviroment {
+          min-width: 0;
+          max-width: 100%;
         }
       }
     }

@@ -5,21 +5,20 @@ import { Theme } from "@4miga/design-system/theme/theme";
 import { useProducts } from "contexts/products/ProductsProvider";
 import { useStore } from "contexts/store/StoreProvider";
 import { useRouter } from "next/navigation";
-import PackageCard from "public/cards/packageCard/card";
+import PackageCardTest from "public/cards/packageCardCompact/card";
 import BottomOffer from "public/components/bottomOffer/bottomOffer";
 import Carousel from "public/components/carousel/carousel";
-import SecurityAdvertise from "public/components/securityAdvertise/securityAdvertise";
+import HowItWorks from "public/components/howItWorks";
 import { PackageType } from "types/productTypes";
 import { formatString } from "utils/formatString";
 import Lines from "../../../public/components/lines/lines";
-import InvisibleCards from "./invisivleCards";
-import { HomeContainer } from "./style";
+import { HomeTestContainer } from "./style";
 
 type Props = {
   coupon?: string;
 };
 
-const Home = ({ coupon }: Props) => {
+const HomeTest = ({ coupon }: Props) => {
   const route = useRouter();
   const { product } = useProducts();
   const { store } = useStore();
@@ -33,7 +32,7 @@ const Home = ({ coupon }: Props) => {
   };
 
   return (
-    <HomeContainer>
+    <HomeTestContainer>
       <Carousel imagesList={bannerList} />
       <Lines />
       <main>
@@ -41,9 +40,19 @@ const Home = ({ coupon }: Props) => {
           tag="h1"
           align="center"
           fontName="LARGE_SEMI_BOLD"
-          margin="72px 0px 0px 0px"
+          margin="48px 0px 0px 0px"
         >
-          RECARREGUE AGORA!
+          RECARREGUE AGORA
+        </Text>
+        <Text
+          tag="p"
+          align="center"
+          fontName="REGULAR"
+          className="homeTestText"
+          color={Theme.colors.secondaryText}
+          margin="16px 0 8px 0"
+        >
+          Recargas direto para sua conta Bigo Live
         </Text>
         <section className="cardsContainer">
           {product &&
@@ -53,13 +62,13 @@ const Home = ({ coupon }: Props) => {
                 className="cardEnviroment"
                 onClick={() => handleClick(packageItem)}
               >
-                <PackageCard selected={false} item={packageItem} />
+                <PackageCardTest selected={false} item={packageItem} />
               </div>
             ))}
-          {InvisibleCards(product?.packages)}
         </section>
       </main>
-      <SecurityAdvertise />
+      <HowItWorks />
+      {/* <SecurityAdvertise /> */}
       <BottomOffer />
       <div className="couponsLink">
         <Text
@@ -84,8 +93,8 @@ const Home = ({ coupon }: Props) => {
           Ver cupons disponíveis
         </Text>
       </div>
-    </HomeContainer>
+    </HomeTestContainer>
   );
 };
 
-export default Home;
+export default HomeTest;

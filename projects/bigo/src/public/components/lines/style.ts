@@ -10,7 +10,7 @@ export const LineDetail = styled.span`
   position: relative;
 
   .verticalLines {
-    height: 300px;
+    height: 200px;
     width: calc(100% - 99px);
     max-width: 465px;
     position: absolute;

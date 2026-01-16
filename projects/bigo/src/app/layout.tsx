@@ -1,5 +1,7 @@
 import Providers from "contexts/providers";
 import StyledComponentsRegistry from "lib/registry";
+import ToastProvider from "lib/toast-provider";
+import WhatsAppFloatingButton from "public/components/whatsappFloatingButton/whatsappFloatingButton";
 import React from "react";
 import "./globals.css";
 import Loading from "./loading";
@@ -40,6 +42,7 @@ export default function RootLayout({
       <body>
         <Providers>
           <StyledComponentsRegistry>
+            <ToastProvider />
             <Loading>{children}</Loading>
           </StyledComponentsRegistry>
         </Providers>

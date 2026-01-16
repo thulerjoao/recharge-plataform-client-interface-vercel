@@ -5,9 +5,11 @@ import { Theme } from "@4miga/design-system/theme/theme";
 import { connectionAPIPost } from "@4miga/services/connectionAPI/connection";
 import { apiUrl } from "@4miga/services/connectionAPI/url";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useAuth } from "contexts/auth";
 import React, { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import InputMask from "react-input-mask";
+import { LoginResponse } from "types/loginTypes";
 import { UserType } from "types/userTypes";
 import { storeId } from "utils/apiUrl";
 import CPFicon from "../../icons/CPFicon.svg";
@@ -17,21 +19,17 @@ import EyeOn from "../../icons/EyeOn.svg";
 import Name from "../../icons/Name.svg";
 import Password from "../../icons/Password.svg";
 import Phone from "../../icons/Phone.svg";
-import { LoginSteps } from "../../types/types";
 import { registerSchema, RegisterSchema } from "./schema";
-import { ErrorMessage, NewAccountContainer } from "./style";
+import { ErrorMessage, NewAccountDirectContainer } from "./style";
+import toast from "react-hot-toast";
 
 interface Props {
-  setNewUser: React.Dispatch<React.SetStateAction<UserType>>;
-  setStep: React.Dispatch<React.SetStateAction<LoginSteps>>;
-  setPreviousStep: React.Dispatch<
-    React.SetStateAction<"newAccount" | "newPassword" | null>
-  >;
+  closeModal: () => void;
 }
 
-const NewAccount = ({ setNewUser, setStep, setPreviousStep }: Props) => {
-  const emailToConfirm = sessionStorage.getItem("emailToConfirm");
+const NewAccountDirect = ({ closeModal }: Props) => {
   const [loading, setLoading] = useState<boolean>(false);
+  const { login } = useAuth();
   const {
     handleSubmit,
     setValue,
@@ -58,7 +56,6 @@ const NewAccount = ({ setNewUser, setStep, setPreviousStep }: Props) => {
 
   const onSubmit = async (data: RegisterSchema) => {
     setLoading(true);
-    if (emailToConfirm === data.email) setStep("confirmCode");
     const body: UserType = {
       name: data.name,
       email: data.email,
@@ -68,26 +65,22 @@ const NewAccount = ({ setNewUser, setStep, setPreviousStep }: Props) => {
       documentValue: data.cpf,
       storeId,
     };
-    await connectionAPIPost<UserType>("/user", body, apiUrl)
-      .then((res) => {
-        setNewUser({ id: res.id, ...body });
-        sessionStorage.setItem("emailToConfirm", body.email);
-        setPreviousStep("newAccount");
-        setStep("confirmCode");
+
+    await connectionAPIPost<LoginResponse>("/user/create-direct", body)
+      .then(async (res) => {
+        await login(res, true);
+        closeModal();
+        toast.success("Conta criada com sucesso!");
       })
       .catch((err) => {
-        handleErrorResponse(err.response.data.message);
-        sessionStorage.removeItem("emailToConfirm");
+        handleErrorResponse(
+          err.response?.data?.message || "Erro ao criar conta",
+        );
+      })
+      .finally(() => {
+        setLoading(false);
       });
-    setLoading(false);
   };
-
-  useEffect(() => {
-    const emailToConfirm = sessionStorage.getItem("emailToConfirm");
-    if (emailToConfirm) {
-      sessionStorage.removeItem("emailToConfirm");
-    }
-  }, []);
 
   useEffect(() => {
     setErrorMessage("");
@@ -120,24 +113,20 @@ const NewAccount = ({ setNewUser, setStep, setPreviousStep }: Props) => {
   const handleErrorResponse = (res: string) => {
     if (res === "User with this email already exists") {
       setErrorMessage("Email já cadastrado");
-      setLoading(false);
     } else if (res === "User with this document already exists") {
       setErrorMessage("CPF já cadastrado");
-      setLoading(false);
     } else if (
       res.toLocaleLowerCase() === "Name is required" ||
       res.includes("Name must contain at least two words")
     ) {
       setErrorMessage("Nome completo obrigatório");
-      setLoading(false);
     } else {
       setErrorMessage("Erro ao criar conta");
-      setLoading(false);
     }
   };
 
   return (
-    <NewAccountContainer onSubmit={handleSubmit(onSubmit)}>
+    <NewAccountDirectContainer onSubmit={handleSubmit(onSubmit)}>
       <Text margin="24px 0 0 0" align="center" fontName="REGULAR_MEDIUM">
         Cadastre-se para finalizar sua compra
       </Text>
@@ -267,8 +256,8 @@ const NewAccount = ({ setNewUser, setStep, setPreviousStep }: Props) => {
           {errorMessage}
         </Text>
       </ErrorMessage>
-    </NewAccountContainer>
+    </NewAccountDirectContainer>
   );
 };
 
-export default NewAccount;
+export default NewAccountDirect;
