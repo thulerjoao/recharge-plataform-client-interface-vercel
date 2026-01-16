@@ -66,21 +66,7 @@ export const HomeTestContainer = styled.div`
     }
   }
 
-  @media (min-width: 1025px) and (max-width: 1400px) {
-    main {
-      .cardsContainer {
-        grid-template-columns: repeat(4, 1fr);
-        max-width: 820px;
-
-        .cardEnviroment {
-          min-width: 0;
-          max-width: 100%;
-        }
-      }
-    }
-  }
-
-  @media (min-width: 768px) and (max-width: 1024px) {
+  @media (min-width: 768px) and (max-width: 1400px) {
     main {
       .cardsContainer {
         grid-template-columns: repeat(4, 1fr);
