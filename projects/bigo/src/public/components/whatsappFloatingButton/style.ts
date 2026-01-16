@@ -14,18 +14,18 @@ export const WhatsAppGlobalContainer = styled.div`
   .mainContainer {
     width: 100%;
     height: 0;
-    max-width: 74rem;
+    max-width: 95rem;
     position: relative;
   }
 `;
 
 export const WhatsAppButton = styled.a`
-  top: 35vh;
+  top: 70vh;
   right: 8px;
-  min-width: 40px;
-  min-height: 40px;
-  max-width: 40px;
-  max-height: 40px;
+  min-width: 42px;
+  min-height: 42px;
+  max-width: 42px;
+  max-height: 42px;
   border-radius: 50%;
   background-color: ${Theme.colors.whatsappBackground};
   display: flex;
@@ -46,8 +46,8 @@ export const WhatsAppButton = styled.a`
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    width: 40px;
-    height: 40px;
+    width: 42px;
+    height: 42px;
     border-radius: 50%;
     border: 1.35px solid ${Theme.colors.whatsappBackground};
     opacity: 0.45;
@@ -60,8 +60,8 @@ export const WhatsAppButton = styled.a`
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    width: 40px;
-    height: 40px;
+    width: 42px;
+    height: 42px;
     border-radius: 50%;
     border: 1.25px solid ${Theme.colors.whatsappBackground};
     opacity: 0.35;
@@ -84,12 +84,12 @@ export const WhatsAppButton = styled.a`
   }
 
   svg {
-    min-width: 40px;
-    min-height: 40px;
-    max-width: 40px;
-    max-height: 40px;
+    min-width: 42px;
+    min-height: 42px;
+    max-width: 42px;
+    max-height: 42px;
     margin-top: 12px;
-    margin-left: 39%;
+    margin-left: 42%;
     z-index: 1000;
     position: relative;
   }
@@ -99,7 +99,7 @@ export const WhatsAppButton = styled.a`
   }
 
   .bottomText {
-    width: 40px;
+    width: 42px;
     height: 28px;
     background-color: ${Theme.colors.whatsappBackground};
     position: absolute;
@@ -113,6 +113,7 @@ export const WhatsAppButton = styled.a`
       text-shadow: 0 0px 5px ${Theme.colors.maindark};
       color: ${Theme.colors.mainlight} !important;
       font-size: 10px !important;
+      font-weight: 600 !important;
       top: 13px;
       position: absolute;
       z-index: 1000;
