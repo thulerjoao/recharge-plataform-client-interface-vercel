@@ -32,6 +32,7 @@ export const HowItWorksContainer = styled.div`
       -webkit-box-shadow: 0px 0px 5px 0px rgb(15, 65, 79);
       -moz-box-shadow: 0px 0px 5px 0px rgb(15, 65, 79);
       box-shadow: 0px 0px 5px 0px rgb(15, 65, 79);
+      border: 2px solid ${Theme.colors.secondaryAction}60;
     }
 
     div {
@@ -58,6 +59,22 @@ export const HowItWorksContainer = styled.div`
   @media (max-width: 539px) {
     .howItWorksContent {
       padding: 0 16px;
+
+      section {
+        justify-content: center;
+        gap: 0;
+        gap: 8px;
+        padding-bottom: 16px;
+
+        div {
+          width: calc(50% - 4px);
+          margin-bottom: 8px;
+
+          p {
+            text-align: center;
+          }
+        }
+      }
     }
   }
 `;

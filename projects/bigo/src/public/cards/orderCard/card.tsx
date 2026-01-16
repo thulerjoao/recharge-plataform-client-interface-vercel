@@ -49,7 +49,7 @@ const OrderCard = ({ order }: OrderCardProps) => {
             {handleOrderStatus(order.orderStatus)}
           </Text>
         </div>
-        <div className="seeDetails">
+        {/* <div className="seeDetails">
           <Text
             align="center"
             underline
@@ -58,7 +58,7 @@ const OrderCard = ({ order }: OrderCardProps) => {
           >
             ver detalhes
           </Text>
-        </div>
+        </div> */}
       </section>
     </OrderCardContainer>
   );
