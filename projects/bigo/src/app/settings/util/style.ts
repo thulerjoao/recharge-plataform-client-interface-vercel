@@ -42,10 +42,10 @@ export const SettingsContainer = styled.div`
       background-color: ${Theme.colors.maindark};
       border-radius: 12px;
       padding: 24px;
-      border: 1px solid ${Theme.colors.mainTransparent};
       -webkit-box-shadow: 0px 0px 5px 1px rgba(7, 29, 35, 1);
       -moz-box-shadow: 0px 0px 5px 1px rgba(7, 29, 35, 1);
       box-shadow: 0px 0px 5px 1px rgba(7, 29, 35, 1);
+      border: 1px solid ${Theme.colors.secondaryAction}80;
 
       .section-title {
         margin-bottom: 24px;
