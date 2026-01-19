@@ -249,21 +249,18 @@ const Productpage = ({ slug }: Props) => {
             </div>
             {productPackages?.packages?.map((packag: PackageType) => {
               return (
-                console.log(packag),
-                (
-                  <div
-                    key={packag.id}
-                    onClick={() => handlePackageClick(packag)}
-                    className="cardEnviroment"
-                  >
-                    <PackageCard
-                      bestOffer={packag.isOffer}
-                      title={`${packag.name}`}
-                      imageUrl={packag.imgCardUrl}
-                      price={packag.paymentMethods[0].price}
-                    />
-                  </div>
-                )
+                <div
+                  key={packag.id}
+                  onClick={() => handlePackageClick(packag)}
+                  className="cardEnviroment"
+                >
+                  <PackageCard
+                    bestOffer={packag.isOffer}
+                    title={`${packag.name}`}
+                    imageUrl={packag.imgCardUrl}
+                    price={packag.paymentMethods[0].price}
+                  />
+                </div>
               );
             })}
           </section>

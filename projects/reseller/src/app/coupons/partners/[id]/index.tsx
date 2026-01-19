@@ -35,9 +35,7 @@ const CouponSales = ({ influencerId }: CouponDetailsProps) => {
       .then((res) => {
         setCouponData(res);
       })
-      .catch((err) => {
-        console.log(err);
-      })
+      .catch(() => {})
       .finally(() => {
         setLoading(false);
       });

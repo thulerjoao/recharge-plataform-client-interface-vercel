@@ -49,9 +49,7 @@ const InfluencerDetails = ({ influencerId }: InfluencerDetailsProps) => {
         setInfluencer(res);
         setEditData(res);
       })
-      .catch((err) => {
-        console.log("err", err);
-      })
+      .catch((err) => {})
       .finally(() => {
         setLoading(false);
       });
@@ -159,7 +157,6 @@ const InfluencerDetails = ({ influencerId }: InfluencerDetailsProps) => {
         alert("Parceiro atualizado!");
       })
       .catch((err) => {
-        console.log("err", err);
         if (
           err.response.data.message ===
           "Influencer with this name already exists for this store"
