@@ -22,9 +22,11 @@ export const SalesInnerPageContainer = styled.div`
     max-width: 852px;
     border-radius: 8px;
     padding: 16px;
-    -webkit-box-shadow: 0px 0px 5px 2px rgba(7, 29, 35, 1);
-    -moz-box-shadow: 0px 0px 5px 2px rgba(7, 29, 35, 1);
-    box-shadow: 0px 0px 5px 2px rgba(7, 29, 35, 1);
+    -webkit-box-shadow: 0px 0px 5px 1px rgba(7, 29, 35, 1);
+    -moz-box-shadow: 0px 0px 5px 1px rgba(7, 29, 35, 1);
+    box-shadow: 0px 0px 5px 1px rgba(7, 29, 35, 1);
+    border: 1px solid ${Theme.colors.secondaryAction}80;
+    padding: 16px;
 
     .top {
       display: flex;

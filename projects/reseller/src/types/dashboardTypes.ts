@@ -23,6 +23,7 @@ export type DailyTrendType = {
   date: string;
   totalSales: number;
   totalOrders: number;
+  newCustomers: number;
 };
 
 export type SalesByProductType = {

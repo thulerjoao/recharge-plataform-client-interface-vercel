@@ -289,9 +289,23 @@ const Dashboard = () => {
           )}
         </div>
         <section className="bottomContainer">
-          <DailyTrend dailyTrend={dashboardData.dailyTrend} />
-          <SalesByProduct salesByProduct={dashboardData.salesByProduct} />
+          {(() => {
+            const now = new Date();
+            const currentYear = now.getFullYear();
+            const currentMonth = now.getMonth() + 1;
+            const isCurrentMonth =
+              selectedPeriod.year === currentYear &&
+              selectedPeriod.month === currentMonth;
+
+            return isCurrentMonth ? (
+              <DailyTrend dailyTrend={dashboardData.dailyTrend} />
+            ) : null;
+          })()}
+          {/* <SalesByProduct salesByProduct={dashboardData.salesByProduct} /> */}
         </section>
+        <Text fontName="LARGE_SEMI_BOLD" margin="0 0 24px 0">
+          Resumo do mês
+        </Text>
         <MetricsCards summary={dashboardData.summary} />
       </div>
     </DashboardContainer>
