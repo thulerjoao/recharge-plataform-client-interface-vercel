@@ -55,11 +55,18 @@ const DailyTrend = ({ dailyTrend }: DailyTrendProps) => {
   const maxSales = Math.max(...dailyTrend.map((item) => item.totalSales), 1);
 
   // Format dates for display (day only)
+  //"date": "2026-01-19"
   const formatDate = (dateString: string) => {
-    const date = new Date(dateString);
-    const day = date.getDate();
-    const month = date.toLocaleDateString("pt-BR", { month: "short" });
-    return `${day} ${month}`;
+    // Parse the date string manually to avoid timezone issues
+    const [year, month, day] = dateString.split("-").map(Number);
+    // Create date in Brasília timezone by using toLocaleString
+    const date = new Date(year, month - 1, day);
+    const dayFormatted = date.getDate();
+    const monthFormatted = date.toLocaleDateString("pt-BR", {
+      month: "short",
+      timeZone: "America/Sao_Paulo",
+    });
+    return `${dayFormatted} ${monthFormatted}`;
   };
 
   // Sort by date (oldest first)
@@ -190,6 +197,9 @@ const DailyTrend = ({ dailyTrend }: DailyTrendProps) => {
           </Text>
           <Text margin="4px 0 0 0" fontName="SMALL" color="#999">
             {displayTrend[hoveredIndex].totalOrders} pedidos
+          </Text>
+          <Text margin="4px 0 0 0" fontName="SMALL" color="#999">
+            +{displayTrend[hoveredIndex].newCustomers} clientes
           </Text>
         </Tooltip>
       )}
