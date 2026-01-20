@@ -34,9 +34,7 @@ const InfluencerSales = ({ influencerId }: InfluencerDetailsProps) => {
       .then((res) => {
         setSalesData(res);
       })
-      .catch((err) => {
-        console.log(err);
-      })
+      .catch((err) => {})
       .finally(() => {
         setLoading(false);
       });

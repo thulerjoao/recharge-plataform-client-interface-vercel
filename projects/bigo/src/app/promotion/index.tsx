@@ -35,13 +35,11 @@ const Promotion = () => {
 
     // Múltiplos eventos para garantir que funcione em diferentes navegadores
     const handleCanPlay = () => {
-      console.log("Vídeo pode ser reproduzido");
       setIsLoading(false);
       clearTimeout(timeoutId);
     };
 
     const handleLoadedMetadata = () => {
-      console.log("Metadata carregado");
       // Em mobile, às vezes onCanPlay não dispara, então usamos este como fallback
       if (video.readyState >= 2) {
         // HAVE_CURRENT_DATA ou superior
@@ -51,7 +49,6 @@ const Promotion = () => {
     };
 
     const handleLoadedData = () => {
-      console.log("Dados do vídeo carregados");
       setIsLoading(false);
       clearTimeout(timeoutId);
     };
@@ -91,9 +88,7 @@ const Promotion = () => {
       // Não definir erro imediatamente, pode ser apenas uma pausa temporária
     };
 
-    const handleWaiting = () => {
-      console.log("Vídeo aguardando dados");
-    };
+    const handleWaiting = () => {};
 
     // Adicionar event listeners
     video.addEventListener("canplay", handleCanPlay);

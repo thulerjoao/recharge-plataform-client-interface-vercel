@@ -76,8 +76,8 @@ const CreateCoupon = ({
       .then((res) => {
         setInfluencersList(res);
       })
-      .catch((err) => {
-        console.log("error", err);
+      .catch(() => {
+        return;
       });
   }, []);
 

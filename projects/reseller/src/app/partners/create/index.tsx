@@ -84,7 +84,6 @@ const CreateInfluencer = () => {
         alert("Parceiro cadastrado com sucesso");
       })
       .catch((error) => {
-        console.log(error.response.data.message);
         if (
           error.response.data.message ===
           "Influencer with this name already exists for this store"

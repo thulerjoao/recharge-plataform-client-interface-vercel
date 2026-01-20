@@ -54,9 +54,6 @@ const PixCard = ({
   const { logged, user, setUser } = useAuth();
   const route = useRouter();
 
-  // console.log("sessionOrder", sessionOrder);
-  // console.log("item", item);
-
   const packageId = item ? item.id : sessionOrder?.orderItem.package.id;
   const handleGetPrice = () => {
     if (sessionOrder) {

@@ -3,7 +3,7 @@
 import Input from "@4miga/design-system/components/input";
 import Text from "@4miga/design-system/components/Text";
 import { Theme } from "@4miga/design-system/theme/theme";
-import { useState, useMemo } from "react";
+import { useMemo, useState } from "react";
 import { CalculatorContainer } from "./style";
 
 interface PaymentTier {
@@ -12,6 +12,9 @@ interface PaymentTier {
   bonus: number;
   total: number;
 }
+
+const PRICE_PER_1000_BEAN = 19.34; //104 BRR = 19.34 USD
+const PRICE_PER_1000_BEAN_BRL = 104; //104 BRR = 19.34 USD
 
 const PAYMENT_TIERS: PaymentTier[] = [
   { meta: 2000, beans: 9.52, bonus: 14.0, total: 23.52 },
@@ -88,7 +91,7 @@ const Calculator = () => {
 
     // Custo para completar: moedas faltantes / 210
     const beansNeeded = nextTier.meta - sold;
-    const costInDollars = beansNeeded / 210;
+    const costInDollars = (beansNeeded / 1000) * PRICE_PER_1000_BEAN;
 
     // Ganho líquido se completar: total recebido - custo desembolsado
     const nextNetGain = nextTotalReceived - costInDollars;
@@ -150,7 +153,7 @@ const Calculator = () => {
             color={Theme.colors.mainlight}
             margin="0 0 12px 0"
           >
-            Quantas moedas você já vendeu?
+            Quantos beans você já recebeu?
           </Text>
           <Input
             type="text"
@@ -224,14 +227,14 @@ const Calculator = () => {
                       fontName="REGULAR"
                       color={Theme.colors.secondaryText}
                     >
-                      Moedas necessárias:
+                      Beans necessários:
                     </Text>
                     <Text
                       tag="span"
                       fontName="REGULAR_MEDIUM"
                       color={Theme.colors.mainlight}
                     >
-                      {formatNumber(calculation.beansNeeded)} beans
+                      {formatNumber(calculation.beansNeeded)}
                     </Text>
                   </div>
 
@@ -246,7 +249,7 @@ const Calculator = () => {
                     <Text
                       tag="span"
                       fontName="REGULAR_MEDIUM"
-                      color={Theme.colors.mainlight}
+                      color={Theme.colors.pending}
                     >
                       {formatCurrency(calculation.costInDollars)}
                     </Text>

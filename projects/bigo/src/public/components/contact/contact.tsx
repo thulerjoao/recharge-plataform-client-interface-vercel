@@ -11,7 +11,6 @@ import toast from "react-hot-toast";
 
 const Contact = () => {
   const { store } = useStore();
-  console.log(store);
 
   const copyEmailToClipboard = async () => {
     try {
@@ -24,7 +23,6 @@ const Contact = () => {
 
   const formatPhoneNumber = (phoneNumber: string) => {
     if (!phoneNumber) return "";
-    console.log(phoneNumber);
     return phoneNumber.replace(/\D/g, "");
   };
 

@@ -303,12 +303,6 @@ const Settings = () => {
               });
           }
         }
-        // if (section === "document") {
-        //   console.log("Atualizar documento:", {
-        //     documentType: formData.documentType,
-        //     documentValue: formData.documentValue,
-        //   });
-        // }
         if (section === "security") {
           if (securityData.password.trim().length === 0) {
             // nada para atualizar

@@ -53,7 +53,6 @@ const CouponDetails = ({ couponId }: CouponDetailsProps) => {
         return res;
       })
       .catch((err) => {
-        console.log("err", err);
         return null;
       })
       .finally(() => {
@@ -163,7 +162,6 @@ const CouponDetails = ({ couponId }: CouponDetailsProps) => {
     connectionAPIPatch(`/coupon/${couponId}`, data, apiUrl)
       .then(async () => {
         const updatedCoupon = await getCoupon();
-        console.log("updatedCoupon", updatedCoupon);
         if (updatedCoupon) {
           updateCoupon(updatedCoupon);
         }
@@ -171,7 +169,6 @@ const CouponDetails = ({ couponId }: CouponDetailsProps) => {
         alert("Cupom atualizado!");
       })
       .catch((err) => {
-        console.log("err", err);
         if (
           err.response.data.message ===
           "Coupon with this title already exists for this store"

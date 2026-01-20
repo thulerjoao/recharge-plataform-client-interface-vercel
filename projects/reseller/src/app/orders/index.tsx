@@ -47,7 +47,7 @@ const OrdersPage = ({ currentPage, search, status, productId }: Props) => {
     setStatus(status);
     setLocalStatus(status);
     setProductFilter(productId);
-    getOrders(currentPage, 6, search, status, productId);
+    getOrders(currentPage, 10, search, status, productId);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [currentPage, search, status, productId]);
 
