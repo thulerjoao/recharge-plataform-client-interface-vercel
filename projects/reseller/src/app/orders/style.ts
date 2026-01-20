@@ -6,6 +6,7 @@ export const OrdersContainer = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
+  padding-bottom: 97px;
 
   .centerContainer {
     padding-top: 96px;
@@ -38,9 +39,11 @@ export const OrdersContainer = styled.div`
       padding: 20px;
       background: ${Theme.colors.maindark};
       border-radius: 12px;
-      -webkit-box-shadow: 0px 0px 5px 2px rgba(7, 29, 35, 1);
-      -moz-box-shadow: 0px 0px 5px 2px rgba(7, 29, 35, 1);
-      box-shadow: 0px 0px 5px 2px rgba(7, 29, 35, 1);
+      -webkit-box-shadow: 0px 0px 5px 1px rgba(7, 29, 35, 1);
+      -moz-box-shadow: 0px 0px 5px 1px rgba(7, 29, 35, 1);
+      box-shadow: 0px 0px 5px 1px rgba(7, 29, 35, 1);
+      border: 1px solid ${Theme.colors.secondaryAction}80;
+      padding: 12px;
       margin-bottom: 24px;
 
       .searchSection {

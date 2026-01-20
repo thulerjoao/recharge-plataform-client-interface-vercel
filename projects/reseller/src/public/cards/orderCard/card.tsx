@@ -8,6 +8,7 @@ import {
   handleRechargeStatus,
   handleStatusColor,
 } from "utils/handleStatus";
+import { formatPrice } from "utils/formatPrice";
 import { OrderCardContainer } from "./style";
 
 interface OrderCardProps {
@@ -41,14 +42,9 @@ const OrderCard = ({ order }: OrderCardProps) => {
             {order.user?.name}
           </Text>
         </span>
-        <div className="packageName desktop">
-          <Text className="infoValue" nowrap align="start" fontName="SMALL">
-            {order.orderItem.package.name}
-          </Text>
-        </div>
         <span className="status rechargeStatus">
           <Text className="mobile" tag="h3" fontName="SMALL">
-            Recarga
+            Status
           </Text>
           <Text
             className="infoValue"
@@ -60,8 +56,34 @@ const OrderCard = ({ order }: OrderCardProps) => {
             {handleOrderStatus(order.orderStatus)}
           </Text>
         </span>
+        <span className="diamonds desktop">
+          <Text className="infoValue" nowrap align="start" fontName="SMALL">
+            {order.orderItem.recharge.amountCredits} diamantes
+          </Text>
+        </span>
+        <span className="price desktop">
+          <Text className="infoValue" nowrap align="start" fontName="SMALL">
+            R$ {formatPrice(order.price)}
+          </Text>
+        </span>
+        <span className="diamonds mobile">
+          <Text className="mobile" tag="h3" fontName="SMALL">
+            Diamantes
+          </Text>
+          <Text className="infoValue" nowrap align="start" fontName="SMALL">
+            {order.orderItem.recharge.amountCredits}
+          </Text>
+        </span>
+        <span className="price mobile">
+          <Text className="mobile" tag="h3" fontName="SMALL">
+            Valor Pago
+          </Text>
+          <Text className="infoValue" nowrap align="start" fontName="SMALL">
+            R$ {formatPrice(order.price)}
+          </Text>
+        </span>
       </section>
-      <span className="seeMore mobile">
+      {/* <span className="seeMore mobile">
         <Text
           underline
           align="center"
@@ -70,7 +92,7 @@ const OrderCard = ({ order }: OrderCardProps) => {
         >
           ver mais
         </Text>
-      </span>
+      </span> */}
     </OrderCardContainer>
   );
 };

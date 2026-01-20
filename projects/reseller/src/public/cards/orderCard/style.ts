@@ -4,15 +4,16 @@ import styled from "styled-components";
 interface OrderCardProps {}
 
 export const OrderCardContainer = styled.article<OrderCardProps>`
-  height: 72px;
+  min-height: 72px;
   background-color: ${Theme.colors.maindark};
   margin-bottom: 16px;
   display: flex;
   align-items: center;
-  -webkit-box-shadow: 0px 0px 5px 2px rgba(7, 29, 35, 1);
-  -moz-box-shadow: 0px 0px 5px 2px rgba(7, 29, 35, 1);
-  box-shadow: 0px 0px 5px 2px rgba(7, 29, 35, 1);
-  padding: 0 16px;
+  -webkit-box-shadow: 0px 0px 5px 1px rgba(7, 29, 35, 1);
+  -moz-box-shadow: 0px 0px 5px 1px rgba(7, 29, 35, 1);
+  box-shadow: 0px 0px 5px 1px rgba(7, 29, 35, 1);
+  border: 1px solid ${Theme.colors.secondaryAction}80;
+  padding: 8px;
   border-radius: 8px;
   cursor: pointer;
 
@@ -28,27 +29,22 @@ export const OrderCardContainer = styled.article<OrderCardProps>`
 
   .allInfoSection {
     display: grid;
-    grid-template-columns: 1.2fr 1.5fr 1fr 0.5fr auto;
+    grid-template-columns: 1.2fr 1.5fr 0.5fr auto;
+    grid-template-rows: auto auto;
     align-items: center;
-    gap: 16px;
+    gap: 16px 16px;
     width: 100%;
-    margin: 0 16px;
+    margin: 0 0 0 16px;
 
     .orderNumber {
       grid-column: 1;
+      grid-row: 1;
       min-width: 0;
     }
 
     .name {
       grid-column: 2;
-      min-width: 0;
-    }
-
-    .desktop.name {
-      grid-column: 3;
-      display: flex;
-      justify-content: center;
-      align-items: center;
+      grid-row: 1;
       min-width: 0;
     }
 
@@ -59,10 +55,25 @@ export const OrderCardContainer = styled.article<OrderCardProps>`
 
     .status:first-of-type {
       grid-column: 4;
+      grid-row: 1;
     }
 
     .status:last-of-type {
-      grid-column: 5;
+      grid-column: 4;
+      grid-row: 1;
+      justify-self: end;
+    }
+
+    .diamonds.desktop {
+      grid-column: 1;
+      grid-row: 2;
+      min-width: 0;
+    }
+
+    .price.desktop {
+      grid-column: 2;
+      grid-row: 2;
+      min-width: 0;
     }
 
     .paymentStatus {
@@ -84,10 +95,13 @@ export const OrderCardContainer = styled.article<OrderCardProps>`
     }
   }
   @media (max-width: 767px) {
-    height: 148px;
+    height: auto;
+    min-height: 148px;
     align-items: center;
     justify-content: center;
     position: relative;
+    padding: 12px 10px;
+    padding-bottom: 4px;
 
     .desktop {
       display: none;
@@ -103,7 +117,7 @@ export const OrderCardContainer = styled.article<OrderCardProps>`
       justify-content: space-between;
       min-width: 100%;
       gap: 4px;
-      /* background-color: blue; */
+      margin: 0 16px 0 16px;
 
       span {
         width: 100%;
@@ -132,6 +146,11 @@ export const OrderCardContainer = styled.article<OrderCardProps>`
       }
 
       .paymentStatus {
+        display: flex;
+      }
+
+      .diamonds.mobile,
+      .price.mobile {
         display: flex;
       }
     }
