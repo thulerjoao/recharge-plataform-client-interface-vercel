@@ -3,6 +3,7 @@ import styled from "styled-components";
 
 export const DailyTrendContainer = styled.section`
   width: 100%;
+  max-width: 500px;
   margin-bottom: 24px;
   position: relative;
   -webkit-tap-highlight-color: transparent;
