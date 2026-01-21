@@ -178,7 +178,7 @@ const DailyTrend = ({ dailyTrend }: DailyTrendProps) => {
               onTouchStart={(e) => handleTouchStart(index, e)}
             >
               <VerticalBar heightinpercent={heightPercent} />
-              <Text margin="7px 0" fontName="SMALL">
+              <Text align="center" margin="7px 0" fontName="SMALL">
                 {formatDate(item.date)}
               </Text>
             </div>

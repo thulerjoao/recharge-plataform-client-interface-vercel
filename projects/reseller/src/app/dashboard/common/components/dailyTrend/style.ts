@@ -7,6 +7,10 @@ export const DailyTrendContainer = styled.section`
   margin-bottom: 24px;
   position: relative;
   -webkit-tap-highlight-color: transparent;
+  user-select: none;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
 
   .graphics {
     display: flex;
@@ -15,6 +19,7 @@ export const DailyTrendContainer = styled.section`
     width: 100%;
     height: 384px;
     margin-top: 24px;
+    gap: 4px;
 
     .vertical {
       display: flex;
@@ -23,6 +28,11 @@ export const DailyTrendContainer = styled.section`
       justify-content: flex-end;
       height: 100%;
       flex: 1;
+
+      p {
+        max-height: 16px;
+        /* background-color: red; */
+      }
     }
 
     .metrics {
