@@ -81,6 +81,7 @@ export const Tooltip = styled.div`
 
   @media (max-width: 767px) {
     transform: translateX(-50%) translateY(-100%);
-    margin-top: -8px;
+    margin-top: 75px;
+    /* margin-right: 20px; */
   }
 `;
