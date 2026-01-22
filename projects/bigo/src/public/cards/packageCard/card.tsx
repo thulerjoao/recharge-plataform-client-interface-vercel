@@ -40,6 +40,7 @@ const PackageCard = ({
           alt={`Imagem do pacote ${item.name}`}
           height={80}
           width={80}
+          quality={75}
         />
       </figure>
 

@@ -22,7 +22,16 @@ const Carousel = ({ imagesList }: Props) => {
         {imagesList &&
           imagesList.map((item, index) => (
             <SwiperSlide key={index}>
-              <Image fill className="mainBanner" src={item} alt="main banner" />
+              <Image
+                fill
+                className="mainBanner"
+                src={item}
+                alt={`Banner promocional ${index + 1}`}
+                priority={index === 0}
+                loading={index === 0 ? "eager" : "lazy"}
+                sizes="(max-width: 539px) 100vw, (max-width: 1024px) 744px, 696px"
+                quality={85}
+              />
             </SwiperSlide>
           ))}
       </Swiper>

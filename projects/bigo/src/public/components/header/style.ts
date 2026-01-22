@@ -10,7 +10,7 @@ export const HeaderContainer = styled.header`
   align-items: start;
   justify-content: center;
   background-color: ${Theme.colors.mainTransparent};
-  z-index: 100;
+  z-index: 9999;
 
   .centerComponent {
     width: 100%;
@@ -76,6 +76,10 @@ export const MenuComponent = styled.div`
   flex-direction: column;
   padding: 8px 16px;
   border-radius: 8px;
+  -webkit-box-shadow: 0px 0px 5px 1px rgba(7, 29, 35, 1);
+  -moz-box-shadow: 0px 0px 5px 1px rgba(7, 29, 35, 1);
+  box-shadow: 0px 0px 5px 1px rgba(7, 29, 35, 1);
+  border: 1px solid ${Theme.colors.secondaryAction}80;
 
   .square {
     height: 16px;
@@ -85,6 +89,8 @@ export const MenuComponent = styled.div`
     top: -8px;
     right: 16px;
     transform: rotate(45deg);
+    border-top: 1px solid ${Theme.colors.secondaryAction}80;
+    border-left: 1px solid ${Theme.colors.secondaryAction}80;
   }
   .menuOption {
     width: 100%;

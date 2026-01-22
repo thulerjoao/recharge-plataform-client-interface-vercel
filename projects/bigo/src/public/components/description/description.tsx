@@ -19,6 +19,10 @@ const Description = () => {
         alt={`Imagem do pacote ${product.name}`}
         height={600}
         width={1000}
+        priority
+        loading="eager"
+        sizes="100vw"
+        quality={85}
       />
       <div className="centerContent">
         <Text margin="24px 0 0 0 " fontName="BIG_SEMI_BOLD">

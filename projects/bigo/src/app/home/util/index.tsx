@@ -5,7 +5,6 @@ import { Theme } from "@4miga/design-system/theme/theme";
 import { useProducts } from "contexts/products/ProductsProvider";
 import { useStore } from "contexts/store/StoreProvider";
 import { useRouter } from "next/navigation";
-import PackageCardTest from "public/cards/packageCardCompact/card";
 import BottomOffer from "public/components/bottomOffer/bottomOffer";
 import Carousel from "public/components/carousel/carousel";
 import HowItWorks from "public/components/howItWorks";
@@ -13,6 +12,7 @@ import { PackageType } from "types/productTypes";
 import { formatString } from "utils/formatString";
 import Lines from "../../../public/components/lines/lines";
 import { HomeTestContainer } from "./style";
+import PackageCardCompact from "public/cards/packageCardCompact/card";
 
 type Props = {
   coupon?: string;
@@ -62,7 +62,7 @@ const HomeTest = ({ coupon }: Props) => {
                 className="cardEnviroment"
                 onClick={() => handleClick(packageItem)}
               >
-                <PackageCardTest selected={false} item={packageItem} />
+                <PackageCardCompact selected={false} item={packageItem} />
               </div>
             ))}
         </section>
@@ -91,6 +91,29 @@ const HomeTest = ({ coupon }: Props) => {
           style={{ cursor: "pointer" }}
         >
           Ver cupons disponíveis
+        </Text>
+      </div>
+      <div className="couponsLink">
+        <Text
+          tag="p"
+          align="center"
+          fontName="REGULAR"
+          color={Theme.colors.secondaryText}
+          margin="0px 0 16px 0"
+        >
+          Calcule aqui seu lucro mensal com as metas de Beans
+        </Text>
+        <Text
+          tag="a"
+          align="center"
+          fontName="REGULAR_MEDIUM"
+          color={Theme.colors.mainHighlight}
+          underline
+          pointer
+          onClick={() => route.push("/calc")}
+          style={{ cursor: "pointer" }}
+        >
+          Calculadora de Beans
         </Text>
       </div>
     </HomeTestContainer>
