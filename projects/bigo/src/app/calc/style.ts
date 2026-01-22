@@ -29,6 +29,8 @@ export const CalculatorContainer = styled.div`
     -webkit-box-shadow: 0px 0px 5px 1px rgba(7, 29, 35, 1);
     -moz-box-shadow: 0px 0px 5px 1px rgba(7, 29, 35, 1);
     box-shadow: 0px 0px 5px 1px rgba(7, 29, 35, 1);
+    border: 1px solid ${Theme.colors.secondaryAction}80;
+    box-sizing: border-box;
     margin-bottom: 32px;
 
     .inputSection {
@@ -36,6 +38,15 @@ export const CalculatorContainer = styled.div`
       margin-bottom: 24px;
       padding-bottom: 24px;
       border-bottom: 1px solid ${Theme.colors.secondaryAction};
+    }
+
+    .basePriceInfo {
+      width: 100%;
+      padding: 12px 16px;
+      background-color: ${Theme.colors.mainBbackgroundSolid};
+      border-radius: 8px;
+      border: 1px solid ${Theme.colors.mainTransparent};
+      margin-bottom: 24px;
     }
 
     .resultsSection {
@@ -86,8 +97,31 @@ export const CalculatorContainer = styled.div`
         }
 
         &.notWorthIt {
-          background-color: ${Theme.colors.pending}20;
-          border-color: ${Theme.colors.pending};
+          background-color: ${Theme.colors.refused}20;
+          border-color: ${Theme.colors.refused};
+        }
+      }
+
+      .alertBanner {
+        width: 100%;
+        padding: 16px 20px;
+        background-color: ${Theme.colors.pending}20;
+        border: 2px solid ${Theme.colors.pending};
+        border-radius: 8px;
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        box-sizing: border-box;
+
+        .alertIcon {
+          flex-shrink: 0;
+          font-size: 20px;
+          color: ${Theme.colors.pending};
+        }
+
+        .alertText {
+          flex: 1;
+          line-height: 1.5;
         }
       }
 
@@ -118,6 +152,12 @@ export const CalculatorContainer = styled.div`
       width: 100%;
       overflow-x: auto;
       margin-top: 16px;
+      -webkit-box-shadow: 0px 0px 5px 1px rgba(7, 29, 35, 1);
+      -moz-box-shadow: 0px 0px 5px 1px rgba(7, 29, 35, 1);
+      box-shadow: 0px 0px 5px 1px rgba(7, 29, 35, 1);
+      border: 1px solid ${Theme.colors.secondaryAction}80;
+      box-sizing: border-box;
+      border-radius: 8px;
 
       table {
         width: 100%;
@@ -125,9 +165,6 @@ export const CalculatorContainer = styled.div`
         background-color: ${Theme.colors.maindark};
         border-radius: 8px;
         overflow: hidden;
-        -webkit-box-shadow: 0px 0px 5px 1px rgba(7, 29, 35, 1);
-        -moz-box-shadow: 0px 0px 5px 1px rgba(7, 29, 35, 1);
-        box-shadow: 0px 0px 5px 1px rgba(7, 29, 35, 1);
 
         thead {
           background-color: ${Theme.colors.mainBbackgroundSolid};
@@ -138,13 +175,13 @@ export const CalculatorContainer = styled.div`
             font-size: 14px;
             font-weight: 600;
             color: ${Theme.colors.mainlight};
-            border-bottom: 2px solid ${Theme.colors.mainTransparent};
+            border-bottom: 2px solid ${Theme.colors.secondaryAction}80;
           }
         }
 
         tbody {
           tr {
-            border-bottom: 1px solid ${Theme.colors.mainTransparent};
+            border-bottom: 1px solid ${Theme.colors.secondaryAction}30;
 
             &:last-child {
               border-bottom: none;
@@ -194,6 +231,16 @@ export const CalculatorContainer = styled.div`
 
     .calculatorCard {
       padding: 16px;
+
+      .resultsSection {
+        .alertBanner {
+          padding: 12px 16px;
+
+          .alertIcon {
+            font-size: 18px;
+          }
+        }
+      }
     }
 
     .infoSection {

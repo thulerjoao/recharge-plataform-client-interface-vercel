@@ -40,7 +40,21 @@ const PAYMENT_TIERS: PaymentTier[] = [
 const Calculator = () => {
   const [soldValue, setSoldValue] = useState<string>("");
 
+  const formatNumberInput = (value: string) => {
+    // Remove everything except digits and comma
+    const cleaned = value.replace(/[^\d,]/g, "");
+    // Separate integer and decimal parts
+    const parts = cleaned.split(",");
+    // Format the integer part with dots
+    const integerPart = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+    // Return with or without decimal part
+    return parts.length > 1 ? `${integerPart},${parts[1]}` : integerPart;
+  };
+
   const formatCurrency = (value: number) => {
+    if (value === undefined || value === null || isNaN(value)) {
+      return "$ 0,00";
+    }
     return `$ ${value.toLocaleString("pt-BR", {
       minimumFractionDigits: 2,
       maximumFractionDigits: 2,
@@ -49,23 +63,27 @@ const Calculator = () => {
 
   const calculation = useMemo(() => {
     const sold =
-      parseFloat(soldValue.replace(/[^\d,]/g, "").replace(",", ".")) || 0;
+      parseFloat(soldValue.replace(/\./g, "").replace(",", ".")) || 0;
 
     if (sold <= 0) {
       return null;
     }
 
-    // Encontrar a meta atual (a última meta que foi atingida)
+    // Find the current tier (the last tier that was reached)
     const currentTier = PAYMENT_TIERS.find((tier, index) => {
       const nextTier = PAYMENT_TIERS[index + 1];
       return sold >= tier.meta && (!nextTier || sold < nextTier.meta);
     });
 
-    // Encontrar a próxima meta
+    // Find the next tier
     const nextTierIndex = PAYMENT_TIERS.findIndex((tier) => sold < tier.meta);
     const nextTier = nextTierIndex !== -1 ? PAYMENT_TIERS[nextTierIndex] : null;
 
     if (!nextTier) {
+      const currentBeansValue = sold / 210;
+      const currentBonus = currentTier ? currentTier.bonus : 0;
+      const currentNetGain = currentBeansValue + currentBonus;
+
       return {
         currentTier: PAYMENT_TIERS[PAYMENT_TIERS.length - 1],
         nextTier: null,
@@ -74,30 +92,33 @@ const Calculator = () => {
         currentTotal: 0,
         nextTotal: 0,
         additionalGain: 0,
+        currentNetGain,
+        nextTotalReceived: 0,
+        nextNetGain: 0,
         profit: 0,
         isWorthIt: false,
         message: "Você já atingiu a meta máxima!",
       };
     }
 
-    // Calcular ganho atual (sem fazer nada): (moedas vendidas / 210) + bônus da meta atual
+    // Calculate current gain (without doing anything): (sold coins / 210) + current tier bonus
     const currentBeansValue = sold / 210;
     const currentBonus = currentTier ? currentTier.bonus : 0;
-    const currentNetGain = currentBeansValue + currentBonus; // O que ela ganha sem fazer nada
+    const currentNetGain = currentBeansValue + currentBonus; // What she earns without doing anything
 
-    // Calcular total que receberia se completar: (próxima meta / 210) + bônus da próxima meta
+    // Calculate total that would be received if completed: (next tier / 210) + next tier bonus
     const nextBeansValue = nextTier.meta / 210;
     const nextTotalReceived = nextBeansValue + nextTier.bonus;
 
-    // Custo para completar: moedas faltantes / 210
+    // Cost to complete: missing coins / 210
     const beansNeeded = nextTier.meta - sold;
     const costInDollars = (beansNeeded / 1000) * PRICE_PER_1000_BEAN;
 
-    // Ganho líquido se completar: total recebido - custo desembolsado
+    // Net gain if completed: total received - cost paid
     const nextNetGain = nextTotalReceived - costInDollars;
 
-    // Comparar: ganho líquido se completar vs ganho atual
-    // Vale a pena se o ganho líquido for maior que o ganho atual
+    // Compare: net gain if completed vs current gain
+    // Worth it if net gain is greater than current gain
     const profit = nextNetGain - currentNetGain;
     const isWorthIt = profit > 0;
 
@@ -118,6 +139,9 @@ const Calculator = () => {
   }, [soldValue]);
 
   const formatNumber = (value: number) => {
+    if (value === undefined || value === null || isNaN(value)) {
+      return "0";
+    }
     return new Intl.NumberFormat("pt-BR").format(value);
   };
 
@@ -160,12 +184,26 @@ const Calculator = () => {
             placeholder="Ex: 15.000"
             value={soldValue}
             onChange={(e) => {
-              const value = e.target.value.replace(/[^\d,]/g, "");
-              setSoldValue(value);
+              const formatted = formatNumberInput(e.target.value);
+              setSoldValue(formatted);
             }}
             margin="0"
             height={40}
           />
+        </div>
+
+        <div className="basePriceInfo">
+          <Text
+            tag="p"
+            fontName="REGULAR"
+            color={Theme.colors.secondaryText}
+            align="center"
+            margin="0"
+          >
+            Valor base: {formatCurrency(PRICE_PER_1000_BEAN)} (R${" "}
+            {PRICE_PER_1000_BEAN_BRL.toFixed(2).replace(".", ",")}) por 1.000
+            beans
+          </Text>
         </div>
 
         {calculation && (
@@ -261,15 +299,16 @@ const Calculator = () => {
                       fontName="REGULAR"
                       color={Theme.colors.secondaryText}
                     >
-                      Ganho líquido se completar:
+                      Ganho total se completar:
                     </Text>
                     <Text
                       tag="span"
                       fontName="REGULAR_MEDIUM"
                       color={Theme.colors.mainlight}
                     >
-                      {formatCurrency(calculation.nextNetGain)} (recebe{" "}
-                      {formatCurrency(calculation.nextTotalReceived)} -{" "}
+                      {formatCurrency(calculation.nextNetGain)}
+                      <br />
+                      (recebe {formatCurrency(calculation.nextTotalReceived)} -
                       desembolsa {formatCurrency(calculation.costInDollars)})
                     </Text>
                   </div>
@@ -288,7 +327,7 @@ const Calculator = () => {
                       color={
                         calculation.isWorthIt
                           ? Theme.colors.approved
-                          : Theme.colors.pending
+                          : Theme.colors.refused
                       }
                     >
                       {formatCurrency(calculation.profit)}
@@ -307,6 +346,21 @@ const Calculator = () => {
                     margin="0"
                   >
                     {calculation.message}
+                  </Text>
+                </div>
+
+                <div className="alertBanner">
+                  <span className="alertIcon">⚠️</span>
+                  <Text
+                    tag="p"
+                    fontName="REGULAR"
+                    color={Theme.colors.mainlight}
+                    className="alertText"
+                    margin="0"
+                  >
+                    Lembre-se de sempre enviar diamantes extras para não correr
+                    risco de perder a meta em caso de descontos por parte do
+                    aplicativo
                   </Text>
                 </div>
               </>

@@ -93,6 +93,29 @@ const HomeTest = ({ coupon }: Props) => {
           Ver cupons disponíveis
         </Text>
       </div>
+      <div className="couponsLink">
+        <Text
+          tag="p"
+          align="center"
+          fontName="REGULAR"
+          color={Theme.colors.secondaryText}
+          margin="0px 0 16px 0"
+        >
+          Calcule aqui seu lucro mensal com as metas de Beans
+        </Text>
+        <Text
+          tag="a"
+          align="center"
+          fontName="REGULAR_MEDIUM"
+          color={Theme.colors.mainHighlight}
+          underline
+          pointer
+          onClick={() => route.push("/calc")}
+          style={{ cursor: "pointer" }}
+        >
+          Calculadora de Beans
+        </Text>
+      </div>
     </HomeTestContainer>
   );
 };
