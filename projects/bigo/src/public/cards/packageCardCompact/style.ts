@@ -22,11 +22,29 @@ export const PackageCardCompactContainer = styled.article<PackageCardProps>`
   }
   border: 2px solid ${Theme.colors.secondaryHighlight};
   background-color: ${Theme.colors.couponsBackground};
-  ${({ selected }) =>
-    selected && `border: 2px solid  ${Theme.colors.mainHighlight}`};
-  box-shadow: ${({ selected }) =>
-    selected && `0px 0px 10px 0px ${Theme.colors.mainHighlight}`};
   position: relative;
+
+  @media (hover: hover) {
+    &:hover {
+      border: 2px solid ${Theme.colors.mainHighlight};
+      box-shadow: 0px 0px 10px 0px ${Theme.colors.mainHighlight};
+    }
+  }
+
+  ${({ selected }) =>
+    selected &&
+    `
+    border: 2px solid ${Theme.colors.mainHighlight};
+    box-shadow: 0px 0px 10px 0px ${Theme.colors.mainHighlight};
+    cursor: default;
+  `}
+
+  @media (hover: none) {
+    &:hover {
+      border: 2px solid ${Theme.colors.secondaryHighlight};
+      box-shadow: none;
+    }
+  }
 
   .diamondContainer {
     display: flex;
@@ -65,7 +83,6 @@ export const PackageCardCompactContainer = styled.article<PackageCardProps>`
     padding: 0;
     margin-top: 16px;
     margin-bottom: 8px;
-    /* background-color: red; */
     padding-right: 16px;
     position: relative;
 
@@ -82,7 +99,6 @@ export const PackageCardCompactContainer = styled.article<PackageCardProps>`
     bottom: -28.5px;
     right: -17px;
     z-index: 1;
-    /* transform: rotate(-20deg); */
   }
 
   ${({ paymentPage }) =>

@@ -1,7 +1,6 @@
 import Text from "@4miga/design-system/components/Text";
 import { Theme } from "@4miga/design-system/theme/theme";
 import Image from "next/image";
-import { useState } from "react";
 import { PackageType } from "types/productTypes";
 import { formatPrice } from "utils/formatPrice";
 import Offer from "./img/Offer.png";
@@ -22,8 +21,6 @@ const PackageCardCompact = ({
   valueWithDicount,
   paymentPage,
 }: PackageCardProps) => {
-  const [isHovered, setIsHovered] = useState(false);
-
   const formatNumber = (value: number) => {
     if (value === 1) return "01";
     return new Intl.NumberFormat("pt-BR").format(value);
@@ -32,9 +29,7 @@ const PackageCardCompact = ({
   return (
     <PackageCardCompactContainer
       isOffer={item.isOffer}
-      onMouseEnter={() => setIsHovered(true)}
-      onMouseLeave={() => setIsHovered(false)}
-      selected={selected ? selected : isHovered}
+      selected={selected}
       paymentPage={paymentPage}
     >
       <div className="diamondContainer">

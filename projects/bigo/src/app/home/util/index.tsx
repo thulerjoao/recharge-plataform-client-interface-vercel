@@ -5,7 +5,6 @@ import { Theme } from "@4miga/design-system/theme/theme";
 import { useProducts } from "contexts/products/ProductsProvider";
 import { useStore } from "contexts/store/StoreProvider";
 import { useRouter } from "next/navigation";
-import PackageCardTest from "public/cards/packageCardCompact/card";
 import BottomOffer from "public/components/bottomOffer/bottomOffer";
 import Carousel from "public/components/carousel/carousel";
 import HowItWorks from "public/components/howItWorks";
@@ -13,6 +12,7 @@ import { PackageType } from "types/productTypes";
 import { formatString } from "utils/formatString";
 import Lines from "../../../public/components/lines/lines";
 import { HomeTestContainer } from "./style";
+import PackageCardCompact from "public/cards/packageCardCompact/card";
 
 type Props = {
   coupon?: string;
@@ -62,7 +62,7 @@ const HomeTest = ({ coupon }: Props) => {
                 className="cardEnviroment"
                 onClick={() => handleClick(packageItem)}
               >
-                <PackageCardTest selected={false} item={packageItem} />
+                <PackageCardCompact selected={false} item={packageItem} />
               </div>
             ))}
         </section>
