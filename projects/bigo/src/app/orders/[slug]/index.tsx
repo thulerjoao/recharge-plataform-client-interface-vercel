@@ -161,6 +161,7 @@ const Order = () => {
                 width={72}
                 src={product?.imgCardUrl || ""}
                 alt="imagem do card"
+                quality={75}
               />
               <div>
                 <Text align="end" fontName="REGULAR_MEDIUM" tag="h2">
@@ -242,6 +243,7 @@ const Order = () => {
                   width={40}
                   src={order?.orderItem?.package?.imgCardUrl}
                   alt="imagem do card"
+                  quality={75}
                 />
               </span>
               <div className="allInfos">

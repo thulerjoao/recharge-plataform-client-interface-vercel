@@ -33,6 +33,8 @@ export const OrderContainer = styled.div`
     -webkit-box-shadow: 0px 0px 5px 1px rgba(7, 29, 35, 1);
     -moz-box-shadow: 0px 0px 5px 1px rgba(7, 29, 35, 1);
     box-shadow: 0px 0px 5px 1px rgba(7, 29, 35, 1);
+    border: 1px solid ${Theme.colors.secondaryAction}80;
+    box-sizing: border-box;
 
     .fisrtSection {
       border-bottom: 1px solid ${Theme.colors.secondaryAction};

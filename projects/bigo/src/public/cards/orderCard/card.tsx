@@ -27,6 +27,7 @@ const OrderCard = ({ order }: OrderCardProps) => {
         height={64}
         width={64}
         style={{ borderRadius: "8px" }}
+        quality={75}
       />
       <section className="allInfo">
         <div className="rowInfos">

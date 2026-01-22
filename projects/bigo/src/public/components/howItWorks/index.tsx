@@ -21,7 +21,13 @@ const HowItWorks = () => {
       <section className="howItWorksContent">
         <section>
           <div>
-            <Image src={PackageIcon} alt="Package Icon" />
+            <Image
+              src={PackageIcon}
+              alt="Ícone de pacote - Escolha um pacote"
+              width={50}
+              height={50}
+              quality={75}
+            />
             <Text
               nowrap
               tag="p"
@@ -32,7 +38,13 @@ const HowItWorks = () => {
             </Text>
           </div>
           <div>
-            <Image src={User} alt="User Icon" />
+            <Image
+              src={User}
+              alt="Ícone de usuário - Informe seu ID BIGO"
+              width={50}
+              height={50}
+              quality={75}
+            />
             <Text
               nowrap
               tag="p"
@@ -43,7 +55,13 @@ const HowItWorks = () => {
             </Text>
           </div>
           <div>
-            <Image src={Shield} alt="Shield Icon" />
+            <Image
+              src={Shield}
+              alt="Ícone de segurança - Pague com segurança"
+              width={50}
+              height={50}
+              quality={75}
+            />
             <Text
               nowrap
               tag="p"
@@ -54,7 +72,13 @@ const HowItWorks = () => {
             </Text>
           </div>
           <div>
-            <Image src={Fast} alt="Diamonds Icon" width={50} height={50} />
+            <Image
+              src={Fast}
+              alt="Ícone de raio - Receba na hora!"
+              width={50}
+              height={50}
+              quality={75}
+            />
             <Text
               nowrap
               tag="p"

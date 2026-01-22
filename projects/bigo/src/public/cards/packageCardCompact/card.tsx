@@ -44,9 +44,10 @@ const PackageCardCompact = ({
         <figure>
           <Image
             src={DiamondIcon}
-            alt={`Imagem do pacote ${item.name}`}
+            alt={`Ícone de diamante - ${item.amountCredits} ${item.amountCredits > 1 ? "diamantes" : "diamante"}`}
             height={50}
             width={40}
+            quality={75}
           />
         </figure>
       </div>
@@ -124,9 +125,10 @@ const PackageCardCompact = ({
         <figure className="offerContainer">
           <Image
             src={Offer}
-            alt={`Imagem do pacote ${item.name}`}
+            alt={`Badge de oferta especial - ${item.name}`}
             height={100}
             width={100}
+            quality={75}
           />
         </figure>
       )}

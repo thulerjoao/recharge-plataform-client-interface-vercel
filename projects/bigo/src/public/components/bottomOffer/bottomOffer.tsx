@@ -22,7 +22,9 @@ const BottomOffer = () => {
           fill
           className="offerBanner"
           src={offerBanner}
-          alt="offer banner"
+          alt="Banner de oferta especial"
+          sizes="(max-width: 539px) 100vw, (max-width: 768px) 85vw, 557px"
+          quality={85}
         />
       </div>
     </BottomOfferContainer>

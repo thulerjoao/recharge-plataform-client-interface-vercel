@@ -10,7 +10,7 @@ export const HeaderContainer = styled.header`
   align-items: start;
   justify-content: center;
   background-color: ${Theme.colors.mainTransparent};
-  z-index: 100;
+  z-index: 9999;
 
   .centerComponent {
     width: 100%;
