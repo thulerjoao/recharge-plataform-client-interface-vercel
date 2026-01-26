@@ -10,7 +10,6 @@ import { PackageCardCompactContainer } from "./style";
 interface PackageCardProps {
   item: PackageType;
   selected: boolean;
-  paymentIndex?: number;
   valueWithDicount?: number;
   paymentPage?: boolean;
 }

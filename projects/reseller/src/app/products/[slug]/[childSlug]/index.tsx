@@ -15,9 +15,7 @@ import { apiUrl } from "@4miga/services/connectionAPI/url";
 import LoadingPage from "app/loading";
 import { useAuth } from "context/auth";
 import { useProducts } from "context/products";
-import { useImageUpload } from "hooks/useImageUpload";
 import { useRouter } from "next/navigation";
-import PackageCard from "public/cards/packageCard/card";
 import DefaultHeader from "public/components/defaultHeader";
 import HeaderEnviroment from "public/components/headerEnviroment";
 import { useEffect, useState } from "react";
@@ -27,9 +25,8 @@ import {
   PackageFormErrors,
   validatePackageForm,
 } from "utils/packageValidation";
-import CameraIcon from "../../common/icons/CameraIcon.svg";
-import PixConfiguration from "./common/pixCard/pixConfiguration";
 import { ConfigPackagePage } from "./style";
+import PackageCardCompact from "public/cards/packageCardCompact/card";
 
 type Props = {
   slug: string;
@@ -41,23 +38,27 @@ const SecondaryProductPage = ({ slug, childSlug }: Props) => {
 
   const isCreatingNewPackage = childSlug === "novo_pacote";
 
+  const DEFAULT_CARD_IMAGE_URL = "";
+
   const [isEditing, setIsEditing] = useState<boolean>(isCreatingNewPackage);
   const [loading, setLoading] = useState<boolean>(true);
-  const [loadingImage, setLoadingImage] = useState<boolean>(false);
   const [packageData, setPackageData] = useState<PackageType>();
   const [editData, setEditData] = useState<PackageType>();
   const [errors, setErrors] = useState<PackageFormErrors>({});
   const { products, productPackages, setProductPackages, fetchProducts } =
     useProducts();
   const [index, setIndex] = useState<number>();
-  const [updateAllPackages, setUpdateAllPackages] = useState<boolean>(false);
   const { store } = useAuth();
 
+  const generatePackageName = (amountCredits: number | null): string => {
+    if (!amountCredits) return "Bigo =0";
+    return `Bigo =${amountCredits}`;
+  };
+
   const getDefaultPackageData = (): PackageType => ({
-    name: "",
+    name: generatePackageName(null),
     amountCredits: null,
-    imgCardUrl:
-      productPackages?.packages[0]?.imgCardUrl || productPackages?.imgCardUrl,
+    imgCardUrl: DEFAULT_CARD_IMAGE_URL,
     isActive: true,
     isOffer: false,
     basePrice: null,
@@ -73,6 +74,8 @@ const SecondaryProductPage = ({ slug, childSlug }: Props) => {
   const prepareDataForApi = () => {
     return {
       ...editData,
+      name: generatePackageName(editData?.amountCredits),
+      imgCardUrl: DEFAULT_CARD_IMAGE_URL,
       basePrice: parseFloat(editData?.basePrice?.toString()) || 0,
       paymentMethods:
         editData?.paymentMethods?.map((method, index) =>
@@ -111,21 +114,19 @@ const SecondaryProductPage = ({ slug, childSlug }: Props) => {
 
   const handleCancel = () => {
     setLoading(true);
-    imageUpload.clearSelection();
     setErrors({});
     if (isCreatingNewPackage) {
       router.back();
     } else {
       setIsEditing(false);
       setEditData(packageData);
-      setUpdateAllPackages(false);
     }
     setLoading(false);
   };
 
   const validateForm = () => {
     const { isValid, errors: validationErrors } = validatePackageForm({
-      name: editData?.name,
+      name: generatePackageName(editData?.amountCredits),
       amountCredits: editData?.amountCredits,
       basePrice: editData?.basePrice?.toString(),
       profitMargin: editData?.paymentMethods?.[0]?.price,
@@ -163,11 +164,20 @@ const SecondaryProductPage = ({ slug, childSlug }: Props) => {
             index === 0 ? { ...method, price: numericValue } : method,
           ) || [],
       }));
+    } else if (field === "amountCredits") {
+      const creditsValue = value === "" ? null : (value as number);
+      setEditData((prev) => ({
+        ...prev,
+        amountCredits: creditsValue,
+        name: generatePackageName(creditsValue),
+      }));
     } else {
       setEditData((prev) => ({ ...prev, [field]: value }));
     }
     if (field === "paymentMethods[0].price" && errors.basePrice) {
       setErrors((prev) => ({ ...prev, basePrice: undefined }));
+    } else if (field === "amountCredits" && errors.amountCredits) {
+      setErrors((prev) => ({ ...prev, amountCredits: undefined }));
     } else if (errors[field as keyof PackageFormErrors]) {
       setErrors((prev) => ({ ...prev, [field]: undefined }));
     }
@@ -193,41 +203,6 @@ const SecondaryProductPage = ({ slug, childSlug }: Props) => {
     setPackageData(newPackage);
   };
 
-  const imageUpload = useImageUpload({
-    endpoint: `/package/${packageData?.id}/images/card?updateAllPackages=${updateAllPackages}`,
-    onSuccess: (url) => {
-      setEditData((prev) => ({ ...prev, imgCardUrl: url }));
-      if (!isCreatingNewPackage) {
-        fetchProducts(store.id);
-        setUpdateAllPackages(false);
-      }
-    },
-    onError: (error) => {
-      console.error("Card upload error:", error);
-      alert("Erro ao fazer upload da imagem do card. Tente novamente.");
-      if (!isCreatingNewPackage) {
-        setUpdateAllPackages(false);
-      }
-    },
-  });
-
-  const handleSaveImage = async () => {
-    setLoadingImage(true);
-    if (!imageUpload.hasChanges) return;
-    if (updateAllPackages) {
-      if (confirm("Deseja atualizar TODOS os pacotes?")) {
-        await imageUpload.handleSave();
-        setLoadingImage(false);
-      } else {
-        setLoadingImage(false);
-        return;
-      }
-    } else {
-      await imageUpload.handleSave();
-      setLoadingImage(false);
-    }
-  };
-
   const handleCreate = async () => {
     setLoading(true);
     if (!validateForm()) {
@@ -238,25 +213,10 @@ const SecondaryProductPage = ({ slug, childSlug }: Props) => {
     const dataToSend = prepareDataForApi();
 
     try {
-      const res = await connectionAPIPost<PackageType>(
-        `/package`,
-        dataToSend,
-        apiUrl,
-      );
-      if (imageUpload.hasChanges) {
-        try {
-          await imageUpload.handleSaveTo(`/package/${res.id}/images/card`);
-          alert("Novo pacote criado com sucesso!");
-        } catch (e) {
-          alert("Card criado com imagem padrão.\tAtualize manualmente.");
-        }
-        fetchProducts(store.id);
-        router.back();
-      } else {
-        alert("Novo pacote criado com sucesso!");
-        fetchProducts(store.id);
-        router.back();
-      }
+      await connectionAPIPost<PackageType>(`/package`, dataToSend, apiUrl);
+      alert("Novo pacote criado com sucesso!");
+      fetchProducts(store.id);
+      router.back();
     } catch (err) {
       alert("Erro ao criar novo pacote");
       console.error(err);
@@ -401,10 +361,6 @@ const SecondaryProductPage = ({ slug, childSlug }: Props) => {
               VISUALIZAÇÃO DO PACOTE
             </Text>
             <div className="imageSection">
-              <Text fontName="TINY_MEDIUM" color={Theme.colors.secondaryText}>
-                A imagem deve estar no formato .png, .jpg ou .jpeg, ter uma
-                resolução mínima de 480 x 480 e uma proporção de 1:1
-              </Text>
               <div className="cardNavigation">
                 {!isCreatingNewPackage && (
                   <>
@@ -422,16 +378,11 @@ const SecondaryProductPage = ({ slug, childSlug }: Props) => {
                     )}
                   </>
                 )}
-                <div className="cardEnviroment">
-                  <PackageCard
-                    bestOffer={editData?.isOffer}
-                    title={
-                      editData?.name || (isCreatingNewPackage ? "Título" : "")
-                    }
-                    imageUrl={imageUpload.previewUrl || editData?.imgCardUrl}
-                    price={+editData?.basePrice}
-                  />
-                </div>
+                {editData && (
+                  <div className="cardEnviroment">
+                    <PackageCardCompact item={editData} selected={true} />
+                  </div>
+                )}
                 {!isCreatingNewPackage && (
                   <>
                     {index !== productPackages?.packages.length - 1 ? (
@@ -451,52 +402,6 @@ const SecondaryProductPage = ({ slug, childSlug }: Props) => {
                   </>
                 )}
               </div>
-              <Button
-                loading={loadingImage || loading}
-                leftElement={
-                  (!imageUpload.previewUrl || isCreatingNewPackage) && (
-                    <CameraIcon />
-                  )
-                }
-                onClick={
-                  !imageUpload.previewUrl || isCreatingNewPackage
-                    ? imageUpload.handleButtonClick
-                    : handleSaveImage
-                }
-                height={32}
-                width={180}
-                color={Theme.colors.mainlight}
-                title={
-                  !imageUpload.previewUrl || isCreatingNewPackage
-                    ? "Atualizar imagem"
-                    : "Salvar imagem"
-                }
-              />
-              <input
-                ref={imageUpload.fileInputRef}
-                type="file"
-                accept="image/png,image/jpg,image/jpeg"
-                style={{ display: "none" }}
-                onChange={imageUpload.handleFileSelect}
-              />
-              {imageUpload.previewUrl && !isCreatingNewPackage && (
-                <div className="checkboxContainer">
-                  <input
-                    type="checkbox"
-                    id="updateAllPackages"
-                    checked={updateAllPackages}
-                    onChange={(e) => setUpdateAllPackages(e.target.checked)}
-                  />
-                  <label htmlFor="updateAllPackages">
-                    <Text
-                      fontName="TINY_MEDIUM"
-                      color={Theme.colors.secondaryText}
-                    >
-                      Aplicar para todos os pacotes
-                    </Text>
-                  </label>
-                </div>
-              )}
             </div>
           </div>
           <div className="infoSection unifiedInfoSection">
@@ -509,7 +414,7 @@ const SecondaryProductPage = ({ slug, childSlug }: Props) => {
               </Text>
             </div>
             <div className="infoGrid">
-              <div className="infoItem">
+              {/* <div className="infoItem">
                 <Text
                   fontName="SMALL_MEDIUM"
                   color={Theme.colors.secondaryText}
@@ -538,7 +443,7 @@ const SecondaryProductPage = ({ slug, childSlug }: Props) => {
                 {isEditing && errors.name && (
                   <span className="error-message">{errors.name}</span>
                 )}
-              </div>
+              </div> */}
               <div className="infoItem">
                 <Text
                   fontName="SMALL_MEDIUM"
@@ -551,7 +456,6 @@ const SecondaryProductPage = ({ slug, childSlug }: Props) => {
                     value={formatNumber(editData?.amountCredits) || ""}
                     onChange={(e) => {
                       const value = e.target.value;
-                      // Remove caracteres não numéricos e limita a 14 caracteres
                       const numericValue = value
                         .replace(/\D/g, "")
                         .slice(0, 14);
@@ -701,45 +605,9 @@ const SecondaryProductPage = ({ slug, childSlug }: Props) => {
                   <span className="error-message">{errors.basePrice}</span>
                 )}
               </div>
-              <div className="infoItem">
-                <Text
-                  fontName="SMALL_MEDIUM"
-                  color={Theme.colors.secondaryText}
-                >
-                  Margem de lucro:
-                </Text>
-                <Text margin="4px 0 0 4px" fontName="REGULAR_MEDIUM">
-                  %
-                </Text>
-                {/* {isEditing ? (
-                  <Input
-                    disabled
-                    value={editData?.paymentMethods?.[0]?.price || ""}
-                    onChange={(e) =>
-                      handleInputChange(
-                        "profitMargin",
-                        e.target.value === ""
-                          ? ""
-                          : parseInt(e.target.value) || 0,
-                      )
-                    }
-                    placeholder="Margem de lucro"
-                    height={32}
-                    type="number"
-                    className={errors.profitMargin ? "error" : ""}
-                  />
-                ) : (
-                  <Text fontName="SMALL_MEDIUM" color={Theme.colors.mainlight}>
-                    {editData?.paymentMethods?.[0]?.price || 0}%
-                  </Text>
-                )}
-                {isEditing && errors.profitMargin && (
-                  <span className="error-message">{errors.profitMargin}</span>
-                )} */}
-              </div>
             </div>
-
-            <div className="sectionDivider"></div>
+            {/* 
+            <div className="sectionDivider" />
 
             <div className="sectionTitle">
               <Text
@@ -750,9 +618,8 @@ const SecondaryProductPage = ({ slug, childSlug }: Props) => {
               </Text>
             </div>
             <div className="paymentMethodsSection">
-              <PixConfiguration tax={1} totalCost={editData?.basePrice} />
-            </div>
-
+              <PixConfiguration totalCost={editData?.basePrice} />
+            </div> */}
             <div className="actionsSection">
               {isEditing ? (
                 <>

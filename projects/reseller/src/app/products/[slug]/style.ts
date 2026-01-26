@@ -324,7 +324,6 @@ export const ProductsInnerPage = styled.div`
     }
   }
 
-  /* Tablet pequeno: 540px - 767px */
   @media (min-width: 540px) and (max-width: 767px) {
     .mainContentComponent {
       .packagesSection {
@@ -342,7 +341,6 @@ export const ProductsInnerPage = styled.div`
     }
   }
 
-  /* Mobile: até 539px */
   @media (max-width: 539px) {
     .mainContentComponent {
       padding: 0px;
@@ -437,17 +435,20 @@ export const ProductsInnerPage = styled.div`
       }
 
       .descriptions {
+        flex-direction: column;
         padding: 0 16px;
         margin-bottom: 16px;
         height: 760px;
         gap: 32px;
 
         .leftContainer {
-          min-height: 300px;
+          width: 100%;
+          max-height: 250px;
         }
 
         .rightContainer {
-          min-height: 300px;
+          width: 100%;
+          max-height: 250px;
         }
       }
     }

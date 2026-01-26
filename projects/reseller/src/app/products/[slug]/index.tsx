@@ -240,7 +240,7 @@ const Productpage = ({ slug }: Props) => {
                 <AddIcon />
                 <Text
                   align="center"
-                  fontName="REGULAR_SEMI_BOLD"
+                  fontName="SMALL_SEMI_BOLD"
                   color={Theme.colors.mainlight}
                   nowrap
                 >
