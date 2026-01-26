@@ -101,7 +101,7 @@ const HomeTest = ({ coupon }: Props) => {
           color={Theme.colors.secondaryText}
           margin="0px 0 16px 0"
         >
-          Calcule aqui seu lucro mensal com as metas de Beans
+          Calcule aqui sua meta mensal de Beans
         </Text>
         <Text
           tag="a"
