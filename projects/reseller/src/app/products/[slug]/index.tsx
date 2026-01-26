@@ -6,12 +6,13 @@ import { Theme } from "@4miga/design-system/theme/theme";
 
 import { connectionAPIPatch } from "@4miga/services/connectionAPI/connection";
 import { apiUrl } from "@4miga/services/connectionAPI/url";
+import LoadingPage from "app/loading";
 import { useAuth } from "context/auth";
 import { useProducts } from "context/products";
 import { useImageUpload } from "hooks/useImageUpload";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
-import PackageCard from "public/cards/packageCard/card";
+import PackageCardCompact from "public/cards/packageCardCompact/card";
 import DefaultHeader from "public/components/defaultHeader";
 import HeaderEnviroment from "public/components/headerEnviroment";
 import { useEffect, useState } from "react";
@@ -20,7 +21,6 @@ import CameraIcon from "../common/icons/CameraIcon.svg";
 import Pen from "../common/icons/Pen.svg";
 import AddIcon from "./AddIcon.svg";
 import { ProductsInnerPage } from "./style";
-import LoadingPage from "app/loading";
 
 type Props = {
   slug: string;
@@ -242,12 +242,13 @@ const Productpage = ({ slug }: Props) => {
                   align="center"
                   fontName="REGULAR_SEMI_BOLD"
                   color={Theme.colors.mainlight}
+                  nowrap
                 >
                   Adicionar Pacote
                 </Text>
               </div>
             </div>
-            {productPackages?.packages?.map((packag: PackageType) => {
+            {/* {productPackages?.packages?.map((packag: PackageType) => {
               return (
                 <div
                   key={packag.id}
@@ -260,6 +261,17 @@ const Productpage = ({ slug }: Props) => {
                     imageUrl={packag.imgCardUrl}
                     price={packag.paymentMethods[0].price}
                   />
+                </div>
+              );
+            })} */}
+            {productPackages?.packages?.map((packag: PackageType) => {
+              return (
+                <div
+                  key={packag.id}
+                  onClick={() => handlePackageClick(packag)}
+                  className="cardEnviroment"
+                >
+                  <PackageCardCompact item={packag} selected={false} />
                 </div>
               );
             })}

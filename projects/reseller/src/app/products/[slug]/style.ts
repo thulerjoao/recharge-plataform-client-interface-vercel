@@ -28,9 +28,10 @@ export const ProductsInnerPage = styled.div`
       padding: 24px;
       background: ${Theme.colors.maindark};
       border-radius: 12px;
-      -webkit-box-shadow: 0px 0px 5px 2px rgba(7, 29, 35, 1);
-      -moz-box-shadow: 0px 0px 5px 2px rgba(7, 29, 35, 1);
-      box-shadow: 0px 0px 5px 2px rgba(7, 29, 35, 1);
+      -webkit-box-shadow: 0px 0px 5px 1px rgba(7, 29, 35, 1);
+      -moz-box-shadow: 0px 0px 5px 1px rgba(7, 29, 35, 1);
+      box-shadow: 0px 0px 5px 1px rgba(7, 29, 35, 1);
+      border: 1px solid ${Theme.colors.secondaryAction}80;
 
       .titleSection {
         display: flex;
@@ -47,9 +48,10 @@ export const ProductsInnerPage = styled.div`
     .packagesSection {
       background: ${Theme.colors.maindark};
       border-radius: 12px;
-      -webkit-box-shadow: 0px 0px 5px 2px rgba(7, 29, 35, 1);
-      -moz-box-shadow: 0px 0px 5px 2px rgba(7, 29, 35, 1);
-      box-shadow: 0px 0px 5px 2px rgba(7, 29, 35, 1);
+      -webkit-box-shadow: 0px 0px 5px 1px rgba(7, 29, 35, 1);
+      -moz-box-shadow: 0px 0px 5px 1px rgba(7, 29, 35, 1);
+      box-shadow: 0px 0px 5px 1px rgba(7, 29, 35, 1);
+      border: 1px solid ${Theme.colors.secondaryAction}80;
       padding: 24px;
       display: flex;
       flex-direction: column;
@@ -58,28 +60,25 @@ export const ProductsInnerPage = styled.div`
 
       .cardsContainer {
         width: 100%;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        flex-wrap: wrap;
+        display: grid;
+        grid-template-columns: repeat(5, 1fr);
         gap: 16px;
+        box-sizing: border-box;
+        padding: 0;
 
         .cardEnviroment {
-          height: auto;
-          flex: 0 1 calc(20% - 16px);
+          width: 100%;
+          min-width: 0;
+          max-width: 100%;
           display: flex;
           align-items: center;
           justify-content: center;
-          width: 100%;
-          min-width: 174px;
           cursor: pointer;
           transition: transform 0.2s ease;
-          border: 1px solid ${Theme.colors.secondaryAction};
-          border-radius: 8px;
 
           .addPackageCard {
             width: 100%;
-            height: 232px;
+            max-width: 174px;
             border-radius: 8px;
             background-color: ${Theme.colors.secondaryAction}20;
             display: flex;
@@ -87,6 +86,8 @@ export const ProductsInnerPage = styled.div`
             justify-content: center;
             flex-direction: column;
             gap: 16px;
+            padding: 26px 0px;
+            border: 1px solid ${Theme.colors.secondaryAction};
 
             svg {
               width: 50px;
@@ -100,9 +101,10 @@ export const ProductsInnerPage = styled.div`
     .productEditor {
       background: ${Theme.colors.maindark};
       border-radius: 12px;
-      -webkit-box-shadow: 0px 0px 5px 2px rgba(7, 29, 35, 1);
-      -moz-box-shadow: 0px 0px 5px 2px rgba(7, 29, 35, 1);
-      box-shadow: 0px 0px 5px 2px rgba(7, 29, 35, 1);
+      -webkit-box-shadow: 0px 0px 5px 1px rgba(7, 29, 35, 1);
+      -moz-box-shadow: 0px 0px 5px 1px rgba(7, 29, 35, 1);
+      box-shadow: 0px 0px 5px 1px rgba(7, 29, 35, 1);
+      border: 1px solid ${Theme.colors.secondaryAction}80;
       padding: 24px;
       gap: 24px;
       display: flex;
@@ -233,13 +235,32 @@ export const ProductsInnerPage = styled.div`
     }
   }
 
-  @media (max-width: 768px) {
+  /* Tablet grande: 768px - 1400px */
+  @media (min-width: 768px) and (max-width: 1400px) {
+    .mainContentComponent {
+      .packagesSection {
+        .cardsContainer {
+          grid-template-columns: repeat(4, 1fr);
+          gap: 12px;
+          padding: 0;
+
+          .cardEnviroment {
+            min-width: 0;
+            max-width: 100%;
+          }
+        }
+      }
+    }
+  }
+
+  /* Tablet pequeno e Mobile: até 767px */
+  @media (max-width: 767px) {
     padding-top: 64px;
     .desktop {
       display: none;
     }
     .mobile {
-      display: flex;
+      display: block;
       width: 100%;
     }
 
@@ -269,16 +290,111 @@ export const ProductsInnerPage = styled.div`
         margin-bottom: 20px;
 
         .cardsContainer {
+          grid-template-columns: repeat(3, 1fr);
+          gap: 12px;
+          padding: 0;
+
           .cardEnviroment {
-            flex: 0 1 calc(33.33% - 16px);
-            min-width: 150px;
+            min-width: 0;
+            max-width: 100%;
+
+            .addPackageCard {
+              padding: 32px 0px;
+              gap: 12px;
+
+              svg {
+                width: 40px;
+                height: 40px;
+              }
+
+              p,
+              span,
+              h1,
+              h2,
+              h3,
+              h4,
+              h5,
+              h6 {
+                font-size: 12px !important;
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+
+  /* Tablet pequeno: 540px - 767px */
+  @media (min-width: 540px) and (max-width: 767px) {
+    .mainContentComponent {
+      .packagesSection {
+        .cardsContainer {
+          grid-template-columns: repeat(3, 1fr);
+          gap: 12px;
+          padding: 0;
+
+          .cardEnviroment {
+            min-width: 0;
+            max-width: 100%;
+          }
+        }
+      }
+    }
+  }
+
+  /* Mobile: até 539px */
+  @media (max-width: 539px) {
+    .mainContentComponent {
+      padding: 0px;
+      gap: 20px;
+
+      .headerSection {
+        padding: 16px;
+        margin-bottom: 16px;
+        gap: 12px;
+      }
+
+      .packagesSection {
+        padding: 16px;
+        margin-bottom: 16px;
+
+        .cardsContainer {
+          grid-template-columns: repeat(3, 1fr);
+          gap: 10px;
+          padding: 0;
+
+          .cardEnviroment {
+            min-width: 0;
+            max-width: 100%;
+
+            .addPackageCard {
+              padding: 22px 8px;
+              gap: 10px;
+
+              svg {
+                width: 35px;
+                height: 35px;
+              }
+
+              p,
+              span,
+              h1,
+              h2,
+              h3,
+              h4,
+              h5,
+              h6 {
+                font-size: 11px !important;
+              }
+            }
           }
         }
       }
 
       .productEditor {
-        padding: 20px 16px;
-        gap: 40px;
+        padding: 14px 0px;
+        margin-bottom: 16px;
+        gap: 32px;
       }
 
       .bannerImages {
@@ -321,54 +437,6 @@ export const ProductsInnerPage = styled.div`
       }
 
       .descriptions {
-        flex-direction: column;
-        height: 680px;
-        gap: 40px;
-        padding: 0 20px;
-
-        .leftContainer {
-          width: 100%;
-          min-height: 260px;
-        }
-
-        .rightContainer {
-          width: 100%;
-          min-height: 260px;
-        }
-      }
-    }
-  }
-
-  @media (max-width: 539px) {
-    .mainContentComponent {
-      padding: 0px;
-      gap: 20px;
-
-      .headerSection {
-        padding: 16px;
-        margin-bottom: 16px;
-        gap: 12px;
-      }
-
-      .packagesSection {
-        padding: 16px;
-        margin-bottom: 16px;
-
-        .cardsContainer {
-          .cardEnviroment {
-            flex: 0 1 calc(50% - 10px);
-            min-width: 140px;
-          }
-        }
-      }
-
-      .productEditor {
-        padding: 14px 0px;
-        margin-bottom: 16px;
-        gap: 32px;
-      }
-
-      .descriptions {
         padding: 0 16px;
         margin-bottom: 16px;
         height: 760px;
@@ -385,8 +453,8 @@ export const ProductsInnerPage = styled.div`
     }
   }
 
-  /* Breakpoint para mobile pequeno (400px e menores) */
-  @media (max-width: 400px) {
+  /* Mobile pequeno: até 427px */
+  @media (max-width: 427px) {
     .mainContentComponent {
       padding: 0;
       gap: 16px;
@@ -402,9 +470,34 @@ export const ProductsInnerPage = styled.div`
         margin-bottom: 14px;
 
         .cardsContainer {
+          grid-template-columns: repeat(3, 1fr);
+          gap: 8px;
+          padding: 0;
+
           .cardEnviroment {
-            flex: 0 1 calc(50% - 8px);
-            min-width: 120px;
+            min-width: 0;
+            max-width: 100%;
+
+            .addPackageCard {
+              padding: 26px 0px;
+              gap: 8px;
+
+              svg {
+                width: 30px;
+                height: 30px;
+              }
+
+              p,
+              span,
+              h1,
+              h2,
+              h3,
+              h4,
+              h5,
+              h6 {
+                font-size: 10px !important;
+              }
+            }
           }
         }
       }
