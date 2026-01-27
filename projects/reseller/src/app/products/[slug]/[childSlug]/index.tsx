@@ -38,8 +38,6 @@ const SecondaryProductPage = ({ slug, childSlug }: Props) => {
 
   const isCreatingNewPackage = childSlug === "novo_pacote";
 
-  const DEFAULT_CARD_IMAGE_URL = "";
-
   const [isEditing, setIsEditing] = useState<boolean>(isCreatingNewPackage);
   const [loading, setLoading] = useState<boolean>(true);
   const [packageData, setPackageData] = useState<PackageType>();
@@ -51,14 +49,14 @@ const SecondaryProductPage = ({ slug, childSlug }: Props) => {
   const { store } = useAuth();
 
   const generatePackageName = (amountCredits: number | null): string => {
-    if (!amountCredits) return "Bigo =0";
-    return `Bigo =${amountCredits}`;
+    if (!amountCredits) return "Bigo 0 diamantes";
+    return `Bigo ${amountCredits} diamantes`;
   };
 
   const getDefaultPackageData = (): PackageType => ({
     name: generatePackageName(null),
     amountCredits: null,
-    imgCardUrl: DEFAULT_CARD_IMAGE_URL,
+    imgCardUrl: productPackages?.imgCardUrl || "",
     isActive: true,
     isOffer: false,
     basePrice: null,
@@ -72,10 +70,13 @@ const SecondaryProductPage = ({ slug, childSlug }: Props) => {
   });
 
   const prepareDataForApi = () => {
+    if (!editData) {
+      throw new Error("Dados de edição não disponíveis");
+    }
     return {
       ...editData,
       name: generatePackageName(editData?.amountCredits),
-      imgCardUrl: DEFAULT_CARD_IMAGE_URL,
+      imgCardUrl: productPackages?.imgCardUrl || editData?.imgCardUrl || "",
       basePrice: parseFloat(editData?.basePrice?.toString()) || 0,
       paymentMethods:
         editData?.paymentMethods?.map((method, index) =>
@@ -95,9 +96,13 @@ const SecondaryProductPage = ({ slug, childSlug }: Props) => {
   };
 
   const handleDelete = () => {
+    if (!packageData?.id) {
+      alert("Erro: ID do pacote não encontrado");
+      return;
+    }
     setLoading(true);
     confirm(`Deseja excluir o pacote ${packageData?.name}?`)
-      ? connectionAPIDelete(`/package/${packageData?.id}`, apiUrl)
+      ? connectionAPIDelete(`/package/${packageData.id}`, apiUrl)
           .then(() => {
             fetchProducts(store.id);
             router.back();
@@ -113,7 +118,6 @@ const SecondaryProductPage = ({ slug, childSlug }: Props) => {
   };
 
   const handleCancel = () => {
-    setLoading(true);
     setErrors({});
     if (isCreatingNewPackage) {
       router.back();
@@ -121,7 +125,6 @@ const SecondaryProductPage = ({ slug, childSlug }: Props) => {
       setIsEditing(false);
       setEditData(packageData);
     }
-    setLoading(false);
   };
 
   const validateForm = () => {
@@ -184,23 +187,44 @@ const SecondaryProductPage = ({ slug, childSlug }: Props) => {
   };
 
   const handleIndex = (param: PackageType[], id: string) => {
-    setIndex(param.findIndex((packag: PackageType) => packag.id === id));
+    const foundIndex = param.findIndex(
+      (packag: PackageType) => packag.id === id,
+    );
+    setIndex(foundIndex >= 0 ? foundIndex : 0);
   };
 
   const handleNextPackage = () => {
-    handleCancel();
-    setIndex(index + 1);
-    const newPackage = productPackages?.packages[index + 1];
-    setEditData(newPackage);
-    setPackageData(newPackage);
+    if (
+      typeof index !== "number" ||
+      !productPackages?.packages ||
+      index >= productPackages.packages.length - 1
+    ) {
+      return;
+    }
+    const nextIndex = index + 1;
+    const newPackage = productPackages.packages[nextIndex];
+    if (newPackage) {
+      setIsEditing(false);
+      setErrors({});
+      setIndex(nextIndex);
+      setEditData(newPackage);
+      setPackageData(newPackage);
+    }
   };
 
   const handlePreviousPackage = () => {
-    handleCancel();
-    setIndex(index - 1);
-    const newPackage = productPackages?.packages[index - 1];
-    setEditData(newPackage);
-    setPackageData(newPackage);
+    if (typeof index !== "number" || !productPackages?.packages || index <= 0) {
+      return;
+    }
+    const prevIndex = index - 1;
+    const newPackage = productPackages.packages[prevIndex];
+    if (newPackage) {
+      setIsEditing(false);
+      setErrors({});
+      setIndex(prevIndex);
+      setEditData(newPackage);
+      setPackageData(newPackage);
+    }
   };
 
   const handleCreate = async () => {
@@ -210,75 +234,147 @@ const SecondaryProductPage = ({ slug, childSlug }: Props) => {
       return;
     }
 
-    const dataToSend = prepareDataForApi();
-
     try {
+      const dataToSend = prepareDataForApi();
       await connectionAPIPost<PackageType>(`/package`, dataToSend, apiUrl);
       alert("Novo pacote criado com sucesso!");
       fetchProducts(store.id);
       router.back();
     } catch (err) {
       alert("Erro ao criar novo pacote");
-      console.error(err);
     } finally {
       setLoading(false);
     }
   };
 
+  const hasChanges = (): boolean => {
+    if (!editData || !packageData) return false;
+
+    const amountCreditsChanged =
+      editData.amountCredits !== packageData.amountCredits;
+    const basePriceChanged = editData.basePrice !== packageData.basePrice;
+    const isActiveChanged = editData.isActive !== packageData.isActive;
+    const isOfferChanged = editData.isOffer !== packageData.isOffer;
+
+    return (
+      amountCreditsChanged ||
+      basePriceChanged ||
+      isActiveChanged ||
+      isOfferChanged
+    );
+  };
+
   const handleUpdate = () => {
+    if (!packageData?.id) {
+      alert("Erro: ID do pacote não encontrado");
+      return;
+    }
     setLoading(true);
-    if (!validateForm()) return;
-    const dataToSend = prepareDataForApi();
-    const hasChanges = Object.keys(dataToSend).some((key) => {
-      const dataValue = dataToSend[key];
-      const packageValue = packageData?.[key];
-      const isDifferent =
-        JSON.stringify(dataValue) !== JSON.stringify(packageValue);
-
-      if (isDifferent) {
-        console.log(`Diferença encontrada em ${key}:`, {
-          dataToSend: dataValue,
-          packageData: packageValue,
-        });
-      }
-
-      return isDifferent;
-    });
-    if (!hasChanges) {
-      handleCancel();
+    if (!validateForm()) {
+      setLoading(false);
       return;
     }
-    const confirmation = confirm("Confirmar alterações?");
-    if (!confirmation) handleCancel();
-    connectionAPIPatch(`/package/${packageData?.id}`, dataToSend, apiUrl)
-      .then((res) => {
-        fetchProducts(store.id);
-      })
-      .catch((err) => {
-        alert("Erro ao atualizar pacote");
-        handleCancel();
-      })
-      .finally(() => {
-        setLoading(false);
+    try {
+      const dataToSend = prepareDataForApi();
+      const hasChangesDetected = Object.keys(dataToSend).some((key) => {
+        const dataValue = dataToSend[key];
+        const packageValue = packageData?.[key];
+        return JSON.stringify(dataValue) !== JSON.stringify(packageValue);
       });
-
-    if (packageData === editData) {
-      handleCancel();
-      return;
+      if (!hasChangesDetected) {
+        handleCancel();
+        setLoading(false);
+        return;
+      }
+      const confirmation = confirm("Confirmar alterações?");
+      if (!confirmation) {
+        handleCancel();
+        setLoading(false);
+        return;
+      }
+      const data = {
+        name: dataToSend.name,
+        amountCredits: dataToSend.amountCredits,
+        basePrice: dataToSend.basePrice,
+        isActive: dataToSend.isActive,
+        isOffer: dataToSend.isOffer,
+      };
+      connectionAPIPatch(`/package/${packageData.id}`, data, apiUrl)
+        .then((res) => {
+          const updatedPackage: PackageType = {
+            ...packageData,
+            ...data,
+          };
+          setPackageData(updatedPackage);
+          setEditData(updatedPackage);
+          if (productPackages?.packages && typeof index === "number") {
+            const packageIndex = productPackages.packages.findIndex(
+              (pkg: PackageType) => pkg.id === packageData.id,
+            );
+            if (packageIndex >= 0) {
+              setIndex(packageIndex);
+            }
+          }
+          fetchProducts(store.id);
+          setIsEditing(false);
+        })
+        .catch((err) => {
+          console.error(err);
+          alert("Erro ao atualizar pacote");
+          handleCancel();
+        })
+        .finally(() => {
+          setLoading(false);
+        });
+    } catch (err) {
+      console.error(err);
+      alert("Erro ao preparar dados para atualização");
+      setLoading(false);
     }
-    setIsEditing(false);
-    setLoading(false);
   };
 
   useEffect(() => {
     if (isCreatingNewPackage) {
-      const defaultData = getDefaultPackageData();
+      const defaultData: PackageType = {
+        name: generatePackageName(null),
+        amountCredits: null,
+        imgCardUrl: productPackages?.imgCardUrl || "",
+        isActive: true,
+        isOffer: false,
+        basePrice: null,
+        productId: slug,
+        paymentMethods: [
+          {
+            name: "pix",
+            price: null,
+          },
+        ],
+      };
       setEditData(defaultData);
       setPackageData(defaultData);
       setLoading(false);
     } else {
-      // Lógica original para edição de pacote existente
-      const packageId = editData?.id || childSlug;
+      const packageId = childSlug;
+      const currentPackageId = packageData?.id || editData?.id;
+
+      if (
+        typeof index === "number" &&
+        currentPackageId &&
+        currentPackageId !== packageId &&
+        productPackages?.packages
+      ) {
+        const currentPackage = productPackages.packages.find(
+          (pkg: PackageType) => pkg.id === currentPackageId,
+        );
+        if (currentPackage) {
+          setPackageData(currentPackage);
+          setEditData(currentPackage);
+          handleIndex(productPackages.packages, currentPackageId);
+          setLoading(false);
+          return;
+        }
+      }
+
       const localPackage = productPackages?.packages.find(
         (packag: PackageType) => packag.id === packageId,
       );
@@ -286,7 +382,7 @@ const SecondaryProductPage = ({ slug, childSlug }: Props) => {
         setEditData(localPackage);
         setPackageData(localPackage);
         setLoading(false);
-        handleIndex(productPackages?.packages, packageId);
+        handleIndex(productPackages.packages, packageId);
       } else {
         connectionAPIGet<ProductType>(`/product/${slug}`, apiUrl)
           .then((res) => {
@@ -294,9 +390,15 @@ const SecondaryProductPage = ({ slug, childSlug }: Props) => {
             const localPackage = res.packages.find(
               (packag: PackageType) => packag.id === packageId,
             );
-            setPackageData(localPackage);
-            setEditData(localPackage);
-            handleIndex(res.packages, packageId);
+            if (localPackage) {
+              setPackageData(localPackage);
+              setEditData(localPackage);
+              handleIndex(res.packages, packageId);
+            }
+          })
+          .catch((err) => {
+            console.error(err);
+            alert("Erro ao carregar pacote");
           })
           .finally(() => {
             setLoading(false);
@@ -304,7 +406,15 @@ const SecondaryProductPage = ({ slug, childSlug }: Props) => {
       }
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [products, childSlug, isCreatingNewPackage]);
+  }, [
+    products,
+    childSlug,
+    isCreatingNewPackage,
+    slug,
+    productPackages?.imgCardUrl,
+    productPackages?.packages,
+    setProductPackages,
+  ]);
 
   if (!productPackages) {
     return <LoadingPage />;
@@ -414,36 +524,6 @@ const SecondaryProductPage = ({ slug, childSlug }: Props) => {
               </Text>
             </div>
             <div className="infoGrid">
-              {/* <div className="infoItem">
-                <Text
-                  fontName="SMALL_MEDIUM"
-                  color={Theme.colors.secondaryText}
-                >
-                  Nome do pacote:
-                </Text>
-                {isEditing ? (
-                  <Input
-                    value={editData?.name}
-                    onChange={(e) => {
-                      const value = e.target.value;
-                      if (value.length <= 70) {
-                        handleInputChange("name", value);
-                      }
-                    }}
-                    placeholder="Nome do pacote"
-                    height={32}
-                    maxLength={70}
-                    className={errors.name ? "error" : ""}
-                  />
-                ) : (
-                  <Text fontName="SMALL_MEDIUM" color={Theme.colors.mainlight}>
-                    {editData?.name}
-                  </Text>
-                )}
-                {isEditing && errors.name && (
-                  <span className="error-message">{errors.name}</span>
-                )}
-              </div> */}
               <div className="infoItem">
                 <Text
                   fontName="SMALL_MEDIUM"
@@ -644,6 +724,8 @@ const SecondaryProductPage = ({ slug, childSlug }: Props) => {
                     height={36}
                     rounded
                     loading={loading}
+                    disabled={!isCreatingNewPackage && !hasChanges()}
+                    isNotSelected={!isCreatingNewPackage && !hasChanges()}
                   />
                 </>
               ) : (
