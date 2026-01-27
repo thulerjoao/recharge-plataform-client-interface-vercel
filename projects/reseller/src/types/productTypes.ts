@@ -12,11 +12,11 @@ export type ProductType = {
 export type PackageType = {
   id?: string;
   name: string;
-  amountCredits: number;
+  amountCredits: number | null;
   imgCardUrl: string;
   isActive: boolean;
   isOffer: boolean;
-  basePrice: number;
+  basePrice: number | null;
   productId: string;
   paymentMethods: PaymentMethodsType[];
 };

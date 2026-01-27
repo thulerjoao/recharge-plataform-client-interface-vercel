@@ -25,6 +25,8 @@ import {
   PackageFormErrors,
   validatePackageForm,
 } from "utils/packageValidation";
+import { confirmToast } from "utils/confirm";
+import toast from "react-hot-toast";
 import { ConfigPackagePage } from "./style";
 import PackageCardCompact from "public/cards/packageCardCompact/card";
 
@@ -45,7 +47,7 @@ const SecondaryProductPage = ({ slug, childSlug }: Props) => {
   const [errors, setErrors] = useState<PackageFormErrors>({});
   const { products, productPackages, setProductPackages, fetchProducts } =
     useProducts();
-  const [index, setIndex] = useState<number>();
+  const [index, setIndex] = useState<number>(0);
   const { store } = useAuth();
 
   const generatePackageName = (amountCredits: number | null): string => {
@@ -73,17 +75,28 @@ const SecondaryProductPage = ({ slug, childSlug }: Props) => {
     if (!editData) {
       throw new Error("Dados de edição não disponíveis");
     }
+    const basePriceValue =
+      editData.basePrice !== null && editData.basePrice !== undefined
+        ? parseFloat(editData.basePrice.toString())
+        : 0;
+    const firstPaymentMethod = editData.paymentMethods?.[0];
+    const paymentMethodPrice =
+      firstPaymentMethod?.price !== null &&
+      firstPaymentMethod?.price !== undefined
+        ? parseFloat(firstPaymentMethod.price.toString())
+        : 0;
+
     return {
       ...editData,
-      name: generatePackageName(editData?.amountCredits),
-      imgCardUrl: productPackages?.imgCardUrl || editData?.imgCardUrl || "",
-      basePrice: parseFloat(editData?.basePrice?.toString()) || 0,
+      name: generatePackageName(editData.amountCredits),
+      imgCardUrl: productPackages?.imgCardUrl || editData.imgCardUrl || "",
+      basePrice: basePriceValue,
       paymentMethods:
-        editData?.paymentMethods?.map((method, index) =>
+        editData.paymentMethods?.map((method, index) =>
           index === 0
             ? {
                 ...method,
-                price: parseFloat(method.price.toString()) || 0,
+                price: paymentMethodPrice,
               }
             : method,
         ) || [],
@@ -95,26 +108,32 @@ const SecondaryProductPage = ({ slug, childSlug }: Props) => {
     setErrors({});
   };
 
-  const handleDelete = () => {
+  const handleDelete = async () => {
     if (!packageData?.id) {
-      alert("Erro: ID do pacote não encontrado");
+      toast.error("Erro: ID do pacote não encontrado");
       return;
     }
     setLoading(true);
-    confirm(`Deseja excluir o pacote ${packageData?.name}?`)
-      ? connectionAPIDelete(`/package/${packageData.id}`, apiUrl)
-          .then(() => {
-            fetchProducts(store.id);
-            router.back();
-          })
-          .catch((err) => {
-            console.error(err);
-            alert("Erro ao excluir pacote");
-          })
-          .finally(() => {
-            setLoading(false);
-          })
-      : setLoading(false);
+    const confirmed = await confirmToast(
+      `Deseja excluir o pacote ${packageData?.name}?`,
+    );
+    if (!confirmed) {
+      setLoading(false);
+      return;
+    }
+    connectionAPIDelete(`/package/${packageData.id}`, apiUrl)
+      .then(() => {
+        toast.success("O pacote foi excluído");
+        fetchProducts(store.id);
+        router.back();
+      })
+      .catch((err) => {
+        console.error(err);
+        toast.error("Erro ao excluir pacote");
+      })
+      .finally(() => {
+        setLoading(false);
+      });
   };
 
   const handleCancel = () => {
@@ -128,11 +147,12 @@ const SecondaryProductPage = ({ slug, childSlug }: Props) => {
   };
 
   const validateForm = () => {
+    const firstPaymentMethod = editData?.paymentMethods?.[0];
     const { isValid, errors: validationErrors } = validatePackageForm({
-      name: generatePackageName(editData?.amountCredits),
-      amountCredits: editData?.amountCredits,
+      name: generatePackageName(editData?.amountCredits ?? null),
+      amountCredits: editData?.amountCredits ?? undefined,
       basePrice: editData?.basePrice?.toString(),
-      profitMargin: editData?.paymentMethods?.[0]?.price,
+      profitMargin: firstPaymentMethod?.price,
     });
 
     if (!isValid) {
@@ -148,34 +168,53 @@ const SecondaryProductPage = ({ slug, childSlug }: Props) => {
     value: string | number | boolean,
   ) => {
     if (field === "profitMargin") {
-      setEditData((prev) => ({
-        ...prev,
-        paymentMethods:
-          prev?.paymentMethods?.map((method, index) =>
+      setEditData((prev) => {
+        if (!prev) return prev;
+        const updatedMethods =
+          prev.paymentMethods?.map((method, index) =>
             index === 0
               ? { ...method, price: value === "" ? 0 : (value as number) }
               : method,
-          ) || [],
-      }));
+          ) || [];
+        return {
+          ...prev,
+          paymentMethods: updatedMethods,
+        };
+      });
     } else if (field === "paymentMethods[0].price") {
-      const numericValue = value === "" ? 0 : (value as number);
-      setEditData((prev) => ({
-        ...prev,
-        basePrice: numericValue,
-        paymentMethods:
-          prev?.paymentMethods?.map((method, index) =>
+      const numericValue =
+        typeof value === "string"
+          ? parseFloat(value) || 0
+          : typeof value === "number"
+            ? value
+            : 0;
+      setEditData((prev) => {
+        if (!prev) return prev;
+        const updatedMethods =
+          prev.paymentMethods?.map((method, index) =>
             index === 0 ? { ...method, price: numericValue } : method,
-          ) || [],
-      }));
+          ) || [];
+        return {
+          ...prev,
+          basePrice: numericValue,
+          paymentMethods: updatedMethods,
+        };
+      });
     } else if (field === "amountCredits") {
       const creditsValue = value === "" ? null : (value as number);
-      setEditData((prev) => ({
-        ...prev,
-        amountCredits: creditsValue,
-        name: generatePackageName(creditsValue),
-      }));
+      setEditData((prev) => {
+        if (!prev) return prev;
+        return {
+          ...prev,
+          amountCredits: creditsValue,
+          name: generatePackageName(creditsValue),
+        };
+      });
     } else {
-      setEditData((prev) => ({ ...prev, [field]: value }));
+      setEditData((prev) => {
+        if (!prev) return prev;
+        return { ...prev, [field]: value };
+      });
     }
     if (field === "paymentMethods[0].price" && errors.basePrice) {
       setErrors((prev) => ({ ...prev, basePrice: undefined }));
@@ -195,7 +234,6 @@ const SecondaryProductPage = ({ slug, childSlug }: Props) => {
 
   const handleNextPackage = () => {
     if (
-      typeof index !== "number" ||
       !productPackages?.packages ||
       index >= productPackages.packages.length - 1
     ) {
@@ -213,7 +251,7 @@ const SecondaryProductPage = ({ slug, childSlug }: Props) => {
   };
 
   const handlePreviousPackage = () => {
-    if (typeof index !== "number" || !productPackages?.packages || index <= 0) {
+    if (!productPackages?.packages || index <= 0) {
       return;
     }
     const prevIndex = index - 1;
@@ -237,11 +275,11 @@ const SecondaryProductPage = ({ slug, childSlug }: Props) => {
     try {
       const dataToSend = prepareDataForApi();
       await connectionAPIPost<PackageType>(`/package`, dataToSend, apiUrl);
-      alert("Novo pacote criado com sucesso!");
+      toast.success("Pacote criado!");
       fetchProducts(store.id);
       router.back();
     } catch (err) {
-      alert("Erro ao criar novo pacote");
+      toast.error("Erro ao criar novo pacote");
     } finally {
       setLoading(false);
     }
@@ -255,18 +293,23 @@ const SecondaryProductPage = ({ slug, childSlug }: Props) => {
     const basePriceChanged = editData.basePrice !== packageData.basePrice;
     const isActiveChanged = editData.isActive !== packageData.isActive;
     const isOfferChanged = editData.isOffer !== packageData.isOffer;
+    const firstPaymentMethod = editData.paymentMethods?.[0];
+    const originalPaymentMethod = packageData.paymentMethods?.[0];
+    const paymentPriceChanged =
+      firstPaymentMethod?.price !== originalPaymentMethod?.price;
 
     return (
       amountCreditsChanged ||
       basePriceChanged ||
       isActiveChanged ||
-      isOfferChanged
+      isOfferChanged ||
+      paymentPriceChanged
     );
   };
 
-  const handleUpdate = () => {
+  const handleUpdate = async () => {
     if (!packageData?.id) {
-      alert("Erro: ID do pacote não encontrado");
+      toast.error("Erro: ID do pacote não encontrado");
       return;
     }
     setLoading(true);
@@ -286,7 +329,7 @@ const SecondaryProductPage = ({ slug, childSlug }: Props) => {
         setLoading(false);
         return;
       }
-      const confirmation = confirm("Confirmar alterações?");
+      const confirmation = await confirmToast("Confirmar alterações?");
       if (!confirmation) {
         handleCancel();
         setLoading(false);
@@ -307,7 +350,7 @@ const SecondaryProductPage = ({ slug, childSlug }: Props) => {
           };
           setPackageData(updatedPackage);
           setEditData(updatedPackage);
-          if (productPackages?.packages && typeof index === "number") {
+          if (productPackages?.packages) {
             const packageIndex = productPackages.packages.findIndex(
               (pkg: PackageType) => pkg.id === packageData.id,
             );
@@ -315,12 +358,13 @@ const SecondaryProductPage = ({ slug, childSlug }: Props) => {
               setIndex(packageIndex);
             }
           }
+          toast.success("Pacote atualizado!");
           fetchProducts(store.id);
           setIsEditing(false);
         })
         .catch((err) => {
           console.error(err);
-          alert("Erro ao atualizar pacote");
+          toast.error("Erro ao atualizar pacote");
           handleCancel();
         })
         .finally(() => {
@@ -328,7 +372,7 @@ const SecondaryProductPage = ({ slug, childSlug }: Props) => {
         });
     } catch (err) {
       console.error(err);
-      alert("Erro ao preparar dados para atualização");
+      toast.error("Erro ao preparar dados para atualização");
       setLoading(false);
     }
   };
@@ -358,7 +402,6 @@ const SecondaryProductPage = ({ slug, childSlug }: Props) => {
       const currentPackageId = packageData?.id || editData?.id;
 
       if (
-        typeof index === "number" &&
         currentPackageId &&
         currentPackageId !== packageId &&
         productPackages?.packages
@@ -398,7 +441,7 @@ const SecondaryProductPage = ({ slug, childSlug }: Props) => {
           })
           .catch((err) => {
             console.error(err);
-            alert("Erro ao carregar pacote");
+            toast.error("Erro ao carregar pacote");
           })
           .finally(() => {
             setLoading(false);
@@ -444,7 +487,10 @@ const SecondaryProductPage = ({ slug, childSlug }: Props) => {
               {isCreatingNewPackage ? "Novo Pacote" : editData?.name}
             </Text>
             <Text fontName="REGULAR_MEDIUM" color={Theme.colors.mainHighlight}>
-              {formatNumber(editData?.amountCredits)} créditos
+              {editData?.amountCredits !== null &&
+              editData?.amountCredits !== undefined
+                ? `${formatNumber(editData.amountCredits)} créditos`
+                : "0 créditos"}
             </Text>
           </div>
           <div className="statusSection">
@@ -474,7 +520,7 @@ const SecondaryProductPage = ({ slug, childSlug }: Props) => {
               <div className="cardNavigation">
                 {!isCreatingNewPackage && (
                   <>
-                    {index !== 0 ? (
+                    {index > 0 ? (
                       <button
                         onClick={handlePreviousPackage}
                         className="navArrow leftArrow"
@@ -495,13 +541,15 @@ const SecondaryProductPage = ({ slug, childSlug }: Props) => {
                 )}
                 {!isCreatingNewPackage && (
                   <>
-                    {index !== productPackages?.packages.length - 1 ? (
+                    {productPackages?.packages &&
+                    index < productPackages.packages.length - 1 ? (
                       <button
                         onClick={handleNextPackage}
                         className="navArrow rightArrow"
                         title="Próximo pacote"
                         disabled={
-                          index === productPackages?.packages.length - 1
+                          !productPackages?.packages ||
+                          index >= productPackages.packages.length - 1
                         }
                       >
                         →
@@ -553,7 +601,7 @@ const SecondaryProductPage = ({ slug, childSlug }: Props) => {
                   />
                 ) : (
                   <Text fontName="SMALL_MEDIUM" color={Theme.colors.mainlight}>
-                    {editData?.amountCredits}
+                    {editData?.amountCredits ?? "-"}
                   </Text>
                 )}
                 {isEditing && errors.amountCredits && (
@@ -641,7 +689,12 @@ const SecondaryProductPage = ({ slug, childSlug }: Props) => {
                 </Text>
                 {isEditing ? (
                   <Input
-                    value={`R$ ${editData?.paymentMethods[0]?.price || ""}`}
+                    value={
+                      editData?.paymentMethods?.[0]?.price !== null &&
+                      editData?.paymentMethods?.[0]?.price !== undefined
+                        ? `R$ ${editData.paymentMethods[0].price}`
+                        : "R$ "
+                    }
                     onChange={(e) => {
                       const value = e.target.value;
                       const cleanValue = value.replace(/[^0-9.,]/g, "");
@@ -652,10 +705,8 @@ const SecondaryProductPage = ({ slug, childSlug }: Props) => {
                         commaCount <= 1 &&
                         dotCount + commaCount <= 1
                       ) {
-                        // Se tem vírgula, converte para ponto
                         let normalizedValue = cleanValue.replace(",", ".");
 
-                        // Se tem ponto, limita a 2 casas decimais
                         if (normalizedValue.includes(".")) {
                           const [integer, decimal] = normalizedValue.split(".");
                           const limitedDecimal = decimal
@@ -678,7 +729,11 @@ const SecondaryProductPage = ({ slug, childSlug }: Props) => {
                   />
                 ) : (
                   <Text fontName="SMALL_MEDIUM" color={Theme.colors.mainlight}>
-                    R$ {(+editData?.basePrice).toFixed(2)}
+                    R${" "}
+                    {editData?.basePrice !== null &&
+                    editData?.basePrice !== undefined
+                      ? editData.basePrice.toFixed(2)
+                      : "0.00"}
                   </Text>
                 )}
                 {isEditing && errors.basePrice && (
@@ -709,7 +764,8 @@ const SecondaryProductPage = ({ slug, childSlug }: Props) => {
                     width={120}
                     height={36}
                     rounded
-                    loading={loading}
+                    disabled={loading}
+                    isNotSelected={loading}
                   />
                   <Button
                     title={isCreatingNewPackage ? "CRIAR" : "SALVAR"}
@@ -724,8 +780,12 @@ const SecondaryProductPage = ({ slug, childSlug }: Props) => {
                     height={36}
                     rounded
                     loading={loading}
-                    disabled={!isCreatingNewPackage && !hasChanges()}
-                    isNotSelected={!isCreatingNewPackage && !hasChanges()}
+                    disabled={
+                      (!isCreatingNewPackage && !hasChanges()) || loading
+                    }
+                    isNotSelected={
+                      (!isCreatingNewPackage && !hasChanges()) || loading
+                    }
                   />
                 </>
               ) : (
@@ -736,7 +796,8 @@ const SecondaryProductPage = ({ slug, childSlug }: Props) => {
                     width={120}
                     height={36}
                     rounded
-                    loading={loading}
+                    disabled={loading}
+                    isNotSelected={loading}
                   />
                   <Button
                     title="EXCLUIR"
@@ -745,6 +806,8 @@ const SecondaryProductPage = ({ slug, childSlug }: Props) => {
                     height={36}
                     rounded
                     loading={loading}
+                    disabled={loading}
+                    isNotSelected={loading}
                   />
                 </>
               )}

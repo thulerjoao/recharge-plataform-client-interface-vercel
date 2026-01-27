@@ -1,7 +1,6 @@
-export const formatNumber = (value: number) => {
+export const formatNumber = (value: number | null | undefined) => {
+  if (value === null || value === undefined) return "";
   return new Intl.NumberFormat("pt-BR", {
     style: "decimal",
-    // minimumFractionDigits: 2,
-    // maximumFractionDigits: 2,
   }).format(value);
 };

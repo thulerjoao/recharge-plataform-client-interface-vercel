@@ -1,6 +1,7 @@
 import Providers from "context/providers";
 import PrivateRoute from "guard/PrivateRoute";
 import StyledComponentsRegistry from "lib/registry";
+import ToastProvider from "lib/toast-provider";
 import React from "react";
 import "./globals.css";
 
@@ -29,6 +30,7 @@ export default function RootLayout({
       <body>
         <Providers>
           <StyledComponentsRegistry>
+            <ToastProvider />
             <PrivateRoute>{children}</PrivateRoute>
           </StyledComponentsRegistry>
         </Providers>
