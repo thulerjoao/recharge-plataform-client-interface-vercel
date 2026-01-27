@@ -2,12 +2,17 @@
 
 import Text from "@4miga/design-system/components/Text";
 import { Theme } from "@4miga/design-system/theme/theme";
-import { connectionAPIGet } from "@4miga/services/connectionAPI/connection";
+import {
+  connectionAPIGet,
+  connectionAPIPost,
+} from "@4miga/services/connectionAPI/connection";
 import Image from "next/image";
 import DefaultHeader from "public/components/defaultHeader";
 import HeaderEnviroment from "public/components/headerEnviroment";
 import { useEffect, useState } from "react";
+import toast from "react-hot-toast";
 import { OrderType } from "types/orderType";
+import { useConfirm } from "utils/confirm";
 import { formatDate } from "utils/formatDate";
 import { formatPhone } from "utils/formatPhone";
 import { formatPrice } from "utils/formatPrice";
@@ -22,6 +27,7 @@ import { SalesInnerPageContainer } from "./style";
 const OrdersInnerPage = ({ slug }: { slug: string }) => {
   const [loading, setLoading] = useState(false);
   const [order, setOrder] = useState<OrderType>();
+  const { confirm, ConfirmComponent } = useConfirm();
   useEffect(() => {
     connectionAPIGet<OrderType>(`/orders/${slug}`)
       .then((res) => {
@@ -49,6 +55,25 @@ const OrdersInnerPage = ({ slug }: { slug: string }) => {
           setLoading(false);
         });
     }
+  };
+
+  const handleMarkAsCompleted = async (orderNumber: string) => {
+    const confirmation = await confirm("Deseja realmente concluir o pedido?");
+    if (!confirmation) {
+      return;
+    }
+    setLoading(true);
+    connectionAPIPost<OrderType>(`/orders/${orderNumber}/manual-complete`, {})
+      .then((res) => {
+        setOrder(res);
+        toast.success("Pedido finalizado");
+      })
+      .catch(() => {
+        toast.error("Erro ao finalizar pedido");
+      })
+      .finally(() => {
+        setLoading(false);
+      });
   };
 
   useEffect(() => {
@@ -203,47 +228,21 @@ const OrdersInnerPage = ({ slug }: { slug: string }) => {
             </div>
           </section>
         </section>
+        {order?.orderStatus !== "COMPLETED" && (
+          <Text
+            fontName="TINY_MEDIUM"
+            color={Theme.colors.mainHighlight}
+            underline
+            pointer
+            align="center"
+            margin="12px 0 0 0"
+            onClick={() => handleMarkAsCompleted(order?.orderNumber || "")}
+          >
+            Marcar pedido como concluído (emergência)
+          </Text>
+        )}
       </main>
-      {/* {handleCheck() ? (
-        <div className="bottomContainer">
-          <div>
-            <Text
-              nowrap
-              color={Theme.colors.secondaryTextAction}
-              align="end"
-              fontName="SMALL_MEDIUM"
-            >
-              Custo total:
-            </Text>
-            <Text margin="0 0 0 8px" nowrap fontName="SMALL_MEDIUM">
-              R$ 19,32
-            </Text>
-          </div>
-          <div>
-            <Text
-              nowrap
-              color={Theme.colors.secondaryTextAction}
-              align="end"
-              fontName="SMALL_MEDIUM"
-            >
-              Lucro:
-            </Text>
-            <Text margin="0 0 0 8px" nowrap fontName="SMALL_MEDIUM">
-              R$ 10,58
-            </Text>
-          </div>
-        </div>
-      ) : (
-        <span>
-          <Button
-            margin="40px 0 97px 0"
-            width={188}
-            rounded
-            height={40}
-            title="Corrigir recarga"
-          />
-        </span>
-      )} */}
+      {ConfirmComponent}
     </SalesInnerPageContainer>
   );
 };

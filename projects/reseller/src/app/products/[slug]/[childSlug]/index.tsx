@@ -25,7 +25,7 @@ import {
   PackageFormErrors,
   validatePackageForm,
 } from "utils/packageValidation";
-import { confirmToast } from "utils/confirm";
+import { useConfirm } from "utils/confirm";
 import toast from "react-hot-toast";
 import { ConfigPackagePage } from "./style";
 import PackageCardCompact from "public/cards/packageCardCompact/card";
@@ -49,6 +49,7 @@ const SecondaryProductPage = ({ slug, childSlug }: Props) => {
     useProducts();
   const [index, setIndex] = useState<number>(0);
   const { store } = useAuth();
+  const { confirm, ConfirmComponent } = useConfirm();
 
   const generatePackageName = (amountCredits: number | null): string => {
     if (!amountCredits) return "Bigo 0 diamantes";
@@ -114,7 +115,7 @@ const SecondaryProductPage = ({ slug, childSlug }: Props) => {
       return;
     }
     setLoading(true);
-    const confirmed = await confirmToast(
+    const confirmed = await confirm(
       `Deseja excluir o pacote ${packageData?.name}?`,
     );
     if (!confirmed) {
@@ -329,7 +330,7 @@ const SecondaryProductPage = ({ slug, childSlug }: Props) => {
         setLoading(false);
         return;
       }
-      const confirmation = await confirmToast("Confirmar alterações?");
+      const confirmation = await confirm("Confirmar alterações?");
       if (!confirmation) {
         handleCancel();
         setLoading(false);
@@ -815,6 +816,7 @@ const SecondaryProductPage = ({ slug, childSlug }: Props) => {
           </div>
         </div>
       </div>
+      {ConfirmComponent}
     </ConfigPackagePage>
   );
 };
