@@ -76,9 +76,6 @@ export const MenuComponent = styled.div`
   flex-direction: column;
   padding: 8px 16px;
   border-radius: 8px;
-  -webkit-box-shadow: 0px 0px 5px 1px rgba(7, 29, 35, 1);
-  -moz-box-shadow: 0px 0px 5px 1px rgba(7, 29, 35, 1);
-  box-shadow: 0px 0px 5px 1px rgba(7, 29, 35, 1);
   border: 1px solid ${Theme.colors.secondaryAction}80;
 
   .square {

@@ -28,9 +28,10 @@ export const ConfigPackagePage = styled.div`
       padding: 24px;
       background: ${Theme.colors.maindark};
       border-radius: 12px;
-      -webkit-box-shadow: 0px 0px 5px 2px rgba(7, 29, 35, 1);
-      -moz-box-shadow: 0px 0px 5px 2px rgba(7, 29, 35, 1);
-      box-shadow: 0px 0px 5px 2px rgba(7, 29, 35, 1);
+      -webkit-box-shadow: 0px 0px 5px 1px rgba(7, 29, 35, 1);
+      -moz-box-shadow: 0px 0px 5px 1px rgba(7, 29, 35, 1);
+      box-shadow: 0px 0px 5px 1px rgba(7, 29, 35, 1);
+      border: 1px solid ${Theme.colors.secondaryAction}80;
 
       .packageInfo {
         display: flex;
@@ -82,9 +83,10 @@ export const ConfigPackagePage = styled.div`
         padding: 24px;
         background: ${Theme.colors.maindark};
         border-radius: 12px;
-        -webkit-box-shadow: 0px 0px 5px 2px rgba(7, 29, 35, 1);
-        -moz-box-shadow: 0px 0px 5px 2px rgba(7, 29, 35, 1);
-        box-shadow: 0px 0px 5px 2px rgba(7, 29, 35, 1);
+        -webkit-box-shadow: 0px 0px 5px 1px rgba(7, 29, 35, 1);
+        -moz-box-shadow: 0px 0px 5px 1px rgba(7, 29, 35, 1);
+        box-shadow: 0px 0px 5px 1px rgba(7, 29, 35, 1);
+        border: 1px solid ${Theme.colors.secondaryAction}80;
 
         &.unifiedInfoSection {
           .sectionDivider {
@@ -147,24 +149,6 @@ export const ConfigPackagePage = styled.div`
           align-items: center;
           gap: 16px;
 
-          .checkboxContainer {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            margin-top: 8px;
-
-            input[type="checkbox"] {
-              margin: 0;
-              cursor: pointer;
-            }
-
-            label {
-              cursor: pointer;
-              display: flex;
-              align-items: center;
-            }
-          }
-
           .cardNavigation {
             display: flex;
             align-items: center;
@@ -198,16 +182,16 @@ export const ConfigPackagePage = styled.div`
 
             .cardEnviroment {
               border-radius: 8px;
-              min-width: 175px;
-              background-color: pink;
+              width: 100%;
+              max-width: 175px;
               display: flex;
               align-items: center;
               justify-content: center;
-              overflow: hidden;
               border: 1px solid ${Theme.colors.secondaryAction};
-              -webkit-box-shadow: 0px 0px 5px 2px rgba(7, 29, 35, 1);
-              -moz-box-shadow: 0px 0px 5px 2px rgba(7, 29, 35, 1);
-              box-shadow: 0px 0px 5px 2px rgba(7, 29, 35, 1);
+              -webkit-box-shadow: 0px 0px 5px 1px rgba(7, 29, 35, 1);
+              -moz-box-shadow: 0px 0px 5px 1px rgba(7, 29, 35, 1);
+              box-shadow: 0px 0px 5px 1px rgba(7, 29, 35, 1);
+              border: 1px solid ${Theme.colors.secondaryAction}80;
             }
           }
         }
@@ -230,7 +214,7 @@ export const ConfigPackagePage = styled.div`
     }
 
     .mobile {
-      display: flex;
+      display: block;
       width: 100%;
     }
 
@@ -254,12 +238,7 @@ export const ConfigPackagePage = styled.div`
         padding: 20px;
         margin-bottom: 20px;
 
-        .packageInfo {
-          /* align-items: center; */
-        }
-
         .statusSection {
-          /* background-color: pink; */
           align-items: center;
           flex-direction: row;
           gap: 8px;
@@ -294,6 +273,10 @@ export const ConfigPackagePage = styled.div`
               .disabled {
                 width: 36px;
               }
+
+              .cardEnviroment {
+                max-width: 150px;
+              }
             }
           }
         }
@@ -314,15 +297,6 @@ export const ConfigPackagePage = styled.div`
   }
 
   @media (max-width: 539px) {
-    .desktop {
-      display: none;
-    }
-
-    .mobile {
-      display: flex;
-      width: 100%;
-    }
-
     .mainContentPackage {
       padding: 0px;
       gap: 20px;
@@ -355,6 +329,10 @@ export const ConfigPackagePage = styled.div`
 
               .disabled {
                 width: 32px;
+              }
+
+              .cardEnviroment {
+                max-width: 140px;
               }
             }
           }
@@ -405,6 +383,10 @@ export const ConfigPackagePage = styled.div`
 
               .disabled {
                 width: 28px;
+              }
+
+              .cardEnviroment {
+                max-width: 130px;
               }
             }
           }

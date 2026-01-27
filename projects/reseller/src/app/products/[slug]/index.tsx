@@ -6,21 +6,22 @@ import { Theme } from "@4miga/design-system/theme/theme";
 
 import { connectionAPIPatch } from "@4miga/services/connectionAPI/connection";
 import { apiUrl } from "@4miga/services/connectionAPI/url";
+import LoadingPage from "app/loading";
 import { useAuth } from "context/auth";
 import { useProducts } from "context/products";
 import { useImageUpload } from "hooks/useImageUpload";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
-import PackageCard from "public/cards/packageCard/card";
+import PackageCardCompact from "public/cards/packageCardCompact/card";
 import DefaultHeader from "public/components/defaultHeader";
 import HeaderEnviroment from "public/components/headerEnviroment";
 import { useEffect, useState } from "react";
 import { PackageType, ProductType } from "types/productTypes";
+import toast from "react-hot-toast";
 import CameraIcon from "../common/icons/CameraIcon.svg";
 import Pen from "../common/icons/Pen.svg";
 import AddIcon from "./AddIcon.svg";
 import { ProductsInnerPage } from "./style";
-import LoadingPage from "app/loading";
 
 type Props = {
   slug: string;
@@ -61,7 +62,7 @@ const Productpage = ({ slug }: Props) => {
     },
     onError: (error) => {
       console.error("Banner upload error:", error);
-      alert("Erro ao carregar a imagem do banner. Tente novamente.");
+      toast.error("Erro ao carregar a imagem do banner. Tente novamente.");
     },
   });
 
@@ -73,7 +74,7 @@ const Productpage = ({ slug }: Props) => {
     },
     onError: (error) => {
       console.error("Card upload error:", error);
-      alert("Erro ao carregar a imagem do pacote. Tente novamente.");
+      toast.error("Erro ao carregar a imagem do pacote. Tente novamente.");
     },
   });
 
@@ -115,7 +116,7 @@ const Productpage = ({ slug }: Props) => {
         instructions !== initialInstructions
       ) {
         await connectionAPIPatch(
-          `products/customize/${slug}`,
+          `product/customize/${slug}`,
           {
             description,
             instructions,
@@ -124,17 +125,17 @@ const Productpage = ({ slug }: Props) => {
         )
           .then(() => {
             fetchProducts(store.id);
-            alert("Alterações salvas com sucesso");
+            toast.success("Alterações salvas com sucesso");
           })
           .catch((error) => {
-            alert("Erro ao salvar as alterações. Tente novamente.");
+            toast.error("Erro ao salvar as alterações. Tente novamente.");
             handleCancel();
           });
       }
 
       setIsChanged(false);
     } catch (error) {
-      alert("Erro ao salvar as alterações. Tente novamente.");
+      toast.error("Erro ao salvar as alterações. Tente novamente.");
     } finally {
       setLoading(false);
     }
@@ -240,14 +241,15 @@ const Productpage = ({ slug }: Props) => {
                 <AddIcon />
                 <Text
                   align="center"
-                  fontName="REGULAR_SEMI_BOLD"
+                  fontName="SMALL_SEMI_BOLD"
                   color={Theme.colors.mainlight}
+                  nowrap
                 >
                   Adicionar Pacote
                 </Text>
               </div>
             </div>
-            {productPackages?.packages?.map((packag: PackageType) => {
+            {/* {productPackages?.packages?.map((packag: PackageType) => {
               return (
                 <div
                   key={packag.id}
@@ -260,6 +262,17 @@ const Productpage = ({ slug }: Props) => {
                     imageUrl={packag.imgCardUrl}
                     price={packag.paymentMethods[0].price}
                   />
+                </div>
+              );
+            })} */}
+            {productPackages?.packages?.map((packag: PackageType) => {
+              return (
+                <div
+                  key={packag.id}
+                  onClick={() => handlePackageClick(packag)}
+                  className="cardEnviroment"
+                >
+                  <PackageCardCompact item={packag} selected={false} />
                 </div>
               );
             })}
@@ -384,6 +397,15 @@ const Productpage = ({ slug }: Props) => {
         <div className="saveButtonContainer">
           <Button
             rounded
+            disabled={loading}
+            isNotSelected={!ischanged}
+            title="Cancelar"
+            onClick={() => handleCancel()}
+            height={40}
+            width={197}
+          />
+          <Button
+            rounded
             isNotSelected={!ischanged}
             disabled={
               !ischanged || bannerUpload.isUploading || cardUpload.isUploading
@@ -396,15 +418,6 @@ const Productpage = ({ slug }: Props) => {
                 : "Salvar"
             }
             onClick={handleSaveChanges}
-          />
-          <Button
-            rounded
-            disabled={loading}
-            isNotSelected={!ischanged}
-            title="Cancelar"
-            onClick={() => handleCancel()}
-            height={40}
-            width={197}
           />
         </div>
       </div>
