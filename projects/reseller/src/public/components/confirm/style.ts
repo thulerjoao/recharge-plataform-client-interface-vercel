@@ -12,6 +12,7 @@ export const ConfirmModalBackground = styled.div`
   display: flex;
   justify-content: center;
   align-items: flex-start;
+  padding: 0 12px;
   padding-top: 20px;
 `;
 
