@@ -13,7 +13,7 @@ interface PaymentTier {
   total: number;
 }
 
-const PRICE_PER_1000_BEAN = 19.34; //104 BRR = 19.34 USD
+const PRICE_PER_1000_BEAN = 20.05; //104 BRR = 19.34 USD
 const PRICE_PER_1000_BEAN_BRL = 104; //104 BRR = 19.34 USD
 
 const PAYMENT_TIERS: PaymentTier[] = [

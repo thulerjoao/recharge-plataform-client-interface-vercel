@@ -15,7 +15,7 @@ import { useEffect, useRef, useState } from "react";
 import { OrderType } from "types/orderType";
 import { formatDate } from "utils/formatDate";
 import { formatPrice } from "utils/formatPrice";
-import { confirmToast } from "utils/confirm";
+import { useConfirm } from "utils/confirm";
 import {
   handlePaymentStatus,
   handleRechargeStatus,
@@ -33,6 +33,7 @@ const Order = () => {
   const intervalRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const route = useRouter();
   const { logged } = useAuth();
+  const { confirm, ConfirmComponent } = useConfirm();
 
   useEffect(() => {
     if (!order) {
@@ -59,7 +60,7 @@ const Order = () => {
       return;
     }
 
-    const confirmed = await confirmToast(
+    const confirmed = await confirm(
       "Não nos responsabilizamos por pagamentos duplicados. \nRealize somente se estiver pendente.",
     );
 
@@ -342,6 +343,7 @@ const Order = () => {
             onClick={() => handleBuyAgain()}
           />
         )}
+        {ConfirmComponent}
       </OrderContainer>
     </>
   );

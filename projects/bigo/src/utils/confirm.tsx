@@ -1,74 +1,59 @@
-import Button from "@4miga/design-system/components/button";
-import { Theme } from "@4miga/design-system/theme/theme";
-import toast from "react-hot-toast";
+"use client";
+
+import { useState, useCallback } from "react";
+import Confirm from "../public/components/confirm";
+
+interface ConfirmState {
+  message: string;
+  isOpen: boolean;
+  resolve: ((value: boolean) => void) | null;
+}
+
+export const useConfirm = () => {
+  const [confirmState, setConfirmState] = useState<ConfirmState>({
+    message: "",
+    isOpen: false,
+    resolve: null,
+  });
+
+  const confirm = useCallback((message: string): Promise<boolean> => {
+    return new Promise((resolve) => {
+      setConfirmState({
+        message,
+        isOpen: true,
+        resolve,
+      });
+    });
+  }, []);
+
+  const handleConfirm = () => {
+    if (confirmState.resolve) {
+      confirmState.resolve(true);
+    }
+    setConfirmState({ message: "", isOpen: false, resolve: null });
+  };
+
+  const handleCancel = () => {
+    if (confirmState.resolve) {
+      confirmState.resolve(false);
+    }
+    setConfirmState({ message: "", isOpen: false, resolve: null });
+  };
+
+  const ConfirmComponent = confirmState.isOpen ? (
+    <Confirm
+      message={confirmState.message}
+      onConfirm={handleConfirm}
+      onCancel={handleCancel}
+    />
+  ) : null;
+
+  return { confirm, ConfirmComponent };
+};
 
 export const confirmToast = (message: string): Promise<boolean> => {
-  return new Promise((resolve) => {
-    toast.custom(
-      (t) => (
-        <div
-          style={{
-            background: Theme.colors.maindark,
-            color: Theme.colors.mainlight,
-            border: `1px solid ${Theme.colors.mainHighlight}`,
-            borderRadius: "12px",
-            padding: "16px 8px",
-            display: "flex",
-            flexDirection: "column",
-            gap: "16px",
-            minWidth: "300px",
-            maxWidth: "400px",
-            fontFamily: "'Montserrat', 'Open Sans', sans-serif",
-            fontSize: "14px",
-          }}
-        >
-          <p
-            style={{
-              margin: 0,
-              whiteSpace: "pre-line",
-              textAlign: "center",
-              color: Theme.colors.mainlight,
-            }}
-          >
-            {message}
-          </p>
-          <div
-            style={{
-              display: "flex",
-              gap: "12px",
-              justifyContent: "center",
-              marginTop: "8px",
-            }}
-          >
-            <Button
-              onClick={() => {
-                resolve(false);
-                toast.remove(t.id);
-              }}
-              title="Cancelar"
-              width={120}
-              height={32}
-              rounded
-              isNotSelected
-              style={{ color: Theme.colors.mainlight }}
-            />
-            <Button
-              onClick={() => {
-                resolve(true);
-                toast.remove(t.id);
-              }}
-              title="Confirmar"
-              width={120}
-              height={32}
-              rounded
-            />
-          </div>
-        </div>
-      ),
-      {
-        duration: Infinity,
-        position: "top-center",
-      },
-    );
-  });
+  console.warn(
+    "confirmToast is deprecated. Use useConfirm hook instead in your component.",
+  );
+  return Promise.resolve(false);
 };
