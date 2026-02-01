@@ -20,7 +20,12 @@ import DefaultHeader from "public/components/defaultHeader";
 import HeaderEnviroment from "public/components/headerEnviroment";
 import { useEffect, useState } from "react";
 import { PackageType, ProductType } from "types/productTypes";
-import { formatNumber } from "utils/formatNumber";
+import {
+  numberToEditableString,
+  parseCurrencyInput,
+  sanitizeCurrencyInput,
+} from "utils/currencyInput";
+import { formatNumber, formatPrice } from "utils/formatNumber";
 import {
   PackageFormErrors,
   validatePackageForm,
@@ -48,6 +53,7 @@ const SecondaryProductPage = ({ slug, childSlug }: Props) => {
   const { products, productPackages, setProductPackages, fetchProducts } =
     useProducts();
   const [index, setIndex] = useState<number>(0);
+  const [priceInputRaw, setPriceInputRaw] = useState<string | null>(null);
   const { store } = useAuth();
   const { confirm, ConfirmComponent } = useConfirm();
 
@@ -56,21 +62,21 @@ const SecondaryProductPage = ({ slug, childSlug }: Props) => {
     return `Bigo ${amountCredits} diamantes`;
   };
 
-  const getDefaultPackageData = (): PackageType => ({
-    name: generatePackageName(null),
-    amountCredits: null,
-    imgCardUrl: productPackages?.imgCardUrl || "",
-    isActive: true,
-    isOffer: false,
-    basePrice: null,
-    productId: slug,
-    paymentMethods: [
-      {
-        name: "pix",
-        price: null,
-      },
-    ],
-  });
+  // const getDefaultPackageData = (): PackageType => ({
+  //   name: generatePackageName(null),
+  //   amountCredits: null,
+  //   imgCardUrl: productPackages?.imgCardUrl || "",
+  //   isActive: true,
+  //   isOffer: false,
+  //   basePrice: null,
+  //   productId: slug,
+  //   paymentMethods: [
+  //     {
+  //       name: "pix",
+  //       price: null,
+  //     },
+  //   ],
+  // });
 
   const prepareDataForApi = () => {
     if (!editData) {
@@ -336,18 +342,30 @@ const SecondaryProductPage = ({ slug, childSlug }: Props) => {
         setLoading(false);
         return;
       }
+      const price = dataToSend.basePrice;
+      const paymentMethodsBody = (dataToSend.paymentMethods ?? []).map(
+        (method) => ({ name: method.name, price }),
+      );
       const data = {
         name: dataToSend.name,
         amountCredits: dataToSend.amountCredits,
         basePrice: dataToSend.basePrice,
         isActive: dataToSend.isActive,
         isOffer: dataToSend.isOffer,
+        paymentMethods: paymentMethodsBody,
       };
       connectionAPIPatch(`/package/${packageData.id}`, data, apiUrl)
         .then((res) => {
           const updatedPackage: PackageType = {
             ...packageData,
             ...data,
+            paymentMethods:
+              packageData.paymentMethods?.map((method, i) => ({
+                ...method,
+                price: paymentMethodsBody[i]?.price ?? price,
+              })) ??
+              dataToSend.paymentMethods ??
+              [],
           };
           setPackageData(updatedPackage);
           setEditData(updatedPackage);
@@ -364,7 +382,6 @@ const SecondaryProductPage = ({ slug, childSlug }: Props) => {
           setIsEditing(false);
         })
         .catch((err) => {
-          console.error(err);
           toast.error("Erro ao atualizar pacote");
           handleCancel();
         })
@@ -459,6 +476,10 @@ const SecondaryProductPage = ({ slug, childSlug }: Props) => {
     productPackages?.packages,
     setProductPackages,
   ]);
+
+  useEffect(() => {
+    setPriceInputRaw(null);
+  }, [index, childSlug, isCreatingNewPackage]);
 
   if (!productPackages) {
     return <LoadingPage />;
@@ -593,7 +614,6 @@ const SecondaryProductPage = ({ slug, childSlug }: Props) => {
                         numericValue === "" ? "" : parseInt(numericValue) || 0,
                       );
                     }}
-                    placeholder="Quantidade de créditos (máx. 14 dígitos)"
                     height={32}
                     type="text"
                     inputMode="numeric"
@@ -691,38 +711,32 @@ const SecondaryProductPage = ({ slug, childSlug }: Props) => {
                 {isEditing ? (
                   <Input
                     value={
-                      editData?.paymentMethods?.[0]?.price !== null &&
-                      editData?.paymentMethods?.[0]?.price !== undefined
-                        ? `R$ ${editData.paymentMethods[0].price}`
-                        : "R$ "
+                      priceInputRaw !== null
+                        ? `R$ ${priceInputRaw}`
+                        : editData?.paymentMethods?.[0]?.price != null
+                          ? `R$ ${formatPrice(editData.paymentMethods[0].price)}`
+                          : "R$ 0,00"
                     }
-                    onChange={(e) => {
-                      const value = e.target.value;
-                      const cleanValue = value.replace(/[^0-9.,]/g, "");
-                      const dotCount = (cleanValue.match(/\./g) || []).length;
-                      const commaCount = (cleanValue.match(/,/g) || []).length;
-                      if (
-                        dotCount <= 1 &&
-                        commaCount <= 1 &&
-                        dotCount + commaCount <= 1
-                      ) {
-                        let normalizedValue = cleanValue.replace(",", ".");
-
-                        if (normalizedValue.includes(".")) {
-                          const [integer, decimal] = normalizedValue.split(".");
-                          const limitedDecimal = decimal
-                            ? decimal.slice(0, 2)
-                            : "";
-                          normalizedValue = `${integer}.${limitedDecimal}`;
-                        }
-
-                        handleInputChange(
-                          "paymentMethods[0].price",
-                          normalizedValue,
-                        );
-                      }
+                    onFocus={() => {
+                      const price = editData?.paymentMethods?.[0]?.price ?? 0;
+                      setPriceInputRaw(numberToEditableString(price) || "");
                     }}
-                    placeholder="Custo base (ex: 10,50 ou 10.50)"
+                    onBlur={() => {
+                      const raw = priceInputRaw ?? "";
+                      const num = parseCurrencyInput(raw);
+                      handleInputChange("paymentMethods[0].price", num);
+                      setPriceInputRaw(null);
+                    }}
+                    onChange={(e) => {
+                      const raw = e.target.value.replace(/R\$\s?/g, "").trim();
+                      const sanitized = sanitizeCurrencyInput(raw);
+                      setPriceInputRaw(sanitized);
+                      handleInputChange(
+                        "paymentMethods[0].price",
+                        parseCurrencyInput(sanitized),
+                      );
+                    }}
+                    placeholder="Ex: 10,50 ou 10.50"
                     height={32}
                     type="text"
                     inputMode="decimal"

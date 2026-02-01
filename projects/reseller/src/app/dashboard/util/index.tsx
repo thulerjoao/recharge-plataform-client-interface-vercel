@@ -186,27 +186,27 @@ const Dashboard = () => {
   };
 
   // Função para refresh (atualizar métricas em tempo real)
-  const handleRefresh = async () => {
-    try {
-      setRefreshing(true);
-      setError(null);
-      const response = await connectionAPIPost<DashboardDataType>(
-        `/metrics/refresh`,
-        {},
-        apiUrl,
-      );
+  // const handleRefresh = async () => {
+  //   try {
+  //     setRefreshing(true);
+  //     setError(null);
+  //     const response = await connectionAPIPost<DashboardDataType>(
+  //       `/metrics/refresh`,
+  //       {},
+  //       apiUrl,
+  //     );
 
-      setDashboardData(response);
-    } catch (err: any) {
-      const errorMessage =
-        err?.response?.data?.message ||
-        "Erro ao atualizar métricas. Tente novamente.";
-      setError(errorMessage);
-      alert(errorMessage);
-    } finally {
-      setRefreshing(false);
-    }
-  };
+  //     setDashboardData(response);
+  //   } catch (err: any) {
+  //     const errorMessage =
+  //       err?.response?.data?.message ||
+  //       "Erro ao atualizar métricas. Tente novamente.";
+  //     setError(errorMessage);
+  //     alert(errorMessage);
+  //   } finally {
+  //     setRefreshing(false);
+  //   }
+  // };
 
   const handlePeriodChange = (period: PeriodType) => {
     hasAdjustedPeriod.current = false; // Reset flag ao mudar período manualmente

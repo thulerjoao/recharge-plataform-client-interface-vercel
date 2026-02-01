@@ -17,15 +17,10 @@ const CronHealthIndicator = ({
   onRecalculate,
   recalculating = false,
 }: CronHealthIndicatorProps) => {
-  const [showTooltip, setShowTooltip] = useState(false);
   const isHealthy = cronHealthStatus === "OK";
 
   return (
-    <CronHealthIndicatorContainer
-      $isHealthy={isHealthy}
-      onMouseEnter={() => isHealthy && setShowTooltip(true)}
-      onMouseLeave={() => setShowTooltip(false)}
-    >
+    <CronHealthIndicatorContainer $isHealthy={isHealthy}>
       <div className="statusContent">
         <div className="statusCircle">
           <span className="statusIcon">{isHealthy ? "✓" : "⚠"}</span>
@@ -51,13 +46,6 @@ const CronHealthIndicator = ({
           height={28}
           width={120}
         />
-      )}
-      {isHealthy && showTooltip && (
-        <div className="tooltip">
-          <Text fontName="SMALL" color={Theme.colors.mainlight}>
-            As métricas são atualizadas automaticamente às 5h da manhã
-          </Text>
-        </div>
       )}
     </CronHealthIndicatorContainer>
   );
