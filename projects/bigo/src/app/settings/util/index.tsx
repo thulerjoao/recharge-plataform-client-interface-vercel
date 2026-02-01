@@ -811,7 +811,7 @@ const Settings = () => {
         {/* Seção: Segurança */}
         <div className="form-section">
           <Text fontName="REGULAR_SEMI_BOLD" className="section-title">
-            Segurança
+            Alterar senha
           </Text>
 
           <form onSubmit={handleSubmitSection("security")}>
