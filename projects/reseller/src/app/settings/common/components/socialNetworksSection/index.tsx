@@ -134,7 +134,6 @@ const SocialNetworksSection: React.FC<SocialNetworksSectionProps> = ({
       })
       .catch((error) => {
         alert(error.message || "Erro ao salvar valores");
-        console.log(error);
         handleCancel();
       })
       .finally(() => {
