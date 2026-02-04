@@ -89,13 +89,7 @@ const PaymentPage = ({ packageId, couponFromParams }: Props) => {
         };
         setCoupon(couponData.title);
         setCouponApplied(appliedCoupon);
-        setCouponSuccess(
-          `Cupom de ${
-            couponData.discountAmount
-              ? "R$ " + Number(couponData.discountAmount).toFixed(2)
-              : couponData.discountPercentage + "%"
-          } aplicado!`,
-        );
+        setCouponSuccess(`Cupom aplicado!`);
       }
       const sessionPackage: PackageType = {
         id: order.orderItem.package.id,
@@ -212,9 +206,7 @@ const PaymentPage = ({ packageId, couponFromParams }: Props) => {
     )
       .then((res) => {
         if (res.valid === true) {
-          setCouponSuccess(
-            `Cupom de ${res.coupon.discountAmount ? "R$ " + res.coupon.discountAmount : res.coupon.discountPercentage + "%"} aplicado!`,
-          );
+          setCouponSuccess(`Cupom aplicado!`);
           setCouponApplied(res);
           setOpenCoupon(false);
           setCouponError("");

@@ -12,6 +12,7 @@ export type DashboardSummaryType = {
   totalCompletedOrders: number;
   totalExpiredOrders: number;
   totalRefundedOrders: number;
+  totalDiamondsSold: number;
   averageTicket: number;
   totalCustomers: number;
   newCustomers: number;
@@ -23,6 +24,7 @@ export type DailyTrendType = {
   date: string;
   totalSales: number;
   totalOrders: number;
+  totalDiamondsSold: number;
   newCustomers: number;
 };
 
@@ -32,6 +34,15 @@ export type SalesByProductType = {
   imgCardUrl: string;
   totalSales: number;
   totalOrders: number;
+  percentage: number;
+};
+
+export type SalesByPackageType = {
+  packageId: string;
+  packageName: string;
+  totalSales: number;
+  totalOrders: number;
+  totalDiamondsSold: number;
   percentage: number;
 };
 
@@ -45,7 +56,8 @@ export type DashboardDataType = {
   period: PeriodType;
   summary: DashboardSummaryType;
   dailyTrend: DailyTrendType[];
-  salesByProduct: SalesByProductType[];
+  salesByProduct?: SalesByProductType[];
+  salesByPackage?: SalesByPackageType[];
   firstAvailablePeriod: FirstAvailablePeriodType;
   cronHealthStatus?: string;
 };

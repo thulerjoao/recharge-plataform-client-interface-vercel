@@ -26,6 +26,8 @@ const PackageCardCompact = ({
     return new Intl.NumberFormat("pt-BR").format(value);
   };
 
+  console.log(valueWithDicount, item.paymentMethods[0].price);
+
   return (
     <PackageCardCompactContainer
       isOffer={item.isOffer}
@@ -62,16 +64,8 @@ const PackageCardCompact = ({
       >
         {item.amountCredits > 1 ? "Diamantes" : "Diamante"}
       </Text>
-      {/* <Text
-        color={Theme.colors.secondaryAction}
-        // margin={item.isOffer ? "8px 0 0 8px" : "24px 0 0 8px"}
-        margin="8px 0 8px 0"
-        fontName="SUPER_TINY_MEDIUM"
-      >
-        POR APENAS
-      </Text> */}
       <div className="priceContainer">
-        {valueWithDicount && (
+        {+valueWithDicount !== +item.basePrice && valueWithDicount && (
           <Text
             className="basePriceDiscount"
             fontName="TINY"
