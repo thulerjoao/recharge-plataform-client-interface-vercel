@@ -17,7 +17,7 @@ import CronHealthIndicator from "../common/components/cronHealthIndicator";
 import DailyTrend from "../common/components/dailyTrend";
 import MetricsCards from "../common/components/metricsCards";
 import PeriodSelector from "../common/components/periodSelector";
-import SalesByProduct from "../common/components/salesByProduct";
+import SalesByPackage from "../common/components/salesByPackage";
 import { DashboardContainer } from "./style";
 
 // Initial period (current month)
@@ -307,6 +307,9 @@ const Dashboard = () => {
           Resumo do mês
         </Text>
         <MetricsCards summary={dashboardData.summary} />
+        {dashboardData.salesByPackage && dashboardData.salesByPackage.length > 0 && (
+          <SalesByPackage salesByPackage={dashboardData.salesByPackage} />
+        )}
       </div>
     </DashboardContainer>
   );

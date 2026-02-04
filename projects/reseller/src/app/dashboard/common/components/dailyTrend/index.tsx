@@ -1,4 +1,5 @@
 import Text from "@4miga/design-system/components/Text";
+import { Theme } from "@4miga/design-system/theme/theme";
 import React, { useEffect, useRef, useState } from "react";
 import { DailyTrendType } from "types/dashboardTypes";
 import { formatPrice } from "utils/formatPrice";
@@ -44,7 +45,11 @@ const DailyTrend = ({ dailyTrend }: DailyTrendProps) => {
     return (
       <DailyTrendContainer>
         <Text fontName="LARGE_SEMI_BOLD">Tendência Diária</Text>
-        <Text margin="24px 0 0 0" fontName="REGULAR" color="#999">
+        <Text
+          margin="24px 0 0 0"
+          fontName="REGULAR"
+          color={Theme.colors.secondaryTextAction}
+        >
           Nenhum dado disponível
         </Text>
       </DailyTrendContainer>
@@ -195,10 +200,31 @@ const DailyTrend = ({ dailyTrend }: DailyTrendProps) => {
           <Text fontName="SMALL_MEDIUM">
             R$ {formatPrice(displayTrend[hoveredIndex].totalSales)}
           </Text>
-          <Text margin="4px 0 0 0" fontName="SMALL" color="#999">
+          <Text
+            margin="4px 0 0 0"
+            fontName="SMALL"
+            color={Theme.colors.secondaryTextAction}
+            align="center"
+          >
             {displayTrend[hoveredIndex].totalOrders} pedidos
           </Text>
-          <Text margin="4px 0 0 0" fontName="SMALL" color="#999">
+          <Text
+            margin="4px 0 0 0"
+            fontName="SMALL"
+            color={Theme.colors.secondaryTextAction}
+            align="center"
+          >
+            💎
+            {(displayTrend[hoveredIndex].totalDiamondsSold ?? 0).toLocaleString(
+              "pt-BR",
+            )}{" "}
+          </Text>
+          <Text
+            margin="4px 0 0 0"
+            fontName="SMALL"
+            color={Theme.colors.secondaryTextAction}
+            align="center"
+          >
             +{displayTrend[hoveredIndex].newCustomers} clientes
           </Text>
         </Tooltip>
