@@ -44,7 +44,7 @@ interface Props {
   status: CustomerStatusFilter;
 }
 
-const LIMIT = 10;
+const LIMIT = 6;
 
 const CustomersPage = ({
   currentPage,

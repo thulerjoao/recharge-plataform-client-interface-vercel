@@ -44,7 +44,7 @@ interface Props {
   customerEmail: string;
 }
 
-const LIMIT = 10;
+const LIMIT = 6;
 const CUSTOMER_ORDERS_DISPLAY_KEY = "customerOrdersDisplay";
 
 type CustomerWithId = CustomerCardDisplayData & { id?: string };

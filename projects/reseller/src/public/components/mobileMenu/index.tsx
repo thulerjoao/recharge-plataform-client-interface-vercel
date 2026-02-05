@@ -27,6 +27,8 @@ import HomeSelected from "../../icons/HomeSelected.svg";
 import Influencer from "../../icons/Influencer.svg";
 import Orders from "../../icons/Orders.svg";
 import OrdersSelected from "../../icons/OrdersSelected.svg";
+import Customers from "../../icons/Clients.svg";
+import CustomersSelected from "../../icons/ClientsSelected.svg";
 
 interface Props {
   search: boolean;
@@ -144,6 +146,24 @@ const MobileMenu = ({ search, openMenu, setOpenMenu }: Props) => {
           fontName="REGULAR_SEMI_BOLD"
         >
           PEDIDOS
+        </Text>
+      </div>
+      <div
+        onClick={(e) => {
+          e.stopPropagation();
+          handleClick("customers");
+        }}
+        className={`menuOption ${handleCheck("customers") && "selected"}`}
+      >
+        <span>
+          {handleCheck("customers") ? <CustomersSelected /> : <Customers />}
+        </span>
+        <Text
+          color={handleCheck("customers") && Theme.colors.maindark}
+          margin="0 0 0 16px"
+          fontName="REGULAR_SEMI_BOLD"
+        >
+          CLIENTES
         </Text>
       </div>
       <div
