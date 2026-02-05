@@ -1,5 +1,6 @@
 "use client";
 
+import LoadingPage from "app/loading";
 import Input from "@4miga/design-system/components/input";
 import Text from "@4miga/design-system/components/Text";
 import { Theme } from "@4miga/design-system/theme/theme";
@@ -100,6 +101,10 @@ const CustomersPage = ({
     router.push(`/customers?${params.toString()}`);
   };
 
+  if (loadingCustomers) {
+    return <LoadingPage />;
+  }
+
   return (
     <CustomersPageContainer>
       <div className="centerContainer">
@@ -160,58 +165,62 @@ const CustomersPage = ({
             </select>
           </div>
         </div>
-        {!loadingCustomers ? (
-          <div className="cardsSection">
-            {!customers?.data || customers.data.length === 0 ? (
-              <div className="emptyState">
-                <Text align="center" fontName="REGULAR_MEDIUM" color="#666">
-                  Nenhum cliente encontrado
-                </Text>
-              </div>
-            ) : (
-              (() => {
-                const list =
-                  localStatus === "excluded"
-                    ? customers.data.filter(
-                        (u: StoreUserType) => u.deletedUserData != null,
-                      )
-                    : customers.data;
-                if (list.length === 0) {
-                  return (
-                    <div className="emptyState">
-                      <Text
-                        align="center"
-                        fontName="REGULAR_MEDIUM"
-                        color="#666"
-                      >
-                        {localStatus === "excluded"
-                          ? "Nenhum cliente excluído com dados disponíveis"
-                          : "Nenhum cliente encontrado"}
-                      </Text>
-                    </div>
-                  );
-                }
+        <div className="cardsSection">
+          {!customers?.data || customers.data.length === 0 ? (
+            <div className="emptyState">
+              <Text align="center" fontName="REGULAR_MEDIUM" color="#666">
+                Nenhum cliente encontrado
+              </Text>
+            </div>
+          ) : (
+            (() => {
+              const list =
+                localStatus === "excluded"
+                  ? customers.data.filter(
+                      (u: StoreUserType) => u.deletedUserData != null,
+                    )
+                  : customers.data;
+              if (list.length === 0) {
                 return (
-                  <div className="cardsList">
-                    {list.map((user: StoreUserType) => (
-                      <CustomerCard
-                        key={user.id}
-                        displayData={getDisplayData(user)}
-                        isExcluded={localStatus === "excluded"}
-                      />
-                    ))}
+                  <div className="emptyState">
+                    <Text align="center" fontName="REGULAR_MEDIUM" color="#666">
+                      {localStatus === "excluded"
+                        ? "Nenhum cliente excluído com dados disponíveis"
+                        : "Nenhum cliente encontrado"}
+                    </Text>
                   </div>
                 );
-              })()
-            )}
-          </div>
-        ) : (
-          <div style={{ textAlign: "center", padding: "50px" }}>
-            <Text fontName="REGULAR_MEDIUM" color={Theme.colors.secondaryText}>
-              Carregando clientes...
-            </Text>
-          </div>
-        )}
+              }
+              return (
+                <div className="cardsList">
+                  {list.map((user: StoreUserType) => {
+                    const display = getDisplayData(user);
+                    return (
+                      <div
+                        key={user.id}
+                        className="customerCardWrapper"
+                        onClick={() => {
+                          sessionStorage.setItem(
+                            "customerOrdersDisplay",
+                            JSON.stringify({ ...display, id: user.id }),
+                          );
+                          router.push(
+                            `/customers/orders?email=${encodeURIComponent(display.email)}`,
+                          );
+                        }}
+                      >
+                        <CustomerCard
+                          displayData={display}
+                          isExcluded={localStatus === "excluded"}
+                        />
+                      </div>
+                    );
+                  })}
+                </div>
+              );
+            })()
+          )}
+        </div>
         {(() => {
           const displayedList =
             localStatus === "excluded" && customers?.data

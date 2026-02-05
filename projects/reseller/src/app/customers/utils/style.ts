@@ -118,6 +118,11 @@ export const CustomersPageContainer = styled.div`
     gap: 12px;
   }
 
+  .customerCardWrapper {
+    width: 100%;
+    cursor: pointer;
+  }
+
   .emptyState {
     width: 100%;
     padding: 48px 0;

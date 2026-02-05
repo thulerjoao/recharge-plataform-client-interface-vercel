@@ -2,6 +2,7 @@ import { Theme } from "@4miga/design-system/theme/theme";
 import styled from "styled-components";
 
 export const CustomerCardContainer = styled.div<{ $isExcluded?: boolean }>`
+  position: relative;
   width: 100%;
   display: flex;
   flex-direction: column;
@@ -16,7 +17,22 @@ export const CustomerCardContainer = styled.div<{ $isExcluded?: boolean }>`
   border: 1px solid
     ${({ $isExcluded }) =>
       `${Theme.colors[$isExcluded ? "refused" : "secondaryAction"]}80`};
-  cursor: pointer;
+
+  .deleteIconButton {
+    position: absolute;
+    bottom: 5%;
+    right: 5px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 32px;
+    height: 32px;
+    padding: 0;
+    border: none;
+    background: transparent;
+    cursor: pointer;
+    color: ${Theme.colors.refused};
+  }
 
   .cardLine {
     display: block;
