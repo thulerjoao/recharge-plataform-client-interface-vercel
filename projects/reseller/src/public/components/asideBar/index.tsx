@@ -116,7 +116,7 @@ const AsideBar = () => {
               fontName="REGULAR_SEMI_BOLD"
               className="desktop"
             >
-              PEDIDOS
+              CLIENTES
             </Text>
           </div>
 
