@@ -18,6 +18,8 @@ import Products from "../../icons/Products.svg";
 import ProductsSelected from "../../icons/ProductsSelected.svg";
 import More from "./icons/More.svg";
 import MoreSelected from "./icons/MoreSelected.svg";
+import Customers from "../../icons/Clients.svg";
+import CustomersSelected from "../../icons/ClientsSelected.svg";
 import { MobileNavBar, MoreMenuPopover, MoreMenuItem } from "./style";
 
 interface Props {
@@ -69,6 +71,12 @@ const MobileNavbar = ({ openMenu }: Props) => {
   // Itens do menu "Mais"
   const moreMenuItems = [
     {
+      route: "partners" as AsideSelected,
+      icon: Influencer,
+      iconSelected: InfluencerSelected,
+      label: "Parceiros",
+    },
+    {
       route: "coupons" as AsideSelected,
       icon: Discount,
       iconSelected: DiscountSelected,
@@ -114,10 +122,10 @@ const MobileNavbar = ({ openMenu }: Props) => {
         {handleCheck("orders") ? <OrdersSelected /> : <Orders />}
       </span>
       <span
-        onClick={() => handleClick("partners")}
-        className={handleCheck("partners") && "selected"}
+        onClick={() => handleClick("customers")}
+        className={handleCheck("customers") && "selected"}
       >
-        {handleCheck("partners") ? <InfluencerSelected /> : <Influencer />}
+        {handleCheck("customers") ? <CustomersSelected /> : <Customers />}
       </span>
       <span
         ref={moreMenuRef}

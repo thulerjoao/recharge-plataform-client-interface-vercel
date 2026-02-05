@@ -5,6 +5,8 @@ import { usePathname, useRouter } from "next/navigation";
 import { AsideSelected } from "types/asideSelectedType";
 import Admin from "../../icons/Admin.svg";
 import AdminSelected from "../../icons/AdminSelected.svg";
+import Customers from "../../icons/Clients.svg";
+import CustomersSelected from "../../icons/ClientsSelected.svg";
 import Discount from "../../icons/Discount.svg";
 import DiscountSelected from "../../icons/DiscountSelected.svg";
 import Gear from "../../icons/Gear.svg";
@@ -98,6 +100,23 @@ const AsideBar = () => {
               className="desktop"
             >
               PEDIDOS
+            </Text>
+          </div>
+
+          <div
+            onClick={() => handleClickRouteTo("customers")}
+            className={`menuOption ${handleCheck("customers") && "selected"}`}
+          >
+            <span className="inconEnviroment">
+              {handleCheck("customers") ? <CustomersSelected /> : <Customers />}
+            </span>
+            <Text
+              color={handleCheck("customers") && Theme.colors.maindark}
+              margin="0 0 0 16px"
+              fontName="REGULAR_SEMI_BOLD"
+              className="desktop"
+            >
+              CLIENTES
             </Text>
           </div>
 

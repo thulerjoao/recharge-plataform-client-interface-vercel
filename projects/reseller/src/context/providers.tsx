@@ -1,7 +1,7 @@
 import { ReactNode } from "react";
 import { AuthProvider } from "./auth";
-
 import { CouponsProvider } from "./coupon";
+import { CustomersProvider } from "./customers";
 import { InfluencersProvider } from "./influencers";
 import { OrdersProvider } from "./orders";
 import { ProductsProvider } from "./products";
@@ -16,7 +16,9 @@ const Providers = ({ children }: ProviderProps) => {
       <AuthProvider>
         <OrdersProvider>
           <InfluencersProvider>
-            <CouponsProvider>{children}</CouponsProvider>
+            <CustomersProvider>
+              <CouponsProvider>{children}</CouponsProvider>
+            </CustomersProvider>
           </InfluencersProvider>
         </OrdersProvider>
       </AuthProvider>

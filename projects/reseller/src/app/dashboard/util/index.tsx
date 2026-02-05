@@ -307,9 +307,10 @@ const Dashboard = () => {
           Resumo do mês
         </Text>
         <MetricsCards summary={dashboardData.summary} />
-        {dashboardData.salesByPackage && dashboardData.salesByPackage.length > 0 && (
-          <SalesByPackage salesByPackage={dashboardData.salesByPackage} />
-        )}
+        {dashboardData.salesByPackage &&
+          dashboardData.salesByPackage.length > 0 && (
+            <SalesByPackage salesByPackage={dashboardData.salesByPackage} />
+          )}
       </div>
     </DashboardContainer>
   );
