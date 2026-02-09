@@ -1,7 +1,6 @@
 "use client";
 
 import LoadingPage from "app/loading";
-import Input from "@4miga/design-system/components/input";
 import Text from "@4miga/design-system/components/Text";
 import { Theme } from "@4miga/design-system/theme/theme";
 import { useCustomers } from "context/customers";
@@ -12,8 +11,9 @@ import Pagination from "public/components/pagination";
 import { useEffect, useState } from "react";
 import { CustomerStatusFilter, StoreUserType } from "types/customerType";
 import CustomerCard from "../../../public/cards/customerCard";
-import Search from "../../../public/icons/Search.svg";
+import CustomersFilters from "./CustomersFilters";
 import { CustomersPageContainer } from "./style";
+import type { CustomerPurchaseFilters as CustomerPurchaseFiltersType } from "context/customers";
 
 function getDisplayData(user: StoreUserType): {
   name: string;
@@ -42,14 +42,24 @@ interface Props {
   currentPage: number;
   search: string;
   status: CustomerStatusFilter;
+  daysWithoutPurchase?: number;
+  minPurchases?: number;
+  maxDaysWithoutPurchase?: number;
 }
 
 const LIMIT = 6;
+
+function toInputValue(n: number | undefined): string {
+  return n === undefined ? "" : String(n);
+}
 
 const CustomersPage = ({
   currentPage,
   search,
   status: initialStatus,
+  daysWithoutPurchase: initialDaysWithoutPurchase,
+  minPurchases: initialMinPurchases,
+  maxDaysWithoutPurchase: initialMaxDaysWithoutPurchase,
 }: Props) => {
   const router = useRouter();
   const {
@@ -59,11 +69,66 @@ const CustomersPage = ({
     setPage,
     setFilter,
     setStatus,
+    setPurchaseFilters,
   } = useCustomers();
 
   const [localFilter, setLocalFilter] = useState(search);
   const [localStatus, setLocalStatus] =
     useState<CustomerStatusFilter>(initialStatus);
+  const [localDaysWithoutPurchase, setLocalDaysWithoutPurchase] = useState(
+    toInputValue(initialDaysWithoutPurchase),
+  );
+  const [localMinPurchases, setLocalMinPurchases] = useState(
+    toInputValue(initialMinPurchases),
+  );
+  const [localMaxDaysWithoutPurchase, setLocalMaxDaysWithoutPurchase] =
+    useState(toInputValue(initialMaxDaysWithoutPurchase));
+
+  const purchaseFiltersFromInputs = (): CustomerPurchaseFiltersType => {
+    const days =
+      localDaysWithoutPurchase.trim() === ""
+        ? undefined
+        : Number(localDaysWithoutPurchase);
+    const min =
+      localMinPurchases.trim() === "" ? undefined : Number(localMinPurchases);
+    const max =
+      localMaxDaysWithoutPurchase.trim() === ""
+        ? undefined
+        : Number(localMaxDaysWithoutPurchase);
+    return {
+      ...(days !== undefined && !Number.isNaN(days)
+        ? { daysWithoutPurchase: days }
+        : {}),
+      ...(min !== undefined && !Number.isNaN(min) ? { minPurchases: min } : {}),
+      ...(max !== undefined && !Number.isNaN(max)
+        ? { maxDaysWithoutPurchase: max }
+        : {}),
+    };
+  };
+
+  const buildParams = (opts: {
+    page: number;
+    search?: string;
+    status?: CustomerStatusFilter;
+    purchaseFilters?: CustomerPurchaseFiltersType;
+  }) => {
+    const params = new URLSearchParams();
+    params.append("page", String(opts.page));
+    if (opts.search) params.append("search", opts.search);
+    if (opts.status && opts.status !== "all")
+      params.append("status", opts.status);
+    const pf = opts.purchaseFilters ?? purchaseFiltersFromInputs();
+    if (pf.daysWithoutPurchase != null)
+      params.append("daysWithoutPurchase", String(pf.daysWithoutPurchase));
+    if (pf.minPurchases != null)
+      params.append("minPurchases", String(pf.minPurchases));
+    if (pf.maxDaysWithoutPurchase != null)
+      params.append(
+        "maxDaysWithoutPurchase",
+        String(pf.maxDaysWithoutPurchase),
+      );
+    return params;
+  };
 
   useEffect(() => {
     setPage(currentPage);
@@ -71,33 +136,65 @@ const CustomersPage = ({
     setLocalFilter(search);
     setStatus(initialStatus);
     setLocalStatus(initialStatus);
-    getCustomers(currentPage, LIMIT, search, initialStatus);
+    setLocalDaysWithoutPurchase(toInputValue(initialDaysWithoutPurchase));
+    setLocalMinPurchases(toInputValue(initialMinPurchases));
+    setLocalMaxDaysWithoutPurchase(toInputValue(initialMaxDaysWithoutPurchase));
+    const pf: CustomerPurchaseFiltersType = {};
+    if (initialDaysWithoutPurchase != null)
+      pf.daysWithoutPurchase = initialDaysWithoutPurchase;
+    if (initialMinPurchases != null) pf.minPurchases = initialMinPurchases;
+    if (initialMaxDaysWithoutPurchase != null)
+      pf.maxDaysWithoutPurchase = initialMaxDaysWithoutPurchase;
+    setPurchaseFilters(pf);
+    getCustomers(currentPage, LIMIT, search, initialStatus, pf);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [currentPage, search, initialStatus]);
+  }, [
+    currentPage,
+    search,
+    initialStatus,
+    initialDaysWithoutPurchase,
+    initialMinPurchases,
+    initialMaxDaysWithoutPurchase,
+  ]);
 
   const handleChangeStatus = (newStatus: CustomerStatusFilter) => {
     setLocalStatus(newStatus);
-    const params = new URLSearchParams();
-    params.append("page", "1");
-    if (localFilter) params.append("search", localFilter);
-    if (newStatus !== "all") params.append("status", newStatus);
+    const params = buildParams({
+      page: 1,
+      search: localFilter,
+      status: newStatus,
+    });
     router.push(`/customers?${params.toString()}`);
   };
 
   const handleChangeFilter = (newFilter: string) => {
     setLocalFilter(newFilter);
-    const params = new URLSearchParams();
-    params.append("page", "1");
-    if (newFilter) params.append("search", newFilter);
-    if (localStatus !== "all") params.append("status", localStatus);
+    const params = buildParams({
+      page: 1,
+      search: newFilter,
+      status: localStatus,
+    });
+    router.push(`/customers?${params.toString()}`);
+  };
+
+  const handleApplyPurchaseFilters = () => {
+    const pf = purchaseFiltersFromInputs();
+    setPurchaseFilters(pf);
+    const params = buildParams({
+      page: 1,
+      search: localFilter,
+      status: localStatus,
+      purchaseFilters: pf,
+    });
     router.push(`/customers?${params.toString()}`);
   };
 
   const navigateToPage = (newPage: number) => {
-    const params = new URLSearchParams();
-    params.append("page", newPage.toString());
-    if (localFilter) params.append("search", localFilter);
-    if (localStatus !== "all") params.append("status", localStatus);
+    const params = buildParams({
+      page: newPage,
+      search: localFilter,
+      status: localStatus,
+    });
     router.push(`/customers?${params.toString()}`);
   };
 
@@ -128,43 +225,20 @@ const CustomersPage = ({
             </Text>
           </div>
         </div>
-        <div className="filtersSection">
-          <form
-            className="searchSection"
-            onSubmit={(e) => {
-              e.preventDefault();
-              e.stopPropagation();
-              handleChangeFilter(localFilter);
-            }}
-          >
-            <Input
-              value={localFilter}
-              onChange={(e) => setLocalFilter(e.target.value)}
-              onBlur={() => handleChangeFilter(localFilter)}
-              placeholder="Buscar por nome, email ou CPF..."
-              height={36}
-            />
-            <div
-              className="searchButton"
-              onClick={() => handleChangeFilter(localFilter)}
-            >
-              <Search />
-            </div>
-          </form>
-          <div className="filterControls">
-            <select
-              value={localStatus}
-              onChange={(e) => {
-                handleChangeStatus(e.target.value as CustomerStatusFilter);
-              }}
-              className="filterSelect"
-            >
-              <option value="all">Todos os status</option>
-              <option value="active">Ativos</option>
-              <option value="excluded">Excluídos</option>
-            </select>
-          </div>
-        </div>
+        <CustomersFilters
+          localFilter={localFilter}
+          setLocalFilter={setLocalFilter}
+          localStatus={localStatus}
+          onStatusChange={handleChangeStatus}
+          onSearchApply={handleChangeFilter}
+          localDaysWithoutPurchase={localDaysWithoutPurchase}
+          localMinPurchases={localMinPurchases}
+          localMaxDaysWithoutPurchase={localMaxDaysWithoutPurchase}
+          onDaysWithoutPurchaseChange={setLocalDaysWithoutPurchase}
+          onMinPurchasesChange={setLocalMinPurchases}
+          onMaxDaysWithoutPurchaseChange={setLocalMaxDaysWithoutPurchase}
+          onPurchaseFiltersApply={handleApplyPurchaseFilters}
+        />
         <div className="cardsSection">
           {!customers?.data || customers.data.length === 0 ? (
             <div className="emptyState">

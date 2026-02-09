@@ -12,6 +12,12 @@ interface CustomersProviderProps {
   children: ReactNode;
 }
 
+export interface CustomerPurchaseFilters {
+  daysWithoutPurchase?: number;
+  minPurchases?: number;
+  maxDaysWithoutPurchase?: number;
+}
+
 interface CustomersProviderData {
   loadingCustomers: boolean;
   customers: StoreUsersResponseType | undefined;
@@ -21,11 +27,14 @@ interface CustomersProviderData {
   setFilter: (filter: string) => void;
   status: CustomerStatusFilter;
   setStatus: (status: CustomerStatusFilter) => void;
+  purchaseFilters: CustomerPurchaseFilters;
+  setPurchaseFilters: (f: CustomerPurchaseFilters) => void;
   getCustomers: (
     page: number,
     limit: number,
     search?: string,
     status?: CustomerStatusFilter,
+    purchaseFilters?: CustomerPurchaseFilters,
   ) => void;
 }
 
@@ -39,12 +48,15 @@ export const CustomersProvider = ({ children }: CustomersProviderProps) => {
   const [filter, setFilter] = useState<string>("");
   const [status, setStatus] = useState<CustomerStatusFilter>("all");
   const [page, setPage] = useState<number>(1);
+  const [purchaseFilters, setPurchaseFilters] =
+    useState<CustomerPurchaseFilters>({});
 
   const getCustomers = async (
     page: number,
     limit: number,
     search?: string,
     statusFilter?: CustomerStatusFilter,
+    purchaseFiltersParam?: CustomerPurchaseFilters,
   ) => {
     setLoadingCustomers(true);
 
@@ -57,6 +69,26 @@ export const CustomersProvider = ({ children }: CustomersProviderProps) => {
     }
 
     params.append("status", statusFilter ?? status);
+
+    const pf = purchaseFiltersParam ?? purchaseFilters;
+    if (
+      pf.daysWithoutPurchase != null &&
+      !Number.isNaN(pf.daysWithoutPurchase)
+    ) {
+      params.append("daysWithoutPurchase", String(pf.daysWithoutPurchase));
+    }
+    if (pf.minPurchases != null && !Number.isNaN(pf.minPurchases)) {
+      params.append("minPurchases", String(pf.minPurchases));
+    }
+    if (
+      pf.maxDaysWithoutPurchase != null &&
+      !Number.isNaN(pf.maxDaysWithoutPurchase)
+    ) {
+      params.append(
+        "maxDaysWithoutPurchase",
+        String(pf.maxDaysWithoutPurchase),
+      );
+    }
 
     await connectionAPIGet<StoreUsersResponseType>(`/user?${params.toString()}`)
       .then((res) => {
@@ -78,6 +110,8 @@ export const CustomersProvider = ({ children }: CustomersProviderProps) => {
         setFilter,
         status,
         setStatus,
+        purchaseFilters,
+        setPurchaseFilters,
         getCustomers,
       }}
     >
