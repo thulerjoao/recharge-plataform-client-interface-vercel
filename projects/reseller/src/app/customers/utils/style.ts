@@ -1,6 +1,160 @@
 import { Theme } from "@4miga/design-system/theme/theme";
 import styled from "styled-components";
 
+export const PurchaseFiltersWrapper = styled.div`
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding: 12px 20px;
+  background: ${Theme.colors.maindark};
+  border-radius: 12px;
+  -webkit-box-shadow: 0px 0px 5px 1px rgba(7, 29, 35, 1);
+  -moz-box-shadow: 0px 0px 5px 1px rgba(7, 29, 35, 1);
+  box-shadow: 0px 0px 5px 1px rgba(7, 29, 35, 1);
+  border: 1px solid ${Theme.colors.secondaryAction}80;
+  margin-bottom: 24px;
+
+  .purchaseFilterInputs {
+    display: flex;
+    gap: 16px;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: flex-end;
+
+    .filterField {
+      width: 31%;
+      max-width: 250px;
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+
+      label {
+        display: block;
+      }
+
+      input {
+        width: 100%;
+        box-sizing: border-box;
+      }
+    }
+  }
+
+  .purchaseFilterButton {
+    display: flex;
+    justify-content: center;
+    margin-top: 8px;
+  }
+
+  @media (max-width: 768px) {
+    padding: 12px 16px;
+    margin-bottom: 20px;
+
+    .purchaseFilterInputs {
+      align-items: stretch;
+      flex-wrap: nowrap;
+    }
+  }
+`;
+
+export const CustomersFiltersWrapper = styled.div`
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  padding: 20px;
+  background: ${Theme.colors.maindark};
+  border-radius: 12px;
+  -webkit-box-shadow: 0px 0px 5px 1px rgba(7, 29, 35, 1);
+  -moz-box-shadow: 0px 0px 5px 1px rgba(7, 29, 35, 1);
+  box-shadow: 0px 0px 5px 1px rgba(7, 29, 35, 1);
+  border: 1px solid ${Theme.colors.secondaryAction}80;
+  margin-bottom: 24px;
+
+  .filtersSection {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 0 20px 0;
+    margin-bottom: 20px;
+    border-bottom: 1px solid ${Theme.colors.secondaryAction}80;
+
+    .searchSection {
+      width: 300px;
+      display: flex;
+      align-items: center;
+    }
+
+    .filterControls {
+      display: flex;
+      gap: 16px;
+
+      .filterSelect {
+        padding: 0px 8px;
+        height: 32px;
+        width: 140px;
+        border-radius: 8px;
+        border: 2px solid ${Theme.colors.secondaryAction};
+        background: ${Theme.colors.mainlight};
+        color: ${Theme.colors.secondaryAction};
+        font-size: 14px;
+        cursor: pointer;
+
+        &:focus {
+          outline: none;
+          border-color: ${Theme.colors.mainHighlight};
+        }
+      }
+    }
+  }
+
+  /* Purchase filters inside same card (no inner card style) */
+  ${PurchaseFiltersWrapper} {
+    background: transparent;
+    box-shadow: none;
+    border: none;
+    border-radius: 0;
+    margin-bottom: 0;
+    padding: 0;
+    border-top: none;
+  }
+
+  @media (max-width: 768px) {
+    padding: 16px;
+
+    .filtersSection {
+      flex-direction: column;
+      gap: 16px;
+      padding: 0 0 16px 0;
+      margin-bottom: 16px;
+
+      .searchSection {
+        width: 100%;
+      }
+
+      .filterControls {
+        width: 100%;
+        justify-content: center;
+
+        .filterSelect {
+          width: 100%;
+          max-width: none;
+        }
+      }
+    }
+  }
+
+  @media (max-width: 539px) {
+    padding: 14px;
+
+    .filtersSection {
+      padding: 0 0 14px 0;
+      margin-bottom: 14px;
+    }
+  }
+`;
+
 export const CustomersPageContainer = styled.div`
   width: 100%;
   display: flex;
@@ -40,69 +194,6 @@ export const CustomersPageContainer = styled.div`
       display: flex;
       flex-direction: column;
       gap: 8px;
-    }
-  }
-
-  .filtersSection {
-    width: 100%;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 20px;
-    background: ${Theme.colors.maindark};
-    border-radius: 12px;
-    -webkit-box-shadow: 0px 0px 5px 1px rgba(7, 29, 35, 1);
-    -moz-box-shadow: 0px 0px 5px 1px rgba(7, 29, 35, 1);
-    box-shadow: 0px 0px 5px 1px rgba(7, 29, 35, 1);
-    border: 1px solid ${Theme.colors.secondaryAction}80;
-    margin-bottom: 24px;
-
-    .searchSection {
-      width: 300px;
-      display: flex;
-      align-items: center;
-      position: relative;
-
-      .searchButton {
-        width: 28px;
-        height: 28px;
-        background-color: ${Theme.colors.mainlight};
-        border-radius: 8px;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        margin-left: 8px;
-        cursor: pointer;
-        position: absolute;
-        right: 2px;
-
-        svg {
-          width: 24px;
-          height: 24px;
-        }
-      }
-    }
-
-    .filterControls {
-      display: flex;
-      gap: 16px;
-
-      .filterSelect {
-        padding: 0px 8px;
-        height: 32px;
-        width: 140px;
-        border-radius: 8px;
-        border: 2px solid ${Theme.colors.secondaryAction};
-        background: ${Theme.colors.mainlight};
-        color: ${Theme.colors.secondaryAction};
-        font-size: 14px;
-        cursor: pointer;
-
-        &:focus {
-          outline: none;
-          border-color: ${Theme.colors.mainHighlight};
-        }
-      }
     }
   }
 
@@ -160,27 +251,6 @@ export const CustomersPageContainer = styled.div`
       padding: 20px;
       margin-bottom: 20px;
     }
-
-    .filtersSection {
-      flex-direction: column;
-      gap: 16px;
-      padding: 16px;
-      margin-bottom: 20px;
-
-      .searchSection {
-        width: 100%;
-      }
-
-      .filterControls {
-        width: 100%;
-        justify-content: center;
-
-        .filterSelect {
-          width: 100%;
-          max-width: none;
-        }
-      }
-    }
   }
 
   @media (max-width: 539px) {
@@ -190,11 +260,6 @@ export const CustomersPageContainer = styled.div`
 
     .headerSection {
       padding: 16px;
-      margin-bottom: 16px;
-    }
-
-    .filtersSection {
-      padding: 14px;
       margin-bottom: 16px;
     }
   }
