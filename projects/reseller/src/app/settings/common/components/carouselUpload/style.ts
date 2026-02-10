@@ -1,9 +1,8 @@
-import { Theme } from "@4miga/design-system/theme/theme";
 import styled from "styled-components";
 
 export const CarouselUploadContainer = styled.div`
   padding: 24px;
-  background: ${Theme.colors.maindark};
+  background: ${({ theme }) => theme.background_01};
   border-radius: 12px;
   box-shadow: 0px 0px 5px 2px rgba(7, 29, 35, 1);
   display: flex;
@@ -17,7 +16,7 @@ export const CarouselUploadContainer = styled.div`
     flex-direction: column;
     gap: 8px;
     padding-bottom: 16px;
-    border-bottom: 2px solid ${Theme.colors.secondaryTextAction};
+    border-bottom: 2px solid ${({ theme }) => theme.text_04};
   }
 
   .carouselPreviewSection {
@@ -31,7 +30,7 @@ export const CarouselUploadContainer = styled.div`
       .emptyCarousel {
         padding: 60px 20px;
         text-align: center;
-        background: ${Theme.colors.secondaryTextAction}20;
+        background: ${({ theme }) => theme.text_04}20;
         border-radius: 8px;
         width: 100%;
       }
@@ -58,7 +57,7 @@ export const CarouselUploadContainer = styled.div`
         height: 90px;
         border-radius: 8px;
         overflow: hidden;
-        border: 2px solid ${Theme.colors.secondaryTextAction};
+        border: 2px solid ${({ theme }) => theme.text_04};
 
         .thumbnailImageWrapper {
           min-width: 100%;
@@ -73,7 +72,7 @@ export const CarouselUploadContainer = styled.div`
 
         .removeThumbButton {
           position: absolute;
-          background: ${Theme.colors.mainTransparent};
+          background: ${({ theme }) => theme.background_03};
           top: 4px;
           right: 4px;
           border: none;
@@ -87,7 +86,7 @@ export const CarouselUploadContainer = styled.div`
 
           svg {
             path {
-              fill: ${Theme.colors.mainlight};
+              fill: ${({ theme }) => theme.text_01};
             }
           }
         }
@@ -97,8 +96,8 @@ export const CarouselUploadContainer = styled.div`
         width: 160px;
         height: 90px;
         border-radius: 8px;
-        border: 2px dashed ${Theme.colors.secondaryTextAction};
-        background: ${Theme.colors.secondaryTextAction}15;
+        border: 2px dashed ${({ theme }) => theme.text_04};
+        background: ${({ theme }) => theme.text_04}15;
         display: flex;
         flex-direction: column;
         align-items: center;
@@ -108,15 +107,15 @@ export const CarouselUploadContainer = styled.div`
         transition: all 0.2s ease;
 
         &:hover {
-          border-color: ${Theme.colors.mainHighlight};
-          background: ${Theme.colors.mainHighlight}15;
+          border-color: ${({ theme }) => theme.mainColor};
+          background: ${({ theme }) => theme.mainColor}15;
         }
 
         svg {
           width: 24px;
           height: 24px;
           path {
-            fill: ${Theme.colors.mainlight};
+            fill: ${({ theme }) => theme.text_01};
           }
         }
       }
@@ -129,7 +128,7 @@ export const CarouselUploadContainer = styled.div`
     width: 100%;
     justify-content: center;
     padding-top: 16px;
-    border-top: 2px solid ${Theme.colors.secondaryTextAction};
+    border-top: 2px solid ${({ theme }) => theme.text_04};
     margin-top: 8px;
   }
 

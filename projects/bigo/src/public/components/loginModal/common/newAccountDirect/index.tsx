@@ -1,12 +1,12 @@
 import Button from "@4miga/design-system/components/button";
 import Input from "@4miga/design-system/components/input";
 import Text from "@4miga/design-system/components/Text";
-import { Theme } from "@4miga/design-system/theme/theme";
 import { connectionAPIPost } from "@4miga/services/connectionAPI/connection";
 import { apiUrl } from "@4miga/services/connectionAPI/url";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useAuth } from "contexts/auth";
 import React, { useEffect, useState } from "react";
+import { useTheme } from "styled-components";
 import { useForm } from "react-hook-form";
 import InputMask from "react-input-mask";
 import { LoginResponse } from "types/loginTypes";
@@ -28,6 +28,7 @@ interface Props {
 }
 
 const NewAccountDirect = ({ closeModal }: Props) => {
+  const theme = useTheme();
   const [loading, setLoading] = useState<boolean>(false);
   const { login } = useAuth();
   const {
@@ -210,7 +211,7 @@ const NewAccountDirect = ({ closeModal }: Props) => {
         margin="2px 0 0 0"
         align="center"
         fontName="TINY"
-        color={Theme.colors.secondaryTextAction}
+        color={theme.text_04}
       >
         Mínimo 6 caracteres
       </Text>
@@ -223,14 +224,14 @@ const NewAccountDirect = ({ closeModal }: Props) => {
             setErrorMessage("");
           }}
         ></input>
-        <Text color={Theme.colors.secondaryText} fontName="TINY">
+        <Text color={theme.text_03} fontName="TINY">
           Concordo com os
         </Text>
         <Text
           underline
           pointer
           align="center"
-          color={Theme.colors.secondaryText}
+          color={theme.text_03}
           fontName="TINY"
           onClick={() => window.open("/terms", "_blank")}
         >
@@ -250,7 +251,7 @@ const NewAccountDirect = ({ closeModal }: Props) => {
         <Text
           align="center"
           margin="56px 0 0px 0"
-          color={Theme.colors.pending}
+          color={theme.pending}
           fontName="TINY"
         >
           {errorMessage}

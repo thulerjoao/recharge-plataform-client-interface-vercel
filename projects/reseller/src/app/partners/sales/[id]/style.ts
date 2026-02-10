@@ -1,4 +1,3 @@
-import { Theme } from "@4miga/design-system/theme/theme";
 import styled from "styled-components";
 
 export const InfluencerSalesContainer = styled.div`
@@ -23,7 +22,7 @@ export const InfluencerSalesContainer = styled.div`
 
     .headerSection {
       padding: 24px;
-      background: ${Theme.colors.maindark};
+      background: ${({ theme }) => theme.background_01};
       border-radius: 12px;
       -webkit-box-shadow: 0px 0px 5px 2px rgba(7, 29, 35, 1);
       -moz-box-shadow: 0px 0px 5px 2px rgba(7, 29, 35, 1);
@@ -36,7 +35,7 @@ export const InfluencerSalesContainer = styled.div`
 
     .infoSection {
       padding: 24px;
-      background: ${Theme.colors.maindark};
+      background: ${({ theme }) => theme.background_01};
       border-radius: 12px;
       -webkit-box-shadow: 0px 0px 5px 2px rgba(7, 29, 35, 1);
       -moz-box-shadow: 0px 0px 5px 2px rgba(7, 29, 35, 1);
@@ -50,8 +49,8 @@ export const InfluencerSalesContainer = styled.div`
 
         .currentMonthSales {
           padding: 20px;
-          background: ${Theme.colors.approved}10;
-          border: 1px solid ${Theme.colors.approved}30;
+          background: ${({ theme }) => theme.approved}10;
+          border: 1px solid ${({ theme }) => theme.approved}30;
           border-radius: 8px;
           display: flex;
           flex-direction: column;
@@ -78,13 +77,13 @@ export const InfluencerSalesContainer = styled.div`
 
             .salesItem {
               padding: 16px;
-              background: ${Theme.colors.maindark};
-              border: 1px solid ${Theme.colors.secondaryTextAction}20;
+              background: ${({ theme }) => theme.background_01};
+              border: 1px solid ${({ theme }) => theme.text_04}20;
               border-radius: 8px;
               transition: all 0.2s ease;
 
               &:hover {
-                border-color: ${Theme.colors.secondaryTextAction}40;
+                border-color: ${({ theme }) => theme.text_04}40;
               }
 
               .salesInfo {
@@ -99,8 +98,8 @@ export const InfluencerSalesContainer = styled.div`
           .noSales {
             padding: 20px;
             text-align: center;
-            background: ${Theme.colors.maindark};
-            border: 1px dashed ${Theme.colors.secondaryTextAction}30;
+            background: ${({ theme }) => theme.background_01};
+            border: 1px dashed ${({ theme }) => theme.text_04}30;
             border-radius: 8px;
           }
         }

@@ -1,4 +1,3 @@
-import { Theme } from "@4miga/design-system/theme/theme";
 import styled from "styled-components";
 
 export const WhatsAppGlobalContainer = styled.div`
@@ -27,16 +26,16 @@ export const WhatsAppButton = styled.a`
   max-width: 42px;
   max-height: 42px;
   border-radius: 50%;
-  background-color: ${Theme.colors.whatsappBackground};
+  background-color: ${({ theme }) => theme.whatsappBackground};
   display: flex;
   align-items: center;
   justify-content: center;
   cursor: pointer;
   z-index: 1000;
-  box-shadow: 0 4px 12px ${Theme.colors.whatsappBackground};
+  box-shadow: 0 4px 12px ${({ theme }) => theme.whatsappBackground};
   transition: all 0.3s ease;
   text-decoration: none;
-  border: 1px solid ${Theme.colors.secondaryAction};
+  border: 1px solid ${({ theme }) => theme.border_01};
   border-bottom: none;
   position: absolute;
 
@@ -49,7 +48,7 @@ export const WhatsAppButton = styled.a`
     width: 42px;
     height: 42px;
     border-radius: 50%;
-    border: 1.35px solid ${Theme.colors.whatsappBackground};
+    border: 1.35px solid ${({ theme }) => theme.whatsappBackground};
     opacity: 0.45;
     animation: pulse-ring 2.4s cubic-bezier(0.4, 0, 0.6, 1) infinite;
   }
@@ -63,7 +62,7 @@ export const WhatsAppButton = styled.a`
     width: 42px;
     height: 42px;
     border-radius: 50%;
-    border: 1.25px solid ${Theme.colors.whatsappBackground};
+    border: 1.25px solid ${({ theme }) => theme.whatsappBackground};
     opacity: 0.35;
     animation: pulse-ring 2.4s cubic-bezier(0.4, 0, 0.6, 1) infinite 0.75s;
   }
@@ -101,17 +100,17 @@ export const WhatsAppButton = styled.a`
   .bottomText {
     width: 42px;
     height: 28px;
-    background-color: ${Theme.colors.whatsappBackground};
+    background-color: ${({ theme }) => theme.whatsappBackground};
     position: absolute;
     bottom: -8px;
-    border: 1px solid ${Theme.colors.secondaryAction};
+    border: 1px solid ${({ theme }) => theme.border_01};
     border-top: none;
     border-radius: 0 0 4px 4px;
     z-index: 999;
 
     p {
-      text-shadow: 0 0px 5px ${Theme.colors.maindark};
-      color: ${Theme.colors.mainlight} !important;
+      text-shadow: 0 0px 5px ${({ theme }) => theme.background_01};
+      color: ${({ theme }) => theme.text_01} !important;
       font-size: 10px !important;
       font-weight: 600 !important;
       top: 13px;
@@ -127,18 +126,18 @@ export const WhatsAppButton = styled.a`
     max-width: 50px;
     max-height: 50px;
     right: 16px;
-    box-shadow: 0 6px 16px ${Theme.colors.whatsappBackground};
+    box-shadow: 0 6px 16px ${({ theme }) => theme.whatsappBackground};
 
     &::before {
       width: 50px;
       height: 56px;
-      border: 2px solid ${Theme.colors.whatsappBackground};
+      border: 2px solid ${({ theme }) => theme.whatsappBackground};
     }
 
     &::after {
       width: 50px;
       height: 56px;
-      border: 1.75px solid ${Theme.colors.whatsappBackground};
+      border: 1.75px solid ${({ theme }) => theme.whatsappBackground};
     }
 
     svg {

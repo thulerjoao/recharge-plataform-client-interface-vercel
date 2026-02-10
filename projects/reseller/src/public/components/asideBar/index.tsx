@@ -1,6 +1,6 @@
 import Text from "@4miga/design-system/components/Text";
-import { Theme } from "@4miga/design-system/theme/theme";
 import { useAuth } from "context/auth";
+import { useTheme } from "styled-components";
 import { usePathname, useRouter } from "next/navigation";
 import { AsideSelected } from "types/asideSelectedType";
 import Admin from "../../icons/Admin.svg";
@@ -25,6 +25,7 @@ import ProductsSelected from "../../icons/ProductsSelected.svg";
 import { AsideBarContainer } from "./style";
 
 const AsideBar = () => {
+  const theme = useTheme();
   const route = useRouter();
   const currentRoute = usePathname();
 
@@ -60,7 +61,7 @@ const AsideBar = () => {
               {handleCheck("dashboard") ? <HomeSelected /> : <Home />}
             </span>
             <Text
-              color={handleCheck("dashboard") && Theme.colors.maindark}
+              color={handleCheck("dashboard") && theme.background_01}
               margin="0 0 0 16px"
               fontName="REGULAR_SEMI_BOLD"
               className="desktop"
@@ -77,7 +78,7 @@ const AsideBar = () => {
               {handleCheck("products") ? <ProductsSelected /> : <Products />}
             </span>
             <Text
-              color={handleCheck("products") && Theme.colors.maindark}
+              color={handleCheck("products") && theme.background_01}
               margin="0 0 0 16px"
               fontName="REGULAR_SEMI_BOLD"
               className="desktop"
@@ -94,7 +95,7 @@ const AsideBar = () => {
               {handleCheck("orders") ? <OrdersSelected /> : <Orders />}
             </span>
             <Text
-              color={handleCheck("orders") && Theme.colors.maindark}
+              color={handleCheck("orders") && theme.background_01}
               margin="0 0 0 16px"
               fontName="REGULAR_SEMI_BOLD"
               className="desktop"
@@ -111,7 +112,7 @@ const AsideBar = () => {
               {handleCheck("customers") ? <CustomersSelected /> : <Customers />}
             </span>
             <Text
-              color={handleCheck("customers") && Theme.colors.maindark}
+              color={handleCheck("customers") && theme.background_01}
               margin="0 0 0 16px"
               fontName="REGULAR_SEMI_BOLD"
               className="desktop"
@@ -132,7 +133,7 @@ const AsideBar = () => {
               )}
             </span>
             <Text
-              color={handleCheck("partners") && Theme.colors.maindark}
+              color={handleCheck("partners") && theme.background_01}
               margin="0 0 0 16px"
               fontName="REGULAR_SEMI_BOLD"
               className="desktop"
@@ -149,7 +150,7 @@ const AsideBar = () => {
               {handleCheck("coupons") ? <DiscountSelected /> : <Discount />}
             </span>
             <Text
-              color={handleCheck("coupons") && Theme.colors.maindark}
+              color={handleCheck("coupons") && theme.background_01}
               margin="0 0 0 16px"
               fontName="REGULAR_SEMI_BOLD"
               className="desktop"
@@ -166,7 +167,7 @@ const AsideBar = () => {
               {handleCheck("admin") ? <AdminSelected /> : <Admin />}
             </span>
             <Text
-              color={handleCheck("admin") && Theme.colors.maindark}
+              color={handleCheck("admin") && theme.background_01}
               margin="0 0 0 16px"
               fontName="REGULAR_SEMI_BOLD"
               className="desktop"
@@ -183,7 +184,7 @@ const AsideBar = () => {
               {handleCheck("settings") ? <GearSelected /> : <Gear />}
             </span>
             <Text
-              color={handleCheck("settings") && Theme.colors.maindark}
+              color={handleCheck("settings") && theme.background_01}
               margin="0 0 0 16px"
               fontName="REGULAR_SEMI_BOLD"
               className="desktop"

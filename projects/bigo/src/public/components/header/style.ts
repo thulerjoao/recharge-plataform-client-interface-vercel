@@ -1,4 +1,3 @@
-import { Theme } from "@4miga/design-system/theme/theme";
 import styled from "styled-components";
 
 export const HeaderContainer = styled.header`
@@ -9,7 +8,7 @@ export const HeaderContainer = styled.header`
   display: flex;
   align-items: start;
   justify-content: center;
-  background-color: ${Theme.colors.mainTransparent};
+  background-color: ${({ theme }) => theme.background_03};
   z-index: 1001;
 
   .centerComponent {
@@ -42,7 +41,7 @@ export const HeaderContainer = styled.header`
         margin-right: 2px;
 
         &:hover {
-          background-color: ${Theme.colors.maindark};
+          background-color: ${({ theme }) => theme.background_01};
         }
       }
       .getIn {
@@ -70,24 +69,24 @@ export const MenuComponent = styled.div`
   position: absolute;
   right: 28px;
   top: 52px;
-  background-color: ${Theme.colors.mainBbackgroundSolid};
+  background-color: ${({ theme }) => theme.background_02};
   width: 13rem;
   display: flex;
   flex-direction: column;
   padding: 8px 16px;
   border-radius: 8px;
-  border: 1px solid ${Theme.colors.secondaryAction}80;
+  border: 1px solid ${({ theme }) => theme.border_01}80;
 
   .square {
     height: 16px;
     width: 16px;
-    background-color: ${Theme.colors.mainBbackgroundSolid};
+    background-color: ${({ theme }) => theme.background_02};
     position: absolute;
     top: -8px;
     right: 16px;
     transform: rotate(45deg);
-    border-top: 1px solid ${Theme.colors.secondaryAction}80;
-    border-left: 1px solid ${Theme.colors.secondaryAction}80;
+    border-top: 1px solid ${({ theme }) => theme.border_01}80;
+    border-left: 1px solid ${({ theme }) => theme.border_01}80;
   }
   .menuOption {
     width: 100%;

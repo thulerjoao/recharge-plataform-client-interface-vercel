@@ -1,5 +1,4 @@
 import styled, { keyframes } from "styled-components";
-import { Theme } from "../../theme/theme";
 
 interface ButtonInputProps {
   height: number;
@@ -12,8 +11,8 @@ interface ButtonInputProps {
 }
 
 export const ButtonInput = styled.button<ButtonInputProps>`
-  color: ${({ isNotSelected }) =>
-    isNotSelected ? Theme.colors.maindark : Theme.colors.mainBbackgroundSolid};
+  color: ${({ isNotSelected, theme }) =>
+    isNotSelected ? theme.background_01 : theme.background_02};
   user-select: none;
   font-size: ${({ height }) => (height >= 40 ? "16px;" : "14px;")};
   font-weight: 600;
@@ -21,11 +20,11 @@ export const ButtonInput = styled.button<ButtonInputProps>`
   width: ${({ width }) => width && `${width}px`};
   height: ${({ height }) => `${height}px`};
   align-items: center;
-  background-color: ${({ isNotSelected }) =>
-    isNotSelected ? Theme.colors.secondaryAction : Theme.colors.mainHighlight};
+  background-color: ${({ isNotSelected, theme }) =>
+    isNotSelected ? theme.border_01 : theme.mainColor};
   border: none;
-  box-shadow: ${({ shadow }) =>
-    shadow && `0px 0px 12px 0px ${Theme.colors.mainHighlight}`};
+  box-shadow: ${({ shadow, theme }) =>
+    shadow && `0px 0px 12px 0px ${theme.mainColor}`};
   border-radius: ${({ height }) => (height >= 44 ? "16px;" : "8px;")};
   border-radius: ${(props) => props.rounded && `${props.height / 2}px`};
   display: flex;
@@ -42,7 +41,7 @@ const spin = keyframes`
 `;
 
 export const Spinner = styled.div`
-  border: 2px solid ${Theme.colors.mainBbackgroundSolid};
+  border: 2px solid ${({ theme }) => theme.background_02};
   border-top-color: transparent;
   border-radius: 50%;
   width: 18px;

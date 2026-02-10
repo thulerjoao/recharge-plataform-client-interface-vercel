@@ -2,7 +2,6 @@
 /* eslint-disable @next/next/no-img-element */
 import Button from "@4miga/design-system/components/button";
 import Text from "@4miga/design-system/components/Text";
-import { Theme } from "@4miga/design-system/theme/theme";
 import {
   connectionAPIPatch,
   connectionAPIPost,
@@ -12,6 +11,7 @@ import { useRouter } from "next/navigation";
 import LoginModal from "public/components/loginModal";
 import Pix from "public/icons/Pix.svg";
 import React, { useEffect, useState } from "react";
+import { useTheme } from "styled-components";
 import toast from "react-hot-toast";
 import { StyleSheetManager } from "styled-components";
 import { OrderType } from "types/orderType";
@@ -38,6 +38,7 @@ const PixCard = ({
   setError,
   setBlockInput,
 }: Props) => {
+  const theme = useTheme();
   const [initialized, setInitialized] = useState<boolean>(true);
   const [firstExpand, setFirstExpand] = useState<boolean>(true);
   const [secondExpand, setSecondExpand] = useState<boolean>(false);
@@ -277,15 +278,12 @@ const PixCard = ({
           <span>
             <Pix />
           </span>
-          <Text fontName="REGULAR_MEDIUM" color={Theme.colors.secondaryAction}>
+          <Text fontName="REGULAR_MEDIUM" color={theme.border_01}>
             Pix
           </Text>
         </div>
         <span className="value">
-          <Text
-            fontName="REGULAR_SEMI_BOLD"
-            color={Theme.colors.secondaryAction}
-          >
+          <Text fontName="REGULAR_SEMI_BOLD" color={theme.border_01}>
             R$ {formatPrice(handleGetPrice())}
           </Text>
         </span>
@@ -339,7 +337,7 @@ const PixCard = ({
           <Text
             fontName="SMALL_MEDIUM"
             className="countDown"
-            color={Theme.colors.mainlight}
+            color={theme.text_01}
           >
             Prazo para pagamento: {countdown}
           </Text>

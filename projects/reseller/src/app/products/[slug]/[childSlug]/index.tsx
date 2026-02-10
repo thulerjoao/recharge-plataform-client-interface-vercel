@@ -4,7 +4,7 @@ import Button from "@4miga/design-system/components/button";
 import Input from "@4miga/design-system/components/input";
 import OnOff from "@4miga/design-system/components/onOff";
 import Text from "@4miga/design-system/components/Text";
-import { Theme } from "@4miga/design-system/theme/theme";
+import { useTheme } from "styled-components";
 import {
   connectionAPIDelete,
   connectionAPIGet,
@@ -41,6 +41,7 @@ type Props = {
 };
 
 const SecondaryProductPage = ({ slug, childSlug }: Props) => {
+  const theme = useTheme();
   const router = useRouter();
 
   const isCreatingNewPackage = childSlug === "novo_pacote";
@@ -505,10 +506,10 @@ const SecondaryProductPage = ({ slug, childSlug }: Props) => {
       <div className="mainContentPackage">
         <div className="headerSection">
           <div className="packageInfo">
-            <Text fontName="LARGE_SEMI_BOLD" color={Theme.colors.mainlight}>
+            <Text fontName="LARGE_SEMI_BOLD" color={theme.text_01}>
               {isCreatingNewPackage ? "Novo Pacote" : editData?.name}
             </Text>
-            <Text fontName="REGULAR_MEDIUM" color={Theme.colors.mainHighlight}>
+            <Text fontName="REGULAR_MEDIUM" color={theme.mainColor}>
               {editData?.amountCredits !== null &&
               editData?.amountCredits !== undefined
                 ? `${formatNumber(editData.amountCredits)} créditos`
@@ -521,11 +522,7 @@ const SecondaryProductPage = ({ slug, childSlug }: Props) => {
             >
               <Text
                 fontName="SMALL_MEDIUM"
-                color={
-                  editData?.isActive
-                    ? Theme.colors.approved
-                    : Theme.colors.refused
-                }
+                color={editData?.isActive ? theme.approved : theme.refused}
               >
                 {editData?.isActive ? "ATIVO" : "INATIVO"}
               </Text>
@@ -535,7 +532,7 @@ const SecondaryProductPage = ({ slug, childSlug }: Props) => {
 
         <div className="infoSections">
           <div className="infoSection">
-            <Text fontName="REGULAR_MEDIUM" color={Theme.colors.mainHighlight}>
+            <Text fontName="REGULAR_MEDIUM" color={theme.mainColor}>
               VISUALIZAÇÃO DO PACOTE
             </Text>
             <div className="imageSection">
@@ -586,19 +583,13 @@ const SecondaryProductPage = ({ slug, childSlug }: Props) => {
           </div>
           <div className="infoSection unifiedInfoSection">
             <div className="sectionTitle">
-              <Text
-                fontName="REGULAR_MEDIUM"
-                color={Theme.colors.mainHighlight}
-              >
+              <Text fontName="REGULAR_MEDIUM" color={theme.mainColor}>
                 INFORMAÇÕES BÁSICAS
               </Text>
             </div>
             <div className="infoGrid">
               <div className="infoItem">
-                <Text
-                  fontName="SMALL_MEDIUM"
-                  color={Theme.colors.secondaryText}
-                >
+                <Text fontName="SMALL_MEDIUM" color={theme.text_03}>
                   Quantidade de créditos:
                 </Text>
                 {isEditing ? (
@@ -621,7 +612,7 @@ const SecondaryProductPage = ({ slug, childSlug }: Props) => {
                     className={errors.amountCredits ? "error" : ""}
                   />
                 ) : (
-                  <Text fontName="SMALL_MEDIUM" color={Theme.colors.mainlight}>
+                  <Text fontName="SMALL_MEDIUM" color={theme.text_01}>
                     {editData?.amountCredits ?? "-"}
                   </Text>
                 )}
@@ -630,18 +621,12 @@ const SecondaryProductPage = ({ slug, childSlug }: Props) => {
                 )}
               </div>
               <div className="infoItem">
-                <Text
-                  fontName="SMALL_MEDIUM"
-                  color={Theme.colors.secondaryText}
-                >
+                <Text fontName="SMALL_MEDIUM" color={theme.text_03}>
                   Definir como oferta:
                 </Text>
                 {isEditing ? (
                   <div className="toggleContainer">
-                    <Text
-                      fontName="SMALL_MEDIUM"
-                      color={Theme.colors.mainlight}
-                    >
+                    <Text fontName="SMALL_MEDIUM" color={theme.text_01}>
                       {editData?.isOffer ? "Sim" : "Não"}
                     </Text>
                     <span
@@ -653,24 +638,18 @@ const SecondaryProductPage = ({ slug, childSlug }: Props) => {
                     </span>
                   </div>
                 ) : (
-                  <Text fontName="SMALL_MEDIUM" color={Theme.colors.mainlight}>
+                  <Text fontName="SMALL_MEDIUM" color={theme.text_01}>
                     {editData?.isOffer ? "Sim" : "Não"}
                   </Text>
                 )}
               </div>
               <div className="infoItem">
-                <Text
-                  fontName="SMALL_MEDIUM"
-                  color={Theme.colors.secondaryText}
-                >
+                <Text fontName="SMALL_MEDIUM" color={theme.text_03}>
                   Alterar status do pacote:
                 </Text>
                 {isEditing ? (
                   <div className="toggleContainer">
-                    <Text
-                      fontName="SMALL_MEDIUM"
-                      color={Theme.colors.mainlight}
-                    >
+                    <Text fontName="SMALL_MEDIUM" color={theme.text_01}>
                       {editData?.isActive ? "Ativo" : "Inativo"}
                     </Text>
                     <span
@@ -682,7 +661,7 @@ const SecondaryProductPage = ({ slug, childSlug }: Props) => {
                     </span>
                   </div>
                 ) : (
-                  <Text fontName="SMALL_MEDIUM" color={Theme.colors.mainlight}>
+                  <Text fontName="SMALL_MEDIUM" color={theme.text_01}>
                     {editData?.isActive ? "Ativo" : "Inativo"}
                   </Text>
                 )}
@@ -690,10 +669,7 @@ const SecondaryProductPage = ({ slug, childSlug }: Props) => {
             </div>
             <div className="sectionDivider" />
             <div className="sectionTitle">
-              <Text
-                fontName="REGULAR_MEDIUM"
-                color={Theme.colors.mainHighlight}
-              >
+              <Text fontName="REGULAR_MEDIUM" color={theme.mainColor}>
                 CONFIGURAÇÕES DE PREÇO
               </Text>
             </div>
@@ -702,10 +678,7 @@ const SecondaryProductPage = ({ slug, childSlug }: Props) => {
             </Text> */}
             <div className="infoGrid">
               <div className="infoItem">
-                <Text
-                  fontName="SMALL_MEDIUM"
-                  color={Theme.colors.secondaryText}
-                >
+                <Text fontName="SMALL_MEDIUM" color={theme.text_03}>
                   Valor do pacote:
                 </Text>
                 {isEditing ? (
@@ -743,7 +716,7 @@ const SecondaryProductPage = ({ slug, childSlug }: Props) => {
                     className={errors.basePrice ? "error" : ""}
                   />
                 ) : (
-                  <Text fontName="SMALL_MEDIUM" color={Theme.colors.mainlight}>
+                  <Text fontName="SMALL_MEDIUM" color={theme.text_01}>
                     R${" "}
                     {editData?.basePrice !== null &&
                     editData?.basePrice !== undefined
@@ -762,7 +735,7 @@ const SecondaryProductPage = ({ slug, childSlug }: Props) => {
             <div className="sectionTitle">
               <Text
                 fontName="REGULAR_MEDIUM"
-                color={Theme.colors.mainHighlight}
+                color={theme.mainColor}
               >
                 MEIOS DE PAGAMENTO
               </Text>

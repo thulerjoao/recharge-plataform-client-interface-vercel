@@ -1,5 +1,6 @@
-import { colors } from "./modules/color";
+import { bigoColors, resellerColors } from "./modules/color";
 
 export const Theme = {
-  colors,
+  bigoColors,
+  resellerColors,
 };

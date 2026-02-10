@@ -1,7 +1,7 @@
 /* eslint-disable react/jsx-key */
 import Text from "@4miga/design-system/components/Text";
-import { Theme } from "@4miga/design-system/theme/theme";
 import { useMemo } from "react";
+import { useTheme } from "styled-components";
 import Boleto from "./icons/boleto.svg";
 import MercadoPago from "./icons/mercadoPago.svg";
 import PayPal from "./icons/payPal.svg";
@@ -24,6 +24,7 @@ interface Props {
 }
 
 const PaymentCard = ({ selected, method, price }: Props) => {
+  const theme = useTheme();
   const RenderedComponent = useMemo(() => {
     switch (method.toLocaleLowerCase()) {
       case "pix":
@@ -45,13 +46,13 @@ const PaymentCard = ({ selected, method, price }: Props) => {
     <PaymentCardContainer selected={selected}>
       <div className="iconContainer">
         <span>{RenderedComponent[0]}</span>
-        <Text color={Theme.colors.maindark} fontName="REGULAR_MEDIUM">
+        <Text color={theme.background_01} fontName="REGULAR_MEDIUM">
           {RenderedComponent[1]}
         </Text>
       </div>
       <Text
         align="end"
-        color={Theme.colors.maindark}
+        color={theme.background_01}
         fontName="REGULAR_SEMI_BOLD"
       >
         R$ {formatPrice(price)}

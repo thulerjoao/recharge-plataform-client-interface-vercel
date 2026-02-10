@@ -1,9 +1,9 @@
 "use client";
 
 import Text from "@4miga/design-system/components/Text";
-import { Theme } from "@4miga/design-system/theme/theme";
 import { useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";
+import { useTheme } from "styled-components";
 import { UserType } from "types/userTypes";
 
 import { useDisableScroll } from "@4miga/hooks/useDisableScroll";
@@ -24,6 +24,7 @@ interface LoginModalProps {
 }
 
 const LoginModal = ({ setLoginModal, openInNewAccount }: LoginModalProps) => {
+  const theme = useTheme();
   useDisableScroll(true);
   const route = useRouter();
   const [step, setStep] = useState<LoginSteps>(
@@ -159,7 +160,7 @@ const LoginModal = ({ setLoginModal, openInNewAccount }: LoginModalProps) => {
             <Text
               fontName="SMALL"
               align="center"
-              color={Theme.colors.mainHighlight}
+              color={theme.mainColor}
             >
               {step === "login" ? "Criar uma conta" : "Já possui uma conta?"}
             </Text>

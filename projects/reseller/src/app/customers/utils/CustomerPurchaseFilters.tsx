@@ -3,7 +3,7 @@
 import Button from "@4miga/design-system/components/button";
 import Input from "@4miga/design-system/components/input";
 import Text from "@4miga/design-system/components/Text";
-import { Theme } from "@4miga/design-system/theme/theme";
+import { useTheme } from "styled-components";
 import { PurchaseFiltersWrapper } from "./style";
 
 interface CustomerPurchaseFiltersProps {
@@ -25,11 +25,12 @@ const CustomerPurchaseFilters = ({
   onMaxDaysWithoutPurchaseChange,
   onApply,
 }: CustomerPurchaseFiltersProps) => {
+  const theme = useTheme();
   return (
     <PurchaseFiltersWrapper>
       {/* <Text
         fontName="SMALL_MEDIUM"
-        color={Theme.colors.secondaryText}
+        color={theme.text_03}
         align="center"
       >
         Filtro de compras
@@ -45,11 +46,7 @@ const CustomerPurchaseFilters = ({
             height={32}
           />
           <label>
-            <Text
-              align="center"
-              fontName="TINY"
-              color={Theme.colors.secondaryText}
-            >
+            <Text align="center" fontName="TINY" color={theme.text_03}>
               Dias sem comprar
             </Text>
           </label>
@@ -64,11 +61,7 @@ const CustomerPurchaseFilters = ({
             height={32}
           />
           <label>
-            <Text
-              align="center"
-              fontName="TINY"
-              color={Theme.colors.secondaryText}
-            >
+            <Text align="center" fontName="TINY" color={theme.text_03}>
               Máx. dias sem comprar
             </Text>
           </label>
@@ -83,11 +76,7 @@ const CustomerPurchaseFilters = ({
             height={32}
           />
           <label>
-            <Text
-              align="center"
-              fontName="TINY"
-              color={Theme.colors.secondaryText}
-            >
+            <Text align="center" fontName="TINY" color={theme.text_03}>
               Mínimo de compras
             </Text>
           </label>

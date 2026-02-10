@@ -1,4 +1,3 @@
-import { Theme } from "@4miga/design-system/theme/theme";
 import styled from "styled-components";
 
 export const OrdersContainer = styled.div`
@@ -37,12 +36,12 @@ export const OrdersContainer = styled.div`
       justify-content: space-between;
       align-items: center;
       padding: 20px;
-      background: ${Theme.colors.maindark};
+      background: ${({ theme }) => theme.background_01};
       border-radius: 12px;
       -webkit-box-shadow: 0px 0px 5px 1px rgba(7, 29, 35, 1);
       -moz-box-shadow: 0px 0px 5px 1px rgba(7, 29, 35, 1);
       box-shadow: 0px 0px 5px 1px rgba(7, 29, 35, 1);
-      border: 1px solid ${Theme.colors.secondaryAction}80;
+      border: 1px solid ${({ theme }) => theme.border_01}80;
       padding: 12px;
       margin-bottom: 24px;
 
@@ -55,7 +54,7 @@ export const OrdersContainer = styled.div`
         .searchButton {
           width: 28px;
           height: 28px;
-          background-color: ${Theme.colors.mainlight};
+          background-color: ${({ theme }) => theme.text_01};
           border-radius: 8px;
           display: flex;
           justify-content: center;
@@ -81,15 +80,15 @@ export const OrdersContainer = styled.div`
           height: 32px;
           width: 140px;
           border-radius: 8px;
-          border: 2px solid ${Theme.colors.secondaryAction};
-          background: ${Theme.colors.mainlight};
-          color: ${Theme.colors.secondaryAction};
+          border: 2px solid ${({ theme }) => theme.border_01};
+          background: ${({ theme }) => theme.text_01};
+          color: ${({ theme }) => theme.border_01};
           font-size: 14px;
           cursor: pointer;
 
           &:focus {
             outline: none;
-            border-color: ${Theme.colors.mainHighlight};
+            border-color: ${({ theme }) => theme.mainColor};
           }
         }
       }

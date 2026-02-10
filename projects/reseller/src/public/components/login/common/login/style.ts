@@ -1,4 +1,3 @@
-import { Theme } from "@4miga/design-system/theme/theme";
 import styled from "styled-components";
 
 export const LoginComponentContainer = styled.form`
@@ -25,15 +24,15 @@ export const LoginComponentContainer = styled.form`
         display: flex;
         justify-content: center;
         align-items: center;
-        border: 1px solid ${Theme.colors.mainlight};
+        border: 1px solid ${({ theme }) => theme.text_01};
         border-radius: 2px;
 
         .fill {
           width: 100%;
           height: 100%;
           border-radius: 2px;
-          background-color: ${Theme.colors.mainlight};
-          border: 3px solid ${Theme.colors.maindark};
+          background-color: ${({ theme }) => theme.text_01};
+          border: 3px solid ${({ theme }) => theme.background_01};
         }
       }
     }

@@ -1,6 +1,6 @@
 import Text from "@4miga/design-system/components/Text";
-import { Theme } from "@4miga/design-system/theme/theme";
 import Image, { StaticImageData } from "next/image";
+import { useTheme } from "styled-components";
 import { useRouter } from "next/navigation";
 import ForwardArrow from ".//icons/ForwardArrow.svg";
 import { OrderManualCardContainer } from "./style";
@@ -24,6 +24,7 @@ const OrderManualCard = ({
   plataform,
   rechargeStatus,
 }: OrderManualCardProps) => {
+  const theme = useTheme();
   const route = useRouter();
 
   const handleRechargeStatus = () => {
@@ -36,9 +37,9 @@ const OrderManualCard = ({
 
   const handleRechargeStatusColor = () => {
     if (rechargeStatus === "processing") {
-      return Theme.colors.pending;
+      return theme.pending;
     } else {
-      return Theme.colors.approved;
+      return theme.approved;
     }
   };
 
@@ -94,12 +95,7 @@ const OrderManualCard = ({
         <ForwardArrow />
       </span>
       <span className="seeMore mobile">
-        <Text
-          underline
-          align="center"
-          color={Theme.colors.secondaryText}
-          fontName="REGULAR"
-        >
+        <Text underline align="center" color={theme.text_03} fontName="REGULAR">
           ver mais
         </Text>
       </span>

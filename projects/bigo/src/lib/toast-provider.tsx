@@ -1,18 +1,19 @@
 "use client";
 
-import { Theme } from "@4miga/design-system/theme/theme";
+import { useTheme } from "styled-components";
 import { Toaster } from "react-hot-toast";
 
 export default function ToastProvider() {
+  const theme = useTheme();
   return (
     <Toaster
       position="top-center"
       toastOptions={{
         duration: 3500,
         style: {
-          background: Theme.colors.maindark,
-          color: Theme.colors.mainlight,
-          border: `1px solid ${Theme.colors.mainHighlight}`,
+          background: theme.background_01,
+          color: theme.text_01,
+          border: `1px solid ${theme.mainColor}`,
           borderRadius: "12px",
           padding: "16px",
           fontSize: "14px",
@@ -20,23 +21,23 @@ export default function ToastProvider() {
         },
         success: {
           iconTheme: {
-            primary: Theme.colors.mainHighlight,
-            secondary: Theme.colors.mainlight,
+            primary: theme.mainColor,
+            secondary: theme.text_01,
           },
         },
         error: {
           style: {
-            background: Theme.colors.maindark,
-            color: Theme.colors.mainlight,
-            border: `1px solid ${Theme.colors.refused}`,
+            background: theme.background_01,
+            color: theme.text_01,
+            border: `1px solid ${theme.refused}`,
             borderRadius: "12px",
             padding: "16px",
             fontSize: "14px",
             fontFamily: "'Montserrat', 'Open Sans', sans-serif",
           },
           iconTheme: {
-            primary: Theme.colors.refused,
-            secondary: Theme.colors.mainlight,
+            primary: theme.refused,
+            secondary: theme.text_01,
           },
         },
       }}

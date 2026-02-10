@@ -1,8 +1,8 @@
 "use client";
 
 import Text from "@4miga/design-system/components/Text";
-import { Theme } from "@4miga/design-system/theme/theme";
 import { useRouter } from "next/navigation";
+import { useTheme } from "styled-components";
 import toast from "react-hot-toast";
 import { FeaturedCoupon } from "types/couponType";
 import { formatPrice } from "utils/formatPrice";
@@ -14,6 +14,7 @@ interface CouponCardProps {
 }
 
 const CouponCard = ({ coupon, isActiveOut }: CouponCardProps) => {
+  const theme = useTheme();
   const router = useRouter();
   const {
     title,
@@ -61,7 +62,7 @@ const CouponCard = ({ coupon, isActiveOut }: CouponCardProps) => {
         <div className="expiredOverlay">
           <Text
             align="center"
-            color={`${Theme.colors.refused}90`}
+            color={`${theme.refused}90`}
             fontName="BIG_SEMI_BOLD"
           >
             EXPIRADO
@@ -71,14 +72,14 @@ const CouponCard = ({ coupon, isActiveOut }: CouponCardProps) => {
       <section className="topSection">
         <Text
           align="center"
-          color={`${Theme.colors.mainBbackgroundSolid}`}
+          color={theme.background_02}
           fontName="LARGE_SEMI_BOLD"
         >
           {title.toUpperCase()}
         </Text>
         <Text
           align="center"
-          color={Theme.colors.mainHighlight}
+          color={theme.mainColor}
           fontName="REGULAR_MEDIUM"
         >
           {discountValue} OFF
@@ -98,7 +99,7 @@ const CouponCard = ({ coupon, isActiveOut }: CouponCardProps) => {
       <section className="bottomSection">
         <Text
           align="center"
-          color={Theme.colors.mainTransparent}
+          color={theme.background_03}
           fontName="TINY_MEDIUM"
           margin="0"
         >

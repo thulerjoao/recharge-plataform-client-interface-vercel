@@ -1,10 +1,11 @@
 "use client";
 
 import Text from "@4miga/design-system/components/Text";
-import { Theme } from "@4miga/design-system/theme/theme";
+import { useTheme } from "styled-components";
 import { UnderConstructionContainer } from "./style";
 
 const UnderConstruction = () => {
+  const theme = useTheme();
   return (
     <UnderConstructionContainer>
       <div className="content-wrapper">
@@ -13,7 +14,7 @@ const UnderConstruction = () => {
             tag="h1"
             align="center"
             fontName="BIG_SEMI_BOLD"
-            color={Theme.colors.mainlight}
+            color={theme.text_01}
             margin="32px 0 16px 0"
           >
             EM CONSTRUÇÃO
@@ -23,7 +24,7 @@ const UnderConstruction = () => {
             tag="p"
             align="center"
             fontName="REGULAR"
-            color={Theme.colors.secondaryText}
+            color={theme.text_03}
             margin="0 0 24px 0"
           >
             Estamos trabalhando para trazer a melhor experiência para você!
@@ -34,7 +35,7 @@ const UnderConstruction = () => {
               tag="p"
               align="center"
               fontName="SMALL"
-              color={Theme.colors.mainlight}
+              color={theme.text_01}
               margin="0"
             >
               Nossa plataforma está em desenvolvimento e em breve estará
@@ -44,7 +45,7 @@ const UnderConstruction = () => {
               tag="p"
               align="center"
               fontName="SMALL"
-              color={Theme.colors.secondaryText}
+              color={theme.text_03}
               margin="16px 0 0 0"
             >
               Agradecemos sua paciência e interesse!
@@ -58,7 +59,7 @@ const UnderConstruction = () => {
                 tag="span"
                 align="center"
                 fontName="SMALL"
-                color={Theme.colors.secondaryText}
+                color={theme.text_03}
               >
                 Segurança
               </Text>
@@ -69,7 +70,7 @@ const UnderConstruction = () => {
                 tag="span"
                 align="center"
                 fontName="SMALL"
-                color={Theme.colors.secondaryText}
+                color={theme.text_03}
               >
                 Rapidez
               </Text>
@@ -80,7 +81,7 @@ const UnderConstruction = () => {
                 tag="span"
                 align="center"
                 fontName="SMALL"
-                color={Theme.colors.secondaryText}
+                color={theme.text_03}
               >
                 Qualidade
               </Text>

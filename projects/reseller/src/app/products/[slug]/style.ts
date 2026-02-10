@@ -1,4 +1,3 @@
-import { Theme } from "@4miga/design-system/theme/theme";
 import styled from "styled-components";
 
 export const ProductsInnerPage = styled.div`
@@ -26,12 +25,12 @@ export const ProductsInnerPage = styled.div`
       justify-content: space-between;
       align-items: center;
       padding: 24px;
-      background: ${Theme.colors.maindark};
+      background: ${({ theme }) => theme.background_01};
       border-radius: 12px;
       -webkit-box-shadow: 0px 0px 5px 1px rgba(7, 29, 35, 1);
       -moz-box-shadow: 0px 0px 5px 1px rgba(7, 29, 35, 1);
       box-shadow: 0px 0px 5px 1px rgba(7, 29, 35, 1);
-      border: 1px solid ${Theme.colors.secondaryAction}80;
+      border: 1px solid ${({ theme }) => theme.border_01}80;
 
       .titleSection {
         display: flex;
@@ -41,17 +40,17 @@ export const ProductsInnerPage = styled.div`
 
       h3 {
         cursor: pointer;
-        color: ${Theme.colors.refused};
+        color: ${({ theme }) => theme.refused};
       }
     }
 
     .packagesSection {
-      background: ${Theme.colors.maindark};
+      background: ${({ theme }) => theme.background_01};
       border-radius: 12px;
       -webkit-box-shadow: 0px 0px 5px 1px rgba(7, 29, 35, 1);
       -moz-box-shadow: 0px 0px 5px 1px rgba(7, 29, 35, 1);
       box-shadow: 0px 0px 5px 1px rgba(7, 29, 35, 1);
-      border: 1px solid ${Theme.colors.secondaryAction}80;
+      border: 1px solid ${({ theme }) => theme.border_01}80;
       padding: 24px;
       display: flex;
       flex-direction: column;
@@ -80,14 +79,14 @@ export const ProductsInnerPage = styled.div`
             width: 100%;
             max-width: 174px;
             border-radius: 8px;
-            background-color: ${Theme.colors.secondaryAction}20;
+            background-color: ${({ theme }) => theme.border_01}20;
             display: flex;
             align-items: center;
             justify-content: center;
             flex-direction: column;
             gap: 16px;
             padding: 26px 0px;
-            border: 1px solid ${Theme.colors.secondaryAction};
+            border: 1px solid ${({ theme }) => theme.border_01};
 
             svg {
               width: 50px;
@@ -99,12 +98,12 @@ export const ProductsInnerPage = styled.div`
     }
 
     .productEditor {
-      background: ${Theme.colors.maindark};
+      background: ${({ theme }) => theme.background_01};
       border-radius: 12px;
       -webkit-box-shadow: 0px 0px 5px 1px rgba(7, 29, 35, 1);
       -moz-box-shadow: 0px 0px 5px 1px rgba(7, 29, 35, 1);
       box-shadow: 0px 0px 5px 1px rgba(7, 29, 35, 1);
-      border: 1px solid ${Theme.colors.secondaryAction}80;
+      border: 1px solid ${({ theme }) => theme.border_01}80;
       padding: 24px;
       gap: 24px;
       display: flex;
@@ -195,9 +194,9 @@ export const ProductsInnerPage = styled.div`
       textarea {
         font-family: "Montserrat", "Open Sans", sans-serif;
         resize: none;
-        border: 2px solid ${Theme.colors.secondaryAction};
-        background: ${Theme.colors.mainlight};
-        color: ${Theme.colors.secondaryAction};
+        border: 2px solid ${({ theme }) => theme.border_01};
+        background: ${({ theme }) => theme.text_01};
+        color: ${({ theme }) => theme.border_01};
         width: 100%;
         height: 100%;
         border-radius: 8px;
@@ -207,7 +206,7 @@ export const ProductsInnerPage = styled.div`
 
         &:focus {
           outline: none;
-          border-color: ${Theme.colors.mainHighlight};
+          border-color: ${({ theme }) => theme.mainColor};
         }
 
         &::-webkit-scrollbar {

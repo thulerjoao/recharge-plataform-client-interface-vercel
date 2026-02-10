@@ -1,11 +1,11 @@
 import Button from "@4miga/design-system/components/button";
 import Text from "@4miga/design-system/components/Text";
-import { Theme } from "@4miga/design-system/theme/theme";
 import { connectionAPIPost } from "@4miga/services/connectionAPI/connection";
 import { apiUrl } from "@4miga/services/connectionAPI/url";
 import { useAuth } from "contexts/auth";
 import InputCode from "public/components/inputCode";
 import React, { useEffect, useState } from "react";
+import { useTheme } from "styled-components";
 import { io } from "socket.io-client";
 import { LoginResponse } from "types/loginTypes";
 import { UserType } from "types/userTypes";
@@ -33,6 +33,7 @@ const ConfirmCode = ({
   setStep,
   closeModal,
 }: Props) => {
+  const theme = useTheme();
   const { login } = useAuth();
   const [errorMessage, setErrorMessage] = useState<string>("");
   const [code, setCode] = useState<number>(null);
@@ -263,7 +264,7 @@ const ConfirmCode = ({
         <Text
           nowrap
           align="center"
-          color={Theme.colors.mainHighlight}
+          color={theme.mainColor}
           fontName="SMALL"
         >
           Reenviar código
@@ -272,7 +273,7 @@ const ConfirmCode = ({
           <Text
             tag="h4"
             align="start"
-            color={Theme.colors.mainHighlight}
+            color={theme.mainColor}
             fontName="SMALL"
           >
             {timer > 1 && formattedSeconds}
@@ -286,7 +287,7 @@ const ConfirmCode = ({
         <Text
           align="center"
           margin="14px 0 0px 0"
-          color={Theme.colors.pending}
+          color={theme.pending}
           fontName="TINY"
         >
           {errorMessage}

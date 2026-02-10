@@ -1,8 +1,8 @@
 import Button from "@4miga/design-system/components/button";
 import Input from "@4miga/design-system/components/input";
 import Text from "@4miga/design-system/components/Text";
-import { Theme } from "@4miga/design-system/theme/theme";
 import { useEffect, useRef } from "react";
+import { useTheme } from "styled-components";
 import { CouponValidationResponse } from "types/couponType";
 import CouponIcon from "./icons/Coupon.svg";
 import { CouponContainer } from "./style";
@@ -34,6 +34,7 @@ const Coupon = ({
   setOpenCoupon,
   couponApplied,
 }: Props) => {
+  const theme = useTheme();
   const containerRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
 
@@ -91,12 +92,12 @@ const Coupon = ({
           <CouponIcon
             width={32}
             height={32}
-            style={{ color: Theme.colors.mainHighlight }}
+            style={{ color: theme.mainColor }}
           />
           <Text
             align="center"
             fontName="SMALL_MEDIUM"
-            color={Theme.colors.secondaryAction}
+            color={theme.border_01}
           >
             Cupom de desconto
           </Text>
@@ -105,7 +106,7 @@ const Coupon = ({
           <Text
             align="center"
             fontName="SMALL_MEDIUM"
-            color={Theme.colors.secondaryText}
+            color={theme.text_03}
           >
             {couponApplied?.valid
               ? couponApplied.coupon.title
@@ -172,7 +173,7 @@ const Coupon = ({
           <Text
             align="center"
             fontName="TINY_MEDIUM"
-            color={Theme.colors.pending}
+            color={theme.pending}
             margin="2px 0 -16.5px 0"
           >
             {couponError}
@@ -184,7 +185,7 @@ const Coupon = ({
           <Text
             align="center"
             fontName="TINY_MEDIUM"
-            color={Theme.colors.approved}
+            color={theme.approved}
             margin="2px 0 -16.5px 0"
           >
             {couponSuccess}

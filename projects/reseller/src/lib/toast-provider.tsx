@@ -10,9 +10,9 @@ export default function ToastProvider() {
       toastOptions={{
         duration: 3500,
         style: {
-          background: Theme.colors.maindark,
-          color: Theme.colors.mainlight,
-          border: `1px solid ${Theme.colors.mainHighlight}`,
+          background: Theme.resellerColors.background_01,
+          color: Theme.resellerColors.text_01,
+          border: `1px solid ${Theme.resellerColors.mainColor}`,
           borderRadius: "12px",
           padding: "16px",
           fontSize: "14px",
@@ -20,23 +20,23 @@ export default function ToastProvider() {
         },
         success: {
           iconTheme: {
-            primary: Theme.colors.mainHighlight,
-            secondary: Theme.colors.mainlight,
+            primary: Theme.resellerColors.mainColor,
+            secondary: Theme.resellerColors.text_01,
           },
         },
         error: {
           style: {
-            background: Theme.colors.maindark,
-            color: Theme.colors.mainlight,
-            border: `1px solid ${Theme.colors.refused}`,
+            background: Theme.resellerColors.background_01,
+            color: Theme.resellerColors.text_01,
+            border: `1px solid ${Theme.resellerColors.refused}`,
             borderRadius: "12px",
             padding: "16px",
             fontSize: "14px",
             fontFamily: "'Montserrat', 'Open Sans', sans-serif",
           },
           iconTheme: {
-            primary: Theme.colors.refused,
-            secondary: Theme.colors.mainlight,
+            primary: Theme.resellerColors.refused,
+            secondary: Theme.resellerColors.text_01,
           },
         },
       }}

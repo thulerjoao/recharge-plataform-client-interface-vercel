@@ -1,4 +1,3 @@
-import { Theme } from "@4miga/design-system/theme/theme";
 import styled from "styled-components";
 
 interface Props {
@@ -17,9 +16,9 @@ export const MobileHeaderContainer = styled.header<Props>`
 
   .topCompoennt {
     z-index: 1;
-    background-color: ${Theme.colors.modalBackground};
-    border-bottom: ${({ openMenu }) =>
-      openMenu && `1px solid ${Theme.colors.secondaryAction}`};
+    background-color: ${({ theme }) => theme.background_06};
+    border-bottom: ${({ openMenu, theme }) =>
+      openMenu && `1px solid ${theme.border_01}`};
     box-sizing: border-box;
     width: 100%;
     display: flex;

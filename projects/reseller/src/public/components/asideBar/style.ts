@@ -1,4 +1,3 @@
-import { Theme } from "@4miga/design-system/theme/theme";
 import styled from "styled-components";
 
 export const AsideBarContainer = styled.div`
@@ -56,7 +55,7 @@ export const AsideBarContainer = styled.div`
       }
 
       .selected {
-        background-color: ${Theme.colors.mainHighlight};
+        background-color: ${({ theme }) => theme.mainColor};
         border-radius: 16px;
       }
     }
@@ -97,7 +96,7 @@ export const AsideBarContainer = styled.div`
         }
 
         .selected {
-          background-color: ${Theme.colors.mainHighlight};
+          background-color: ${({ theme }) => theme.mainColor};
           border-radius: 16px;
         }
       }

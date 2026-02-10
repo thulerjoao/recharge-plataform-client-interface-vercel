@@ -1,4 +1,3 @@
-import { Theme } from "@4miga/design-system/theme/theme";
 import styled from "styled-components";
 
 export const CouponsContainer = styled.div`
@@ -36,9 +35,9 @@ export const CouponsContainer = styled.div`
       display: flex;
       align-items: center;
       justify-content: center;
-      background-color: ${Theme.colors.maindark}40;
+      background-color: ${({ theme }) => theme.background_01}40;
       border-radius: 12px;
-      border: 2px dashed ${Theme.colors.secondaryAction};
+      border: 2px dashed ${({ theme }) => theme.border_01};
     }
   }
 

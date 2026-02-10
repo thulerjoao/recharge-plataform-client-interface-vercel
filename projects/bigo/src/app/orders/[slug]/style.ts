@@ -1,4 +1,3 @@
-import { Theme } from "@4miga/design-system/theme/theme";
 import styled from "styled-components";
 
 export const OrderContainer = styled.div`
@@ -26,18 +25,18 @@ export const OrderContainer = styled.div`
   main {
     width: 100%;
     margin-top: 24px;
-    background-color: ${Theme.colors.maindark};
+    background-color: ${({ theme }) => theme.background_01};
     border-radius: 8px;
     padding: 16px;
     box-sizing: border-box;
     -webkit-box-shadow: 0px 0px 5px 1px rgba(7, 29, 35, 1);
     -moz-box-shadow: 0px 0px 5px 1px rgba(7, 29, 35, 1);
     box-shadow: 0px 0px 5px 1px rgba(7, 29, 35, 1);
-    border: 1px solid ${Theme.colors.secondaryAction}80;
+    border: 1px solid ${({ theme }) => theme.border_01}80;
     box-sizing: border-box;
 
     .fisrtSection {
-      border-bottom: 1px solid ${Theme.colors.secondaryAction};
+      border-bottom: 1px solid ${({ theme }) => theme.border_01};
 
       .fisrtRow {
         display: flex;
@@ -62,7 +61,7 @@ export const OrderContainer = styled.div`
     .secondarySection,
     .thirdSection {
       margin-top: 24px;
-      border-bottom: 1px solid ${Theme.colors.secondaryAction};
+      border-bottom: 1px solid ${({ theme }) => theme.border_01};
       padding-bottom: 16px;
       display: flex;
       flex-direction: column;

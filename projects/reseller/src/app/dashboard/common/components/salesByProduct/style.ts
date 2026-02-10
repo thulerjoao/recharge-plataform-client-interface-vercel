@@ -1,4 +1,3 @@
-import { Theme } from "@4miga/design-system/theme/theme";
 import styled from "styled-components";
 
 export const SalesByProductContainer = styled.section`
@@ -8,7 +7,7 @@ export const SalesByProductContainer = styled.section`
     display: flex;
     width: 100%;
     min-height: 88px;
-    background-color: ${Theme.colors.maindark};
+    background-color: ${({ theme }) => theme.background_01};
     border-radius: 8px;
     align-items: center;
     justify-content: space-between;

@@ -1,11 +1,11 @@
 import Button from "@4miga/design-system/components/button";
 import Input from "@4miga/design-system/components/input";
 import Text from "@4miga/design-system/components/Text";
-import { Theme } from "@4miga/design-system/theme/theme";
 import { connectionAPIPost } from "@4miga/services/connectionAPI/connection";
 import { apiUrl } from "@4miga/services/connectionAPI/url";
 import { zodResolver } from "@hookform/resolvers/zod";
 import React, { useEffect, useState } from "react";
+import { useTheme } from "styled-components";
 import { useForm } from "react-hook-form";
 import { storeId } from "utils/apiUrl";
 import Email from "../../icons/Email.svg";
@@ -22,6 +22,7 @@ interface Props {
 }
 
 const ForgotPassword = ({ askToRecover, setStep, setPreviousStep }: Props) => {
+  const theme = useTheme();
   const {
     handleSubmit,
     setValue,
@@ -135,7 +136,7 @@ const ForgotPassword = ({ askToRecover, setStep, setPreviousStep }: Props) => {
         <Text
           align="center"
           margin="14px 0 0px 0"
-          color={Theme.colors.pending}
+          color={theme.pending}
           fontName="TINY"
         >
           {errorMessage}

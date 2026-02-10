@@ -1,10 +1,9 @@
-import { Theme } from "@4miga/design-system/theme/theme";
 import styled from "styled-components";
 
 export const LoginModalBackground = styled.div`
   z-index: 9999;
   position: fixed;
-  background-color: ${Theme.colors.mainTransparent};
+  background-color: ${({ theme }) => theme.background_03};
   top: 0;
   left: 0;
   width: 100vw;
@@ -21,7 +20,7 @@ export const LoginModalBackground = styled.div`
 export const LoginModalContainer = styled.div`
   width: 100%;
   max-width: 560px;
-  background-color: ${Theme.colors.maindark};
+  background-color: ${({ theme }) => theme.background_01};
   display: flex;
   flex-direction: column;
   align-items: center;

@@ -1,6 +1,6 @@
 import Text from "@4miga/design-system/components/Text";
-import { Theme } from "@4miga/design-system/theme/theme";
 import Image from "next/image";
+import { useTheme } from "styled-components";
 import { useState } from "react";
 import { PackageType } from "types/productTypes";
 import { formatPrice } from "utils/formatPrice";
@@ -18,6 +18,7 @@ const PackageCard = ({
   selected,
   valueWithDicount,
 }: PackageCardProps) => {
+  const theme = useTheme();
   const [isHovered, setIsHovered] = useState(false);
 
   return (
@@ -45,7 +46,7 @@ const PackageCard = ({
       </figure>
 
       <Text
-        color={Theme.colors.secondaryText}
+        color={theme.text_03}
         margin={item.isOffer ? "8px 0 0 8px" : "24px 0 0 8px"}
         fontName="SUPER_TINY_MEDIUM"
       >
@@ -69,7 +70,7 @@ const PackageCard = ({
         {valueWithDicount && +valueWithDicount !== +item.basePrice && (
           <Text
             align="start"
-            color={Theme.colors.approved}
+            color={theme.approved}
             nowrap
             margin="0 0 0 4px"
             tag="h4"
@@ -89,7 +90,7 @@ const PackageCard = ({
             </div>
             <Text
               align="center"
-              color={Theme.colors.mainBbackgroundSolid}
+              color={theme.background_02}
               fontName="SUPER_TINY_SEMI_BOLD"
               margin="-3px 0 0 0"
             >

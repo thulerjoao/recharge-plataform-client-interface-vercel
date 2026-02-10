@@ -1,4 +1,3 @@
-import { Theme } from "@4miga/design-system/theme/theme";
 import styled from "styled-components";
 
 export const UnderConstructionContainer = styled.div`
@@ -28,11 +27,11 @@ export const UnderConstructionContainer = styled.div`
   .message-box {
     width: 100%;
     max-width: 500px;
-    background-color: ${Theme.colors.maindark};
+    background-color: ${({ theme }) => theme.background_01};
     border-radius: 12px;
     padding: 32px 24px;
     margin: 24px 0;
-    border: 1px solid ${Theme.colors.mainTransparent};
+    border: 1px solid ${({ theme }) => theme.background_03};
     box-shadow: 0px 0px 10px 2px rgba(0, 200, 255, 0.1);
   }
 

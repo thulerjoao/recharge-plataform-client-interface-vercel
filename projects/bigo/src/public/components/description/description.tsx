@@ -1,14 +1,15 @@
 "use client";
 
 import Text from "@4miga/design-system/components/Text";
-import { Theme } from "@4miga/design-system/theme/theme";
 import { useProducts } from "contexts/products/ProductsProvider";
 import { usePathname } from "next/navigation";
 import { useState } from "react";
+import { useTheme } from "styled-components";
 import { DescriptionContainer } from "./style";
 import Image from "next/image";
 
 const Description = () => {
+  const theme = useTheme();
   const { product } = useProducts();
   const [seeMore, setSeeMore] = useState<boolean>(false);
 
@@ -38,7 +39,7 @@ const Description = () => {
               margin="8px 0 0 0"
               underline
               fontName="REGULAR"
-              color={Theme.colors.secondaryText}
+              color={theme.text_03}
             >
               ver mais informações
             </Text>
@@ -49,7 +50,7 @@ const Description = () => {
         <div className="instructions">
           <Text
             margin="24px 0 0 0 "
-            color={Theme.colors.secondaryText}
+            color={theme.text_03}
             fontName="REGULAR_SEMI_BOLD"
           >
             Instruções
@@ -61,7 +62,7 @@ const Description = () => {
         <div className="instructions">
           <Text
             margin="24px 0 0 0 "
-            color={Theme.colors.secondaryText}
+            color={theme.text_03}
             fontName="REGULAR_SEMI_BOLD"
           >
             Sobre {product.name}
@@ -80,7 +81,7 @@ const Description = () => {
             underline
             fontName="REGULAR"
             align="center"
-            color={Theme.colors.secondaryText}
+            color={theme.text_03}
           >
             ver menos
           </Text>

@@ -1,11 +1,11 @@
 import Button from "@4miga/design-system/components/button";
 import Input from "@4miga/design-system/components/input";
 import Text from "@4miga/design-system/components/Text";
-import { Theme } from "@4miga/design-system/theme/theme";
 import { connectionAPIPost } from "@4miga/services/connectionAPI/connection";
 import { apiUrl } from "@4miga/services/connectionAPI/url";
 import { zodResolver } from "@hookform/resolvers/zod";
 import React, { useEffect, useState } from "react";
+import { useTheme } from "styled-components";
 import { useForm } from "react-hook-form";
 import InputMask from "react-input-mask";
 import { UserType } from "types/userTypes";
@@ -30,6 +30,7 @@ interface Props {
 }
 
 const NewAccount = ({ setNewUser, setStep, setPreviousStep }: Props) => {
+  const theme = useTheme();
   const emailToConfirm = sessionStorage.getItem("emailToConfirm");
   const [loading, setLoading] = useState<boolean>(false);
   const {
@@ -221,7 +222,7 @@ const NewAccount = ({ setNewUser, setStep, setPreviousStep }: Props) => {
         margin="2px 0 0 0"
         align="center"
         fontName="TINY"
-        color={Theme.colors.secondaryTextAction}
+        color={theme.text_04}
       >
         Mínimo 6 caracteres
       </Text>
@@ -234,14 +235,14 @@ const NewAccount = ({ setNewUser, setStep, setPreviousStep }: Props) => {
             setErrorMessage("");
           }}
         ></input>
-        <Text color={Theme.colors.secondaryText} fontName="TINY">
+        <Text color={theme.text_03} fontName="TINY">
           Concordo com os
         </Text>
         <Text
           underline
           pointer
           align="center"
-          color={Theme.colors.secondaryText}
+          color={theme.text_03}
           fontName="TINY"
           onClick={() => window.open("/terms", "_blank")}
         >
@@ -261,7 +262,7 @@ const NewAccount = ({ setNewUser, setStep, setPreviousStep }: Props) => {
         <Text
           align="center"
           margin="56px 0 0px 0"
-          color={Theme.colors.pending}
+          color={theme.pending}
           fontName="TINY"
         >
           {errorMessage}

@@ -1,12 +1,12 @@
 import Button from "@4miga/design-system/components/button";
 import Input from "@4miga/design-system/components/input";
 import Text from "@4miga/design-system/components/Text";
-import { Theme } from "@4miga/design-system/theme/theme";
 import { connectionAPIPost } from "@4miga/services/connectionAPI/connection";
 import { apiUrl } from "@4miga/services/connectionAPI/url";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useAuth } from "contexts/auth";
 import React, { useEffect, useState } from "react";
+import { useTheme } from "styled-components";
 import { useForm } from "react-hook-form";
 import { LoginResponse } from "types/loginTypes";
 import { storeId } from "utils/apiUrl";
@@ -25,6 +25,7 @@ interface Props {
 }
 
 const LoginComponent = ({ setPreviousStep, setStep, closeModal }: Props) => {
+  const theme = useTheme();
   const [loading, setLoading] = useState<boolean>(false);
   const {
     handleSubmit,
@@ -140,7 +141,7 @@ const LoginComponent = ({ setPreviousStep, setStep, closeModal }: Props) => {
           <Text
             nowrap
             align="end"
-            color={Theme.colors.mainHighlight}
+            color={theme.mainColor}
             fontName="TINY"
           >
             Esqueceu sua senha?
@@ -160,7 +161,7 @@ const LoginComponent = ({ setPreviousStep, setStep, closeModal }: Props) => {
         <Text
           align="center"
           margin="56px 0 0px 0"
-          color={Theme.colors.pending}
+          color={theme.pending}
           fontName="TINY"
         >
           {errorMessage}

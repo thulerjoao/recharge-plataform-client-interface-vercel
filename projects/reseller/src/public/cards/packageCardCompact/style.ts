@@ -1,4 +1,3 @@
-import { Theme } from "@4miga/design-system/theme/theme";
 import styled from "styled-components";
 
 interface PackageCardProps {
@@ -20,28 +19,28 @@ export const PackageCardCompactContainer = styled.article<PackageCardProps>`
   .mobile {
     display: none;
   }
-  border: 2px solid ${Theme.colors.secondaryHighlight};
-  background-color: ${Theme.colors.couponsBackground};
+  border: 2px solid ${({ theme }) => theme.border_02};
+  background-color: ${({ theme }) => theme.background_04};
   position: relative;
 
   @media (hover: hover) {
     &:hover {
-      border: 2px solid ${Theme.colors.mainHighlight};
-      box-shadow: 0px 0px 10px 0px ${Theme.colors.mainHighlight};
+      border: 2px solid ${({ theme }) => theme.mainColor};
+      box-shadow: 0px 0px 10px 0px ${({ theme }) => theme.mainColor};
     }
   }
 
   ${({ selected }) =>
     selected &&
     `
-    border: 2px solid ${Theme.colors.mainHighlight};
-    box-shadow: 0px 0px 10px 0px ${Theme.colors.mainHighlight};
+    border: 2px solid ${({ theme }) => theme.mainColor};
+    box-shadow: 0px 0px 10px 0px ${({ theme }) => theme.mainColor};
     cursor: default;
   `}
 
   @media (hover: none) {
     &:hover {
-      border: 2px solid ${Theme.colors.secondaryHighlight};
+      border: 2px solid ${({ theme }) => theme.border_02};
       box-shadow: none;
     }
   }
@@ -71,7 +70,7 @@ export const PackageCardCompactContainer = styled.article<PackageCardProps>`
   }
 
   .diamondText {
-    border-bottom: 1px solid ${Theme.colors.secondaryTextAction};
+    border-bottom: 1px solid ${({ theme }) => theme.text_04};
     padding-bottom: 8px;
   }
 

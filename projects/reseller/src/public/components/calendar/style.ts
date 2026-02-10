@@ -1,4 +1,3 @@
-import { Theme } from "@4miga/design-system/theme/theme";
 import styled from "styled-components";
 
 export const Wrapper = styled.div`
@@ -14,14 +13,13 @@ export const Wrapper = styled.div`
 `;
 
 export const CalendarContainer = styled.div`
-  background-color: ${Theme.colors.mainlight};
+  background-color: ${({ theme }) => theme.background_03};
   width: 100%;
   padding: 16px;
   border-radius: 8px;
   margin-bottom: 24px;
-  color: ${Theme.colors.mainlight};
-  background-color: ${Theme.colors.mainTransparent};
-  border: 1px solid ${Theme.colors.secondaryText};
+  color: ${({ theme }) => theme.text_01};
+  border: 1px solid ${({ theme }) => theme.text_03};
 
   .rdp-months {
     width: 100%;
@@ -36,7 +34,7 @@ export const CalendarContainer = styled.div`
         margin-bottom: -22px;
 
         svg {
-          fill: ${Theme.colors.mainlight} !important;
+          fill: ${({ theme }) => theme.text_01} !important;
         }
       }
     }
@@ -65,7 +63,7 @@ export const CalendarContainer = styled.div`
             }
           }
           .rdp-today {
-            color: ${Theme.colors.pending};
+            color: ${({ theme }) => theme.pending};
           }
 
           .rdp-range_end,
@@ -77,8 +75,8 @@ export const CalendarContainer = styled.div`
               height: 24px;
               width: 24px;
               border-radius: 12px;
-              background-color: ${Theme.colors.mainHighlight};
-              color: ${Theme.colors.maindark};
+              background-color: ${({ theme }) => theme.mainColor};
+              color: ${({ theme }) => theme.background_01};
             }
           }
         }

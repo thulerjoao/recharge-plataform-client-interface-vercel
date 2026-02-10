@@ -1,6 +1,6 @@
 import Text from "@4miga/design-system/components/Text";
-import { Theme } from "@4miga/design-system/theme/theme";
 import Image from "next/image";
+import { useTheme } from "styled-components";
 import Fast from "./images/fast.png";
 import PackageIcon from "./images/package.png";
 import Shield from "./images/shield.png";
@@ -8,12 +8,13 @@ import User from "./images/user.png";
 import { HowItWorksContainer } from "./style";
 
 const HowItWorks = () => {
+  const theme = useTheme();
   return (
     <HowItWorksContainer>
       <Text
         tag="h2"
         fontName="LARGE_SEMI_BOLD"
-        color={Theme.colors.mainlight}
+        color={theme.text_01}
         align="center"
       >
         COMO FUNCIONA
@@ -32,7 +33,7 @@ const HowItWorks = () => {
               nowrap
               tag="p"
               fontName="TINY_MEDIUM"
-              color={Theme.colors.mainlight}
+              color={theme.text_01}
             >
               1. Escolha um pacote
             </Text>
@@ -49,7 +50,7 @@ const HowItWorks = () => {
               nowrap
               tag="p"
               fontName="TINY_MEDIUM"
-              color={Theme.colors.mainlight}
+              color={theme.text_01}
             >
               2. Informe seu ID BIGO
             </Text>
@@ -66,7 +67,7 @@ const HowItWorks = () => {
               nowrap
               tag="p"
               fontName="TINY_MEDIUM"
-              color={Theme.colors.mainlight}
+              color={theme.text_01}
             >
               3. Pague com segurança
             </Text>
@@ -83,7 +84,7 @@ const HowItWorks = () => {
               nowrap
               tag="p"
               fontName="TINY_MEDIUM"
-              color={Theme.colors.mainlight}
+              color={theme.text_01}
             >
               4. Receba na hora!
             </Text>

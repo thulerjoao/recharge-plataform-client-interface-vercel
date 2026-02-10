@@ -1,8 +1,7 @@
-import { Theme } from "@4miga/design-system/theme/theme";
 import styled from "styled-components";
 
 export const PriceCardMobileContainer = styled.div`
-  background-color: ${Theme.colors.maindark};
+  background-color: ${({ theme }) => theme.background_01};
   padding: 24px;
   padding-bottom: 0;
   margin-bottom: 24px;

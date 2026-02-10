@@ -1,4 +1,3 @@
-import { Theme } from "@4miga/design-system/theme/theme";
 import styled from "styled-components";
 
 interface Props {
@@ -24,7 +23,7 @@ export const CouponCardContainer = styled.article<Props>`
     left: 0;
     right: 0;
     bottom: 0;
-    background-color: ${Theme.colors.refused}80;
+    background-color: ${({ theme }) => theme.refused}80;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -48,7 +47,7 @@ export const CouponCardContainer = styled.article<Props>`
 
     p {
       transform: rotate(-6deg);
-      border: 3px solid ${Theme.colors.refused}60;
+      border: 3px solid ${({ theme }) => theme.refused}60;
       width: 80%;
       max-width: 340px;
       padding: 8px 16px;
@@ -58,7 +57,7 @@ export const CouponCardContainer = styled.article<Props>`
   .topSection {
     width: 100%;
     height: 40px;
-    background-color: ${Theme.colors.couponsBackground};
+    background-color: ${({ theme }) => theme.background_04};
     position: relative;
     display: flex;
     flex-direction: column;
@@ -66,7 +65,7 @@ export const CouponCardContainer = styled.article<Props>`
     z-index: 3;
 
     h3 {
-      text-shadow: 0 0 10px ${Theme.colors.maindark}80;
+      text-shadow: 0 0 10px ${({ theme }) => theme.background_01}80;
     }
   }
 
@@ -92,7 +91,7 @@ export const CouponCardContainer = styled.article<Props>`
         top: 0;
         width: 24px;
         height: 24px;
-        background-color: ${Theme.colors.couponsBackground};
+        background-color: ${({ theme }) => theme.background_04};
         mask: radial-gradient(
           circle 12px at 0% 50%,
           transparent 12px,
@@ -109,7 +108,7 @@ export const CouponCardContainer = styled.article<Props>`
     .centerComponent {
       flex: 1;
       max-width: calc(100% - 24px - 24px);
-      background-color: ${Theme.colors.couponsBackground};
+      background-color: ${({ theme }) => theme.background_04};
       height: 100%;
       display: flex;
       align-items: center;
@@ -118,7 +117,7 @@ export const CouponCardContainer = styled.article<Props>`
       .line {
         height: 0px;
         width: 100%;
-        border-top: 1px dotted ${Theme.colors.maindark};
+        border-top: 1px dotted ${({ theme }) => theme.background_01};
       }
     }
 
@@ -135,7 +134,7 @@ export const CouponCardContainer = styled.article<Props>`
         top: 0;
         width: 24px;
         height: 24px;
-        background-color: ${Theme.colors.couponsBackground};
+        background-color: ${({ theme }) => theme.background_04};
         mask: radial-gradient(
           circle 12px at 100% 50%,
           transparent 12px,
@@ -152,7 +151,7 @@ export const CouponCardContainer = styled.article<Props>`
   .bottomSection {
     width: 100%;
     height: 40px;
-    background-color: ${Theme.colors.couponsBackground};
+    background-color: ${({ theme }) => theme.background_04};
     position: relative;
     display: flex;
     align-items: center;

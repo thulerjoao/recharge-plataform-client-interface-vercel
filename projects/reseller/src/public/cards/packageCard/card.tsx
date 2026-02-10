@@ -1,6 +1,6 @@
 import Text from "@4miga/design-system/components/Text";
-import { Theme } from "@4miga/design-system/theme/theme";
 import Image from "next/image";
+import { useTheme } from "styled-components";
 import { formatPrice } from "utils/formatPrice";
 import { PackageCardContainer } from "./style";
 
@@ -19,6 +19,7 @@ const PackageCard = ({
   price,
   selected,
 }: PackageCardProps) => {
+  const theme = useTheme();
   return (
     <PackageCardContainer selected={selected}>
       <Text
@@ -38,7 +39,7 @@ const PackageCard = ({
         />
       </figure>
       <Text
-        color={Theme.colors.secondaryText}
+        color={theme.text_03}
         margin={bestOffer ? "8px 0 0 8px" : "24px 0 0 8px"}
         fontName="SUPER_TINY_MEDIUM"
       >
@@ -56,7 +57,7 @@ const PackageCard = ({
             </div>
             <Text
               align="center"
-              color={Theme.colors.mainBbackgroundSolid}
+              color={theme.background_02}
               fontName="SUPER_TINY_SEMI_BOLD"
               margin="-3px 0 0 0"
             >

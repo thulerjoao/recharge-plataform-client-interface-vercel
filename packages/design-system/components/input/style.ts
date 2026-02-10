@@ -1,5 +1,4 @@
 import styled from "styled-components";
-import { Theme } from "../../theme/theme";
 
 interface InputProps {
   height: number;
@@ -18,17 +17,17 @@ export const InputElement = styled.input<InputProps>`
   font-size: 16px;
   height: ${({ height }) => `${height - 4}px`};
   border-radius: 8px;
-  border: 2px solid ${Theme.colors.secondaryAction};
-  color: ${Theme.colors.secondaryAction};
+  border: 2px solid ${({ theme }) => theme.border_01};
+  color: ${({ theme }) => theme.border_01};
 
   &::placeholder {
-    color: ${Theme.colors.secondaryAction};
+    color: ${({ theme }) => theme.border_01};
   }
 
   &:focus {
     outline: none;
-    box-shadow: 0px 0px 7px 0px ${Theme.colors.mainHighlight};
-    border: 2px solid ${Theme.colors.mainHighlight};
+    box-shadow: 0px 0px 7px 0px ${({ theme }) => theme.mainColor};
+    border: 2px solid ${({ theme }) => theme.mainColor};
   }
 
   &::-webkit-outer-spin-button,

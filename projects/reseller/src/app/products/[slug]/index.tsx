@@ -2,7 +2,7 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import Button from "@4miga/design-system/components/button";
 import Text from "@4miga/design-system/components/Text";
-import { Theme } from "@4miga/design-system/theme/theme";
+import { useTheme } from "styled-components";
 
 import { connectionAPIPatch } from "@4miga/services/connectionAPI/connection";
 import { apiUrl } from "@4miga/services/connectionAPI/url";
@@ -28,6 +28,7 @@ type Props = {
 };
 
 const Productpage = ({ slug }: Props) => {
+  const theme = useTheme();
   const route = useRouter();
   const { products, productPackages, fetchProducts, setProductPackages } =
     useProducts();
@@ -209,10 +210,10 @@ const Productpage = ({ slug }: Props) => {
       <div className="mainContentComponent">
         <div className="headerSection">
           <div className="titleSection">
-            <Text fontName="LARGE_SEMI_BOLD" color={Theme.colors.mainlight}>
+            <Text fontName="LARGE_SEMI_BOLD" color={theme.text_01}>
               {productPackages?.name || "BIGO LIVE"}
             </Text>
-            <Text fontName="REGULAR_MEDIUM" color={Theme.colors.secondaryText}>
+            <Text fontName="REGULAR_MEDIUM" color={theme.text_03}>
               Configure pacotes e informações do produto
             </Text>
           </div>
@@ -221,7 +222,7 @@ const Productpage = ({ slug }: Props) => {
             align="end"
             underline
             fontName="REGULAR"
-            color={Theme.colors.refused}
+            color={theme.refused}
           >
             Desativar Produto
           </Text> */}
@@ -231,7 +232,7 @@ const Productpage = ({ slug }: Props) => {
           <Text
             align="center"
             fontName="REGULAR_SEMI_BOLD"
-            color={Theme.colors.mainlight}
+            color={theme.text_01}
           >
             CONFIGURAR PACOTES
           </Text>
@@ -242,7 +243,7 @@ const Productpage = ({ slug }: Props) => {
                 <Text
                   align="center"
                   fontName="SMALL_SEMI_BOLD"
-                  color={Theme.colors.mainlight}
+                  color={theme.text_01}
                   nowrap
                 >
                   Adicionar Pacote
@@ -285,7 +286,7 @@ const Productpage = ({ slug }: Props) => {
               <Text
                 align="center"
                 fontName="REGULAR_SEMI_BOLD"
-                color={Theme.colors.mainlight}
+                color={theme.text_01}
               >
                 IMAGEM DO BANNER DO PRODUTO
               </Text>
@@ -293,7 +294,7 @@ const Productpage = ({ slug }: Props) => {
                 margin="16PX 0 16px 0"
                 align="center"
                 fontName="TINY_MEDIUM"
-                color={Theme.colors.secondaryText}
+                color={theme.text_03}
               >
                 A imagem deve estar no formato .png, .jpg ou .jpeg, ter uma
                 resolução mínima de 1280 x 540 e uma proporção de 21:9
@@ -326,7 +327,7 @@ const Productpage = ({ slug }: Props) => {
               <Text
                 align="center"
                 fontName="REGULAR_SEMI_BOLD"
-                color={Theme.colors.mainlight}
+                color={theme.text_01}
               >
                 IMAGEM DO CARD
               </Text>
@@ -334,7 +335,7 @@ const Productpage = ({ slug }: Props) => {
                 margin="16PX 0 16px 0"
                 align="center"
                 fontName="TINY_MEDIUM"
-                color={Theme.colors.secondaryText}
+                color={theme.text_03}
               >
                 A imagem deve estar no formato .png, .jpg ou .jpeg, ter uma
                 resolução mínima de 720 x 720 e uma proporção de 1:1
@@ -370,7 +371,7 @@ const Productpage = ({ slug }: Props) => {
               <span className="pen">
                 <Pen />
               </span>
-              <Text fontName="REGULAR_SEMI_BOLD" color={Theme.colors.mainlight}>
+              <Text fontName="REGULAR_SEMI_BOLD" color={theme.text_01}>
                 SOBRE {productPackages?.name || "BIGO LIVE"}
               </Text>
               <textarea
@@ -383,7 +384,7 @@ const Productpage = ({ slug }: Props) => {
               <span className="pen">
                 <Pen />
               </span>
-              <Text fontName="REGULAR_SEMI_BOLD" color={Theme.colors.mainlight}>
+              <Text fontName="REGULAR_SEMI_BOLD" color={theme.text_01}>
                 INSTRUÇÕES
               </Text>
               <textarea

@@ -1,5 +1,5 @@
 import Button from "@4miga/design-system/components/button";
-import { Theme } from "@4miga/design-system/theme/theme";
+import { useTheme } from "styled-components";
 import { ConfirmModalBackground, ConfirmModalContainer } from "./style";
 
 interface ConfirmProps {
@@ -9,6 +9,7 @@ interface ConfirmProps {
 }
 
 const Confirm = ({ message, onConfirm, onCancel }: ConfirmProps) => {
+  const theme = useTheme();
   return (
     <ConfirmModalBackground onClick={onCancel}>
       <ConfirmModalContainer onClick={(e) => e.stopPropagation()}>
@@ -21,7 +22,7 @@ const Confirm = ({ message, onConfirm, onCancel }: ConfirmProps) => {
             height={32}
             rounded
             isNotSelected
-            style={{ color: Theme.colors.mainlight }}
+            style={{ color: theme.text_01 }}
           />
           <Button
             onClick={onConfirm}

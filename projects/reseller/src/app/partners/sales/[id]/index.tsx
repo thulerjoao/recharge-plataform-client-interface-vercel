@@ -1,7 +1,7 @@
 "use client";
 
 import Text from "@4miga/design-system/components/Text";
-import { Theme } from "@4miga/design-system/theme/theme";
+import { useTheme } from "styled-components";
 import { connectionAPIGet } from "@4miga/services/connectionAPI/connection";
 import { useRouter } from "next/navigation";
 import DefaultHeader from "public/components/defaultHeader";
@@ -19,6 +19,7 @@ interface InfluencerDetailsProps {
 }
 
 const InfluencerSales = ({ influencerId }: InfluencerDetailsProps) => {
+  const theme = useTheme();
   const router = useRouter();
   const [page, setPage] = useState(1);
   const [salesData, setSalesData] = useState<MonthlySalesPaginationType>();
@@ -85,7 +86,7 @@ const InfluencerSales = ({ influencerId }: InfluencerDetailsProps) => {
   //         <Text
   //           align="center"
   //           fontName="REGULAR_MEDIUM"
-  //           color={Theme.colors.mainlight}
+  //           color={theme.text_01}
   //         >
   //           Carregando histórico de vendas...
   //         </Text>
@@ -113,52 +114,43 @@ const InfluencerSales = ({ influencerId }: InfluencerDetailsProps) => {
 
       <div className="salesMainContent">
         <div className="headerSection">
-          <Text fontName="LARGE_SEMI_BOLD" color={Theme.colors.mainlight}>
+          <Text fontName="LARGE_SEMI_BOLD" color={theme.text_01}>
             {salesData?.influencerName}
           </Text>
-          <Text fontName="REGULAR_MEDIUM" color={Theme.colors.secondaryText}>
+          <Text fontName="REGULAR_MEDIUM" color={theme.text_03}>
             Histórico de Vendas
           </Text>
-          <Text fontName="REGULAR_MEDIUM" color={Theme.colors.approved}>
+          <Text fontName="REGULAR_MEDIUM" color={theme.approved}>
             Total de {salesData?.totalSales} períodos registrados
           </Text>
         </div>
 
         <div className="infoSection salesInfo">
           {page === 1 && (
-            <Text fontName="REGULAR_MEDIUM" color={Theme.colors.mainHighlight}>
+            <Text fontName="REGULAR_MEDIUM" color={theme.mainColor}>
               Mês Atual
             </Text>
           )}
           <div className="salesContent">
             {page === 1 && (
               <div className="currentMonthSales">
-                <Text fontName="REGULAR_MEDIUM" color={Theme.colors.mainlight}>
+                <Text fontName="REGULAR_MEDIUM" color={theme.text_01}>
                   Mês Atual
                 </Text>
                 {getCurrentMonthSales() ? (
                   <div className="salesAmount">
-                    <Text
-                      fontName="LARGE_SEMI_BOLD"
-                      color={Theme.colors.approved}
-                    >
+                    <Text fontName="LARGE_SEMI_BOLD" color={theme.approved}>
                       R${" "}
                       {formatPrice(Number(getCurrentMonthSales()!.totalSales))}
                     </Text>
-                    <Text
-                      fontName="SMALL_MEDIUM"
-                      color={Theme.colors.secondaryText}
-                    >
+                    <Text fontName="SMALL_MEDIUM" color={theme.text_03}>
                       {getMonthName(getCurrentMonthSales()!.month)}{" "}
                       {getCurrentMonthSales()!.year}
                     </Text>
                   </div>
                 ) : (
                   <div className="noSales">
-                    <Text
-                      fontName="REGULAR_MEDIUM"
-                      color={Theme.colors.secondaryText}
-                    >
+                    <Text fontName="REGULAR_MEDIUM" color={theme.text_03}>
                       Nenhuma venda registrada este mês
                     </Text>
                   </div>
@@ -166,7 +158,7 @@ const InfluencerSales = ({ influencerId }: InfluencerDetailsProps) => {
               </div>
             )}
 
-            <Text fontName="REGULAR_MEDIUM" color={Theme.colors.mainHighlight}>
+            <Text fontName="REGULAR_MEDIUM" color={theme.mainColor}>
               Histórico de Vendas
             </Text>
 
@@ -176,16 +168,10 @@ const InfluencerSales = ({ influencerId }: InfluencerDetailsProps) => {
                   {salesData?.data.map((sale) => (
                     <div key={sale.id} className="salesItem">
                       <div className="salesInfo">
-                        <Text
-                          fontName="SMALL_MEDIUM"
-                          color={Theme.colors.mainlight}
-                        >
+                        <Text fontName="SMALL_MEDIUM" color={theme.text_01}>
                           {getMonthName(sale.month)} {sale.year}
                         </Text>
-                        <Text
-                          fontName="REGULAR_MEDIUM"
-                          color={Theme.colors.approved}
-                        >
+                        <Text fontName="REGULAR_MEDIUM" color={theme.approved}>
                           R$ {formatPrice(Number(sale.totalSales))}
                         </Text>
                       </div>
@@ -194,10 +180,7 @@ const InfluencerSales = ({ influencerId }: InfluencerDetailsProps) => {
                 </div>
               ) : (
                 <div className="noSales">
-                  <Text
-                    fontName="REGULAR_MEDIUM"
-                    color={Theme.colors.secondaryText}
-                  >
+                  <Text fontName="REGULAR_MEDIUM" color={theme.text_03}>
                     Nenhuma venda registrada para este parceiro
                   </Text>
                 </div>

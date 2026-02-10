@@ -1,4 +1,3 @@
-import { Theme } from "@4miga/design-system/theme/theme";
 import styled from "styled-components";
 
 export const PurchaseFiltersWrapper = styled.div`
@@ -7,12 +6,12 @@ export const PurchaseFiltersWrapper = styled.div`
   flex-direction: column;
   gap: 12px;
   padding: 12px 20px;
-  background: ${Theme.colors.maindark};
+  background: ${({ theme }) => theme.background_01};
   border-radius: 12px;
   -webkit-box-shadow: 0px 0px 5px 1px rgba(7, 29, 35, 1);
   -moz-box-shadow: 0px 0px 5px 1px rgba(7, 29, 35, 1);
   box-shadow: 0px 0px 5px 1px rgba(7, 29, 35, 1);
-  border: 1px solid ${Theme.colors.secondaryAction}80;
+  border: 1px solid ${({ theme }) => theme.border_01}80;
   margin-bottom: 24px;
 
   .purchaseFilterInputs {
@@ -63,12 +62,12 @@ export const CustomersFiltersWrapper = styled.div`
   flex-direction: column;
   gap: 0;
   padding: 20px;
-  background: ${Theme.colors.maindark};
+  background: ${({ theme }) => theme.background_01};
   border-radius: 12px;
   -webkit-box-shadow: 0px 0px 5px 1px rgba(7, 29, 35, 1);
   -moz-box-shadow: 0px 0px 5px 1px rgba(7, 29, 35, 1);
   box-shadow: 0px 0px 5px 1px rgba(7, 29, 35, 1);
-  border: 1px solid ${Theme.colors.secondaryAction}80;
+  border: 1px solid ${({ theme }) => theme.border_01}80;
   margin-bottom: 24px;
 
   .filtersSection {
@@ -78,7 +77,7 @@ export const CustomersFiltersWrapper = styled.div`
     align-items: center;
     padding: 0 0 20px 0;
     margin-bottom: 20px;
-    border-bottom: 1px solid ${Theme.colors.secondaryAction}80;
+    border-bottom: 1px solid ${({ theme }) => theme.border_01}80;
 
     .searchSection {
       width: 300px;
@@ -95,15 +94,15 @@ export const CustomersFiltersWrapper = styled.div`
         height: 32px;
         width: 140px;
         border-radius: 8px;
-        border: 2px solid ${Theme.colors.secondaryAction};
-        background: ${Theme.colors.mainlight};
-        color: ${Theme.colors.secondaryAction};
+        border: 2px solid ${({ theme }) => theme.border_01};
+        background: ${({ theme }) => theme.text_01};
+        color: ${({ theme }) => theme.border_01};
         font-size: 14px;
         cursor: pointer;
 
         &:focus {
           outline: none;
-          border-color: ${Theme.colors.mainHighlight};
+          border-color: ${({ theme }) => theme.mainColor};
         }
       }
     }
@@ -183,12 +182,12 @@ export const CustomersPageContainer = styled.div`
     align-items: center;
     padding: 24px;
     margin-bottom: 24px;
-    background: ${Theme.colors.maindark};
+    background: ${({ theme }) => theme.background_01};
     border-radius: 12px;
     -webkit-box-shadow: 0px 0px 5px 1px rgba(7, 29, 35, 1);
     -moz-box-shadow: 0px 0px 5px 1px rgba(7, 29, 35, 1);
     box-shadow: 0px 0px 5px 1px rgba(7, 29, 35, 1);
-    border: 1px solid ${Theme.colors.secondaryAction}80;
+    border: 1px solid ${({ theme }) => theme.border_01}80;
 
     .titleSection {
       display: flex;

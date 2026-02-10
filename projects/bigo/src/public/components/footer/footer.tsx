@@ -1,11 +1,12 @@
 "use client";
 
 import Text from "@4miga/design-system/components/Text";
-import { Theme } from "@4miga/design-system/theme/theme";
+import { useTheme } from "styled-components";
 import FooterLogo from "./icons/FooterLogo.svg";
 import { FooterContainer } from "./style";
 
 const Footer = () => {
+  const theme = useTheme();
   return (
     <FooterContainer>
       <div className="centerComponent">
@@ -15,7 +16,7 @@ const Footer = () => {
             <Text
               align="center"
               fontName="SMALL"
-              color={Theme.colors.mainHighlight}
+              color={theme.mainColor}
             >
               Formas de Pagamento
             </Text>
@@ -56,7 +57,7 @@ const Footer = () => {
                 nowrap
                 align="center"
                 fontName="TINY"
-                color={Theme.colors.mainHighlight}
+                color={theme.mainColor}
                 style={{ marginLeft: "4px" }}
               >
                 4MIGA GAMES

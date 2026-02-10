@@ -1,4 +1,3 @@
-import { Theme } from "@4miga/design-system/theme/theme";
 import styled from "styled-components";
 
 export const InfluencerDetailsContainer = styled.div`
@@ -26,7 +25,7 @@ export const InfluencerDetailsContainer = styled.div`
       align-items: center;
       gap: 24px;
       padding: 24px;
-      background: ${Theme.colors.maindark};
+      background: ${({ theme }) => theme.background_01};
       border-radius: 12px;
       -webkit-box-shadow: 0px 0px 5px 2px rgba(7, 29, 35, 1);
       -moz-box-shadow: 0px 0px 5px 2px rgba(7, 29, 35, 1);
@@ -35,7 +34,7 @@ export const InfluencerDetailsContainer = styled.div`
       .avatar {
         width: 64px;
         height: 64px;
-        background: ${Theme.colors.secondaryTextAction};
+        background: ${({ theme }) => theme.text_04};
         border-radius: 12px;
         display: flex;
         align-items: center;
@@ -61,13 +60,13 @@ export const InfluencerDetailsContainer = styled.div`
           text-align: center;
 
           &.active {
-            background: ${Theme.colors.approved}20;
-            border: 1px solid ${Theme.colors.approved};
+            background: ${({ theme }) => theme.approved}20;
+            border: 1px solid ${({ theme }) => theme.approved};
           }
 
           &.inactive {
-            background: ${Theme.colors.refused}20;
-            border: 1px solid ${Theme.colors.refused};
+            background: ${({ theme }) => theme.refused}20;
+            border: 1px solid ${({ theme }) => theme.refused};
           }
         }
       }
@@ -87,7 +86,7 @@ export const InfluencerDetailsContainer = styled.div`
 
       .infoSection {
         padding: 24px;
-        background: ${Theme.colors.maindark};
+        background: ${({ theme }) => theme.background_01};
         border-radius: 12px;
         -webkit-box-shadow: 0px 0px 5px 2px rgba(7, 29, 35, 1);
         -moz-box-shadow: 0px 0px 5px 2px rgba(7, 29, 35, 1);
@@ -96,7 +95,7 @@ export const InfluencerDetailsContainer = styled.div`
         &.unifiedInfoSection {
           .sectionDivider {
             height: 1px;
-            background: ${Theme.colors.secondaryTextAction}20;
+            background: ${({ theme }) => theme.text_04}20;
             margin: 24px 0;
           }
 
@@ -117,7 +116,7 @@ export const InfluencerDetailsContainer = styled.div`
             gap: 8px;
 
             .error-message {
-              color: ${Theme.colors.refused};
+              color: ${({ theme }) => theme.refused};
               font-size: 12px;
               margin-top: 4px;
             }
@@ -132,8 +131,8 @@ export const InfluencerDetailsContainer = styled.div`
 
           .currentMonthSales {
             padding: 20px;
-            background: ${Theme.colors.approved}10;
-            border: 1px solid ${Theme.colors.approved}30;
+            background: ${({ theme }) => theme.approved}10;
+            border: 1px solid ${({ theme }) => theme.approved}30;
             cursor: pointer;
             border-radius: 8px;
             display: flex;
@@ -151,7 +150,7 @@ export const InfluencerDetailsContainer = styled.div`
             .clickIndicator {
               margin-top: 8px;
               padding-top: 8px;
-              border-top: 1px solid ${Theme.colors.approved}30;
+              border-top: 1px solid ${({ theme }) => theme.approved}30;
               opacity: 0.8;
               width: 100%;
               display: flex;
@@ -171,13 +170,13 @@ export const InfluencerDetailsContainer = styled.div`
 
               .salesItem {
                 padding: 16px;
-                background: ${Theme.colors.maindark};
-                border: 1px solid ${Theme.colors.secondaryTextAction}20;
+                background: ${({ theme }) => theme.background_01};
+                border: 1px solid ${({ theme }) => theme.text_04}20;
                 border-radius: 8px;
                 transition: all 0.2s ease;
 
                 &:hover {
-                  border-color: ${Theme.colors.secondaryTextAction}40;
+                  border-color: ${({ theme }) => theme.text_04}40;
                 }
 
                 .salesInfo {
@@ -193,8 +192,8 @@ export const InfluencerDetailsContainer = styled.div`
           .noSales {
             padding: 20px;
             text-align: center;
-            background: ${Theme.colors.maindark};
-            border: 1px dashed ${Theme.colors.secondaryTextAction}30;
+            background: ${({ theme }) => theme.background_01};
+            border: 1px dashed ${({ theme }) => theme.text_04}30;
             border-radius: 8px;
           }
         }
@@ -207,8 +206,8 @@ export const InfluencerDetailsContainer = styled.div`
 
           .couponsSummary {
             padding: 20px;
-            background: ${Theme.colors.pending}10;
-            border: 1px solid ${Theme.colors.pending}30;
+            background: ${({ theme }) => theme.pending}10;
+            border: 1px solid ${({ theme }) => theme.pending}30;
             border-radius: 8px;
             display: flex;
             flex-direction: column;
@@ -220,7 +219,7 @@ export const InfluencerDetailsContainer = styled.div`
             .clickIndicator {
               margin-top: 8px;
               padding-top: 8px;
-              border-top: 1px solid ${Theme.colors.pending}30;
+              border-top: 1px solid ${({ theme }) => theme.pending}30;
               opacity: 0.8;
               width: 100%;
               display: flex;
@@ -246,25 +245,25 @@ export const InfluencerDetailsContainer = styled.div`
             font-size: 16px;
             height: 28px;
             border-radius: 8px;
-            border: 2px solid ${Theme.colors.secondaryAction};
-            color: ${Theme.colors.secondaryAction};
-            background: ${Theme.colors.mainlight};
+            border: 2px solid ${({ theme }) => theme.border_01};
+            color: ${({ theme }) => theme.border_01};
+            background: ${({ theme }) => theme.text_01};
             cursor: pointer;
 
             &:focus {
               outline: none;
-              box-shadow: 0px 0px 7px 0px ${Theme.colors.mainHighlight};
-              border: 2px solid ${Theme.colors.mainHighlight};
+              box-shadow: 0px 0px 7px 0px ${({ theme }) => theme.mainColor};
+              border: 2px solid ${({ theme }) => theme.mainColor};
             }
 
             &.error {
-              border-color: ${Theme.colors.pending};
-              box-shadow: 0 0 0 3px ${Theme.colors.pending}40;
+              border-color: ${({ theme }) => theme.pending};
+              box-shadow: 0 0 0 3px ${({ theme }) => theme.pending}40;
             }
 
             option {
-              background: ${Theme.colors.mainlight};
-              color: ${Theme.colors.secondaryAction};
+              background: ${({ theme }) => theme.text_01};
+              color: ${({ theme }) => theme.border_01};
               padding: 8px;
               border: none;
             }
@@ -272,13 +271,13 @@ export const InfluencerDetailsContainer = styled.div`
 
           input {
             &.error {
-              border-color: ${Theme.colors.pending};
-              box-shadow: 0 0 0 3px ${Theme.colors.pending}40;
+              border-color: ${({ theme }) => theme.pending};
+              box-shadow: 0 0 0 3px ${({ theme }) => theme.pending}40;
             }
           }
 
           .error-message {
-            color: ${Theme.colors.pending};
+            color: ${({ theme }) => theme.pending};
             font-size: 12px;
             margin-top: 6px;
             display: block;

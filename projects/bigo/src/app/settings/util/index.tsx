@@ -3,7 +3,6 @@
 import Button from "@4miga/design-system/components/button";
 import Input from "@4miga/design-system/components/input";
 import Text from "@4miga/design-system/components/Text";
-import { Theme } from "@4miga/design-system/theme/theme";
 import {
   connectionAPIPatch,
   connectionAPIPost,
@@ -11,6 +10,7 @@ import {
 import { apiUrl } from "@4miga/services/connectionAPI/url";
 import { useAuth } from "contexts/auth";
 import React, { useEffect, useState } from "react";
+import { useTheme } from "styled-components";
 import toast from "react-hot-toast";
 import InputMask from "react-input-mask";
 import EyeOff from "../../../public/icons/EyeOff.svg";
@@ -36,6 +36,7 @@ interface FormErrors {
 }
 
 const Settings = () => {
+  const theme = useTheme();
   const { user, setUser } = useAuth();
   const [formData, setFormData] = useState<FormData>({
     name: "",
@@ -836,7 +837,7 @@ const Settings = () => {
                     <EyeOn
                       style={{
                         cursor: "pointer",
-                        color: Theme.colors.maindark,
+                        color: theme.background_01,
                       }}
                       onClick={() => setShowNewPassword((v) => !v)}
                     />
@@ -844,7 +845,7 @@ const Settings = () => {
                     <EyeOff
                       style={{
                         cursor: "pointer",
-                        color: Theme.colors.maindark,
+                        color: theme.background_01,
                       }}
                       onClick={() => setShowNewPassword((v) => !v)}
                     />

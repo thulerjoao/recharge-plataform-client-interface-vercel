@@ -1,4 +1,3 @@
-import { Theme } from "@4miga/design-system/theme/theme";
 import styled from "styled-components";
 
 export const ValidationContainer = styled.div`
@@ -16,7 +15,7 @@ export const ValidationContainer = styled.div`
     width: 40px;
     height: 40px;
     border-radius: 8px;
-    background-color: ${Theme.colors.mainlight};
+    background-color: ${({ theme }) => theme.text_01};
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -24,7 +23,7 @@ export const ValidationContainer = styled.div`
 
     span {
       font-size: 16px;
-      color: ${Theme.colors.secondaryAction};
+      color: ${({ theme }) => theme.border_01};
       width: 100%;
       text-align: center;
       animation: blink-animation 1s infinite;

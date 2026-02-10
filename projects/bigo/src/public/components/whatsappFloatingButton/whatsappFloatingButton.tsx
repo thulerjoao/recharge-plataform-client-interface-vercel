@@ -1,8 +1,8 @@
 "use client";
 
 import Text from "@4miga/design-system/components/Text";
-import { Theme } from "@4miga/design-system/theme/theme";
 import { useStore } from "contexts/store/StoreProvider";
+import { useTheme } from "styled-components";
 import Wpp from "../../icons/Wpp.svg";
 import { WhatsAppButton, WhatsAppGlobalContainer } from "./style";
 
@@ -10,6 +10,7 @@ import { WhatsAppButton, WhatsAppGlobalContainer } from "./style";
 const TEST_PHONE_NUMBER = "";
 
 const WhatsAppFloatingButton = () => {
+  const theme = useTheme();
   const { store } = useStore();
 
   const formatPhoneNumber = (phoneNumber: string) => {
@@ -40,7 +41,7 @@ const WhatsAppFloatingButton = () => {
           <div className="bottomText">
             <Text
               align="center"
-              color={Theme.colors.whatsappBackground}
+              color={theme.whatsappBackground}
               fontName="TINY"
             >
               Ajuda?

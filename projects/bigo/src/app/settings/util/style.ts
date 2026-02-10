@@ -1,4 +1,3 @@
-import { Theme } from "@4miga/design-system/theme/theme";
 import styled from "styled-components";
 
 export const SettingsContainer = styled.div`
@@ -19,11 +18,11 @@ export const SettingsContainer = styled.div`
 
     h1 {
       margin-bottom: 16px;
-      color: ${Theme.colors.mainlight};
+      color: ${({ theme }) => theme.text_01};
     }
 
     p {
-      color: ${Theme.colors.mainlight};
+      color: ${({ theme }) => theme.text_01};
       opacity: 0.8;
     }
   }
@@ -39,18 +38,18 @@ export const SettingsContainer = styled.div`
 
     .form-section {
       width: 100%;
-      background-color: ${Theme.colors.maindark};
+      background-color: ${({ theme }) => theme.background_01};
       border-radius: 12px;
       padding: 24px;
       -webkit-box-shadow: 0px 0px 5px 1px rgba(7, 29, 35, 1);
       -moz-box-shadow: 0px 0px 5px 1px rgba(7, 29, 35, 1);
       box-shadow: 0px 0px 5px 1px rgba(7, 29, 35, 1);
-      border: 1px solid ${Theme.colors.secondaryAction}80;
+      border: 1px solid ${({ theme }) => theme.border_01}80;
 
       .section-title {
         margin-bottom: 24px;
-        color: ${Theme.colors.mainlight};
-        border-bottom: 1px solid ${Theme.colors.mainTransparent};
+        color: ${({ theme }) => theme.text_01};
+        border-bottom: 1px solid ${({ theme }) => theme.background_03};
         padding-bottom: 12px;
       }
 
@@ -62,26 +61,26 @@ export const SettingsContainer = styled.div`
         label {
           font-size: 14px;
           font-weight: 600;
-          color: ${Theme.colors.mainlight};
+          color: ${({ theme }) => theme.text_01};
           margin-bottom: 8px;
           display: block;
         }
 
         input:disabled {
-          color: ${Theme.colors.mainlight} !important;
-          -webkit-text-fill-color: ${Theme.colors.mainlight}90 !important;
+          color: ${({ theme }) => theme.text_01} !important;
+          -webkit-text-fill-color: ${({ theme }) => theme.text_01}90 !important;
           opacity: 1 !important;
-          background-color: ${Theme.colors.mainTransparent} !important;
+          background-color: ${({ theme }) => theme.background_03} !important;
         }
 
         select {
           width: 100%;
           padding: 12px 16px;
           padding-right: 40px;
-          border: 2px solid ${Theme.colors.mainTransparent};
+          border: 2px solid ${({ theme }) => theme.background_03};
           border-radius: 8px;
-          background-color: ${Theme.colors.mainBbackgroundSolid};
-          color: ${Theme.colors.mainlight};
+          background-color: ${({ theme }) => theme.background_02};
+          color: ${({ theme }) => theme.text_01};
           font-size: 14px;
           transition: all 0.2s ease;
           box-sizing: border-box;
@@ -94,8 +93,8 @@ export const SettingsContainer = styled.div`
 
           &:focus {
             outline: none;
-            border-color: ${Theme.colors.mainlight};
-            box-shadow: 0 0 0 3px ${Theme.colors.mainTransparent}40;
+            border-color: ${({ theme }) => theme.text_01};
+            box-shadow: 0 0 0 3px ${({ theme }) => theme.background_03}40;
           }
 
           &:disabled {
@@ -105,7 +104,7 @@ export const SettingsContainer = styled.div`
         }
 
         .error-message {
-          color: ${Theme.colors.pending};
+          color: ${({ theme }) => theme.pending};
           font-size: 12px;
           margin-top: 6px;
           display: block;
@@ -115,7 +114,7 @@ export const SettingsContainer = styled.div`
         p {
           margin-top: 6px;
           font-size: 12px;
-          color: ${Theme.colors.mainlight}60;
+          color: ${({ theme }) => theme.text_01}60;
         }
       }
     }

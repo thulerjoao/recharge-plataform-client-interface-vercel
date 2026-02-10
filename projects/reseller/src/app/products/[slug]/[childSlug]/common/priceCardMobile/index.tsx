@@ -1,6 +1,6 @@
 import Input from "@4miga/design-system/components/input";
 import Text from "@4miga/design-system/components/Text";
-import { Theme } from "@4miga/design-system/theme/theme";
+import { useTheme } from "styled-components";
 import { ReactElement } from "react";
 import { PriceCardMobileContainer } from "./style";
 
@@ -23,15 +23,13 @@ const PriceCardMobile = ({
   profitValue,
   sellValue,
 }: CardProps) => {
+  const theme = useTheme();
   return (
     <PriceCardMobileContainer>
       <div className="top">
         <div className="image">{image}</div>
         <span>
-          <Text
-            color={Theme.colors.secondaryTextAction}
-            fontName="REGULAR_MEDIUM"
-          >
+          <Text color={theme.text_04} fontName="REGULAR_MEDIUM">
             {title}
           </Text>
         </span>
@@ -43,10 +41,7 @@ const PriceCardMobile = ({
         </Text>
       </div>
       <div className="values">
-        <Text
-          color={Theme.colors.secondaryTextAction}
-          fontName="REGULAR_MEDIUM"
-        >
+        <Text color={theme.text_04} fontName="REGULAR_MEDIUM">
           CUSTO BASE
         </Text>
         <Text align="end" fontName="REGULAR_SEMI_BOLD">

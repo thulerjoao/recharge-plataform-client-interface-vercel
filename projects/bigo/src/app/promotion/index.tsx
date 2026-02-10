@@ -2,15 +2,16 @@
 
 import Button from "@4miga/design-system/components/button";
 import Text from "@4miga/design-system/components/Text";
-import { Theme } from "@4miga/design-system/theme/theme";
 import { useRouter } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
+import { useTheme } from "styled-components";
 import { PromotionContainer, VideoWrapper } from "./style";
 
 const VIDEO_URL =
   "https://storage.googleapis.com/4miga-images/videos/promotion-01/1768517223536-promotion1.mp4";
 
 const Promotion = () => {
+  const theme = useTheme();
   const router = useRouter();
   const videoRef = useRef<HTMLVideoElement>(null);
   const [isLoading, setIsLoading] = useState(true);
@@ -127,7 +128,7 @@ const Promotion = () => {
           tag="h1"
           align="center"
           fontName="LARGE_SEMI_BOLD"
-          color={Theme.colors.mainlight}
+          color={theme.text_01}
           margin="0 0 8px 0"
         >
           Aprenda a recarregar
@@ -140,7 +141,7 @@ const Promotion = () => {
               tag="p"
               align="center"
               fontName="REGULAR"
-              color={Theme.colors.secondaryText}
+              color={theme.text_03}
             >
               Carregando vídeo...
             </Text>
@@ -153,7 +154,7 @@ const Promotion = () => {
               tag="p"
               align="center"
               fontName="REGULAR"
-              color={Theme.colors.refused}
+              color={theme.refused}
             >
               Erro ao carregar vídeo
             </Text>

@@ -1,4 +1,3 @@
-import { Theme } from "@4miga/design-system/theme/theme";
 import styled from "styled-components";
 import "swiper/css";
 import "swiper/css/navigation";
@@ -30,12 +29,12 @@ export const SwiperContainer = styled.div`
   }
 
   .swiper-pagination-bullet {
-    background: ${Theme.colors.mainlight};
+    background: ${({ theme }) => theme.text_01};
     opacity: 1;
   }
 
   .swiper-pagination-bullet-active {
-    background: ${Theme.colors.mainHighlight};
+    background: ${({ theme }) => theme.mainColor};
     opacity: 1;
   }
 

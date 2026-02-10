@@ -1,6 +1,6 @@
 import Text from "@4miga/design-system/components/Text";
-import { Theme } from "@4miga/design-system/theme/theme";
 import React from "react";
+import { useTheme } from "styled-components";
 import { PaginationContainer } from "./style";
 
 interface Props {
@@ -10,6 +10,7 @@ interface Props {
 }
 
 const Pagination = ({ page, setPage, totalPages }: Props) => {
+  const theme = useTheme();
   const createPageArray = (): (number | string)[] => {
     const pages: (number | string)[] = [];
 
@@ -46,8 +47,8 @@ const Pagination = ({ page, setPage, totalPages }: Props) => {
             align="center"
             color={
               element !== page
-                ? Theme.colors.secondaryText
-                : Theme.colors.mainlight
+                ? theme.text_03
+                : theme.text_01
             }
             fontName="REGULAR_SEMI_BOLD"
             style={{ cursor: "pointer" }}
@@ -60,7 +61,7 @@ const Pagination = ({ page, setPage, totalPages }: Props) => {
             key={index}
             className="dots"
             align="center"
-            color={Theme.colors.secondaryText}
+            color={theme.text_03}
             fontName="REGULAR_SEMI_BOLD"
           >
             {element}

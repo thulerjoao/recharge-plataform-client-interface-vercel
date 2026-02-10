@@ -1,4 +1,3 @@
-import { Theme } from "@4miga/design-system/theme/theme";
 import styled from "styled-components";
 
 export const ConfirmModalBackground = styled.div`
@@ -17,9 +16,9 @@ export const ConfirmModalBackground = styled.div`
 `;
 
 export const ConfirmModalContainer = styled.div`
-  background: ${Theme.colors.maindark};
-  color: ${Theme.colors.mainlight};
-  border: 1px solid ${Theme.colors.mainHighlight};
+  background: ${({ theme }) => theme.background_01};
+  color: ${({ theme }) => theme.text_01};
+  border: 1px solid ${({ theme }) => theme.mainColor};
   border-radius: 12px;
   padding: 16px 8px;
   display: flex;
@@ -35,7 +34,7 @@ export const ConfirmModalContainer = styled.div`
     margin: 0;
     white-space: pre-line;
     text-align: center;
-    color: ${Theme.colors.mainlight};
+    color: ${({ theme }) => theme.text_01};
   }
 
   .buttons {

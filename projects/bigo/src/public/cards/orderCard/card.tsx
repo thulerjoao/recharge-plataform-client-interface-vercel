@@ -1,6 +1,6 @@
 import Text from "@4miga/design-system/components/Text";
-import { Theme } from "@4miga/design-system/theme/theme";
 import Image from "next/image";
+import { useTheme } from "styled-components";
 import { useRouter } from "next/navigation";
 import { OrderType } from "types/orderType";
 import { formatDate } from "utils/formatDate";
@@ -13,6 +13,7 @@ interface OrderCardProps {
 }
 
 const OrderCard = ({ order }: OrderCardProps) => {
+  const theme = useTheme();
   const route = useRouter();
   const handleSeeMore = () => {
     sessionStorage.setItem("order", JSON.stringify(order));
@@ -39,7 +40,7 @@ const OrderCard = ({ order }: OrderCardProps) => {
           </Text>
         </div>
         <div className="rowInfos">
-          <Text color={Theme.colors.secondaryText} fontName="TINY">
+          <Text color={theme.text_03} fontName="TINY">
             {formatDate(order.createdAt)}
           </Text>
           <Text
@@ -55,7 +56,7 @@ const OrderCard = ({ order }: OrderCardProps) => {
             align="center"
             underline
             fontName="TINY"
-            color={Theme.colors.secondaryText}
+            color={theme.text_03}
           >
             ver detalhes
           </Text>

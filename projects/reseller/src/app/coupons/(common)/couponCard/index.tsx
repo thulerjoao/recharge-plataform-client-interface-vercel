@@ -3,7 +3,7 @@
 import React, { useState, useEffect } from "react";
 import Button from "@4miga/design-system/components/button";
 import Text from "@4miga/design-system/components/Text";
-import { Theme } from "@4miga/design-system/theme/theme";
+import { useTheme } from "styled-components";
 import { CouponType } from "types/couponType";
 import { formatPrice } from "utils/formatPrice";
 import { CouponCardContainer } from "./style";
@@ -27,6 +27,7 @@ const CouponCard = ({
   currentView,
   isLoading = false,
 }: CouponCardProps) => {
+  const theme = useTheme();
   const getDiscountText = (coupon: CouponType) => {
     if (coupon.discountPercentage) {
       return `${coupon.discountPercentage}%`;
@@ -94,17 +95,17 @@ const CouponCard = ({
           <span className="firstPurchaseBadge">1ª Compra</span>
         )}
         <div className="couponTitle">
-          <Text fontName="REGULAR_MEDIUM" color={Theme.colors.mainlight}>
+          <Text fontName="REGULAR_MEDIUM" color={theme.text_01}>
             {coupon.title}
           </Text>
         </div>
       </div>
       <div className="tableCell">
-        <Text fontName="REGULAR_MEDIUM" color={Theme.colors.mainlight}>
+        <Text fontName="REGULAR_MEDIUM" color={theme.text_01}>
           {getDiscountText(coupon)}
         </Text>
         {coupon.minOrderAmount && (
-          <Text fontName="SMALL" color={Theme.colors.secondaryText}>
+          <Text fontName="SMALL" color={theme.text_03}>
             Min - R$ {formatPrice(Number(coupon.minOrderAmount))}
           </Text>
         )}
@@ -116,9 +117,7 @@ const CouponCard = ({
           <Text
             align="center"
             fontName="SMALL_MEDIUM"
-            color={
-              coupon.isActive ? Theme.colors.approved : Theme.colors.refused
-            }
+            color={coupon.isActive ? theme.approved : theme.refused}
           >
             {coupon.isActive ? "Ativo" : "Inativo"}
           </Text>
@@ -135,8 +134,8 @@ const CouponCard = ({
           style={
             (currentView === "all" && isFeatured) || currentView === "featured"
               ? {
-                  backgroundColor: Theme.colors.refused,
-                  color: Theme.colors.mainlight,
+                  backgroundColor: theme.refused,
+                  color: theme.text_01,
                 }
               : undefined
           }

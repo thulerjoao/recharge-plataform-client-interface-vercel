@@ -1,4 +1,3 @@
-import { Theme } from "@4miga/design-system/theme/theme";
 import styled from "styled-components";
 
 export const CreateInfluencerContainer = styled.div`
@@ -28,7 +27,7 @@ export const CreateInfluencerContainer = styled.div`
       gap: 24px;
       padding: 24px;
       width: 100%;
-      background: ${Theme.colors.maindark};
+      background: ${({ theme }) => theme.background_01};
       border-radius: 12px;
       -webkit-box-shadow: 0px 0px 5px 2px rgba(7, 29, 35, 1);
       -moz-box-shadow: 0px 0px 5px 2px rgba(7, 29, 35, 1);
@@ -37,7 +36,7 @@ export const CreateInfluencerContainer = styled.div`
       .avatar {
         width: 64px;
         height: 64px;
-        background: ${Theme.colors.secondaryTextAction};
+        background: ${({ theme }) => theme.text_04};
         border-radius: 12px;
         display: flex;
         align-items: center;
@@ -61,8 +60,8 @@ export const CreateInfluencerContainer = styled.div`
           border-radius: 16px;
           display: inline-block;
           text-align: center;
-          background: ${Theme.colors.secondaryTextAction}20;
-          border: 1px solid ${Theme.colors.secondaryTextAction};
+          background: ${({ theme }) => theme.text_04}20;
+          border: 1px solid ${({ theme }) => theme.text_04};
         }
       }
 
@@ -82,7 +81,7 @@ export const CreateInfluencerContainer = styled.div`
 
       .infoSection {
         padding: 24px;
-        background: ${Theme.colors.maindark};
+        background: ${({ theme }) => theme.background_01};
         border-radius: 12px;
         -webkit-box-shadow: 0px 0px 5px 2px rgba(7, 29, 35, 1);
         -moz-box-shadow: 0px 0px 5px 2px rgba(7, 29, 35, 1);
@@ -106,25 +105,25 @@ export const CreateInfluencerContainer = styled.div`
               font-size: 16px;
               height: 28px;
               border-radius: 8px;
-              border: 2px solid ${Theme.colors.secondaryAction};
-              color: ${Theme.colors.secondaryAction};
-              background: ${Theme.colors.mainlight};
+              border: 2px solid ${({ theme }) => theme.border_01};
+              color: ${({ theme }) => theme.border_01};
+              background: ${({ theme }) => theme.text_01};
               cursor: pointer;
 
               &:focus {
                 outline: none;
-                box-shadow: 0px 0px 7px 0px ${Theme.colors.mainHighlight};
-                border: 2px solid ${Theme.colors.mainHighlight};
+                box-shadow: 0px 0px 7px 0px ${({ theme }) => theme.mainColor};
+                border: 2px solid ${({ theme }) => theme.mainColor};
               }
 
               &.error {
-                border-color: ${Theme.colors.pending};
-                box-shadow: 0 0 0 3px ${Theme.colors.pending}40;
+                border-color: ${({ theme }) => theme.pending};
+                box-shadow: 0 0 0 3px ${({ theme }) => theme.pending}40;
               }
 
               option {
-                background: ${Theme.colors.mainlight};
-                color: ${Theme.colors.secondaryAction};
+                background: ${({ theme }) => theme.text_01};
+                color: ${({ theme }) => theme.border_01};
                 padding: 8px;
                 border: none;
               }
@@ -132,13 +131,13 @@ export const CreateInfluencerContainer = styled.div`
 
             input {
               &.error {
-                border-color: ${Theme.colors.pending};
-                box-shadow: 0 0 0 3px ${Theme.colors.pending}40;
+                border-color: ${({ theme }) => theme.pending};
+                box-shadow: 0 0 0 3px ${({ theme }) => theme.pending}40;
               }
             }
 
             .error-message {
-              color: ${Theme.colors.pending};
+              color: ${({ theme }) => theme.pending};
               font-size: 12px;
               margin-top: 6px;
               display: block;

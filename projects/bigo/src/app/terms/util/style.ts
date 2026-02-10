@@ -1,4 +1,3 @@
-import { Theme } from "@4miga/design-system/theme/theme";
 import styled from "styled-components";
 
 export const TermsContainer = styled.div`
@@ -28,12 +27,12 @@ export const TermsContainer = styled.div`
     width: 100%;
     margin: 16px 0;
     padding-left: 24px;
-    color: ${Theme.colors.mainlight};
+    color: ${({ theme }) => theme.text_01};
 
     li {
       margin-bottom: 12px;
       line-height: 1.6;
-      color: ${Theme.colors.mainlight};
+      color: ${({ theme }) => theme.text_01};
 
       &:last-child {
         margin-bottom: 0;
@@ -50,11 +49,11 @@ export const TermsContainer = styled.div`
       margin-top: 8px;
       margin-bottom: 8px;
       padding-left: 24px;
-      color: ${Theme.colors.mainlight};
+      color: ${({ theme }) => theme.text_01};
 
       li {
         margin-bottom: 8px;
-        color: ${Theme.colors.mainlight};
+        color: ${({ theme }) => theme.text_01};
       }
     }
   }
@@ -64,7 +63,7 @@ export const TermsContainer = styled.div`
   }
 
   .email-link {
-    color: ${Theme.colors.mainlight};
+    color: ${({ theme }) => theme.text_01};
     text-decoration: underline;
     transition: opacity 0.2s;
 
@@ -78,7 +77,7 @@ export const TermsContainer = styled.div`
     text-align: right;
     margin-top: 40px;
     padding-top: 24px;
-    border-top: 1px solid ${Theme.colors.mainTransparent};
+    border-top: 1px solid ${({ theme }) => theme.background_03};
   }
 
   @media (min-width: 768px) and (max-width: 1024px) {

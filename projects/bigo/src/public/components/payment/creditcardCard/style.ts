@@ -1,4 +1,3 @@
-import { Theme } from "@4miga/design-system/theme/theme";
 import styled, { keyframes } from "styled-components";
 
 type AnimationProps = {
@@ -12,21 +11,21 @@ export const CreditCardContainer = styled.div<AnimationProps>`
   justify-content: flex-start;
   align-items: start;
   flex-direction: row;
-  background-color: ${Theme.colors.mainlight};
+  background-color: ${({ theme }) => theme.text_01};
   box-sizing: border-box;
   height: 72px;
   width: 100%;
-  border: 2px solid ${Theme.colors.secondaryAction};
-  ${({ expand }) =>
-    expand && `border: 4px solid ${Theme.colors.mainHighlight}`};
+  border: 2px solid ${({ theme }) => theme.border_01};
+  ${({ expand, theme }) =>
+    expand && `border: 4px solid ${theme.mainColor}`};
   border-radius: 8px;
   padding: 0px 16px;
   padding-top: 12px;
   cursor: pointer;
   margin-top: 24px;
   position: relative;
-  box-shadow: ${({ expand }) =>
-    expand && `0px 0px 12px 0px ${Theme.colors.mainHighlight}`};
+  box-shadow: ${({ expand, theme }) =>
+    expand && `0px 0px 12px 0px ${theme.mainColor}`};
 
   .headerText {
     position: absolute;

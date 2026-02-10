@@ -1,9 +1,8 @@
-import { Theme } from "@4miga/design-system/theme/theme";
 import styled from "styled-components";
 
 export const SecondaryBannerUploadContainer = styled.div`
   padding: 24px;
-  background: ${Theme.colors.maindark};
+  background: ${({ theme }) => theme.background_01};
   border-radius: 12px;
   box-shadow: 0px 0px 5px 2px rgba(7, 29, 35, 1);
   display: flex;
@@ -17,7 +16,7 @@ export const SecondaryBannerUploadContainer = styled.div`
     flex-direction: column;
     gap: 8px;
     padding-bottom: 16px;
-    border-bottom: 2px solid ${Theme.colors.secondaryTextAction};
+    border-bottom: 2px solid ${({ theme }) => theme.text_04};
   }
 
   .bannerImagePreview {
@@ -45,9 +44,9 @@ export const SecondaryBannerUploadContainer = styled.div`
       width: 100%;
       padding: 100px 20px;
       text-align: center;
-      background: ${Theme.colors.secondaryTextAction}20;
+      background: ${({ theme }) => theme.text_04}20;
       border-radius: 8px;
-      border: 2px dashed ${Theme.colors.secondaryTextAction};
+      border: 2px dashed ${({ theme }) => theme.text_04};
       aspect-ratio: 21 / 9;
       display: flex;
       align-items: center;
@@ -66,7 +65,7 @@ export const SecondaryBannerUploadContainer = styled.div`
     justify-content: center;
     gap: 16px;
     padding-top: 16px;
-    border-top: 2px solid ${Theme.colors.secondaryTextAction};
+    border-top: 2px solid ${({ theme }) => theme.text_04};
     margin-top: 8px;
   }
 

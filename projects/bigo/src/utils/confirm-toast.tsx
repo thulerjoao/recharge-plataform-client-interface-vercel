@@ -1,14 +1,13 @@
 "use client";
 
 import Text from "@4miga/design-system/components/Text";
-import { Theme } from "@4miga/design-system/theme/theme";
 import { createContext, ReactNode, useContext, useState } from "react";
 import styled from "styled-components";
 
 const ConfirmModalBackground = styled.div`
   z-index: 9998;
   position: fixed;
-  background-color: ${Theme.colors.modalBackground};
+  background-color: ${({ theme }) => theme.background_06};
   top: 0;
   left: 0;
   width: 100vw;
@@ -21,7 +20,7 @@ const ConfirmModalBackground = styled.div`
 const ConfirmModalContainer = styled.div`
   width: 100%;
   max-width: 480px;
-  background-color: ${Theme.colors.maindark};
+  background-color: ${({ theme }) => theme.background_01};
   display: flex;
   flex-direction: column;
   border-radius: 12px;
@@ -32,7 +31,7 @@ const ConfirmModalContainer = styled.div`
   gap: 24px;
 
   .message {
-    color: ${Theme.colors.mainlight};
+    color: ${({ theme }) => theme.text_01};
     text-align: center;
     white-space: pre-line;
   }
@@ -58,13 +57,13 @@ const ConfirmModalContainer = styled.div`
   }
 
   .cancel-button {
-    background-color: ${Theme.colors.mainTransparent};
-    color: ${Theme.colors.mainlight};
+    background-color: ${({ theme }) => theme.background_03};
+    color: ${({ theme }) => theme.text_01};
   }
 
   .confirm-button {
-    background-color: ${Theme.colors.mainHighlight};
-    color: ${Theme.colors.maindark};
+    background-color: ${({ theme }) => theme.mainColor};
+    color: ${({ theme }) => theme.background_01};
   }
 `;
 

@@ -1,15 +1,15 @@
-import { Theme } from "@4miga/design-system/theme/theme";
-
 import Button from "@4miga/design-system/components/button";
 import Input from "@4miga/design-system/components/input";
 import Text from "@4miga/design-system/components/Text";
 import { InputHTMLAttributes, useEffect, useState } from "react";
+import { useTheme } from "styled-components";
 import InputMask from "react-input-mask";
 import { StyleSheetManager } from "styled-components";
 import CreditCard from "public/icons/CreditCard.svg";
 import { BottomElement, CreditCardContainer } from "./style";
 
 const CreditcardCard = () => {
+  const theme = useTheme();
   const [expand, setExpend] = useState<boolean>(false);
   const [isRounded, setIsRounded] = useState<boolean>(true);
   const [initialized, setInitialized] = useState<boolean>(false);
@@ -47,12 +47,12 @@ const CreditcardCard = () => {
           <span>
             <CreditCard />
           </span>
-          <Text fontName="REGULAR_MEDIUM" color={Theme.colors.secondaryAction}>
+          <Text fontName="REGULAR_MEDIUM" color={theme.border_01}>
             Cartão de crédito
           </Text>
         </div>
         <span className="value">
-          <Text fontName="REGULAR_MEDIUM" color={Theme.colors.secondaryAction}>
+          <Text fontName="REGULAR_MEDIUM" color={theme.border_01}>
             R$: 3,95
           </Text>
         </span>

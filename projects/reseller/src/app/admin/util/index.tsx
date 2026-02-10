@@ -3,7 +3,7 @@
 import Button from "@4miga/design-system/components/button";
 import Input from "@4miga/design-system/components/input";
 import Text from "@4miga/design-system/components/Text";
-import { Theme } from "@4miga/design-system/theme/theme";
+import { useTheme } from "styled-components";
 import {
   connectionAPIGet,
   connectionAPIPatch,
@@ -22,6 +22,7 @@ type emailUserType = {
 };
 
 const AdmPage = () => {
+  const theme = useTheme();
   const [selectedUser, setSelectedUser] = useState<emailUserType>();
   const [searchTerm, setSearchTerm] = useState("");
   const [searchResults, setSearchResults] = useState<emailUserType[]>([]);
@@ -193,13 +194,10 @@ const AdmPage = () => {
           <div className="sectionCard">
             <div className="headerSection">
               <div className="titleSection">
-                <Text fontName="LARGE_SEMI_BOLD" color={Theme.colors.mainlight}>
+                <Text fontName="LARGE_SEMI_BOLD" color={theme.text_01}>
                   Administradores Atuais
                 </Text>
-                <Text
-                  fontName="REGULAR_MEDIUM"
-                  color={Theme.colors.secondaryText}
-                >
+                <Text fontName="REGULAR_MEDIUM" color={theme.text_03}>
                   Lista de todos os administradores da loja
                 </Text>
               </div>
@@ -211,7 +209,7 @@ const AdmPage = () => {
                   <Text
                     align="center"
                     fontName="REGULAR_MEDIUM"
-                    color={Theme.colors.secondaryText}
+                    color={theme.text_03}
                   >
                     Nenhum administrador cadastrado
                   </Text>
@@ -237,7 +235,7 @@ const AdmPage = () => {
                         <Text
                           className="adminEmail"
                           fontName="REGULAR_MEDIUM"
-                          color={Theme.colors.mainlight}
+                          color={theme.text_01}
                         >
                           {admin.email}
                         </Text>
@@ -276,20 +274,17 @@ const AdmPage = () => {
           <div className="sectionCard">
             <div className="headerSection">
               <div className="titleSection">
-                <Text fontName="LARGE_SEMI_BOLD" color={Theme.colors.mainlight}>
+                <Text fontName="LARGE_SEMI_BOLD" color={theme.text_01}>
                   Promover Usuário para Administrador
                 </Text>
-                <Text
-                  fontName="REGULAR_MEDIUM"
-                  color={Theme.colors.secondaryText}
-                >
+                <Text fontName="REGULAR_MEDIUM" color={theme.text_03}>
                   Selecione um usuário para promover
                 </Text>
               </div>
             </div>
 
             <div className="searchSection">
-              <Text fontName="REGULAR_MEDIUM" color={Theme.colors.mainlight}>
+              <Text fontName="REGULAR_MEDIUM" color={theme.text_01}>
                 Busque o email do usuário:
               </Text>
               <div className="searchInputWrapper" ref={searchWrapperRef}>
@@ -313,7 +308,7 @@ const AdmPage = () => {
                         <Text
                           className="resultEmail"
                           fontName="REGULAR_MEDIUM"
-                          color={Theme.colors.mainlight}
+                          color={theme.text_01}
                         >
                           {user.email}
                         </Text>
@@ -325,7 +320,7 @@ const AdmPage = () => {
                   searchResults.length === 0 &&
                   searchTerm.length >= 2 && (
                     <div className="noResults">
-                      <Text fontName="SMALL" color={Theme.colors.secondaryText}>
+                      <Text fontName="SMALL" color={theme.text_03}>
                         Nenhum usuário encontrado
                       </Text>
                     </div>

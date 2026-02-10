@@ -1,6 +1,6 @@
 import Input from "@4miga/design-system/components/input";
 import Text from "@4miga/design-system/components/Text";
-import { Theme } from "@4miga/design-system/theme/theme";
+import { useTheme } from "styled-components";
 import { ReactElement } from "react";
 import { formatPrice } from "utils/formatPrice";
 import { PriceCardContainer } from "./style";
@@ -24,16 +24,13 @@ const PriceCard = ({
   profitValue,
   sellValue,
 }: CardProps) => {
+  const theme = useTheme();
   return (
     <PriceCardContainer>
       <span className="tax">
         <div className="image">{image}</div>
         <div className="title">
-          <Text
-            nowrap
-            color={Theme.colors.secondaryTextAction}
-            fontName="REGULAR_MEDIUM"
-          >
+          <Text nowrap color={theme.text_04} fontName="REGULAR_MEDIUM">
             {title}
           </Text>
         </div>

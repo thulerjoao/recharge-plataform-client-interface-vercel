@@ -1,8 +1,7 @@
 "use client";
 
 import { InputHTMLAttributes, ReactElement, forwardRef } from "react";
-import { StyleSheetManager } from "styled-components";
-import { Theme } from "../../theme/theme";
+import { StyleSheetManager, useTheme } from "styled-components";
 import Text from "../Text";
 import {
   ExternalComponent,
@@ -43,6 +42,7 @@ const Input = forwardRef<HTMLInputElement, InputProps>(
     },
     ref,
   ) => {
+    const theme = useTheme();
     return (
       <StyleSheetManager
         shouldForwardProp={(prop) =>
@@ -59,7 +59,7 @@ const Input = forwardRef<HTMLInputElement, InputProps>(
           {title && (
             <div className="titleContainer">
               {titleIcon && <span>{titleIcon}</span>}
-              <Text fontName="SMALL_MEDIUM" color={Theme.colors.mainlight}>
+              <Text fontName="SMALL_MEDIUM" color={theme.text_01}>
                 {title}
               </Text>
             </div>

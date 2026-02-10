@@ -1,11 +1,10 @@
-import { Theme } from "@4miga/design-system/theme/theme";
 import styled from "styled-components";
 
 interface OrderManualCardProps {}
 
 export const OrderManualCardContainer = styled.article<OrderManualCardProps>`
   height: 64px;
-  background-color: ${Theme.colors.maindark};
+  background-color: ${({ theme }) => theme.background_01};
   margin-bottom: 16px;
   display: flex;
   align-items: center;

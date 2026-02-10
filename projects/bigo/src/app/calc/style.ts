@@ -1,4 +1,3 @@
-import { Theme } from "@4miga/design-system/theme/theme";
 import styled from "styled-components";
 
 export const CalculatorContainer = styled.div`
@@ -22,14 +21,14 @@ export const CalculatorContainer = styled.div`
   .calculatorCard {
     width: 100%;
     max-width: 900px;
-    background-color: ${Theme.colors.maindark};
+    background-color: ${({ theme }) => theme.background_01};
     border-radius: 12px;
     padding: 24px;
     box-sizing: border-box;
     -webkit-box-shadow: 0px 0px 5px 1px rgba(7, 29, 35, 1);
     -moz-box-shadow: 0px 0px 5px 1px rgba(7, 29, 35, 1);
     box-shadow: 0px 0px 5px 1px rgba(7, 29, 35, 1);
-    border: 1px solid ${Theme.colors.secondaryAction}80;
+    border: 1px solid ${({ theme }) => theme.border_01}80;
     box-sizing: border-box;
     margin-bottom: 32px;
 
@@ -37,15 +36,15 @@ export const CalculatorContainer = styled.div`
       width: 100%;
       margin-bottom: 24px;
       padding-bottom: 24px;
-      border-bottom: 1px solid ${Theme.colors.secondaryAction};
+      border-bottom: 1px solid ${({ theme }) => theme.border_01};
     }
 
     .basePriceInfo {
       width: 100%;
       padding: 12px 16px;
-      background-color: ${Theme.colors.mainBbackgroundSolid};
+      background-color: ${({ theme }) => theme.background_02};
       border-radius: 8px;
-      border: 1px solid ${Theme.colors.mainTransparent};
+      border: 1px solid ${({ theme }) => theme.background_03};
       margin-bottom: 24px;
     }
 
@@ -58,9 +57,9 @@ export const CalculatorContainer = styled.div`
       .currentTier,
       .nextTier {
         padding: 12px;
-        background-color: ${Theme.colors.mainBbackgroundSolid};
+        background-color: ${({ theme }) => theme.background_02};
         border-radius: 8px;
-        border: 1px solid ${Theme.colors.mainTransparent};
+        border: 1px solid ${({ theme }) => theme.background_03};
       }
 
       .calculationDetails {
@@ -68,9 +67,9 @@ export const CalculatorContainer = styled.div`
         flex-direction: column;
         gap: 12px;
         padding: 16px;
-        background-color: ${Theme.colors.mainBbackgroundSolid};
+        background-color: ${({ theme }) => theme.background_02};
         border-radius: 8px;
-        border: 1px solid ${Theme.colors.mainTransparent};
+        border: 1px solid ${({ theme }) => theme.background_03};
 
         .detailRow {
           display: flex;
@@ -80,7 +79,7 @@ export const CalculatorContainer = styled.div`
 
           &.highlight {
             padding-top: 12px;
-            border-top: 1px solid ${Theme.colors.mainTransparent};
+            border-top: 1px solid ${({ theme }) => theme.background_03};
             margin-top: 4px;
           }
         }
@@ -92,21 +91,21 @@ export const CalculatorContainer = styled.div`
         border: 2px solid;
 
         &.worthIt {
-          background-color: ${Theme.colors.approved}20;
-          border-color: ${Theme.colors.approved};
+          background-color: ${({ theme }) => theme.approved}20;
+          border-color: ${({ theme }) => theme.approved};
         }
 
         &.notWorthIt {
-          background-color: ${Theme.colors.refused}20;
-          border-color: ${Theme.colors.refused};
+          background-color: ${({ theme }) => theme.refused}20;
+          border-color: ${({ theme }) => theme.refused};
         }
       }
 
       .alertBanner {
         width: 100%;
         padding: 16px 20px;
-        background-color: ${Theme.colors.pending}20;
-        border: 2px solid ${Theme.colors.pending};
+        background-color: ${({ theme }) => theme.pending}20;
+        border: 2px solid ${({ theme }) => theme.pending};
         border-radius: 8px;
         display: flex;
         align-items: center;
@@ -116,7 +115,7 @@ export const CalculatorContainer = styled.div`
         .alertIcon {
           flex-shrink: 0;
           font-size: 20px;
-          color: ${Theme.colors.pending};
+          color: ${({ theme }) => theme.pending};
         }
 
         .alertText {
@@ -127,17 +126,17 @@ export const CalculatorContainer = styled.div`
 
       .maxTier {
         padding: 16px;
-        background-color: ${Theme.colors.mainBbackgroundSolid};
+        background-color: ${({ theme }) => theme.background_02};
         border-radius: 8px;
-        border: 1px solid ${Theme.colors.mainTransparent};
+        border: 1px solid ${({ theme }) => theme.background_03};
       }
     }
 
     .errorMessage {
       padding: 16px;
-      background-color: ${Theme.colors.pending}20;
+      background-color: ${({ theme }) => theme.pending}20;
       border-radius: 8px;
-      border: 1px solid ${Theme.colors.pending};
+      border: 1px solid ${({ theme }) => theme.pending};
     }
   }
 
@@ -155,46 +154,46 @@ export const CalculatorContainer = styled.div`
       -webkit-box-shadow: 0px 0px 5px 1px rgba(7, 29, 35, 1);
       -moz-box-shadow: 0px 0px 5px 1px rgba(7, 29, 35, 1);
       box-shadow: 0px 0px 5px 1px rgba(7, 29, 35, 1);
-      border: 1px solid ${Theme.colors.secondaryAction}80;
+      border: 1px solid ${({ theme }) => theme.border_01}80;
       box-sizing: border-box;
       border-radius: 8px;
 
       table {
         width: 100%;
         border-collapse: collapse;
-        background-color: ${Theme.colors.maindark};
+        background-color: ${({ theme }) => theme.background_01};
         border-radius: 8px;
         overflow: hidden;
 
         thead {
-          background-color: ${Theme.colors.mainBbackgroundSolid};
+          background-color: ${({ theme }) => theme.background_02};
 
           th {
             padding: 12px 16px;
             text-align: left;
             font-size: 14px;
             font-weight: 600;
-            color: ${Theme.colors.mainlight};
-            border-bottom: 2px solid ${Theme.colors.secondaryAction}80;
+            color: ${({ theme }) => theme.text_01};
+            border-bottom: 2px solid ${({ theme }) => theme.border_01}80;
           }
         }
 
         tbody {
           tr {
-            border-bottom: 1px solid ${Theme.colors.secondaryAction}30;
+            border-bottom: 1px solid ${({ theme }) => theme.border_01}30;
 
             &:last-child {
               border-bottom: none;
             }
 
             &:hover {
-              background-color: ${Theme.colors.mainBbackgroundSolid};
+              background-color: ${({ theme }) => theme.background_02};
             }
 
             td {
               padding: 12px 16px;
               font-size: 14px;
-              color: ${Theme.colors.secondaryText};
+              color: ${({ theme }) => theme.text_03};
             }
           }
         }

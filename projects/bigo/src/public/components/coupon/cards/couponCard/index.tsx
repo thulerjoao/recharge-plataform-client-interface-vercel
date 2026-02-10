@@ -1,5 +1,5 @@
 import Text from "@4miga/design-system/components/Text";
-import { Theme } from "@4miga/design-system/theme/theme";
+import { useTheme } from "styled-components";
 import { CouponValidationResponse } from "types/couponType";
 import { formatPrice } from "utils/formatPrice";
 import { CouponCardContainer } from "./style";
@@ -11,6 +11,7 @@ interface CouponCardProps {
 }
 
 const CouponCard = ({ coupon, selected, onClick }: CouponCardProps) => {
+  const theme = useTheme();
   const { discountAmount, finalAmount, coupon: couponData } = coupon;
   const {
     title,
@@ -28,14 +29,14 @@ const CouponCard = ({ coupon, selected, onClick }: CouponCardProps) => {
     <CouponCardContainer selected={selected} onClick={onClick}>
       <div className="couponInfo">
         <div className="couponHeader">
-          <Text color={Theme.colors.maindark} fontName="REGULAR_SEMI_BOLD">
+          <Text color={theme.background_01} fontName="REGULAR_SEMI_BOLD">
             {title}
           </Text>
           {isFirstPurchase && (
             <div className="firstPurchaseBadge">
               <Text
                 nowrap
-                color={Theme.colors.mainlight}
+                color={theme.text_01}
                 fontName="TINY_MEDIUM"
               >
                 1ª Compra
@@ -44,16 +45,16 @@ const CouponCard = ({ coupon, selected, onClick }: CouponCardProps) => {
           )}
         </div>
         <div className="discountInfo">
-          <Text color={Theme.colors.mainHighlight} fontName="REGULAR_MEDIUM">
+          <Text color={theme.mainColor} fontName="REGULAR_MEDIUM">
             {discountDisplay}
           </Text>
         </div>
       </div>
       <div className="couponValues">
-        <Text color={Theme.colors.secondaryText} fontName="TINY_MEDIUM">
+        <Text color={theme.text_03} fontName="TINY_MEDIUM">
           Desconto: R$ {formatPrice(discountAmount)}
         </Text>
-        <Text color={Theme.colors.maindark} fontName="REGULAR_SEMI_BOLD">
+        <Text color={theme.background_01} fontName="REGULAR_SEMI_BOLD">
           Total: R$ {formatPrice(finalAmount)}
         </Text>
       </div>

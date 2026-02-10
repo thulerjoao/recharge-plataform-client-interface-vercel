@@ -1,4 +1,3 @@
-import { Theme } from "@4miga/design-system/theme/theme";
 import styled from "styled-components";
 
 export const HowItWorksContainer = styled.div`
@@ -27,12 +26,12 @@ export const HowItWorksContainer = styled.div`
       max-width: 950px;
       margin-top: 32px;
       padding: 24px 8px;
-      background-color: ${Theme.colors.mainBbackgroundSolid};
+      background-color: ${({ theme }) => theme.background_02};
       border-radius: 12px;
       -webkit-box-shadow: 0px 0px 5px 0px rgb(15, 65, 79);
       -moz-box-shadow: 0px 0px 5px 0px rgb(15, 65, 79);
       box-shadow: 0px 0px 5px 0px rgb(15, 65, 79);
-      border: 2px solid ${Theme.colors.secondaryAction}60;
+      border: 2px solid ${({ theme }) => theme.border_01}60;
     }
 
     div {

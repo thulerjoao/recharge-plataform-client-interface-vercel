@@ -1,4 +1,3 @@
-import { Theme } from "@4miga/design-system/theme/theme";
 import styled from "styled-components";
 
 interface CouponContainerProps {
@@ -11,15 +10,15 @@ export const CouponContainer = styled.div<CouponContainerProps>`
   height: auto;
   margin-bottom: 18px;
   border-radius: 8px;
-  border: 2px solid ${Theme.colors.secondaryAction};
-  background-color: ${Theme.colors.mainlight};
+  border: 2px solid ${({ theme }) => theme.border_01};
+  background-color: ${({ theme }) => theme.text_01};
   position: relative;
 
   .couponClosedContent {
     width: 100%;
     border-radius: ${({ openCoupon }) => (openCoupon ? "8px 8px 0 0" : "8px")};
-    border-bottom: ${({ openCoupon }) =>
-      openCoupon && `2px solid ${Theme.colors.secondaryAction}`};
+    border-bottom: ${({ openCoupon, theme }) =>
+      openCoupon && `2px solid ${theme.border_01}`};
     height: 44px;
     display: flex;
     align-items: center;
@@ -34,7 +33,7 @@ export const CouponContainer = styled.div<CouponContainerProps>`
       min-width: 140px;
       gap: 8px;
       padding: 0 8px;
-      border-right: 2px dotted ${Theme.colors.secondaryAction};
+      border-right: 2px dotted ${({ theme }) => theme.border_01};
     }
 
     .couponText {
@@ -52,7 +51,7 @@ export const CouponContainer = styled.div<CouponContainerProps>`
     overflow: hidden;
     border-bottom-left-radius: 8px;
     border-bottom-right-radius: 8px;
-    background-color: ${Theme.colors.secondaryAction}30;
+    background-color: ${({ theme }) => theme.border_01}30;
     transition:
       max-height 0.3s cubic-bezier(0.4, 0, 0.2, 1),
       opacity 0.25s ease-out,

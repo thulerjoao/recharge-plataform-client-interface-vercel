@@ -1,4 +1,3 @@
-import { Theme } from "@4miga/design-system/theme/theme";
 import styled from "styled-components";
 
 export const SalesByPackageContainer = styled.section`
@@ -6,7 +5,7 @@ export const SalesByPackageContainer = styled.section`
   margin-top: 48px;
   padding-top: 32px;
   padding-bottom: 64px;
-  border-top: 1px solid ${Theme.colors.secondaryAction}40;
+  border-top: 1px solid ${({ theme }) => theme.border_01}40;
 
   .packageList {
     list-style: none;
@@ -23,10 +22,10 @@ export const SalesByPackageContainer = styled.section`
     justify-content: space-between;
     flex-wrap: wrap;
     gap: 16px;
-    background-color: ${Theme.colors.maindark};
+    background-color: ${({ theme }) => theme.background_01};
     border-radius: 8px;
     padding: 16px 20px;
-    border: 1px solid ${Theme.colors.secondaryAction}80;
+    border: 1px solid ${({ theme }) => theme.border_01}80;
     -webkit-box-shadow: 0px 0px 5px 1px rgba(7, 29, 35, 1);
     -moz-box-shadow: 0px 0px 5px 1px rgba(7, 29, 35, 1);
     box-shadow: 0px 0px 5px 1px rgba(7, 29, 35, 1);
@@ -57,7 +56,7 @@ export const SalesByPackageContainer = styled.section`
       .packageMetrics {
         width: 100%;
         justify-content: space-between;
-        border-top: 1px solid ${Theme.colors.secondaryAction}80;
+        border-top: 1px solid ${({ theme }) => theme.border_01}80;
         padding-top: 12px;
 
         p {

@@ -2,7 +2,7 @@
 
 import Text from "@4miga/design-system/components/Text";
 import Button from "@4miga/design-system/components/button";
-import { Theme } from "@4miga/design-system/theme/theme";
+import { useTheme } from "styled-components";
 import {
   connectionAPIGet,
   connectionAPIPost,
@@ -51,6 +51,7 @@ const getPeriodParam = (period: PeriodType): string => {
 };
 
 const Dashboard = () => {
+  const theme = useTheme();
   const [selectedPeriod, setSelectedPeriod] =
     useState<PeriodType>(getCurrentPeriod());
   const [dashboardData, setDashboardData] = useState<DashboardDataType | null>(
@@ -279,11 +280,7 @@ const Dashboard = () => {
             </div>
           </div>
           {dashboardData.period && (
-            <Text
-              margin="8px 0 0 0"
-              fontName="REGULAR"
-              color={Theme.colors.secondaryText}
-            >
+            <Text margin="8px 0 0 0" fontName="REGULAR" color={theme.text_03}>
               Período: {formatPeriod()}
             </Text>
           )}

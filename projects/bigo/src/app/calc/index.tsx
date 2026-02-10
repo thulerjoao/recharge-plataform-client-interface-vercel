@@ -2,8 +2,8 @@
 
 import Input from "@4miga/design-system/components/input";
 import Text from "@4miga/design-system/components/Text";
-import { Theme } from "@4miga/design-system/theme/theme";
 import { useMemo, useState } from "react";
+import { useTheme } from "styled-components";
 import { CalculatorContainer } from "./style";
 
 interface PaymentTier {
@@ -38,6 +38,7 @@ const PAYMENT_TIERS: PaymentTier[] = [
 ];
 
 const Calculator = () => {
+  const theme = useTheme();
   const [soldValue, setSoldValue] = useState<string>("");
 
   const formatNumberInput = (value: string) => {
@@ -152,7 +153,7 @@ const Calculator = () => {
           tag="h1"
           align="center"
           fontName="LARGE_SEMI_BOLD"
-          color={Theme.colors.mainlight}
+          color={theme.text_01}
           margin="0 0 8px 0"
         >
           Calculadora de Metas
@@ -161,7 +162,7 @@ const Calculator = () => {
           tag="p"
           align="center"
           fontName="REGULAR"
-          color={Theme.colors.secondaryText}
+          color={theme.text_03}
           margin="0 0 40px 0"
         >
           Calcule se vale a pena investir do próprio bolso para atingir a
@@ -174,7 +175,7 @@ const Calculator = () => {
           <Text
             tag="p"
             fontName="REGULAR_MEDIUM"
-            color={Theme.colors.mainlight}
+            color={theme.text_01}
             margin="0 0 12px 0"
           >
             Quantos beans você já recebeu?
@@ -196,7 +197,7 @@ const Calculator = () => {
           <Text
             tag="p"
             fontName="REGULAR"
-            color={Theme.colors.secondaryText}
+            color={theme.text_03}
             align="center"
             margin="0"
           >
@@ -212,7 +213,7 @@ const Calculator = () => {
               <Text
                 tag="p"
                 fontName="REGULAR"
-                color={Theme.colors.secondaryText}
+                color={theme.text_03}
                 margin="0 0 4px 0"
               >
                 Situação Atual:
@@ -220,7 +221,7 @@ const Calculator = () => {
               <Text
                 tag="p"
                 fontName="REGULAR_MEDIUM"
-                color={Theme.colors.mainlight}
+                color={theme.text_01}
                 margin="0"
               >
                 Ganho atual: {formatCurrency(calculation.currentNetGain)}
@@ -240,7 +241,7 @@ const Calculator = () => {
                   <Text
                     tag="p"
                     fontName="REGULAR"
-                    color={Theme.colors.secondaryText}
+                    color={theme.text_03}
                     margin="0 0 4px 0"
                   >
                     Se Completar a Próxima Meta:
@@ -248,7 +249,7 @@ const Calculator = () => {
                   <Text
                     tag="p"
                     fontName="REGULAR_MEDIUM"
-                    color={Theme.colors.mainlight}
+                    color={theme.text_01}
                     margin="0"
                   >
                     Total recebido:{" "}
@@ -260,51 +261,39 @@ const Calculator = () => {
 
                 <div className="calculationDetails">
                   <div className="detailRow">
-                    <Text
-                      tag="span"
-                      fontName="REGULAR"
-                      color={Theme.colors.secondaryText}
-                    >
+                    <Text tag="span" fontName="REGULAR" color={theme.text_03}>
                       Beans necessários:
                     </Text>
                     <Text
                       tag="span"
                       fontName="REGULAR_MEDIUM"
-                      color={Theme.colors.mainlight}
+                      color={theme.text_01}
                     >
                       {formatNumber(calculation.beansNeeded)}
                     </Text>
                   </div>
 
                   <div className="detailRow">
-                    <Text
-                      tag="span"
-                      fontName="REGULAR"
-                      color={Theme.colors.secondaryText}
-                    >
+                    <Text tag="span" fontName="REGULAR" color={theme.text_03}>
                       Custo em dólar:
                     </Text>
                     <Text
                       tag="span"
                       fontName="REGULAR_MEDIUM"
-                      color={Theme.colors.pending}
+                      color={theme.pending}
                     >
                       {formatCurrency(calculation.costInDollars)}
                     </Text>
                   </div>
 
                   <div className="detailRow">
-                    <Text
-                      tag="span"
-                      fontName="REGULAR"
-                      color={Theme.colors.secondaryText}
-                    >
+                    <Text tag="span" fontName="REGULAR" color={theme.text_03}>
                       Ganho total se completar:
                     </Text>
                     <Text
                       tag="span"
                       fontName="REGULAR_MEDIUM"
-                      color={Theme.colors.mainlight}
+                      color={theme.text_01}
                     >
                       {formatCurrency(calculation.nextNetGain)}
                       <br />
@@ -317,7 +306,7 @@ const Calculator = () => {
                     <Text
                       tag="span"
                       fontName="REGULAR_MEDIUM"
-                      color={Theme.colors.secondaryText}
+                      color={theme.text_03}
                     >
                       Lucro/Prejuízo:
                     </Text>
@@ -325,9 +314,7 @@ const Calculator = () => {
                       tag="span"
                       fontName="REGULAR_MEDIUM"
                       color={
-                        calculation.isWorthIt
-                          ? Theme.colors.approved
-                          : Theme.colors.refused
+                        calculation.isWorthIt ? theme.approved : theme.refused
                       }
                     >
                       {formatCurrency(calculation.profit)}
@@ -341,7 +328,7 @@ const Calculator = () => {
                   <Text
                     tag="p"
                     fontName="REGULAR_MEDIUM"
-                    color={Theme.colors.mainlight}
+                    color={theme.text_01}
                     align="center"
                     margin="0"
                   >
@@ -354,7 +341,7 @@ const Calculator = () => {
                   <Text
                     tag="p"
                     fontName="REGULAR"
-                    color={Theme.colors.mainlight}
+                    color={theme.text_01}
                     className="alertText"
                     margin="0"
                   >
@@ -369,7 +356,7 @@ const Calculator = () => {
                 <Text
                   tag="p"
                   fontName="REGULAR_MEDIUM"
-                  color={Theme.colors.mainlight}
+                  color={theme.text_01}
                   align="center"
                   margin="0"
                 >
@@ -385,7 +372,7 @@ const Calculator = () => {
             <Text
               tag="p"
               fontName="REGULAR"
-              color={Theme.colors.pending}
+              color={theme.pending}
               align="center"
             >
               Por favor, insira um valor válido
@@ -398,7 +385,7 @@ const Calculator = () => {
         <Text
           tag="h2"
           fontName="REGULAR_MEDIUM"
-          color={Theme.colors.mainlight}
+          color={theme.text_01}
           margin="0 0 16px 0"
         >
           Tabela de Pagamentos

@@ -1,4 +1,3 @@
-import { Theme } from "@4miga/design-system/theme/theme";
 import styled from "styled-components";
 
 export const FooterContainer = styled.footer`
@@ -6,7 +5,7 @@ export const FooterContainer = styled.footer`
   display: flex;
   align-items: start;
   justify-content: center;
-  background-color: ${Theme.colors.mainBbackgroundSolid};
+  background-color: ${({ theme }) => theme.background_02};
   position: absolute;
   bottom: 0;
 

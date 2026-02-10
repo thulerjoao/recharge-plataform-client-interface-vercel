@@ -1,4 +1,3 @@
-import { Theme } from "@4miga/design-system/theme/theme";
 import styled, { keyframes } from "styled-components";
 
 type AnimationProps = {
@@ -13,20 +12,20 @@ export const PixCardContainer = styled.div<AnimationProps>`
   justify-content: flex-start;
   align-items: start;
   flex-direction: row;
-  background-color: ${Theme.colors.mainlight};
+  background-color: ${({ theme }) => theme.text_01};
   box-sizing: border-box;
   height: 48px;
   width: 100%;
-  border: 2px solid ${Theme.colors.secondaryAction};
-  /* ${({ firstExpand }) =>
-    firstExpand && `border: 2px solid ${Theme.colors.mainHighlight}`}; */
+  border: 2px solid ${({ theme }) => theme.border_01};
+  /* ${({ firstExpand, theme }) =>
+    firstExpand && `border: 2px solid ${theme.mainColor}`}; */
   border-radius: 8px;
   padding: 0px 16px;
   padding-top: 12px;
   cursor: pointer;
   position: relative;
-  /* box-shadow: ${({ firstExpand }) =>
-    firstExpand && `0px 0px 6px 0px ${Theme.colors.mainHighlight}`}; */
+  /* box-shadow: ${({ firstExpand, theme }) =>
+    firstExpand && `0px 0px 6px 0px ${theme.mainColor}`}; */
 
   .pixText {
     position: absolute;
@@ -92,12 +91,12 @@ export const BottomElement = styled.div<AnimationProps>`
     align-items: center;
     justify-content: center;
     border-radius: 8px;
-    border: ${({ secondExpand }) =>
-      secondExpand ? `2px solid ${Theme.colors.secondaryAction};` : "none"};
+    border: ${({ secondExpand, theme }) =>
+      secondExpand ? `2px solid ${theme.border_01};` : "none"};
     overflow: hidden;
     height: ${({ secondExpand }) => (secondExpand ? "48px" : "0")};
     animation: 0.4s easy-in-out;
-    background-color: ${Theme.colors.mainlight};
+    background-color: ${({ theme }) => theme.text_01};
     margin-top: 18px;
     margin-bottom: 18px;
     padding: 0 16px;

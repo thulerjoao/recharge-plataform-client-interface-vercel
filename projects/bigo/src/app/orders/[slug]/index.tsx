@@ -2,7 +2,6 @@
 
 import Button from "@4miga/design-system/components/button";
 import Text from "@4miga/design-system/components/Text";
-import { Theme } from "@4miga/design-system/theme/theme";
 import { connectionAPIGet } from "@4miga/services/connectionAPI/connection";
 import { useAuth } from "contexts/auth";
 import { useProducts } from "contexts/products/ProductsProvider";
@@ -12,6 +11,7 @@ import LoadingDots from "public/components/loadingDots";
 import BackArrow from "public/icons/BackArrow.svg";
 import Pix from "public/icons/PixBig.svg";
 import { useEffect, useRef, useState } from "react";
+import { useTheme } from "styled-components";
 import { OrderType } from "types/orderType";
 import { formatDate } from "utils/formatDate";
 import { formatPrice } from "utils/formatPrice";
@@ -24,6 +24,7 @@ import {
 import { OrderContainer } from "./style";
 
 const Order = () => {
+  const theme = useTheme();
   const [loading, setLoading] = useState<boolean>(false);
   const [order, setOrder] = useState<OrderType | null>(
     typeof window !== "undefined"
@@ -171,7 +172,7 @@ const Order = () => {
                 <Text
                   margin="8px 0 0 0"
                   align="end"
-                  color={Theme.colors.secondaryText}
+                  color={theme.text_03}
                   fontName="TINY"
                   tag="h3"
                 >
@@ -223,7 +224,7 @@ const Order = () => {
                   </Text>
                   <Text
                     align="end"
-                    color={Theme.colors.secondaryText}
+                    color={theme.text_03}
                     fontName="TINY"
                     tag="h3"
                   >
@@ -268,7 +269,7 @@ const Order = () => {
                   )}
                   <Text
                     align="end"
-                    color={Theme.colors.secondaryText}
+                    color={theme.text_03}
                     fontName="TINY"
                     tag="h3"
                   >
@@ -280,7 +281,7 @@ const Order = () => {
             {(order?.orderStatus === "CREATED" ||
               order?.orderStatus === "PROCESSING") && (
               <Text
-                color={Theme.colors.pending}
+                color={theme.pending}
                 margin="12px 0 -18px 0"
                 align="center"
                 fontName="TINY"
@@ -313,17 +314,12 @@ const Order = () => {
           //   onClick={() => goToPayment()}
           // />
           <div className="paymentPendingContainer">
-            <Text
-              nowrap
-              color={Theme.colors.secondaryText}
-              align="start"
-              fontName="TINY"
-            >
+            <Text nowrap color={theme.text_03} align="start" fontName="TINY">
               Ainda nao realizou o pagamento?
             </Text>
             <Text
               nowrap
-              color={Theme.colors.mainHighlight}
+              color={theme.mainColor}
               underline
               pointer
               fontName="TINY"
