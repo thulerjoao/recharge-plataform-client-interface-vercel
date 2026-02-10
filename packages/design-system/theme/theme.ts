@@ -1,6 +1,7 @@
-import { bigoColors, resellerColors } from "./modules/color";
+import { bigoColors, zeColors, resellerColors } from "./modules/color";
 
 export const Theme = {
   bigoColors,
+  zeColors,
   resellerColors,
 };

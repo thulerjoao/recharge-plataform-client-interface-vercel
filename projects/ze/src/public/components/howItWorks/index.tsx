@@ -29,12 +29,7 @@ const HowItWorks = () => {
               height={50}
               quality={75}
             />
-            <Text
-              nowrap
-              tag="p"
-              fontName="TINY_MEDIUM"
-              color={theme.text_01}
-            >
+            <Text nowrap tag="p" fontName="TINY_MEDIUM" color={theme.text_01}>
               1. Escolha um pacote
             </Text>
           </div>
@@ -46,12 +41,7 @@ const HowItWorks = () => {
               height={50}
               quality={75}
             />
-            <Text
-              nowrap
-              tag="p"
-              fontName="TINY_MEDIUM"
-              color={theme.text_01}
-            >
+            <Text nowrap tag="p" fontName="TINY_MEDIUM" color={theme.text_01}>
               2. Informe seu ID BIGO
             </Text>
           </div>
@@ -63,12 +53,7 @@ const HowItWorks = () => {
               height={50}
               quality={75}
             />
-            <Text
-              nowrap
-              tag="p"
-              fontName="TINY_MEDIUM"
-              color={theme.text_01}
-            >
+            <Text nowrap tag="p" fontName="TINY_MEDIUM" color={theme.text_01}>
               3. Pague com segurança
             </Text>
           </div>
@@ -80,12 +65,7 @@ const HowItWorks = () => {
               height={50}
               quality={75}
             />
-            <Text
-              nowrap
-              tag="p"
-              fontName="TINY_MEDIUM"
-              color={theme.text_01}
-            >
+            <Text nowrap tag="p" fontName="TINY_MEDIUM" color={theme.text_01}>
               4. Receba na hora!
             </Text>
           </div>

@@ -20,6 +20,26 @@ export const bigoColors = {
   whatsappBackground: "#25D366",
 };
 
+export const zeColors = {
+  background_01: "#071116",
+  background_02: "#071D23",
+  background_03: "#010a0e99",
+  background_04: "#eff1f1",
+  background_05: "rgb(255, 255, 239)",
+  background_06: "#00000099",
+  text_01: "#FFFFFF",
+  text_02: "#010a0e",
+  text_03: "rgb(255, 235, 18)",
+  text_04: "#8A979B",
+  border_01: "rgb(176, 199, 199)",
+  border_02: "#ffc80090",
+  mainColor: "#ffc800",
+  approved: "#01FF0B",
+  pending: "#FFFF00",
+  refused: "#FF6565",
+  whatsappBackground: "#25D366",
+};
+
 export const resellerColors = {
   background_01: "#071116",
   background_02: "#071D23",

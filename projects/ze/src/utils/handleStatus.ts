@@ -60,7 +60,7 @@ export const handleStatusColor = (
     status === "REFOUNDED" ||
     status === "COMPLETED"
   ) {
-    return Theme.bigoColors.approved;
+    return Theme.zeColors.approved;
   } else if (
     //PaymentStatus
     status === "PAYMENT_PENDING" ||
@@ -69,7 +69,7 @@ export const handleStatusColor = (
     //OrderStatus
     status === "CREATED"
   ) {
-    return Theme.bigoColors.pending;
+    return Theme.zeColors.pending;
   } else if (
     //PaymentStatus
     status === "PAYMENT_REJECTED" ||
@@ -78,6 +78,6 @@ export const handleStatusColor = (
     //OrderStatus
     status === "EXPIRED"
   ) {
-    return Theme.bigoColors.refused;
+    return Theme.zeColors.refused;
   }
 };
