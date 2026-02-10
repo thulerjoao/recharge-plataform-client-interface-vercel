@@ -1,7 +1,7 @@
 # Ignore other projects
 projects/bigo/
 projects/reseller/
-projects/master/
+projects/ze/
 
 # Ignore development files
 .env.local

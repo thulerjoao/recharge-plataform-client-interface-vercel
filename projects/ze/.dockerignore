@@ -1,6 +1,6 @@
 # Ignore other projects
 projects/store/
-projects/ze/
+projects/bigo/
 projects/reseller/
 
 # Ignore development files
