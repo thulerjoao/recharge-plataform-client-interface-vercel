@@ -8,6 +8,6 @@ type Props = {
 
 const Page = async ({ searchParams }: Props) => {
   const coupon = searchParams.coupon;
-  return <HomeTest coupon={coupon} />;
+  return <HomeTest />;
 };
 export default Page;

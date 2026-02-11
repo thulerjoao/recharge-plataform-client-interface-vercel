@@ -18,9 +18,9 @@ export const metadata = {
     follow: true,
   },
   openGraph: {
-    title: "4miga Games - Recargas Bigo Live",
+    title: "Zé Recargas - Recargas Bigo e Poppo Live",
     description:
-      "Recargas Bigo Live – Compre seus diamantes com rapidez e total segurança",
+      "Recargas Bigo e Poppo Live – Compre seus diamantes com rapidez e total segurança",
     type: "website",
     locale: "pt_BR",
   },

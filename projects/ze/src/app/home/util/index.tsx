@@ -7,7 +7,6 @@ import BottomOffer from "public/components/bottomOffer/bottomOffer";
 import Carousel from "public/components/carousel/carousel";
 import SecurityAdvertise from "public/components/securityAdvertise/securityAdvertise";
 import GameCard from "public/cards/gameCard/card";
-import Lines from "public/components/lines/lines";
 import InvisibleCards from "./invisibleCards";
 import { HomeContainer } from "./style";
 
@@ -19,7 +18,6 @@ const Home = () => {
   return (
     <HomeContainer>
       <Carousel imagesList={bannerList} />
-      <Lines />
       <main>
         <Text
           tag="h1"

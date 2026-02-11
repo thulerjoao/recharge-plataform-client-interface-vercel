@@ -8,7 +8,7 @@ export const HeaderContainer = styled.header`
   display: flex;
   align-items: start;
   justify-content: center;
-  background-color: ${({ theme }) => theme.background_03};
+  background-color: ${({ theme }) => theme.mainColor};
   z-index: 1001;
 
   .centerComponent {
@@ -23,6 +23,20 @@ export const HeaderContainer = styled.header`
 
     .mainLogo {
       cursor: pointer;
+      height: 48px;
+      max-height: 48px;
+      display: flex;
+      align-items: center;
+      overflow: hidden;
+
+      svg {
+        height: 100% !important;
+        max-height: 48px !important;
+        width: auto !important;
+        max-width: none;
+        display: block;
+        flex-shrink: 0;
+      }
     }
 
     .loginContainer {
@@ -39,10 +53,6 @@ export const HeaderContainer = styled.header`
         height: 28px;
         border-radius: 8px;
         margin-right: 2px;
-
-        &:hover {
-          background-color: ${({ theme }) => theme.background_01};
-        }
       }
       .getIn {
         margin-right: 8px;

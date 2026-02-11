@@ -60,7 +60,7 @@ const Footer = () => {
                 color={theme.mainColor}
                 style={{ marginLeft: "4px" }}
               >
-                4MIGA GAMES
+                ZÉ RECARGAS
               </Text>
             </div>
 

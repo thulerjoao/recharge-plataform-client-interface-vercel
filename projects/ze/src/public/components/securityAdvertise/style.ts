@@ -15,9 +15,7 @@ export const SecurityAdvertiseContainer = styled.section`
     padding: 17px 0;
     box-sizing: border-box;
     margin: 0 28px;
-    -webkit-box-shadow: 0px 0px 5px 1px rgba(7, 29, 35, 1);
-    -moz-box-shadow: 0px 0px 5px 1px rgba(7, 29, 35, 1);
-    box-shadow: 0px 0px 5px 1px rgba(7, 29, 35, 1);
+    box-shadow: 0px 0px 2px ${({ theme }) => theme.border_01};
     border: 1px solid ${({ theme }) => theme.border_01}80;
   }
 

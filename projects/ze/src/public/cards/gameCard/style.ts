@@ -6,22 +6,23 @@ export const CardContainer = styled.article`
     ${({ theme }) => theme.background_02} 30%,
     ${({ theme }) => theme.background_01} 100%
   );
-  box-shadow: 0px 0px 5px 2px ${({ theme }) => theme.border_01};
+  box-shadow: 0px 0px 2px ${({ theme }) => theme.border_01};
+  border: 1px solid ${({ theme }) => theme.border_01}80;
+  border-radius: 8px;
   height: 231px;
   width: 100%;
   max-width: 174px;
-  border-radius: 8px;
   overflow: hidden;
   cursor: pointer;
   display: flex;
   flex-direction: column;
   align-items: center;
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
-  border: 1px solid ${({ theme }) => theme.border_01};
+  transition:
+    transform 0.2s ease,
+    box-shadow 0.2s ease;
 
   &:hover {
-    transform: translateY(-2px);
-    box-shadow: 0px 4px 12px ${({ theme }) => theme.mainColor}40;
+    /* box-shadow: 0px 4px 12px ${({ theme }) => theme.mainColor}40; */
   }
 
   img {

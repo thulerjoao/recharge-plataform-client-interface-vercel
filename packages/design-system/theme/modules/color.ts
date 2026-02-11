@@ -21,8 +21,8 @@ export const bigoColors = {
 };
 
 export const zeColors = {
-  background_01: "#071116",
-  background_02: "#071D23",
+  background_01: "rgb(25, 24, 12)",
+  background_02: "rgb(36, 36, 36)",
   background_03: "#010a0e99",
   background_04: "#eff1f1",
   background_05: "rgb(255, 255, 239)",

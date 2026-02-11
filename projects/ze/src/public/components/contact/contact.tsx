@@ -30,11 +30,7 @@ const Contact = () => {
   return (
     <ContactContainer>
       <div className="topDiv">
-        <Text
-          align="center"
-          color={theme.mainColor}
-          fontName="REGULAR_MEDIUM"
-        >
+        <Text align="center" color={theme.mainColor} fontName="REGULAR_MEDIUM">
           Central de Atendimento
         </Text>
         {store?.wppNumber && (

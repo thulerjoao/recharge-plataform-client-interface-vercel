@@ -1,6 +1,5 @@
-import { StaticImport } from "next/dist/shared/lib/get-img-props";
 import Image from "next/image";
-import { Autoplay, Navigation, Pagination } from "swiper/modules";
+import { Autoplay, Navigation } from "swiper/modules";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { SwiperContainer } from "./style";
 
@@ -12,7 +11,7 @@ const Carousel = ({ imagesList }: Props) => {
   return (
     <SwiperContainer>
       <Swiper
-        modules={[Navigation, Pagination, Autoplay]}
+        modules={[Navigation, Autoplay]}
         spaceBetween={20}
         slidesPerView={1}
         pagination={{ clickable: true }}
