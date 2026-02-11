@@ -5,13 +5,19 @@ import { useProducts } from "contexts/products/ProductsProvider";
 import { usePathname } from "next/navigation";
 import { useState } from "react";
 import { useTheme } from "styled-components";
+import { formatString } from "utils/formatString";
 import { DescriptionContainer } from "./style";
 import Image from "next/image";
 
 const Description = () => {
   const theme = useTheme();
-  const { product } = useProducts();
+  const pathname = usePathname();
+  const { products } = useProducts();
+  const slug = pathname.split("/")[2];
+  const product = products?.find((p) => formatString(p.name) === slug) ?? null;
   const [seeMore, setSeeMore] = useState<boolean>(false);
+
+  if (!product) return null;
 
   return (
     <DescriptionContainer>

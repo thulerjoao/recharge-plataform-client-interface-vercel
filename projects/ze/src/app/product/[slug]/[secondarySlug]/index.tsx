@@ -6,7 +6,6 @@ import { connectionAPIPost } from "@4miga/services/connectionAPI/connection";
 import { useAuth } from "contexts/auth";
 import { useProducts } from "contexts/products/ProductsProvider";
 import { useRouter } from "next/navigation";
-import PackageCard from "public/cards/packageCard/card";
 import Coupon from "public/components/coupon";
 import LoginModal from "public/components/loginModal";
 import PixCard from "public/components/payment/pixCard/pixCard";
@@ -14,24 +13,28 @@ import React, { useEffect, useRef, useState } from "react";
 import { useTheme } from "styled-components";
 import { CouponValidationResponse } from "types/couponType";
 import { OrderType } from "types/orderType";
-import { PackageType } from "types/productTypes";
+import { PackageType, ProductType } from "types/productTypes";
+import { formatString } from "utils/formatString";
+import PackageCardCompact from "public/cards/packageCardCompact/card";
 import { ProductInnerPage } from "./style";
-import PackageCardTest from "public/cards/packageCardCompact/card";
 
 type Props = {
+  slug: string;
   packageId: string;
   couponFromParams?: string;
 };
 
-const PaymentPage = ({ packageId, couponFromParams }: Props) => {
+const PaymentPage = ({ slug, packageId, couponFromParams }: Props) => {
   const theme = useTheme();
-  const { product } = useProducts();
+  const { products } = useProducts();
+  const product = products?.find(
+    (p: ProductType) => formatString(p.name) === slug,
+  );
+  const item = product?.packages.find(
+    (pkg: PackageType) => pkg.id === packageId,
+  );
   const [blockInput, setBlockInput] = useState<boolean>(false);
   const { logged, user } = useAuth();
-
-  const item: PackageType =
-    product &&
-    product.packages.find((item: PackageType) => item.id === packageId);
   const [rechargeBigoId, setRechargeBigoId] = useState<string>(
     logged && user?.rechargeBigoId ? user.rechargeBigoId : "",
   );
@@ -117,7 +120,6 @@ const PaymentPage = ({ packageId, couponFromParams }: Props) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  //update rechargeBigoId when user is loaded (only if there is no sessionOrder)
   useEffect(() => {
     if (
       !sessionOrder &&
@@ -130,30 +132,21 @@ const PaymentPage = ({ packageId, couponFromParams }: Props) => {
     }
   }, [logged, user, sessionOrder]);
 
-  // Validate package exists only for new purchases (not for pending orders)
   useEffect(() => {
     const sessionOrderStorage = sessionStorage.getItem("order");
     if (sessionOrderStorage) return;
-    if (
-      product &&
-      product.packages &&
-      product.packages.length > 0 &&
-      packageId
-    ) {
-      const packageExists = product.packages.some(
-        (pkg: PackageType) => pkg.id === packageId,
+    if (products && products.length > 0 && packageId) {
+      const productWithPackage = products.find((p: ProductType) =>
+        p.packages.some((pkg: PackageType) => pkg.id === packageId),
       );
-
-      if (!packageExists) {
+      if (!productWithPackage) {
         route.replace("/home");
       }
     }
-  }, [product, packageId, route]);
+  }, [products, packageId, route]);
 
   useEffect(() => {
-    if (!couponFromParams) {
-      return;
-    }
+    if (!couponFromParams) return;
     const upperCoupon = couponFromParams.toUpperCase();
     setCoupon(upperCoupon);
     setOpenCoupon(true);
@@ -166,7 +159,7 @@ const PaymentPage = ({ packageId, couponFromParams }: Props) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [couponFromParams, item, logged]);
 
-  const handleMouseDown = (e: React.MouseEvent<HTMLDivElement>) => {
+  const handleMouseDown = () => {
     setError("");
     if (!couponApplied?.valid) {
       setCouponError("");
@@ -241,7 +234,7 @@ const PaymentPage = ({ packageId, couponFromParams }: Props) => {
           }
         }
       })
-      .catch((error) => {
+      .catch(() => {
         setCouponError("Não foi possível aplicar o cupom");
         setCouponSuccess("");
         setCouponApplied(null);
@@ -250,6 +243,12 @@ const PaymentPage = ({ packageId, couponFromParams }: Props) => {
         setCouponLoading(false);
       });
   };
+
+  const displayItem = sessionPackage ?? item;
+  if (!displayItem && products && products.length > 0) {
+    route.replace("/home");
+    return null;
+  }
 
   return (
     <ProductInnerPage onMouseDown={handleMouseDown}>
@@ -269,21 +268,11 @@ const PaymentPage = ({ packageId, couponFromParams }: Props) => {
         PACOTE PARA RECARGA
       </Text>
       <div className="cardEnviroment">
-        {((product && item) || sessionPackage) && (
-          // <PackageCard
-          //   paymentIndex={0}
-          //   item={sessionPackage ? sessionPackage : item}
-          //   valueWithDicount={
-          //     couponApplied?.valid
-          //       ? couponApplied.finalAmount
-          //       : sessionOrder?.price
-          //   }
-          //   selected
-          // />
-          <PackageCardTest
+        {displayItem && (
+          <PackageCardCompact
             paymentPage
             paymentIndex={0}
-            item={sessionPackage ? sessionPackage : item}
+            item={displayItem}
             valueWithDicount={
               couponApplied?.valid
                 ? couponApplied.finalAmount
@@ -312,12 +301,12 @@ const PaymentPage = ({ packageId, couponFromParams }: Props) => {
       />
 
       <section className="paymentMethods">
-        {(item || sessionPackage) && (
+        {displayItem && (
           <PixCard
             couponTitle={
               couponApplied?.valid && couponApplied.coupon.title.toUpperCase()
             }
-            item={sessionPackage ? sessionPackage : item}
+            item={displayItem}
             valueWithDicount={
               couponApplied?.valid
                 ? couponApplied.finalAmount
@@ -328,7 +317,6 @@ const PaymentPage = ({ packageId, couponFromParams }: Props) => {
             setBlockInput={setBlockInput}
           />
         )}
-        {/* <CreditcardCard /> */}
         <div className="errorMessage">
           <Text align="center" fontName="TINY_MEDIUM" color={theme.pending}>
             {error}

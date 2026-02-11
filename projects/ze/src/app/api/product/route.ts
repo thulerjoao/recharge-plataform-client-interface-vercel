@@ -7,7 +7,7 @@ export const revalidate = 60; // Revalidate every minute
 
 export async function GET() {
   try {
-    const res = await fetch(`${apiUrl}/product/bigo?storeId=${storeId}`, {
+    const res = await fetch(`${apiUrl}/product/packages?storeId=${storeId}`, {
       next: { revalidate, tags: ["products"] },
     });
 
@@ -18,7 +18,8 @@ export async function GET() {
       });
     }
 
-    const products: ProductType[] = await res.json();
+    const data = await res.json();
+    const products: ProductType[] = Array.isArray(data) ? data : [data];
     return Response.json(products, {
       status: 200,
       headers: { "Cache-Tag": "products" },

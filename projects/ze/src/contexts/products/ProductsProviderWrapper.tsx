@@ -8,10 +8,10 @@ const ProductsProviderWrapper = async ({
 }: {
   children: React.ReactNode;
 }) => {
-  const product: ProductType = await fetchProducts();
+  const products: ProductType[] = await fetchProducts();
 
   return (
-    <ProductsProvider initialProduct={product}>{children}</ProductsProvider>
+    <ProductsProvider initialProducts={products}>{children}</ProductsProvider>
   );
 };
 

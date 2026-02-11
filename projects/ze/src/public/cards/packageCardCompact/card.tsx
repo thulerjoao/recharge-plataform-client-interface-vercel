@@ -27,8 +27,6 @@ const PackageCardCompact = ({
     return new Intl.NumberFormat("pt-BR").format(value);
   };
 
-  console.log(valueWithDicount, item.paymentMethods[0].price);
-
   return (
     <PackageCardCompactContainer
       isOffer={item.isOffer}

@@ -15,12 +15,84 @@ html {
 }
 
 body {
+  position: relative;
   background: linear-gradient(180deg, #0b0b0b 0%, #1b1b1b 100%);
- 
   background-attachment: fixed;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-rendering: optimizeLegibility;
+}
+
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  background-image: url("/backgroundLogo.svg");
+  background-repeat: no-repeat;
+
+  background-position: -20vw 50%;
+  background-size: auto 125vh;
+
+  opacity: 0.15;
+  pointer-events: none;
+}
+
+@media (max-width: 1024px) {
+  body::before {
+    background-position: -40vw 50%;
+    background-size: auto 125vh;
+  }
+}
+
+@media (max-width: 768px) {
+  body::before {
+    background-position: -55vw 50%;
+    background-size: auto 120vh;
+  }
+}
+
+@media (max-width: 500px) {
+  body::before {
+    background-position: -90vw 50%;
+    background-size: auto 120vh;
+  }
+}
+
+@media (max-width: 400px) {
+  body::before {
+    background-position: -90vw 50%;
+    background-size: auto 100vh;
+  }
+}
+
+@media (min-width: 1200px) {
+  body::before {
+    background-position: -18vw 50%;
+    background-size: auto 140vh;
+  }
+}
+
+@media (min-width: 1600px) {
+  body::before {
+    background-position: -18vw 50%;
+    background-size: auto 160vh;
+  }
+}
+
+/* Telas verticais (portrait): altura > largura — celular na vertical ou monitor vertical */
+@media (orientation: portrait) {
+  body::before {
+    background-position: -40vw 50%;
+    background-size: auto 110vh;
+  }
+}
+
+/* Monitor vertical (portrait com boa largura): ajuste fino só para telas “em pé” maiores */
+@media (orientation: portrait) and (min-width: 768px) {
+  body::before {
+    background-position: -50vw 50%;
+    background-size: auto 120vh;
+  }
 }
 
 

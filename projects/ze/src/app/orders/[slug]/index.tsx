@@ -15,6 +15,7 @@ import { useTheme } from "styled-components";
 import { OrderType } from "types/orderType";
 import { formatDate } from "utils/formatDate";
 import { formatPrice } from "utils/formatPrice";
+import { formatString } from "utils/formatString";
 import { useConfirm } from "utils/confirm";
 import {
   handlePaymentStatus,
@@ -46,14 +47,20 @@ const Order = () => {
     }
   }, [order, logged, route]);
 
-  const { product } = useProducts();
+  const { products } = useProducts();
 
   const handleBuyAgain = () => {
     if (!order?.orderItem?.package?.packageId) return;
     sessionStorage.removeItem("order");
     const packageId = order.orderItem.package.packageId;
-
-    route.push(`/product?package=${packageId}`);
+    const productId = order.productId;
+    const product = products?.find((p) => p.id === productId);
+    if (!product) {
+      route.push(`/product?package=${packageId}`);
+      return;
+    }
+    const slug = formatString(product.name);
+    route.push(`/product/${slug}/${packageId}`);
   };
 
   const goToPayment = async () => {

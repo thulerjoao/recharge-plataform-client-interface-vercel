@@ -4,23 +4,25 @@ import React, { createContext, useContext, useState } from "react";
 import { ProductType } from "types/productTypes";
 
 interface ProductsContextType {
-  product: ProductType | null;
-  setProduct: (product: ProductType) => void;
+  products: ProductType[] | null;
+  setProducts: (products: ProductType[]) => void;
 }
 
 const ProductsContext = createContext<ProductsContextType | null>(null);
 
 export const ProductsProvider = ({
   children,
-  initialProduct,
+  initialProducts,
 }: {
   children: React.ReactNode;
-  initialProduct: ProductType;
+  initialProducts: ProductType[];
 }) => {
-  const [product, setProduct] = useState<ProductType | null>(initialProduct);
+  const [products, setProducts] = useState<ProductType[] | null>(
+    initialProducts,
+  );
 
   return (
-    <ProductsContext.Provider value={{ product, setProduct }}>
+    <ProductsContext.Provider value={{ products, setProducts }}>
       {children}
     </ProductsContext.Provider>
   );
