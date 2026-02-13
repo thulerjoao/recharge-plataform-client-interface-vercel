@@ -1,4 +1,3 @@
-import { Theme } from "@4miga/design-system/theme/theme";
 import styled from "styled-components";
 
 export const CouponCardContainer = styled.div`
@@ -6,7 +5,7 @@ export const CouponCardContainer = styled.div`
   grid-template-columns: 2fr 2fr 1.2fr 1fr;
   padding: 16px 20px;
   gap: 16px;
-  border-bottom: 1px solid ${Theme.colors.secondaryTextAction}50;
+  border-bottom: 1px solid ${({ theme }) => theme.text_04}50;
   align-items: center;
   cursor: pointer;
   transition: all 0.2s ease;
@@ -24,7 +23,7 @@ export const CouponCardContainer = styled.div`
   }
 
   &:hover {
-    background: ${Theme.colors.secondaryTextAction}10;
+    background: ${({ theme }) => theme.text_04}10;
   }
 
   &:last-child {
@@ -37,8 +36,8 @@ export const CouponCardContainer = styled.div`
     gap: 4px;
 
     .firstPurchaseBadge {
-      background: ${Theme.colors.mainHighlight};
-      color: ${Theme.colors.maindark};
+      background: ${({ theme }) => theme.mainColor};
+      color: ${({ theme }) => theme.background_01};
       padding: 2px 8px;
       border-radius: 4px;
       font-size: 10px;
@@ -73,13 +72,13 @@ export const CouponCardContainer = styled.div`
       line-height: 18px;
 
       &.active {
-        background: ${Theme.colors.approved}20;
-        border: 1px solid ${Theme.colors.approved};
+        background: ${({ theme }) => theme.approved}20;
+        border: 1px solid ${({ theme }) => theme.approved};
       }
 
       &.inactive {
-        background: ${Theme.colors.refused}20;
-        border: 1px solid ${Theme.colors.refused};
+        background: ${({ theme }) => theme.refused}20;
+        border: 1px solid ${({ theme }) => theme.refused};
       }
     }
   }

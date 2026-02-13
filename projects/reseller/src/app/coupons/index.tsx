@@ -3,7 +3,7 @@
 import Button from "@4miga/design-system/components/button";
 import Input from "@4miga/design-system/components/input";
 import Text from "@4miga/design-system/components/Text";
-import { Theme } from "@4miga/design-system/theme/theme";
+import { useTheme } from "styled-components";
 import { useCoupons } from "context/coupon";
 import { useRouter } from "next/navigation";
 import DefaultHeader from "public/components/defaultHeader";
@@ -29,6 +29,7 @@ const CouponsPage = ({
   status: initialStatus,
   type: initialType,
 }: Props) => {
+  const theme = useTheme();
   const router = useRouter();
   const {
     loadingCoupons,
@@ -156,10 +157,10 @@ const CouponsPage = ({
       <div className="mainContentComponent">
         <div className="headerSection">
           <div className="titleSection">
-            <Text fontName="LARGE_SEMI_BOLD" color={Theme.colors.mainlight}>
+            <Text fontName="LARGE_SEMI_BOLD" color={theme.text_01}>
               Gerenciamento de Cupons
             </Text>
-            <Text fontName="REGULAR_MEDIUM" color={Theme.colors.secondaryText}>
+            <Text fontName="REGULAR_MEDIUM" color={theme.text_03}>
               Gerencie todos os cupons da plataforma
             </Text>
           </div>
@@ -180,11 +181,7 @@ const CouponsPage = ({
             <Text
               fontName="REGULAR_SEMI_BOLD"
               align="center"
-              color={
-                currentView === "all"
-                  ? Theme.colors.mainlight
-                  : Theme.colors.secondaryText
-              }
+              color={currentView === "all" ? theme.text_01 : theme.text_03}
             >
               Todos os Cupons
             </Text>
@@ -196,11 +193,7 @@ const CouponsPage = ({
             <Text
               fontName="REGULAR_SEMI_BOLD"
               align="center"
-              color={
-                currentView === "featured"
-                  ? Theme.colors.mainlight
-                  : Theme.colors.secondaryText
-              }
+              color={currentView === "featured" ? theme.text_01 : theme.text_03}
             >
               Cupons para tela de Destaque
             </Text>
@@ -289,7 +282,7 @@ const CouponsPage = ({
                 <Text
                   align="center"
                   fontName="SMALL"
-                  color={Theme.colors.secondaryText}
+                  color={theme.text_03}
                   style={{ marginTop: "8px" }}
                 >
                   Adicione cupons da aba &quot;Todos os Cupons&quot;
@@ -354,7 +347,7 @@ const CouponsPage = ({
 
       {currentView === "all" && (
         <div style={{ marginTop: "16px", textAlign: "center" }}>
-          <Text fontName="TINY" color={Theme.colors.secondaryText}>
+          <Text fontName="TINY" color={theme.text_03}>
             Total: {coupons?.totalCoupons || 0} cupons encontrados
           </Text>
         </div>
@@ -362,7 +355,7 @@ const CouponsPage = ({
 
       {currentView === "featured" && (
         <div style={{ marginTop: "16px", textAlign: "center" }}>
-          <Text fontName="TINY" color={Theme.colors.secondaryText}>
+          <Text fontName="TINY" color={theme.text_03}>
             {featuredCoupons?.length || 0} cupons em destaque
           </Text>
         </div>

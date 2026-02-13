@@ -1,5 +1,5 @@
 import Text from "@4miga/design-system/components/Text";
-import { Theme } from "@4miga/design-system/theme/theme";
+import { useTheme } from "styled-components";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { OrderType } from "types/orderType";
@@ -13,6 +13,7 @@ interface OrderCardProps {
 }
 
 const OrderCardBigo = ({ order }: OrderCardProps) => {
+  const theme = useTheme();
   const route = useRouter();
   const handleSeeMore = () => {
     sessionStorage.setItem("order", JSON.stringify(order));
@@ -39,7 +40,7 @@ const OrderCardBigo = ({ order }: OrderCardProps) => {
           </Text>
         </div>
         <div className="rowInfos">
-          <Text color={Theme.colors.secondaryText} fontName="TINY">
+          <Text color={theme.text_03} fontName="TINY">
             {formatDate(order.createdAt)}
           </Text>
           <Text

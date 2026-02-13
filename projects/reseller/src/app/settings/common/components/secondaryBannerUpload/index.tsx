@@ -2,7 +2,7 @@
 
 import Button from "@4miga/design-system/components/button";
 import Text from "@4miga/design-system/components/Text";
-import { Theme } from "@4miga/design-system/theme/theme";
+import { useTheme } from "styled-components";
 import { useImageUpload } from "hooks/useImageUpload";
 import Image from "next/image";
 import React, { useState } from "react";
@@ -19,6 +19,7 @@ const SecondaryBannerUpload: React.FC<SecondaryBannerUploadProps> = ({
   secondaryBannerUrl,
   onRefreshStore,
 }) => {
+  const theme = useTheme();
   const [bannerUrl, setBannerUrl] = useState<string>(secondaryBannerUrl);
   const [isRemoving, setIsRemoving] = useState<boolean>(false);
 
@@ -71,10 +72,10 @@ const SecondaryBannerUpload: React.FC<SecondaryBannerUploadProps> = ({
   return (
     <SecondaryBannerUploadContainer>
       <div className="sectionHeader">
-        <Text fontName="LARGE_SEMI_BOLD" color={Theme.colors.mainlight}>
+        <Text fontName="LARGE_SEMI_BOLD" color={theme.text_01}>
           BANNER INFERIOR PÁGINA HOME
         </Text>
-        <Text fontName="SMALL_MEDIUM" color={Theme.colors.secondaryText}>
+        <Text fontName="SMALL_MEDIUM" color={theme.text_03}>
           A imagem deve estar no formato .png, .jpg ou .jpeg, ter uma resolução
           mínima de 1280 x 540 e uma proporção de 21:9
         </Text>
@@ -95,7 +96,7 @@ const SecondaryBannerUpload: React.FC<SecondaryBannerUploadProps> = ({
             <Text
               align="center"
               fontName="REGULAR_MEDIUM"
-              color={Theme.colors.secondaryText}
+              color={theme.text_03}
             >
               Nenhum banner será exibido
             </Text>

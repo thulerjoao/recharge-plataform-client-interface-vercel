@@ -4,8 +4,8 @@ exports[`<Text /> render h2 tag 1`] = `
 .c0 {
   text-align: justify;
   color: #071116;
-  font-size: 16px;
-  font-weight: 600;
+  font-size: 16px!important;
+  font-weight: 600!important;
   width: 100%;
   height: auto;
   text-decoration: underline;

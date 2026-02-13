@@ -1,5 +1,5 @@
 import Text from "@4miga/design-system/components/Text";
-import { Theme } from "@4miga/design-system/theme/theme";
+import { useTheme } from "styled-components";
 import { DashboardSummaryType } from "types/dashboardTypes";
 import { formatPrice } from "utils/formatPrice";
 import { MetricsCardsContainer } from "./style";
@@ -9,10 +9,11 @@ interface MetricsCardsProps {
 }
 
 const MetricsCards = ({ summary }: MetricsCardsProps) => {
+  const theme = useTheme();
   return (
     <MetricsCardsContainer>
       <div className="metricCard">
-        <Text fontName="REGULAR" color={Theme.colors.secondaryTextAction}>
+        <Text fontName="REGULAR" color={theme.text_04}>
           Total de Vendas
         </Text>
         <Text margin="8px 0 0 0" fontName="LARGE_SEMI_BOLD">
@@ -21,7 +22,7 @@ const MetricsCards = ({ summary }: MetricsCardsProps) => {
       </div>
 
       <div className="metricCard">
-        <Text fontName="REGULAR" color={Theme.colors.secondaryTextAction}>
+        <Text fontName="REGULAR" color={theme.text_04}>
           Diamantes Vendidos
         </Text>
         <Text margin="8px 0 0 0" fontName="LARGE_SEMI_BOLD">
@@ -32,7 +33,7 @@ const MetricsCards = ({ summary }: MetricsCardsProps) => {
       </div>
 
       <div className="metricCard">
-        <Text fontName="REGULAR" color={Theme.colors.secondaryTextAction}>
+        <Text fontName="REGULAR" color={theme.text_04}>
           Total de Pedidos
         </Text>
         <Text margin="8px 0 0 0" fontName="LARGE_SEMI_BOLD">
@@ -41,7 +42,7 @@ const MetricsCards = ({ summary }: MetricsCardsProps) => {
       </div>
 
       <div className="metricCard">
-        <Text fontName="REGULAR" color={Theme.colors.secondaryTextAction}>
+        <Text fontName="REGULAR" color={theme.text_04}>
           Pedidos Concluídos
         </Text>
         <Text margin="8px 0 0 0" fontName="LARGE_SEMI_BOLD">
@@ -50,7 +51,7 @@ const MetricsCards = ({ summary }: MetricsCardsProps) => {
       </div>
 
       <div className="metricCard">
-        <Text fontName="REGULAR" color={Theme.colors.secondaryTextAction}>
+        <Text fontName="REGULAR" color={theme.text_04}>
           Ticket Médio
         </Text>
         <Text margin="8px 0 0 0" fontName="LARGE_SEMI_BOLD">
@@ -59,7 +60,7 @@ const MetricsCards = ({ summary }: MetricsCardsProps) => {
       </div>
 
       <div className="metricCard">
-        <Text fontName="REGULAR" color={Theme.colors.secondaryTextAction}>
+        <Text fontName="REGULAR" color={theme.text_04}>
           Total de Clientes
         </Text>
         <Text margin="8px 0 0 0" fontName="LARGE_SEMI_BOLD">
@@ -68,7 +69,7 @@ const MetricsCards = ({ summary }: MetricsCardsProps) => {
       </div>
 
       <div className="metricCard">
-        <Text fontName="REGULAR" color={Theme.colors.secondaryTextAction}>
+        <Text fontName="REGULAR" color={theme.text_04}>
           Novos Clientes
         </Text>
         <Text margin="8px 0 0 0" fontName="LARGE_SEMI_BOLD">
@@ -77,7 +78,7 @@ const MetricsCards = ({ summary }: MetricsCardsProps) => {
       </div>
 
       <div className="metricCard">
-        <Text fontName="REGULAR" color={Theme.colors.secondaryTextAction}>
+        <Text fontName="REGULAR" color={theme.text_04}>
           Pedidos com Cupom
         </Text>
         <Text margin="8px 0 0 0" fontName="LARGE_SEMI_BOLD">
@@ -86,26 +87,26 @@ const MetricsCards = ({ summary }: MetricsCardsProps) => {
       </div>
 
       <div className="metricCard">
-        <Text fontName="REGULAR" color={Theme.colors.secondaryTextAction}>
+        <Text fontName="REGULAR" color={theme.text_04}>
           Pedidos Expirados
         </Text>
         <Text
           margin="8px 0 0 0"
           fontName="LARGE_SEMI_BOLD"
-          color={Theme.colors.refused}
+          color={theme.refused}
         >
           {summary.totalExpiredOrders}
         </Text>
       </div>
 
       <div className="metricCard">
-        <Text fontName="REGULAR" color={Theme.colors.secondaryTextAction}>
+        <Text fontName="REGULAR" color={theme.text_04}>
           Pedidos Reembolsados
         </Text>
         <Text
           margin="8px 0 0 0"
           fontName="LARGE_SEMI_BOLD"
-          color={Theme.colors.refused}
+          color={theme.refused}
         >
           {summary.totalRefundedOrders}
         </Text>

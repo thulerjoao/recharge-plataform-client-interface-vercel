@@ -1,4 +1,3 @@
-import { Theme } from "@4miga/design-system/theme/theme";
 import styled from "styled-components";
 
 export const PeriodSelectorContainer = styled.div`
@@ -12,9 +11,9 @@ export const PeriodSelectorContainer = styled.div`
     height: 40px;
     min-width: 150px;
     border-radius: 8px;
-    border: 2px solid ${Theme.colors.secondaryAction};
-    background: ${Theme.colors.maindark};
-    color: ${Theme.colors.mainlight};
+    border: 2px solid ${({ theme }) => theme.border_01};
+    background: ${({ theme }) => theme.background_01};
+    color: ${({ theme }) => theme.text_01};
     font-size: 14px;
     font-weight: 500;
     cursor: pointer;
@@ -28,20 +27,20 @@ export const PeriodSelectorContainer = styled.div`
     padding-right: 36px;
 
     &:hover {
-      border-color: ${Theme.colors.mainHighlight};
-      background-color: ${Theme.colors.mainBbackgroundSolid};
+      border-color: ${({ theme }) => theme.mainColor};
+      background-color: ${({ theme }) => theme.background_02};
     }
 
     &:focus {
       outline: none;
-      border-color: ${Theme.colors.mainHighlight};
-      box-shadow: 0px 0px 8px 0px ${Theme.colors.mainHighlight}80;
-      background-color: ${Theme.colors.mainBbackgroundSolid};
+      border-color: ${({ theme }) => theme.mainColor};
+      box-shadow: 0px 0px 8px 0px ${({ theme }) => theme.mainColor}80;
+      background-color: ${({ theme }) => theme.background_02};
     }
 
     option {
-      background: ${Theme.colors.maindark};
-      color: ${Theme.colors.mainlight};
+      background: ${({ theme }) => theme.background_01};
+      color: ${({ theme }) => theme.text_01};
       padding: 12px;
       border: none;
     }

@@ -3,7 +3,7 @@
 import { useState } from "react";
 import Text from "@4miga/design-system/components/Text";
 import Button from "@4miga/design-system/components/button";
-import { Theme } from "@4miga/design-system/theme/theme";
+import { useTheme } from "styled-components";
 import { CronHealthIndicatorContainer } from "./style";
 
 interface CronHealthIndicatorProps {
@@ -17,6 +17,7 @@ const CronHealthIndicator = ({
   onRecalculate,
   recalculating = false,
 }: CronHealthIndicatorProps) => {
+  const theme = useTheme();
   const isHealthy = cronHealthStatus === "OK";
 
   return (
@@ -29,7 +30,7 @@ const CronHealthIndicator = ({
           <Text
             nowrap={true}
             fontName="REGULAR"
-            color={isHealthy ? Theme.colors.approved : Theme.colors.refused}
+            color={isHealthy ? theme.approved : theme.refused}
           >
             {isHealthy
               ? "Métricas saudáveis"

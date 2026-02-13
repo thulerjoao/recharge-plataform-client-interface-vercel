@@ -1,7 +1,7 @@
 # Ignore other projects
 projects/store/
+projects/ze/
 projects/reseller/
-projects/master/
 
 # Ignore development files
 .env.local

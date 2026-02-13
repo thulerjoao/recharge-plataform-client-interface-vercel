@@ -2,7 +2,6 @@
 
 import Input from "@4miga/design-system/components/input";
 import Text from "@4miga/design-system/components/Text";
-import { Theme } from "@4miga/design-system/theme/theme";
 import { connectionAPIPost } from "@4miga/services/connectionAPI/connection";
 import { useAuth } from "contexts/auth";
 import { useProducts } from "contexts/products/ProductsProvider";
@@ -12,6 +11,7 @@ import Coupon from "public/components/coupon";
 import LoginModal from "public/components/loginModal";
 import PixCard from "public/components/payment/pixCard/pixCard";
 import React, { useEffect, useRef, useState } from "react";
+import { useTheme } from "styled-components";
 import { CouponValidationResponse } from "types/couponType";
 import { OrderType } from "types/orderType";
 import { PackageType } from "types/productTypes";
@@ -24,6 +24,7 @@ type Props = {
 };
 
 const PaymentPage = ({ packageId, couponFromParams }: Props) => {
+  const theme = useTheme();
   const { product } = useProducts();
   const [blockInput, setBlockInput] = useState<boolean>(false);
   const { logged, user } = useAuth();
@@ -329,11 +330,7 @@ const PaymentPage = ({ packageId, couponFromParams }: Props) => {
         )}
         {/* <CreditcardCard /> */}
         <div className="errorMessage">
-          <Text
-            align="center"
-            fontName="TINY_MEDIUM"
-            color={Theme.colors.pending}
-          >
+          <Text align="center" fontName="TINY_MEDIUM" color={theme.pending}>
             {error}
           </Text>
         </div>

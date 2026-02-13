@@ -1,4 +1,3 @@
-import { Theme } from "@4miga/design-system/theme/theme";
 import styled from "styled-components";
 
 export const AdmPageContainer = styled.div`
@@ -30,7 +29,7 @@ export const AdmPageContainer = styled.div`
       display: flex;
       flex-direction: column;
       gap: 24px;
-      background: ${Theme.colors.maindark};
+      background: ${({ theme }) => theme.background_01};
       border-radius: 12px;
       padding: 24px;
       -webkit-box-shadow: 0px 0px 5px 2px rgba(7, 29, 35, 1);
@@ -43,7 +42,7 @@ export const AdmPageContainer = styled.div`
       justify-content: space-between;
       align-items: center;
       padding-bottom: 16px;
-      border-bottom: 2px solid ${Theme.colors.secondaryTextAction};
+      border-bottom: 2px solid ${({ theme }) => theme.text_04};
 
       .titleSection {
         display: flex;
@@ -66,9 +65,9 @@ export const AdmPageContainer = styled.div`
           top: calc(100% + 4px);
           left: 0;
           right: 0;
-          background: ${Theme.colors.maindark};
+          background: ${({ theme }) => theme.background_01};
           border-radius: 8px;
-          border: 2px solid ${Theme.colors.secondaryAction};
+          border: 2px solid ${({ theme }) => theme.border_01};
           max-height: 240px;
           overflow-y: auto;
           z-index: 100;
@@ -84,16 +83,16 @@ export const AdmPageContainer = styled.div`
           }
 
           &::-webkit-scrollbar-track {
-            background: ${Theme.colors.mainlight};
+            background: ${({ theme }) => theme.text_01};
             border-radius: 4px;
           }
 
           &::-webkit-scrollbar-thumb {
-            background: ${Theme.colors.secondaryAction};
+            background: ${({ theme }) => theme.border_01};
             border-radius: 4px;
 
             &:hover {
-              background: ${Theme.colors.mainHighlight};
+              background: ${({ theme }) => theme.mainColor};
             }
           }
 
@@ -101,7 +100,7 @@ export const AdmPageContainer = styled.div`
             padding: 12px 16px;
             cursor: pointer;
             transition: all 0.2s ease;
-            border-bottom: 1px solid ${Theme.colors.secondaryTextAction};
+            border-bottom: 1px solid ${({ theme }) => theme.text_04};
             overflow: hidden;
 
             &:last-child {
@@ -109,11 +108,11 @@ export const AdmPageContainer = styled.div`
             }
 
             &:hover {
-              background: ${Theme.colors.mainlight}15;
+              background: ${({ theme }) => theme.text_01}15;
             }
 
             &:active {
-              background: ${Theme.colors.mainlight}25;
+              background: ${({ theme }) => theme.text_01}25;
             }
 
             .resultEmail {
@@ -130,9 +129,9 @@ export const AdmPageContainer = styled.div`
           top: calc(100% + 4px);
           left: 0;
           right: 0;
-          background: ${Theme.colors.maindark};
+          background: ${({ theme }) => theme.background_01};
           border-radius: 8px;
-          border: 2px solid ${Theme.colors.secondaryAction};
+          border: 2px solid ${({ theme }) => theme.border_01};
           padding: 16px;
           text-align: center;
           z-index: 100;
@@ -144,7 +143,7 @@ export const AdmPageContainer = styled.div`
       display: flex;
       justify-content: center;
       padding-top: 16px;
-      border-top: 2px solid ${Theme.colors.secondaryTextAction};
+      border-top: 2px solid ${({ theme }) => theme.text_04};
 
       button {
         &:disabled {
@@ -174,9 +173,9 @@ export const AdmPageContainer = styled.div`
           justify-content: space-between;
           gap: 12px;
           padding: 12px 16px;
-          background: ${Theme.colors.mainlight}15;
+          background: ${({ theme }) => theme.text_01}15;
           border-radius: 8px;
-          border: 2px solid ${Theme.colors.secondaryTextAction};
+          border: 2px solid ${({ theme }) => theme.text_04};
           transition: all 0.2s ease;
 
           .adminInfo {
@@ -194,8 +193,8 @@ export const AdmPageContainer = styled.div`
               width: 32px;
               height: 32px;
               border-radius: 50%;
-              background: ${Theme.colors.mainHighlight}20;
-              color: ${Theme.colors.mainHighlight};
+              background: ${({ theme }) => theme.mainColor}20;
+              color: ${({ theme }) => theme.mainColor};
               flex-shrink: 0;
 
               svg {
@@ -222,12 +221,12 @@ export const AdmPageContainer = styled.div`
             padding: 6px 12px;
             border-radius: 6px;
             transition: all 0.2s ease;
-            color: ${Theme.colors.refused};
+            color: ${({ theme }) => theme.refused};
             font-family: inherit;
             flex-shrink: 0;
 
             &:hover {
-              background: ${Theme.colors.refused}15;
+              background: ${({ theme }) => theme.refused}15;
             }
 
             &:active {

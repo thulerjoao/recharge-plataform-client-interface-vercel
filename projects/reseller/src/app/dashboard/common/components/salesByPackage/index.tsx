@@ -1,5 +1,5 @@
 import Text from "@4miga/design-system/components/Text";
-import { Theme } from "@4miga/design-system/theme/theme";
+import { useTheme } from "styled-components";
 import { useState } from "react";
 import { SalesByPackageType } from "types/dashboardTypes";
 import { formatPrice } from "utils/formatPrice";
@@ -12,6 +12,7 @@ interface SalesByPackageProps {
 }
 
 const SalesByPackage = ({ salesByPackage }: SalesByPackageProps) => {
+  const theme = useTheme();
   const [expanded, setExpanded] = useState(false);
 
   if (!salesByPackage || salesByPackage.length === 0) {
@@ -20,7 +21,7 @@ const SalesByPackage = ({ salesByPackage }: SalesByPackageProps) => {
         <Text fontName="LARGE_SEMI_BOLD" margin="0 0 24px 0">
           Pacotes mais vendidos
         </Text>
-        <Text fontName="REGULAR" color={Theme.colors.secondaryTextAction}>
+        <Text fontName="REGULAR" color={theme.text_04}>
           Nenhum dado disponível
         </Text>
       </SalesByPackageContainer>
@@ -47,7 +48,7 @@ const SalesByPackage = ({ salesByPackage }: SalesByPackageProps) => {
               <Text
                 nowrap
                 fontName="REGULAR"
-                color={Theme.colors.secondaryTextAction}
+                color={theme.text_04}
                 align="start"
               >
                 {pkg.totalOrders} pedidos
@@ -72,7 +73,7 @@ const SalesByPackage = ({ salesByPackage }: SalesByPackageProps) => {
             margin="16px 0 0 0"
             underline
             fontName="REGULAR"
-            color={Theme.colors.secondaryText}
+            color={theme.text_03}
             align="center"
           >
             {expanded ? "ver menos" : "ver mais"}

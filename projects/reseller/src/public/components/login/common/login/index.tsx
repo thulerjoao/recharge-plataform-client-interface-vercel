@@ -1,7 +1,7 @@
 import Button from "@4miga/design-system/components/button";
 import Input from "@4miga/design-system/components/input";
 import Text from "@4miga/design-system/components/Text";
-import { Theme } from "@4miga/design-system/theme/theme";
+import { useTheme } from "styled-components";
 import { connectionAPIPost } from "@4miga/services/connectionAPI/connection";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useAuth } from "context/auth";
@@ -21,6 +21,7 @@ interface Props {
 }
 
 const LoginComponent = ({ setStep }: Props) => {
+  const theme = useTheme();
   const route = useRouter();
   const [loading, setLoading] = useState<boolean>(false);
   const {
@@ -148,7 +149,7 @@ const LoginComponent = ({ setStep }: Props) => {
         <Text
           align="center"
           margin="14px 0 0px 0"
-          color={Theme.colors.pending}
+          color={theme.pending}
           fontName="TINY"
         >
           {errorMessage}

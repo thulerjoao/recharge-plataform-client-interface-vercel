@@ -1,12 +1,11 @@
-import { Theme } from "@4miga/design-system/theme/theme";
 import styled from "styled-components";
 
 export const PixConfigurationContainer = styled.div`
   .pixConfiguration {
     padding: 16px;
-    background: ${Theme.colors.mainBbackgroundSolid};
+    background: ${({ theme }) => theme.background_02};
     border-radius: 8px;
-    border: 1px solid ${Theme.colors.secondaryTextAction}20;
+    border: 1px solid ${({ theme }) => theme.text_04}20;
     display: flex;
     flex-direction: column;
     gap: 12px;
@@ -20,7 +19,7 @@ export const PixConfigurationContainer = styled.div`
         display: flex;
         align-items: center;
         justify-content: center;
-        background: ${Theme.colors.approved}20;
+        background: ${({ theme }) => theme.approved}20;
         border-radius: 6px;
         padding: 4px;
 
@@ -45,10 +44,10 @@ export const PixConfigurationContainer = styled.div`
         flex: 1;
 
         &.highlight {
-          background: ${Theme.colors.mainHighlight}10;
+          background: ${({ theme }) => theme.mainColor}10;
           padding: 8px;
           border-radius: 6px;
-          border: 1px solid ${Theme.colors.mainHighlight}30;
+          border: 1px solid ${({ theme }) => theme.mainColor}30;
         }
       }
     }
@@ -68,12 +67,12 @@ export const PixConfigurationContainer = styled.div`
           justify-content: space-between;
           align-items: center;
           padding: 10px;
-          background: ${Theme.colors.maindark};
+          background: ${({ theme }) => theme.background_01};
           border-radius: 6px;
 
           &.highlight {
-            background: ${Theme.colors.mainHighlight}10;
-            border: 1px solid ${Theme.colors.mainHighlight}30;
+            background: ${({ theme }) => theme.mainColor}10;
+            border: 1px solid ${({ theme }) => theme.mainColor}30;
           }
         }
       }

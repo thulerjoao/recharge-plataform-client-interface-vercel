@@ -1,4 +1,3 @@
-import { Theme } from "@4miga/design-system/theme/theme";
 import styled from "styled-components";
 
 export const CustomerCardContainer = styled.div<{ $isExcluded?: boolean }>`
@@ -8,15 +7,15 @@ export const CustomerCardContainer = styled.div<{ $isExcluded?: boolean }>`
   flex-direction: column;
   gap: 6px;
   padding: 16px 20px;
-  background: ${({ $isExcluded }) =>
-    $isExcluded ? `${Theme.colors.refused}20` : Theme.colors.maindark};
+  background: ${({ $isExcluded, theme }) =>
+    $isExcluded ? `${theme.refused}20` : theme.background_01};
   border-radius: 12px;
   -webkit-box-shadow: 0px 0px 5px 1px rgba(7, 29, 35, 1);
   -moz-box-shadow: 0px 0px 5px 1px rgba(7, 29, 35, 1);
   box-shadow: 0px 0px 5px 1px rgba(7, 29, 35, 1);
   border: 1px solid
-    ${({ $isExcluded }) =>
-      `${Theme.colors[$isExcluded ? "refused" : "secondaryAction"]}80`};
+    ${({ $isExcluded, theme }) =>
+      `${theme[$isExcluded ? "refused" : "border_01"]}80`};
 
   .deleteIconButton {
     position: absolute;
@@ -31,7 +30,7 @@ export const CustomerCardContainer = styled.div<{ $isExcluded?: boolean }>`
     border: none;
     background: transparent;
     cursor: pointer;
-    color: ${Theme.colors.refused};
+    color: ${({ theme }) => theme.refused};
   }
 
   .cardLine {

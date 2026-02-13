@@ -1,7 +1,6 @@
 "use client";
 
 import Text from "@4miga/design-system/components/Text";
-import { Theme } from "@4miga/design-system/theme/theme";
 import { useProducts } from "contexts/products/ProductsProvider";
 import { useStore } from "contexts/store/StoreProvider";
 import { useRouter } from "next/navigation";
@@ -10,6 +9,7 @@ import Carousel from "public/components/carousel/carousel";
 import HowItWorks from "public/components/howItWorks";
 import { PackageType } from "types/productTypes";
 import { formatString } from "utils/formatString";
+import { useTheme } from "styled-components";
 import Lines from "../../../public/components/lines/lines";
 import { HomeTestContainer } from "./style";
 import PackageCardCompact from "public/cards/packageCardCompact/card";
@@ -19,6 +19,7 @@ type Props = {
 };
 
 const HomeTest = ({ coupon }: Props) => {
+  const theme = useTheme();
   const route = useRouter();
   const { product } = useProducts();
   const { store } = useStore();
@@ -49,7 +50,7 @@ const HomeTest = ({ coupon }: Props) => {
           align="center"
           fontName="REGULAR"
           className="homeTestText"
-          color={Theme.colors.secondaryText}
+          color={theme.text_03}
           margin="16px 0 8px 0"
         >
           Recargas direto para sua conta Bigo Live
@@ -75,7 +76,7 @@ const HomeTest = ({ coupon }: Props) => {
           tag="p"
           align="center"
           fontName="REGULAR"
-          color={Theme.colors.secondaryText}
+          color={theme.text_03}
           margin="32px 0 16px 0"
         >
           Quer economizar ainda mais?
@@ -84,7 +85,7 @@ const HomeTest = ({ coupon }: Props) => {
           tag="a"
           align="center"
           fontName="REGULAR_MEDIUM"
-          color={Theme.colors.mainHighlight}
+          color={theme.mainColor}
           underline
           pointer
           onClick={() => route.push("/coupons")}
@@ -98,7 +99,7 @@ const HomeTest = ({ coupon }: Props) => {
           tag="p"
           align="center"
           fontName="REGULAR"
-          color={Theme.colors.secondaryText}
+          color={theme.text_03}
           margin="0px 0 16px 0"
         >
           Calcule aqui sua meta mensal de Beans
@@ -107,7 +108,7 @@ const HomeTest = ({ coupon }: Props) => {
           tag="a"
           align="center"
           fontName="REGULAR_MEDIUM"
-          color={Theme.colors.mainHighlight}
+          color={theme.mainColor}
           underline
           pointer
           onClick={() => route.push("/calc")}

@@ -1,5 +1,5 @@
 import Text from "@4miga/design-system/components/Text";
-import { Theme } from "@4miga/design-system/theme/theme";
+import { useTheme } from "styled-components";
 import Image from "next/image";
 import { OrderType } from "types/orderType";
 import {
@@ -16,6 +16,7 @@ interface OrderCardProps {
 }
 
 const OrderCard = ({ order }: OrderCardProps) => {
+  const theme = useTheme();
   return (
     <OrderCardContainer>
       <Image
@@ -87,7 +88,7 @@ const OrderCard = ({ order }: OrderCardProps) => {
         <Text
           underline
           align="center"
-          color={Theme.colors.secondaryText}
+          color={theme.text_03}
           fontName="REGULAR"
         >
           ver mais

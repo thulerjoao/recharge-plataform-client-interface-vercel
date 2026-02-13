@@ -1,9 +1,8 @@
-import { Theme } from "@4miga/design-system/theme/theme";
 import styled from "styled-components";
 
 export const InfluencerCardContainer = styled.div`
   width: 100%;
-  background: ${Theme.colors.maindark};
+  background: ${({ theme }) => theme.background_01};
   border-radius: 12px;
   padding: 16px;
   -webkit-box-shadow: 0px 0px 5px 2px rgba(7, 29, 35, 1);
@@ -15,7 +14,7 @@ export const InfluencerCardContainer = styled.div`
   cursor: pointer;
 
   &:hover {
-    background: ${Theme.colors.maindark}99;
+    background: ${({ theme }) => theme.background_01}99;
   }
 
   .avatarSection {
@@ -28,7 +27,7 @@ export const InfluencerCardContainer = styled.div`
     .avatar {
       width: 64px;
       height: 64px;
-      background: ${Theme.colors.secondaryTextAction};
+      background: ${({ theme }) => theme.text_04};
       border-radius: 8px;
       display: flex;
       align-items: center;
@@ -50,13 +49,13 @@ export const InfluencerCardContainer = styled.div`
       line-height: 18px;
 
       &.active {
-        background: ${Theme.colors.approved}20;
-        border: 1px solid ${Theme.colors.approved};
+        background: ${({ theme }) => theme.approved}20;
+        border: 1px solid ${({ theme }) => theme.approved};
       }
 
       &.inactive {
-        background: ${Theme.colors.refused}20;
-        border: 1px solid ${Theme.colors.refused};
+        background: ${({ theme }) => theme.refused}20;
+        border: 1px solid ${({ theme }) => theme.refused};
       }
     }
   }
@@ -83,13 +82,13 @@ export const InfluencerCardContainer = styled.div`
         line-height: 18px;
 
         &.active {
-          background: ${Theme.colors.approved}20;
-          border: 1px solid ${Theme.colors.approved};
+          background: ${({ theme }) => theme.approved}20;
+          border: 1px solid ${({ theme }) => theme.approved};
         }
 
         &.inactive {
-          background: ${Theme.colors.refused}20;
-          border: 1px solid ${Theme.colors.refused};
+          background: ${({ theme }) => theme.refused}20;
+          border: 1px solid ${({ theme }) => theme.refused};
         }
       }
     }

@@ -1,4 +1,3 @@
-import { Theme } from "@4miga/design-system/theme/theme";
 import styled from "styled-components";
 
 interface Props {
@@ -12,8 +11,8 @@ export const MobileNavBar = styled.div<Props>`
   display: ${({ openMenu }) => openMenu && "none"};
   justify-content: space-around;
   align-items: center;
-  background-color: ${Theme.colors.maindark};
-  border-top: 1px solid ${Theme.colors.secondaryTextAction};
+  background-color: ${({ theme }) => theme.background_01};
+  border-top: 1px solid ${({ theme }) => theme.text_04};
   position: fixed;
   bottom: -1px;
   z-index: 99;
@@ -32,7 +31,7 @@ export const MobileNavBar = styled.div<Props>`
   }
 
   .selected {
-    background-color: ${Theme.colors.mainHighlight};
+    background-color: ${({ theme }) => theme.mainColor};
   }
 
   .more-button {
@@ -44,8 +43,8 @@ export const MoreMenuPopover = styled.div`
   position: absolute;
   bottom: calc(100% + 8px);
   right: 0;
-  background-color: ${Theme.colors.maindark};
-  border: 1px solid ${Theme.colors.secondaryTextAction};
+  background-color: ${({ theme }) => theme.background_01};
+  border: 1px solid ${({ theme }) => theme.text_04};
   border-radius: 8px;
   padding: 8px 0;
   min-width: 140px;
@@ -65,11 +64,11 @@ export const MoreMenuItem = styled.div`
   transition: background-color 0.2s;
 
   &:hover {
-    background-color: ${Theme.colors.secondaryTextAction}20;
+    background-color: ${({ theme }) => theme.text_04}20;
   }
 
   &.selected {
-    background-color: ${Theme.colors.mainHighlight};
+    background-color: ${({ theme }) => theme.mainColor};
   }
 
   svg {
@@ -79,7 +78,7 @@ export const MoreMenuItem = styled.div`
 
   span {
     font-size: 14px;
-    color: ${Theme.colors.mainlight};
+    color: ${({ theme }) => theme.text_01};
     padding: 0;
   }
 `;

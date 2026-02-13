@@ -1,6 +1,6 @@
 import Text from "@4miga/design-system/components/Text";
-import { Theme } from "@4miga/design-system/theme/theme";
 import Image from "next/image";
+import { useTheme } from "styled-components";
 import { PackageType } from "types/productTypes";
 import { formatPrice } from "utils/formatPrice";
 import Offer from "./img/Offer.png";
@@ -21,6 +21,7 @@ const PackageCardCompact = ({
   valueWithDicount,
   paymentPage,
 }: PackageCardProps) => {
+  const theme = useTheme();
   const formatNumber = (value: number) => {
     if (value === 1) return "01";
     return new Intl.NumberFormat("pt-BR").format(value);
@@ -35,7 +36,7 @@ const PackageCardCompact = ({
       paymentPage={paymentPage}
     >
       <div className="diamondContainer">
-        <Text tag="h2" fontName="LARGE_SEMI_BOLD" color={Theme.colors.mainText}>
+        <Text tag="h2" fontName="LARGE_SEMI_BOLD" color={theme.text_02}>
           {formatNumber(item.amountCredits)}
         </Text>
         <figure>
@@ -52,7 +53,7 @@ const PackageCardCompact = ({
         className="diamondText desktop"
         fontName="SMALL_MEDIUM"
         align="center"
-        color={Theme.colors.maindark}
+        color={theme.background_01}
       >
         {item.amountCredits > 1 ? "Diamantes Bigo" : "Diamante Bigo"}
       </Text>
@@ -60,7 +61,7 @@ const PackageCardCompact = ({
         className="diamondText mobile"
         fontName="SMALL_MEDIUM"
         align="center"
-        color={Theme.colors.maindark}
+        color={theme.background_01}
       >
         {item.amountCredits > 1 ? "Diamantes" : "Diamante"}
       </Text>
@@ -69,7 +70,7 @@ const PackageCardCompact = ({
           <Text
             className="basePriceDiscount"
             fontName="TINY"
-            color={Theme.colors.secondaryTextAction}
+            color={theme.text_04}
             style={{ textDecoration: "line-through" }}
           >
             R$ {formatPrice(item.basePrice)}
@@ -81,7 +82,7 @@ const PackageCardCompact = ({
           tag="h4"
           fontName="TINY_MEDIUM"
           style={{ width: "16px" }}
-          color={Theme.colors.maindark}
+          color={theme.background_01}
         >
           R$
         </Text>
@@ -92,7 +93,7 @@ const PackageCardCompact = ({
           tag="h3"
           fontName="LARGE_MEDIUM"
           style={{ width: "auto" }}
-          color={Theme.colors.maindark}
+          color={theme.background_01}
         >
           {formatPrice(valueWithDicount ? +valueWithDicount : item.basePrice)}
         </Text>
@@ -100,7 +101,7 @@ const PackageCardCompact = ({
         {/* {valueWithDicount && +valueWithDicount !== +item.basePrice && (
           <Text
             align="start"
-            color={Theme.colors.approved}
+            color={theme.approved}
             nowrap
             margin="0 0 0 4px"
             tag="h4"

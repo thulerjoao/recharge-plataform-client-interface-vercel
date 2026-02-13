@@ -4,7 +4,7 @@ import Button from "@4miga/design-system/components/button";
 import Input from "@4miga/design-system/components/input";
 import OnOff from "@4miga/design-system/components/onOff";
 import Text from "@4miga/design-system/components/Text";
-import { Theme } from "@4miga/design-system/theme/theme";
+import { useTheme } from "styled-components";
 import {
   connectionAPIGet,
   connectionAPIPost,
@@ -46,6 +46,7 @@ const CreateCoupon = ({
 }: {
   initialInfluencerId?: string;
 }) => {
+  const theme = useTheme();
   const [isLoading, setIsLoading] = useState(false);
   const [discountType, setDiscountType] = useState<"percentage" | "amount">(
     "percentage",
@@ -205,17 +206,17 @@ const CreateCoupon = ({
       <div className="mainContentContainer">
         <div className="headerSection">
           <div className="titleSection">
-            <Text fontName="LARGE_SEMI_BOLD" color={Theme.colors.mainlight}>
+            <Text fontName="LARGE_SEMI_BOLD" color={theme.text_01}>
               NOVO CUPOM
             </Text>
-            <Text fontName="REGULAR_MEDIUM" color={Theme.colors.secondaryText}>
+            <Text fontName="REGULAR_MEDIUM" color={theme.text_03}>
               {searchParams.get("influencerId")
                 ? `Criando cupom para ${selectedInfluencer?.name}`
                 : "Configure as informações do cupom"}
             </Text>
           </div>
           <div className="statusSection">
-            <Text fontName="SMALL_MEDIUM" color={Theme.colors.mainlight}>
+            <Text fontName="SMALL_MEDIUM" color={theme.text_01}>
               Status inicial
             </Text>
             <span
@@ -226,11 +227,7 @@ const CreateCoupon = ({
                 margin="8px 0px -8px 0px"
                 align="center"
                 fontName="SMALL_MEDIUM"
-                color={
-                  formData.isActive
-                    ? Theme.colors.approved
-                    : Theme.colors.refused
-                }
+                color={formData.isActive ? theme.approved : theme.refused}
               >
                 {formData.isActive ? "Ativo" : "Inativo"}
               </Text>
@@ -240,15 +237,12 @@ const CreateCoupon = ({
 
         <div className="infoSections">
           <div className="infoSection">
-            <Text fontName="REGULAR_MEDIUM" color={Theme.colors.mainHighlight}>
+            <Text fontName="REGULAR_MEDIUM" color={theme.mainColor}>
               INFORMAÇÕES BÁSICAS
             </Text>
             <div className="infoGrid">
               <div className="infoItem">
-                <Text
-                  fontName="SMALL_MEDIUM"
-                  color={Theme.colors.secondaryText}
-                >
+                <Text fontName="SMALL_MEDIUM" color={theme.text_03}>
                   Título do cupom: *
                 </Text>
                 <Input
@@ -268,10 +262,7 @@ const CreateCoupon = ({
                 )}
               </div>
               <div className="infoItem">
-                <Text
-                  fontName="SMALL_MEDIUM"
-                  color={Theme.colors.secondaryText}
-                >
+                <Text fontName="SMALL_MEDIUM" color={theme.text_03}>
                   Influencer: *
                 </Text>
                 <select
@@ -299,10 +290,7 @@ const CreateCoupon = ({
                 )}
               </div>
               <div className="infoItem">
-                <Text
-                  fontName="SMALL_MEDIUM"
-                  color={Theme.colors.secondaryText}
-                >
+                <Text fontName="SMALL_MEDIUM" color={theme.text_03}>
                   Tipo de desconto: *
                 </Text>
                 <select
@@ -324,10 +312,7 @@ const CreateCoupon = ({
                 </select>
               </div>
               <div className="infoItem">
-                <Text
-                  fontName="SMALL_MEDIUM"
-                  color={Theme.colors.secondaryText}
-                >
+                <Text fontName="SMALL_MEDIUM" color={theme.text_03}>
                   {discountType === "percentage" ? "Porcentagem (%)" : "Valor"}:
                   *
                 </Text>
@@ -388,15 +373,12 @@ const CreateCoupon = ({
           </div>
 
           <div className="infoSection">
-            <Text fontName="REGULAR_MEDIUM" color={Theme.colors.mainHighlight}>
+            <Text fontName="REGULAR_MEDIUM" color={theme.mainColor}>
               CONFIGURAÇÕES OPCIONAIS
             </Text>
             <div className="infoGrid">
               <div className="infoItem">
-                <Text
-                  fontName="SMALL_MEDIUM"
-                  color={Theme.colors.secondaryText}
-                >
+                <Text fontName="SMALL_MEDIUM" color={theme.text_03}>
                   Data de expiração:
                 </Text>
                 <input
@@ -436,10 +418,7 @@ const CreateCoupon = ({
                 )}
               </div>
               <div className="infoItem">
-                <Text
-                  fontName="SMALL_MEDIUM"
-                  color={Theme.colors.secondaryText}
-                >
+                <Text fontName="SMALL_MEDIUM" color={theme.text_03}>
                   Máximo de usos:
                 </Text>
                 <Input
@@ -463,10 +442,7 @@ const CreateCoupon = ({
                 )}
               </div>
               <div className="infoItem">
-                <Text
-                  fontName="SMALL_MEDIUM"
-                  color={Theme.colors.secondaryText}
-                >
+                <Text fontName="SMALL_MEDIUM" color={theme.text_03}>
                   Valor mínimo do pedido (R$):
                 </Text>
                 <InputMask
@@ -494,10 +470,7 @@ const CreateCoupon = ({
                 )}
               </div>
               <div className="infoItem">
-                <Text
-                  fontName="SMALL_MEDIUM"
-                  color={Theme.colors.secondaryText}
-                >
+                <Text fontName="SMALL_MEDIUM" color={theme.text_03}>
                   Cupom para primeira compra:
                 </Text>
                 <div className="checkboxSection">
@@ -509,16 +482,13 @@ const CreateCoupon = ({
                     }
                     className="checkbox"
                   />
-                  <Text fontName="SMALL_MEDIUM" color={Theme.colors.mainlight}>
+                  <Text fontName="SMALL_MEDIUM" color={theme.text_01}>
                     Marcar se for cupom exclusivo para primeira compra
                   </Text>
                 </div>
               </div>
               <div className="infoItem">
-                <Text
-                  fontName="SMALL_MEDIUM"
-                  color={Theme.colors.secondaryText}
-                >
+                <Text fontName="SMALL_MEDIUM" color={theme.text_03}>
                   Cupom para compra única:
                 </Text>
                 <div className="checkboxSection">
@@ -530,7 +500,7 @@ const CreateCoupon = ({
                     }
                     className="checkbox"
                   />
-                  <Text fontName="SMALL_MEDIUM" color={Theme.colors.mainlight}>
+                  <Text fontName="SMALL_MEDIUM" color={theme.text_01}>
                     Marcar para limitar como venda única por Bigo Id
                   </Text>
                 </div>
@@ -548,8 +518,8 @@ const CreateCoupon = ({
             height={40}
             rounded
             style={{
-              backgroundColor: Theme.colors.secondaryAction,
-              color: Theme.colors.mainlight,
+              backgroundColor: theme.border_01,
+              color: theme.text_01,
             }}
           />
           <Button

@@ -1,18 +1,17 @@
-import { Theme } from "@4miga/design-system/theme/theme";
 import styled from "styled-components";
 
 interface OrderCardProps {}
 
 export const OrderCardContainer = styled.article<OrderCardProps>`
   min-height: 72px;
-  background-color: ${Theme.colors.maindark};
+  background-color: ${({ theme }) => theme.background_01};
   margin-bottom: 16px;
   display: flex;
   align-items: center;
   -webkit-box-shadow: 0px 0px 5px 1px rgba(7, 29, 35, 1);
   -moz-box-shadow: 0px 0px 5px 1px rgba(7, 29, 35, 1);
   box-shadow: 0px 0px 5px 1px rgba(7, 29, 35, 1);
-  border: 1px solid ${Theme.colors.secondaryAction}80;
+  border: 1px solid ${({ theme }) => theme.border_01}80;
   padding: 8px;
   border-radius: 8px;
   cursor: pointer;

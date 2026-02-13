@@ -1,4 +1,3 @@
-import { Theme } from "@4miga/design-system/theme/theme";
 import styled from "styled-components";
 
 export const DailyTrendContainer = styled.section`
@@ -60,14 +59,14 @@ export const VerticalBar = styled.span<BarProps>`
   height: ${({ heightinpercent }) => `calc(${heightinpercent}% - 31px)`};
   min-height: 4px;
   width: 22px;
-  background-color: ${Theme.colors.mainHighlight};
+  background-color: ${({ theme }) => theme.mainColor};
   transition: opacity 0.2s ease;
 `;
 
 export const Tooltip = styled.div`
   position: fixed;
-  background-color: ${Theme.colors.maindark};
-  border: 1px solid ${Theme.colors.secondaryTextAction}40;
+  background-color: ${({ theme }) => theme.background_01};
+  border: 1px solid ${({ theme }) => theme.text_04}40;
   border-radius: 8px;
   padding: 8px 12px;
   box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.3);

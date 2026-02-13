@@ -2,7 +2,12 @@
 
 import React, { useState } from "react";
 import { useServerInsertedHTML } from "next/navigation";
-import { ServerStyleSheet, StyleSheetManager } from "styled-components";
+import {
+  ServerStyleSheet,
+  StyleSheetManager,
+  ThemeProvider,
+} from "styled-components";
+import { Theme } from "@4miga/design-system/theme/theme";
 
 export default function StyledComponentsRegistry({
   children,
@@ -17,11 +22,15 @@ export default function StyledComponentsRegistry({
     return <>{styles}</>;
   });
 
-  if (typeof window !== "undefined") return <>{children}</>;
+  const content = (
+    <ThemeProvider theme={Theme.resellerColors}>{children}</ThemeProvider>
+  );
+
+  if (typeof window !== "undefined") return content;
 
   return (
     <StyleSheetManager sheet={styledComponentsStyleSheet.instance}>
-      {children}
+      {content}
     </StyleSheetManager>
   );
 }

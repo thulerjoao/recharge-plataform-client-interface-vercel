@@ -1,4 +1,3 @@
-import { Theme } from "@4miga/design-system/theme/theme";
 import styled from "styled-components";
 
 interface CronHealthIndicatorContainerProps {
@@ -29,8 +28,8 @@ export const CronHealthIndicatorContainer = styled.div<CronHealthIndicatorContai
       min-width: 32px;
       min-height: 32px;
       border-radius: 50%;
-      background-color: ${(props) =>
-        props.$isHealthy ? Theme.colors.approved : Theme.colors.refused};
+      background-color: ${({ $isHealthy, theme }) =>
+        $isHealthy ? theme.approved : theme.refused};
       display: flex;
       align-items: center;
       justify-content: center;
@@ -38,13 +37,11 @@ export const CronHealthIndicatorContainer = styled.div<CronHealthIndicatorContai
       flex-grow: 0;
       transition: all 0.2s ease;
       border: 2px solid
-        ${(props) =>
-          props.$isHealthy
-            ? `${Theme.colors.approved}40`
-            : `${Theme.colors.refused}40`};
+        ${({ $isHealthy, theme }) =>
+          $isHealthy ? `${theme.approved}40` : `${theme.refused}40`};
 
       .statusIcon {
-        color: ${Theme.colors.mainlight};
+        color: ${({ theme }) => theme.text_01};
         font-size: 18px;
         font-weight: bold;
         line-height: 1;
@@ -63,7 +60,7 @@ export const CronHealthIndicatorContainer = styled.div<CronHealthIndicatorContai
 
   button {
     flex-shrink: 0;
-    background-color: ${Theme.colors.refused} !important;
+    background-color: ${({ theme }) => theme.refused} !important;
   }
 
   .tooltip {
@@ -71,11 +68,11 @@ export const CronHealthIndicatorContainer = styled.div<CronHealthIndicatorContai
     bottom: 100%;
     left: 0;
     margin-bottom: 8px;
-    background-color: ${Theme.colors.maindark};
-    border: 1px solid ${Theme.colors.secondaryAction};
+    background-color: ${({ theme }) => theme.background_01};
+    border: 1px solid ${({ theme }) => theme.border_01};
     border-radius: 8px;
     padding: 12px 16px;
-    box-shadow: 0px 4px 12px ${Theme.colors.modalBackground};
+    box-shadow: 0px 4px 12px ${({ theme }) => theme.background_06};
     z-index: 100;
     min-width: 280px;
     max-width: 320px;
@@ -101,7 +98,7 @@ export const CronHealthIndicatorContainer = styled.div<CronHealthIndicatorContai
       height: 0;
       border-left: 8px solid transparent;
       border-right: 8px solid transparent;
-      border-top: 8px solid ${Theme.colors.maindark};
+      border-top: 8px solid ${({ theme }) => theme.background_01};
     }
   }
 

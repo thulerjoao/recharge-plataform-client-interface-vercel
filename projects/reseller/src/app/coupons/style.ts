@@ -1,4 +1,3 @@
-import { Theme } from "@4miga/design-system/theme/theme";
 import styled from "styled-components";
 
 export const CouponsContainer = styled.div`
@@ -26,7 +25,7 @@ export const CouponsContainer = styled.div`
       justify-content: space-between;
       align-items: center;
       padding: 24px;
-      background: ${Theme.colors.maindark};
+      background: ${({ theme }) => theme.background_01};
       border-radius: 12px;
       -webkit-box-shadow: 0px 0px 5px 2px rgba(7, 29, 35, 1);
       -moz-box-shadow: 0px 0px 5px 2px rgba(7, 29, 35, 1);
@@ -42,7 +41,7 @@ export const CouponsContainer = styled.div`
     .tabsSection {
       display: flex;
       gap: 8px;
-      background: ${Theme.colors.maindark};
+      background: ${({ theme }) => theme.background_01};
       border-radius: 12px;
       padding: 8px;
       -webkit-box-shadow: 0px 0px 5px 2px rgba(7, 29, 35, 1);
@@ -59,7 +58,7 @@ export const CouponsContainer = styled.div`
         transition: all 0.2s ease;
 
         &.active {
-          background: ${Theme.colors.mainHighlight};
+          background: ${({ theme }) => theme.mainColor};
         }
       }
     }
@@ -69,7 +68,7 @@ export const CouponsContainer = styled.div`
       justify-content: space-between;
       align-items: center;
       padding: 20px;
-      background: ${Theme.colors.maindark};
+      background: ${({ theme }) => theme.background_01};
       border-radius: 12px;
       -webkit-box-shadow: 0px 0px 5px 2px rgba(7, 29, 35, 1);
       -moz-box-shadow: 0px 0px 5px 2px rgba(7, 29, 35, 1);
@@ -84,7 +83,7 @@ export const CouponsContainer = styled.div`
         .searchButton {
           width: 28px;
           height: 28px;
-          background-color: ${Theme.colors.mainlight};
+          background-color: ${({ theme }) => theme.text_01};
           border-radius: 8px;
           display: flex;
           justify-content: center;
@@ -110,22 +109,22 @@ export const CouponsContainer = styled.div`
           height: 32px;
           width: 140px;
           border-radius: 8px;
-          border: 2px solid ${Theme.colors.secondaryAction};
-          background: ${Theme.colors.mainlight};
-          color: ${Theme.colors.secondaryAction};
+          border: 2px solid ${({ theme }) => theme.border_01};
+          background: ${({ theme }) => theme.text_01};
+          color: ${({ theme }) => theme.border_01};
           font-size: 14px;
           cursor: pointer;
 
           &:focus {
             outline: none;
-            border-color: ${Theme.colors.mainHighlight};
+            border-color: ${({ theme }) => theme.mainColor};
           }
         }
       }
     }
 
     .tableSection {
-      background: ${Theme.colors.maindark};
+      background: ${({ theme }) => theme.background_01};
       border-radius: 12px;
       -webkit-box-shadow: 0px 0px 5px 2px rgba(7, 29, 35, 1);
       -moz-box-shadow: 0px 0px 5px 2px rgba(7, 29, 35, 1);
@@ -135,13 +134,13 @@ export const CouponsContainer = styled.div`
       .tableHeader {
         display: grid;
         grid-template-columns: 2fr 2fr 1.2fr 1fr;
-        background: ${Theme.colors.secondaryTextAction};
+        background: ${({ theme }) => theme.text_04};
         padding: 16px 20px;
         gap: 16px;
 
         .tableCell {
           font-weight: 600;
-          color: ${Theme.colors.mainlight};
+          color: ${({ theme }) => theme.text_01};
           font-size: 14px;
 
           &.actionHeader {

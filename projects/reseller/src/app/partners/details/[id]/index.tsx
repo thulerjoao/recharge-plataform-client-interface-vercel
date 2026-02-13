@@ -5,7 +5,7 @@ import Button from "@4miga/design-system/components/button";
 import Input from "@4miga/design-system/components/input";
 import OnOff from "@4miga/design-system/components/onOff";
 import Text from "@4miga/design-system/components/Text";
-import { Theme } from "@4miga/design-system/theme/theme";
+import { useTheme } from "styled-components";
 import {
   connectionAPIDelete,
   connectionAPIGet,
@@ -32,6 +32,7 @@ interface InfluencerDetailsProps {
 }
 
 const InfluencerDetails = ({ influencerId }: InfluencerDetailsProps) => {
+  const theme = useTheme();
   const router = useRouter();
 
   const [errors, setErrors] = useState<FormErrors>({});
@@ -224,7 +225,7 @@ const InfluencerDetails = ({ influencerId }: InfluencerDetailsProps) => {
         <Text
           align="center"
           fontName="REGULAR_MEDIUM"
-          color={Theme.colors.mainlight}
+          color={theme.text_01}
           margin="0 0 16px 0"
         >
           Parceiro não encontrado
@@ -259,7 +260,7 @@ const InfluencerDetails = ({ influencerId }: InfluencerDetailsProps) => {
             <Icon />
           </div>
           <div className="headerInfo">
-            <Text fontName="LARGE_SEMI_BOLD" color={Theme.colors.mainlight}>
+            <Text fontName="LARGE_SEMI_BOLD" color={theme.text_01}>
               {influencer.name}
             </Text>
             <div
@@ -268,11 +269,7 @@ const InfluencerDetails = ({ influencerId }: InfluencerDetailsProps) => {
               <Text
                 align="center"
                 fontName="SMALL_MEDIUM"
-                color={
-                  influencer.isActive
-                    ? Theme.colors.approved
-                    : Theme.colors.refused
-                }
+                color={influencer.isActive ? theme.approved : theme.refused}
               >
                 {influencer.isActive ? "ATIVO" : "INATIVO"}
               </Text>
@@ -280,7 +277,7 @@ const InfluencerDetails = ({ influencerId }: InfluencerDetailsProps) => {
           </div>
           {isEditing && (
             <div className="onOff">
-              <Text fontName="SMALL_MEDIUM" color={Theme.colors.mainlight}>
+              <Text fontName="SMALL_MEDIUM" color={theme.text_01}>
                 Ativar/Desativar
               </Text>
               <span onClick={handleToggleActive}>
@@ -293,19 +290,13 @@ const InfluencerDetails = ({ influencerId }: InfluencerDetailsProps) => {
         <div className="infoSections">
           <div className="infoSection unifiedInfoSection">
             <div className="sectionTitle">
-              <Text
-                fontName="REGULAR_MEDIUM"
-                color={Theme.colors.mainHighlight}
-              >
+              <Text fontName="REGULAR_MEDIUM" color={theme.mainColor}>
                 INFORMAÇÕES DE CONTATO
               </Text>
             </div>
             <div className="infoGrid">
               <div className="infoItem">
-                <Text
-                  fontName="SMALL_MEDIUM"
-                  color={Theme.colors.secondaryText}
-                >
+                <Text fontName="SMALL_MEDIUM" color={theme.text_03}>
                   Nome:
                 </Text>
                 {isEditing ? (
@@ -317,7 +308,7 @@ const InfluencerDetails = ({ influencerId }: InfluencerDetailsProps) => {
                     className={errors.name ? "error" : ""}
                   />
                 ) : (
-                  <Text fontName="SMALL_MEDIUM" color={Theme.colors.mainlight}>
+                  <Text fontName="SMALL_MEDIUM" color={theme.text_01}>
                     {influencer.name}
                   </Text>
                 )}
@@ -326,10 +317,7 @@ const InfluencerDetails = ({ influencerId }: InfluencerDetailsProps) => {
                 )}
               </div>
               <div className="infoItem">
-                <Text
-                  fontName="SMALL_MEDIUM"
-                  color={Theme.colors.secondaryText}
-                >
+                <Text fontName="SMALL_MEDIUM" color={theme.text_03}>
                   E-mail:
                 </Text>
                 {isEditing ? (
@@ -341,7 +329,7 @@ const InfluencerDetails = ({ influencerId }: InfluencerDetailsProps) => {
                     className={errors.email ? "error" : ""}
                   />
                 ) : (
-                  <Text fontName="SMALL_MEDIUM" color={Theme.colors.mainlight}>
+                  <Text fontName="SMALL_MEDIUM" color={theme.text_01}>
                     {influencer.email || "Não informado"}
                   </Text>
                 )}
@@ -350,10 +338,7 @@ const InfluencerDetails = ({ influencerId }: InfluencerDetailsProps) => {
                 )}
               </div>
               <div className="infoItem">
-                <Text
-                  fontName="SMALL_MEDIUM"
-                  color={Theme.colors.secondaryText}
-                >
+                <Text fontName="SMALL_MEDIUM" color={theme.text_03}>
                   Telefone:
                 </Text>
                 {isEditing ? (
@@ -373,7 +358,7 @@ const InfluencerDetails = ({ influencerId }: InfluencerDetailsProps) => {
                     )}
                   </InputMask>
                 ) : (
-                  <Text fontName="SMALL_MEDIUM" color={Theme.colors.mainlight}>
+                  <Text fontName="SMALL_MEDIUM" color={theme.text_01}>
                     {influencer.phone
                       ? formatPhone(influencer.phone)
                       : "Não informado"}
@@ -388,19 +373,13 @@ const InfluencerDetails = ({ influencerId }: InfluencerDetailsProps) => {
             <div className="sectionDivider"></div>
 
             <div className="sectionTitle">
-              <Text
-                fontName="REGULAR_MEDIUM"
-                color={Theme.colors.mainHighlight}
-              >
+              <Text fontName="REGULAR_MEDIUM" color={theme.mainColor}>
                 INFORMAÇÕES DE PAGAMENTO
               </Text>
             </div>
             <div className="infoGrid">
               <div className="infoItem">
-                <Text
-                  fontName="SMALL_MEDIUM"
-                  color={Theme.colors.secondaryText}
-                >
+                <Text fontName="SMALL_MEDIUM" color={theme.text_03}>
                   Tipo da chave PIX:
                 </Text>
                 {isEditing ? (
@@ -418,7 +397,7 @@ const InfluencerDetails = ({ influencerId }: InfluencerDetailsProps) => {
                     <option value="RANDOM">Chave aleatória</option>
                   </select>
                 ) : (
-                  <Text fontName="SMALL_MEDIUM" color={Theme.colors.mainlight}>
+                  <Text fontName="SMALL_MEDIUM" color={theme.text_01}>
                     {influencer.paymentMethod || "Não informado"}
                   </Text>
                 )}
@@ -427,10 +406,7 @@ const InfluencerDetails = ({ influencerId }: InfluencerDetailsProps) => {
                 )}
               </div>
               <div className="infoItem">
-                <Text
-                  fontName="SMALL_MEDIUM"
-                  color={Theme.colors.secondaryText}
-                >
+                <Text fontName="SMALL_MEDIUM" color={theme.text_03}>
                   Chave PIX:
                 </Text>
                 {isEditing ? (
@@ -506,7 +482,7 @@ const InfluencerDetails = ({ influencerId }: InfluencerDetailsProps) => {
                     />
                   )
                 ) : (
-                  <Text fontName="SMALL_MEDIUM" color={Theme.colors.mainlight}>
+                  <Text fontName="SMALL_MEDIUM" color={theme.text_01}>
                     {influencer.paymentData || "Não informado"}
                   </Text>
                 )}
@@ -553,7 +529,7 @@ const InfluencerDetails = ({ influencerId }: InfluencerDetailsProps) => {
                     height={36}
                     rounded
                     style={{
-                      backgroundColor: Theme.colors.refused,
+                      backgroundColor: theme.refused,
                     }}
                   />
                 </>
@@ -562,7 +538,7 @@ const InfluencerDetails = ({ influencerId }: InfluencerDetailsProps) => {
           </div>
 
           <div className="infoSection salesInfo">
-            <Text fontName="REGULAR_MEDIUM" color={Theme.colors.mainHighlight}>
+            <Text fontName="REGULAR_MEDIUM" color={theme.mainColor}>
               VENDAS
             </Text>
             <div className="salesContent">
@@ -570,42 +546,29 @@ const InfluencerDetails = ({ influencerId }: InfluencerDetailsProps) => {
                 className="currentMonthSales clickable"
                 onClick={() => router.push(`/partners/sales/${influencer.id}`)}
               >
-                <Text fontName="REGULAR_MEDIUM" color={Theme.colors.mainlight}>
+                <Text fontName="REGULAR_MEDIUM" color={theme.text_01}>
                   Mês Atual
                 </Text>
                 {getCurrentMonthSales() ? (
                   <div className="salesAmount">
-                    <Text
-                      fontName="LARGE_SEMI_BOLD"
-                      color={Theme.colors.approved}
-                    >
+                    <Text fontName="LARGE_SEMI_BOLD" color={theme.approved}>
                       R${" "}
                       {formatPrice(Number(getCurrentMonthSales()!.totalSales))}
                     </Text>
-                    <Text
-                      fontName="SMALL_MEDIUM"
-                      color={Theme.colors.secondaryText}
-                    >
+                    <Text fontName="SMALL_MEDIUM" color={theme.text_03}>
                       {getMonthName(getCurrentMonthSales()!.month)}{" "}
                       {getCurrentMonthSales()!.year}
                     </Text>
                   </div>
                 ) : (
                   <div className="noSales">
-                    <Text
-                      fontName="REGULAR_MEDIUM"
-                      color={Theme.colors.secondaryText}
-                    >
+                    <Text fontName="REGULAR_MEDIUM" color={theme.text_03}>
                       Nenhuma venda registrada este mês
                     </Text>
                   </div>
                 )}
                 <div className="clickIndicator">
-                  <Text
-                    fontName="SMALL"
-                    color={Theme.colors.mainlight}
-                    align="center"
-                  >
+                  <Text fontName="SMALL" color={theme.text_01} align="center">
                     Ver histórico completo →
                   </Text>
                 </div>
@@ -616,15 +579,12 @@ const InfluencerDetails = ({ influencerId }: InfluencerDetailsProps) => {
                     {getPreviousMonthsSales().map((sale) => (
                       <div key={sale.id} className="salesItem">
                         <div className="salesInfo">
-                          <Text
-                            fontName="SMALL_MEDIUM"
-                            color={Theme.colors.mainlight}
-                          >
+                          <Text fontName="SMALL_MEDIUM" color={theme.text_01}>
                             {getMonthName(sale.month)} {sale.year}
                           </Text>
                           <Text
                             fontName="REGULAR_MEDIUM"
-                            color={Theme.colors.approved}
+                            color={theme.approved}
                           >
                             R$ {formatPrice(Number(sale.totalSales))}
                           </Text>
@@ -634,10 +594,7 @@ const InfluencerDetails = ({ influencerId }: InfluencerDetailsProps) => {
                   </div>
                 ) : (
                   <div className="noSales">
-                    <Text
-                      fontName="REGULAR_MEDIUM"
-                      color={Theme.colors.secondaryText}
-                    >
+                    <Text fontName="REGULAR_MEDIUM" color={theme.text_03}>
                       Nenhuma venda registrada em meses anteriores
                     </Text>
                   </div>
@@ -647,7 +604,7 @@ const InfluencerDetails = ({ influencerId }: InfluencerDetailsProps) => {
           </div>
 
           <div className="infoSection">
-            <Text fontName="REGULAR_MEDIUM" color={Theme.colors.mainHighlight}>
+            <Text fontName="REGULAR_MEDIUM" color={theme.mainColor}>
               CUPONS
             </Text>
             <div className="couponsContent">
@@ -657,21 +614,14 @@ const InfluencerDetails = ({ influencerId }: InfluencerDetailsProps) => {
                   router.push(`/coupons/partners/${influencer.id}`)
                 }
               >
-                <Text fontName="LARGE_SEMI_BOLD" color={Theme.colors.pending}>
+                <Text fontName="LARGE_SEMI_BOLD" color={theme.pending}>
                   {influencer.coupons.length} cupons ativos
                 </Text>
-                <Text
-                  fontName="SMALL_MEDIUM"
-                  color={Theme.colors.secondaryText}
-                >
+                <Text fontName="SMALL_MEDIUM" color={theme.text_03}>
                   Total de cupons cadastrados
                 </Text>
                 <div className="clickIndicator">
-                  <Text
-                    fontName="SMALL"
-                    color={Theme.colors.mainlight}
-                    align="center"
-                  >
+                  <Text fontName="SMALL" color={theme.text_01} align="center">
                     Ver todos os cupons →
                   </Text>
                 </div>
@@ -691,51 +641,39 @@ const InfluencerDetails = ({ influencerId }: InfluencerDetailsProps) => {
           </div>
 
           <div className="infoSection systemInfo">
-            <Text fontName="REGULAR_MEDIUM" color={Theme.colors.mainHighlight}>
+            <Text fontName="REGULAR_MEDIUM" color={theme.mainColor}>
               INFORMAÇÕES DO SISTEMA
             </Text>
             <div className="infoGrid">
               <div className="infoItem">
-                <Text
-                  fontName="SMALL_MEDIUM"
-                  color={Theme.colors.secondaryText}
-                >
+                <Text fontName="SMALL_MEDIUM" color={theme.text_03}>
                   ID do parceiro:
                 </Text>
-                <Text fontName="SMALL_MEDIUM" color={Theme.colors.mainlight}>
+                <Text fontName="SMALL_MEDIUM" color={theme.text_01}>
                   {influencer.id}
                 </Text>
               </div>
               <div className="infoItem">
-                <Text
-                  fontName="SMALL_MEDIUM"
-                  color={Theme.colors.secondaryText}
-                >
+                <Text fontName="SMALL_MEDIUM" color={theme.text_03}>
                   ID da loja:
                 </Text>
-                <Text fontName="SMALL_MEDIUM" color={Theme.colors.mainlight}>
+                <Text fontName="SMALL_MEDIUM" color={theme.text_01}>
                   {influencer.storeId}
                 </Text>
               </div>
               <div className="infoItem">
-                <Text
-                  fontName="SMALL_MEDIUM"
-                  color={Theme.colors.secondaryText}
-                >
+                <Text fontName="SMALL_MEDIUM" color={theme.text_03}>
                   Data de cadastro:
                 </Text>
-                <Text fontName="SMALL_MEDIUM" color={Theme.colors.mainlight}>
+                <Text fontName="SMALL_MEDIUM" color={theme.text_01}>
                   {formatDate(influencer.createdAt)}
                 </Text>
               </div>
               <div className="infoItem">
-                <Text
-                  fontName="SMALL_MEDIUM"
-                  color={Theme.colors.secondaryText}
-                >
+                <Text fontName="SMALL_MEDIUM" color={theme.text_03}>
                   Última atualização:
                 </Text>
-                <Text fontName="SMALL_MEDIUM" color={Theme.colors.mainlight}>
+                <Text fontName="SMALL_MEDIUM" color={theme.text_01}>
                   {formatDate(influencer.updatedAt)}
                 </Text>
               </div>

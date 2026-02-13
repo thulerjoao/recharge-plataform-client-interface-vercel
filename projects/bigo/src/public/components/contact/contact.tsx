@@ -1,6 +1,6 @@
 import Text from "@4miga/design-system/components/Text";
-import { Theme } from "@4miga/design-system/theme/theme";
 import { useStore } from "contexts/store/StoreProvider";
+import { useTheme } from "styled-components";
 import Email from "../../icons/Email.svg";
 import Facebook from "../../icons/Facebook.svg";
 import Instagram from "../../icons/Instagram.svg";
@@ -10,6 +10,7 @@ import { ContactContainer } from "./style";
 import toast from "react-hot-toast";
 
 const Contact = () => {
+  const theme = useTheme();
   const { store } = useStore();
 
   const copyEmailToClipboard = async () => {
@@ -31,7 +32,7 @@ const Contact = () => {
       <div className="topDiv">
         <Text
           align="center"
-          color={Theme.colors.mainHighlight}
+          color={theme.mainColor}
           fontName="REGULAR_MEDIUM"
         >
           Central de Atendimento
@@ -65,7 +66,7 @@ const Contact = () => {
         <div>
           <Text
             align="center"
-            color={Theme.colors.mainHighlight}
+            color={theme.mainColor}
             fontName="REGULAR_MEDIUM"
           >
             Redes Sociais

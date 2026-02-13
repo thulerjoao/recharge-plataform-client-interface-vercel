@@ -3,7 +3,7 @@
 import Button from "@4miga/design-system/components/button";
 import Input from "@4miga/design-system/components/input";
 import Text from "@4miga/design-system/components/Text";
-import { Theme } from "@4miga/design-system/theme/theme";
+import { useTheme } from "styled-components";
 import React from "react";
 import { ModalContent, ModalOverlay } from "./style";
 
@@ -28,6 +28,7 @@ const PasswordModal = ({
   loading,
   email,
 }: PasswordModalProps) => {
+  const theme = useTheme();
   if (!isOpen) return null;
 
   const handleSubmit = (e: React.FormEvent) => {
@@ -55,16 +56,16 @@ const PasswordModal = ({
         </button>
 
         <div className="userEmail">
-          <Text fontName="SMALL" color={Theme.colors.secondaryText}>
+          <Text fontName="SMALL" color={theme.text_03}>
             {modalAction === "promote" ? "Promovendo:" : "Rebaixando:"}
           </Text>
-          <Text fontName="REGULAR_SEMI_BOLD" color={Theme.colors.mainlight}>
+          <Text fontName="REGULAR_SEMI_BOLD" color={theme.text_01}>
             {email}
           </Text>
         </div>
 
         <div className="modalBody">
-          <Text fontName="REGULAR_MEDIUM" color={Theme.colors.mainlight}>
+          <Text fontName="REGULAR_MEDIUM" color={theme.text_01}>
             Confirme sua senha para concluir
           </Text>
           <form onSubmit={handleSubmit}>

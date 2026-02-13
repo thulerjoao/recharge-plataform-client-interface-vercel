@@ -3,7 +3,7 @@
 import Button from "@4miga/design-system/components/button";
 import Input from "@4miga/design-system/components/input";
 import Text from "@4miga/design-system/components/Text";
-import { Theme } from "@4miga/design-system/theme/theme";
+import { useTheme } from "styled-components";
 import { connectionAPIPatch } from "@4miga/services/connectionAPI/connection";
 import { useAuth } from "context/auth";
 import React, { useMemo, useState } from "react";
@@ -30,6 +30,7 @@ interface SocialNetworksSectionProps {
 const SocialNetworksSection: React.FC<SocialNetworksSectionProps> = ({
   onRefreshStore,
 }) => {
+  const theme = useTheme();
   const { store } = useAuth();
   const [instagram, setInstagram] = useState(store?.instagramUrl || "");
   const [facebook, setFacebook] = useState(store?.facebookUrl || "");
@@ -145,10 +146,10 @@ const SocialNetworksSection: React.FC<SocialNetworksSectionProps> = ({
     <SocialNetworksSectionContainer>
       <div className="section">
         <div className="sectionHeader">
-          <Text fontName="LARGE_SEMI_BOLD" color={Theme.colors.mainlight}>
+          <Text fontName="LARGE_SEMI_BOLD" color={theme.text_01}>
             INFORMAÇÕES DE CONTATO
           </Text>
-          <Text fontName="SMALL_MEDIUM" color={Theme.colors.secondaryText}>
+          <Text fontName="SMALL_MEDIUM" color={theme.text_03}>
             Configure as informações de contato para suporte
           </Text>
         </div>
@@ -199,10 +200,10 @@ const SocialNetworksSection: React.FC<SocialNetworksSectionProps> = ({
       </div>
       <div className="section">
         <div className="sectionHeader">
-          <Text fontName="LARGE_SEMI_BOLD" color={Theme.colors.mainlight}>
+          <Text fontName="LARGE_SEMI_BOLD" color={theme.text_01}>
             REDES SOCIAIS
           </Text>
-          <Text fontName="SMALL_MEDIUM" color={Theme.colors.secondaryText}>
+          <Text fontName="SMALL_MEDIUM" color={theme.text_03}>
             Configure as redes sociais da sua loja
           </Text>
         </div>
@@ -227,11 +228,7 @@ const SocialNetworksSection: React.FC<SocialNetworksSectionProps> = ({
               rel="noopener noreferrer"
               className="socialLink"
             >
-              <Text
-                margin="8px 0 0 16px"
-                fontName="TINY"
-                color={Theme.colors.secondaryText}
-              >
+              <Text margin="8px 0 0 16px" fontName="TINY" color={theme.text_03}>
                 http://instagram.com/{instagram.replace("@", "")}
               </Text>
             </a>
@@ -256,11 +253,7 @@ const SocialNetworksSection: React.FC<SocialNetworksSectionProps> = ({
               rel="noopener noreferrer"
               className="socialLink"
             >
-              <Text
-                margin="8px 0 0 16px"
-                fontName="TINY"
-                color={Theme.colors.secondaryText}
-              >
+              <Text margin="8px 0 0 16px" fontName="TINY" color={theme.text_03}>
                 http://facebook.com/{facebook.replace("@", "")}
               </Text>
             </a>
@@ -285,11 +278,7 @@ const SocialNetworksSection: React.FC<SocialNetworksSectionProps> = ({
               rel="noopener noreferrer"
               className="socialLink"
             >
-              <Text
-                margin="8px 0 0 16px"
-                fontName="TINY"
-                color={Theme.colors.secondaryText}
-              >
+              <Text margin="8px 0 0 16px" fontName="TINY" color={theme.text_03}>
                 http://tiktok.com/{tiktok.replace("@", "")}
               </Text>
             </a>

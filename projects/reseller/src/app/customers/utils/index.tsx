@@ -2,7 +2,7 @@
 
 import LoadingPage from "app/loading";
 import Text from "@4miga/design-system/components/Text";
-import { Theme } from "@4miga/design-system/theme/theme";
+import { useTheme } from "styled-components";
 import { useCustomers } from "context/customers";
 import { useRouter } from "next/navigation";
 import DefaultHeader from "public/components/defaultHeader";
@@ -61,6 +61,7 @@ const CustomersPage = ({
   minPurchases: initialMinPurchases,
   maxDaysWithoutPurchase: initialMaxDaysWithoutPurchase,
 }: Props) => {
+  const theme = useTheme();
   const router = useRouter();
   const {
     loadingCustomers,
@@ -217,10 +218,10 @@ const CustomersPage = ({
         </div>
         <div className="headerSection">
           <div className="titleSection">
-            <Text fontName="LARGE_SEMI_BOLD" color={Theme.colors.mainlight}>
+            <Text fontName="LARGE_SEMI_BOLD" color={theme.text_01}>
               Gerenciamento de Clientes
             </Text>
-            <Text fontName="REGULAR_MEDIUM" color={Theme.colors.secondaryText}>
+            <Text fontName="REGULAR_MEDIUM" color={theme.text_03}>
               Consulte os clientes da sua loja
             </Text>
           </div>
@@ -315,7 +316,7 @@ const CustomersPage = ({
           );
         })()}
         <div style={{ marginTop: "16px", textAlign: "center" }}>
-          <Text fontName="TINY" color={Theme.colors.secondaryText}>
+          <Text fontName="TINY" color={theme.text_03}>
             Total: {customers?.totalClients ?? 0} clientes
           </Text>
         </div>

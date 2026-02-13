@@ -1,0 +1,75 @@
+import styled from "styled-components";
+import "swiper/css";
+import "swiper/css/navigation";
+import "swiper/css/pagination";
+
+export const HomeContainer = styled.div`
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  height: auto;
+  overflow-x: hidden;
+
+  .slide {
+    max-width: 50rem;
+
+    .slidePic {
+      background-color: green;
+    }
+  }
+
+  main {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    width: 100%;
+
+    .cardsContainer {
+      width: 100%;
+      max-width: 605px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      margin-top: 24px;
+      margin-bottom: 56px;
+      padding: 0 24px;
+      box-sizing: border-box;
+
+      .cardEnviroment {
+        height: auto;
+        flex: 0 1 calc(33.33% - 16px);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 100%;
+        margin-bottom: 24px;
+
+        .invisibleCard {
+          width: 100%;
+          max-width: 174px;
+          height: 0px;
+        }
+      }
+    }
+  }
+
+  @media (max-width: 539px) {
+    main {
+      .cardsContainer {
+        padding: 0 14px;
+
+        .cardEnviroment {
+          flex: 0 1 calc(50% - 10px);
+        }
+
+        .invisible {
+          display: none;
+        }
+      }
+    }
+  }
+`;

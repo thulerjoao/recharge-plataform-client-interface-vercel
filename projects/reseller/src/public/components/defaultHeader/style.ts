@@ -1,4 +1,3 @@
-import { Theme } from "@4miga/design-system/theme/theme";
 import styled from "styled-components";
 
 export const DefaultHeaderContainer = styled.header`
@@ -6,7 +5,7 @@ export const DefaultHeaderContainer = styled.header`
   width: 100%;
   display: flex;
   align-items: center;
-  background-color: ${Theme.colors.mainTransparent};
+  background-color: ${({ theme }) => theme.background_03};
   position: relative;
   z-index: 10;
 

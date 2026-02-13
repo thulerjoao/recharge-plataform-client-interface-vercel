@@ -2,7 +2,7 @@
 
 import Button from "@4miga/design-system/components/button";
 import Text from "@4miga/design-system/components/Text";
-import { Theme } from "@4miga/design-system/theme/theme";
+import { useTheme } from "styled-components";
 import { useMultipleImageUpload } from "hooks/useMultipleImageUpload";
 import Image from "next/image";
 import Carousel from "public/components/carousel/carousel";
@@ -20,6 +20,7 @@ const CarouselUpload: React.FC<CarouselUploadProps> = ({
   bannersUrl,
   onRefreshStore,
 }) => {
+  const theme = useTheme();
   const [removedIndices, setRemovedIndices] = useState<number[]>([]);
   const carouselImages = bannersUrl || [];
 
@@ -122,10 +123,10 @@ const CarouselUpload: React.FC<CarouselUploadProps> = ({
   return (
     <CarouselUploadContainer>
       <div className="sectionHeader">
-        <Text fontName="LARGE_SEMI_BOLD" color={Theme.colors.mainlight}>
+        <Text fontName="LARGE_SEMI_BOLD" color={theme.text_01}>
           BANNER SUPERIOR PÁGINA HOME
         </Text>
-        <Text fontName="SMALL_MEDIUM" color={Theme.colors.secondaryText}>
+        <Text fontName="SMALL_MEDIUM" color={theme.text_03}>
           A imagem deve estar no formato .png, .jpg ou .jpeg, ter uma resolução
           mínima de 1280 x 540 e uma proporção de 21:9
         </Text>
@@ -140,7 +141,7 @@ const CarouselUpload: React.FC<CarouselUploadProps> = ({
               <Text
                 align="center"
                 fontName="REGULAR_MEDIUM"
-                color={Theme.colors.secondaryText}
+                color={theme.text_03}
               >
                 Nenhuma imagem adicionada
               </Text>
@@ -151,7 +152,7 @@ const CarouselUpload: React.FC<CarouselUploadProps> = ({
 
       <div className="thumbnailsSection">
         <div className="thumbnailsHeader">
-          <Text fontName="SMALL_MEDIUM" color={Theme.colors.secondaryText}>
+          <Text fontName="SMALL_MEDIUM" color={theme.text_03}>
             Imagens selecionadas ({displayCarouselImages.length}/5):
           </Text>
         </div>
@@ -184,11 +185,7 @@ const CarouselUpload: React.FC<CarouselUploadProps> = ({
               onClick={carouselUpload.handleButtonClick}
             >
               <Camera />
-              <Text
-                align="center"
-                fontName="TINY_MEDIUM"
-                color={Theme.colors.mainlight}
-              >
+              <Text align="center" fontName="TINY_MEDIUM" color={theme.text_01}>
                 Adicionar
               </Text>
             </div>
@@ -216,7 +213,7 @@ const CarouselUpload: React.FC<CarouselUploadProps> = ({
             // loading={carouselUpload.isUploading}
             disabled={carouselUpload.isUploading}
             isNotSelected
-            // style={{ color: Theme.colors.mainlight }}
+            // style={{ color: theme.text_01 }}
           />
           <Button
             rounded

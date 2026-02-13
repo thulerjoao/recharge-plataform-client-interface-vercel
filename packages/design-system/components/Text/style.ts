@@ -1,5 +1,4 @@
 import styled from "styled-components";
-import { Theme } from "../../theme/theme";
 
 interface TextProps {
   margin?: string;
@@ -16,7 +15,7 @@ interface TextProps {
 export const TextContainer = styled.p<TextProps>`
   ${({ margin }) => margin && `margin: ${margin};`};
   text-align: ${({ align }) => (!align ? "start" : align)};
-  color: ${({ color }) => (color ? color : Theme.colors.mainlight)};
+  color: ${({ color, theme }) => (color ? color : theme.text_01)};
   font-size: ${({ fontSize }) => fontSize} !important;
   font-weight: ${({ fontWeight }) => fontWeight} !important;
   ${({ threeDotsLimit }) => threeDotsLimit && `white-space: nowrap;`};

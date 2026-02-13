@@ -1,4 +1,3 @@
-import { Theme } from "@4miga/design-system/theme/theme";
 import styled from "styled-components";
 
 export const SalesInnerPageContainer = styled.div`
@@ -16,7 +15,7 @@ export const SalesInnerPageContainer = styled.div`
   }
 
   main {
-    background-color: ${Theme.colors.maindark};
+    background-color: ${({ theme }) => theme.background_01};
     margin-top: 96px;
     width: 100%;
     max-width: 852px;
@@ -25,14 +24,14 @@ export const SalesInnerPageContainer = styled.div`
     -webkit-box-shadow: 0px 0px 5px 1px rgba(7, 29, 35, 1);
     -moz-box-shadow: 0px 0px 5px 1px rgba(7, 29, 35, 1);
     box-shadow: 0px 0px 5px 1px rgba(7, 29, 35, 1);
-    border: 1px solid ${Theme.colors.secondaryAction}80;
+    border: 1px solid ${({ theme }) => theme.border_01}80;
     padding: 16px;
 
     .top {
       display: flex;
       justify-content: space-between;
       padding-bottom: 16px;
-      border-bottom: 1px solid ${Theme.colors.secondaryAction};
+      border-bottom: 1px solid ${({ theme }) => theme.border_01};
 
       .leftTop {
         display: flex;
@@ -73,7 +72,7 @@ export const SalesInnerPageContainer = styled.div`
       display: flex;
       align-items: center;
       padding-bottom: 16px;
-      border-bottom: 1px solid ${Theme.colors.secondaryAction};
+      border-bottom: 1px solid ${({ theme }) => theme.border_01};
 
       section {
         height: 42px;
@@ -107,7 +106,7 @@ export const SalesInnerPageContainer = styled.div`
     align-items: center;
     padding: 24px;
     margin-top: 32px;
-    background-color: ${Theme.colors.maindark};
+    background-color: ${({ theme }) => theme.background_01};
     border-radius: 8px;
     gap: 24px;
     margin-bottom: 79px;

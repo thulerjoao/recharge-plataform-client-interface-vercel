@@ -1,6 +1,6 @@
 import Input from "@4miga/design-system/components/input";
 import Text from "@4miga/design-system/components/Text";
-import { Theme } from "@4miga/design-system/theme/theme";
+import { useTheme } from "styled-components";
 import { useAuth } from "context/auth";
 import { usePathname, useRouter } from "next/navigation";
 import React, { useState } from "react";
@@ -37,6 +37,7 @@ interface Props {
 }
 
 const MobileMenu = ({ search, openMenu, setOpenMenu }: Props) => {
+  const theme = useTheme();
   const { logout } = useAuth();
   const route = useRouter();
   const currentRoute = usePathname();
@@ -105,7 +106,7 @@ const MobileMenu = ({ search, openMenu, setOpenMenu }: Props) => {
         <span>{handleCheck("dashboard") ? <HomeSelected /> : <Home />}</span>
 
         <Text
-          color={handleCheck("dashboard") && Theme.colors.maindark}
+          color={handleCheck("dashboard") && theme.background_01}
           margin="0 0 0 16px"
           fontName="REGULAR_SEMI_BOLD"
         >
@@ -124,7 +125,7 @@ const MobileMenu = ({ search, openMenu, setOpenMenu }: Props) => {
         </span>
 
         <Text
-          color={handleCheck("products") && Theme.colors.maindark}
+          color={handleCheck("products") && theme.background_01}
           margin="0 0 0 16px"
           fontName="REGULAR_SEMI_BOLD"
         >
@@ -141,7 +142,7 @@ const MobileMenu = ({ search, openMenu, setOpenMenu }: Props) => {
         <span>{handleCheck("orders") ? <OrdersSelected /> : <Orders />}</span>
 
         <Text
-          color={handleCheck("orders") && Theme.colors.maindark}
+          color={handleCheck("orders") && theme.background_01}
           margin="0 0 0 16px"
           fontName="REGULAR_SEMI_BOLD"
         >
@@ -159,7 +160,7 @@ const MobileMenu = ({ search, openMenu, setOpenMenu }: Props) => {
           {handleCheck("customers") ? <CustomersSelected /> : <Customers />}
         </span>
         <Text
-          color={handleCheck("customers") && Theme.colors.maindark}
+          color={handleCheck("customers") && theme.background_01}
           margin="0 0 0 16px"
           fontName="REGULAR_SEMI_BOLD"
         >
@@ -178,7 +179,7 @@ const MobileMenu = ({ search, openMenu, setOpenMenu }: Props) => {
         </span>
 
         <Text
-          color={handleCheck("partners") && Theme.colors.maindark}
+          color={handleCheck("partners") && theme.background_01}
           margin="0 0 0 16px"
           fontName="REGULAR_SEMI_BOLD"
         >
@@ -198,7 +199,7 @@ const MobileMenu = ({ search, openMenu, setOpenMenu }: Props) => {
         </span>
 
         <Text
-          color={handleCheck("coupons") && Theme.colors.maindark}
+          color={handleCheck("coupons") && theme.background_01}
           margin="0 0 0 16px"
           fontName="REGULAR_SEMI_BOLD"
         >
@@ -216,7 +217,7 @@ const MobileMenu = ({ search, openMenu, setOpenMenu }: Props) => {
         <span>{handleCheck("admin") ? <AdminSelected /> : <Admin />}</span>
 
         <Text
-          color={handleCheck("admin") && Theme.colors.maindark}
+          color={handleCheck("admin") && theme.background_01}
           margin="0 0 0 16px"
           fontName="REGULAR_SEMI_BOLD"
         >
@@ -233,7 +234,7 @@ const MobileMenu = ({ search, openMenu, setOpenMenu }: Props) => {
         <span>{handleCheck("settings") ? <GearSelected /> : <Gear />}</span>
 
         <Text
-          color={handleCheck("settings") && Theme.colors.maindark}
+          color={handleCheck("settings") && theme.background_01}
           margin="0 0 0 16px"
           fontName="REGULAR_SEMI_BOLD"
         >

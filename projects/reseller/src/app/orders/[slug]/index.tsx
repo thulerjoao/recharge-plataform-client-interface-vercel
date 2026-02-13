@@ -1,7 +1,7 @@
 "use client";
 
 import Text from "@4miga/design-system/components/Text";
-import { Theme } from "@4miga/design-system/theme/theme";
+import { useTheme } from "styled-components";
 import {
   connectionAPIGet,
   connectionAPIPost,
@@ -25,6 +25,7 @@ import Pix from "../common/icons/Pix.svg";
 import { SalesInnerPageContainer } from "./style";
 
 const OrdersInnerPage = ({ slug }: { slug: string }) => {
+  const theme = useTheme();
   const [loading, setLoading] = useState(false);
   const [order, setOrder] = useState<OrderType>();
   const { confirm, ConfirmComponent } = useConfirm();
@@ -125,12 +126,7 @@ const OrdersInnerPage = ({ slug }: { slug: string }) => {
             <Text tag="h2" align="end" fontName="REGULAR_MEDIUM">
               {order?.orderItem.package.name}
             </Text>
-            <Text
-              tag="h3"
-              align="end"
-              fontName="TINY"
-              color={Theme.colors.secondaryText}
-            >
+            <Text tag="h3" align="end" fontName="TINY" color={theme.text_03}>
               {formatDate(order?.createdAt)}
             </Text>
             <Text align="end" fontName="SMALL_MEDIUM">
@@ -169,7 +165,7 @@ const OrdersInnerPage = ({ slug }: { slug: string }) => {
                 fontName="TINY"
                 color={
                   order?.orderStatus === "EXPIRED"
-                    ? Theme.colors.refused
+                    ? theme.refused
                     : handleStatusColor(order?.payment.status)
                 }
               >
@@ -182,11 +178,7 @@ const OrdersInnerPage = ({ slug }: { slug: string }) => {
               <Text align="end" fontName="SMALL_SEMI_BOLD">
                 R$ {formatPrice(order?.price || 0)}
               </Text>
-              <Text
-                align="end"
-                fontName="TINY"
-                color={Theme.colors.secondaryText}
-              >
+              <Text align="end" fontName="TINY" color={theme.text_03}>
                 {formatDate(order?.payment.statusUpdatedAt || "")}
               </Text>
             </div>
@@ -218,11 +210,7 @@ const OrdersInnerPage = ({ slug }: { slug: string }) => {
               <Text align="end" fontName="SMALL_SEMI_BOLD">
                 {order?.orderItem.recharge.amountCredits}
               </Text>
-              <Text
-                align="end"
-                fontName="TINY"
-                color={Theme.colors.secondaryText}
-              >
+              <Text align="end" fontName="TINY" color={theme.text_03}>
                 {formatDate(order?.orderItem.recharge.statusUpdatedAt || "")}
               </Text>
             </div>
@@ -231,7 +219,7 @@ const OrdersInnerPage = ({ slug }: { slug: string }) => {
         {order?.orderStatus !== "COMPLETED" && (
           <Text
             fontName="TINY_MEDIUM"
-            color={Theme.colors.mainHighlight}
+            color={theme.mainColor}
             underline
             pointer
             align="center"

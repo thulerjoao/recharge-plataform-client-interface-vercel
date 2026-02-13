@@ -1,4 +1,3 @@
-import { Theme } from "@4miga/design-system/theme/theme";
 import styled from "styled-components";
 
 export const ModalOverlay = styled.div`
@@ -25,7 +24,7 @@ export const ModalOverlay = styled.div`
 `;
 
 export const ModalContent = styled.div`
-  background: ${Theme.colors.maindark};
+  background: ${({ theme }) => theme.background_01};
   border-radius: 16px;
   padding: 28px;
   max-width: 420px;
@@ -58,7 +57,7 @@ export const ModalContent = styled.div`
     height: 32px;
     border: none;
     background: transparent;
-    color: ${Theme.colors.secondaryText};
+    color: ${({ theme }) => theme.text_03};
     cursor: pointer;
     display: flex;
     align-items: center;
@@ -67,8 +66,8 @@ export const ModalContent = styled.div`
     transition: all 0.2s ease;
 
     &:hover {
-      background: ${Theme.colors.mainlight}15;
-      color: ${Theme.colors.mainlight};
+      background: ${({ theme }) => theme.text_01}15;
+      color: ${({ theme }) => theme.text_01};
     }
 
     &:active {
@@ -86,7 +85,7 @@ export const ModalContent = styled.div`
     flex-direction: column;
     gap: 4px;
     padding-bottom: 12px;
-    border-bottom: 1px solid ${Theme.colors.secondaryTextAction};
+    border-bottom: 1px solid ${({ theme }) => theme.text_04};
   }
 
   .modalBody {

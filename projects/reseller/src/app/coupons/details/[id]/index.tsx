@@ -5,7 +5,7 @@ import Button from "@4miga/design-system/components/button";
 import Input from "@4miga/design-system/components/input";
 import OnOff from "@4miga/design-system/components/onOff";
 import Text from "@4miga/design-system/components/Text";
-import { Theme } from "@4miga/design-system/theme/theme";
+import { useTheme } from "styled-components";
 import {
   connectionAPIDelete,
   connectionAPIGet,
@@ -30,6 +30,7 @@ interface CouponDetailsProps {
 }
 
 const CouponDetails = ({ couponId }: CouponDetailsProps) => {
+  const theme = useTheme();
   const router = useRouter();
   const { updateCoupon } = useCoupons();
 
@@ -246,7 +247,7 @@ const CouponDetails = ({ couponId }: CouponDetailsProps) => {
   //       <Text
   //         align="center"
   //         fontName="REGULAR_MEDIUM"
-  //         color={Theme.colors.refused}
+  //         color={theme.refused}
   //       >
   //         Cupom não encontrado
   //       </Text>
@@ -257,8 +258,8 @@ const CouponDetails = ({ couponId }: CouponDetailsProps) => {
   //         height={40}
   //         rounded
   //         style={{
-  //           backgroundColor: Theme.colors.mainHighlight,
-  //           color: Theme.colors.mainlight,
+  //           backgroundColor: theme.mainColor,
+  //           color: theme.text_01,
   //         }}
   //       />
   //     </CouponDetailsContainer>
@@ -286,7 +287,7 @@ const CouponDetails = ({ couponId }: CouponDetailsProps) => {
         <div className="headerSection">
           <div className="couponInfo">
             <div className="couponTitle">
-              <Text fontName="LARGE_SEMI_BOLD" color={Theme.colors.mainlight}>
+              <Text fontName="LARGE_SEMI_BOLD" color={theme.text_01}>
                 {coupon.title}
               </Text>
               {coupon.isFirstPurchase && (
@@ -294,10 +295,7 @@ const CouponDetails = ({ couponId }: CouponDetailsProps) => {
               )}
             </div>
             <div className="couponDiscount">
-              <Text
-                fontName="REGULAR_MEDIUM"
-                color={Theme.colors.mainHighlight}
-              >
+              <Text fontName="REGULAR_MEDIUM" color={theme.mainColor}>
                 {getDiscountText(coupon)}
               </Text>
             </div>
@@ -308,18 +306,14 @@ const CouponDetails = ({ couponId }: CouponDetailsProps) => {
             >
               <Text
                 fontName="SMALL_MEDIUM"
-                color={
-                  editData.isActive
-                    ? Theme.colors.approved
-                    : Theme.colors.refused
-                }
+                color={editData.isActive ? theme.approved : theme.refused}
               >
                 {editData.isActive ? "ATIVO" : "INATIVO"}
               </Text>
             </div>
             {isEditing && (
               <div className="onOff">
-                <Text fontName="SMALL_MEDIUM" color={Theme.colors.mainlight}>
+                <Text fontName="SMALL_MEDIUM" color={theme.text_01}>
                   Ativar/Desativar
                 </Text>
                 <span onClick={handleToggleActive}>
@@ -333,10 +327,7 @@ const CouponDetails = ({ couponId }: CouponDetailsProps) => {
         <div className="infoSections">
           <div className="infoSection unifiedInfoSection">
             <div className="sectionTitle">
-              <Text
-                fontName="REGULAR_MEDIUM"
-                color={Theme.colors.mainHighlight}
-              >
+              <Text fontName="REGULAR_MEDIUM" color={theme.mainColor}>
                 INFORMAÇÕES BÁSICAS
               </Text>
             </div>
@@ -344,7 +335,7 @@ const CouponDetails = ({ couponId }: CouponDetailsProps) => {
               {/* <div className="infoItem">
                 <Text
                   fontName="SMALL_MEDIUM"
-                  color={Theme.colors.secondaryText}
+                  color={theme.text_03}
                 >
                   Título:
                 </Text>
@@ -362,7 +353,7 @@ const CouponDetails = ({ couponId }: CouponDetailsProps) => {
                     className={errors.title ? "error" : ""}
                   />
                 ) : (
-                  <Text fontName="SMALL_MEDIUM" color={Theme.colors.mainlight}>
+                  <Text fontName="SMALL_MEDIUM" color={theme.text_01}>
                     {coupon.title}
                   </Text>
                 )}
@@ -371,32 +362,23 @@ const CouponDetails = ({ couponId }: CouponDetailsProps) => {
                 )}
               </div> */}
               <div className="infoItem">
-                <Text
-                  fontName="SMALL_MEDIUM"
-                  color={Theme.colors.secondaryText}
-                >
+                <Text fontName="SMALL_MEDIUM" color={theme.text_03}>
                   Título:
                 </Text>
-                <Text fontName="SMALL_MEDIUM" color={Theme.colors.mainlight}>
+                <Text fontName="SMALL_MEDIUM" color={theme.text_01}>
                   {coupon.title}
                 </Text>
               </div>
               <div className="infoItem">
-                <Text
-                  fontName="SMALL_MEDIUM"
-                  color={Theme.colors.secondaryText}
-                >
+                <Text fontName="SMALL_MEDIUM" color={theme.text_03}>
                   Influencer:
                 </Text>
-                <Text fontName="SMALL_MEDIUM" color={Theme.colors.mainlight}>
+                <Text fontName="SMALL_MEDIUM" color={theme.text_01}>
                   {coupon.influencer.name}
                 </Text>
               </div>
               <div className="infoItem">
-                <Text
-                  fontName="SMALL_MEDIUM"
-                  color={Theme.colors.secondaryText}
-                >
+                <Text fontName="SMALL_MEDIUM" color={theme.text_03}>
                   Tipo de desconto:
                 </Text>
                 {isEditing ? (
@@ -422,16 +404,13 @@ const CouponDetails = ({ couponId }: CouponDetailsProps) => {
                     <option value="amount">Valor fixo (R$)</option>
                   </select>
                 ) : (
-                  <Text fontName="SMALL_MEDIUM" color={Theme.colors.mainlight}>
+                  <Text fontName="SMALL_MEDIUM" color={theme.text_01}>
                     {coupon.discountPercentage ? "Porcentagem" : "Valor fixo"}
                   </Text>
                 )}
               </div>
               <div className="infoItem">
-                <Text
-                  fontName="SMALL_MEDIUM"
-                  color={Theme.colors.secondaryText}
-                >
+                <Text fontName="SMALL_MEDIUM" color={theme.text_03}>
                   {selectedDiscountType === "percentage"
                     ? "Porcentagem (%)"
                     : "Valor fixo (R$)"}
@@ -488,7 +467,7 @@ const CouponDetails = ({ couponId }: CouponDetailsProps) => {
                     </InputMask>
                   )
                 ) : (
-                  <Text fontName="SMALL_MEDIUM" color={Theme.colors.mainlight}>
+                  <Text fontName="SMALL_MEDIUM" color={theme.text_01}>
                     {getDiscountText(coupon)}
                   </Text>
                 )}
@@ -504,19 +483,13 @@ const CouponDetails = ({ couponId }: CouponDetailsProps) => {
             <div className="sectionDivider"></div>
 
             <div className="sectionTitle">
-              <Text
-                fontName="REGULAR_MEDIUM"
-                color={Theme.colors.mainHighlight}
-              >
+              <Text fontName="REGULAR_MEDIUM" color={theme.mainColor}>
                 CONFIGURAÇÕES
               </Text>
             </div>
             <div className="infoGrid">
               <div className="infoItem">
-                <Text
-                  fontName="SMALL_MEDIUM"
-                  color={Theme.colors.secondaryText}
-                >
+                <Text fontName="SMALL_MEDIUM" color={theme.text_03}>
                   Data de expiração:
                 </Text>
                 {isEditing ? (
@@ -556,7 +529,7 @@ const CouponDetails = ({ couponId }: CouponDetailsProps) => {
                     }}
                   />
                 ) : (
-                  <Text fontName="SMALL_MEDIUM" color={Theme.colors.mainlight}>
+                  <Text fontName="SMALL_MEDIUM" color={theme.text_01}>
                     {coupon.expiresAt
                       ? formatDate(coupon.expiresAt)
                       : "Sem expiração"}
@@ -567,10 +540,7 @@ const CouponDetails = ({ couponId }: CouponDetailsProps) => {
                 )}
               </div>
               <div className="infoItem">
-                <Text
-                  fontName="SMALL_MEDIUM"
-                  color={Theme.colors.secondaryText}
-                >
+                <Text fontName="SMALL_MEDIUM" color={theme.text_03}>
                   Máximo de usos:
                 </Text>
                 {isEditing ? (
@@ -591,7 +561,7 @@ const CouponDetails = ({ couponId }: CouponDetailsProps) => {
                     className={errors.maxUses ? "error" : ""}
                   />
                 ) : (
-                  <Text fontName="SMALL_MEDIUM" color={Theme.colors.mainlight}>
+                  <Text fontName="SMALL_MEDIUM" color={theme.text_01}>
                     {coupon.maxUses ? coupon.maxUses : "Ilimitado"}
                   </Text>
                 )}
@@ -600,10 +570,7 @@ const CouponDetails = ({ couponId }: CouponDetailsProps) => {
                 )}
               </div>
               <div className="infoItem">
-                <Text
-                  fontName="SMALL_MEDIUM"
-                  color={Theme.colors.secondaryText}
-                >
+                <Text fontName="SMALL_MEDIUM" color={theme.text_03}>
                   Valor mínimo do pedido:
                 </Text>
                 {isEditing ? (
@@ -628,7 +595,7 @@ const CouponDetails = ({ couponId }: CouponDetailsProps) => {
                     )}
                   </InputMask>
                 ) : (
-                  <Text fontName="SMALL_MEDIUM" color={Theme.colors.mainlight}>
+                  <Text fontName="SMALL_MEDIUM" color={theme.text_01}>
                     {coupon.minOrderAmount
                       ? `R$ ${formatPrice(Number(coupon.minOrderAmount))}`
                       : "Sem mínimo"}
@@ -639,10 +606,7 @@ const CouponDetails = ({ couponId }: CouponDetailsProps) => {
                 )}
               </div>
               <div className="infoItem">
-                <Text
-                  fontName="SMALL_MEDIUM"
-                  color={Theme.colors.secondaryText}
-                >
+                <Text fontName="SMALL_MEDIUM" color={theme.text_03}>
                   Cupom para primeira compra:
                 </Text>
                 {isEditing ? (
@@ -655,24 +619,18 @@ const CouponDetails = ({ couponId }: CouponDetailsProps) => {
                       }
                       className="checkbox"
                     />
-                    <Text
-                      fontName="SMALL_MEDIUM"
-                      color={Theme.colors.mainlight}
-                    >
+                    <Text fontName="SMALL_MEDIUM" color={theme.text_01}>
                       Marcar se for cupom exclusivo para primeira compra
                     </Text>
                   </div>
                 ) : (
-                  <Text fontName="SMALL_MEDIUM" color={Theme.colors.mainlight}>
+                  <Text fontName="SMALL_MEDIUM" color={theme.text_01}>
                     {coupon.isFirstPurchase ? "Sim" : "Não"}
                   </Text>
                 )}
               </div>
               <div className="infoItem">
-                <Text
-                  fontName="SMALL_MEDIUM"
-                  color={Theme.colors.secondaryText}
-                >
+                <Text fontName="SMALL_MEDIUM" color={theme.text_03}>
                   Cupom para compra única:
                 </Text>
                 {isEditing ? (
@@ -688,15 +646,12 @@ const CouponDetails = ({ couponId }: CouponDetailsProps) => {
                       }
                       className="checkbox"
                     />
-                    <Text
-                      fontName="SMALL_MEDIUM"
-                      color={Theme.colors.mainlight}
-                    >
+                    <Text fontName="SMALL_MEDIUM" color={theme.text_01}>
                       Marcar para limitar como venda única por Bigo Id
                     </Text>
                   </div>
                 ) : (
-                  <Text fontName="SMALL_MEDIUM" color={Theme.colors.mainlight}>
+                  <Text fontName="SMALL_MEDIUM" color={theme.text_01}>
                     {coupon.isOneTimePerBigoId ? "Sim" : "Não"}
                   </Text>
                 )}
@@ -741,7 +696,7 @@ const CouponDetails = ({ couponId }: CouponDetailsProps) => {
                     height={36}
                     rounded
                     style={{
-                      backgroundColor: Theme.colors.refused,
+                      backgroundColor: theme.refused,
                     }}
                     disabled={loading}
                   />
@@ -751,52 +706,40 @@ const CouponDetails = ({ couponId }: CouponDetailsProps) => {
           </div>
 
           <div className="infoSection">
-            <Text fontName="REGULAR_MEDIUM" color={Theme.colors.mainHighlight}>
+            <Text fontName="REGULAR_MEDIUM" color={theme.mainColor}>
               ESTATÍSTICAS
             </Text>
             <div className="infoGrid">
               <div className="infoItem">
-                <Text
-                  fontName="SMALL_MEDIUM"
-                  color={Theme.colors.secondaryText}
-                >
+                <Text fontName="SMALL_MEDIUM" color={theme.text_03}>
                   Vezes utilizado:
                 </Text>
-                <Text fontName="SMALL_MEDIUM" color={Theme.colors.mainlight}>
+                <Text fontName="SMALL_MEDIUM" color={theme.text_01}>
                   {coupon.timesUsed}
                   {coupon.maxUses && ` / ${coupon.maxUses}`}
                 </Text>
               </div>
               <div className="infoItem">
-                <Text
-                  fontName="SMALL_MEDIUM"
-                  color={Theme.colors.secondaryText}
-                >
+                <Text fontName="SMALL_MEDIUM" color={theme.text_03}>
                   Total de vendas:
                 </Text>
-                <Text fontName="SMALL_MEDIUM" color={Theme.colors.mainlight}>
+                <Text fontName="SMALL_MEDIUM" color={theme.text_01}>
                   R$ {formatPrice(Number(coupon.totalSalesAmount))}
                 </Text>
               </div>
               <div className="infoItem">
-                <Text
-                  fontName="SMALL_MEDIUM"
-                  color={Theme.colors.secondaryText}
-                >
+                <Text fontName="SMALL_MEDIUM" color={theme.text_03}>
                   Data de criação:
                 </Text>
-                <Text fontName="SMALL_MEDIUM" color={Theme.colors.mainlight}>
+                <Text fontName="SMALL_MEDIUM" color={theme.text_01}>
                   {formatDate(coupon.createdAt)}
                 </Text>
               </div>
               <div className="infoItem">
-                <Text
-                  fontName="SMALL_MEDIUM"
-                  color={Theme.colors.secondaryText}
-                >
+                <Text fontName="SMALL_MEDIUM" color={theme.text_03}>
                   Última atualização:
                 </Text>
-                <Text fontName="SMALL_MEDIUM" color={Theme.colors.mainlight}>
+                <Text fontName="SMALL_MEDIUM" color={theme.text_01}>
                   {formatDate(coupon.updatedAt)}
                 </Text>
               </div>

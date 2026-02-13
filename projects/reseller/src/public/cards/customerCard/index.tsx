@@ -1,7 +1,7 @@
 "use client";
 
 import Text from "@4miga/design-system/components/Text";
-import { Theme } from "@4miga/design-system/theme/theme";
+import { useTheme } from "styled-components";
 import { CustomerCardContainer } from "./style";
 import TrashIcon from "../../icons/Trash.svg";
 
@@ -29,6 +29,7 @@ const CustomerCard = ({
   isExcluded,
   deleteAction,
 }: CustomerCardProps) => {
+  const theme = useTheme();
   const { name, email, phone, documentValue } = displayData;
 
   // eslint-disable-next-line no-undef
@@ -45,14 +46,14 @@ const CustomerCard = ({
     <CustomerCardContainer $isExcluded={isExcluded}>
       <Text
         fontName="REGULAR_SEMI_BOLD"
-        color={Theme.colors.mainlight}
+        color={theme.text_01}
         className="cardLine cardName"
       >
         {name}
       </Text>
       <Text
         fontName="REGULAR_MEDIUM"
-        color={Theme.colors.secondaryText}
+        color={theme.text_03}
         className="cardLine cardEmail"
       >
         {email}
@@ -60,14 +61,14 @@ const CustomerCard = ({
       <div className="cardContactWrapper">
         <Text
           fontName="REGULAR_MEDIUM"
-          color={Theme.colors.secondaryText}
+          color={theme.text_03}
           className="cardLine cardPhone"
         >
           Telefone: {phone}
         </Text>
         <Text
           fontName="REGULAR_MEDIUM"
-          color={Theme.colors.secondaryText}
+          color={theme.text_03}
           className="cardLine cardCpf"
         >
           CPF: {documentValue}

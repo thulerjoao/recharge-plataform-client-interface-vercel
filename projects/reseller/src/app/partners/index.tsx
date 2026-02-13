@@ -3,7 +3,7 @@
 import Button from "@4miga/design-system/components/button";
 import Input from "@4miga/design-system/components/input";
 import Text from "@4miga/design-system/components/Text";
-import { Theme } from "@4miga/design-system/theme/theme";
+import { useTheme } from "styled-components";
 import { useInfluencers } from "context/influencers";
 import { useRouter } from "next/navigation";
 import DefaultHeader from "public/components/defaultHeader";
@@ -26,6 +26,7 @@ const PartnersPage = ({
   search,
   status: initialStatus,
 }: Props) => {
+  const theme = useTheme();
   const router = useRouter();
   const {
     loadingInfluencers,
@@ -103,10 +104,10 @@ const PartnersPage = ({
       <main className="influencersContainer">
         <div className="headerSection">
           <div className="titleSection">
-            <Text fontName="LARGE_SEMI_BOLD" color={Theme.colors.mainlight}>
+            <Text fontName="LARGE_SEMI_BOLD" color={theme.text_01}>
               Gerenciamento de Parceiros
             </Text>
-            <Text fontName="REGULAR_MEDIUM" color={Theme.colors.secondaryText}>
+            <Text fontName="REGULAR_MEDIUM" color={theme.text_03}>
               Gerencie todos os parceiros de sua loja
             </Text>
           </div>
@@ -190,7 +191,7 @@ const PartnersPage = ({
           </section>
         ) : (
           <div style={{ textAlign: "center", padding: "50px" }}>
-            <Text fontName="REGULAR_MEDIUM" color={Theme.colors.secondaryText}>
+            <Text fontName="REGULAR_MEDIUM" color={theme.text_03}>
               Carregando parceiros...
             </Text>
           </div>
@@ -204,7 +205,7 @@ const PartnersPage = ({
         />
       )}
       <div style={{ marginTop: "16px", textAlign: "center" }}>
-        <Text fontName="TINY" color={Theme.colors.secondaryText}>
+        <Text fontName="TINY" color={theme.text_03}>
           Número total: {influencers?.totalInfluencers || 0} parceiros
         </Text>
       </div>

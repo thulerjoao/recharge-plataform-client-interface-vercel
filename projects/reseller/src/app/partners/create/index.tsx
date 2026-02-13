@@ -4,7 +4,7 @@ import Button from "@4miga/design-system/components/button";
 import Input from "@4miga/design-system/components/input";
 import OnOff from "@4miga/design-system/components/onOff";
 import Text from "@4miga/design-system/components/Text";
-import { Theme } from "@4miga/design-system/theme/theme";
+import { useTheme } from "styled-components";
 import { connectionAPIPost } from "@4miga/services/connectionAPI/connection";
 import { useRouter } from "next/navigation";
 import DefaultHeader from "public/components/defaultHeader";
@@ -31,6 +31,7 @@ interface CreateInfluencerData {
 }
 
 const CreateInfluencer = () => {
+  const theme = useTheme();
   const router = useRouter();
   const [formData, setFormData] = useState<CreateInfluencerData>({
     name: "",
@@ -117,25 +118,21 @@ const CreateInfluencer = () => {
             <Icon />
           </div>
           <div className="headerInfo">
-            <Text fontName="LARGE_MEDIUM" color={Theme.colors.mainlight}>
+            <Text fontName="LARGE_MEDIUM" color={theme.text_01}>
               Status inicial
             </Text>
             <div className="statusBadge">
               <Text
                 align="center"
                 fontName="SMALL"
-                color={
-                  formData.isActive
-                    ? Theme.colors.approved
-                    : Theme.colors.refused
-                }
+                color={formData.isActive ? theme.approved : theme.refused}
               >
                 {formData.isActive ? "Ativo" : "Inativo"}
               </Text>
             </div>
           </div>
           <div className="onOff">
-            <Text fontName="SMALL_MEDIUM" color={Theme.colors.mainlight}>
+            <Text fontName="SMALL_MEDIUM" color={theme.text_01}>
               Ativar/Desativar
             </Text>
             <span
@@ -151,15 +148,12 @@ const CreateInfluencer = () => {
 
         <div className="infoSections">
           <div className="infoSection">
-            <Text fontName="REGULAR_MEDIUM" color={Theme.colors.mainHighlight}>
+            <Text fontName="REGULAR_MEDIUM" color={theme.mainColor}>
               INFORMAÇÕES DE CONTATO
             </Text>
             <div className="infoGrid">
               <div className="infoItem">
-                <Text
-                  fontName="SMALL_MEDIUM"
-                  color={Theme.colors.secondaryText}
-                >
+                <Text fontName="SMALL_MEDIUM" color={theme.text_03}>
                   Nome: *
                 </Text>
                 <Input
@@ -174,10 +168,7 @@ const CreateInfluencer = () => {
                 )}
               </div>
               <div className="infoItem">
-                <Text
-                  fontName="SMALL_MEDIUM"
-                  color={Theme.colors.secondaryText}
-                >
+                <Text fontName="SMALL_MEDIUM" color={theme.text_03}>
                   E-mail:
                 </Text>
                 <Input
@@ -193,10 +184,7 @@ const CreateInfluencer = () => {
                 )}
               </div>
               <div className="infoItem">
-                <Text
-                  fontName="SMALL_MEDIUM"
-                  color={Theme.colors.secondaryText}
-                >
+                <Text fontName="SMALL_MEDIUM" color={theme.text_03}>
                   Telefone:
                 </Text>
                 <InputMask
@@ -223,15 +211,12 @@ const CreateInfluencer = () => {
           </div>
 
           <div className="infoSection">
-            <Text fontName="REGULAR_MEDIUM" color={Theme.colors.mainHighlight}>
+            <Text fontName="REGULAR_MEDIUM" color={theme.mainColor}>
               INFORMAÇÕES DE PAGAMENTO
             </Text>
             <div className="infoGrid">
               <div className="infoItem">
-                <Text
-                  fontName="SMALL_MEDIUM"
-                  color={Theme.colors.secondaryText}
-                >
+                <Text fontName="SMALL_MEDIUM" color={theme.text_03}>
                   Tipo da chave PIX: *
                 </Text>
                 <select
@@ -253,10 +238,7 @@ const CreateInfluencer = () => {
                 )}
               </div>
               <div className="infoItem">
-                <Text
-                  fontName="SMALL_MEDIUM"
-                  color={Theme.colors.secondaryText}
-                >
+                <Text fontName="SMALL_MEDIUM" color={theme.text_03}>
                   Chave PIX: *
                 </Text>
                 <PixKeyInput
@@ -283,8 +265,8 @@ const CreateInfluencer = () => {
             isNotSelected
             disabled={isLoading}
             style={{
-              backgroundColor: Theme.colors.secondaryAction,
-              color: Theme.colors.mainlight,
+              backgroundColor: theme.border_01,
+              color: theme.text_01,
             }}
           />
           <Button

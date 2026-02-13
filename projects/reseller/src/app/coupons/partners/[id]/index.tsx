@@ -1,7 +1,7 @@
 "use client";
 
 import Text from "@4miga/design-system/components/Text";
-import { Theme } from "@4miga/design-system/theme/theme";
+import { useTheme } from "styled-components";
 import { connectionAPIGet } from "@4miga/services/connectionAPI/connection";
 import CouponCard from "app/coupons/(common)/couponCard";
 import { useRouter } from "next/navigation";
@@ -20,6 +20,7 @@ interface CouponDetailsProps {
 }
 
 const CouponSales = ({ influencerId }: CouponDetailsProps) => {
+  const theme = useTheme();
   const router = useRouter();
   const [page, setPage] = useState(1);
   const [couponData, setCouponData] = useState<CouponResponseType>();
@@ -62,7 +63,7 @@ const CouponSales = ({ influencerId }: CouponDetailsProps) => {
   //         <Text
   //           align="center"
   //           fontName="REGULAR_MEDIUM"
-  //           color={Theme.colors.mainlight}
+  //           color={theme.text_01}
   //         >
   //           Carregando cupons do parceiro...
   //         </Text>
@@ -90,10 +91,10 @@ const CouponSales = ({ influencerId }: CouponDetailsProps) => {
       <section className="couponsMainContent">
         <div className="headerSection">
           <div className="headerSectionContent">
-            <Text fontName="LARGE_SEMI_BOLD" color={Theme.colors.mainlight}>
+            <Text fontName="LARGE_SEMI_BOLD" color={theme.text_01}>
               {couponData?.influencerName}
             </Text>
-            <Text fontName="REGULAR_MEDIUM" color={Theme.colors.pending}>
+            <Text fontName="REGULAR_MEDIUM" color={theme.pending}>
               Total de {couponData?.totalCoupons} cupons registrados
             </Text>
           </div>
@@ -124,10 +125,7 @@ const CouponSales = ({ influencerId }: CouponDetailsProps) => {
 
           {couponData?.data.length === 0 && (
             <div className="emptyState">
-              <Text
-                fontName="REGULAR_MEDIUM"
-                color={Theme.colors.secondaryText}
-              >
+              <Text fontName="REGULAR_MEDIUM" color={theme.text_03}>
                 Nenhum cupom encontrado
               </Text>
             </div>

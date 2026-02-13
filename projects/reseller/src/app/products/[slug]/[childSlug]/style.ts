@@ -1,4 +1,3 @@
-import { Theme } from "@4miga/design-system/theme/theme";
 import styled from "styled-components";
 
 export const ConfigPackagePage = styled.div`
@@ -26,12 +25,12 @@ export const ConfigPackagePage = styled.div`
       justify-content: space-between;
       align-items: center;
       padding: 24px;
-      background: ${Theme.colors.maindark};
+      background: ${({ theme }) => theme.background_01};
       border-radius: 12px;
       -webkit-box-shadow: 0px 0px 5px 1px rgba(7, 29, 35, 1);
       -moz-box-shadow: 0px 0px 5px 1px rgba(7, 29, 35, 1);
       box-shadow: 0px 0px 5px 1px rgba(7, 29, 35, 1);
-      border: 1px solid ${Theme.colors.secondaryAction}80;
+      border: 1px solid ${({ theme }) => theme.border_01}80;
 
       .packageInfo {
         display: flex;
@@ -52,13 +51,13 @@ export const ConfigPackagePage = styled.div`
           text-align: center;
 
           &.active {
-            background: ${Theme.colors.approved}20;
-            border: 1px solid ${Theme.colors.approved};
+            background: ${({ theme }) => theme.approved}20;
+            border: 1px solid ${({ theme }) => theme.approved};
           }
 
           &.inactive {
-            background: ${Theme.colors.refused}20;
-            border: 1px solid ${Theme.colors.refused};
+            background: ${({ theme }) => theme.refused}20;
+            border: 1px solid ${({ theme }) => theme.refused};
           }
         }
 
@@ -81,17 +80,17 @@ export const ConfigPackagePage = styled.div`
 
       .infoSection {
         padding: 24px;
-        background: ${Theme.colors.maindark};
+        background: ${({ theme }) => theme.background_01};
         border-radius: 12px;
         -webkit-box-shadow: 0px 0px 5px 1px rgba(7, 29, 35, 1);
         -moz-box-shadow: 0px 0px 5px 1px rgba(7, 29, 35, 1);
         box-shadow: 0px 0px 5px 1px rgba(7, 29, 35, 1);
-        border: 1px solid ${Theme.colors.secondaryAction}80;
+        border: 1px solid ${({ theme }) => theme.border_01}80;
 
         &.unifiedInfoSection {
           .sectionDivider {
             height: 1px;
-            background: ${Theme.colors.secondaryTextAction}20;
+            background: ${({ theme }) => theme.text_04}20;
             margin: 24px 0;
           }
 
@@ -120,13 +119,13 @@ export const ConfigPackagePage = styled.div`
 
             input {
               &.error {
-                border-color: ${Theme.colors.pending};
-                box-shadow: 0 0 0 3px ${Theme.colors.pending}40;
+                border-color: ${({ theme }) => theme.pending};
+                box-shadow: 0 0 0 3px ${({ theme }) => theme.pending}40;
               }
             }
 
             .error-message {
-              color: ${Theme.colors.pending};
+              color: ${({ theme }) => theme.pending};
               font-size: 12px;
               margin-top: 6px;
               display: block;
@@ -156,15 +155,15 @@ export const ConfigPackagePage = styled.div`
             justify-content: space-evenly;
 
             .navArrow {
-              background: ${Theme.colors.maindark};
-              border: 4px solid ${Theme.colors.secondaryAction};
+              background: ${({ theme }) => theme.background_01};
+              border: 4px solid ${({ theme }) => theme.border_01};
               border-radius: 50%;
               width: 40px;
               height: 40px;
               display: flex;
               align-items: center;
               justify-content: center;
-              color: ${Theme.colors.mainlight};
+              color: ${({ theme }) => theme.text_01};
               font-size: 18px;
               font-weight: bold;
               transition: all 0.2s ease;
@@ -172,7 +171,7 @@ export const ConfigPackagePage = styled.div`
 
               &:hover {
                 cursor: pointer;
-                border-color: ${Theme.colors.mainHighlight};
+                border-color: ${({ theme }) => theme.mainColor};
               }
             }
 
@@ -187,11 +186,11 @@ export const ConfigPackagePage = styled.div`
               display: flex;
               align-items: center;
               justify-content: center;
-              border: 1px solid ${Theme.colors.secondaryAction};
+              border: 1px solid ${({ theme }) => theme.border_01};
               -webkit-box-shadow: 0px 0px 5px 1px rgba(7, 29, 35, 1);
               -moz-box-shadow: 0px 0px 5px 1px rgba(7, 29, 35, 1);
               box-shadow: 0px 0px 5px 1px rgba(7, 29, 35, 1);
-              border: 1px solid ${Theme.colors.secondaryAction}80;
+              border: 1px solid ${({ theme }) => theme.border_01}80;
             }
           }
         }

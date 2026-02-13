@@ -30,6 +30,7 @@ exports[`Global input snapshot test matches snapshot with height 40 1`] = `
 }
 
 .c1[type="number"] {
+  appearance: textfield;
   -moz-appearance: textfield;
 }
 
@@ -95,6 +96,7 @@ exports[`Global input snapshot test matches snapshot with height 48 1`] = `
 }
 
 .c1[type="number"] {
+  appearance: textfield;
   -moz-appearance: textfield;
 }
 
@@ -160,6 +162,7 @@ exports[`Global input snapshot test matches the snapshot when loading 1`] = `
 }
 
 .c1[type="number"] {
+  appearance: textfield;
   -moz-appearance: textfield;
 }
 
@@ -224,6 +227,7 @@ exports[`Global input snapshot test matches the snapshot with a left element 1`]
 }
 
 .c2[type="number"] {
+  appearance: textfield;
   -moz-appearance: textfield;
 }
 
@@ -308,6 +312,7 @@ exports[`Global input snapshot test matches the snapshot with custom margin and 
 }
 
 .c1[type="number"] {
+  appearance: textfield;
   -moz-appearance: textfield;
 }
 

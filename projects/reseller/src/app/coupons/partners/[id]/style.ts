@@ -1,4 +1,3 @@
-import { Theme } from "@4miga/design-system/theme/theme";
 import styled from "styled-components";
 
 export const CouponSalesContainer = styled.div`
@@ -23,7 +22,7 @@ export const CouponSalesContainer = styled.div`
 
     .headerSection {
       padding: 24px;
-      background: ${Theme.colors.maindark};
+      background: ${({ theme }) => theme.background_01};
       border-radius: 12px;
       -webkit-box-shadow: 0px 0px 5px 2px rgba(7, 29, 35, 1);
       -moz-box-shadow: 0px 0px 5px 2px rgba(7, 29, 35, 1);
@@ -43,7 +42,7 @@ export const CouponSalesContainer = styled.div`
     }
 
     .tableSection {
-      background: ${Theme.colors.maindark};
+      background: ${({ theme }) => theme.background_01};
       border-radius: 12px;
       -webkit-box-shadow: 0px 0px 5px 2px rgba(7, 29, 35, 1);
       -moz-box-shadow: 0px 0px 5px 2px rgba(7, 29, 35, 1);
@@ -53,15 +52,15 @@ export const CouponSalesContainer = styled.div`
       .tableHeader {
         display: grid;
         grid-template-columns: 2fr 2fr 0.4fr;
-        background: ${Theme.colors.pending}10;
-        border: 1px solid ${Theme.colors.pending}30;
+        background: ${({ theme }) => theme.pending}10;
+        border: 1px solid ${({ theme }) => theme.pending}30;
         border-radius: 12px 12px 0 0;
         padding: 16px 20px;
         gap: 16px;
 
         .tableCell {
           font-weight: 600;
-          color: ${Theme.colors.pending};
+          color: ${({ theme }) => theme.pending};
           font-size: 14px;
         }
       }

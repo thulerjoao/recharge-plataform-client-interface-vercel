@@ -1,0 +1,13 @@
+import HomeTest from "./util";
+
+type Props = {
+  searchParams: {
+    coupon?: string;
+  };
+};
+
+const Page = async ({ searchParams }: Props) => {
+  const coupon = searchParams.coupon;
+  return <HomeTest />;
+};
+export default Page;

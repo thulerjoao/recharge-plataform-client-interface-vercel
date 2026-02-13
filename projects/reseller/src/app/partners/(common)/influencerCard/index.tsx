@@ -1,7 +1,7 @@
 "use client";
 
 import Text from "@4miga/design-system/components/Text";
-import { Theme } from "@4miga/design-system/theme/theme";
+import { useTheme } from "styled-components";
 import Icon from "../icons/icon.svg";
 import { InfluencerCardContainer } from "./style";
 
@@ -29,6 +29,7 @@ const InfluencerCard = ({
   onClick,
   formatDate,
 }: InfluencerCardProps) => {
+  const theme = useTheme();
   const formatPhone = (phone: string) => {
     const cleaned = phone.replace(/\D/g, "");
     const match = cleaned.match(/^(\d{2})(\d{5})(\d{4})$/);
@@ -51,9 +52,7 @@ const InfluencerCard = ({
           <Text
             fontName="TINY"
             align="center"
-            color={
-              influencer.isActive ? Theme.colors.approved : Theme.colors.refused
-            }
+            color={influencer.isActive ? theme.approved : theme.refused}
           >
             {influencer.isActive ? "ATIVO" : "INATIVO"}
           </Text>
@@ -61,7 +60,7 @@ const InfluencerCard = ({
       </div>
       <section className="allInfo">
         <div className="rowInfos">
-          <Text nowrap fontName="SMALL_MEDIUM" color={Theme.colors.mainlight}>
+          <Text nowrap fontName="SMALL_MEDIUM" color={theme.text_01}>
             {influencer.name}
           </Text>
           {/* Status badge visível apenas em desktop/tablet */}
@@ -71,29 +70,25 @@ const InfluencerCard = ({
             <Text
               fontName="TINY"
               align="center"
-              color={
-                influencer.isActive
-                  ? Theme.colors.approved
-                  : Theme.colors.refused
-              }
+              color={influencer.isActive ? theme.approved : theme.refused}
             >
               {influencer.isActive ? "ATIVO" : "INATIVO"}
             </Text>
           </div>
         </div>
         <div className="rowInfos">
-          <Text color={Theme.colors.secondaryText} fontName="TINY">
+          <Text color={theme.text_03} fontName="TINY">
             {influencer.email || "Sem email"}
           </Text>
-          <Text color={Theme.colors.secondaryText} fontName="TINY">
+          <Text color={theme.text_03} fontName="TINY">
             {influencer.phone ? formatPhone(influencer.phone) : "Sem telefone"}
           </Text>
         </div>
         <div className="rowInfos">
-          <Text color={Theme.colors.secondaryText} fontName="TINY">
+          <Text color={theme.text_03} fontName="TINY">
             Cadastrado em: {formatDate(influencer.createdAt)}
           </Text>
-          <Text color={Theme.colors.secondaryText} fontName="TINY">
+          <Text color={theme.text_03} fontName="TINY">
             {influencer.paymentMethod || "Sem método de pagamento"}
           </Text>
         </div>

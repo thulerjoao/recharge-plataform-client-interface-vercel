@@ -1,6 +1,6 @@
 import Text from "@4miga/design-system/components/Text";
-import { Theme } from "@4miga/design-system/theme/theme";
 import React, { useRef, useState } from "react";
+import { useTheme } from "styled-components";
 import { ValidationContainer } from "./style";
 
 interface Props {
@@ -9,6 +9,7 @@ interface Props {
 }
 
 const InputCode = ({ code, setCode }: Props) => {
+  const theme = useTheme();
   const [isInputFocused, setInputFocused] = useState(false);
 
   const handlechange = (newNumber: number) => {
@@ -46,7 +47,7 @@ const InputCode = ({ code, setCode }: Props) => {
     <ValidationContainer>
       <div className="codeBox" onClick={() => focusInput()}>
         <Text
-          color={Theme.colors.maindark}
+          color={theme.background_01}
           align="center"
           fontName="REGULAR_MEDIUM"
         >
@@ -56,7 +57,7 @@ const InputCode = ({ code, setCode }: Props) => {
       </div>
       <div className="codeBox" onClick={() => focusInput()}>
         <Text
-          color={Theme.colors.maindark}
+          color={theme.background_01}
           align="center"
           fontName="REGULAR_MEDIUM"
         >
@@ -66,7 +67,7 @@ const InputCode = ({ code, setCode }: Props) => {
       </div>
       <div className="codeBox" onClick={() => focusInput()}>
         <Text
-          color={Theme.colors.maindark}
+          color={theme.background_01}
           align="center"
           fontName="REGULAR_MEDIUM"
         >
@@ -76,7 +77,7 @@ const InputCode = ({ code, setCode }: Props) => {
       </div>
       <div className="codeBox" onClick={() => focusInput()}>
         <Text
-          color={Theme.colors.maindark}
+          color={theme.background_01}
           align="center"
           fontName="REGULAR_MEDIUM"
         >
@@ -86,7 +87,7 @@ const InputCode = ({ code, setCode }: Props) => {
       </div>
       <div className="codeBox" onClick={() => focusInput()}>
         <Text
-          color={Theme.colors.maindark}
+          color={theme.background_01}
           align="center"
           fontName="REGULAR_MEDIUM"
         >
@@ -96,7 +97,7 @@ const InputCode = ({ code, setCode }: Props) => {
       </div>
       <div className="codeBox" onClick={() => focusInput()}>
         <Text
-          color={Theme.colors.maindark}
+          color={theme.background_01}
           align="center"
           fontName="REGULAR_MEDIUM"
         >

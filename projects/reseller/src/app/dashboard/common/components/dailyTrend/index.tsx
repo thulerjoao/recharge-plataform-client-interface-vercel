@@ -1,5 +1,5 @@
 import Text from "@4miga/design-system/components/Text";
-import { Theme } from "@4miga/design-system/theme/theme";
+import { useTheme } from "styled-components";
 import React, { useEffect, useRef, useState } from "react";
 import { DailyTrendType } from "types/dashboardTypes";
 import { formatPrice } from "utils/formatPrice";
@@ -10,6 +10,7 @@ interface DailyTrendProps {
 }
 
 const DailyTrend = ({ dailyTrend }: DailyTrendProps) => {
+  const theme = useTheme();
   const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
   const [tooltipPosition, setTooltipPosition] = useState<{
     x: number;
@@ -45,11 +46,7 @@ const DailyTrend = ({ dailyTrend }: DailyTrendProps) => {
     return (
       <DailyTrendContainer>
         <Text fontName="LARGE_SEMI_BOLD">Tendência Diária</Text>
-        <Text
-          margin="24px 0 0 0"
-          fontName="REGULAR"
-          color={Theme.colors.secondaryTextAction}
-        >
+        <Text margin="24px 0 0 0" fontName="REGULAR" color={theme.text_04}>
           Nenhum dado disponível
         </Text>
       </DailyTrendContainer>
@@ -203,7 +200,7 @@ const DailyTrend = ({ dailyTrend }: DailyTrendProps) => {
           <Text
             margin="4px 0 0 0"
             fontName="SMALL"
-            color={Theme.colors.secondaryTextAction}
+            color={theme.text_04}
             align="center"
           >
             {displayTrend[hoveredIndex].totalOrders} pedidos
@@ -211,7 +208,7 @@ const DailyTrend = ({ dailyTrend }: DailyTrendProps) => {
           <Text
             margin="4px 0 0 0"
             fontName="SMALL"
-            color={Theme.colors.secondaryTextAction}
+            color={theme.text_04}
             align="center"
           >
             💎
@@ -222,7 +219,7 @@ const DailyTrend = ({ dailyTrend }: DailyTrendProps) => {
           <Text
             margin="4px 0 0 0"
             fontName="SMALL"
-            color={Theme.colors.secondaryTextAction}
+            color={theme.text_04}
             align="center"
           >
             +{displayTrend[hoveredIndex].newCustomers} clientes

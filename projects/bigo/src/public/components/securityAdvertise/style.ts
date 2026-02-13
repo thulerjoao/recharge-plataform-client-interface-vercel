@@ -1,4 +1,3 @@
-import { Theme } from "@4miga/design-system/theme/theme";
 import styled from "styled-components";
 
 export const SecurityAdvertiseContainer = styled.section`
@@ -8,7 +7,7 @@ export const SecurityAdvertiseContainer = styled.section`
     height: 160px;
     width: 160px;
     border-radius: 16px;
-    background-color: ${Theme.colors.mainBbackgroundSolid};
+    background-color: ${({ theme }) => theme.background_02};
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -19,7 +18,7 @@ export const SecurityAdvertiseContainer = styled.section`
     -webkit-box-shadow: 0px 0px 5px 1px rgba(7, 29, 35, 1);
     -moz-box-shadow: 0px 0px 5px 1px rgba(7, 29, 35, 1);
     box-shadow: 0px 0px 5px 1px rgba(7, 29, 35, 1);
-    border: 1px solid ${Theme.colors.secondaryAction}80;
+    border: 1px solid ${({ theme }) => theme.border_01}80;
   }
 
   @media (min-width: 768px) and (max-width: 1024px) {
