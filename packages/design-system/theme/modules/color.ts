@@ -1,5 +1,25 @@
 // if add something here, remember to update the styled.d.ts file!
 
+export const colors = {
+  background_01: "#071116",
+  background_02: "#071D23",
+  background_03: "#010a0e99",
+  background_04: "#eff1f1",
+  background_05: "rgb(255, 255, 239)",
+  background_06: "#00000099",
+  text_01: "#FFFFFF",
+  text_02: "#010a0e",
+  text_03: "#76B4C3",
+  text_04: "#8A979B",
+  border_01: "#525F63",
+  border_02: "rgb(176, 199, 199)",
+  mainColor: "#00C8FF",
+  approved: "#01FF0B",
+  pending: "#FFFF00",
+  refused: "#FF6565",
+  whatsappBackground: "#25D366",
+};
+
 export const bigoColors = {
   background_01: "#071116",
   background_02: "#071D23",
