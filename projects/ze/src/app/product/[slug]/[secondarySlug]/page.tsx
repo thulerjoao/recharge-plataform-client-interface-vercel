@@ -13,12 +13,6 @@ type Props = {
 const Page = async ({ params, searchParams }: Props) => {
   const { slug, secondarySlug: id } = await params;
   const { coupon } = await searchParams;
-  return (
-    <PaymentPage
-      slug={slug}
-      packageId={id}
-      couponFromParams={coupon}
-    />
-  );
+  return <PaymentPage slug={slug} packageId={id} couponFromParams={coupon} />;
 };
 export default Page;

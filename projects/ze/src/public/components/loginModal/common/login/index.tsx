@@ -138,12 +138,7 @@ const LoginComponent = ({ setPreviousStep, setStep, closeModal }: Props) => {
           className="forgotPassword"
           onClick={() => setStep("forgotPassword")}
         >
-          <Text
-            nowrap
-            align="end"
-            color={theme.mainColor}
-            fontName="TINY"
-          >
+          <Text nowrap align="end" color={theme.mainColor} fontName="TINY">
             Esqueceu sua senha?
           </Text>
         </span>

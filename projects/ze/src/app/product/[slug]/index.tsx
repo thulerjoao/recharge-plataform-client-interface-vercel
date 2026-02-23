@@ -103,9 +103,7 @@ const ProductPage = ({ slug }: Props) => {
         margin="16px 0 0 0"
         height={48}
         value={userId}
-        onChange={(e) =>
-          setUserId(e.target.value.replace(/\s/g, ""))
-        }
+        onChange={(e) => setUserId(e.target.value.replace(/\s/g, ""))}
       />
       <Text
         tag="h2"
@@ -122,10 +120,7 @@ const ProductPage = ({ slug }: Props) => {
             className="cardEnviroment"
             onClick={() => setSelected(index)}
           >
-            <PackageCardCompact
-              item={item}
-              selected={selected === index}
-            />
+            <PackageCardCompact item={item} selected={selected === index} />
           </div>
         ))}
       </section>

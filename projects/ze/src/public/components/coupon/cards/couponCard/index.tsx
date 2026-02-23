@@ -34,11 +34,7 @@ const CouponCard = ({ coupon, selected, onClick }: CouponCardProps) => {
           </Text>
           {isFirstPurchase && (
             <div className="firstPurchaseBadge">
-              <Text
-                nowrap
-                color={theme.text_01}
-                fontName="TINY_MEDIUM"
-              >
+              <Text nowrap color={theme.text_01} fontName="TINY_MEDIUM">
                 1ª Compra
               </Text>
             </div>
