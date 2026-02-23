@@ -21,15 +21,17 @@ export const LoginModalBackground = styled.div`
 export const LoginModalContainer = styled.div`
   width: 100%;
   max-width: 560px;
-  background-color: ${({ theme }) => theme.background_01};
+  background-color: ${({ theme }) => theme.background_02};
   display: flex;
   flex-direction: column;
   align-items: center;
   border-radius: 8px;
   padding-bottom: 48px;
-  -webkit-box-shadow: 0px 0px 5px 2px rgba(7, 29, 35, 1);
-  -moz-box-shadow: 0px 0px 5px 2px rgba(7, 29, 35, 1);
-  box-shadow: 0px 0px 5px 2px rgba(7, 29, 35, 1);
+  box-shadow: 0px 0px 2px ${({ theme }) => theme.border_03};
+
+  input {
+    color: ${({ theme }) => theme.text_02} !important;
+  }
 
   .close {
     width: 100%;
