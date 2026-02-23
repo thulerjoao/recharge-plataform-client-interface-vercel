@@ -4,6 +4,7 @@ import ToastProvider from "lib/toast-provider";
 import React from "react";
 import "./globals.css";
 import Loading from "./loading";
+import { Theme } from "@4miga/design-system/theme/theme";
 
 export const metadata = {
   title: {
@@ -30,6 +31,7 @@ export const viewport = {
   width: "device-width",
   initialScale: 1.0,
   maximumScale: 1.0,
+  themeColor: Theme.zeColors.mainColor,
 };
 
 export default function RootLayout({
