@@ -16,8 +16,7 @@ export const CreditCardContainer = styled.div<AnimationProps>`
   height: 72px;
   width: 100%;
   border: 2px solid ${({ theme }) => theme.border_01};
-  ${({ expand, theme }) =>
-    expand && `border: 4px solid ${theme.mainColor}`};
+  ${({ expand, theme }) => expand && `border: 4px solid ${theme.mainColor}`};
   border-radius: 8px;
   padding: 0px 16px;
   padding-top: 12px;

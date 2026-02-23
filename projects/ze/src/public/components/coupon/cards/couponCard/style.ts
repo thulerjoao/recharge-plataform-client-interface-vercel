@@ -16,9 +16,11 @@ export const CouponCardContainer = styled.article<CouponCardProps>`
   box-sizing: border-box;
   border-radius: 8px;
   border: 2px solid ${({ theme }) => theme.border_01};
-  /* border: 2px solid 
+  /* border: 2px solid
     ${({ selected }) =>
-    selected ? ({ theme }) => theme.mainColor : ({ theme }) => theme.border_01}; */
+    selected
+      ? ({ theme }) => theme.mainColor
+      : ({ theme }) => theme.border_01}; */
   cursor: pointer;
   transition: all 0.2s ease;
 
