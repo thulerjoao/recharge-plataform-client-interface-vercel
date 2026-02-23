@@ -15,8 +15,7 @@ export const PaymentCardContainer = styled.article<PaymentCardProps>`
   box-sizing: border-box;
   border-radius: 8px;
   border: 4px solid
-    ${({ selected, theme }) =>
-      selected ? theme.mainColor : theme.text_01};
+    ${({ selected, theme }) => (selected ? theme.mainColor : theme.text_01)};
   box-shadow: ${({ selected, theme }) =>
     selected && `0px 0px 10px 0px ${theme.mainColor}`};
   cursor: pointer;
