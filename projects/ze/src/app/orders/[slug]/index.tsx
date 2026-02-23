@@ -23,6 +23,7 @@ import {
   handleStatusColor,
 } from "utils/handleStatus";
 import { OrderContainer } from "./style";
+import { ProductType } from "types/productTypes";
 
 const Order = () => {
   const theme = useTheme();
@@ -48,12 +49,13 @@ const Order = () => {
   }, [order, logged, route]);
 
   const { products } = useProducts();
+  const product = products?.find((p) => p.id === order?.orderItem?.productId);
 
   const handleBuyAgain = () => {
     if (!order?.orderItem?.package?.packageId) return;
     sessionStorage.removeItem("order");
     const packageId = order.orderItem.package.packageId;
-    const productId = order.productId;
+    const productId = order.orderItem.productId;
     const product = products?.find((p) => p.id === productId);
     if (!product) {
       route.push(`/product?package=${packageId}`);

@@ -8,8 +8,7 @@ export const CardContainer = styled.article`
   ); */
   background: ${({ theme }) => theme.background_02};
   box-shadow: 0px 0px 2px ${({ theme }) => theme.border_03};
-  /* border: 1px solid ${({ theme }) => theme.border_01}80; */
-  border-radius: 4px;
+  border-radius: 16px;
   height: 231px;
   width: 100%;
   max-width: 174px;

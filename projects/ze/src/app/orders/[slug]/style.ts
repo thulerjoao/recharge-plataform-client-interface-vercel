@@ -25,14 +25,11 @@ export const OrderContainer = styled.div`
   main {
     width: 100%;
     margin-top: 24px;
-    background-color: ${({ theme }) => theme.background_01};
+    background-color: ${({ theme }) => theme.background_02};
     border-radius: 8px;
     padding: 16px;
     box-sizing: border-box;
-    -webkit-box-shadow: 0px 0px 5px 1px rgba(7, 29, 35, 1);
-    -moz-box-shadow: 0px 0px 5px 1px rgba(7, 29, 35, 1);
-    box-shadow: 0px 0px 5px 1px rgba(7, 29, 35, 1);
-    border: 1px solid ${({ theme }) => theme.border_01}80;
+    box-shadow: 0px 0px 2px ${({ theme }) => theme.border_03};
     box-sizing: border-box;
 
     .fisrtSection {

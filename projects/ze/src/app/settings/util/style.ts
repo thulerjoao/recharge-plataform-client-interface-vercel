@@ -38,13 +38,10 @@ export const SettingsContainer = styled.div`
 
     .form-section {
       width: 100%;
-      background-color: ${({ theme }) => theme.background_01};
+      background-color: ${({ theme }) => theme.background_02};
       border-radius: 12px;
       padding: 24px;
-      -webkit-box-shadow: 0px 0px 5px 1px rgba(7, 29, 35, 1);
-      -moz-box-shadow: 0px 0px 5px 1px rgba(7, 29, 35, 1);
-      box-shadow: 0px 0px 5px 1px rgba(7, 29, 35, 1);
-      border: 1px solid ${({ theme }) => theme.border_01}80;
+      box-shadow: 0px 0px 2px ${({ theme }) => theme.border_03};
 
       .section-title {
         margin-bottom: 24px;
@@ -66,11 +63,18 @@ export const SettingsContainer = styled.div`
           display: block;
         }
 
+        input {
+          color: ${({ theme }) => theme.text_02} !important;
+        }
+
+        input::placeholder {
+          color: ${({ theme }) => theme.text_04} !important;
+        }
+
         input:disabled {
           color: ${({ theme }) => theme.text_01} !important;
           -webkit-text-fill-color: ${({ theme }) => theme.text_01}90 !important;
           opacity: 1 !important;
-          background-color: ${({ theme }) => theme.background_03} !important;
         }
 
         select {
@@ -99,7 +103,6 @@ export const SettingsContainer = styled.div`
 
           &:disabled {
             opacity: 0.6;
-            cursor: not-allowed;
           }
         }
 
@@ -153,7 +156,6 @@ export const SettingsContainer = styled.div`
     padding: 36px 24px 40px 24px;
 
     .settings-form {
-      /* max-width: 620px; */
       min-width: 0;
     }
   }
