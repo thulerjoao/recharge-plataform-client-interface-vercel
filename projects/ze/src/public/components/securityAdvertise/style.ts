@@ -6,7 +6,7 @@ export const SecurityAdvertiseContainer = styled.section`
   article {
     height: 160px;
     width: 160px;
-    border-radius: 8px;
+    border-radius: 16px;
     background-color: ${({ theme }) => theme.background_02};
     display: flex;
     flex-direction: column;
