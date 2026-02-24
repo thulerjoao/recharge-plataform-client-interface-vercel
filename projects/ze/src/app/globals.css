@@ -35,7 +35,7 @@ body::before {
   background-position: -20vw 50%;
   background-size: auto 125vh;
 
-  opacity: 0.18;
+  opacity: 0.23;
   pointer-events: none;
 }
 
