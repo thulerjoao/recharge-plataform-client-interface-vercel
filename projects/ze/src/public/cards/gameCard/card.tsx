@@ -14,7 +14,7 @@ const GameCard = ({ product }: CardProps) => {
 
   const handleProductClick = (path: string) => {
     const res = formatString(path);
-    route.push(`/product/${res}`);
+    route.push(`/product?slug=${res}`);
   };
 
   return (

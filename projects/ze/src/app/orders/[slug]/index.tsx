@@ -62,7 +62,7 @@ const Order = () => {
       return;
     }
     const slug = formatString(product.name);
-    route.push(`/product/${slug}/${packageId}`);
+    route.push(`/product/${slug}?package=${packageId}`);
   };
 
   const goToPayment = async () => {

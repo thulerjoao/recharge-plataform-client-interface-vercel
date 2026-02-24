@@ -2,7 +2,7 @@
 
 import Text from "@4miga/design-system/components/Text";
 import { useProducts } from "contexts/products/ProductsProvider";
-import { usePathname } from "next/navigation";
+import { usePathname, useSearchParams } from "next/navigation";
 import { useState } from "react";
 import { useTheme } from "styled-components";
 import { formatString } from "utils/formatString";
@@ -12,8 +12,12 @@ import Image from "next/image";
 const Description = () => {
   const theme = useTheme();
   const pathname = usePathname();
+  const searchParams = useSearchParams();
   const { products } = useProducts();
-  const slug = pathname.split("/")[2];
+  const slugFromPath = pathname.split("/")[2];
+  const slugFromQuery = searchParams.get("slug");
+  const slug =
+    pathname === "/product" && slugFromQuery ? slugFromQuery : slugFromPath;
   const product = products?.find((p) => formatString(p.name) === slug) ?? null;
   const [seeMore, setSeeMore] = useState<boolean>(false);
 

@@ -1,72 +1,67 @@
 import styled from "styled-components";
 
-export const ProductContainer = styled.div`
+export const ProductInnerPage = styled.div`
   width: 100%;
   display: flex;
   flex-direction: column;
   align-items: center;
 
-  .cardsContainer {
+  .couponButton {
     width: 100%;
-    max-width: 1000px;
-    display: grid;
-    grid-template-columns: repeat(5, 1fr);
-    gap: 16px;
-    margin-top: 32px;
-    margin-bottom: 56px;
-    padding: 0 24px;
-    box-sizing: border-box;
-
-    .cardEnviroment {
-      width: 100%;
-      min-width: 0;
-      max-width: 100%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      margin-bottom: 8px;
-      cursor: pointer;
-    }
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    margin-top: 16px;
+    height: 32px;
   }
 
-  .paymentMethodsContainer {
+  .couponContainer {
+    width: 100%;
     display: flex;
-    flex-direction: column;
     align-items: center;
+    justify-content: space-between;
+    height: 32px;
+    gap: 8px;
+    margin-top: 16px;
+    margin-bottom: 4px;
+  }
+
+  .cardEnviroment {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 16px;
+  }
+
+  .paymentMethods {
     width: 100%;
     max-width: 628px;
+    min-height: 420px;
+    margin-bottom: 80px;
 
-    .paymentEnviroment {
-      width: 100%;
-      height: auto;
+    .errorMessage {
+      background-color: pink;
+      margin-top: 8px;
+      margin-bottom: -8px;
+      height: 0;
     }
   }
 
-  @media (min-width: 768px) and (max-width: 1400px) {
-    .cardsContainer {
-      grid-template-columns: repeat(4, 1fr);
-      max-width: 820px;
-      gap: 12px;
-      padding: 0 16px;
+  @media (min-width: 768px) and (max-width: 1024px) {
+    margin-top: 8px;
+    padding: 0 72px;
+
+    .paymentMethods {
+      min-height: 0;
     }
   }
+  @media (max-width: 767px) {
+    margin-top: 29px;
+    padding: 0 16px;
 
-  @media (min-width: 540px) and (max-width: 767px) {
-    .cardsContainer {
-      grid-template-columns: repeat(3, 1fr);
-      max-width: 620px;
-      gap: 12px;
-      padding: 0 16px;
-      margin-top: 24px;
-    }
-  }
-
-  @media (max-width: 539px) {
-    .cardsContainer {
-      grid-template-columns: repeat(3, 1fr);
-      gap: 10px;
-      padding: 0 14px;
-      margin-top: 24px;
+    .paymentMethods {
+      min-height: 0;
     }
   }
 `;
