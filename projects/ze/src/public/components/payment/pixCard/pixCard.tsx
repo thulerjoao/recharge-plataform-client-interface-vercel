@@ -278,12 +278,12 @@ const PixCard = ({
           <span>
             <Pix />
           </span>
-          <Text fontName="REGULAR_MEDIUM" color={theme.border_01}>
+          <Text fontName="REGULAR_MEDIUM" color={theme.text_04}>
             Pix
           </Text>
         </div>
         <span className="value">
-          <Text fontName="REGULAR_SEMI_BOLD" color={theme.border_01}>
+          <Text fontName="REGULAR_SEMI_BOLD" color={theme.text_04}>
             R$ {formatPrice(handleGetPrice())}
           </Text>
         </span>
@@ -303,7 +303,6 @@ const PixCard = ({
             loading={pixLoading}
             disabled={pixLoading}
             height={40}
-            rounded
             title={secondExpand ? "Copiar código Pix" : "Gerar pedido"}
           />
         </div>
@@ -325,7 +324,6 @@ const PixCard = ({
               <Button
                 onClick={() => handleCheckPayment()}
                 height={40}
-                rounded
                 title="Acompanhar pedido"
                 disabled={orderLoading}
                 loading={orderLoading}

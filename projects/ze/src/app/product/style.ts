@@ -42,7 +42,9 @@ export const ProductContainer = styled.div`
     }
   }
 
-  @media (min-width: 768px) and (max-width: 1400px) {
+  @media (min-width: 768px) and (max-width: 1024px) {
+    padding: 0 32px;
+
     .cardsContainer {
       grid-template-columns: repeat(4, 1fr);
       max-width: 820px;
@@ -52,6 +54,8 @@ export const ProductContainer = styled.div`
   }
 
   @media (min-width: 540px) and (max-width: 767px) {
+    padding: 0 16px;
+
     .cardsContainer {
       grid-template-columns: repeat(3, 1fr);
       max-width: 620px;
@@ -62,6 +66,8 @@ export const ProductContainer = styled.div`
   }
 
   @media (max-width: 539px) {
+    padding: 0 16px;
+
     .cardsContainer {
       grid-template-columns: repeat(3, 1fr);
       gap: 10px;
