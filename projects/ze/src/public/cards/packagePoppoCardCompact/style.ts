@@ -6,10 +6,10 @@ interface PackageCardProps {
   paymentPage?: boolean;
 }
 
-export const PackageCardCompactContainer = styled.article<PackageCardProps>`
+export const PackagePoppoCardCompact = styled.article<PackageCardProps>`
   width: 100%;
   max-width: 174px;
-  border-radius: 8px;
+  border-radius: 12px;
   cursor: pointer;
   display: flex;
   flex-direction: column;
@@ -19,13 +19,13 @@ export const PackageCardCompactContainer = styled.article<PackageCardProps>`
   .mobile {
     display: none;
   }
-  border: 2px solid ${({ theme }) => theme.border_02};
+  border: 3px solid ${({ theme }) => theme.border_02};
   background-color: ${({ theme }) => theme.background_04};
   position: relative;
 
   @media (hover: hover) {
     &:hover {
-      border: 2px solid ${({ theme }) => theme.mainColor};
+      /* border: 2px solid ${({ theme }) => theme.mainColor}; */
       box-shadow: 0px 0px 10px 0px ${({ theme }) => theme.mainColor};
     }
   }
@@ -51,8 +51,8 @@ export const PackageCardCompactContainer = styled.article<PackageCardProps>`
     justify-content: center;
     width: auto;
     height: 40px;
-    padding-left: 10px;
-    padding-right: -10px;
+    padding-left: -10px;
+    padding-right: 10px;
 
     h2 {
       width: auto;
@@ -66,11 +66,12 @@ export const PackageCardCompactContainer = styled.article<PackageCardProps>`
       display: flex;
       align-items: center;
       justify-content: center;
+      margin-right: 4px;
     }
   }
 
   .diamondText {
-    border-bottom: 1px solid ${({ theme }) => theme.text_04};
+    border-bottom: 2px solid ${({ theme }) => theme.text_04};
     padding-bottom: 8px;
   }
 
@@ -93,11 +94,44 @@ export const PackageCardCompactContainer = styled.article<PackageCardProps>`
     }
   }
 
-  .offerContainer {
+  .offerTextContainer {
     position: absolute;
-    bottom: -28.5px;
-    right: -17px;
+    bottom: -9px;
     z-index: 1;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: ${({ theme }) => theme.mainColor};
+    box-shadow: 0px 0px 5px 0px ${({ theme }) => theme.mainColor};
+    border-radius: 12px;
+    height: 20px;
+    width: 90px;
+
+    h2 {
+      font-size: 13px !important;
+    }
+  }
+
+  @media (max-width: 539px) {
+    .offerTextContainer {
+      height: 15px;
+      width: 80px;
+
+      h2 {
+        font-size: 10px !important;
+      }
+    }
+  }
+
+  @media (max-width: 400px) {
+    .offerTextContainer {
+      width: 70px;
+
+      h2 {
+        font-size: 10px !important;
+      }
+    }
   }
 
   ${({ paymentPage }) =>
@@ -115,7 +149,7 @@ export const PackageCardCompactContainer = styled.article<PackageCardProps>`
       }
 
       .diamondContainer {
-        align-items: flex-start;
+        align-items: flex-start; 
 
         h2 {
           font-size: 16px !important;
@@ -123,7 +157,7 @@ export const PackageCardCompactContainer = styled.article<PackageCardProps>`
         }
 
         img {
-          height: 35px !important;
+          height: 22px !important;
           width: 28px !important;
         }
       }
@@ -138,15 +172,6 @@ export const PackageCardCompactContainer = styled.article<PackageCardProps>`
         margin-bottom: 16px;
         h3 {
           font-size: 14px !important;
-        }
-      }
-
-      .offerContainer {
-        bottom: -23px;
-        right: -13px;
-        img {
-          height: 75px !important;
-          width: 75px !important;
         }
       }
     }

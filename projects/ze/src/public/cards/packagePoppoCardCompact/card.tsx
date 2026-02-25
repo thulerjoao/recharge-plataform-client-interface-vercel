@@ -3,9 +3,8 @@ import Image from "next/image";
 import { useTheme } from "styled-components";
 import { PackageType } from "types/productTypes";
 import { formatPrice } from "utils/formatPrice";
-import Offer from "./img/Offer.png";
-import DiamondIcon from "./img/UniDiamond.png";
-import { PackageCardCompactContainer } from "./style";
+import Poppo from "./img/poppo.png";
+import { PackagePoppoCardCompact } from "./style";
 
 interface PackageCardProps {
   item: PackageType;
@@ -15,7 +14,7 @@ interface PackageCardProps {
   paymentPage?: boolean;
 }
 
-const PackageCardCompact = ({
+const PackagePoppoCard = ({
   item,
   selected,
   valueWithDicount,
@@ -28,24 +27,24 @@ const PackageCardCompact = ({
   };
 
   return (
-    <PackageCardCompactContainer
+    <PackagePoppoCardCompact
       isOffer={item.isOffer}
       selected={selected}
       paymentPage={paymentPage}
     >
       <div className="diamondContainer">
-        <Text tag="h2" fontName="LARGE_SEMI_BOLD" color={theme.text_02}>
-          {formatNumber(item.amountCredits)}
-        </Text>
         <figure>
           <Image
-            src={DiamondIcon}
+            src={Poppo}
             alt={`Ícone de diamante - ${item.amountCredits} ${item.amountCredits > 1 ? "diamantes" : "diamante"}`}
-            height={50}
-            width={40}
+            height={24}
+            width={32}
             quality={75}
           />
         </figure>
+        <Text tag="h2" fontName="LARGE_SEMI_BOLD" color={theme.text_02}>
+          {formatNumber(item.amountCredits)}
+        </Text>
       </div>
       <Text
         className="diamondText desktop"
@@ -53,7 +52,7 @@ const PackageCardCompact = ({
         align="center"
         color={theme.background_01}
       >
-        {item.amountCredits > 1 ? "Diamantes Bigo" : "Diamante Bigo"}
+        {item.amountCredits > 1 ? "Moedas Poppo" : "Moeda Poppo"}
       </Text>
       <Text
         className="diamondText mobile"
@@ -61,7 +60,7 @@ const PackageCardCompact = ({
         align="center"
         color={theme.background_01}
       >
-        {item.amountCredits > 1 ? "Diamantes" : "Diamante"}
+        {item.amountCredits > 1 ? "Moedas" : "Moeda"}
       </Text>
       <div className="priceContainer">
         {+valueWithDicount !== +item.basePrice && valueWithDicount && (
@@ -95,33 +94,21 @@ const PackageCardCompact = ({
         >
           {formatPrice(valueWithDicount ? +valueWithDicount : item.basePrice)}
         </Text>
-
-        {/* {valueWithDicount && +valueWithDicount !== +item.basePrice && (
-          <Text
-            align="start"
-            color={theme.approved}
-            nowrap
-            margin="0 0 0 4px"
-            tag="h4"
-            fontName="SUPER_TINY_MEDIUM"
-          >
-            R$ {formatPrice(valueWithDicount)}
-          </Text>
-        )} */}
       </div>
       {item.isOffer && (
-        <figure className="offerContainer">
-          <Image
-            src={Offer}
-            alt={`Badge de oferta especial - ${item.name}`}
-            height={100}
-            width={100}
-            quality={75}
-          />
-        </figure>
+        <div className="offerTextContainer">
+          <Text
+            tag="h2"
+            align="center"
+            fontName="SUPER_TINY_SEMI_BOLD"
+            color={theme.text_02}
+          >
+            ZÉ INDICA!
+          </Text>
+        </div>
       )}
-    </PackageCardCompactContainer>
+    </PackagePoppoCardCompact>
   );
 };
 
-export default PackageCardCompact;
+export default PackagePoppoCard;

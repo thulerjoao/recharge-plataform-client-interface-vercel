@@ -1,175 +1,362 @@
 "use client";
 
-import Text from "@4miga/design-system/components/Text";
-import Button from "@4miga/design-system/components/button";
 import Input from "@4miga/design-system/components/input";
-import { useTheme } from "styled-components";
+import Text from "@4miga/design-system/components/Text";
+import { connectionAPIPost } from "@4miga/services/connectionAPI/connection";
 import { useAuth } from "contexts/auth";
 import { useProducts } from "contexts/products/ProductsProvider";
-import { useRouter } from "next/navigation";
+import { useParams, useRouter, useSearchParams } from "next/navigation";
+import Coupon from "public/components/coupon";
 import LoginModal from "public/components/loginModal";
-import { useEffect, useRef, useState } from "react";
+import PixCard from "public/components/payment/pixCard/pixCard";
+import React, { useEffect, useRef, useState } from "react";
+import { useTheme } from "styled-components";
+import { CouponValidationResponse } from "types/couponType";
+import { OrderType } from "types/orderType";
 import { PackageType, ProductType } from "types/productTypes";
 import { formatString } from "utils/formatString";
-import { scrollToTop } from "utils/scrollToTopFunction";
-import PackageCardCompact from "public/cards/packageCardCompact/card";
-import PaymentCard from "public/cards/paymentCard/card";
-import { ProductContainer } from "./style";
+import PackageBigoCard from "public/cards/packageBigoCardCompact/card";
+import PackagePoppoCard from "public/cards/packagePoppoCardCompact/card";
+import { ProductInnerPage } from "./style";
 
-type Props = {
-  slug: string;
-};
-
-const ProductPage = ({ slug }: Props) => {
-  const theme = useTheme();
+const ProductSlugPage = () => {
+  const params = useParams();
   const route = useRouter();
+  const searchParams = useSearchParams();
+  const slug = (params?.slug as string) ?? "";
+  const packageId = searchParams.get("package");
+  const couponFromParams = searchParams.get("coupon") ?? undefined;
+
+  const theme = useTheme();
   const { products } = useProducts();
   const product = products?.find(
     (p: ProductType) => formatString(p.name) === slug,
   );
-  const userIdInputRef = useRef<HTMLInputElement>(null);
-  const [selected, setSelected] = useState<number>(0);
+  const item = product?.packages.find(
+    (pkg: PackageType) => pkg.id === packageId,
+  );
+  const [blockInput, setBlockInput] = useState<boolean>(false);
+  const { logged, user } = useAuth();
+  const [rechargeBigoId, setRechargeBigoId] = useState<string>(
+    logged && user?.rechargeBigoId ? user.rechargeBigoId : "",
+  );
+  const hasInitializedFromUser = useRef<boolean>(false);
+  const [error, setError] = useState<string>();
+  const [coupon, setCoupon] = useState<string>("");
+  const [openCoupon, setOpenCoupon] = useState<boolean>(false);
+  const [couponLoading, setCouponLoading] = useState<boolean>(false);
+  const [couponError, setCouponError] = useState<string>("");
+  const [couponSuccess, setCouponSuccess] = useState<string>("");
+  const [couponApplied, setCouponApplied] =
+    useState<CouponValidationResponse>();
+  const [sessionOrder, setSessionOrder] = useState<OrderType | null>(null);
+  const [sessionPackage, setSessionPackage] = useState<PackageType | null>(
+    null,
+  );
   const [loginModal, setLoginModal] = useState<boolean>(false);
-  const [clicked, setClicked] = useState<boolean>(false);
-  const [paymentMethod, setPaymentMethod] = useState<number>(0);
-  const currentPackage: PackageType | undefined =
-    product && product.packages[selected];
-  const [userId, setUserId] = useState<string>("");
-  const { logged } = useAuth();
 
   useEffect(() => {
-    if (logged && clicked && currentPackage) handleOnClick();
+    if (!packageId) {
+      route.replace(slug ? `/product?slug=${slug}` : "/home");
+    }
+  }, [packageId, slug, route]);
+
+  useEffect(() => {
+    const sessionOrderStorage = sessionStorage.getItem("order");
+    if (sessionOrderStorage) {
+      const sessionOrderParsed: OrderType = JSON.parse(sessionOrderStorage);
+      if (!logged) {
+        setLoginModal(true);
+        return;
+      }
+      setRechargeBigoId(
+        sessionOrderParsed.orderItem.recharge.userIdForRecharge,
+      );
+      if (
+        sessionOrderParsed.orderStatus !== "CREATED" ||
+        !user ||
+        user.id !== sessionOrderParsed.userId
+      ) {
+        sessionStorage.clear();
+        return route.replace("/home");
+      }
+      if (sessionOrderParsed.couponUsages.length > 0) {
+        const couponUsage = sessionOrderParsed.couponUsages[0];
+        const couponData = couponUsage.coupon;
+        const discountAmount =
+          sessionOrderParsed.basePrice - sessionOrderParsed.price;
+        const appliedCoupon: CouponValidationResponse = {
+          valid: true,
+          discountAmount: discountAmount,
+          finalAmount: sessionOrderParsed.price,
+          coupon: {
+            id: couponData.id,
+            title: couponData.title,
+            discountPercentage: couponData.discountPercentage
+              ? Number(couponData.discountPercentage)
+              : null,
+            discountAmount: couponData.discountAmount
+              ? Number(couponData.discountAmount)
+              : null,
+            isFirstPurchase: couponData.isFirstPurchase,
+          },
+        };
+        setCoupon(couponData.title);
+        setCouponApplied(appliedCoupon);
+        setCouponSuccess(`Cupom aplicado!`);
+      }
+      const mappedPackage: PackageType = {
+        id: sessionOrderParsed.orderItem.package.id,
+        name: sessionOrderParsed.orderItem.package.name,
+        amountCredits: sessionOrderParsed.orderItem.recharge.amountCredits,
+        imgCardUrl: sessionOrderParsed.orderItem.package.imgCardUrl,
+        isActive: true,
+        isOffer: false,
+        price: +sessionOrderParsed.price,
+        basePrice: +sessionOrderParsed.basePrice,
+        productId: sessionOrderParsed.orderItem.productId,
+        paymentMethods: [
+          {
+            id: sessionOrderParsed.paymentId,
+            name: sessionOrderParsed.payment
+              .name as PackageType["paymentMethods"][number]["name"],
+            price: +sessionOrderParsed.price,
+          },
+        ],
+      };
+      setSessionPackage(mappedPackage);
+      setBlockInput(true);
+      setSessionOrder(sessionOrderParsed);
+      return;
+    }
+
+    if (products && products.length > 0 && packageId) {
+      const productWithPackage = products.find((p: ProductType) =>
+        p.packages.some((pkg: PackageType) => pkg.id === packageId),
+      );
+      if (!productWithPackage) {
+        route.replace("/home");
+      }
+    }
+  }, [products, packageId, route, logged, user]);
+
+  useEffect(() => {
+    if (
+      !sessionOrder &&
+      logged &&
+      user?.rechargeBigoId &&
+      !hasInitializedFromUser.current
+    ) {
+      setRechargeBigoId(user.rechargeBigoId);
+      hasInitializedFromUser.current = true;
+    }
+  }, [logged, user, sessionOrder]);
+
+  useEffect(() => {
+    if (!couponFromParams) return;
+    const upperCoupon = couponFromParams.toUpperCase();
+    setCoupon(upperCoupon);
+    setOpenCoupon(true);
+    if (couponFromParams && item && logged) {
+      handleApplyCoupon(upperCoupon);
+    } else if (couponFromParams && !logged) {
+      setCouponError("Login necessário para aplicar o cupom");
+      setCouponSuccess("");
+    }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [logged, clicked]);
+  }, [couponFromParams, item, logged]);
 
-  useEffect(() => {
-    sessionStorage.removeItem("qrCode");
-    sessionStorage.removeItem("copyAndPaste");
-    sessionStorage.removeItem("orderId");
-  }, []);
+  const handleMouseDown = () => {
+    setError("");
+    if (!couponApplied?.valid) {
+      setCouponError("");
+      setCouponSuccess("");
+    } else {
+      setCouponError("");
+    }
+  };
 
-  useEffect(() => {
-    setClicked(false);
-  }, [userId]);
+  const handleApplyCoupon = (couponValue?: string) => {
+    if (
+      couponApplied?.valid &&
+      couponApplied.coupon.title.toUpperCase() === coupon.toUpperCase()
+    ) {
+      return;
+    }
+    const couponToUse = couponValue || coupon;
 
-  const handleOnClick = () => {
-    setClicked(true);
-    if (!userId) {
-      scrollToTop();
-      setTimeout(() => {
-        userIdInputRef.current?.focus();
-      }, 500);
+    if (couponToUse === "") {
+      setCouponError("Insira um cupom");
       return;
     }
     if (!logged) {
-      return setLoginModal(true);
+      setLoginModal(true);
+      return;
     }
-    if (!product || !currentPackage) return;
-    sessionStorage.setItem("paymentMethod", paymentMethod.toString());
-    sessionStorage.setItem("userId", userId);
-    route.push(
-      `/product/${formatString(product.name)}/${formatString(currentPackage.id)}`,
-    );
+    if (!item && !sessionPackage) return;
+
+    const targetPackage = sessionPackage ?? item;
+    if (!targetPackage) return;
+
+    setCouponLoading(true);
+    connectionAPIPost<CouponValidationResponse>(
+      "/orders/validate-coupon-by-package",
+      {
+        packageId: targetPackage.id,
+        paymentMethodId: targetPackage.paymentMethods[0].id,
+        couponTitle: couponToUse.toUpperCase(),
+        userIdForRecharge: rechargeBigoId,
+      },
+    )
+      .then((res) => {
+        if (res.valid === true) {
+          setCouponSuccess(`Cupom aplicado!`);
+          setCouponApplied(res);
+          setOpenCoupon(false);
+          setCouponError("");
+        } else {
+          const message = res.message;
+          if (
+            message === "Coupon is not active" ||
+            message === "Coupon has expired" ||
+            message === "Coupon usage limit reached"
+          ) {
+            setCouponError("Cupom expirado");
+            setCouponSuccess("");
+            setCouponApplied(null);
+          } else if (
+            message ===
+            "First purchase coupon can only be used by new customers"
+          ) {
+            setCouponError("Cupom exclusivo para primeira compra");
+            setCouponSuccess("");
+            setCouponApplied(null);
+          } else if (
+            message === "This coupon can only be used once per bigoId"
+          ) {
+            setCouponError("Cupom já utilizado");
+            setCouponSuccess("");
+            setCouponApplied(null);
+          } else {
+            setCouponError("Cupom inválido");
+            setCouponSuccess("");
+            setCouponApplied(null);
+          }
+        }
+      })
+      .catch(() => {
+        setCouponError("Não foi possível aplicar o cupom");
+        setCouponSuccess("");
+        setCouponApplied(null);
+      })
+      .finally(() => {
+        setCouponLoading(false);
+      });
   };
 
-  if (!products) {
-    return (
-      <ProductContainer>
-        <Text
-          color={theme.pending}
-          align="center"
-          fontName="SMALL"
-          margin="32px 0 48px 0"
-        >
-          Carregando...
-        </Text>
-      </ProductContainer>
-    );
-  }
-
-  if (!product) {
+  const displayItem = sessionPackage ?? item;
+  if (!displayItem && products && products.length > 0) {
     route.replace("/home");
     return null;
   }
 
+  if (!packageId) {
+    return (
+      <div className="container">
+        <span className="loading" />
+      </div>
+    );
+  }
+
   return (
-    <ProductContainer>
+    <ProductInnerPage onMouseDown={handleMouseDown}>
       <Text align="center" fontName="REGULAR_SEMI_BOLD">
         ID DE USUÁRIO
       </Text>
       <Input
-        ref={userIdInputRef}
         placeholder="Insira seu ID de usuário"
         margin="16px 0 0 0"
         height={48}
-        value={userId}
-        onChange={(e) => setUserId(e.target.value.replace(/\s/g, ""))}
+        value={rechargeBigoId || ""}
+        onChange={(e) =>
+          !blockInput && setRechargeBigoId(e.target.value.replace(/\s/g, ""))
+        }
       />
-      <Text
-        tag="h2"
-        margin="32px 0 0 0"
-        align="center"
-        fontName="REGULAR_SEMI_BOLD"
-      >
+      <Text margin="32px 0 0 0" align="center" fontName="REGULAR_SEMI_BOLD">
         PACOTE PARA RECARGA
       </Text>
-      <section className="cardsContainer">
-        {product.packages.map((item, index) => (
-          <div
-            key={item.id || index}
-            className="cardEnviroment"
-            onClick={() => setSelected(index)}
-          >
-            <PackageCardCompact item={item} selected={selected === index} />
-          </div>
-        ))}
-      </section>
-      <Text
-        tag="h2"
-        margin="32px 0 0 0"
-        align="center"
-        fontName="REGULAR_SEMI_BOLD"
-      >
-        FORMA DE PAGAMENTO
+      <div className="cardEnviroment">
+        {displayItem && slug === "Bigo_Live" && (
+          <PackageBigoCard
+            paymentPage
+            paymentIndex={0}
+            item={displayItem}
+            valueWithDicount={
+              couponApplied?.valid
+                ? couponApplied.finalAmount
+                : sessionOrder?.price
+            }
+            selected
+          />
+        )}
+        {displayItem && slug === "Poppo_Live" && (
+          <PackagePoppoCard
+            paymentPage
+            paymentIndex={0}
+            item={displayItem}
+            valueWithDicount={
+              couponApplied?.valid
+                ? couponApplied.finalAmount
+                : sessionOrder?.price
+            }
+            selected
+          />
+        )}
+      </div>
+      <Text margin="32px 0 16px 0" align="center" fontName="REGULAR_SEMI_BOLD">
+        PAGAMENTO
       </Text>
-      <section className="paymentMethodsContainer">
-        {currentPackage?.paymentMethods.map((item, index) => (
-          <div
-            key={item.id || index}
-            className="paymentEnviroment"
-            onClick={() => setPaymentMethod(index)}
-          >
-            <PaymentCard
-              selected={paymentMethod === index}
-              method={item.name}
-              price={item.price}
-            />
-          </div>
-        ))}
-      </section>
-      <Button
-        onClick={() => handleOnClick()}
-        margin="32px 0 80px 0"
-        width={185}
-        rounded
-        height={40}
-        title="Compre Agora"
+
+      <Coupon
+        coupon={coupon?.toUpperCase() || ""}
+        setCoupon={setCoupon}
+        handleApplyCoupon={handleApplyCoupon}
+        blockInput={blockInput}
+        couponLoading={couponLoading}
+        couponError={couponError}
+        setCouponError={setCouponError}
+        couponSuccess={couponSuccess}
+        openCoupon={openCoupon}
+        setOpenCoupon={setOpenCoupon}
+        couponApplied={couponApplied}
       />
-      {!userId && clicked && (
-        <Text
-          color={theme.pending}
-          align="center"
-          fontName="SMALL"
-          margin="-64px 0 46px 0"
-        >
-          Insira o ID de usuário
-        </Text>
-      )}
-      {loginModal && (
-        <LoginModal openInNewAccount={false} setLoginModal={setLoginModal} />
-      )}
-    </ProductContainer>
+
+      <section className="paymentMethods">
+        {displayItem && (
+          <PixCard
+            couponTitle={
+              couponApplied?.valid && couponApplied.coupon.title.toUpperCase()
+            }
+            item={displayItem}
+            valueWithDicount={
+              couponApplied?.valid
+                ? couponApplied.finalAmount
+                : sessionOrder?.price
+            }
+            rechargeBigoId={rechargeBigoId}
+            setError={setError}
+            setBlockInput={setBlockInput}
+          />
+        )}
+        <div className="errorMessage">
+          <Text align="center" fontName="TINY_MEDIUM" color={theme.pending}>
+            {error}
+          </Text>
+        </div>
+      </section>
+      {loginModal && <LoginModal setLoginModal={() => setLoginModal(false)} />}
+    </ProductInnerPage>
   );
 };
 
-export default ProductPage;
+export default ProductSlugPage;

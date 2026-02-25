@@ -28,8 +28,10 @@ export const DescriptionContainer = styled.div`
   }
 
   @media (min-width: 768px) and (max-width: 1024px) {
+    align-items: center;
     img {
-      max-width: 100%;
+      width: 100%;
+      max-width: 768px;
       padding: 0 24px;
     }
 

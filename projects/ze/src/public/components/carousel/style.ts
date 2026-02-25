@@ -38,18 +38,18 @@ export const SwiperContainer = styled.div`
     opacity: 1;
   }
 
-  @media (min-width: 540px) and (max-width: 1024px) {
+  @media (min-width: 768px) and (max-width: 1024px) {
     max-width: 744px;
     .swiper-slide {
       margin-top: 0px;
       .mainBanner {
         max-width: 100%;
-        padding: 0 24px;
+        padding: 0 12px;
       }
     }
   }
 
-  @media (max-width: 539px) {
+  @media (max-width: 767px) {
     max-width: 100%;
     .swiper-slide {
       margin-top: 0px;

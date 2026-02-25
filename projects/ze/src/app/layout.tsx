@@ -8,20 +8,20 @@ import { Theme } from "@4miga/design-system/theme/theme";
 
 export const metadata = {
   title: {
-    template: "%s - Zé recargas",
-    default: "Zé recargas",
+    template: "%s - Zé recarga",
+    default: "Zé recarga",
   },
   description:
-    "Recargas Bigo Live – Compre seus diamantes com rapidez e total segurança",
-  keywords: ["Bigo Live", "recargas", "diamantes", "ze", "games", "bigo"],
+    "Recarga Bigo Live – Compre seus diamantes com rapidez e total segurança",
+  keywords: ["Bigo Live", "recarga", "diamantes", "ze", "games", "bigo"],
   robots: {
     index: true,
     follow: true,
   },
   openGraph: {
-    title: "Zé Recargas - Recargas Bigo e Poppo Live",
+    title: "Zé Recarga - Recarga Bigo e Poppo Live",
     description:
-      "Recargas Bigo e Poppo Live – Compre seus diamantes com rapidez e total segurança",
+      "Recarga Bigo e Poppo Live – Compre seus diamantes com rapidez e total segurança",
     type: "website",
     locale: "pt_BR",
   },

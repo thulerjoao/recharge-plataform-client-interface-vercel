@@ -19,14 +19,14 @@ const Home = () => {
     <HomeContainer>
       <Carousel imagesList={bannerList} />
       <main>
-        {/* <Text
+        <Text
           tag="h1"
           align="center"
           fontName="LARGE_SEMI_BOLD"
-          margin="72px 0px 0px 0px"
+          margin="56px 0px 16px 0px"
         >
-          RECARREGUE AGORA!
-        </Text> */}
+          PLATAFORMAS
+        </Text>
         <section className="cardsContainer">
           {products &&
             products.map((product) => (
