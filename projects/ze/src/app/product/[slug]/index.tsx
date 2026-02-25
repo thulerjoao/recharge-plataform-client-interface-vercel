@@ -15,7 +15,8 @@ import { CouponValidationResponse } from "types/couponType";
 import { OrderType } from "types/orderType";
 import { PackageType, ProductType } from "types/productTypes";
 import { formatString } from "utils/formatString";
-import PackageCardCompact from "public/cards/packageBigoCardCompact/card";
+import PackageBigoCard from "public/cards/packageBigoCardCompact/card";
+import PackagePoppoCard from "public/cards/packagePoppoCardCompact/card";
 import { ProductInnerPage } from "./style";
 
 const ProductSlugPage = () => {
@@ -285,8 +286,21 @@ const ProductSlugPage = () => {
         PACOTE PARA RECARGA
       </Text>
       <div className="cardEnviroment">
-        {displayItem && (
-          <PackageCardCompact
+        {displayItem && slug === "Bigo_Live" && (
+          <PackageBigoCard
+            paymentPage
+            paymentIndex={0}
+            item={displayItem}
+            valueWithDicount={
+              couponApplied?.valid
+                ? couponApplied.finalAmount
+                : sessionOrder?.price
+            }
+            selected
+          />
+        )}
+        {displayItem && slug === "Poppo_Live" && (
+          <PackagePoppoCard
             paymentPage
             paymentIndex={0}
             item={displayItem}

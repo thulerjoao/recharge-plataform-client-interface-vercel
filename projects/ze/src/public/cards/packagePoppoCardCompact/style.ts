@@ -25,7 +25,7 @@ export const PackagePoppoCardCompact = styled.article<PackageCardProps>`
 
   @media (hover: hover) {
     &:hover {
-      border: 2px solid ${({ theme }) => theme.mainColor};
+      /* border: 2px solid ${({ theme }) => theme.mainColor}; */
       box-shadow: 0px 0px 10px 0px ${({ theme }) => theme.mainColor};
     }
   }
