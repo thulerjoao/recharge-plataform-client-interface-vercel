@@ -20,6 +20,12 @@ export const LayoutStyle = styled.div<LayoutProps>`
     margin-top: 80px;
     padding: 0 40px;
     gap: 32px;
+    margin-bottom: 80px;
+
+    .description {
+      width: 100%;
+      max-width: 45%;
+    }
   }
 
   @media (min-width: 768px) and (max-width: 1024px) {
@@ -27,6 +33,10 @@ export const LayoutStyle = styled.div<LayoutProps>`
       margin-top: 48px;
       padding: 0;
       flex-direction: column;
+      margin-bottom: 40px;
+      .description {
+        max-width: 100%;
+      }
     }
   }
   @media (max-width: 767px) {
@@ -34,6 +44,11 @@ export const LayoutStyle = styled.div<LayoutProps>`
       margin-top: 48px;
       padding: 0;
       flex-direction: column;
+      margin-bottom: 40px;
+
+      .description {
+        max-width: 100%;
+      }
     }
   }
 `;

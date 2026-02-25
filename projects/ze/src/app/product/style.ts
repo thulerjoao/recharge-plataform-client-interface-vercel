@@ -10,11 +10,11 @@ export const ProductContainer = styled.div`
     width: 100%;
     max-width: 1000px;
     display: grid;
-    grid-template-columns: repeat(5, 1fr);
+    grid-template-columns: repeat(4, 1fr);
     gap: 16px;
     margin-top: 32px;
     margin-bottom: 56px;
-    padding: 0 24px;
+    padding: 0;
     box-sizing: border-box;
 
     .cardEnviroment {
@@ -71,7 +71,7 @@ export const ProductContainer = styled.div`
     .cardsContainer {
       grid-template-columns: repeat(3, 1fr);
       gap: 10px;
-      padding: 0 14px;
+      padding: 0;
       margin-top: 24px;
     }
   }

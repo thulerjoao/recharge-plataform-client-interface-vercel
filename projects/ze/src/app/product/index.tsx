@@ -7,8 +7,9 @@ import { useRouter, useSearchParams } from "next/navigation";
 import { useEffect } from "react";
 import { ProductType } from "types/productTypes";
 import { formatString } from "utils/formatString";
-import PackageCardCompact from "public/cards/packageCardCompact/card";
+
 import { ProductContainer } from "./style";
+import PackageBigoCard from "public/cards/packageBigoCardCompact/card";
 
 const ProductPageContent = () => {
   const route = useRouter();
@@ -96,7 +97,7 @@ const ProductPageContent = () => {
     <ProductContainer>
       <Text
         tag="h2"
-        margin="32px 0 0 0"
+        margin="8px 0 0 0"
         align="center"
         fontName="REGULAR_SEMI_BOLD"
       >
@@ -109,7 +110,7 @@ const ProductPageContent = () => {
             className="cardEnviroment"
             onClick={() => handleSelectPackage(item.id)}
           >
-            <PackageCardCompact item={item} selected={false} />
+            <PackageBigoCard item={item} selected={false} />
           </div>
         ))}
       </section>

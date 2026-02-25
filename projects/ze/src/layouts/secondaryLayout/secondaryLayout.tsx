@@ -32,9 +32,11 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
         <Header />
         <WhatsAppFloatingButton />
         <section className="mainContent">
-          <Suspense fallback={null}>
-            <Description />
-          </Suspense>
+          <div className="description">
+            <Suspense fallback={null}>
+              <Description />
+            </Suspense>
+          </div>
           {children}
         </section>
         <SecurityAdvertise />

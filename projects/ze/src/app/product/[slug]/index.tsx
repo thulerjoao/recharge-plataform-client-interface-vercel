@@ -15,7 +15,7 @@ import { CouponValidationResponse } from "types/couponType";
 import { OrderType } from "types/orderType";
 import { PackageType, ProductType } from "types/productTypes";
 import { formatString } from "utils/formatString";
-import PackageCardCompact from "public/cards/packageCardCompact/card";
+import PackageCardCompact from "public/cards/packageBigoCardCompact/card";
 import { ProductInnerPage } from "./style";
 
 const ProductSlugPage = () => {
