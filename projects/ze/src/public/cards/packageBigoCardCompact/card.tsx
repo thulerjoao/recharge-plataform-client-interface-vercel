@@ -37,8 +37,8 @@ const PackageBigoCard = ({
           <Image
             src={Dino}
             alt={`Ícone de diamante - ${item.amountCredits} ${item.amountCredits > 1 ? "diamantes" : "diamante"}`}
-            height={28}
-            width={23}
+            height={32}
+            width={27}
             quality={75}
           />
         </figure>

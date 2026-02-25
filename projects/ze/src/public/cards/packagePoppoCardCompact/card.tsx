@@ -3,7 +3,7 @@ import Image from "next/image";
 import { useTheme } from "styled-components";
 import { PackageType } from "types/productTypes";
 import { formatPrice } from "utils/formatPrice";
-import Dino from "./img/Dino.png";
+import Poppo from "./img/poppo.png";
 import { PackagePoppoCardCompact } from "./style";
 
 interface PackageCardProps {
@@ -35,10 +35,10 @@ const PackagePoppoCard = ({
       <div className="diamondContainer">
         <figure>
           <Image
-            src={Dino}
+            src={Poppo}
             alt={`Ícone de diamante - ${item.amountCredits} ${item.amountCredits > 1 ? "diamantes" : "diamante"}`}
-            height={28}
-            width={23}
+            height={24}
+            width={32}
             quality={75}
           />
         </figure>
@@ -52,7 +52,7 @@ const PackagePoppoCard = ({
         align="center"
         color={theme.background_01}
       >
-        {item.amountCredits > 1 ? "Diamantes Bigo" : "Diamante Bigo"}
+        {item.amountCredits > 1 ? "Moedas Poppo" : "Moeda Poppo"}
       </Text>
       <Text
         className="diamondText mobile"
@@ -60,7 +60,7 @@ const PackagePoppoCard = ({
         align="center"
         color={theme.background_01}
       >
-        {item.amountCredits > 1 ? "Diamantes" : "Diamante"}
+        {item.amountCredits > 1 ? "Moedas" : "Moeda"}
       </Text>
       <div className="priceContainer">
         {+valueWithDicount !== +item.basePrice && valueWithDicount && (

@@ -10,6 +10,7 @@ import { formatString } from "utils/formatString";
 
 import { ProductContainer } from "./style";
 import PackageBigoCard from "public/cards/packageBigoCardCompact/card";
+import PackagePoppoCard from "public/cards/packagePoppoCardCompact/card";
 
 const ProductPageContent = () => {
   const route = useRouter();
@@ -110,7 +111,11 @@ const ProductPageContent = () => {
             className="cardEnviroment"
             onClick={() => handleSelectPackage(item.id)}
           >
-            <PackageBigoCard item={item} selected={false} />
+            {slug === "Bigo_Live" ? (
+              <PackageBigoCard item={item} selected={false} />
+            ) : (
+              <PackagePoppoCard item={item} selected={false} />
+            )}
           </div>
         ))}
       </section>

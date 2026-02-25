@@ -157,8 +157,8 @@ export const PackageBigoCardCompact = styled.article<PackageCardProps>`
         }
 
         img {
-          height: 35px !important;
-          width: 28px !important;
+          height: 28px !important;
+          width: 23px !important;
         }
       }
 

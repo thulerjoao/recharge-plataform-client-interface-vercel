@@ -157,7 +157,7 @@ export const PackagePoppoCardCompact = styled.article<PackageCardProps>`
         }
 
         img {
-          height: 35px !important;
+          height: 22px !important;
           width: 28px !important;
         }
       }
