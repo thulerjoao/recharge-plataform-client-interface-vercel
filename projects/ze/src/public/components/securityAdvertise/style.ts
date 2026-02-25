@@ -21,13 +21,12 @@ export const SecurityAdvertiseContainer = styled.section`
   @media (min-width: 768px) and (max-width: 1024px) {
   }
   @media (max-width: 767px) {
-    align-items: center;
     justify-content: space-between;
     width: 100%;
+    max-width: 400px;
     padding: 0 16px;
-
     article {
-      margin: 0 12px;
+      margin: 0 8px;
     }
   }
 `;
