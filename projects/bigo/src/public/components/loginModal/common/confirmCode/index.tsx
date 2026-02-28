@@ -261,21 +261,11 @@ const ConfirmCode = ({
         sendCode={!askToRecover}
         onClick={() => !askToRecover && !loading && handleSendCode()}
       >
-        <Text
-          nowrap
-          align="center"
-          color={theme.mainColor}
-          fontName="SMALL"
-        >
+        <Text nowrap align="center" color={theme.mainColor} fontName="SMALL">
           Reenviar código
         </Text>
         {askToRecover && (
-          <Text
-            tag="h4"
-            align="start"
-            color={theme.mainColor}
-            fontName="SMALL"
-          >
+          <Text tag="h4" align="start" color={theme.mainColor} fontName="SMALL">
             {timer > 1 && formattedSeconds}
           </Text>
         )}

@@ -45,11 +45,7 @@ const Pagination = ({ page, setPage, totalPages }: Props) => {
           <Text
             key={index}
             align="center"
-            color={
-              element !== page
-                ? theme.text_03
-                : theme.text_01
-            }
+            color={element !== page ? theme.text_03 : theme.text_01}
             fontName="REGULAR_SEMI_BOLD"
             style={{ cursor: "pointer" }}
             onClick={() => setPage(element)}

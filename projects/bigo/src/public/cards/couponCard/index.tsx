@@ -77,11 +77,7 @@ const CouponCard = ({ coupon, isActiveOut }: CouponCardProps) => {
         >
           {title.toUpperCase()}
         </Text>
-        <Text
-          align="center"
-          color={theme.mainColor}
-          fontName="REGULAR_MEDIUM"
-        >
+        <Text align="center" color={theme.mainColor} fontName="REGULAR_MEDIUM">
           {discountValue} OFF
         </Text>
       </section>

@@ -157,11 +157,7 @@ const LoginModal = ({ setLoginModal, openInNewAccount }: LoginModalProps) => {
             className="newAccountButton"
             onClick={() => setStep(step === "login" ? "newAccount" : "login")}
           >
-            <Text
-              fontName="SMALL"
-              align="center"
-              color={theme.mainColor}
-            >
+            <Text fontName="SMALL" align="center" color={theme.mainColor}>
               {step === "login" ? "Criar uma conta" : "Já possui uma conta?"}
             </Text>
           </span>
