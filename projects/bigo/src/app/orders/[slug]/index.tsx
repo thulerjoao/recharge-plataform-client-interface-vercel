@@ -109,7 +109,9 @@ const Order = () => {
 
     const checkPayment = async () => {
       try {
-        const res = await connectionAPIGet<OrderType>(`/orders/${orderId}`);
+        const res = await connectionAPIGet<OrderType>(
+          `/bigo/orders/${orderId}`,
+        );
         // Only update if still polling (status might have changed)
         const stillNeedsPolling =
           res.payment?.status === "PAYMENT_PENDING" ||

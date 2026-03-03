@@ -35,7 +35,7 @@ export const OrdersProvider = ({ children }: OrdersProviderProps) => {
     params.append("limit", limit.toString());
 
     await connectionAPIGet<OrderResponseType>(
-      `/orders?${params.toString()}`,
+      `/bigo/orders?${params.toString()}`,
       apiUrl,
     )
       .then((res) => {

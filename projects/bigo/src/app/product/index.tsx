@@ -197,7 +197,7 @@ const PaymentPage = ({ packageId, couponFromParams }: Props) => {
 
     setCouponLoading(true);
     connectionAPIPost<CouponValidationResponse>(
-      "/orders/validate-coupon-by-package",
+      "/bigo/orders/validate-coupon-by-package",
       {
         packageId: item.id,
         paymentMethodId: item.paymentMethods[0].id,

@@ -14,7 +14,7 @@ interface PaymentTier {
 }
 
 const PRICE_PER_1000_BEAN = 19.9; //104 BRR = 19.34 USD
-const PRICE_PER_1000_BEAN_BRL = 104; //104 BRR = 19.34 USD
+const PRICE_PER_1000_BEAN_BRL = 102; //104 BRR = 19.34 USD
 
 const PAYMENT_TIERS: PaymentTier[] = [
   { meta: 2000, beans: 9.52, bonus: 14.0, total: 23.52 },

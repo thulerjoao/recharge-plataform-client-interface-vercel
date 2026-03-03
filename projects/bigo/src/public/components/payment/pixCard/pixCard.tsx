@@ -141,7 +141,7 @@ const PixCard = ({
           userIdForRecharge: rechargeBigoId,
           couponTitle,
         };
-    await connectionAPIPost<OrderType>("/orders", body)
+    await connectionAPIPost<OrderType>("/bigo/orders", body)
       .then(async (res) => {
         setQrCode(res.payment.qrCode);
         setCopyAndPaste(res.payment.qrCodetextCopyPaste);
