@@ -30,7 +30,7 @@ const PeriodSelector = ({
   // Generate list of years from firstAvailablePeriod to current year
   const currentYear = new Date().getFullYear();
   const currentMonth = new Date().getMonth() + 1;
-  const startYear = firstAvailablePeriod.year;
+  const startYear = firstAvailablePeriod?.year;
   const years = Array.from(
     { length: currentYear - startYear + 1 },
     (_, i) => startYear + i,
