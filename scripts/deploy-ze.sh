@@ -30,7 +30,7 @@ if [ $? -eq 0 ]; then
             --image $IMAGE_NAME \
             --platform managed \
             --region us-central1 \
-            --port 3002 \
+            --port 3000 \
             --allow-unauthenticated \
             --memory 512Mi \
             --cpu 1 \

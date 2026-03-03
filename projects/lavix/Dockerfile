@@ -1,4 +1,4 @@
-# Dockerfile for Bigo app
+# Dockerfile for Lavix app
 FROM node:20-alpine AS base
 
 # Install dependencies only when needed
@@ -8,7 +8,7 @@ WORKDIR /app
 
 # Copy dependency files
 COPY package.json yarn.lock* package-lock.json* pnpm-lock.yaml* ./
-COPY projects/bigo/package.json ./projects/bigo/
+COPY projects/lavix/package.json ./projects/lavix/
 COPY packages/ ./packages/
 COPY setup/ ./setup/
 
@@ -23,11 +23,11 @@ COPY --from=deps /app/node_modules ./node_modules
 # Copy workspace files (packages and setup are essential)
 COPY packages/ ./packages/
 COPY setup/ ./setup/
-COPY projects/bigo/ ./projects/bigo/
+COPY projects/lavix/ ./projects/lavix/
 COPY package.json yarn.lock ./
 
-# Build Bigo application
-RUN yarn workspace @4miga/bigo build
+# Build Lavix application
+RUN yarn workspace @4miga/lavix build
 
 # Production image, copy only the necessary files
 FROM base AS runner
@@ -39,8 +39,8 @@ RUN addgroup --system --gid 1001 nodejs
 RUN adduser --system --uid 1001 nextjs
 
 # Copy necessary files
-COPY --from=builder /app/projects/bigo/.next/standalone ./
-COPY --from=builder /app/projects/bigo/.next/static ./projects/bigo/.next/static
+COPY --from=builder /app/projects/lavix/.next/standalone ./
+COPY --from=builder /app/projects/lavix/.next/static ./projects/lavix/.next/static
 
 USER nextjs
 
@@ -49,4 +49,4 @@ EXPOSE 3001
 ENV PORT 3001
 ENV HOSTNAME "0.0.0.0"
 
-CMD ["node", "projects/bigo/server.js"] 
+CMD ["node", "projects/lavix/server.js"] 

@@ -15,11 +15,6 @@
   },
   "scripts": {
     "lint": "yarn workspaces run lint",
-    "store": "yarn workspace @4miga/store",
-    "dev:store": "yarn store dev",
-    "build:store": "yarn store build",
-    "start:store": "yarn store start",
-    "lint:store": "yarn store lint",
     "ze": "yarn workspace @4miga/ze",
     "dev:ze": "yarn ze dev",
     "build:ze": "yarn ze build",
