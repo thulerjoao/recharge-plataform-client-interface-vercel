@@ -25,9 +25,8 @@ const OrderCardBigo = ({ order }: OrderCardProps) => {
       <Image
         src={order.orderItem.package.imgCardUrl}
         alt={`Imagem do pacote ${order.orderItem.package.name}`}
-        height={64}
-        width={64}
-        style={{ borderRadius: "8px" }}
+        height={58}
+        width={58}
         quality={75}
       />
       <section className="allInfo">
@@ -40,13 +39,13 @@ const OrderCardBigo = ({ order }: OrderCardProps) => {
           </Text>
         </div>
         <div className="rowInfos">
-          <Text color={theme.text_03} fontName="TINY">
+          <Text color={theme.text_04} fontName="TINY">
             {formatDate(order.createdAt)}
           </Text>
           <Text
             color={handleStatusColor(order.orderStatus)}
             align="end"
-            fontName="TINY"
+            fontName="REGULAR_MEDIUM"
           >
             {handleOrderStatus(order.orderStatus)}
           </Text>

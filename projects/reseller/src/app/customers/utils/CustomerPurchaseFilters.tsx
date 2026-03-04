@@ -30,7 +30,7 @@ const CustomerPurchaseFilters = ({
     <PurchaseFiltersWrapper>
       {/* <Text
         fontName="SMALL_MEDIUM"
-        color={theme.text_03}
+        color={theme.text_04}
         align="center"
       >
         Filtro de compras
@@ -46,7 +46,7 @@ const CustomerPurchaseFilters = ({
             height={32}
           />
           <label>
-            <Text align="center" fontName="TINY" color={theme.text_03}>
+            <Text align="center" fontName="TINY" color={theme.text_04}>
               Dias sem comprar
             </Text>
           </label>
@@ -61,7 +61,7 @@ const CustomerPurchaseFilters = ({
             height={32}
           />
           <label>
-            <Text align="center" fontName="TINY" color={theme.text_03}>
+            <Text align="center" fontName="TINY" color={theme.text_04}>
               Máx. dias sem comprar
             </Text>
           </label>
@@ -76,7 +76,7 @@ const CustomerPurchaseFilters = ({
             height={32}
           />
           <label>
-            <Text align="center" fontName="TINY" color={theme.text_03}>
+            <Text align="center" fontName="TINY" color={theme.text_04}>
               Mínimo de compras
             </Text>
           </label>

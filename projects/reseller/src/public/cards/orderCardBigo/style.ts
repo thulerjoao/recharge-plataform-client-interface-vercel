@@ -10,13 +10,17 @@ export const OrderCardContainer = styled.article`
   box-sizing: border-box;
   margin-top: 16px;
   border-radius: 8px;
-  background-color: ${({ theme }) => theme.background_01};
-  -webkit-box-shadow: 0px 0px 5px 1px rgba(7, 29, 35, 1);
-  -moz-box-shadow: 0px 0px 5px 1px rgba(7, 29, 35, 1);
-  box-shadow: 0px 0px 5px 1px rgba(7, 29, 35, 1);
-  border: 1px solid ${({ theme }) => theme.border_01}80;
+  background-color: ${({ theme }) => theme.background_02};
+  border: 1px solid ${({ theme }) => theme.border_02};
   box-sizing: border-box;
   cursor: pointer;
+
+  img {
+    height: 58px;
+    width: 58px;
+    border-radius: 8px;
+    border: 1px solid ${({ theme }) => theme.border_02};
+  }
 
   .allInfo {
     height: 66px;

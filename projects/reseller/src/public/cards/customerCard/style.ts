@@ -8,14 +8,11 @@ export const CustomerCardContainer = styled.div<{ $isExcluded?: boolean }>`
   gap: 6px;
   padding: 16px 20px;
   background: ${({ $isExcluded, theme }) =>
-    $isExcluded ? `${theme.refused}20` : theme.background_01};
+    $isExcluded ? `${theme.refused}20` : theme.background_02};
   border-radius: 12px;
-  -webkit-box-shadow: 0px 0px 5px 1px rgba(7, 29, 35, 1);
-  -moz-box-shadow: 0px 0px 5px 1px rgba(7, 29, 35, 1);
-  box-shadow: 0px 0px 5px 1px rgba(7, 29, 35, 1);
   border: 1px solid
     ${({ $isExcluded, theme }) =>
-      `${theme[$isExcluded ? "refused" : "border_01"]}80`};
+      $isExcluded ? `${theme.refused}80` : theme.border_02};
 
   .deleteIconButton {
     position: absolute;

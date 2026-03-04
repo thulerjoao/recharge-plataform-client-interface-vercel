@@ -53,7 +53,7 @@ const CustomerCard = ({
       </Text>
       <Text
         fontName="REGULAR_MEDIUM"
-        color={theme.text_03}
+        color={theme.text_04}
         className="cardLine cardEmail"
       >
         {email}
@@ -61,14 +61,14 @@ const CustomerCard = ({
       <div className="cardContactWrapper">
         <Text
           fontName="REGULAR_MEDIUM"
-          color={theme.text_03}
+          color={theme.text_04}
           className="cardLine cardPhone"
         >
           Telefone: {phone}
         </Text>
         <Text
           fontName="REGULAR_MEDIUM"
-          color={theme.text_03}
+          color={theme.text_04}
           className="cardLine cardCpf"
         >
           CPF: {documentValue}
