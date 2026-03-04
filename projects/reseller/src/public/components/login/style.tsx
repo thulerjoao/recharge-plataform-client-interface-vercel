@@ -25,7 +25,7 @@ export const LoginModalContainer = styled.div`
   width: 100%;
   max-width: 560px;
   background-color: ${({ theme }) => theme.background_02};
-  border: 2px solid ${({ theme }) => theme.border_01};
+  border: 1px solid ${({ theme }) => theme.border_02};
   display: flex;
   flex-direction: column;
   align-items: center;

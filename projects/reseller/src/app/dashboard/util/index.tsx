@@ -280,7 +280,7 @@ const Dashboard = () => {
             </div>
           </div>
           {dashboardData.period && (
-            <Text margin="8px 0 0 0" fontName="REGULAR" color={theme.text_03}>
+            <Text margin="8px 0 0 0" fontName="REGULAR" color={theme.mainColor}>
               Período: {formatPeriod()}
             </Text>
           )}

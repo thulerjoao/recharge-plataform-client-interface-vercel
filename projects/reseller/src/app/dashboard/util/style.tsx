@@ -11,6 +11,7 @@ export const DashboardContainer = styled.div`
     max-width: 900px;
     padding-top: 32px;
     padding-bottom: 56px;
+    padding: 0 1px;
 
     .mobile {
       display: none;

@@ -22,13 +22,10 @@ export const SalesByPackageContainer = styled.section`
     justify-content: space-between;
     flex-wrap: wrap;
     gap: 16px;
-    background-color: ${({ theme }) => theme.background_01};
     border-radius: 8px;
     padding: 16px 20px;
-    border: 1px solid ${({ theme }) => theme.border_01}80;
-    -webkit-box-shadow: 0px 0px 5px 1px rgba(7, 29, 35, 1);
-    -moz-box-shadow: 0px 0px 5px 1px rgba(7, 29, 35, 1);
-    box-shadow: 0px 0px 5px 1px rgba(7, 29, 35, 1);
+    border: 1px solid ${({ theme }) => theme.border_02};
+    background-color: ${({ theme }) => theme.background_02};
 
     .packageName {
       flex: 1;

@@ -29,8 +29,8 @@ const CronHealthIndicator = ({
         <div className="statusText">
           <Text
             nowrap={true}
-            fontName="REGULAR"
-            color={isHealthy ? theme.approved : theme.refused}
+            fontName="REGULAR_SEMI_BOLD"
+            color={isHealthy ? theme.whatsappBackground : theme.refused}
           >
             {isHealthy
               ? "Métricas saudáveis"
