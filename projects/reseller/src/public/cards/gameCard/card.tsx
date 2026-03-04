@@ -2,12 +2,14 @@ import Text from "@4miga/design-system/components/Text";
 import Image from "next/image";
 import { ProductType } from "types/productTypes";
 import { CardContainer } from "./style";
+import { useTheme } from "styled-components";
 
 interface CardProps {
   product: ProductType;
 }
 
 const GameCard = ({ product }: CardProps) => {
+  const theme = useTheme();
   const imageUrl = () => {
     if (product.storeCustomization === null) {
       return product.imgCardUrl;
@@ -26,8 +28,9 @@ const GameCard = ({ product }: CardProps) => {
       <Text
         tag="h2"
         align="center"
-        fontName="REGULAR_MEDIUM"
+        fontName="REGULAR_SEMI_BOLD"
         margin="16px 0 0 0"
+        color={theme.text_01}
       >
         {product.name}
       </Text>

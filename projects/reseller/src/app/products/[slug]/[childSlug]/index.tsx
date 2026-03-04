@@ -499,7 +499,7 @@ const SecondaryProductPage = ({ slug, childSlug }: Props) => {
         </HeaderEnviroment>
       </div>
       <div className="mobile mobileHeader">
-        <Text align="center" fontName="LARGE_SEMI_BOLD">
+        <Text align="center" fontName="LARGE_SEMI_BOLD" color={theme.text_02}>
           {isCreatingNewPackage ? "CRIAR PACOTE" : "CONFIG PACOTE"}
         </Text>
       </div>
@@ -522,7 +522,9 @@ const SecondaryProductPage = ({ slug, childSlug }: Props) => {
             >
               <Text
                 fontName="SMALL_MEDIUM"
-                color={editData?.isActive ? theme.approved : theme.refused}
+                color={
+                  editData?.isActive ? theme.whatsappBackground : theme.refused
+                }
               >
                 {editData?.isActive ? "ATIVO" : "INATIVO"}
               </Text>
@@ -756,6 +758,9 @@ const SecondaryProductPage = ({ slug, childSlug }: Props) => {
                     isNotSelected={loading}
                   />
                   <Button
+                    className={
+                      !isCreatingNewPackage && !hasChanges() && "disabledSave"
+                    }
                     title={isCreatingNewPackage ? "CRIAR" : "SALVAR"}
                     onClick={() => {
                       if (isCreatingNewPackage) {

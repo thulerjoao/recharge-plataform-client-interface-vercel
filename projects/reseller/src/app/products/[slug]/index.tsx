@@ -202,7 +202,7 @@ const Productpage = ({ slug }: Props) => {
         </HeaderEnviroment>
       </div>
       <div className="mobile mobileHeader">
-        <Text align="center" fontName="LARGE_SEMI_BOLD">
+        <Text align="center" fontName="LARGE_SEMI_BOLD" color={theme.text_02}>
           CONFIGURAR PRODUTOS
         </Text>
       </div>
@@ -213,7 +213,7 @@ const Productpage = ({ slug }: Props) => {
             <Text fontName="LARGE_SEMI_BOLD" color={theme.text_01}>
               {productPackages?.name || "BIGO LIVE"}
             </Text>
-            <Text fontName="REGULAR_MEDIUM" color={theme.text_03}>
+            <Text fontName="REGULAR_MEDIUM" color={theme.mainColor}>
               Configure pacotes e informações do produto
             </Text>
           </div>
@@ -294,7 +294,7 @@ const Productpage = ({ slug }: Props) => {
                 margin="16PX 0 16px 0"
                 align="center"
                 fontName="TINY_MEDIUM"
-                color={theme.text_03}
+                color={theme.mainColor}
               >
                 A imagem deve estar no formato .png, .jpg ou .jpeg, ter uma
                 resolução mínima de 1280 x 540 e uma proporção de 21:9
@@ -335,7 +335,7 @@ const Productpage = ({ slug }: Props) => {
                 margin="16PX 0 16px 0"
                 align="center"
                 fontName="TINY_MEDIUM"
-                color={theme.text_03}
+                color={theme.mainColor}
               >
                 A imagem deve estar no formato .png, .jpg ou .jpeg, ter uma
                 resolução mínima de 720 x 720 e uma proporção de 1:1

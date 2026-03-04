@@ -10,13 +10,13 @@ import { ProductsPageContainer } from "./style";
 import { useRouter } from "next/navigation";
 import { formatString } from "utils/formatString";
 import { useProducts } from "context/products";
-import { useAuth } from "context/auth";
-import { useState } from "react";
 import LoadingPage from "app/loading";
+import { useTheme } from "styled-components";
 
 const ProductsPage = () => {
   const { products } = useProducts();
   const route = useRouter();
+  const theme = useTheme();
 
   const handleProductClick = (path: string) => {
     const res = formatString(path);
@@ -35,7 +35,7 @@ const ProductsPage = () => {
         </HeaderEnviroment>
       </div>
       <div className="mobile mobileHeader">
-        <Text align="center" fontName="LARGE_SEMI_BOLD">
+        <Text align="center" fontName="LARGE_SEMI_BOLD" color={theme.text_02}>
           PRODUTOS
         </Text>
       </div>
