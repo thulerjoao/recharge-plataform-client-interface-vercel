@@ -45,12 +45,6 @@ export const OrderCardContainer = styled.article<OrderCardProps>`
       min-width: 0;
     }
 
-    .rechargeStatus {
-      p {
-        text-shadow: 0px 0px 1px ${({ theme }) => theme.text_01};
-      }
-    }
-
     .status {
       text-align: right;
       min-width: 0;

@@ -162,7 +162,6 @@ const OrdersInnerPage = ({ slug }: { slug: string }) => {
             <div className="leftMedium">
               <Text fontName="SMALL_MEDIUM">Pix</Text>
               <Text
-                className="statusText"
                 fontName="TINY_SEMI_BOLD"
                 color={
                   order?.orderStatus === "EXPIRED"
@@ -200,7 +199,6 @@ const OrdersInnerPage = ({ slug }: { slug: string }) => {
               <Text fontName="SMALL_MEDIUM">Bigo Live</Text>
               {order?.payment?.status === "PAYMENT_APPROVED" && (
                 <Text
-                  className="statusText"
                   fontName="TINY_SEMI_BOLD"
                   color={handleStatusColor(order?.orderItem.recharge.status)}
                 >

@@ -94,8 +94,8 @@ export const resellerColors = {
   border_01: "#e3e7ed",
   border_02: "rgb(176, 199, 199)",
   mainColor: "#2a84d4",
-  approved: "#01FF0B",
-  pending: "#FFFF00",
+  approved: "#25D366",
+  pending: "#ffc800",
   refused: "#FF6565",
   whatsappBackground: "#25D366",
 };

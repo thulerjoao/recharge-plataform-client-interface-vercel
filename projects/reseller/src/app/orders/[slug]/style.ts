@@ -100,10 +100,6 @@ export const SalesInnerPageContainer = styled.div`
           justify-content: space-between;
         }
       }
-
-      .statusText {
-        text-shadow: 0px 0px 1px ${({ theme }) => theme.text_01};
-      }
     }
 
     .bottom {
