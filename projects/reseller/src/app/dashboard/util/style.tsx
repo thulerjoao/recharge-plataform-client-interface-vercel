@@ -9,9 +9,9 @@ export const DashboardContainer = styled.div`
   .centerContainer {
     width: 100%;
     max-width: 900px;
+    padding: 0 1px;
     padding-top: 32px;
     padding-bottom: 56px;
-    padding: 0 1px;
 
     .mobile {
       display: none;
