@@ -84,7 +84,7 @@ const CouponSales = ({ influencerId }: CouponDetailsProps) => {
         </HeaderEnviroment>
       </div>
       <div className="mobile mobileHeader">
-        <Text align="center" fontName="LARGE_SEMI_BOLD">
+        <Text align="center" fontName="LARGE_SEMI_BOLD" color={theme.text_02}>
           CUPONS
         </Text>
       </div>
@@ -125,7 +125,7 @@ const CouponSales = ({ influencerId }: CouponDetailsProps) => {
 
           {couponData?.data.length === 0 && (
             <div className="emptyState">
-              <Text fontName="REGULAR_MEDIUM" color={theme.text_03}>
+              <Text fontName="REGULAR_MEDIUM" color={theme.text_04}>
                 Nenhum cupom encontrado
               </Text>
             </div>

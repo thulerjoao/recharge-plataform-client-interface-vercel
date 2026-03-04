@@ -198,7 +198,7 @@ const CreateCoupon = ({
         </HeaderEnviroment>
       </div>
       <div className="mobile mobileHeader">
-        <Text align="center" fontName="LARGE_SEMI_BOLD">
+        <Text align="center" fontName="LARGE_SEMI_BOLD" color={theme.text_02}>
           CRIAR CUPOM
         </Text>
       </div>
@@ -209,7 +209,7 @@ const CreateCoupon = ({
             <Text fontName="LARGE_SEMI_BOLD" color={theme.text_01}>
               NOVO CUPOM
             </Text>
-            <Text fontName="REGULAR_MEDIUM" color={theme.text_03}>
+            <Text fontName="REGULAR_MEDIUM" color={theme.text_04}>
               {searchParams.get("influencerId")
                 ? `Criando cupom para ${selectedInfluencer?.name}`
                 : "Configure as informações do cupom"}
@@ -242,7 +242,7 @@ const CreateCoupon = ({
             </Text>
             <div className="infoGrid">
               <div className="infoItem">
-                <Text fontName="SMALL_MEDIUM" color={theme.text_03}>
+                <Text fontName="SMALL_MEDIUM" color={theme.text_04}>
                   Título do cupom: *
                 </Text>
                 <Input
@@ -262,7 +262,7 @@ const CreateCoupon = ({
                 )}
               </div>
               <div className="infoItem">
-                <Text fontName="SMALL_MEDIUM" color={theme.text_03}>
+                <Text fontName="SMALL_MEDIUM" color={theme.text_04}>
                   Influencer: *
                 </Text>
                 <select
@@ -290,7 +290,7 @@ const CreateCoupon = ({
                 )}
               </div>
               <div className="infoItem">
-                <Text fontName="SMALL_MEDIUM" color={theme.text_03}>
+                <Text fontName="SMALL_MEDIUM" color={theme.text_04}>
                   Tipo de desconto: *
                 </Text>
                 <select
@@ -312,7 +312,7 @@ const CreateCoupon = ({
                 </select>
               </div>
               <div className="infoItem">
-                <Text fontName="SMALL_MEDIUM" color={theme.text_03}>
+                <Text fontName="SMALL_MEDIUM" color={theme.text_04}>
                   {discountType === "percentage" ? "Porcentagem (%)" : "Valor"}:
                   *
                 </Text>
@@ -378,7 +378,7 @@ const CreateCoupon = ({
             </Text>
             <div className="infoGrid">
               <div className="infoItem">
-                <Text fontName="SMALL_MEDIUM" color={theme.text_03}>
+                <Text fontName="SMALL_MEDIUM" color={theme.text_04}>
                   Data de expiração:
                 </Text>
                 <input
@@ -418,7 +418,7 @@ const CreateCoupon = ({
                 )}
               </div>
               <div className="infoItem">
-                <Text fontName="SMALL_MEDIUM" color={theme.text_03}>
+                <Text fontName="SMALL_MEDIUM" color={theme.text_04}>
                   Máximo de usos:
                 </Text>
                 <Input
@@ -442,7 +442,7 @@ const CreateCoupon = ({
                 )}
               </div>
               <div className="infoItem">
-                <Text fontName="SMALL_MEDIUM" color={theme.text_03}>
+                <Text fontName="SMALL_MEDIUM" color={theme.text_04}>
                   Valor mínimo do pedido (R$):
                 </Text>
                 <InputMask
@@ -470,7 +470,7 @@ const CreateCoupon = ({
                 )}
               </div>
               <div className="infoItem">
-                <Text fontName="SMALL_MEDIUM" color={theme.text_03}>
+                <Text fontName="SMALL_MEDIUM" color={theme.text_04}>
                   Cupom para primeira compra:
                 </Text>
                 <div className="checkboxSection">
@@ -488,7 +488,7 @@ const CreateCoupon = ({
                 </div>
               </div>
               <div className="infoItem">
-                <Text fontName="SMALL_MEDIUM" color={theme.text_03}>
+                <Text fontName="SMALL_MEDIUM" color={theme.text_04}>
                   Cupom para compra única:
                 </Text>
                 <div className="checkboxSection">
@@ -518,7 +518,7 @@ const CreateCoupon = ({
             height={40}
             rounded
             style={{
-              backgroundColor: theme.border_01,
+              backgroundColor: theme.background_04,
               color: theme.text_01,
             }}
           />

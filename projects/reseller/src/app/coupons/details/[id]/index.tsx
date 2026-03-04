@@ -278,7 +278,7 @@ const CouponDetails = ({ couponId }: CouponDetailsProps) => {
         </HeaderEnviroment>
       </div>
       <div className="mobile mobileHeader">
-        <Text align="center" fontName="LARGE_SEMI_BOLD">
+        <Text align="center" fontName="LARGE_SEMI_BOLD" color={theme.text_02}>
           CUPOM
         </Text>
       </div>
@@ -335,7 +335,7 @@ const CouponDetails = ({ couponId }: CouponDetailsProps) => {
               {/* <div className="infoItem">
                 <Text
                   fontName="SMALL_MEDIUM"
-                  color={theme.text_03}
+                  color={theme.text_04}
                 >
                   Título:
                 </Text>
@@ -362,7 +362,7 @@ const CouponDetails = ({ couponId }: CouponDetailsProps) => {
                 )}
               </div> */}
               <div className="infoItem">
-                <Text fontName="SMALL_MEDIUM" color={theme.text_03}>
+                <Text fontName="SMALL_MEDIUM" color={theme.text_04}>
                   Título:
                 </Text>
                 <Text fontName="SMALL_MEDIUM" color={theme.text_01}>
@@ -370,7 +370,7 @@ const CouponDetails = ({ couponId }: CouponDetailsProps) => {
                 </Text>
               </div>
               <div className="infoItem">
-                <Text fontName="SMALL_MEDIUM" color={theme.text_03}>
+                <Text fontName="SMALL_MEDIUM" color={theme.text_04}>
                   Influencer:
                 </Text>
                 <Text fontName="SMALL_MEDIUM" color={theme.text_01}>
@@ -378,7 +378,7 @@ const CouponDetails = ({ couponId }: CouponDetailsProps) => {
                 </Text>
               </div>
               <div className="infoItem">
-                <Text fontName="SMALL_MEDIUM" color={theme.text_03}>
+                <Text fontName="SMALL_MEDIUM" color={theme.text_04}>
                   Tipo de desconto:
                 </Text>
                 {isEditing ? (
@@ -410,7 +410,7 @@ const CouponDetails = ({ couponId }: CouponDetailsProps) => {
                 )}
               </div>
               <div className="infoItem">
-                <Text fontName="SMALL_MEDIUM" color={theme.text_03}>
+                <Text fontName="SMALL_MEDIUM" color={theme.text_04}>
                   {selectedDiscountType === "percentage"
                     ? "Porcentagem (%)"
                     : "Valor fixo (R$)"}
@@ -489,7 +489,7 @@ const CouponDetails = ({ couponId }: CouponDetailsProps) => {
             </div>
             <div className="infoGrid">
               <div className="infoItem">
-                <Text fontName="SMALL_MEDIUM" color={theme.text_03}>
+                <Text fontName="SMALL_MEDIUM" color={theme.text_04}>
                   Data de expiração:
                 </Text>
                 {isEditing ? (
@@ -540,7 +540,7 @@ const CouponDetails = ({ couponId }: CouponDetailsProps) => {
                 )}
               </div>
               <div className="infoItem">
-                <Text fontName="SMALL_MEDIUM" color={theme.text_03}>
+                <Text fontName="SMALL_MEDIUM" color={theme.text_04}>
                   Máximo de usos:
                 </Text>
                 {isEditing ? (
@@ -570,7 +570,7 @@ const CouponDetails = ({ couponId }: CouponDetailsProps) => {
                 )}
               </div>
               <div className="infoItem">
-                <Text fontName="SMALL_MEDIUM" color={theme.text_03}>
+                <Text fontName="SMALL_MEDIUM" color={theme.text_04}>
                   Valor mínimo do pedido:
                 </Text>
                 {isEditing ? (
@@ -606,7 +606,7 @@ const CouponDetails = ({ couponId }: CouponDetailsProps) => {
                 )}
               </div>
               <div className="infoItem">
-                <Text fontName="SMALL_MEDIUM" color={theme.text_03}>
+                <Text fontName="SMALL_MEDIUM" color={theme.text_04}>
                   Cupom para primeira compra:
                 </Text>
                 {isEditing ? (
@@ -630,7 +630,7 @@ const CouponDetails = ({ couponId }: CouponDetailsProps) => {
                 )}
               </div>
               <div className="infoItem">
-                <Text fontName="SMALL_MEDIUM" color={theme.text_03}>
+                <Text fontName="SMALL_MEDIUM" color={theme.text_04}>
                   Cupom para compra única:
                 </Text>
                 {isEditing ? (
@@ -668,6 +668,10 @@ const CouponDetails = ({ couponId }: CouponDetailsProps) => {
                     height={36}
                     rounded
                     disabled={loading}
+                    style={{
+                      backgroundColor: theme.background_04,
+                      color: theme.text_01,
+                    }}
                   />
                   <Button
                     title="SALVAR"
@@ -711,7 +715,7 @@ const CouponDetails = ({ couponId }: CouponDetailsProps) => {
             </Text>
             <div className="infoGrid">
               <div className="infoItem">
-                <Text fontName="SMALL_MEDIUM" color={theme.text_03}>
+                <Text fontName="SMALL_MEDIUM" color={theme.text_04}>
                   Vezes utilizado:
                 </Text>
                 <Text fontName="SMALL_MEDIUM" color={theme.text_01}>
@@ -720,7 +724,7 @@ const CouponDetails = ({ couponId }: CouponDetailsProps) => {
                 </Text>
               </div>
               <div className="infoItem">
-                <Text fontName="SMALL_MEDIUM" color={theme.text_03}>
+                <Text fontName="SMALL_MEDIUM" color={theme.text_04}>
                   Total de vendas:
                 </Text>
                 <Text fontName="SMALL_MEDIUM" color={theme.text_01}>
@@ -728,7 +732,7 @@ const CouponDetails = ({ couponId }: CouponDetailsProps) => {
                 </Text>
               </div>
               <div className="infoItem">
-                <Text fontName="SMALL_MEDIUM" color={theme.text_03}>
+                <Text fontName="SMALL_MEDIUM" color={theme.text_04}>
                   Data de criação:
                 </Text>
                 <Text fontName="SMALL_MEDIUM" color={theme.text_01}>
@@ -736,7 +740,7 @@ const CouponDetails = ({ couponId }: CouponDetailsProps) => {
                 </Text>
               </div>
               <div className="infoItem">
-                <Text fontName="SMALL_MEDIUM" color={theme.text_03}>
+                <Text fontName="SMALL_MEDIUM" color={theme.text_04}>
                   Última atualização:
                 </Text>
                 <Text fontName="SMALL_MEDIUM" color={theme.text_01}>

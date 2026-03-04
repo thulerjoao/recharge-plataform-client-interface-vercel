@@ -25,11 +25,9 @@ export const CouponsContainer = styled.div`
       justify-content: space-between;
       align-items: center;
       padding: 24px;
-      background: ${({ theme }) => theme.background_01};
+      background: ${({ theme }) => theme.background_02};
       border-radius: 12px;
-      -webkit-box-shadow: 0px 0px 5px 2px rgba(7, 29, 35, 1);
-      -moz-box-shadow: 0px 0px 5px 2px rgba(7, 29, 35, 1);
-      box-shadow: 0px 0px 5px 2px rgba(7, 29, 35, 1);
+      border: 1px solid ${({ theme }) => theme.border_02};
 
       .titleSection {
         display: flex;
@@ -41,12 +39,10 @@ export const CouponsContainer = styled.div`
     .tabsSection {
       display: flex;
       gap: 8px;
-      background: ${({ theme }) => theme.background_01};
+      background: ${({ theme }) => theme.background_02};
       border-radius: 12px;
       padding: 8px;
-      -webkit-box-shadow: 0px 0px 5px 2px rgba(7, 29, 35, 1);
-      -moz-box-shadow: 0px 0px 5px 2px rgba(7, 29, 35, 1);
-      box-shadow: 0px 0px 5px 2px rgba(7, 29, 35, 1);
+      border: 1px solid ${({ theme }) => theme.border_02};
 
       .tabButton {
         flex: 1;
@@ -68,11 +64,9 @@ export const CouponsContainer = styled.div`
       justify-content: space-between;
       align-items: center;
       padding: 20px;
-      background: ${({ theme }) => theme.background_01};
+      background: ${({ theme }) => theme.background_02};
       border-radius: 12px;
-      -webkit-box-shadow: 0px 0px 5px 2px rgba(7, 29, 35, 1);
-      -moz-box-shadow: 0px 0px 5px 2px rgba(7, 29, 35, 1);
-      box-shadow: 0px 0px 5px 2px rgba(7, 29, 35, 1);
+      border: 1px solid ${({ theme }) => theme.border_02};
 
       .searchSection {
         width: 300px;
@@ -80,10 +74,20 @@ export const CouponsContainer = styled.div`
         align-items: center;
         position: relative;
 
+        input {
+          background: ${({ theme }) => theme.background_04};
+          border: 1px solid ${({ theme }) => theme.border_02};
+          color: ${({ theme }) => theme.text_01};
+
+          &::placeholder {
+            color: ${({ theme }) => theme.text_04} !important;
+          }
+        }
+
         .searchButton {
           width: 28px;
           height: 28px;
-          background-color: ${({ theme }) => theme.text_01};
+          background-color: ${({ theme }) => theme.background_04};
           border-radius: 8px;
           display: flex;
           justify-content: center;
@@ -109,9 +113,9 @@ export const CouponsContainer = styled.div`
           height: 32px;
           width: 140px;
           border-radius: 8px;
-          border: 2px solid ${({ theme }) => theme.border_01};
-          background: ${({ theme }) => theme.text_01};
-          color: ${({ theme }) => theme.border_01};
+          border: 1px solid ${({ theme }) => theme.border_02};
+          background: ${({ theme }) => theme.background_04};
+          color: ${({ theme }) => theme.text_01};
           font-size: 14px;
           cursor: pointer;
 
@@ -119,22 +123,26 @@ export const CouponsContainer = styled.div`
             outline: none;
             border-color: ${({ theme }) => theme.mainColor};
           }
+
+          option {
+            background: ${({ theme }) => theme.background_04};
+            color: ${({ theme }) => theme.text_01};
+          }
         }
       }
     }
 
     .tableSection {
-      background: ${({ theme }) => theme.background_01};
+      background: ${({ theme }) => theme.background_02};
       border-radius: 12px;
-      -webkit-box-shadow: 0px 0px 5px 2px rgba(7, 29, 35, 1);
-      -moz-box-shadow: 0px 0px 5px 2px rgba(7, 29, 35, 1);
-      box-shadow: 0px 0px 5px 2px rgba(7, 29, 35, 1);
+      border: 1px solid ${({ theme }) => theme.border_02};
       overflow: hidden;
 
       .tableHeader {
         display: grid;
         grid-template-columns: 2fr 2fr 1.2fr 1fr;
-        background: ${({ theme }) => theme.text_04};
+        background: ${({ theme }) => theme.background_04};
+        border-bottom: 1px solid ${({ theme }) => theme.border_02};
         padding: 16px 20px;
         gap: 16px;
 

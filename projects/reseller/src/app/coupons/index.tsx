@@ -149,7 +149,7 @@ const CouponsPage = ({
         </HeaderEnviroment>
       </div>
       <div className="mobile mobileHeader">
-        <Text align="center" fontName="LARGE_SEMI_BOLD">
+        <Text align="center" fontName="LARGE_SEMI_BOLD" color={theme.text_02}>
           CUPONS
         </Text>
       </div>
@@ -160,7 +160,7 @@ const CouponsPage = ({
             <Text fontName="LARGE_SEMI_BOLD" color={theme.text_01}>
               Gerenciamento de Cupons
             </Text>
-            <Text fontName="REGULAR_MEDIUM" color={theme.text_03}>
+            <Text fontName="REGULAR_MEDIUM" color={theme.text_04}>
               Gerencie todos os cupons da plataforma
             </Text>
           </div>
@@ -181,7 +181,7 @@ const CouponsPage = ({
             <Text
               fontName="REGULAR_SEMI_BOLD"
               align="center"
-              color={currentView === "all" ? theme.text_01 : theme.text_03}
+              color={currentView === "all" ? theme.text_02 : theme.text_04}
             >
               Todos os Cupons
             </Text>
@@ -193,7 +193,7 @@ const CouponsPage = ({
             <Text
               fontName="REGULAR_SEMI_BOLD"
               align="center"
-              color={currentView === "featured" ? theme.text_01 : theme.text_03}
+              color={currentView === "featured" ? theme.text_02 : theme.text_04}
             >
               Cupons para tela de Destaque
             </Text>
@@ -263,7 +263,11 @@ const CouponsPage = ({
         {(loadingCoupons ||
           (currentView === "featured" && loadingFeatured)) && (
           <div className="emptyState">
-            <Text align="center" fontName="REGULAR_MEDIUM" color="#666">
+            <Text
+              align="center"
+              fontName="REGULAR_MEDIUM"
+              color={theme.text_04}
+            >
               Carregando cupons...
             </Text>
           </div>
@@ -273,7 +277,11 @@ const CouponsPage = ({
           !(currentView === "featured" && loadingFeatured) &&
           (!displayCoupons || displayCoupons.length === 0) && (
             <div className="emptyState">
-              <Text align="center" fontName="REGULAR_MEDIUM" color="#666">
+              <Text
+                align="center"
+                fontName="REGULAR_MEDIUM"
+                color={theme.text_04}
+              >
                 {currentView === "all"
                   ? "Nenhum cupom encontrado"
                   : "Nenhum cupom em destaque"}
@@ -282,7 +290,7 @@ const CouponsPage = ({
                 <Text
                   align="center"
                   fontName="SMALL"
-                  color={theme.text_03}
+                  color={theme.text_04}
                   style={{ marginTop: "8px" }}
                 >
                   Adicione cupons da aba &quot;Todos os Cupons&quot;
@@ -347,7 +355,7 @@ const CouponsPage = ({
 
       {currentView === "all" && (
         <div style={{ marginTop: "16px", textAlign: "center" }}>
-          <Text fontName="TINY" color={theme.text_03}>
+          <Text fontName="TINY" color={theme.text_04}>
             Total: {coupons?.totalCoupons || 0} cupons encontrados
           </Text>
         </div>
@@ -355,7 +363,7 @@ const CouponsPage = ({
 
       {currentView === "featured" && (
         <div style={{ marginTop: "16px", textAlign: "center" }}>
-          <Text fontName="TINY" color={theme.text_03}>
+          <Text fontName="TINY" color={theme.text_04}>
             {featuredCoupons?.length || 0} cupons em destaque
           </Text>
         </div>
