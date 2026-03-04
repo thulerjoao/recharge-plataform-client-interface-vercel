@@ -120,6 +120,10 @@ export const ConfigPackagePage = styled.div`
                 border-color: ${({ theme }) => theme.pending};
                 box-shadow: 0 0 0 3px ${({ theme }) => theme.pending}40;
               }
+
+              &::placeholder {
+                color: ${({ theme }) => theme.text_04} !important;
+              }
             }
 
             .error-message {

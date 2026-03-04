@@ -591,7 +591,7 @@ const SecondaryProductPage = ({ slug, childSlug }: Props) => {
             </div>
             <div className="infoGrid">
               <div className="infoItem">
-                <Text fontName="SMALL_MEDIUM" color={theme.text_03}>
+                <Text fontName="SMALL_MEDIUM" color={theme.text_04}>
                   Quantidade de créditos:
                 </Text>
                 {isEditing ? (
@@ -612,6 +612,7 @@ const SecondaryProductPage = ({ slug, childSlug }: Props) => {
                     inputMode="numeric"
                     pattern="[0-9]*"
                     className={errors.amountCredits ? "error" : ""}
+                    placeholder="0"
                   />
                 ) : (
                   <Text fontName="SMALL_MEDIUM" color={theme.text_01}>
@@ -623,7 +624,7 @@ const SecondaryProductPage = ({ slug, childSlug }: Props) => {
                 )}
               </div>
               <div className="infoItem">
-                <Text fontName="SMALL_MEDIUM" color={theme.text_03}>
+                <Text fontName="SMALL_MEDIUM" color={theme.text_04}>
                   Definir como oferta:
                 </Text>
                 {isEditing ? (
@@ -646,7 +647,7 @@ const SecondaryProductPage = ({ slug, childSlug }: Props) => {
                 )}
               </div>
               <div className="infoItem">
-                <Text fontName="SMALL_MEDIUM" color={theme.text_03}>
+                <Text fontName="SMALL_MEDIUM" color={theme.text_04}>
                   Alterar status do pacote:
                 </Text>
                 {isEditing ? (
@@ -680,7 +681,7 @@ const SecondaryProductPage = ({ slug, childSlug }: Props) => {
             </Text> */}
             <div className="infoGrid">
               <div className="infoItem">
-                <Text fontName="SMALL_MEDIUM" color={theme.text_03}>
+                <Text fontName="SMALL_MEDIUM" color={theme.text_04}>
                   Valor do pacote:
                 </Text>
                 {isEditing ? (

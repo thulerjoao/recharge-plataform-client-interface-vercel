@@ -15,23 +15,25 @@ export const SalesInnerPageContainer = styled.div`
   }
 
   main {
-    background-color: ${({ theme }) => theme.background_01};
     margin-top: 96px;
     width: 100%;
     max-width: 852px;
     border-radius: 8px;
     padding: 16px;
-    -webkit-box-shadow: 0px 0px 5px 1px rgba(7, 29, 35, 1);
-    -moz-box-shadow: 0px 0px 5px 1px rgba(7, 29, 35, 1);
-    box-shadow: 0px 0px 5px 1px rgba(7, 29, 35, 1);
-    border: 1px solid ${({ theme }) => theme.border_01}80;
+    border: 1px solid ${({ theme }) => theme.border_02};
+    background-color: ${({ theme }) => theme.background_02};
     padding: 16px;
+
+    img {
+      border: 1px solid ${({ theme }) => theme.border_02};
+    }
 
     .top {
       display: flex;
       justify-content: space-between;
       padding-bottom: 16px;
       border-bottom: 1px solid ${({ theme }) => theme.border_01};
+      min-width: 0;
 
       .leftTop {
         display: flex;
@@ -52,6 +54,16 @@ export const SalesInnerPageContainer = styled.div`
       .rightTop {
         display: flex;
         flex-direction: column;
+        min-width: 0;
+        overflow: hidden;
+
+        h2,
+        h3,
+        p {
+          overflow: hidden;
+          text-overflow: ellipsis;
+          white-space: nowrap;
+        }
 
         h2 {
           margin-bottom: 8px;
@@ -87,6 +99,10 @@ export const SalesInnerPageContainer = styled.div`
           flex-direction: column;
           justify-content: space-between;
         }
+      }
+
+      .statusText {
+        text-shadow: 0px 0px 1px ${({ theme }) => theme.text_01};
       }
     }
 
