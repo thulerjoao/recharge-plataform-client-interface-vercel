@@ -126,7 +126,7 @@ const CarouselUpload: React.FC<CarouselUploadProps> = ({
         <Text fontName="LARGE_SEMI_BOLD" color={theme.text_01}>
           BANNER SUPERIOR PÁGINA HOME
         </Text>
-        <Text fontName="SMALL_MEDIUM" color={theme.text_03}>
+        <Text fontName="SMALL_MEDIUM" color={theme.text_04}>
           A imagem deve estar no formato .png, .jpg ou .jpeg, ter uma resolução
           mínima de 1280 x 540 e uma proporção de 21:9
         </Text>
@@ -141,7 +141,7 @@ const CarouselUpload: React.FC<CarouselUploadProps> = ({
               <Text
                 align="center"
                 fontName="REGULAR_MEDIUM"
-                color={theme.text_03}
+                color={theme.text_04}
               >
                 Nenhuma imagem adicionada
               </Text>
@@ -152,7 +152,7 @@ const CarouselUpload: React.FC<CarouselUploadProps> = ({
 
       <div className="thumbnailsSection">
         <div className="thumbnailsHeader">
-          <Text fontName="SMALL_MEDIUM" color={theme.text_03}>
+          <Text fontName="SMALL_MEDIUM" color={theme.text_04}>
             Imagens selecionadas ({displayCarouselImages.length}/5):
           </Text>
         </div>
@@ -210,10 +210,11 @@ const CarouselUpload: React.FC<CarouselUploadProps> = ({
             width={140}
             title="Cancelar"
             onClick={handleCancel}
-            // loading={carouselUpload.isUploading}
             disabled={carouselUpload.isUploading}
-            isNotSelected
-            // style={{ color: theme.text_01 }}
+            style={{
+              backgroundColor: theme.background_04,
+              color: theme.text_01,
+            }}
           />
           <Button
             rounded

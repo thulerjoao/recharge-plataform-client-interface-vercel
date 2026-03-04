@@ -1,6 +1,7 @@
 "use client";
 
 import Text from "@4miga/design-system/components/Text";
+import { useTheme } from "styled-components";
 import { useAuth } from "context/auth";
 import DefaultHeader from "public/components/defaultHeader";
 import HeaderEnviroment from "public/components/headerEnviroment";
@@ -10,6 +11,7 @@ import SocialNetworksSection from "../common/components/socialNetworksSection";
 import { SettingsPageContainer } from "./style";
 
 const Store = () => {
+  const theme = useTheme();
   const { store, fetchStore } = useAuth();
 
   return (
@@ -20,7 +22,7 @@ const Store = () => {
         </HeaderEnviroment>
       </div>
       <div className="mobile mobileHeader">
-        <Text align="center" fontName="LARGE_SEMI_BOLD">
+        <Text align="center" fontName="LARGE_SEMI_BOLD" color={theme.text_02}>
           LOJA
         </Text>
       </div>

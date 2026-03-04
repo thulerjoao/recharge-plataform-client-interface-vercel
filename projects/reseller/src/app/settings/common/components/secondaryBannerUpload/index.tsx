@@ -75,7 +75,7 @@ const SecondaryBannerUpload: React.FC<SecondaryBannerUploadProps> = ({
         <Text fontName="LARGE_SEMI_BOLD" color={theme.text_01}>
           BANNER INFERIOR PÁGINA HOME
         </Text>
-        <Text fontName="SMALL_MEDIUM" color={theme.text_03}>
+        <Text fontName="SMALL_MEDIUM" color={theme.text_04}>
           A imagem deve estar no formato .png, .jpg ou .jpeg, ter uma resolução
           mínima de 1280 x 540 e uma proporção de 21:9
         </Text>
@@ -96,7 +96,7 @@ const SecondaryBannerUpload: React.FC<SecondaryBannerUploadProps> = ({
             <Text
               align="center"
               fontName="REGULAR_MEDIUM"
-              color={theme.text_03}
+              color={theme.text_04}
             >
               Nenhum banner será exibido
             </Text>
@@ -120,7 +120,10 @@ const SecondaryBannerUpload: React.FC<SecondaryBannerUploadProps> = ({
             title="Cancelar"
             onClick={handleCancel}
             disabled={secondaryBannerUpload.isUploading}
-            isNotSelected
+            style={{
+              backgroundColor: theme.background_04,
+              color: theme.text_01,
+            }}
           />
           <Button
             rounded

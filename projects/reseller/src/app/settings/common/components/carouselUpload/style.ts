@@ -2,9 +2,9 @@ import styled from "styled-components";
 
 export const CarouselUploadContainer = styled.div`
   padding: 24px;
-  background: ${({ theme }) => theme.background_01};
+  background: ${({ theme }) => theme.background_02};
   border-radius: 12px;
-  box-shadow: 0px 0px 5px 2px rgba(7, 29, 35, 1);
+  border: 1px solid ${({ theme }) => theme.border_02};
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -16,7 +16,7 @@ export const CarouselUploadContainer = styled.div`
     flex-direction: column;
     gap: 8px;
     padding-bottom: 16px;
-    border-bottom: 2px solid ${({ theme }) => theme.text_04};
+    border-bottom: 1px solid ${({ theme }) => theme.border_01};
   }
 
   .carouselPreviewSection {
@@ -30,8 +30,9 @@ export const CarouselUploadContainer = styled.div`
       .emptyCarousel {
         padding: 60px 20px;
         text-align: center;
-        background: ${({ theme }) => theme.text_04}20;
+        background: ${({ theme }) => theme.background_04};
         border-radius: 8px;
+        border: 1px dashed ${({ theme }) => theme.border_02};
         width: 100%;
       }
     }
@@ -57,7 +58,7 @@ export const CarouselUploadContainer = styled.div`
         height: 90px;
         border-radius: 8px;
         overflow: hidden;
-        border: 2px solid ${({ theme }) => theme.text_04};
+        border: 1px solid ${({ theme }) => theme.border_02};
 
         .thumbnailImageWrapper {
           min-width: 100%;
@@ -72,7 +73,8 @@ export const CarouselUploadContainer = styled.div`
 
         .removeThumbButton {
           position: absolute;
-          background: ${({ theme }) => theme.background_03};
+          background: ${({ theme }) => theme.background_02};
+          border: 1px solid ${({ theme }) => theme.border_02};
           top: 4px;
           right: 4px;
           border: none;
@@ -96,8 +98,8 @@ export const CarouselUploadContainer = styled.div`
         width: 160px;
         height: 90px;
         border-radius: 8px;
-        border: 2px dashed ${({ theme }) => theme.text_04};
-        background: ${({ theme }) => theme.text_04}15;
+        border: 1px dashed ${({ theme }) => theme.border_02};
+        background: ${({ theme }) => theme.background_04};
         display: flex;
         flex-direction: column;
         align-items: center;
@@ -128,7 +130,7 @@ export const CarouselUploadContainer = styled.div`
     width: 100%;
     justify-content: center;
     padding-top: 16px;
-    border-top: 2px solid ${({ theme }) => theme.text_04};
+    border-top: 1px solid ${({ theme }) => theme.border_01};
     margin-top: 8px;
   }
 

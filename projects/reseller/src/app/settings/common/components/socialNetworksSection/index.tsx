@@ -149,7 +149,7 @@ const SocialNetworksSection: React.FC<SocialNetworksSectionProps> = ({
           <Text fontName="LARGE_SEMI_BOLD" color={theme.text_01}>
             INFORMAÇÕES DE CONTATO
           </Text>
-          <Text fontName="SMALL_MEDIUM" color={theme.text_03}>
+          <Text fontName="SMALL_MEDIUM" color={theme.text_04}>
             Configure as informações de contato para suporte
           </Text>
         </div>
@@ -203,7 +203,7 @@ const SocialNetworksSection: React.FC<SocialNetworksSectionProps> = ({
           <Text fontName="LARGE_SEMI_BOLD" color={theme.text_01}>
             REDES SOCIAIS
           </Text>
-          <Text fontName="SMALL_MEDIUM" color={theme.text_03}>
+          <Text fontName="SMALL_MEDIUM" color={theme.text_04}>
             Configure as redes sociais da sua loja
           </Text>
         </div>
@@ -228,7 +228,7 @@ const SocialNetworksSection: React.FC<SocialNetworksSectionProps> = ({
               rel="noopener noreferrer"
               className="socialLink"
             >
-              <Text margin="8px 0 0 16px" fontName="TINY" color={theme.text_03}>
+              <Text margin="8px 0 0 16px" fontName="TINY" color={theme.text_04}>
                 http://instagram.com/{instagram.replace("@", "")}
               </Text>
             </a>
@@ -253,7 +253,7 @@ const SocialNetworksSection: React.FC<SocialNetworksSectionProps> = ({
               rel="noopener noreferrer"
               className="socialLink"
             >
-              <Text margin="8px 0 0 16px" fontName="TINY" color={theme.text_03}>
+              <Text margin="8px 0 0 16px" fontName="TINY" color={theme.text_04}>
                 http://facebook.com/{facebook.replace("@", "")}
               </Text>
             </a>
@@ -278,7 +278,7 @@ const SocialNetworksSection: React.FC<SocialNetworksSectionProps> = ({
               rel="noopener noreferrer"
               className="socialLink"
             >
-              <Text margin="8px 0 0 16px" fontName="TINY" color={theme.text_03}>
+              <Text margin="8px 0 0 16px" fontName="TINY" color={theme.text_04}>
                 http://tiktok.com/{tiktok.replace("@", "")}
               </Text>
             </a>
@@ -294,8 +294,11 @@ const SocialNetworksSection: React.FC<SocialNetworksSectionProps> = ({
             width={140}
             title="Cancelar"
             onClick={handleCancel}
-            isNotSelected
             disabled={isSaving}
+            style={{
+              backgroundColor: theme.background_04,
+              color: theme.text_01,
+            }}
           />
           <Button
             rounded
