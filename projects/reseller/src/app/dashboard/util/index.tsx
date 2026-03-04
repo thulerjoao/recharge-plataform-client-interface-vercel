@@ -259,7 +259,7 @@ const Dashboard = () => {
           </HeaderEnviroment>
         </div>
         <div className="mobile mobileHeader">
-          <Text align="center" fontName="LARGE_SEMI_BOLD">
+          <Text color={theme.text_02} align="center" fontName="LARGE_SEMI_BOLD">
             DASHBOARD
           </Text>
         </div>

@@ -107,25 +107,25 @@ const MobileNavbar = ({ openMenu }: Props) => {
         onClick={() => handleClick("dashboard")}
         className={handleCheck("dashboard") && "selected"}
       >
-        {handleCheck("dashboard") ? <HomeSelected /> : <Home />}
+        {!handleCheck("dashboard") ? <HomeSelected /> : <Home />}
       </span>
       <span
         onClick={() => handleClick("products")}
         className={handleCheck("products") && "selected"}
       >
-        {handleCheck("products") ? <ProductsSelected /> : <Products />}
+        {!handleCheck("products") ? <ProductsSelected /> : <Products />}
       </span>
       <span
         onClick={() => handleClick("orders")}
         className={handleCheck("orders") && "selected"}
       >
-        {handleCheck("orders") ? <OrdersSelected /> : <Orders />}
+        {!handleCheck("orders") ? <OrdersSelected /> : <Orders />}
       </span>
       <span
         onClick={() => handleClick("customers")}
         className={handleCheck("customers") && "selected"}
       >
-        {handleCheck("customers") ? <CustomersSelected /> : <Customers />}
+        {!handleCheck("customers") ? <CustomersSelected /> : <Customers />}
       </span>
       <span
         ref={moreMenuRef}
@@ -141,7 +141,7 @@ const MobileNavbar = ({ openMenu }: Props) => {
                 onClick={() => handleClick(item.route)}
                 className={handleCheck(item.route) && "selected"}
               >
-                {handleCheck(item.route) ? (
+                {!handleCheck(item.route) ? (
                   <item.iconSelected />
                 ) : (
                   <item.icon />
