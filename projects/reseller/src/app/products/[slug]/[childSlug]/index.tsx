@@ -757,6 +757,10 @@ const SecondaryProductPage = ({ slug, childSlug }: Props) => {
                     rounded
                     disabled={loading}
                     isNotSelected={loading}
+                    style={{
+                      backgroundColor: theme.background_04,
+                      color: theme.text_01,
+                    }}
                   />
                   <Button
                     className={
