@@ -1,0 +1,50 @@
+import styled from "styled-components";
+
+export const NewPasswordContainer = styled.form`
+  display: flex;
+  flex-direction: column;
+  padding: 0 24px;
+  width: 100%;
+  align-items: center;
+
+  .keepConnected {
+    margin-top: 24px;
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    user-select: none;
+
+    .check {
+      display: flex;
+      cursor: pointer;
+
+      .checkIcon {
+        min-width: 16px;
+        min-height: 16px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        border: 1px solid ${({ theme }) => theme.text_01};
+        border-radius: 2px;
+
+        .fill {
+          width: 100%;
+          height: 100%;
+          border-radius: 2px;
+          background-color: ${({ theme }) => theme.text_01};
+          border: 3px solid ${({ theme }) => theme.background_01};
+        }
+      }
+    }
+
+    .forgotPassword {
+      width: auto;
+      cursor: pointer;
+    }
+  }
+`;
+
+export const ErrorMessage = styled.span`
+  height: 0px;
+  width: 100%;
+`;

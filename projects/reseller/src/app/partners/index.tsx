@@ -97,7 +97,11 @@ const PartnersPage = ({
         </HeaderEnviroment>
       </div>
       <div className="mobile mobileHeader">
-        <Text align="center" fontName="LARGE_SEMI_BOLD">
+        <Text
+          align="center"
+          fontName="LARGE_SEMI_BOLD"
+          color={theme.text_02}
+        >
           PARCEIROS
         </Text>
       </div>
@@ -107,7 +111,7 @@ const PartnersPage = ({
             <Text fontName="LARGE_SEMI_BOLD" color={theme.text_01}>
               Gerenciamento de Parceiros
             </Text>
-            <Text fontName="REGULAR_MEDIUM" color={theme.text_03}>
+            <Text fontName="REGULAR_MEDIUM" color={theme.text_04}>
               Gerencie todos os parceiros de sua loja
             </Text>
           </div>
@@ -164,7 +168,11 @@ const PartnersPage = ({
             {!loadingInfluencers &&
               (!influencers?.data || influencers.data.length === 0) && (
                 <div className="emptyState">
-                  <Text align="center" fontName="REGULAR_MEDIUM" color="#666">
+                  <Text
+                    align="center"
+                    fontName="REGULAR_MEDIUM"
+                    color={theme.text_04}
+                  >
                     Nenhum parceiro encontrado
                   </Text>
                 </div>
@@ -191,7 +199,7 @@ const PartnersPage = ({
           </section>
         ) : (
           <div style={{ textAlign: "center", padding: "50px" }}>
-            <Text fontName="REGULAR_MEDIUM" color={theme.text_03}>
+            <Text fontName="REGULAR_MEDIUM" color={theme.text_04}>
               Carregando parceiros...
             </Text>
           </div>
@@ -205,7 +213,7 @@ const PartnersPage = ({
         />
       )}
       <div style={{ marginTop: "16px", textAlign: "center" }}>
-        <Text fontName="TINY" color={theme.text_03}>
+        <Text fontName="TINY" color={theme.text_04}>
           Número total: {influencers?.totalInfluencers || 0} parceiros
         </Text>
       </div>

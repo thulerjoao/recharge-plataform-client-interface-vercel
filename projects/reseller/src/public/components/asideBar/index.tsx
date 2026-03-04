@@ -15,7 +15,6 @@ import Home from "../../icons/Home.svg";
 import HomeSelected from "../../icons/HomeSelected.svg";
 import Influencer from "../../icons/Influencer.svg";
 import InfluencerSelected from "../../icons/InfluencerSelected.svg";
-import LogoDesktop from "../../icons/LogoDesktop.svg";
 import LogoTablet from "../../icons/LogoTablet.svg";
 import Logout from "../../icons/Logout.svg";
 import Orders from "../../icons/Orders.svg";
@@ -44,8 +43,14 @@ const AsideBar = () => {
     <AsideBarContainer>
       <section className="CenterContent">
         <aside className="mainContent">
-          <span className="desktop" onClick={() => route.push("/dashboard")}>
-            <LogoDesktop />
+          <span
+            className="desktop desktopLogo"
+            onClick={() => route.push("/dashboard")}
+          >
+            <LogoTablet />
+            <Text margin="0 0 0 16px" fontName="REGULAR_SEMI_BOLD">
+              Painel de <br /> Recargas
+            </Text>
           </span>
 
           <span className="tablet" onClick={() => route.push("/dashboard")}>
@@ -58,7 +63,7 @@ const AsideBar = () => {
             style={{ margin: "40px 0 0px 0" }}
           >
             <span className="inconEnviroment">
-              {handleCheck("dashboard") ? <HomeSelected /> : <Home />}
+              {!handleCheck("dashboard") ? <HomeSelected /> : <Home />}
             </span>
             <Text
               color={handleCheck("dashboard") && theme.background_01}
@@ -75,7 +80,7 @@ const AsideBar = () => {
             style={{ margin: "16px 0 16px 0" }}
           >
             <span className="inconEnviroment">
-              {handleCheck("products") ? <ProductsSelected /> : <Products />}
+              {!handleCheck("products") ? <ProductsSelected /> : <Products />}
             </span>
             <Text
               color={handleCheck("products") && theme.background_01}
@@ -92,7 +97,7 @@ const AsideBar = () => {
             className={`menuOption ${handleCheck("orders") && "selected"}`}
           >
             <span className="inconEnviroment">
-              {handleCheck("orders") ? <OrdersSelected /> : <Orders />}
+              {!handleCheck("orders") ? <OrdersSelected /> : <Orders />}
             </span>
             <Text
               color={handleCheck("orders") && theme.background_01}
@@ -109,7 +114,11 @@ const AsideBar = () => {
             className={`menuOption ${handleCheck("customers") && "selected"}`}
           >
             <span className="inconEnviroment">
-              {handleCheck("customers") ? <CustomersSelected /> : <Customers />}
+              {!handleCheck("customers") ? (
+                <CustomersSelected />
+              ) : (
+                <Customers />
+              )}
             </span>
             <Text
               color={handleCheck("customers") && theme.background_01}
@@ -126,7 +135,7 @@ const AsideBar = () => {
             className={`menuOption ${handleCheck("partners") && "selected"}`}
           >
             <span className="inconEnviroment">
-              {handleCheck("partners") ? (
+              {!handleCheck("partners") ? (
                 <InfluencerSelected />
               ) : (
                 <Influencer />
@@ -147,7 +156,7 @@ const AsideBar = () => {
             className={`menuOption ${handleCheck("coupons") && "selected"}`}
           >
             <span className="inconEnviroment">
-              {handleCheck("coupons") ? <DiscountSelected /> : <Discount />}
+              {!handleCheck("coupons") ? <DiscountSelected /> : <Discount />}
             </span>
             <Text
               color={handleCheck("coupons") && theme.background_01}
@@ -164,7 +173,7 @@ const AsideBar = () => {
             className={`menuOption ${handleCheck("admin") && "selected"}`}
           >
             <span className="inconEnviroment">
-              {handleCheck("admin") ? <AdminSelected /> : <Admin />}
+              {!handleCheck("admin") ? <AdminSelected /> : <Admin />}
             </span>
             <Text
               color={handleCheck("admin") && theme.background_01}
@@ -181,7 +190,7 @@ const AsideBar = () => {
             className={`menuOption ${handleCheck("settings") && "selected"}`}
           >
             <span className="inconEnviroment">
-              {handleCheck("settings") ? <GearSelected /> : <Gear />}
+              {!handleCheck("settings") ? <GearSelected /> : <Gear />}
             </span>
             <Text
               color={handleCheck("settings") && theme.background_01}

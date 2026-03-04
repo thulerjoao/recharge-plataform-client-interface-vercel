@@ -40,6 +40,26 @@ export const bigoColors = {
   whatsappBackground: "#25D366",
 };
 
+export const lavixColors = {
+  background_01: "#071116",
+  background_02: "#071D23",
+  background_03: "#010a0e99",
+  background_04: "#eff1f1",
+  background_05: "rgb(255, 255, 239)",
+  background_06: "#00000099",
+  text_01: "#FFFFFF",
+  text_02: "#010a0e",
+  text_03: "#76B4C3",
+  text_04: "#8A979B",
+  border_01: "#525F63",
+  border_02: "rgb(176, 199, 199)",
+  mainColor: "#9c225d",
+  approved: "#01FF0B",
+  pending: "#FFFF00",
+  refused: "#FF6565",
+  whatsappBackground: "#25D366",
+};
+
 export const zeColors = {
   background_01: "rgb(25, 24, 12)",
   background_02: "rgb(36, 36, 36)",
@@ -61,21 +81,21 @@ export const zeColors = {
 };
 
 export const resellerColors = {
-  background_01: "#071116",
-  background_02: "#071D23",
-  background_03: "#010a0e99",
+  background_01: "rgb(226, 230, 235)",
+  background_02: "#ffffff",
+  background_03: "#23282c",
   background_04: "#eff1f1",
   background_05: "rgb(255, 255, 239)",
   background_06: "#00000099",
-  text_01: "#FFFFFF",
-  text_02: "#010a0e",
+  text_01: "#010a0e",
+  text_02: "#FFFFFF",
   text_03: "#76B4C3",
   text_04: "#8A979B",
-  border_01: "#525F63",
+  border_01: "#e3e7ed",
   border_02: "rgb(176, 199, 199)",
-  mainColor: "#00C8FF",
-  approved: "#01FF0B",
-  pending: "#FFFF00",
+  mainColor: "#2a84d4",
+  approved: "#25D366",
+  pending: "#ffc800",
   refused: "#FF6565",
   whatsappBackground: "#25D366",
 };

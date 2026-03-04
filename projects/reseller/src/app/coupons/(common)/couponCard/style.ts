@@ -30,6 +30,10 @@ export const CouponCardContainer = styled.div`
     border-bottom: none;
   }
 
+  &.withoutAction {
+    grid-template-columns: 2fr 2fr 1.2fr;
+  }
+
   .tableCell {
     display: flex;
     flex-direction: column;
@@ -86,6 +90,10 @@ export const CouponCardContainer = styled.div`
   /* Breakpoint para telas médias (1200px e menores) */
   @media (max-width: 1200px) {
     grid-template-columns: 2fr 2fr 1fr 1.2fr;
+
+    &.withoutAction {
+      grid-template-columns: 2fr 2fr 1fr;
+    }
     gap: 12px;
     padding: 14px 16px;
 
@@ -108,6 +116,10 @@ export const CouponCardContainer = styled.div`
   /* Breakpoint para tablets (768px e menores) */
   @media (max-width: 768px) {
     grid-template-columns: 2fr 2fr 1fr 1.2fr;
+
+    &.withoutAction {
+      grid-template-columns: 2fr 2fr 1fr;
+    }
     gap: 10px;
     padding: 12px 16px;
 

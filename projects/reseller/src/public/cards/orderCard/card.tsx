@@ -52,7 +52,7 @@ const OrderCard = ({ order }: OrderCardProps) => {
             nowrap
             align="end"
             color={handleStatusColor(order.orderStatus)}
-            fontName="SMALL"
+            fontName="REGULAR_MEDIUM"
           >
             {handleOrderStatus(order.orderStatus)}
           </Text>

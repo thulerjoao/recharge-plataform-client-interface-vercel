@@ -5,7 +5,8 @@ export const DefaultHeaderContainer = styled.header`
   width: 100%;
   display: flex;
   align-items: center;
-  background-color: ${({ theme }) => theme.background_03};
+  background-color: ${({ theme }) => theme.background_01};
+  border-bottom: 1px solid ${({ theme }) => theme.border_02};
   position: relative;
   z-index: 10;
 

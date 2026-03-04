@@ -22,11 +22,9 @@ export const CouponSalesContainer = styled.div`
 
     .headerSection {
       padding: 24px;
-      background: ${({ theme }) => theme.background_01};
+      background: ${({ theme }) => theme.background_02};
       border-radius: 12px;
-      -webkit-box-shadow: 0px 0px 5px 2px rgba(7, 29, 35, 1);
-      -moz-box-shadow: 0px 0px 5px 2px rgba(7, 29, 35, 1);
-      box-shadow: 0px 0px 5px 2px rgba(7, 29, 35, 1);
+      border: 1px solid ${({ theme }) => theme.border_02};
       display: flex;
       justify-content: space-between;
       align-items: center;
@@ -42,25 +40,22 @@ export const CouponSalesContainer = styled.div`
     }
 
     .tableSection {
-      background: ${({ theme }) => theme.background_01};
+      background: ${({ theme }) => theme.background_02};
       border-radius: 12px;
-      -webkit-box-shadow: 0px 0px 5px 2px rgba(7, 29, 35, 1);
-      -moz-box-shadow: 0px 0px 5px 2px rgba(7, 29, 35, 1);
-      box-shadow: 0px 0px 5px 2px rgba(7, 29, 35, 1);
+      border: 1px solid ${({ theme }) => theme.border_02};
       overflow: hidden;
 
       .tableHeader {
         display: grid;
-        grid-template-columns: 2fr 2fr 0.4fr;
-        background: ${({ theme }) => theme.pending}10;
-        border: 1px solid ${({ theme }) => theme.pending}30;
-        border-radius: 12px 12px 0 0;
+        grid-template-columns: 2fr 2fr 1fr;
+        background: ${({ theme }) => theme.background_04};
+        border-bottom: 1px solid ${({ theme }) => theme.border_02};
         padding: 16px 20px;
         gap: 16px;
 
         .tableCell {
           font-weight: 600;
-          color: ${({ theme }) => theme.pending};
+          color: ${({ theme }) => theme.text_01};
           font-size: 14px;
         }
       }

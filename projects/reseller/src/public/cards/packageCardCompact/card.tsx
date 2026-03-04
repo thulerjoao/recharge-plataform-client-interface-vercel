@@ -1,10 +1,8 @@
 import Text from "@4miga/design-system/components/Text";
 import { useTheme } from "styled-components";
-import Image from "next/image";
 import { PackageType } from "types/productTypes";
 import { formatPrice } from "utils/formatPrice";
-import Offer from "./img/Offer.png";
-import DiamondIcon from "./img/UniDiamond.png";
+
 import { PackageCardCompactContainer } from "./style";
 
 interface PackageCardProps {
@@ -33,24 +31,15 @@ const PackageCardCompact = ({
       paymentPage={paymentPage}
     >
       <div className="diamondContainer">
-        <Text tag="h2" fontName="LARGE_SEMI_BOLD" color={theme.text_02}>
+        <Text tag="h2" fontName="LARGE_SEMI_BOLD" color={theme.text_01}>
           {formatNumber(item.amountCredits)}
         </Text>
-        <figure>
-          <Image
-            src={DiamondIcon}
-            alt={`Ícone de diamante - ${item.amountCredits} ${item.amountCredits > 1 ? "diamantes" : "diamante"}`}
-            height={50}
-            width={40}
-            quality={75}
-          />
-        </figure>
       </div>
       <Text
         className="diamondText desktop"
         fontName="SMALL_MEDIUM"
         align="center"
-        color={theme.background_01}
+        color={theme.text_01}
       >
         {item.amountCredits > 1 ? "Diamantes Bigo" : "Diamante Bigo"}
       </Text>
@@ -58,7 +47,7 @@ const PackageCardCompact = ({
         className="diamondText mobile"
         fontName="SMALL_MEDIUM"
         align="center"
-        color={theme.background_01}
+        color={theme.text_01}
       >
         {item.amountCredits > 1 ? "Diamantes" : "Diamante"}
       </Text>
@@ -67,7 +56,7 @@ const PackageCardCompact = ({
           <Text
             className="basePriceDiscount"
             fontName="TINY"
-            color={theme.text_04}
+            color={theme.text_01}
             style={{ textDecoration: "line-through" }}
           >
             R$ {formatPrice(item.basePrice)}
@@ -79,7 +68,7 @@ const PackageCardCompact = ({
           tag="h4"
           fontName="TINY_MEDIUM"
           style={{ width: "16px" }}
-          color={theme.background_01}
+          color={theme.text_01}
         >
           R$
         </Text>
@@ -90,21 +79,22 @@ const PackageCardCompact = ({
           tag="h3"
           fontName="LARGE_MEDIUM"
           style={{ width: "auto" }}
-          color={theme.background_01}
+          color={theme.text_01}
         >
           {formatPrice(valueWithDicount ? +valueWithDicount : item.basePrice)}
         </Text>
       </div>
       {item.isOffer && (
-        <figure className="offerContainer">
-          <Image
-            src={Offer}
-            alt={`Badge de oferta especial - ${item.name}`}
-            height={100}
-            width={100}
-            quality={75}
-          />
-        </figure>
+        <div className="offerTextContainer">
+          <Text
+            tag="h2"
+            align="center"
+            fontName="SUPER_TINY_SEMI_BOLD"
+            color={theme.text_02}
+          >
+            Em Oferta
+          </Text>
+        </div>
       )}
     </PackageCardCompactContainer>
   );

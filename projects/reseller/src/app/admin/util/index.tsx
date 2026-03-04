@@ -184,7 +184,7 @@ const AdmPage = () => {
         </HeaderEnviroment>
       </div>
       <div className="mobile mobileHeader">
-        <Text align="center" fontName="LARGE_SEMI_BOLD">
+        <Text align="center" fontName="LARGE_SEMI_BOLD" color={theme.text_02}>
           ADMINISTRAÇÃO
         </Text>
       </div>
@@ -197,7 +197,7 @@ const AdmPage = () => {
                 <Text fontName="LARGE_SEMI_BOLD" color={theme.text_01}>
                   Administradores Atuais
                 </Text>
-                <Text fontName="REGULAR_MEDIUM" color={theme.text_03}>
+                <Text fontName="REGULAR_MEDIUM" color={theme.text_04}>
                   Lista de todos os administradores da loja
                 </Text>
               </div>
@@ -209,7 +209,7 @@ const AdmPage = () => {
                   <Text
                     align="center"
                     fontName="REGULAR_MEDIUM"
-                    color={theme.text_03}
+                    color={theme.text_04}
                   >
                     Nenhum administrador cadastrado
                   </Text>
@@ -277,7 +277,7 @@ const AdmPage = () => {
                 <Text fontName="LARGE_SEMI_BOLD" color={theme.text_01}>
                   Promover Usuário para Administrador
                 </Text>
-                <Text fontName="REGULAR_MEDIUM" color={theme.text_03}>
+                <Text fontName="REGULAR_MEDIUM" color={theme.text_04}>
                   Selecione um usuário para promover
                 </Text>
               </div>
@@ -320,7 +320,7 @@ const AdmPage = () => {
                   searchResults.length === 0 &&
                   searchTerm.length >= 2 && (
                     <div className="noResults">
-                      <Text fontName="SMALL" color={theme.text_03}>
+                      <Text fontName="SMALL" color={theme.text_04}>
                         Nenhum usuário encontrado
                       </Text>
                     </div>

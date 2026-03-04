@@ -88,8 +88,13 @@ const CouponCard = ({
     onClick(coupon.id);
   };
 
+  const showActionButton = Boolean(getButtonText());
+
   return (
-    <CouponCardContainer onClick={handleCardClick}>
+    <CouponCardContainer
+      onClick={handleCardClick}
+      className={showActionButton ? undefined : "withoutAction"}
+    >
       <div className="tableCell">
         {coupon.isFirstPurchase && (
           <span className="firstPurchaseBadge">1ª Compra</span>
@@ -105,7 +110,7 @@ const CouponCard = ({
           {getDiscountText(coupon)}
         </Text>
         {coupon.minOrderAmount && (
-          <Text fontName="SMALL" color={theme.text_03}>
+          <Text fontName="SMALL" color={theme.text_04}>
             Min - R$ {formatPrice(Number(coupon.minOrderAmount))}
           </Text>
         )}
@@ -123,24 +128,29 @@ const CouponCard = ({
           </Text>
         </div>
       </div>
-      <div className="tableCell actionCell" onClick={handleActionClick}>
-        <Button
-          title={getButtonText()}
-          onClick={handleActionClick}
-          width={getButtonWidth()}
-          height={28}
-          rounded
-          loading={isLoading}
-          style={
-            (currentView === "all" && isFeatured) || currentView === "featured"
-              ? {
-                  backgroundColor: theme.refused,
-                  color: theme.text_01,
-                }
-              : undefined
-          }
-        />
-      </div>
+      {showActionButton && (
+        <div className="tableCell actionCell" onClick={handleActionClick}>
+          <Button
+            title={getButtonText()}
+            onClick={handleActionClick}
+            width={getButtonWidth()}
+            height={28}
+            rounded
+            loading={isLoading}
+            style={
+              (currentView === "all" && isFeatured) ||
+              currentView === "featured"
+                ? {
+                    backgroundColor: theme.refused,
+                    color: theme.text_02,
+                  }
+                : {
+                    color: theme.text_02,
+                  }
+            }
+          />
+        </div>
+      )}
     </CouponCardContainer>
   );
 };

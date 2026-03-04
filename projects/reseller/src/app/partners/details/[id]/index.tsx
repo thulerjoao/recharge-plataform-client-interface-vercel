@@ -249,7 +249,12 @@ const InfluencerDetails = ({ influencerId }: InfluencerDetailsProps) => {
         </HeaderEnviroment>
       </div>
       <div className="mobile mobileHeader">
-        <Text nowrap align="center" fontName="LARGE_SEMI_BOLD">
+        <Text
+          nowrap
+          align="center"
+          fontName="LARGE_SEMI_BOLD"
+          color={theme.text_02}
+        >
           DETALHES PARCEIRO
         </Text>
       </div>
@@ -296,7 +301,7 @@ const InfluencerDetails = ({ influencerId }: InfluencerDetailsProps) => {
             </div>
             <div className="infoGrid">
               <div className="infoItem">
-                <Text fontName="SMALL_MEDIUM" color={theme.text_03}>
+                <Text fontName="SMALL_MEDIUM" color={theme.text_04}>
                   Nome:
                 </Text>
                 {isEditing ? (
@@ -317,7 +322,7 @@ const InfluencerDetails = ({ influencerId }: InfluencerDetailsProps) => {
                 )}
               </div>
               <div className="infoItem">
-                <Text fontName="SMALL_MEDIUM" color={theme.text_03}>
+                <Text fontName="SMALL_MEDIUM" color={theme.text_04}>
                   E-mail:
                 </Text>
                 {isEditing ? (
@@ -338,7 +343,7 @@ const InfluencerDetails = ({ influencerId }: InfluencerDetailsProps) => {
                 )}
               </div>
               <div className="infoItem">
-                <Text fontName="SMALL_MEDIUM" color={theme.text_03}>
+                <Text fontName="SMALL_MEDIUM" color={theme.text_04}>
                   Telefone:
                 </Text>
                 {isEditing ? (
@@ -379,7 +384,7 @@ const InfluencerDetails = ({ influencerId }: InfluencerDetailsProps) => {
             </div>
             <div className="infoGrid">
               <div className="infoItem">
-                <Text fontName="SMALL_MEDIUM" color={theme.text_03}>
+                <Text fontName="SMALL_MEDIUM" color={theme.text_04}>
                   Tipo da chave PIX:
                 </Text>
                 {isEditing ? (
@@ -406,7 +411,7 @@ const InfluencerDetails = ({ influencerId }: InfluencerDetailsProps) => {
                 )}
               </div>
               <div className="infoItem">
-                <Text fontName="SMALL_MEDIUM" color={theme.text_03}>
+                <Text fontName="SMALL_MEDIUM" color={theme.text_04}>
                   Chave PIX:
                 </Text>
                 {isEditing ? (
@@ -501,7 +506,10 @@ const InfluencerDetails = ({ influencerId }: InfluencerDetailsProps) => {
                     height={36}
                     rounded
                     disabled={loading}
-                    // isNotSelected
+                    style={{
+                      backgroundColor: theme.background_04,
+                      color: theme.text_01,
+                    }}
                   />
                   <Button
                     title="SALVAR"
@@ -555,14 +563,14 @@ const InfluencerDetails = ({ influencerId }: InfluencerDetailsProps) => {
                       R${" "}
                       {formatPrice(Number(getCurrentMonthSales()!.totalSales))}
                     </Text>
-                    <Text fontName="SMALL_MEDIUM" color={theme.text_03}>
+                    <Text fontName="SMALL_MEDIUM" color={theme.text_04}>
                       {getMonthName(getCurrentMonthSales()!.month)}{" "}
                       {getCurrentMonthSales()!.year}
                     </Text>
                   </div>
                 ) : (
                   <div className="noSales">
-                    <Text fontName="REGULAR_MEDIUM" color={theme.text_03}>
+                    <Text fontName="REGULAR_MEDIUM" color={theme.text_04}>
                       Nenhuma venda registrada este mês
                     </Text>
                   </div>
@@ -594,7 +602,7 @@ const InfluencerDetails = ({ influencerId }: InfluencerDetailsProps) => {
                   </div>
                 ) : (
                   <div className="noSales">
-                    <Text fontName="REGULAR_MEDIUM" color={theme.text_03}>
+                    <Text fontName="REGULAR_MEDIUM" color={theme.text_04}>
                       Nenhuma venda registrada em meses anteriores
                     </Text>
                   </div>
@@ -617,7 +625,7 @@ const InfluencerDetails = ({ influencerId }: InfluencerDetailsProps) => {
                 <Text fontName="LARGE_SEMI_BOLD" color={theme.pending}>
                   {influencer.coupons.length} cupons ativos
                 </Text>
-                <Text fontName="SMALL_MEDIUM" color={theme.text_03}>
+                <Text fontName="SMALL_MEDIUM" color={theme.text_04}>
                   Total de cupons cadastrados
                 </Text>
                 <div className="clickIndicator">
@@ -646,7 +654,7 @@ const InfluencerDetails = ({ influencerId }: InfluencerDetailsProps) => {
             </Text>
             <div className="infoGrid">
               <div className="infoItem">
-                <Text fontName="SMALL_MEDIUM" color={theme.text_03}>
+                <Text fontName="SMALL_MEDIUM" color={theme.text_04}>
                   ID do parceiro:
                 </Text>
                 <Text fontName="SMALL_MEDIUM" color={theme.text_01}>
@@ -654,7 +662,7 @@ const InfluencerDetails = ({ influencerId }: InfluencerDetailsProps) => {
                 </Text>
               </div>
               <div className="infoItem">
-                <Text fontName="SMALL_MEDIUM" color={theme.text_03}>
+                <Text fontName="SMALL_MEDIUM" color={theme.text_04}>
                   ID da loja:
                 </Text>
                 <Text fontName="SMALL_MEDIUM" color={theme.text_01}>
@@ -662,7 +670,7 @@ const InfluencerDetails = ({ influencerId }: InfluencerDetailsProps) => {
                 </Text>
               </div>
               <div className="infoItem">
-                <Text fontName="SMALL_MEDIUM" color={theme.text_03}>
+                <Text fontName="SMALL_MEDIUM" color={theme.text_04}>
                   Data de cadastro:
                 </Text>
                 <Text fontName="SMALL_MEDIUM" color={theme.text_01}>
@@ -670,7 +678,7 @@ const InfluencerDetails = ({ influencerId }: InfluencerDetailsProps) => {
                 </Text>
               </div>
               <div className="infoItem">
-                <Text fontName="SMALL_MEDIUM" color={theme.text_03}>
+                <Text fontName="SMALL_MEDIUM" color={theme.text_04}>
                   Última atualização:
                 </Text>
                 <Text fontName="SMALL_MEDIUM" color={theme.text_01}>

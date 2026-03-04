@@ -13,6 +13,12 @@ export const AsideBarContainer = styled.div`
     display: none;
   }
 
+  .desktopLogo {
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+  }
+
   .inconEnviroment {
     display: flex;
     align-items: center;
@@ -29,6 +35,7 @@ export const AsideBarContainer = styled.div`
     padding: 0 40px;
 
     .mainContent {
+      /* background-color: ${({ theme }) => theme.background_02}; */
       height: 100vh;
       width: 232px;
       padding: 16px 0;

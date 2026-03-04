@@ -40,7 +40,7 @@ interface CouponsProviderData {
   hasLoadedFeatured: boolean;
   loadingFeaturedAction: Set<string>;
   getFeaturedCoupons: () => Promise<void>;
-  addToFeatured: (couponId: string) => Promise<void>;
+  addToFeatured: (couponId: string, coupon?: CouponType) => Promise<void>;
   removeFromFeatured: (couponId: string) => Promise<void>;
   updateCoupon: (updatedCoupon: CouponType) => void;
 }
@@ -122,11 +122,12 @@ export const CouponsProvider = ({ children }: CouponsProviderProps) => {
     }
   };
 
-  const addToFeatured = async (couponId: string) => {
+  const addToFeatured = async (couponId: string, couponData?: CouponType) => {
     setLoadingFeaturedAction((prev) => new Set(prev).add(couponId));
     try {
       await connectionAPIPost(`/coupon/featured`, { couponId }, apiUrl);
-      const coupon = coupons?.data?.find((c) => c.id === couponId);
+      const coupon =
+        couponData ?? coupons?.data?.find((c) => c.id === couponId);
       if (coupon) {
         setFeaturedCoupons((prev) => {
           if (!prev.some((c) => c.id === couponId)) {

@@ -1,0 +1,69 @@
+import Text from "@4miga/design-system/components/Text";
+import Image from "next/image";
+import { useTheme } from "styled-components";
+import { useRouter } from "next/navigation";
+import { OrderType } from "types/orderType";
+import { formatDate } from "utils/formatDate";
+import { handleOrderStatus, handleStatusColor } from "utils/handleStatus";
+import { OrderCardContainer } from "./style";
+import { formatPrice } from "utils/formatPrice";
+
+interface OrderCardProps {
+  order: OrderType;
+}
+
+const OrderCard = ({ order }: OrderCardProps) => {
+  const theme = useTheme();
+  const route = useRouter();
+  const handleSeeMore = () => {
+    sessionStorage.setItem("order", JSON.stringify(order));
+    route.push(`/orders/${order.id}`);
+  };
+
+  return (
+    <OrderCardContainer onClick={() => handleSeeMore()}>
+      <Image
+        src={order.orderItem.package.imgCardUrl}
+        alt={`Imagem do pacote ${order.orderItem.package.name}`}
+        height={64}
+        width={64}
+        style={{ borderRadius: "8px" }}
+        quality={75}
+      />
+      <section className="allInfo">
+        <div className="rowInfos">
+          <Text nowrap fontName="SMALL">
+            {order.orderItem.package.name}
+          </Text>
+          <Text align="end" fontName="SMALL_MEDIUM">
+            R$ {formatPrice(order.price)}
+          </Text>
+        </div>
+        <div className="rowInfos">
+          <Text color={theme.text_03} fontName="TINY">
+            {formatDate(order.createdAt)}
+          </Text>
+          <Text
+            color={handleStatusColor(order.orderStatus)}
+            align="end"
+            fontName="TINY"
+          >
+            {handleOrderStatus(order.orderStatus)}
+          </Text>
+        </div>
+        {/* <div className="seeDetails">
+          <Text
+            align="center"
+            underline
+            fontName="TINY"
+            color={theme.text_03}
+          >
+            ver detalhes
+          </Text>
+        </div> */}
+      </section>
+    </OrderCardContainer>
+  );
+};
+
+export default OrderCard;

@@ -32,6 +32,7 @@ export const MobileNavBar = styled.div<Props>`
 
   .selected {
     background-color: ${({ theme }) => theme.mainColor};
+    padding: 6px;
   }
 
   .more-button {
@@ -63,9 +64,9 @@ export const MoreMenuItem = styled.div`
   cursor: pointer;
   transition: background-color 0.2s;
 
-  &:hover {
+  /* &:hover {
     background-color: ${({ theme }) => theme.text_04}20;
-  }
+  } */
 
   &.selected {
     background-color: ${({ theme }) => theme.mainColor};

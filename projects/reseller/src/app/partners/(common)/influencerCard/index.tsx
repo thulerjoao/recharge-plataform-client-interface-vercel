@@ -77,18 +77,18 @@ const InfluencerCard = ({
           </div>
         </div>
         <div className="rowInfos">
-          <Text color={theme.text_03} fontName="TINY">
+          <Text color={theme.text_04} fontName="TINY">
             {influencer.email || "Sem email"}
           </Text>
-          <Text color={theme.text_03} fontName="TINY">
+          <Text color={theme.text_04} fontName="TINY">
             {influencer.phone ? formatPhone(influencer.phone) : "Sem telefone"}
           </Text>
         </div>
         <div className="rowInfos">
-          <Text color={theme.text_03} fontName="TINY">
+          <Text color={theme.text_04} fontName="TINY">
             Cadastrado em: {formatDate(influencer.createdAt)}
           </Text>
-          <Text color={theme.text_03} fontName="TINY">
+          <Text color={theme.text_04} fontName="TINY">
             {influencer.paymentMethod || "Sem método de pagamento"}
           </Text>
         </div>

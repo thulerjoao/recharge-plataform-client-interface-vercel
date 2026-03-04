@@ -97,7 +97,7 @@ const LoginComponent = ({ setStep }: Props) => {
   return (
     <LoginComponentContainer onSubmit={handleSubmit(onSubmit)}>
       <Text margin="24px 0 0 0" align="center" fontName="REGULAR_MEDIUM">
-        Entre para acessar sua conta
+        Painel Plataformas de Recarga
       </Text>
       <Input
         id="email"

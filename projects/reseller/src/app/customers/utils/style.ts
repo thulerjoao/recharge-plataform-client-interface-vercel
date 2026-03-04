@@ -6,12 +6,9 @@ export const PurchaseFiltersWrapper = styled.div`
   flex-direction: column;
   gap: 12px;
   padding: 12px 20px;
-  background: ${({ theme }) => theme.background_01};
+  background: ${({ theme }) => theme.background_02};
   border-radius: 12px;
-  -webkit-box-shadow: 0px 0px 5px 1px rgba(7, 29, 35, 1);
-  -moz-box-shadow: 0px 0px 5px 1px rgba(7, 29, 35, 1);
-  box-shadow: 0px 0px 5px 1px rgba(7, 29, 35, 1);
-  border: 1px solid ${({ theme }) => theme.border_01}80;
+  border: 1px solid ${({ theme }) => theme.border_02};
   margin-bottom: 24px;
 
   .purchaseFilterInputs {
@@ -35,6 +32,13 @@ export const PurchaseFiltersWrapper = styled.div`
       input {
         width: 100%;
         box-sizing: border-box;
+        background: ${({ theme }) => theme.background_04};
+        border: 1px solid ${({ theme }) => theme.border_02};
+        color: ${({ theme }) => theme.text_01};
+
+        &::placeholder {
+          color: ${({ theme }) => theme.text_04} !important;
+        }
       }
     }
   }
@@ -62,12 +66,9 @@ export const CustomersFiltersWrapper = styled.div`
   flex-direction: column;
   gap: 0;
   padding: 20px;
-  background: ${({ theme }) => theme.background_01};
+  background: ${({ theme }) => theme.background_02};
   border-radius: 12px;
-  -webkit-box-shadow: 0px 0px 5px 1px rgba(7, 29, 35, 1);
-  -moz-box-shadow: 0px 0px 5px 1px rgba(7, 29, 35, 1);
-  box-shadow: 0px 0px 5px 1px rgba(7, 29, 35, 1);
-  border: 1px solid ${({ theme }) => theme.border_01}80;
+  border: 1px solid ${({ theme }) => theme.border_02};
   margin-bottom: 24px;
 
   .filtersSection {
@@ -77,12 +78,23 @@ export const CustomersFiltersWrapper = styled.div`
     align-items: center;
     padding: 0 0 20px 0;
     margin-bottom: 20px;
-    border-bottom: 1px solid ${({ theme }) => theme.border_01}80;
+    border-bottom: 1px solid ${({ theme }) => theme.border_01};
 
     .searchSection {
       width: 300px;
       display: flex;
       align-items: center;
+      position: relative;
+
+      input {
+        background: ${({ theme }) => theme.background_04};
+        border: 1px solid ${({ theme }) => theme.border_02};
+        color: ${({ theme }) => theme.text_01};
+
+        &::placeholder {
+          color: ${({ theme }) => theme.text_04} !important;
+        }
+      }
     }
 
     .filterControls {
@@ -94,9 +106,9 @@ export const CustomersFiltersWrapper = styled.div`
         height: 32px;
         width: 140px;
         border-radius: 8px;
-        border: 2px solid ${({ theme }) => theme.border_01};
-        background: ${({ theme }) => theme.text_01};
-        color: ${({ theme }) => theme.border_01};
+        border: 1px solid ${({ theme }) => theme.border_02};
+        background: ${({ theme }) => theme.background_04};
+        color: ${({ theme }) => theme.text_01};
         font-size: 14px;
         cursor: pointer;
 
@@ -112,11 +124,11 @@ export const CustomersFiltersWrapper = styled.div`
   ${PurchaseFiltersWrapper} {
     background: transparent;
     box-shadow: none;
-    border: none;
+    border: none !important;
     border-radius: 0;
     margin-bottom: 0;
     padding: 0;
-    border-top: none;
+    border-top: 1px solid ${({ theme }) => theme.border_01};
   }
 
   @media (max-width: 768px) {
@@ -182,12 +194,9 @@ export const CustomersPageContainer = styled.div`
     align-items: center;
     padding: 24px;
     margin-bottom: 24px;
-    background: ${({ theme }) => theme.background_01};
+    background: ${({ theme }) => theme.background_02};
     border-radius: 12px;
-    -webkit-box-shadow: 0px 0px 5px 1px rgba(7, 29, 35, 1);
-    -moz-box-shadow: 0px 0px 5px 1px rgba(7, 29, 35, 1);
-    box-shadow: 0px 0px 5px 1px rgba(7, 29, 35, 1);
-    border: 1px solid ${({ theme }) => theme.border_01}80;
+    border: 1px solid ${({ theme }) => theme.border_02};
 
     .titleSection {
       display: flex;

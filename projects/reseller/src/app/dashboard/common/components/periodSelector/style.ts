@@ -11,8 +11,8 @@ export const PeriodSelectorContainer = styled.div`
     height: 40px;
     min-width: 150px;
     border-radius: 8px;
-    border: 2px solid ${({ theme }) => theme.border_01};
-    background: ${({ theme }) => theme.background_01};
+    border: 1px solid ${({ theme }) => theme.border_02};
+    background: ${({ theme }) => theme.background_02};
     color: ${({ theme }) => theme.text_01};
     font-size: 14px;
     font-weight: 500;

@@ -103,7 +103,7 @@ const MobileMenu = ({ search, openMenu, setOpenMenu }: Props) => {
         className={`menuOption ${handleCheck("dashboard") && "selected"}`}
         style={{ margin: "32px 0 16px 0" }}
       >
-        <span>{handleCheck("dashboard") ? <HomeSelected /> : <Home />}</span>
+        <span>{!handleCheck("dashboard") ? <HomeSelected /> : <Home />}</span>
 
         <Text
           color={handleCheck("dashboard") && theme.background_01}
@@ -121,7 +121,7 @@ const MobileMenu = ({ search, openMenu, setOpenMenu }: Props) => {
         className={`menuOption ${handleCheck("products") && "selected"}`}
       >
         <span>
-          {handleCheck("products") ? <ProductsSelected /> : <Products />}
+          {!handleCheck("products") ? <ProductsSelected /> : <Products />}
         </span>
 
         <Text
@@ -139,7 +139,7 @@ const MobileMenu = ({ search, openMenu, setOpenMenu }: Props) => {
         }}
         className={`menuOption ${handleCheck("orders") && "selected"}`}
       >
-        <span>{handleCheck("orders") ? <OrdersSelected /> : <Orders />}</span>
+        <span>{!handleCheck("orders") ? <OrdersSelected /> : <Orders />}</span>
 
         <Text
           color={handleCheck("orders") && theme.background_01}
@@ -157,7 +157,7 @@ const MobileMenu = ({ search, openMenu, setOpenMenu }: Props) => {
         className={`menuOption ${handleCheck("customers") && "selected"}`}
       >
         <span>
-          {handleCheck("customers") ? <CustomersSelected /> : <Customers />}
+          {!handleCheck("customers") ? <CustomersSelected /> : <Customers />}
         </span>
         <Text
           color={handleCheck("customers") && theme.background_01}
@@ -175,7 +175,7 @@ const MobileMenu = ({ search, openMenu, setOpenMenu }: Props) => {
         className={`menuOption ${handleCheck("partners") && "selected"}`}
       >
         <span>
-          {handleCheck("partners") ? <InfluencerSelected /> : <Influencer />}
+          {!handleCheck("partners") ? <InfluencerSelected /> : <Influencer />}
         </span>
 
         <Text
@@ -195,7 +195,7 @@ const MobileMenu = ({ search, openMenu, setOpenMenu }: Props) => {
         className={`menuOption ${handleCheck("coupons") && "selected"}`}
       >
         <span>
-          {handleCheck("coupons") ? <DiscountSelected /> : <Discount />}
+          {!handleCheck("coupons") ? <DiscountSelected /> : <Discount />}
         </span>
 
         <Text
@@ -214,7 +214,7 @@ const MobileMenu = ({ search, openMenu, setOpenMenu }: Props) => {
         }}
         className={`menuOption ${handleCheck("admin") && "selected"}`}
       >
-        <span>{handleCheck("admin") ? <AdminSelected /> : <Admin />}</span>
+        <span>{!handleCheck("admin") ? <AdminSelected /> : <Admin />}</span>
 
         <Text
           color={handleCheck("admin") && theme.background_01}
@@ -231,7 +231,7 @@ const MobileMenu = ({ search, openMenu, setOpenMenu }: Props) => {
         }}
         className={`menuOption ${handleCheck("settings") && "selected"}`}
       >
-        <span>{handleCheck("settings") ? <GearSelected /> : <Gear />}</span>
+        <span>{!handleCheck("settings") ? <GearSelected /> : <Gear />}</span>
 
         <Text
           color={handleCheck("settings") && theme.background_01}

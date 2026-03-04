@@ -16,13 +16,13 @@ html {
 }
 
 body {
-  background: rgb(1, 11, 14);
-  background: linear-gradient(
+  background: rgb(226, 230, 235);
+  /* background: linear-gradient(
     176deg,
     rgba(1, 11, 14, 1) 20%,
     rgba(0, 45, 56, 1) 51%,
     rgba(1, 11, 14, 1) 78%
-  );
+  ); */
   background-attachment: fixed;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
@@ -40,7 +40,7 @@ body {
   position: absolute;
   height: 2rem;
   width: 2rem;
-  border: 3px solid #00C8FF;
+  border: 5px solid #2a84d4;
   border-top-color: transparent;
   border-radius: 50%;
   animation: spin 0.7s linear infinite;

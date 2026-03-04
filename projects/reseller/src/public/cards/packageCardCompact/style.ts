@@ -19,14 +19,14 @@ export const PackageCardCompactContainer = styled.article<PackageCardProps>`
   .mobile {
     display: none;
   }
-  border: 2px solid ${({ theme }) => theme.border_02};
+  border: 1px solid ${({ theme }) => theme.border_02};
   background-color: ${({ theme }) => theme.background_04};
   position: relative;
 
   @media (hover: hover) {
     &:hover {
-      border: 2px solid ${({ theme }) => theme.mainColor};
-      box-shadow: 0px 0px 10px 0px ${({ theme }) => theme.mainColor};
+      border: 1px solid ${({ theme }) => theme.mainColor};
+      box-shadow: 0px 0px 5px 0px ${({ theme }) => theme.mainColor};
     }
   }
 
@@ -51,8 +51,8 @@ export const PackageCardCompactContainer = styled.article<PackageCardProps>`
     justify-content: center;
     width: auto;
     height: 40px;
-    padding-left: 10px;
-    padding-right: -10px;
+    /* padding-left: 10px;
+    padding-right: -10px; */
 
     h2 {
       width: auto;
@@ -70,7 +70,7 @@ export const PackageCardCompactContainer = styled.article<PackageCardProps>`
   }
 
   .diamondText {
-    border-bottom: 1px solid ${({ theme }) => theme.text_04};
+    border-bottom: 1px solid ${({ theme }) => theme.text_01};
     padding-bottom: 8px;
   }
 
@@ -93,11 +93,21 @@ export const PackageCardCompactContainer = styled.article<PackageCardProps>`
     }
   }
 
-  .offerContainer {
-    position: absolute;
-    bottom: -28.5px;
-    right: -17px;
+  .offerTextContainer {
     z-index: 1;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: ${({ theme }) => theme.mainColor};
+    border-radius: 4px;
+    padding: 2px 4px;
+    margin-top: -4px;
+    margin-bottom: -4px;
+
+    h2 {
+      font-size: 12px !important;
+    }
   }
 
   ${({ paymentPage }) =>
@@ -128,6 +138,23 @@ export const PackageCardCompactContainer = styled.article<PackageCardProps>`
         }
       }
 
+      .offerTextContainer {
+        z-index: 1;
+        overflow: hidden;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background-color: ${({ theme }) => theme.mainColor};
+        border-radius: 4px;
+        padding: 2px 4px;
+        margin-top: -8px;
+        margin-bottom: 4px;
+
+        h2 {
+          font-size: 12px !important;
+        }
+      }
+
       .diamondText {
         font-size: 12px !important;
         padding-bottom: 4px !important;
@@ -138,15 +165,6 @@ export const PackageCardCompactContainer = styled.article<PackageCardProps>`
         margin-bottom: 16px;
         h3 {
           font-size: 14px !important;
-        }
-      }
-
-      .offerContainer {
-        bottom: -23px;
-        right: -13px;
-        img {
-          height: 75px !important;
-          width: 75px !important;
         }
       }
     }

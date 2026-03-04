@@ -13,6 +13,7 @@ import { useEffect, useState } from "react";
 import { OrderStatus, OrderType } from "types/orderType";
 import Search from "./icons/Search.svg";
 import { OrdersContainer } from "./style";
+import { useTheme } from "styled-components";
 
 interface Props {
   currentPage: number;
@@ -22,6 +23,7 @@ interface Props {
 }
 
 const OrdersPage = ({ currentPage, search, status, productId }: Props) => {
+  const theme = useTheme();
   const router = useRouter();
   const {
     orders,
@@ -109,7 +111,7 @@ const OrdersPage = ({ currentPage, search, status, productId }: Props) => {
           </HeaderEnviroment>
         </div>
         <div className="mobile mobileHeader">
-          <Text align="center" fontName="LARGE_SEMI_BOLD">
+          <Text align="center" fontName="LARGE_SEMI_BOLD" color={theme.text_02}>
             PEDIDOS
           </Text>
         </div>

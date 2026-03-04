@@ -22,18 +22,15 @@ export const InfluencerContainer = styled.div`
     padding: 24px;
 
     .headerSection {
-      background-color: pink;
       width: 100%;
       display: flex;
       justify-content: space-between;
       align-items: center;
       padding: 24px;
       margin-bottom: 24px;
-      background: ${({ theme }) => theme.background_01};
+      background: ${({ theme }) => theme.background_02};
       border-radius: 12px;
-      -webkit-box-shadow: 0px 0px 5px 2px rgba(7, 29, 35, 1);
-      -moz-box-shadow: 0px 0px 5px 2px rgba(7, 29, 35, 1);
-      box-shadow: 0px 0px 5px 2px rgba(7, 29, 35, 1);
+      border: 1px solid ${({ theme }) => theme.border_02};
 
       .titleSection {
         display: flex;
@@ -48,11 +45,9 @@ export const InfluencerContainer = styled.div`
       justify-content: space-between;
       align-items: center;
       padding: 20px;
-      background: ${({ theme }) => theme.background_01};
+      background: ${({ theme }) => theme.background_02};
       border-radius: 12px;
-      -webkit-box-shadow: 0px 0px 5px 2px rgba(7, 29, 35, 1);
-      -moz-box-shadow: 0px 0px 5px 2px rgba(7, 29, 35, 1);
-      box-shadow: 0px 0px 5px 2px rgba(7, 29, 35, 1);
+      border: 1px solid ${({ theme }) => theme.border_02};
       margin-bottom: 24px;
 
       .searchSection {
@@ -61,10 +56,20 @@ export const InfluencerContainer = styled.div`
         align-items: center;
         position: relative;
 
+        input {
+          background: ${({ theme }) => theme.background_04};
+          border: 1px solid ${({ theme }) => theme.border_02};
+          color: ${({ theme }) => theme.text_01};
+
+          &::placeholder {
+            color: ${({ theme }) => theme.text_04} !important;
+          }
+        }
+
         .searchButton {
           width: 28px;
           height: 28px;
-          background-color: ${({ theme }) => theme.text_01};
+          background-color: ${({ theme }) => theme.background_04};
           border-radius: 8px;
           display: flex;
           justify-content: center;
@@ -90,9 +95,9 @@ export const InfluencerContainer = styled.div`
           height: 32px;
           width: 140px;
           border-radius: 8px;
-          border: 2px solid ${({ theme }) => theme.border_01};
-          background: ${({ theme }) => theme.text_01};
-          color: ${({ theme }) => theme.border_01};
+          border: 1px solid ${({ theme }) => theme.border_02};
+          background: ${({ theme }) => theme.background_04};
+          color: ${({ theme }) => theme.text_01};
           font-size: 14px;
           cursor: pointer;
 
@@ -129,7 +134,7 @@ export const InfluencerContainer = styled.div`
     left: 0;
     right: 0;
     bottom: 0;
-    background: rgba(0, 0, 0, 0.5);
+    background: ${({ theme }) => theme.background_06};
     display: flex;
     justify-content: center;
     align-items: center;
@@ -137,7 +142,8 @@ export const InfluencerContainer = styled.div`
   }
 
   .modalContent {
-    background: ${({ theme }) => theme.background_01};
+    background: ${({ theme }) => theme.background_02};
+    border: 1px solid ${({ theme }) => theme.border_02};
     border-radius: 12px;
     padding: 24px;
     max-width: 500px;

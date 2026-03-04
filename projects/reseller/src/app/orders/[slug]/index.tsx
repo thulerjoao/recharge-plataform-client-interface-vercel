@@ -90,7 +90,7 @@ const OrdersInnerPage = ({ slug }: { slug: string }) => {
         </HeaderEnviroment>
       </div>
       <div className="mobile mobileHeader">
-        <Text align="center" fontName="LARGE_SEMI_BOLD">
+        <Text align="center" fontName="LARGE_SEMI_BOLD" color={theme.text_02}>
           PEDIDO
         </Text>
       </div>
@@ -126,7 +126,7 @@ const OrdersInnerPage = ({ slug }: { slug: string }) => {
             <Text tag="h2" align="end" fontName="REGULAR_MEDIUM">
               {order?.orderItem.package.name}
             </Text>
-            <Text tag="h3" align="end" fontName="TINY" color={theme.text_03}>
+            <Text tag="h3" align="end" fontName="TINY" color={theme.text_04}>
               {formatDate(order?.createdAt)}
             </Text>
             <Text align="end" fontName="SMALL_MEDIUM">
@@ -162,7 +162,7 @@ const OrdersInnerPage = ({ slug }: { slug: string }) => {
             <div className="leftMedium">
               <Text fontName="SMALL_MEDIUM">Pix</Text>
               <Text
-                fontName="TINY"
+                fontName="TINY_SEMI_BOLD"
                 color={
                   order?.orderStatus === "EXPIRED"
                     ? theme.refused
@@ -178,7 +178,7 @@ const OrdersInnerPage = ({ slug }: { slug: string }) => {
               <Text align="end" fontName="SMALL_SEMI_BOLD">
                 R$ {formatPrice(order?.price || 0)}
               </Text>
-              <Text align="end" fontName="TINY" color={theme.text_03}>
+              <Text align="end" fontName="TINY" color={theme.text_04}>
                 {formatDate(order?.payment.statusUpdatedAt || "")}
               </Text>
             </div>
@@ -199,7 +199,7 @@ const OrdersInnerPage = ({ slug }: { slug: string }) => {
               <Text fontName="SMALL_MEDIUM">Bigo Live</Text>
               {order?.payment?.status === "PAYMENT_APPROVED" && (
                 <Text
-                  fontName="TINY"
+                  fontName="TINY_SEMI_BOLD"
                   color={handleStatusColor(order?.orderItem.recharge.status)}
                 >
                   {handleRechargeStatus(order?.orderItem.recharge.status)}
@@ -210,7 +210,7 @@ const OrdersInnerPage = ({ slug }: { slug: string }) => {
               <Text align="end" fontName="SMALL_SEMI_BOLD">
                 {order?.orderItem.recharge.amountCredits}
               </Text>
-              <Text align="end" fontName="TINY" color={theme.text_03}>
+              <Text align="end" fontName="TINY" color={theme.text_04}>
                 {formatDate(order?.orderItem.recharge.statusUpdatedAt || "")}
               </Text>
             </div>

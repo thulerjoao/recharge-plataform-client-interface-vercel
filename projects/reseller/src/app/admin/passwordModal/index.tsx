@@ -56,7 +56,7 @@ const PasswordModal = ({
         </button>
 
         <div className="userEmail">
-          <Text fontName="SMALL" color={theme.text_03}>
+          <Text fontName="SMALL" color={theme.text_04}>
             {modalAction === "promote" ? "Promovendo:" : "Rebaixando:"}
           </Text>
           <Text fontName="REGULAR_SEMI_BOLD" color={theme.text_01}>

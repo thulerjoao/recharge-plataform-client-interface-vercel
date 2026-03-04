@@ -3,7 +3,6 @@ import styled from "styled-components";
 export const LoginModalBackground = styled.div`
   z-index: 9999;
   position: fixed;
-  background-color: ${({ theme }) => theme.background_03};
   top: 0;
   left: 0;
   width: 100vw;
@@ -12,15 +11,21 @@ export const LoginModalBackground = styled.div`
   justify-content: center;
   align-items: center;
 
+  input {
+    color: ${({ theme }) => theme.text_01} !important;
+  }
+
   @media (max-width: 767px) {
     padding: 0 16px;
   }
 `;
 
 export const LoginModalContainer = styled.div`
+  padding-top: 28px;
   width: 100%;
   max-width: 560px;
-  background-color: ${({ theme }) => theme.background_01};
+  background-color: ${({ theme }) => theme.background_02};
+  border: 1px solid ${({ theme }) => theme.border_02};
   display: flex;
   flex-direction: column;
   align-items: center;

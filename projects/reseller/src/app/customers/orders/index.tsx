@@ -2,6 +2,7 @@
 
 import LoadingPage from "app/loading";
 import Text from "@4miga/design-system/components/Text";
+import { useTheme } from "styled-components";
 import { useOrders } from "context/orders";
 import { useRouter } from "next/navigation";
 import CustomerCard from "public/cards/customerCard";
@@ -52,6 +53,7 @@ type CustomerWithId = CustomerCardDisplayData & { id?: string };
 const DELETE_CONFIRM_MESSAGE = "Tem certeza que deseja excluir este usuário?";
 
 const CustomerOrdersPage = ({ currentPage, customerEmail }: Props) => {
+  const theme = useTheme();
   const router = useRouter();
   const { orders, loadingOrders, getOrders } = useOrders();
   const { confirm, ConfirmComponent } = useConfirm();
@@ -136,7 +138,11 @@ const CustomerOrdersPage = ({ currentPage, customerEmail }: Props) => {
             </HeaderEnviroment>
           </div>
           <div className="emptyState">
-            <Text align="center" fontName="REGULAR_MEDIUM" color="#666">
+            <Text
+              align="center"
+              fontName="REGULAR_MEDIUM"
+              color={theme.text_04}
+            >
               Informe o email do cliente para ver os pedidos.
             </Text>
           </div>
@@ -158,7 +164,11 @@ const CustomerOrdersPage = ({ currentPage, customerEmail }: Props) => {
           </HeaderEnviroment>
         </div>
         <div className="mobile mobileHeader">
-          <Text align="center" fontName="LARGE_SEMI_BOLD">
+          <Text
+            align="center"
+            fontName="LARGE_SEMI_BOLD"
+            color={theme.text_02}
+          >
             CLIENTE
           </Text>
         </div>
@@ -185,7 +195,11 @@ const CustomerOrdersPage = ({ currentPage, customerEmail }: Props) => {
         <section className="cards">
           {orders?.data?.length === 0 && (
             <div className="emptyState">
-              <Text align="center" fontName="REGULAR_MEDIUM" color="#666">
+              <Text
+                align="center"
+                fontName="REGULAR_MEDIUM"
+                color={theme.text_04}
+              >
                 Nenhum pedido encontrado para este cliente.
               </Text>
             </div>

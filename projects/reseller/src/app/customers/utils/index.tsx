@@ -212,7 +212,7 @@ const CustomersPage = ({
           </HeaderEnviroment>
         </div>
         <div className="mobile mobileHeader">
-          <Text align="center" fontName="LARGE_SEMI_BOLD">
+          <Text align="center" fontName="LARGE_SEMI_BOLD" color={theme.text_02}>
             CLIENTES
           </Text>
         </div>
@@ -221,7 +221,7 @@ const CustomersPage = ({
             <Text fontName="LARGE_SEMI_BOLD" color={theme.text_01}>
               Gerenciamento de Clientes
             </Text>
-            <Text fontName="REGULAR_MEDIUM" color={theme.text_03}>
+            <Text fontName="REGULAR_MEDIUM" color={theme.text_04}>
               Consulte os clientes da sua loja
             </Text>
           </div>
@@ -243,7 +243,11 @@ const CustomersPage = ({
         <div className="cardsSection">
           {!customers?.data || customers.data.length === 0 ? (
             <div className="emptyState">
-              <Text align="center" fontName="REGULAR_MEDIUM" color="#666">
+              <Text
+                align="center"
+                fontName="REGULAR_MEDIUM"
+                color={theme.text_04}
+              >
                 Nenhum cliente encontrado
               </Text>
             </div>
@@ -258,7 +262,11 @@ const CustomersPage = ({
               if (list.length === 0) {
                 return (
                   <div className="emptyState">
-                    <Text align="center" fontName="REGULAR_MEDIUM" color="#666">
+                    <Text
+                      align="center"
+                      fontName="REGULAR_MEDIUM"
+                      color={theme.text_04}
+                    >
                       {localStatus === "excluded"
                         ? "Nenhum cliente excluído com dados disponíveis"
                         : "Nenhum cliente encontrado"}
@@ -316,7 +324,7 @@ const CustomersPage = ({
           );
         })()}
         <div style={{ marginTop: "16px", textAlign: "center" }}>
-          <Text fontName="TINY" color={theme.text_03}>
+          <Text fontName="TINY" color={theme.text_04}>
             Total: {customers?.totalClients ?? 0} clientes
           </Text>
         </div>

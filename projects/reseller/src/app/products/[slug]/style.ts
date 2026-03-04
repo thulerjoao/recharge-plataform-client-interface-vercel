@@ -1,3 +1,4 @@
+/* eslint-disable prettier/prettier */
 import styled from "styled-components";
 
 export const ProductsInnerPage = styled.div`
@@ -27,10 +28,8 @@ export const ProductsInnerPage = styled.div`
       padding: 24px;
       background: ${({ theme }) => theme.background_01};
       border-radius: 12px;
-      -webkit-box-shadow: 0px 0px 5px 1px rgba(7, 29, 35, 1);
-      -moz-box-shadow: 0px 0px 5px 1px rgba(7, 29, 35, 1);
-      box-shadow: 0px 0px 5px 1px rgba(7, 29, 35, 1);
-      border: 1px solid ${({ theme }) => theme.border_01}80;
+      border: 1px solid ${({ theme }) => theme.border_02};
+      background-color: ${({ theme }) => theme.background_02};
 
       .titleSection {
         display: flex;
@@ -47,10 +46,8 @@ export const ProductsInnerPage = styled.div`
     .packagesSection {
       background: ${({ theme }) => theme.background_01};
       border-radius: 12px;
-      -webkit-box-shadow: 0px 0px 5px 1px rgba(7, 29, 35, 1);
-      -moz-box-shadow: 0px 0px 5px 1px rgba(7, 29, 35, 1);
-      box-shadow: 0px 0px 5px 1px rgba(7, 29, 35, 1);
-      border: 1px solid ${({ theme }) => theme.border_01}80;
+      border: 1px solid ${({ theme }) => theme.border_02};
+      background-color: ${({ theme }) => theme.background_02};
       padding: 24px;
       display: flex;
       flex-direction: column;
@@ -79,18 +76,23 @@ export const ProductsInnerPage = styled.div`
             width: 100%;
             max-width: 174px;
             border-radius: 8px;
-            background-color: ${({ theme }) => theme.border_01}20;
+            background-color: ${({ theme }) => theme.background_04};
             display: flex;
             align-items: center;
             justify-content: center;
             flex-direction: column;
             gap: 16px;
             padding: 26px 0px;
-            border: 1px solid ${({ theme }) => theme.border_01};
+            border: 1px solid ${({ theme }) => theme.border_02};
 
             svg {
               width: 50px;
               height: 50px;
+            }
+
+            &:hover {
+              border: 1px solid ${({ theme }) => theme.mainColor};
+              box-shadow: 0px 0px 5px 0px ${({ theme }) => theme.mainColor};
             }
           }
         }
@@ -98,12 +100,9 @@ export const ProductsInnerPage = styled.div`
     }
 
     .productEditor {
-      background: ${({ theme }) => theme.background_01};
       border-radius: 12px;
-      -webkit-box-shadow: 0px 0px 5px 1px rgba(7, 29, 35, 1);
-      -moz-box-shadow: 0px 0px 5px 1px rgba(7, 29, 35, 1);
-      box-shadow: 0px 0px 5px 1px rgba(7, 29, 35, 1);
-      border: 1px solid ${({ theme }) => theme.border_01}80;
+      background: ${({ theme }) => theme.background_02};
+      border: 1px solid ${({ theme }) => theme.border_02};
       padding: 24px;
       gap: 24px;
       display: flex;
@@ -127,6 +126,7 @@ export const ProductsInnerPage = styled.div`
           aspect-ratio: 21/9;
           object-fit: fill;
           border-radius: 8px;
+          border: 1px solid ${({ theme }) => theme.border_02};
         }
       }
 
@@ -136,6 +136,10 @@ export const ProductsInnerPage = styled.div`
         display: flex;
         flex-direction: column;
         align-items: center;
+
+        img {
+          border: 1px solid ${({ theme }) => theme.border_02};
+        }
 
         .cardImageBox {
           width: 100%;
@@ -172,6 +176,7 @@ export const ProductsInnerPage = styled.div`
           width: 100%;
           max-width: 178px;
           height: auto;
+        
         }
       }
 
@@ -194,9 +199,9 @@ export const ProductsInnerPage = styled.div`
       textarea {
         font-family: "Montserrat", "Open Sans", sans-serif;
         resize: none;
-        border: 2px solid ${({ theme }) => theme.border_01};
-        background: ${({ theme }) => theme.text_01};
-        color: ${({ theme }) => theme.border_01};
+        border: 2px solid ${({ theme }) => theme.border_02};
+        background: ${({ theme }) => theme.background_04};
+        color: ${({ theme }) => theme.text_01};
         width: 100%;
         height: 100%;
         border-radius: 8px;

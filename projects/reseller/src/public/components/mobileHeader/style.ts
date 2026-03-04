@@ -16,9 +16,9 @@ export const MobileHeaderContainer = styled.header<Props>`
 
   .topCompoennt {
     z-index: 1;
-    background-color: ${({ theme }) => theme.background_06};
+    background-color: ${({ theme }) => theme.mainColor};
     border-bottom: ${({ openMenu, theme }) =>
-      openMenu && `1px solid ${theme.border_01}`};
+      openMenu && `1px solid ${theme.background_02}`};
     box-sizing: border-box;
     width: 100%;
     display: flex;

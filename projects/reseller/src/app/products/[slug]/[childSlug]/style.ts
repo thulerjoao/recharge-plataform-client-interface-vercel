@@ -25,12 +25,9 @@ export const ConfigPackagePage = styled.div`
       justify-content: space-between;
       align-items: center;
       padding: 24px;
-      background: ${({ theme }) => theme.background_01};
+      background: ${({ theme }) => theme.background_02};
       border-radius: 12px;
-      -webkit-box-shadow: 0px 0px 5px 1px rgba(7, 29, 35, 1);
-      -moz-box-shadow: 0px 0px 5px 1px rgba(7, 29, 35, 1);
-      box-shadow: 0px 0px 5px 1px rgba(7, 29, 35, 1);
-      border: 1px solid ${({ theme }) => theme.border_01}80;
+      border: 1px solid ${({ theme }) => theme.border_02};
 
       .packageInfo {
         display: flex;
@@ -51,8 +48,8 @@ export const ConfigPackagePage = styled.div`
           text-align: center;
 
           &.active {
-            background: ${({ theme }) => theme.approved}20;
-            border: 1px solid ${({ theme }) => theme.approved};
+            background: ${({ theme }) => theme.whatsappBackground}20;
+            border: 1px solid ${({ theme }) => theme.whatsappBackground};
           }
 
           &.inactive {
@@ -80,12 +77,9 @@ export const ConfigPackagePage = styled.div`
 
       .infoSection {
         padding: 24px;
-        background: ${({ theme }) => theme.background_01};
+        background: ${({ theme }) => theme.background_02};
         border-radius: 12px;
-        -webkit-box-shadow: 0px 0px 5px 1px rgba(7, 29, 35, 1);
-        -moz-box-shadow: 0px 0px 5px 1px rgba(7, 29, 35, 1);
-        box-shadow: 0px 0px 5px 1px rgba(7, 29, 35, 1);
-        border: 1px solid ${({ theme }) => theme.border_01}80;
+        border: 1px solid ${({ theme }) => theme.border_02};
 
         &.unifiedInfoSection {
           .sectionDivider {
@@ -118,9 +112,17 @@ export const ConfigPackagePage = styled.div`
             }
 
             input {
+              border: 1px solid ${({ theme }) => theme.border_02};
+              background: ${({ theme }) => theme.background_04};
+              color: ${({ theme }) => theme.text_01};
+
               &.error {
                 border-color: ${({ theme }) => theme.pending};
                 box-shadow: 0 0 0 3px ${({ theme }) => theme.pending}40;
+              }
+
+              &::placeholder {
+                color: ${({ theme }) => theme.text_04} !important;
               }
             }
 
@@ -156,7 +158,7 @@ export const ConfigPackagePage = styled.div`
 
             .navArrow {
               background: ${({ theme }) => theme.background_01};
-              border: 4px solid ${({ theme }) => theme.border_01};
+              border: 2px solid ${({ theme }) => theme.border_01};
               border-radius: 50%;
               width: 40px;
               height: 40px;
@@ -186,11 +188,6 @@ export const ConfigPackagePage = styled.div`
               display: flex;
               align-items: center;
               justify-content: center;
-              border: 1px solid ${({ theme }) => theme.border_01};
-              -webkit-box-shadow: 0px 0px 5px 1px rgba(7, 29, 35, 1);
-              -moz-box-shadow: 0px 0px 5px 1px rgba(7, 29, 35, 1);
-              box-shadow: 0px 0px 5px 1px rgba(7, 29, 35, 1);
-              border: 1px solid ${({ theme }) => theme.border_01}80;
             }
           }
         }
@@ -200,6 +197,10 @@ export const ConfigPackagePage = styled.div`
           justify-content: center;
           gap: 16px;
           margin-top: 28px;
+
+          .disabledSave {
+            color: ${({ theme }) => theme.text_04};
+          }
         }
       }
     }

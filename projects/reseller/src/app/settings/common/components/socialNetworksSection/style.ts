@@ -2,9 +2,9 @@ import styled from "styled-components";
 
 export const SocialNetworksSectionContainer = styled.div`
   padding: 24px;
-  background: ${({ theme }) => theme.background_01};
+  background: ${({ theme }) => theme.background_02};
   border-radius: 12px;
-  box-shadow: 0px 0px 5px 2px rgba(7, 29, 35, 1);
+  border: 1px solid ${({ theme }) => theme.border_02};
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -22,7 +22,7 @@ export const SocialNetworksSectionContainer = styled.div`
       flex-direction: column;
       gap: 8px;
       padding-bottom: 16px;
-      border-bottom: 2px solid ${({ theme }) => theme.text_04};
+      border-bottom: 1px solid ${({ theme }) => theme.border_01};
     }
   }
 
@@ -40,9 +40,20 @@ export const SocialNetworksSectionContainer = styled.div`
       gap: 4px;
 
       input {
+        background: ${({ theme }) => theme.background_04};
+        border: 1px solid ${({ theme }) => theme.border_02};
+        color: ${({ theme }) => theme.text_01};
         overflow: hidden;
         text-overflow: ellipsis;
         white-space: nowrap;
+
+        &::placeholder {
+          color: ${({ theme }) => theme.text_04} !important;
+        }
+
+        &.error {
+          border-color: ${({ theme }) => theme.pending};
+        }
       }
 
       .error-message {
@@ -69,7 +80,7 @@ export const SocialNetworksSectionContainer = styled.div`
     display: flex;
     justify-content: center;
     padding-top: 16px;
-    border-top: 2px solid ${({ theme }) => theme.text_04};
+    border-top: 1px solid ${({ theme }) => theme.border_01};
     margin-top: 8px;
     width: 100%;
     gap: 16px;
