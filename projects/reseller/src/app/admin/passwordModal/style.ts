@@ -6,7 +6,7 @@ export const ModalOverlay = styled.div`
   left: 0;
   right: 0;
   bottom: 0;
-  background: rgba(0, 0, 0, 0.7);
+  background: ${({ theme }) => theme.background_06};
   display: flex;
   justify-content: center;
   align-items: center;
@@ -24,7 +24,7 @@ export const ModalOverlay = styled.div`
 `;
 
 export const ModalContent = styled.div`
-  background: ${({ theme }) => theme.background_01};
+  background: ${({ theme }) => theme.background_02};
   border-radius: 16px;
   padding: 28px;
   max-width: 420px;
@@ -33,9 +33,7 @@ export const ModalContent = styled.div`
   flex-direction: column;
   gap: 20px;
   position: relative;
-  -webkit-box-shadow: 0px 8px 24px 4px rgba(0, 0, 0, 0.4);
-  -moz-box-shadow: 0px 8px 24px 4px rgba(0, 0, 0, 0.4);
-  box-shadow: 0px 8px 24px 4px rgba(0, 0, 0, 0.4);
+  border: 1px solid ${({ theme }) => theme.border_02};
   animation: slideUp 0.3s ease;
 
   @keyframes slideUp {
@@ -57,7 +55,7 @@ export const ModalContent = styled.div`
     height: 32px;
     border: none;
     background: transparent;
-    color: ${({ theme }) => theme.text_03};
+    color: ${({ theme }) => theme.text_04};
     cursor: pointer;
     display: flex;
     align-items: center;
@@ -66,7 +64,7 @@ export const ModalContent = styled.div`
     transition: all 0.2s ease;
 
     &:hover {
-      background: ${({ theme }) => theme.text_01}15;
+      background: ${({ theme }) => theme.background_04};
       color: ${({ theme }) => theme.text_01};
     }
 
@@ -85,7 +83,7 @@ export const ModalContent = styled.div`
     flex-direction: column;
     gap: 4px;
     padding-bottom: 12px;
-    border-bottom: 1px solid ${({ theme }) => theme.text_04};
+    border-bottom: 1px solid ${({ theme }) => theme.border_01};
   }
 
   .modalBody {
@@ -95,6 +93,16 @@ export const ModalContent = styled.div`
 
     form {
       margin-top: 4px;
+    }
+
+    input {
+      background: ${({ theme }) => theme.background_04};
+      border: 1px solid ${({ theme }) => theme.border_02};
+      color: ${({ theme }) => theme.text_01};
+
+      &::placeholder {
+        color: ${({ theme }) => theme.text_04} !important;
+      }
     }
   }
 

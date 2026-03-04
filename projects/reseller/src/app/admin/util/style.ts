@@ -29,12 +29,10 @@ export const AdmPageContainer = styled.div`
       display: flex;
       flex-direction: column;
       gap: 24px;
-      background: ${({ theme }) => theme.background_01};
+      background: ${({ theme }) => theme.background_02};
       border-radius: 12px;
       padding: 24px;
-      -webkit-box-shadow: 0px 0px 5px 2px rgba(7, 29, 35, 1);
-      -moz-box-shadow: 0px 0px 5px 2px rgba(7, 29, 35, 1);
-      box-shadow: 0px 0px 5px 2px rgba(7, 29, 35, 1);
+      border: 1px solid ${({ theme }) => theme.border_02};
     }
 
     .headerSection {
@@ -42,7 +40,7 @@ export const AdmPageContainer = styled.div`
       justify-content: space-between;
       align-items: center;
       padding-bottom: 16px;
-      border-bottom: 2px solid ${({ theme }) => theme.text_04};
+      border-bottom: 1px solid ${({ theme }) => theme.border_01};
 
       .titleSection {
         display: flex;
@@ -60,35 +58,42 @@ export const AdmPageContainer = styled.div`
         position: relative;
         width: 100%;
 
+        input {
+          background: ${({ theme }) => theme.background_04};
+          border: 1px solid ${({ theme }) => theme.border_02};
+          color: ${({ theme }) => theme.text_01};
+
+          &::placeholder {
+            color: ${({ theme }) => theme.text_04} !important;
+          }
+        }
+
         .searchResults {
           position: absolute;
           top: calc(100% + 4px);
           left: 0;
           right: 0;
-          background: ${({ theme }) => theme.background_01};
+          background: ${({ theme }) => theme.background_02};
           border-radius: 8px;
-          border: 2px solid ${({ theme }) => theme.border_01};
+          border: 1px solid ${({ theme }) => theme.border_02};
           max-height: 240px;
           overflow-y: auto;
           z-index: 100;
           list-style: none;
           padding: 0;
           margin: 0;
-          -webkit-box-shadow: 0px 4px 12px 2px rgba(0, 0, 0, 0.3);
-          -moz-box-shadow: 0px 4px 12px 2px rgba(0, 0, 0, 0.3);
-          box-shadow: 0px 4px 12px 2px rgba(0, 0, 0, 0.3);
 
           &::-webkit-scrollbar {
             width: 8px;
           }
 
           &::-webkit-scrollbar-track {
-            background: ${({ theme }) => theme.text_01};
+            background: ${({ theme }) => theme.background_04};
             border-radius: 4px;
           }
 
           &::-webkit-scrollbar-thumb {
-            background: ${({ theme }) => theme.border_01};
+            background: ${({ theme }) => theme.border_02};
             border-radius: 4px;
 
             &:hover {
@@ -100,7 +105,7 @@ export const AdmPageContainer = styled.div`
             padding: 12px 16px;
             cursor: pointer;
             transition: all 0.2s ease;
-            border-bottom: 1px solid ${({ theme }) => theme.text_04};
+            border-bottom: 1px solid ${({ theme }) => theme.border_01};
             overflow: hidden;
 
             &:last-child {
@@ -108,11 +113,11 @@ export const AdmPageContainer = styled.div`
             }
 
             &:hover {
-              background: ${({ theme }) => theme.text_01}15;
+              background: ${({ theme }) => theme.background_04};
             }
 
             &:active {
-              background: ${({ theme }) => theme.text_01}25;
+              background: ${({ theme }) => theme.background_04};
             }
 
             .resultEmail {
@@ -129,9 +134,9 @@ export const AdmPageContainer = styled.div`
           top: calc(100% + 4px);
           left: 0;
           right: 0;
-          background: ${({ theme }) => theme.background_01};
+          background: ${({ theme }) => theme.background_02};
           border-radius: 8px;
-          border: 2px solid ${({ theme }) => theme.border_01};
+          border: 1px solid ${({ theme }) => theme.border_02};
           padding: 16px;
           text-align: center;
           z-index: 100;
@@ -143,7 +148,7 @@ export const AdmPageContainer = styled.div`
       display: flex;
       justify-content: center;
       padding-top: 16px;
-      border-top: 2px solid ${({ theme }) => theme.text_04};
+      border-top: 1px solid ${({ theme }) => theme.border_01};
 
       button {
         &:disabled {
@@ -173,9 +178,9 @@ export const AdmPageContainer = styled.div`
           justify-content: space-between;
           gap: 12px;
           padding: 12px 16px;
-          background: ${({ theme }) => theme.text_01}15;
+          background: ${({ theme }) => theme.background_04};
           border-radius: 8px;
-          border: 2px solid ${({ theme }) => theme.text_04};
+          border: 1px solid ${({ theme }) => theme.border_02};
           transition: all 0.2s ease;
 
           .adminInfo {
