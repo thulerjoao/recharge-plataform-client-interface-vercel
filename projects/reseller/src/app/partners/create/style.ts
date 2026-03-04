@@ -27,11 +27,9 @@ export const CreateInfluencerContainer = styled.div`
       gap: 24px;
       padding: 24px;
       width: 100%;
-      background: ${({ theme }) => theme.background_01};
+      background: ${({ theme }) => theme.background_02};
       border-radius: 12px;
-      -webkit-box-shadow: 0px 0px 5px 2px rgba(7, 29, 35, 1);
-      -moz-box-shadow: 0px 0px 5px 2px rgba(7, 29, 35, 1);
-      box-shadow: 0px 0px 5px 2px rgba(7, 29, 35, 1);
+      border: 1px solid ${({ theme }) => theme.border_02};
 
       .avatar {
         width: 64px;
@@ -80,12 +78,10 @@ export const CreateInfluencerContainer = styled.div`
       gap: 24px;
 
       .infoSection {
-        padding: 24px;
-        background: ${({ theme }) => theme.background_01};
-        border-radius: 12px;
-        -webkit-box-shadow: 0px 0px 5px 2px rgba(7, 29, 35, 1);
-        -moz-box-shadow: 0px 0px 5px 2px rgba(7, 29, 35, 1);
-        box-shadow: 0px 0px 5px 2px rgba(7, 29, 35, 1);
+      padding: 24px;
+      background: ${({ theme }) => theme.background_02};
+      border-radius: 12px;
+      border: 1px solid ${({ theme }) => theme.border_02};
 
         .infoGrid {
           margin-top: 16px;
@@ -105,15 +101,14 @@ export const CreateInfluencerContainer = styled.div`
               font-size: 16px;
               height: 28px;
               border-radius: 8px;
-              border: 2px solid ${({ theme }) => theme.border_01};
-              color: ${({ theme }) => theme.border_01};
-              background: ${({ theme }) => theme.text_01};
+              border: 1px solid ${({ theme }) => theme.border_02};
+              color: ${({ theme }) => theme.text_01};
+              background: ${({ theme }) => theme.background_04};
               cursor: pointer;
 
               &:focus {
                 outline: none;
-                box-shadow: 0px 0px 7px 0px ${({ theme }) => theme.mainColor};
-                border: 2px solid ${({ theme }) => theme.mainColor};
+                border-color: ${({ theme }) => theme.mainColor};
               }
 
               &.error {
@@ -122,14 +117,22 @@ export const CreateInfluencerContainer = styled.div`
               }
 
               option {
-                background: ${({ theme }) => theme.text_01};
-                color: ${({ theme }) => theme.border_01};
+                background: ${({ theme }) => theme.background_04};
+                color: ${({ theme }) => theme.text_01};
                 padding: 8px;
                 border: none;
               }
             }
 
             input {
+              border: 1px solid ${({ theme }) => theme.border_02};
+              background: ${({ theme }) => theme.background_04};
+              color: ${({ theme }) => theme.text_01};
+
+              &::placeholder {
+                color: ${({ theme }) => theme.text_04} !important;
+              }
+
               &.error {
                 border-color: ${({ theme }) => theme.pending};
                 box-shadow: 0 0 0 3px ${({ theme }) => theme.pending}40;

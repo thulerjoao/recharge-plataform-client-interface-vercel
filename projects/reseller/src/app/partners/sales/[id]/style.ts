@@ -22,11 +22,9 @@ export const InfluencerSalesContainer = styled.div`
 
     .headerSection {
       padding: 24px;
-      background: ${({ theme }) => theme.background_01};
+      background: ${({ theme }) => theme.background_02};
       border-radius: 12px;
-      -webkit-box-shadow: 0px 0px 5px 2px rgba(7, 29, 35, 1);
-      -moz-box-shadow: 0px 0px 5px 2px rgba(7, 29, 35, 1);
-      box-shadow: 0px 0px 5px 2px rgba(7, 29, 35, 1);
+      border: 1px solid ${({ theme }) => theme.border_02};
       display: flex;
       flex-direction: column;
       gap: 8px;
@@ -35,11 +33,9 @@ export const InfluencerSalesContainer = styled.div`
 
     .infoSection {
       padding: 24px;
-      background: ${({ theme }) => theme.background_01};
+      background: ${({ theme }) => theme.background_02};
       border-radius: 12px;
-      -webkit-box-shadow: 0px 0px 5px 2px rgba(7, 29, 35, 1);
-      -moz-box-shadow: 0px 0px 5px 2px rgba(7, 29, 35, 1);
-      box-shadow: 0px 0px 5px 2px rgba(7, 29, 35, 1);
+      border: 1px solid ${({ theme }) => theme.border_02};
 
       .salesContent {
         margin-top: 16px;
@@ -77,13 +73,13 @@ export const InfluencerSalesContainer = styled.div`
 
             .salesItem {
               padding: 16px;
-              background: ${({ theme }) => theme.background_01};
-              border: 1px solid ${({ theme }) => theme.text_04}20;
+              background: ${({ theme }) => theme.background_02};
+              border: 1px solid ${({ theme }) => theme.border_02};
               border-radius: 8px;
               transition: all 0.2s ease;
 
               &:hover {
-                border-color: ${({ theme }) => theme.text_04}40;
+                border-color: ${({ theme }) => theme.mainColor};
               }
 
               .salesInfo {
@@ -98,8 +94,8 @@ export const InfluencerSalesContainer = styled.div`
           .noSales {
             padding: 20px;
             text-align: center;
-            background: ${({ theme }) => theme.background_01};
-            border: 1px dashed ${({ theme }) => theme.text_04}30;
+            background: ${({ theme }) => theme.background_02};
+            border: 1px dashed ${({ theme }) => theme.border_02};
             border-radius: 8px;
           }
         }

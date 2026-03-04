@@ -2,19 +2,17 @@ import styled from "styled-components";
 
 export const InfluencerCardContainer = styled.div`
   width: 100%;
-  background: ${({ theme }) => theme.background_01};
+  background: ${({ theme }) => theme.background_02};
   border-radius: 12px;
   padding: 16px;
-  -webkit-box-shadow: 0px 0px 5px 2px rgba(7, 29, 35, 1);
-  -moz-box-shadow: 0px 0px 5px 2px rgba(7, 29, 35, 1);
-  box-shadow: 0px 0px 5px 2px rgba(7, 29, 35, 1);
+  border: 1px solid ${({ theme }) => theme.border_02};
   display: flex;
   align-items: center;
   gap: 16px;
   cursor: pointer;
 
   &:hover {
-    background: ${({ theme }) => theme.background_01}99;
+    background: ${({ theme }) => theme.background_04};
   }
 
   .avatarSection {

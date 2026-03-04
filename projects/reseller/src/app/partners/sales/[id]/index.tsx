@@ -117,7 +117,7 @@ const InfluencerSales = ({ influencerId }: InfluencerDetailsProps) => {
           <Text fontName="LARGE_SEMI_BOLD" color={theme.text_01}>
             {salesData?.influencerName}
           </Text>
-          <Text fontName="REGULAR_MEDIUM" color={theme.text_03}>
+          <Text fontName="REGULAR_MEDIUM" color={theme.text_04}>
             Histórico de Vendas
           </Text>
           <Text fontName="REGULAR_MEDIUM" color={theme.approved}>
@@ -143,14 +143,14 @@ const InfluencerSales = ({ influencerId }: InfluencerDetailsProps) => {
                       R${" "}
                       {formatPrice(Number(getCurrentMonthSales()!.totalSales))}
                     </Text>
-                    <Text fontName="SMALL_MEDIUM" color={theme.text_03}>
+                    <Text fontName="SMALL_MEDIUM" color={theme.text_04}>
                       {getMonthName(getCurrentMonthSales()!.month)}{" "}
                       {getCurrentMonthSales()!.year}
                     </Text>
                   </div>
                 ) : (
                   <div className="noSales">
-                    <Text fontName="REGULAR_MEDIUM" color={theme.text_03}>
+                    <Text fontName="REGULAR_MEDIUM" color={theme.text_04}>
                       Nenhuma venda registrada este mês
                     </Text>
                   </div>
@@ -180,7 +180,7 @@ const InfluencerSales = ({ influencerId }: InfluencerDetailsProps) => {
                 </div>
               ) : (
                 <div className="noSales">
-                  <Text fontName="REGULAR_MEDIUM" color={theme.text_03}>
+                  <Text fontName="REGULAR_MEDIUM" color={theme.text_04}>
                     Nenhuma venda registrada para este parceiro
                   </Text>
                 </div>

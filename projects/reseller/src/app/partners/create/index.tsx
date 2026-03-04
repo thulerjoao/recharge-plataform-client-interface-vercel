@@ -107,7 +107,11 @@ const CreateInfluencer = () => {
         </HeaderEnviroment>
       </div>
       <div className="mobile mobileHeader">
-        <Text align="center" fontName="LARGE_SEMI_BOLD">
+        <Text
+          align="center"
+          fontName="LARGE_SEMI_BOLD"
+          color={theme.text_02}
+        >
           ADIC. PARCEIRO
         </Text>
       </div>
@@ -153,7 +157,7 @@ const CreateInfluencer = () => {
             </Text>
             <div className="infoGrid">
               <div className="infoItem">
-                <Text fontName="SMALL_MEDIUM" color={theme.text_03}>
+                <Text fontName="SMALL_MEDIUM" color={theme.text_04}>
                   Nome: *
                 </Text>
                 <Input
@@ -168,7 +172,7 @@ const CreateInfluencer = () => {
                 )}
               </div>
               <div className="infoItem">
-                <Text fontName="SMALL_MEDIUM" color={theme.text_03}>
+                <Text fontName="SMALL_MEDIUM" color={theme.text_04}>
                   E-mail:
                 </Text>
                 <Input
@@ -184,7 +188,7 @@ const CreateInfluencer = () => {
                 )}
               </div>
               <div className="infoItem">
-                <Text fontName="SMALL_MEDIUM" color={theme.text_03}>
+                <Text fontName="SMALL_MEDIUM" color={theme.text_04}>
                   Telefone:
                 </Text>
                 <InputMask
@@ -216,7 +220,7 @@ const CreateInfluencer = () => {
             </Text>
             <div className="infoGrid">
               <div className="infoItem">
-                <Text fontName="SMALL_MEDIUM" color={theme.text_03}>
+                <Text fontName="SMALL_MEDIUM" color={theme.text_04}>
                   Tipo da chave PIX: *
                 </Text>
                 <select
@@ -238,7 +242,7 @@ const CreateInfluencer = () => {
                 )}
               </div>
               <div className="infoItem">
-                <Text fontName="SMALL_MEDIUM" color={theme.text_03}>
+                <Text fontName="SMALL_MEDIUM" color={theme.text_04}>
                   Chave PIX: *
                 </Text>
                 <PixKeyInput
@@ -265,7 +269,7 @@ const CreateInfluencer = () => {
             isNotSelected
             disabled={isLoading}
             style={{
-              backgroundColor: theme.border_01,
+              backgroundColor: theme.background_04,
               color: theme.text_01,
             }}
           />
