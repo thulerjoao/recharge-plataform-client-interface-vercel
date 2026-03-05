@@ -1,5 +1,6 @@
 @import url("https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;700&family=Poppins:wght@400;700&display=swap");
 @import url("https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap");
 
 * {
   margin: 0;
@@ -8,7 +9,7 @@
 }
 
 html {
-  font-family: "Montserrat", "Open Sans", sans-serif;
+  font-family: "Inter", "Montserrat", "Open Sans", sans-serif;
   overflow-y: scroll;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
@@ -17,12 +18,6 @@ html {
 
 body {
   background: rgb(226, 230, 235);
-  /* background: linear-gradient(
-    176deg,
-    rgba(1, 11, 14, 1) 20%,
-    rgba(0, 45, 56, 1) 51%,
-    rgba(1, 11, 14, 1) 78%
-  ); */
   background-attachment: fixed;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;

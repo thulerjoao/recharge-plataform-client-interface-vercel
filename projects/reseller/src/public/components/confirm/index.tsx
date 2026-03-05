@@ -22,7 +22,10 @@ const Confirm = ({ message, onConfirm, onCancel }: ConfirmProps) => {
             height={32}
             rounded
             isNotSelected
-            style={{ color: theme.text_01 }}
+            style={{
+              color: theme.text_01,
+              backgroundColor: theme.background_02,
+            }}
           />
           <Button
             onClick={onConfirm}

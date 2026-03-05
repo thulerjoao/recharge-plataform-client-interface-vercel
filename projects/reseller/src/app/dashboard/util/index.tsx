@@ -19,6 +19,7 @@ import MetricsCards from "../common/components/metricsCards";
 import PeriodSelector from "../common/components/periodSelector";
 import SalesByPackage from "../common/components/salesByPackage";
 import { DashboardContainer } from "./style";
+import { useAuth } from "context/auth";
 
 // Initial period (current month)
 const getCurrentPeriod = (): PeriodType => {
@@ -51,6 +52,7 @@ const getPeriodParam = (period: PeriodType): string => {
 };
 
 const Dashboard = () => {
+  const { store } = useAuth();
   const theme = useTheme();
   const [selectedPeriod, setSelectedPeriod] =
     useState<PeriodType>(getCurrentPeriod());
@@ -186,29 +188,6 @@ const Dashboard = () => {
     }
   };
 
-  // Função para refresh (atualizar métricas em tempo real)
-  // const handleRefresh = async () => {
-  //   try {
-  //     setRefreshing(true);
-  //     setError(null);
-  //     const response = await connectionAPIPost<DashboardDataType>(
-  //       `/metrics/refresh`,
-  //       {},
-  //       apiUrl,
-  //     );
-
-  //     setDashboardData(response);
-  //   } catch (err: any) {
-  //     const errorMessage =
-  //       err?.response?.data?.message ||
-  //       "Erro ao atualizar métricas. Tente novamente.";
-  //     setError(errorMessage);
-  //     alert(errorMessage);
-  //   } finally {
-  //     setRefreshing(false);
-  //   }
-  // };
-
   const handlePeriodChange = (period: PeriodType) => {
     hasAdjustedPeriod.current = false; // Reset flag ao mudar período manualmente
     setSelectedPeriod(period);
@@ -264,6 +243,14 @@ const Dashboard = () => {
           </Text>
         </div>
         <div className="header">
+          <Text
+            align="center"
+            fontName="LARGE_SEMI_BOLD"
+            color={theme.mainColor}
+            margin="0 0 16px 0"
+          >
+            {store.name}
+          </Text>
           <CronHealthIndicator
             cronHealthStatus={dashboardData.cronHealthStatus}
             onRecalculate={handleRecalculate}

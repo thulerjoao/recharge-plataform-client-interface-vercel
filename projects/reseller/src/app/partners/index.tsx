@@ -97,11 +97,7 @@ const PartnersPage = ({
         </HeaderEnviroment>
       </div>
       <div className="mobile mobileHeader">
-        <Text
-          align="center"
-          fontName="LARGE_SEMI_BOLD"
-          color={theme.text_02}
-        >
+        <Text align="center" fontName="LARGE_SEMI_BOLD" color={theme.text_02}>
           PARCEIROS
         </Text>
       </div>

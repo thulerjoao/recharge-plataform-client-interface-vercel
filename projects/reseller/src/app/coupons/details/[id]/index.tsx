@@ -23,6 +23,7 @@ import { CouponType } from "types/couponType";
 import { FormErrors, validateCouponForm } from "utils/couponValidation";
 import { formatDate } from "utils/formatDate";
 import { formatPrice } from "utils/formatPrice";
+import { useConfirm } from "utils/confirm";
 import { CouponDetailsContainer } from "./style";
 
 interface CouponDetailsProps {
@@ -33,6 +34,7 @@ const CouponDetails = ({ couponId }: CouponDetailsProps) => {
   const theme = useTheme();
   const router = useRouter();
   const { updateCoupon } = useCoupons();
+  const { confirm, ConfirmComponent } = useConfirm();
 
   const [errors, setErrors] = useState<FormErrors>({});
   const [loading, setLoading] = useState(true);
@@ -207,16 +209,21 @@ const CouponDetails = ({ couponId }: CouponDetailsProps) => {
     setEditData((prev) => ({ ...prev, isActive: !prev.isActive }));
   };
 
-  const handleDelete = () => {
-    if (confirm("Tem certeza que deseja excluir este cupom?")) {
-      connectionAPIDelete(`/coupon/${couponId}`, apiUrl)
-        .then(() => {
-          router.push("/coupons");
-        })
-        .catch(() => {
-          alert("Algo deu errado, tente novamente");
-        });
+  const handleDelete = async () => {
+    const confirmation = await confirm(
+      "Tem certeza que deseja excluir este cupom?",
+    );
+    if (!confirmation) {
+      return;
     }
+
+    connectionAPIDelete(`/coupon/${couponId}`, apiUrl)
+      .then(() => {
+        router.push("/coupons");
+      })
+      .catch(() => {
+        alert("Algo deu errado, tente novamente");
+      });
   };
 
   const handleInputChange = (
@@ -751,6 +758,7 @@ const CouponDetails = ({ couponId }: CouponDetailsProps) => {
           </div>
         </div>
       </div>
+      {ConfirmComponent}
     </CouponDetailsContainer>
   );
 };

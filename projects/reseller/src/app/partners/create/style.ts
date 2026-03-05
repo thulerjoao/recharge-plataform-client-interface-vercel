@@ -78,10 +78,10 @@ export const CreateInfluencerContainer = styled.div`
       gap: 24px;
 
       .infoSection {
-      padding: 24px;
-      background: ${({ theme }) => theme.background_02};
-      border-radius: 12px;
-      border: 1px solid ${({ theme }) => theme.border_02};
+        padding: 24px;
+        background: ${({ theme }) => theme.background_02};
+        border-radius: 12px;
+        border: 1px solid ${({ theme }) => theme.border_02};
 
         .infoGrid {
           margin-top: 16px;
