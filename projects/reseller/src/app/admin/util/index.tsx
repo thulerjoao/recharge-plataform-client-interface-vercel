@@ -15,6 +15,7 @@ import HeaderEnviroment from "public/components/headerEnviroment";
 import { useEffect, useRef, useState } from "react";
 import PasswordModal from "../passwordModal";
 import { AdmPageContainer } from "./style";
+import toast from "react-hot-toast";
 
 type emailUserType = {
   id: string;
@@ -129,7 +130,7 @@ const AdmPage = () => {
         password,
       })
         .then(() => {
-          alert("Usuário promovido com sucesso!");
+          toast.success("Usuário promovido com sucesso!");
           handleCleanResults();
         })
         .catch((err) => {
@@ -137,9 +138,9 @@ const AdmPage = () => {
             err.response.data.message ===
             "This email is already an administrator in another store"
           ) {
-            alert("Este email já é um administrador em outra loja");
+            toast.error("Este email já é um administrador em outra loja");
           } else {
-            alert("Erro ao promover usuário");
+            toast.error("Erro ao promover usuário");
           }
           handleCloseModal();
           setSelectedUser(null);
@@ -152,11 +153,11 @@ const AdmPage = () => {
         password,
       })
         .then(() => {
-          alert("Usuário rebaixado com sucesso!");
+          toast.success("Usuário rebaixado com sucesso!");
           handleCleanResults();
         })
         .catch((err) => {
-          alert("Erro ao rebaixar usuário");
+          toast.error("Erro ao rebaixar usuário");
           handleCloseModal();
           setSelectedUser(null);
           setModalAction(null);

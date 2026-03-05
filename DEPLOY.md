@@ -21,6 +21,7 @@ Para fazer deploy do projeto Store:
 ```
 
 **Configurações do deploy:**
+
 - **Serviço:** `store-frontend`
 - **Porta:** 3000
 - **Região:** us-central1
@@ -39,6 +40,7 @@ Para fazer deploy do projeto Bigo:
 ```
 
 **Configurações do deploy:**
+
 - **Serviço:** `bigo-frontend`
 - **Porta:** 3001
 - **Região:** us-central1
@@ -56,6 +58,7 @@ Ambos os projetos estão configurados com `output: "standalone"` no `next.config
 ### Configuração de API
 
 Os projetos estão configurados para usar a API de produção:
+
 - **URL da API:** `https://recharge-api-241805104636.us-central1.run.app`
 - **Store ID (Store):** `7f563e66-1fd8-4906-b4aa-7c3dd1b9f4a0`
 - **Store ID (Bigo):** `b7016ab1-88ab-4dde-b103-e1d3b6ccc53c`
@@ -63,6 +66,7 @@ Os projetos estão configurados para usar a API de produção:
 ### CDN Configuration
 
 Os projetos utilizam CDN do Google Cloud Storage:
+
 - **Base URL:** `https://storage.googleapis.com/frontend-cdn-assets`
 - **Store images:** `/store`
 - **Bigo images:** `/bigo`
@@ -80,6 +84,7 @@ Os Dockerfiles seguem uma estrutura multi-stage para otimização:
 ### .dockerignore
 
 Cada projeto possui seu próprio `.dockerignore` que:
+
 - Ignora outros projetos do monorepo
 - Exclui arquivos de desenvolvimento
 - Remove artefatos de build desnecessários
@@ -109,6 +114,7 @@ gcloud run services describe bigo-frontend --region us-central1
 ## 🌐 URLs dos Serviços
 
 Os serviços ficam disponíveis em:
+
 - **Store:** `https://store-frontend-[hash]-uc.a.run.app`
 - **Bigo:** `https://bigo-frontend-[hash]-uc.a.run.app`
 
@@ -139,4 +145,4 @@ Para atualizar um serviço, simplesmente execute novamente o script de deploy co
 
 ---
 
-**Nota:** Esta documentação é específica para deploy no GCP Cloud Run. Para outros ambientes, consulte a documentação correspondente. 
+**Nota:** Esta documentação é específica para deploy no GCP Cloud Run. Para outros ambientes, consulte a documentação correspondente.

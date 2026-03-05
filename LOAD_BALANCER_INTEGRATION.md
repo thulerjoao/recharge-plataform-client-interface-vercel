@@ -36,6 +36,7 @@ gcloud compute network-endpoint-groups create [SERVICE_NAME]-neg \
 ```
 
 **Example:**
+
 ```bash
 gcloud compute network-endpoint-groups create new-frontend-neg \
   --region=us-central1 \
@@ -57,6 +58,7 @@ gcloud compute backend-services create [SERVICE_NAME]-backend \
 ```
 
 **Example:**
+
 ```bash
 gcloud compute backend-services create new-frontend-backend \
   --global \
@@ -78,6 +80,7 @@ gcloud compute backend-services add-backend [SERVICE_NAME]-backend \
 ```
 
 **Example:**
+
 ```bash
 gcloud compute backend-services add-backend new-frontend-backend \
   --global \
@@ -98,6 +101,7 @@ gcloud run services add-iam-policy-binding [SERVICE_NAME] \
 ```
 
 **Example:**
+
 ```bash
 gcloud run services add-iam-policy-binding new-frontend \
   --region=us-central1 \
@@ -115,6 +119,7 @@ gcloud compute backend-services update [SERVICE_NAME]-backend --global --enable-
 ```
 
 **Example:**
+
 ```bash
 gcloud compute backend-services update new-frontend-backend --global --enable-cdn
 ```
@@ -132,6 +137,7 @@ gcloud compute url-maps add-path-matcher lb-url-map \
 ```
 
 **Example:**
+
 ```bash
 gcloud compute url-maps add-path-matcher lb-url-map \
   --path-matcher-name=frontend-matcher \
@@ -151,6 +157,7 @@ gcloud compute url-maps add-host-rule lb-url-map \
 ```
 
 **Example:**
+
 ```bash
 gcloud compute url-maps add-host-rule lb-url-map \
   --hosts="new-frontend-696345213246.us-central1.run.app" \
@@ -181,18 +188,21 @@ curl -I https://[SERVICE_NAME]-696345213246.us-central1.run.app
 After integration, you will have:
 
 ### **Configured Backends:**
+
 - `api-backend` → recharge-api
 - `bigo-backend` → bigo-frontend
 - `store-backend` → store-frontend
 - `[NEW]-backend` → [NEW]-frontend
 
 ### **Configured Routes:**
+
 - `/api` → api-backend
 - `/bigo` → bigo-backend
 - `/store` → store-backend
 - `/[NEW_ROUTE]` → [NEW]-backend
 
 ### **Domains:**
+
 - `bigo-frontend-696345213246.us-central1.run.app` → bigo-backend
 - `store-frontend-696345213246.us-central1.run.app` → store-backend
 - `[NEW]-frontend-696345213246.us-central1.run.app` → [NEW]-backend
@@ -202,14 +212,17 @@ After integration, you will have:
 ### Common Issues
 
 1. **"NEG not found" error:**
+
    - Verify NEG was created correctly
    - Confirm Cloud Run service name
 
 2. **Permission error:**
+
    - Verify IAM was configured
    - Confirm service is public
 
 3. **Route not working:**
+
    - Verify route was added to URL Map
    - Confirm backend is connected
 
@@ -235,6 +248,7 @@ gcloud compute network-endpoint-groups describe [SERVICE_NAME]-neg --region=us-c
 To update an integrated frontend:
 
 1. **Deploy new frontend:**
+
    ```bash
    ./scripts/deploy-[NAME].sh
    ```
@@ -297,4 +311,4 @@ curl -I https://admin-frontend-696345213246.us-central1.run.app
 
 ---
 
-**Note:** This documentation assumes the Global Load Balancer is already configured. For initial setup, refer to the specific Load Balancer documentation. 
+**Note:** This documentation assumes the Global Load Balancer is already configured. For initial setup, refer to the specific Load Balancer documentation.

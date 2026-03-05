@@ -4,10 +4,9 @@
   "main": "index.js",
   "license": "MIT",
   "files": [
-      "base.json"
+    "base.json"
   ],
   "scripts": {
-      "lint": "echo 'Not necessary'"
+    "lint": "echo 'Not necessary'"
   }
 }
-

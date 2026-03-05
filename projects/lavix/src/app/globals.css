@@ -29,7 +29,6 @@ body {
   text-rendering: optimizeLegibility;
 }
 
-
 /* style for loading component in page.tsx: */
 
 .container {
@@ -41,7 +40,7 @@ body {
   position: absolute;
   height: 2rem;
   width: 2rem;
-  border: 3px solid #00C8FF;
+  border: 3px solid #00c8ff;
   border-top-color: transparent;
   border-radius: 50%;
   animation: spin 0.7s linear infinite;

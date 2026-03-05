@@ -5,10 +5,12 @@ Este documento descreve como configurar domínios próprios para aplicações Cl
 ## 🏗️ Arquitetura Implementada
 
 ### **Estrutura Final:**
+
 - **API (Recharge):** `http://34.54.92.191/api` → Porta 80
 - **Bigo Frontend:** `https://4miga.games` e `https://www.4miga.games` → IP: 34.120.7.164
 
 ### **Vantagens da Arquitetura:**
+
 - ✅ Isolamento completo por frontend
 - ✅ Certificados SSL independentes
 - ✅ Fácil adicionar novos frontends
@@ -57,29 +59,31 @@ gcloud compute url-maps edit lb-[FRONTEND_NAME]-url-map --global
 ```
 
 **No editor, adicionar:**
+
 ```yaml
 defaultService: https://www.googleapis.com/compute/v1/projects/[PROJECT_ID]/global/backendServices/[FRONTEND_NAME]-backend
 hostRules:
-- hosts:
-  - [DOMAIN_1]
-  - [DOMAIN_2]  # se houver subdomínio www
-  pathMatcher: default-matcher
+  - hosts:
+      - [DOMAIN_1]
+      - [DOMAIN_2] # se houver subdomínio www
+    pathMatcher: default-matcher
 pathMatchers:
-- defaultService: https://www.googleapis.com/compute/v1/projects/[PROJECT_ID]/global/backendServices/[FRONTEND_NAME]-backend
-  name: default-matcher
+  - defaultService: https://www.googleapis.com/compute/v1/projects/[PROJECT_ID]/global/backendServices/[FRONTEND_NAME]-backend
+    name: default-matcher
 ```
 
 **Exemplo para Bigo:**
+
 ```yaml
 defaultService: https://www.googleapis.com/compute/v1/projects/pure-sunlight-468021-r1/global/backendServices/bigo-backend
 hostRules:
-- hosts:
-  - 4miga.games
-  - www.4miga.games
-  pathMatcher: default-matcher
+  - hosts:
+      - 4miga.games
+      - www.4miga.games
+    pathMatcher: default-matcher
 pathMatchers:
-- defaultService: https://www.googleapis.com/compute/v1/projects/pure-sunlight-468021-r1/global/backendServices/bigo-backend
-  name: default-matcher
+  - defaultService: https://www.googleapis.com/compute/v1/projects/pure-sunlight-468021-r1/global/backendServices/bigo-backend
+    name: default-matcher
 ```
 
 ### **Passo 4: Criar Certificado SSL Independente**
@@ -145,22 +149,24 @@ gcloud compute url-maps edit lb-[FRONTEND_NAME]-http-url-map --global
 ```
 
 No editor, configure (ajuste domínios):
+
 ```yaml
 hostRules:
-- hosts:
-  - [DOMAIN_1]
-  - [DOMAIN_2]   # opcional, ex: www
-  pathMatcher: http-redirect
+  - hosts:
+      - [DOMAIN_1]
+      - [DOMAIN_2] # opcional, ex: www
+    pathMatcher: http-redirect
 
 pathMatchers:
-- name: http-redirect
-  defaultUrlRedirect:
-    httpsRedirect: true
-    stripQuery: false
-    redirectResponseCode: MOVED_PERMANENTLY_DEFAULT
+  - name: http-redirect
+    defaultUrlRedirect:
+      httpsRedirect: true
+      stripQuery: false
+      redirectResponseCode: MOVED_PERMANENTLY_DEFAULT
 ```
 
 Agora aponte o proxy HTTP para este URL Map e crie a forwarding rule na porta 80:
+
 ```bash
 # Se ainda não existir o proxy HTTP
 gcloud compute target-http-proxies create lb-[FRONTEND_NAME]-http-proxy \
@@ -181,6 +187,7 @@ gcloud compute forwarding-rules create lb-[FRONTEND_NAME]-http-frontend \
 ```
 
 Exemplo (Bigo):
+
 ```bash
 gcloud compute url-maps create lb-bigo-http-url-map --default-service=bigo-backend --global
 gcloud compute url-maps edit lb-bigo-http-url-map --global
@@ -196,6 +203,7 @@ gcloud compute forwarding-rules create lb-bigo-http-frontend \
 ```
 
 Testes esperados (retorno 301/308 para HTTPS):
+
 ```bash
 curl -I http://[DOMAIN_1]
 curl -I http://[DOMAIN_2]
@@ -208,16 +216,19 @@ Nota: Após ativar o redirect no LB, o redirect do Next.js no `next.config.js` t
 No provedor de DNS, adicionar registros A:
 
 **Para domínio principal:**
+
 - **Tipo:** A
 - **Nome:** @ (ou deixar em branco)
 - **Valor:** [IP_DO_FRONTEND]
 
 **Para subdomínio www:**
+
 - **Tipo:** A
 - **Nome:** www
 - **Valor:** [IP_DO_FRONTEND]
 
 **Exemplo para Bigo:**
+
 - `4miga.games` → `34.120.7.164`
 - `www.4miga.games` → `34.120.7.164`
 
@@ -253,10 +264,12 @@ curl -I https://[DOMAIN]
 ## 🌐 URLs Finais
 
 ### **Arquitetura Completa:**
+
 - **API:** `http://34.54.92.191/api`
 - **Bigo:** `https://4miga.games` e `https://www.4miga.games`
 
 ### **Para Novos Frontends:**
+
 - **Novo Frontend:** `https://[DOMAIN]` → IP específico
 
 ## ⚠️ Troubleshooting
@@ -264,10 +277,12 @@ curl -I https://[DOMAIN]
 ### **Problemas Comuns:**
 
 1. **Certificado SSL em PROVISIONING:**
+
    - Aguardar 10-30 minutos
    - Verificar se DNS propagou
 
 2. **Forwarding rule não funciona:**
+
    - Verificar se target HTTPS proxy foi criado
    - Confirmar se certificado está ACTIVE
 
@@ -340,6 +355,7 @@ gcloud compute forwarding-rules create lb-bigo-https-frontend \
 ```
 
 **Resultado final:**
+
 - ✅ `https://4miga.games` → Bigo App
 - ✅ `https://www.4miga.games` → Bigo App
 - ✅ Isolamento completo
@@ -347,4 +363,4 @@ gcloud compute forwarding-rules create lb-bigo-https-frontend \
 
 ---
 
-**Nota:** Esta documentação é específica para configuração de domínios próprios no GCP Cloud Run com arquitetura híbrida e isolamento por frontend. Para outros ambientes, consulte a documentação correspondente. 
+**Nota:** Esta documentação é específica para configuração de domínios próprios no GCP Cloud Run com arquitetura híbrida e isolamento por frontend. Para outros ambientes, consulte a documentação correspondente.

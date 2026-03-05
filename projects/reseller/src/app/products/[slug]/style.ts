@@ -176,7 +176,6 @@ export const ProductsInnerPage = styled.div`
           width: 100%;
           max-width: 178px;
           height: auto;
-        
         }
       }
 

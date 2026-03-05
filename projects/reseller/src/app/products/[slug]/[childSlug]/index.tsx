@@ -594,7 +594,7 @@ const SecondaryProductPage = ({ slug, childSlug }: Props) => {
                 <Text fontName="SMALL_MEDIUM" color={theme.text_04}>
                   Quantidade de créditos:
                 </Text>
-                {isEditing ? (
+                {isCreatingNewPackage ? (
                   <Input
                     value={formatNumber(editData?.amountCredits) || ""}
                     onChange={(e) => {
@@ -619,7 +619,7 @@ const SecondaryProductPage = ({ slug, childSlug }: Props) => {
                     {editData?.amountCredits ?? "-"}
                   </Text>
                 )}
-                {isEditing && errors.amountCredits && (
+                {isCreatingNewPackage && errors.amountCredits && (
                   <span className="error-message">{errors.amountCredits}</span>
                 )}
               </div>
