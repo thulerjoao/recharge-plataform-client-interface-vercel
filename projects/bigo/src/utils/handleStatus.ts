@@ -30,7 +30,7 @@ export const handleOrderStatus = (status: OrderStatus) => {
     return "Expirado";
   } else if (status === "COMPLETED") {
     return "Finalizado";
-  } else if (status === "REFOUNDED") {
+  } else if (status === "REFUNDED") {
     return "Extornado";
   } else {
     return "Pendente";
@@ -57,7 +57,7 @@ export const handleStatusColor = (
     status === "RECHARGE_APPROVED" ||
     //OrderStatus
     status === "PROCESSING" ||
-    status === "REFOUNDED" ||
+    status === "REFUNDED" ||
     status === "COMPLETED"
   ) {
     return Theme.bigoColors.approved;
