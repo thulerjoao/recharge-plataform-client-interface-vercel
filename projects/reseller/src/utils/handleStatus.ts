@@ -56,8 +56,6 @@ export const handleStatusColor = (
     //RechargeStatus
     status === "RECHARGE_APPROVED" ||
     //OrderStatus
-    status === "PROCESSING" ||
-    status === "REFUNDED" ||
     status === "COMPLETED"
   ) {
     return Theme.resellerColors.approved;
@@ -67,6 +65,7 @@ export const handleStatusColor = (
     //RechargeStatus
     status === "RECHARGE_PENDING" ||
     //OrderStatus
+    status === "PROCESSING" ||
     status === "CREATED"
   ) {
     return Theme.resellerColors.pending;
@@ -76,6 +75,7 @@ export const handleStatusColor = (
     //RechargeStatus
     status === "RECHARGE_REJECTED" ||
     //OrderStatus
+    status === "REFUNDED" ||
     status === "EXPIRED"
   ) {
     return Theme.resellerColors.refused;
