@@ -74,7 +74,7 @@ export type OrderStatus =
   | "PROCESSING"
   | "COMPLETED"
   | "EXPIRED"
-  | "REFOUNDED";
+  | "REFUNDED";
 
 export interface OrderResponseType {
   data: OrderType[];
