@@ -1,11 +1,22 @@
 import CreateCoupon from ".";
-
-type Props = {
-  params: { influencerId?: string };
-};
-
-const Page = ({ params }: Props) => {
-  return <CreateCoupon initialInfluencerId={params.influencerId} />;
-};
-
-export default Page;
+import { Suspense } from "react";
+ 
+ type Props = {
+   params: { influencerId?: string };
+ };
+ 
+ const Page = ({ params }: Props) => {
+   return (
+     <Suspense
+       fallback={
+         <div className="container">
+           <span className="loading" />
+         </div>
+       }
+     >
+       <CreateCoupon initialInfluencerId={params.influencerId} />
+     </Suspense>
+   );
+ };
+ 
+ export default Page;

@@ -1,4 +1,5 @@
 import CouponDetails from ".";
+import { Suspense } from "react";
 
 type Props = {
   params: {
@@ -7,7 +8,17 @@ type Props = {
 };
 
 const Page = ({ params }: Props) => {
-  return <CouponDetails couponId={params.id} />;
+  return (
+    <Suspense
+      fallback={
+        <div className="container">
+          <span className="loading" />
+        </div>
+      }
+    >
+      <CouponDetails couponId={params.id} />
+    </Suspense>
+  );
 };
 
 export default Page;

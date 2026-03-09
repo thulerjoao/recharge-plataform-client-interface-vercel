@@ -1,4 +1,5 @@
 import Productpage from ".";
+import { Suspense } from "react";
 
 type Props = {
   params: {
@@ -7,6 +8,17 @@ type Props = {
 };
 
 const Page = ({ params }: Props) => {
-  return <Productpage slug={params.slug} />;
+  return (
+    <Suspense
+      fallback={
+        <div className="container">
+          <span className="loading" />
+        </div>
+      }
+    >
+      <Productpage slug={params.slug} />
+    </Suspense>
+  );
 };
+
 export default Page;

@@ -1,4 +1,5 @@
 import InfluencerSales from "./index";
+import { Suspense } from "react";
 
 type Props = {
   params: {
@@ -8,6 +9,17 @@ type Props = {
 
 const Page = ({ params }: Props) => {
   const { id } = params;
-  return <InfluencerSales influencerId={id} />;
+  return (
+    <Suspense
+      fallback={
+        <div className="container">
+          <span className="loading" />
+        </div>
+      }
+    >
+      <InfluencerSales influencerId={id} />
+    </Suspense>
+  );
 };
+
 export default Page;

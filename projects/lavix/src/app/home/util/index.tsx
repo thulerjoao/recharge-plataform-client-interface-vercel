@@ -5,12 +5,10 @@ import { useProducts } from "contexts/products/ProductsProvider";
 import { useStore } from "contexts/store/StoreProvider";
 import { useRouter } from "next/navigation";
 import BottomOffer from "public/components/bottomOffer/bottomOffer";
-import Carousel from "public/components/carousel/carousel";
 import HowItWorks from "public/components/howItWorks";
 import { PackageType } from "types/productTypes";
 import { formatString } from "utils/formatString";
 import { useTheme } from "styled-components";
-import Lines from "../../../public/components/lines/lines";
 import { HomeTestContainer } from "./style";
 import PackageCardCompact from "public/cards/packageCardCompact/card";
 
@@ -23,7 +21,6 @@ const HomeTest = ({ coupon }: Props) => {
   const route = useRouter();
   const { product } = useProducts();
   const { store } = useStore();
-  const bannerList: string[] = store?.bannersUrl || [];
 
   const handleClick = (item: PackageType) => {
     sessionStorage.removeItem("order");
@@ -34,26 +31,24 @@ const HomeTest = ({ coupon }: Props) => {
 
   return (
     <HomeTestContainer>
-      <Carousel imagesList={bannerList} />
-      <Lines />
       <main>
-        <Text
+        {/* <Text
           tag="h1"
           align="center"
           fontName="LARGE_SEMI_BOLD"
           margin="48px 0px 0px 0px"
         >
           RECARREGUE AGORA
-        </Text>
+        </Text> */}
         <Text
           tag="p"
           align="center"
           fontName="REGULAR"
           className="homeTestText"
-          color={theme.text_03}
+          color={theme.text_01}
           margin="16px 0 8px 0"
         >
-          Recargas direto para sua conta Bigo Live
+          Selecione o pacote que melhor combina com você
         </Text>
         <section className="cardsContainer">
           {product &&

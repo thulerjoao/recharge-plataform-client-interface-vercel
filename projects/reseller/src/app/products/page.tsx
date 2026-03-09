@@ -1,6 +1,18 @@
 import ProductsPage from "./util";
-
-const Page = () => {
-  return <ProductsPage />;
-};
-export default Page;
+import { Suspense } from "react";
+ 
+ const Page = () => {
+   return (
+     <Suspense
+       fallback={
+         <div className="container">
+           <span className="loading" />
+         </div>
+       }
+     >
+       <ProductsPage />
+     </Suspense>
+   );
+ };
+ 
+ export default Page;

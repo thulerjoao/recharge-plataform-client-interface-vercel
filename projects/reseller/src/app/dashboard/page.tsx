@@ -1,7 +1,18 @@
 import Dashboard from "./util";
+import { Suspense } from "react";
 
 const Page = () => {
-  return <Dashboard />;
+  return (
+    <Suspense
+      fallback={
+        <div className="container">
+          <span className="loading" />
+        </div>
+      }
+    >
+      <Dashboard />
+    </Suspense>
+  );
 };
 
 export default Page;

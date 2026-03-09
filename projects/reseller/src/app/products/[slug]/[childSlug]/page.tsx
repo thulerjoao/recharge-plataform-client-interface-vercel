@@ -1,4 +1,5 @@
 import SecondaryProductPage from ".";
+import { Suspense } from "react";
 
 type Props = {
   params: {
@@ -9,7 +10,16 @@ type Props = {
 
 const Page = ({ params }: Props) => {
   return (
-    <SecondaryProductPage slug={params.slug} childSlug={params.childSlug} />
+    <Suspense
+      fallback={
+        <div className="container">
+          <span className="loading" />
+        </div>
+      }
+    >
+      <SecondaryProductPage slug={params.slug} childSlug={params.childSlug} />
+    </Suspense>
   );
 };
+
 export default Page;
