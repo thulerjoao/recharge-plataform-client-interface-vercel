@@ -1,5 +1,6 @@
 import CustomersPage from "./utils";
 import { CustomerStatusFilter } from "types/customerType";
+import { Suspense } from "react";
 
 function parseOptionalNumber(value: string | undefined): number | undefined {
   if (value === undefined || value === "") return undefined;
@@ -34,14 +35,22 @@ const Page = ({ searchParams }: Props) => {
   const validStatus = validStatuses.includes(status) ? status : "all";
 
   return (
-    <CustomersPage
-      currentPage={page}
-      search={search}
-      status={validStatus}
-      daysWithoutPurchase={daysWithoutPurchase}
-      minPurchases={minPurchases}
-      maxDaysWithoutPurchase={maxDaysWithoutPurchase}
-    />
+    <Suspense
+      fallback={
+        <div className="container">
+          <span className="loading" />
+        </div>
+      }
+    >
+      <CustomersPage
+        currentPage={page}
+        search={search}
+        status={validStatus}
+        daysWithoutPurchase={daysWithoutPurchase}
+        minPurchases={minPurchases}
+        maxDaysWithoutPurchase={maxDaysWithoutPurchase}
+      />
+    </Suspense>
   );
 };
 

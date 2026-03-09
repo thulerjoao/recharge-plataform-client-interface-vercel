@@ -1,5 +1,6 @@
 import { OrderStatus } from "types/orderType";
 import OrdersPage from "./index";
+import { Suspense } from "react";
 
 type Props = {
   searchParams: {
@@ -21,15 +22,23 @@ const Page = ({ searchParams }: Props) => {
 
   // Validação de status
   const validStatuses = ["processing", "completed", "expired", "refunded"];
-  const validStatus = validStatuses.includes(status) ? status : undefined;
+  const validStatus = validStatuses.includes(status || "") ? status : undefined;
 
   return (
-    <OrdersPage
-      currentPage={page}
-      search={search}
-      status={validStatus}
-      productId={productId}
-    />
+    <Suspense
+      fallback={
+        <div className="container">
+          <span className="loading" />
+        </div>
+      }
+    >
+      <OrdersPage
+        currentPage={page}
+        search={search}
+        status={validStatus}
+        productId={productId}
+      />
+    </Suspense>
   );
 };
 
