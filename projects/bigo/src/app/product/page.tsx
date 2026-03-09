@@ -1,15 +1,28 @@
 import PaymentPage from "./index";
+import { Suspense } from "react";
 
 type Props = {
   searchParams: {
-    package: string;
+    package?: string;
     coupon?: string;
   };
 };
 
-const Page = async ({ searchParams }: Props) => {
-  const packageId = searchParams.package;
+const Page = ({ searchParams }: Props) => {
+  const packageId = searchParams.package || "";
   const coupon = searchParams.coupon;
-  return <PaymentPage packageId={packageId} couponFromParams={coupon} />;
+
+  return (
+    <Suspense
+      fallback={
+        <div className="container">
+          <span className="loading" />
+        </div>
+      }
+    >
+      <PaymentPage packageId={packageId} couponFromParams={coupon} />
+    </Suspense>
+  );
 };
+
 export default Page;

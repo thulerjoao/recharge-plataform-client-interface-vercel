@@ -1,4 +1,5 @@
 import MyOrders from ".";
+import { Suspense } from "react";
 
 type Props = {
   searchParams: {
@@ -9,6 +10,17 @@ type Props = {
 const Page = ({ searchParams }: Props) => {
   const page = Math.max(1, +(searchParams.page || "1"));
 
-  return <MyOrders currentPage={page} />;
+  return (
+    <Suspense
+      fallback={
+        <div className="container">
+          <span className="loading" />
+        </div>
+      }
+    >
+      <MyOrders currentPage={page} />
+    </Suspense>
+  );
 };
+
 export default Page;
