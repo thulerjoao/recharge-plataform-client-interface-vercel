@@ -6,7 +6,7 @@ import Description from "public/components/description/description";
 import Footer from "public/components/footer/footer";
 import Header from "public/components/header/header";
 import SecurityAdvertise from "public/components/securityAdvertise/securityAdvertise";
-import React, { useEffect } from "react";
+import React, { Suspense, useEffect } from "react";
 import { StyleSheetManager } from "styled-components";
 import { LayoutStyle } from "./style";
 import WhatsAppFloatingButton from "public/components/whatsappFloatingButton";
@@ -32,7 +32,11 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
         <Header />
         <WhatsAppFloatingButton />
         <section className="mainContent">
-          <Description />
+          <div className="description">
+            <Suspense fallback={null}>
+              <Description />
+            </Suspense>
+          </div>
           {children}
         </section>
         <SecurityAdvertise />

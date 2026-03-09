@@ -2,29 +2,23 @@
 
 import Text from "@4miga/design-system/components/Text";
 import { useProducts } from "contexts/products/ProductsProvider";
-import { usePathname } from "next/navigation";
 import { useState } from "react";
 import { useTheme } from "styled-components";
 import { DescriptionContainer } from "./style";
 import Image from "next/image";
+import Carousel from "../carousel/carousel";
+import { useStore } from "contexts/store/StoreProvider";
 
 const Description = () => {
   const theme = useTheme();
   const { product } = useProducts();
   const [seeMore, setSeeMore] = useState<boolean>(false);
+  const { store } = useStore();
+  const bannerList: string[] = store?.bannersUrl || [];
 
   return (
     <DescriptionContainer>
-      <Image
-        src={product.storeCustomization?.imgBannerUrl || product.imgBannerUrl}
-        alt={`Imagem do pacote ${product.name}`}
-        height={600}
-        width={1000}
-        priority
-        loading="eager"
-        sizes="100vw"
-        quality={85}
-      />
+      <Carousel imagesList={bannerList} />
       <div className="centerContent">
         <Text margin="24px 0 0 0 " fontName="BIG_SEMI_BOLD">
           {product.name.toUpperCase()}

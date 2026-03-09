@@ -5,12 +5,11 @@ import "swiper/css/pagination";
 
 export const SwiperContainer = styled.div`
   width: 100%;
-  max-width: 696px;
   margin: 0 auto;
 
   .swiper {
     width: 100%;
-    height: 100%;
+    height: auto;
   }
 
   .swiper-slide {
@@ -21,11 +20,13 @@ export const SwiperContainer = styled.div`
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
     margin-top: 32px;
     width: 100%;
-    aspect-ratio: 21/9;
+  }
 
-    .mainBanner {
-      object-fit: fill;
-    }
+  .mainBanner {
+    width: 100%;
+    height: auto;
+    aspect-ratio: 21/9;
+    object-fit: fill;
   }
 
   .swiper-pagination-bullet {
@@ -38,22 +39,22 @@ export const SwiperContainer = styled.div`
     opacity: 1;
   }
 
-  @media (min-width: 540px) and (max-width: 1024px) {
-    max-width: 744px;
+  @media (min-width: 768px) and (max-width: 1024px) {
     .swiper-slide {
       margin-top: 0px;
       .mainBanner {
-        max-width: 100%;
+        width: 100%;
+        max-width: 768px;
         padding: 0 24px;
       }
     }
   }
 
-  @media (max-width: 539px) {
-    max-width: 100%;
+  @media (max-width: 767px) {
     .swiper-slide {
       margin-top: 0px;
       .mainBanner {
+        width: 100vw;
         max-width: 100%;
       }
     }
