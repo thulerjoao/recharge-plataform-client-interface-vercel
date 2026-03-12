@@ -23,7 +23,7 @@ export default function StyledComponentsRegistry({
   });
 
   const content = (
-    <ThemeProvider theme={Theme.bigoColors}>{children}</ThemeProvider>
+    <ThemeProvider theme={Theme.lavixColors}>{children}</ThemeProvider>
   );
 
   if (typeof window !== "undefined") return content;

@@ -16,18 +16,22 @@ html {
 }
 
 body {
-  background: rgb(1, 11, 14);
-  background: linear-gradient(
-    176deg,
-    rgba(1, 11, 14, 1) 20%,
-    rgba(0, 45, 56, 1) 51%,
-    rgba(1, 11, 14, 1) 78%
-  );
+  /* background-color: #14040C; */
+  background-color: #080205;
+  background-image: url("/backgroundIcon.svg"), url("/backgroundIcon.svg");
+  background-repeat: repeat, repeat;
+  background-size:
+    150px auto,
+    150px auto;
+  background-position:
+    0 0,
+    375px 337.5px;
   background-attachment: fixed;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-rendering: optimizeLegibility;
 }
+
 
 /* style for loading component in page.tsx: */
 
@@ -40,7 +44,7 @@ body {
   position: absolute;
   height: 2rem;
   width: 2rem;
-  border: 3px solid #00c8ff;
+  border: 4px solid #9c225d;
   border-top-color: transparent;
   border-radius: 50%;
   animation: spin 0.7s linear infinite;
