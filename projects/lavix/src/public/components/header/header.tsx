@@ -76,17 +76,19 @@ const Header = () => {
               <Text
                 align="start"
                 fontName="SMALL_SEMI_BOLD"
-                color={theme.text_02}
+                color={theme.text_03}
               >
                 Entrar
               </Text>
             </span>
             <span>
               <Button
+                style={{ backgroundColor: theme.background_05, color: theme.mainColor }}
                 onClick={() => handleOpenLogin(true)}
                 width={98}
                 height={28}
                 title="Cadastre-se"
+                rounded
               />
             </span>
           </div>
@@ -97,14 +99,14 @@ const Header = () => {
           >
             <span className="loginButton">
               <Text
-                color={theme.text_02}
+                color={theme.text_01}
                 align="start"
                 fontName="SMALL_SEMI_BOLD"
               >
                 {user && getFirstTwoNames(user.name)}
               </Text>
             </span>
-            {/* <Profile /> */}
+            <Profile />
           </div>
         )}
         {openMenu && (
