@@ -103,7 +103,7 @@ const PackageBigoCard = ({
             fontName="SUPER_TINY_SEMI_BOLD"
             color={theme.text_01}
           >
-            OFERTA
+            OFERTA!
           </Text>
         </div>
       )}

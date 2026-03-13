@@ -141,7 +141,7 @@ export const PackageBigoCardCompact = styled.article<PackageCardProps>`
       }
     }
   }
-
+/* 
   ${({ paymentPage }) =>
     !paymentPage &&
     `
@@ -183,5 +183,5 @@ export const PackageBigoCardCompact = styled.article<PackageCardProps>`
         }
       }
     }
-  `}
+  `} */
 `;

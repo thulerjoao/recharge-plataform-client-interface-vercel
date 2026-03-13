@@ -24,7 +24,7 @@ export const LayoutStyle = styled.div<LayoutProps>`
 
     .description {
       width: 100%;
-      max-width: 45%;
+      max-width: 42%;
     }
   }
 

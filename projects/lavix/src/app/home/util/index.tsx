@@ -5,7 +5,6 @@ import { useProducts } from "contexts/products/ProductsProvider";
 import { useStore } from "contexts/store/StoreProvider";
 import { useRouter } from "next/navigation";
 import BottomOffer from "public/components/bottomOffer/bottomOffer";
-import HowItWorks from "public/components/howItWorks";
 import { PackageType } from "types/productTypes";
 import { formatString } from "utils/formatString";
 import { useTheme } from "styled-components";
@@ -63,8 +62,6 @@ const HomeTest = ({ coupon }: Props) => {
             ))}
         </section>
       </main>
-      <HowItWorks />
-      {/* <SecurityAdvertise /> */}
       <BottomOffer />
       <div className="couponsLink">
         <Text
@@ -74,7 +71,7 @@ const HomeTest = ({ coupon }: Props) => {
           color={theme.text_03}
           margin="32px 0 16px 0"
         >
-          Quer economizar ainda mais?
+          Quer gastar ainda menos?
         </Text>
         <Text
           tag="a"
@@ -86,10 +83,10 @@ const HomeTest = ({ coupon }: Props) => {
           onClick={() => route.push("/coupons")}
           style={{ cursor: "pointer" }}
         >
-          Ver cupons disponíveis
+          Cupons disponíveis
         </Text>
       </div>
-      <div className="couponsLink">
+      {/* <div className="couponsLink">
         <Text
           tag="p"
           align="center"
@@ -111,7 +108,7 @@ const HomeTest = ({ coupon }: Props) => {
         >
           Calculadora de Beans
         </Text>
-      </div>
+      </div> */}
     </HomeTestContainer>
   );
 };

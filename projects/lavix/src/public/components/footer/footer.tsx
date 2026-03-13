@@ -2,7 +2,7 @@
 
 import Text from "@4miga/design-system/components/Text";
 import { useTheme } from "styled-components";
-import FooterLogo from "./icons/FooterLogo.svg";
+import HeaderLogo from "./icons/HeaderLogo.svg";
 import { FooterContainer } from "./style";
 
 const Footer = () => {
@@ -11,7 +11,7 @@ const Footer = () => {
     <FooterContainer>
       <div className="centerComponent">
         <div className="upperComponent">
-          <FooterLogo />
+          <HeaderLogo />
           {/* <div className="paymentMethods">
             <Text
               align="center"
@@ -57,10 +57,10 @@ const Footer = () => {
                 nowrap
                 align="center"
                 fontName="TINY"
-                color={theme.mainColor}
+                color={theme.text_03}
                 style={{ marginLeft: "4px" }}
               >
-                4MIGA GAMES
+                LAVIX
               </Text>
             </div>
 

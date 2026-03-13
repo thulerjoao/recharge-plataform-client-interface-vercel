@@ -1,21 +1,24 @@
 import Text from "@4miga/design-system/components/Text";
-import Kart from "../../icons/Kart.svg";
-import Locker from "../../icons/Locker.svg";
+import Clock from "./icons/clock.svg";
+import Locker from "./icons/locker.svg";
 import { SecurityAdvertiseContainer } from "./style";
+import { useTheme } from "styled-components";
 
 const SecurityAdvertise = () => {
+  const theme = useTheme();
+
   return (
     <SecurityAdvertiseContainer>
       <article>
-        <Kart />
-        <Text tag="h3" align="center" fontName="SMALL_MEDIUM">
-          Entrega imediata
+        <Locker />
+        <Text color={theme.text_01} tag="h3" align="center" fontName="SMALL_MEDIUM">
+          Compra Segura
         </Text>
       </article>
       <article>
-        <Locker />
-        <Text tag="h3" align="center" fontName="SMALL_MEDIUM">
-          Compra Segura
+        <Clock />
+        <Text color={theme.text_01} tag="h3" align="center" fontName="SMALL_MEDIUM">
+          Entrega rápida
         </Text>
       </article>
     </SecurityAdvertiseContainer>

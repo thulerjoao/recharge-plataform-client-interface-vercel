@@ -44,7 +44,7 @@ export const lavixColors = {
   background_01: "#16040C",
   background_02: "#230714",
   background_03: "#0E0308",
-  background_04: "#eff1f1",
+  background_04: "#ffffff",
   background_05: "rgb(242,217,168)",
   background_06: "#00000099",
   text_01: "#FFFFFF",

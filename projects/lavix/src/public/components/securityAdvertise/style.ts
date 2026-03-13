@@ -6,8 +6,8 @@ export const SecurityAdvertiseContainer = styled.section`
   article {
     height: 160px;
     width: 160px;
-    border-radius: 16px;
-    background-color: ${({ theme }) => theme.background_02};
+    border-radius: 42px;
+    background-color: ${({ theme }) => theme.mainColor};
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -15,22 +15,19 @@ export const SecurityAdvertiseContainer = styled.section`
     padding: 17px 0;
     box-sizing: border-box;
     margin: 0 28px;
-    -webkit-box-shadow: 0px 0px 5px 1px rgba(7, 29, 35, 1);
-    -moz-box-shadow: 0px 0px 5px 1px rgba(7, 29, 35, 1);
-    box-shadow: 0px 0px 5px 1px rgba(7, 29, 35, 1);
-    border: 1px solid ${({ theme }) => theme.border_01}80;
+    box-shadow: 0px 0px 4px ${({ theme }) => theme.background_05};
+    border: 1px solid ${({ theme }) => theme.background_04};
   }
 
   @media (min-width: 768px) and (max-width: 1024px) {
   }
   @media (max-width: 767px) {
-    align-items: center;
     justify-content: space-between;
     width: 100%;
+    max-width: 400px;
     padding: 0 16px;
-
     article {
-      margin: 0 12px;
+      margin: 0 8px;
     }
   }
 `;
