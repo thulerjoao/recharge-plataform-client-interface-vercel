@@ -10,7 +10,7 @@ import { PackageType } from "types/productTypes";
 import { formatString } from "utils/formatString";
 import { useTheme } from "styled-components";
 import { HomeTestContainer } from "./style";
-import PackageCardCompact from "public/cards/packageCardCompact/card";
+import PackageBigoCard from "public/cards/packageBigoCardCompact/card";
 
 type Props = {
   coupon?: string;
@@ -58,7 +58,7 @@ const HomeTest = ({ coupon }: Props) => {
                 className="cardEnviroment"
                 onClick={() => handleClick(packageItem)}
               >
-                <PackageCardCompact selected={false} item={packageItem} />
+                <PackageBigoCard selected={false} item={packageItem} />
               </div>
             ))}
         </section>
