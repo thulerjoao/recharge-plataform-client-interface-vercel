@@ -27,7 +27,6 @@ export const PackageBigoCardCompact = styled.article<PackageCardProps>`
   
   @media (hover: hover) {
     &:hover {
-      /* border: 2px solid ${({ theme }) => theme.mainColor}; */
       box-shadow: 0px 0px 10px 0px ${({ theme }) => theme.background_05};
     }
   }
@@ -72,26 +71,17 @@ export const PackageBigoCardCompact = styled.article<PackageCardProps>`
     }
   }
 
-  .diamondText {
-    /* border-bottom: 2px solid ${({ theme }) => theme.text_04}; */
-    /* padding-bottom: 8px; */
-  }
-
   .priceContainer {
     display: flex;
     align-items: flex-start;
     justify-content: center;
     width: 100%;
-    /* padding: 0;
-    margin-top: 16px;
-    margin-bottom: 8px;
-    padding-right: 16px; */
     position: relative;
     background-color: ${({ theme }) => theme.background_05};
     position: absolute;
     bottom: 0;
     padding: 6px 16px 12px 0;
-    border-radius: 0 0 24px 24px;
+    border-radius: 0 0 20px 20px;
 
 
     .basePriceDiscount {
