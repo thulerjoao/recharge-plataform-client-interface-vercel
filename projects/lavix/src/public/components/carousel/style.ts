@@ -6,7 +6,7 @@ import "swiper/css/pagination";
 export const SwiperContainer = styled.div`
   width: 100%;
   margin: 0 auto;
-
+  
   .swiper {
     width: 100%;
     height: auto;
@@ -21,7 +21,7 @@ export const SwiperContainer = styled.div`
     margin-top: 32px;
     width: 100%;
   }
-
+  
   .mainBanner {
     width: 100%;
     height: auto;
@@ -49,14 +49,14 @@ export const SwiperContainer = styled.div`
       }
     }
   }
-
+  
   @media (max-width: 767px) {
     .swiper-slide {
       margin-top: 0px;
       .mainBanner {
-        width: 100vw;
+        width: 100%;
         max-width: 100%;
       }
     }
   }
-`;
+  `;

@@ -54,6 +54,7 @@ export const SwiperContainer = styled.div`
     .swiper-slide {
       margin-top: 0px;
       .mainBanner {
+        width: 100%;
         max-width: 100%;
       }
     }

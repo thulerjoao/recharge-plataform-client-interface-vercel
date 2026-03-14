@@ -25,6 +25,14 @@ const CouponsPage = () => {
       });
   }, []);
 
+  if (loading) {
+    return (
+      <div className="container">
+        <span className="loading" />
+      </div>
+    );
+  }
+
   return (
     <CouponsContainer>
       <div className="header">

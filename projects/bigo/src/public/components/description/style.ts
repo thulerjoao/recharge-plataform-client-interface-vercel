@@ -53,7 +53,7 @@ export const DescriptionContainer = styled.div`
   }
   @media (max-width: 767px) {
     img {
-      width: 100vw;
+      width: 100%;
       max-width: 100%;
     }
 
