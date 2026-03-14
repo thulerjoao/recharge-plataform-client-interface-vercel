@@ -49,13 +49,13 @@ export const SettingsContainer = styled.div`
       background-color: ${({ theme }) => theme.background_02};
       border-radius: 12px;
       padding: 24px;
-      box-shadow: 0px 0px 2px ${({ theme }) => theme.background_05};
-      border: 1px solid ${({ theme }) => theme.background_05};
+      box-shadow: 0px 0px 3px ${({ theme }) => theme.background_05};
+      border: 1px solid ${({ theme }) => theme.border_01};
 
       .section-title {
         margin-bottom: 24px;
         color: ${({ theme }) => theme.text_01};
-        border-bottom: 1px solid ${({ theme }) => theme.background_03};
+        border-bottom: 1px solid ${({ theme }) => theme.border_01};
         padding-bottom: 12px;
       }
 
