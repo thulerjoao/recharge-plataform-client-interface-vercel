@@ -7,6 +7,7 @@ import toast from "react-hot-toast";
 import { FeaturedCoupon } from "types/couponType";
 import { formatPrice } from "utils/formatPrice";
 import { CouponCardContainer } from "./style";
+import LavixLogo from "./icons/iconLavix.svg";
 
 interface CouponCardProps {
   coupon: FeaturedCoupon;
@@ -69,38 +70,36 @@ const CouponCard = ({ coupon, isActiveOut }: CouponCardProps) => {
           </Text>
         </div>
       )}
-      <section className="topSection">
-        <Text
-          align="center"
-          color={theme.background_02}
-          fontName="LARGE_SEMI_BOLD"
-        >
-          {title.toUpperCase()}
-        </Text>
-        <Text align="center" color={theme.mainColor} fontName="REGULAR_MEDIUM">
-          {discountValue} OFF
-        </Text>
-      </section>
-      <section className="middleSection">
-        <div className="leftBall">
-          <div className="leftSquare" />
+      <div className="logo">
+        <LavixLogo />
+      </div>
+      <section className="content">
+        <div className="topSection">
+          <Text
+            align="center"
+            color={theme.background_02}
+            fontName="LARGE_SEMI_BOLD"
+          >
+            {title.toUpperCase()}
+          </Text>
+          <Text
+            align="center"
+            color={theme.mainColor}
+            fontName="REGULAR_MEDIUM"
+          >
+            {discountValue} OFF
+          </Text>
         </div>
-        <div className="centerComponent">
-          <div className="line" />
+        <div className="bottomSection">
+          <Text
+            align="center"
+            color={theme.background_03}
+            fontName="TINY_MEDIUM"
+            margin="0"
+          >
+            {getDescription()}
+          </Text>
         </div>
-        <div className="rightBall">
-          <div className="rightSquare" />
-        </div>
-      </section>
-      <section className="bottomSection">
-        <Text
-          align="center"
-          color={theme.background_03}
-          fontName="TINY_MEDIUM"
-          margin="0"
-        >
-          {getDescription()}
-        </Text>
       </section>
     </CouponCardContainer>
   );
