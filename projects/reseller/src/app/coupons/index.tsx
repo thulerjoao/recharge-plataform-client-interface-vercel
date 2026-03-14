@@ -117,6 +117,8 @@ const CouponsPage = ({
     }
   };
 
+  console.log(featuredCoupons);
+
   const handleRemoveFromFeatured = async (couponId: string) => {
     try {
       await removeFromFeatured(couponId);

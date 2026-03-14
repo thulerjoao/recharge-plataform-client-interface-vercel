@@ -11,11 +11,8 @@ export const CouponCardContainer = styled.article<Props>`
   flex-direction: column;
   height: auto;
   position: relative;
-  overflow: visible;
-  filter: ${({ isActive }) =>
-    isActive ? `drop-shadow(0px 0px 5px rgb(14, 67, 82))` : "none"};
   cursor: ${({ isActive }) => (isActive ? "pointer" : "default")};
-  overflow: hidden;
+
 
   .expiredOverlay {
     position: absolute;
@@ -23,29 +20,31 @@ export const CouponCardContainer = styled.article<Props>`
     left: 0;
     right: 0;
     bottom: 0;
-    background-color: ${({ theme }) => theme.refused}80;
+    background-color: ${({ theme }) => theme.background_01}99;
+    border-radius: 24px;
+    z-index: 10;
     display: flex;
     align-items: center;
     justify-content: center;
-    z-index: 10;
 
     p {
-      transform: rotate(-6deg);
-      border: 3px solid ${({ theme }) => theme.refused}60;
-      width: 80%;
-      max-width: 340px;
-      padding: 8px 16px;
+      position: absolute;
+      bottom: -2px;
+      background-color: ${({ theme }) => theme.refused};
+      width: auto;
+      padding: 3px 12px 1px 12px;
+      border-radius: 24px;
     }
   }
 
   .logo {
     position: absolute;
     top: 0;
-    left: -3px;
+    left: -2px;
     width: auto;
     height: 100%;
     border-right: 2px dotted ${({ theme }) => theme.text_02};
-    padding-right: 16px;
+    padding-right: 15px;
   }
 
   .content {

@@ -63,10 +63,10 @@ const CouponCard = ({ coupon, isActiveOut }: CouponCardProps) => {
         <div className="expiredOverlay">
           <Text
             align="center"
-            color={`${theme.refused}90`}
-            fontName="BIG_SEMI_BOLD"
+            color={`${theme.mainColor}`}
+            fontName="TINY"
           >
-            EXPIRADO
+            EXPIRADO!
           </Text>
         </div>
       )}
