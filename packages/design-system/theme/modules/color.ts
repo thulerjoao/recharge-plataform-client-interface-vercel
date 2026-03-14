@@ -51,7 +51,7 @@ export const lavixColors = {
   text_02: "#010a0e",
   text_03: "rgb(242,217,168)",
   text_04: "#8A979B",
-  border_01: "#525F63",
+  border_01: "rgb(197, 188, 170)",
   border_02: "rgb(176, 199, 199)",
   mainColor: "#9c225d",
   approved: "#01FF0B",

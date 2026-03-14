@@ -13,6 +13,14 @@ export const LoginModalBackground = styled.div`
   justify-content: center;
   align-items: center;
 
+  /* button {
+    color: ${({ theme }) => theme.text_01} !important;
+  } */
+
+  input {
+    color: ${({ theme }) => theme.text_02} !important;
+  }
+
   @media (max-width: 767px) {
     padding: 0 16px;
   }
@@ -21,15 +29,14 @@ export const LoginModalBackground = styled.div`
 export const LoginModalContainer = styled.div`
   width: 100%;
   max-width: 560px;
-  background-color: ${({ theme }) => theme.background_01};
+  background-color: ${({ theme }) => theme.background_02};
   display: flex;
   flex-direction: column;
   align-items: center;
-  border-radius: 8px;
+  border-radius: 36px;
   padding-bottom: 48px;
-  -webkit-box-shadow: 0px 0px 5px 2px rgba(7, 29, 35, 1);
-  -moz-box-shadow: 0px 0px 5px 2px rgba(7, 29, 35, 1);
-  box-shadow: 0px 0px 5px 2px rgba(7, 29, 35, 1);
+  box-shadow: 0px 0px 5px ${({ theme }) => theme.background_05};
+  /* border: 1px solid ${({ theme }) => theme.background_05}; */
 
   .close {
     width: 100%;
@@ -38,7 +45,7 @@ export const LoginModalContainer = styled.div`
     justify-content: space-between;
     margin-top: 16px;
     margin-bottom: 8px;
-    padding: 0 16px;
+    padding: 0 18px;
     min-height: 24px;
 
     span {

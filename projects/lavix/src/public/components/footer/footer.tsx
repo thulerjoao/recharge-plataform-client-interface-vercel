@@ -2,7 +2,7 @@
 
 import Text from "@4miga/design-system/components/Text";
 import { useTheme } from "styled-components";
-import HeaderLogo from "./icons/HeaderLogo.svg";
+import Logo from "./icons/Logo.svg";
 import { FooterContainer } from "./style";
 
 const Footer = () => {
@@ -11,7 +11,7 @@ const Footer = () => {
     <FooterContainer>
       <div className="centerComponent">
         <div className="upperComponent">
-          <HeaderLogo />
+          <Logo />
           {/* <div className="paymentMethods">
             <Text
               align="center"
