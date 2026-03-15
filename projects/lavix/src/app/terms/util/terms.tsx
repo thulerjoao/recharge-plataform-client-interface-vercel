@@ -16,7 +16,7 @@ const Terms = () => {
           color={theme.text_01}
           margin="0 0 32px 0"
         >
-          Termos e Condições de Uso – 4MIGA GAMES
+          Termos e Condições de Uso – LAVIX
         </Text>
 
         <Text
@@ -26,9 +26,8 @@ const Terms = () => {
           margin="0 0 24px 0"
         >
           Estes Termos de Serviço regem seus (&quot;Você&quot;, &quot;seu&quot;)
-          direitos e obrigações como usuários dos portais gerenciados pela 4MIGA
-          GAMES. A menos que seja indicado de outra forma pela 4MIGA GAMES,
-          todos os novos portais introduzidos e gerenciados pela 4MIGA GAMES
+          direitos e obrigações como usuários dos portais gerenciados pela LAVIX. A menos que seja indicado de outra forma pela LAVIX,
+          todos os novos portais introduzidos e gerenciados pela LAVIX
           serão regidos por estes Termos de Serviço.
         </Text>
 
@@ -41,7 +40,7 @@ const Terms = () => {
           Ao acessar qualquer um dos Portais e/ou comprar qualquer item, você
           reconhece e aceita que o uso dos Portais e a compra de Itens serão
           regidos por estes Termos de Serviço e quaisquer outras regras
-          específicas determinadas pela 4MIGA GAMES a seu exclusivo critério.
+          específicas determinadas pela LAVIX a seu exclusivo critério.
         </Text>
 
         <section className="section">
@@ -72,14 +71,13 @@ const Terms = () => {
             </li>
             <li>
               <Text tag="span" fontName="REGULAR" color={theme.text_01}>
-                <strong>Comprador:</strong> Usuário que compra Itens na 4MIGA
-                GAMES.
+                <strong>Comprador:</strong> Usuário que compra Itens na LAVIX.
               </Text>
             </li>
             <li>
               <Text tag="span" fontName="REGULAR" color={theme.text_01}>
                 <strong>Itens / Créditos de Jogos:</strong> Produtos digitais
-                listados para venda na 4MIGA GAMES. Este termo refere-se, mas
+                listados para venda na LAVIX. Este termo refere-se, mas
                 não se limita, a: Diamantes do Bigo Live, Moedas do Poppo Live
                 ou quaisquer outros créditos virtuais de aplicativos
                 disponibilizados na plataforma.
@@ -87,15 +85,14 @@ const Terms = () => {
             </li>
             <li>
               <Text tag="span" fontName="REGULAR" color={theme.text_01}>
-                <strong>Portais:</strong> O site da 4MIGA GAMES disponível em
-                www.4miga.games e quaisquer plataformas afiliadas gerenciadas
+                <strong>Portais:</strong> O site da LAVIX e quaisquer plataformas afiliadas gerenciadas
                 pela empresa.
               </Text>
             </li>
             <li>
               <Text tag="span" fontName="REGULAR" color={theme.text_01}>
                 <strong>Serviços:</strong> A venda e entrega de Créditos de
-                Jogos através da 4MIGA GAMES.
+                Jogos através da LAVIX.
               </Text>
             </li>
           </ul>
@@ -117,7 +114,7 @@ const Terms = () => {
             color={theme.text_01}
             margin="0 0 16px 0"
           >
-            O processo para comprar Créditos de Jogos na 4MIGA GAMES é o
+            O processo para comprar Créditos de Jogos na LAVIX é o
             seguinte:
           </Text>
 
@@ -154,7 +151,7 @@ const Terms = () => {
             </li>
             <li>
               <Text tag="span" fontName="REGULAR" color={theme.text_01}>
-                A 4MIGA GAMES entrega os Créditos adquiridos para o ID fornecido
+                A LAVIX entrega os Créditos adquiridos para o ID fornecido
                 no pedido. Após a entrega, os Créditos não são reembolsáveis nem
                 recuperáveis.
               </Text>
@@ -163,7 +160,7 @@ const Terms = () => {
               <Text tag="span" fontName="REGULAR" color={theme.text_01}>
                 Se um pedido não puder ser atendido ou for rejeitado, os fundos
                 serão reembolsados ou o pedido será cancelado a critério
-                exclusivo da 4MIGA GAMES.
+                exclusivo da LAVIX.
               </Text>
             </li>
             <li>
@@ -193,7 +190,7 @@ const Terms = () => {
             color={theme.text_01}
             margin="0 0 24px 0"
           >
-            Ao aceitar estes Termos, a 4MIGA GAMES concede a você uma licença
+            Ao aceitar estes Termos, a LAVIX concede a você uma licença
             não exclusiva e intransferível para acessar seus Portais e utilizar
             seus Serviços conforme estes Termos.
           </Text>
@@ -240,24 +237,24 @@ const Terms = () => {
             <li>
               <Text tag="span" fontName="REGULAR" color={theme.text_01}>
                 Você não revenderá os Itens adquiridos sem autorização prévia da
-                4MIGA GAMES.
+                LAVIX.
               </Text>
             </li>
             <li>
               <Text tag="span" fontName="REGULAR" color={theme.text_01}>
                 Você não adotará comportamento ofensivo, abusivo ou prejudicial
-                contra a equipe 4MIGA GAMES ou outros usuários.
+                contra a equipe LAVIX ou outros usuários.
               </Text>
             </li>
             <li>
               <Text tag="span" fontName="REGULAR" color={theme.text_01}>
                 Quaisquer itens adicionais enviados por engano devem ser
-                devolvidos à 4MIGA GAMES mediante notificação.
+                devolvidos à LAVIX mediante notificação.
               </Text>
             </li>
             <li>
               <Text tag="span" fontName="REGULAR" color={theme.text_01}>
-                A 4MIGA GAMES não se responsabiliza pela forma como o cliente
+                A LAVIX não se responsabiliza pela forma como o cliente
                 escolhe usar os Créditos dentro dos aplicativos (seja Bigo Live,
                 Poppo Live ou outros). Todo uso, consumo ou gasto no aplicativo
                 é de responsabilidade exclusiva do cliente.
@@ -327,7 +324,7 @@ const Terms = () => {
           <ul className="definitions-list">
             <li>
               <Text tag="span" fontName="REGULAR" color={theme.text_01}>
-                A 4MIGA GAMES busca operar 24/7, mas pode haver interrupções
+                A LAVIX busca operar 24/7, mas pode haver interrupções
                 devido a manutenções ou circunstâncias imprevistas.
               </Text>
             </li>
@@ -338,7 +335,7 @@ const Terms = () => {
             </li>
             <li>
               <Text tag="span" fontName="REGULAR" color={theme.text_01}>
-                A 4MIGA GAMES pode suspender, encerrar ou restringir o acesso
+                A LAVIX pode suspender, encerrar ou restringir o acesso
                 aos Serviços a qualquer momento, sem aviso prévio.
               </Text>
             </li>
@@ -358,7 +355,7 @@ const Terms = () => {
           <ul className="definitions-list">
             <li>
               <Text tag="span" fontName="REGULAR" color={theme.text_01}>
-                A 4MIGA GAMES atua como revendedora intermediária e não se
+                A LAVIX atua como revendedora intermediária e não se
                 responsabiliza por mudanças nas políticas dos desenvolvedores
                 dos jogos (Bigo Technology, Poppo, etc.), alterações no valor
                 das moedas virtuais ou pela descontinuação dos serviços pelos
@@ -367,13 +364,13 @@ const Terms = () => {
             </li>
             <li>
               <Text tag="span" fontName="REGULAR" color={theme.text_01}>
-                A 4MIGA GAMES não garante que os Itens atenderão às suas
+                A LAVIX não garante que os Itens atenderão às suas
                 expectativas ou que os Serviços estarão livres de erros.
               </Text>
             </li>
             <li>
               <Text tag="span" fontName="REGULAR" color={theme.text_01}>
-                Em nenhuma hipótese a 4MIGA GAMES será responsável por danos
+                Em nenhuma hipótese a LAVIX será responsável por danos
                 incidentais, especiais ou consequenciais decorrentes do uso dos
                 nossos Serviços.
               </Text>
@@ -397,7 +394,7 @@ const Terms = () => {
             color={theme.text_01}
             margin="0 0 24px 0"
           >
-            Você concorda em indenizar e isentar a 4MIGA GAMES de quaisquer
+            Você concorda em indenizar e isentar a LAVIX de quaisquer
             reivindicações, danos ou responsabilidades decorrentes do seu uso
             dos Serviços ou violação destes Termos.
           </Text>
@@ -419,7 +416,7 @@ const Terms = () => {
             color={theme.text_01}
             margin="0 0 16px 0"
           >
-            A 4MIGA GAMES reserva-se o direito de:
+            A LAVIX reserva-se o direito de:
           </Text>
 
           <ul className="definitions-list">
@@ -503,8 +500,8 @@ const Terms = () => {
             margin="0 0 24px 0"
           >
             Estes Termos são regidos pelas leis aplicáveis no local de operação
-            da 4MIGA GAMES. Ao utilizar nossos Serviços, você renuncia ao
-            direito de participar de ações coletivas contra a 4MIGA GAMES.
+            da LAVIX. Ao utilizar nossos Serviços, você renuncia ao
+            direito de participar de ações coletivas contra a LAVIX.
           </Text>
         </section>
 
@@ -524,7 +521,7 @@ const Terms = () => {
             color={theme.text_01}
             margin="0 0 24px 0"
           >
-            A 4MIGA GAMES valoriza sua privacidade e a segurança de seus dados
+            A LAVIX valoriza sua privacidade e a segurança de seus dados
             (incluindo Nome e CPF). Consulte nossa Política de Privacidade para
             saber como coletamos, usamos e protegemos suas informações pessoais.
           </Text>
@@ -543,7 +540,7 @@ const Terms = () => {
           <ul className="definitions-list">
             <li>
               <Text tag="span" fontName="REGULAR" color={theme.text_01}>
-                A 4MIGA GAMES pode modificar estes Termos a qualquer momento.
+                A LAVIX pode modificar estes Termos a qualquer momento.
               </Text>
             </li>
             <li>
@@ -561,8 +558,8 @@ const Terms = () => {
             <li>
               <Text tag="span" fontName="REGULAR" color={theme.text_01}>
                 Em caso de dúvidas, entre em contato através do e-mail:{" "}
-                <a href="mailto:suporte@4miga.games" className="email-link">
-                  suporte@4miga.games
+                <a href="mailto:suporte@lavix.com" className="email-link">
+                  suporte@lavix.com
                 </a>
                 .
               </Text>
@@ -577,7 +574,7 @@ const Terms = () => {
             color={theme.text_01}
             margin="32px 0 0 0"
           >
-            Última atualização: 17/12/2025
+            Última atualização: 17/03/2026
           </Text>
         </div>
       </div>
