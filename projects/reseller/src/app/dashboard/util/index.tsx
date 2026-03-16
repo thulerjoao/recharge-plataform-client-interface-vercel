@@ -52,7 +52,6 @@ const getPeriodParam = (period: PeriodType): string => {
 };
 
 const Dashboard = () => {
-  const { store } = useAuth();
   const theme = useTheme();
   const [selectedPeriod, setSelectedPeriod] =
     useState<PeriodType>(getCurrentPeriod());
@@ -243,14 +242,6 @@ const Dashboard = () => {
           </Text>
         </div>
         <div className="header">
-          <Text
-            align="center"
-            fontName="LARGE_SEMI_BOLD"
-            color={theme.mainColor}
-            margin="0 0 16px 0"
-          >
-            {store.name}
-          </Text>
           <CronHealthIndicator
             cronHealthStatus={dashboardData.cronHealthStatus}
             onRecalculate={handleRecalculate}

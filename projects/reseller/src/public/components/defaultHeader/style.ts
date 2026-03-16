@@ -16,6 +16,11 @@ export const DefaultHeaderContainer = styled.header`
     cursor: pointer;
   }
 
+  .storeName {
+    position: absolute;
+    bottom: 0;
+  }
+
   @media (min-width: 768px) and (max-width: 1024px) {
   }
   @media (max-width: 767px) {
