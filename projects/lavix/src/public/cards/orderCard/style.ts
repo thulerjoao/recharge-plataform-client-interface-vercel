@@ -10,11 +10,9 @@ export const OrderCardContainer = styled.article`
   box-sizing: border-box;
   margin-top: 16px;
   border-radius: 8px;
-  background-color: ${({ theme }) => theme.background_01};
-  -webkit-box-shadow: 0px 0px 5px 1px rgba(7, 29, 35, 1);
-  -moz-box-shadow: 0px 0px 5px 1px rgba(7, 29, 35, 1);
-  box-shadow: 0px 0px 5px 1px rgba(7, 29, 35, 1);
-  border: 1px solid ${({ theme }) => theme.border_01}80;
+  background-color: ${({ theme }) => theme.background_03};
+  border: 1px solid ${({ theme }) => theme.border_02};
+  box-shadow: 0px 0px 3px ${({ theme }) => theme.background_05};
   box-sizing: border-box;
   cursor: pointer;
 
@@ -56,7 +54,6 @@ export const SkeletonContainer = styled.div<SkeletonProps>`
   margin-top: 16px;
   border-radius: 8px;
   background-color: ${({ theme }) => theme.background_01};
-  box-shadow: 0px 0px 1.2px 0px rgba(2, 36, 46, 1);
   background-image: linear-gradient(
     80deg,
     ${({ theme }) => theme.background_01} 60%,
@@ -66,9 +63,6 @@ export const SkeletonContainer = styled.div<SkeletonProps>`
   background-size: 250% 100%;
   animation: ${shimmer} 1.5s steps(60) infinite;
   opacity: ${({ opacity }) => opacity ?? 1};
-  -webkit-box-shadow: 0px 0px 5px 1px rgba(7, 29, 35, 1);
-  -moz-box-shadow: 0px 0px 5px 1px rgba(7, 29, 35, 1);
-  box-shadow: 0px 0px 5px 1px rgba(7, 29, 35, 1);
 
   div {
     background-color: #00000030;

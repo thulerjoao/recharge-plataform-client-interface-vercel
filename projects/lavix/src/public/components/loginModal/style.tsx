@@ -29,7 +29,7 @@ export const LoginModalBackground = styled.div`
 export const LoginModalContainer = styled.div`
   width: 100%;
   max-width: 560px;
-  background-color: ${({ theme }) => theme.background_02};
+  background-color: ${({ theme }) => theme.background_01};
   display: flex;
   flex-direction: column;
   align-items: center;
