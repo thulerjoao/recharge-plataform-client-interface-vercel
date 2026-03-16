@@ -4,7 +4,6 @@ import { scrollToTop } from "utils/scrollToTopFunction";
 import { useDisableScroll } from "@4miga/hooks/useDisableScroll";
 import MobileMenu from "../mobileMenu";
 import MobileNavbar from "../navBarMenu";
-import Logo from "./icons/Logo.svg";
 import BackArrow from "./icons/BackArrow.svg";
 import Menu from "./icons/Menu.svg";
 import { MobileHeaderContainer } from "./style";

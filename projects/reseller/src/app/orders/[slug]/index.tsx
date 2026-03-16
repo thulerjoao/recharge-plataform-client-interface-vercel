@@ -8,6 +8,7 @@ import {
 } from "@4miga/services/connectionAPI/connection";
 import Image from "next/image";
 import DefaultHeader from "public/components/defaultHeader";
+import MobilePageHeader from "public/components/mobilePageHeader";
 import HeaderEnviroment from "public/components/headerEnviroment";
 import { useEffect, useState } from "react";
 import toast from "react-hot-toast";
@@ -89,11 +90,7 @@ const OrdersInnerPage = ({ slug }: { slug: string }) => {
           <DefaultHeader backWard title="DETALHES DA VENDA" />
         </HeaderEnviroment>
       </div>
-      <div className="mobile mobileHeader">
-        <Text align="center" fontName="LARGE_SEMI_BOLD" color={theme.text_02}>
-          PEDIDO
-        </Text>
-      </div>
+      <MobilePageHeader title="PEDIDO" />
       <main>
         <section className="top">
           <div className="leftTop">

@@ -116,15 +116,6 @@ export const OrdersContainer = styled.div`
         width: 100%;
       }
 
-      .mobileHeader {
-        position: fixed;
-        top: 0;
-        z-index: 10;
-        margin-top: 12px;
-        width: auto;
-        height: 0;
-      }
-
       .filtersSection {
         flex-direction: column;
         gap: 16px;

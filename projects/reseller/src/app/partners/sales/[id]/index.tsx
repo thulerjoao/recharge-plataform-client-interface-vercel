@@ -5,6 +5,7 @@ import { useTheme } from "styled-components";
 import { connectionAPIGet } from "@4miga/services/connectionAPI/connection";
 import { useRouter } from "next/navigation";
 import DefaultHeader from "public/components/defaultHeader";
+import MobilePageHeader from "public/components/mobilePageHeader";
 import HeaderEnviroment from "public/components/headerEnviroment";
 import Pagination from "public/components/pagination";
 import { useEffect, useState } from "react";
@@ -106,11 +107,7 @@ const InfluencerSales = ({ influencerId }: InfluencerDetailsProps) => {
           <DefaultHeader backWard title="HISTÓRICO DE VENDAS" />
         </HeaderEnviroment>
       </div>
-      <div className="mobile mobileHeader">
-        <Text nowrap align="center" fontName="LARGE_SEMI_BOLD">
-          HISTÓRICO VENDAS
-        </Text>
-      </div>
+      <MobilePageHeader title="HISTÓRICO VENDAS" />
 
       <div className="salesMainContent">
         <div className="headerSection">

@@ -68,16 +68,6 @@ export const DashboardContainer = styled.div`
         width: 100%;
       }
 
-      .mobileHeader {
-        position: fixed;
-        top: 0;
-        z-index: 10;
-        margin-top: 12px;
-        width: auto;
-        height: 0;
-        width: 100%;
-      }
-
       .header {
         margin-top: 0px;
         .headerTop {

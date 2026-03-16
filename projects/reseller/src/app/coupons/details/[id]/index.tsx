@@ -16,6 +16,7 @@ import LoadingPage from "app/loading";
 import { useCoupons } from "context/coupon";
 import { useRouter } from "next/navigation";
 import DefaultHeader from "public/components/defaultHeader";
+import MobilePageHeader from "public/components/mobilePageHeader";
 import HeaderEnviroment from "public/components/headerEnviroment";
 import { useEffect, useState } from "react";
 import InputMask from "react-input-mask";
@@ -284,11 +285,7 @@ const CouponDetails = ({ couponId }: CouponDetailsProps) => {
           <DefaultHeader backWard title="DETALHES DO CUPOM" />
         </HeaderEnviroment>
       </div>
-      <div className="mobile mobileHeader">
-        <Text align="center" fontName="LARGE_SEMI_BOLD" color={theme.text_02}>
-          CUPOM
-        </Text>
-      </div>
+      <MobilePageHeader title="CUPOM" />
 
       <div className="mainContent">
         <div className="headerSection">

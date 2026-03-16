@@ -7,6 +7,7 @@ import { useOrders } from "context/orders";
 import { useRouter } from "next/navigation";
 import CustomerCard from "public/cards/customerCard";
 import DefaultHeader from "public/components/defaultHeader";
+import MobilePageHeader from "public/components/mobilePageHeader";
 import HeaderEnviroment from "public/components/headerEnviroment";
 import Pagination from "public/components/pagination";
 import {
@@ -163,11 +164,7 @@ const CustomerOrdersPage = ({ currentPage, customerEmail }: Props) => {
             <DefaultHeader backWard title="DETALHES DO CLIENTE" />
           </HeaderEnviroment>
         </div>
-        <div className="mobile mobileHeader">
-          <Text align="center" fontName="LARGE_SEMI_BOLD" color={theme.text_02}>
-            CLIENTE
-          </Text>
-        </div>
+        <MobilePageHeader title="CLIENTE" />
 
         <section className="customerCardSection">
           {customer ? (

@@ -12,6 +12,7 @@ import {
 import { apiUrl } from "@4miga/services/connectionAPI/url";
 import { useRouter, useSearchParams } from "next/navigation";
 import DefaultHeader from "public/components/defaultHeader";
+import MobilePageHeader from "public/components/mobilePageHeader";
 import HeaderEnviroment from "public/components/headerEnviroment";
 import { useEffect, useState } from "react";
 import InputMask from "react-input-mask";
@@ -197,11 +198,7 @@ const CreateCoupon = ({
           <DefaultHeader backWard title="CRIAR CUPOM" />
         </HeaderEnviroment>
       </div>
-      <div className="mobile mobileHeader">
-        <Text align="center" fontName="LARGE_SEMI_BOLD" color={theme.text_02}>
-          CRIAR CUPOM
-        </Text>
-      </div>
+      <MobilePageHeader title="CRIAR CUPOM" />
 
       <div className="mainContentContainer">
         <div className="headerSection">

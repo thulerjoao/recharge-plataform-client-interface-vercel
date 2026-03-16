@@ -15,6 +15,7 @@ import {
 import { apiUrl } from "@4miga/services/connectionAPI/url";
 import { useRouter } from "next/navigation";
 import DefaultHeader from "public/components/defaultHeader";
+import MobilePageHeader from "public/components/mobilePageHeader";
 import HeaderEnviroment from "public/components/headerEnviroment";
 import { useEffect, useState } from "react";
 import InputMask from "react-input-mask";
@@ -248,16 +249,7 @@ const InfluencerDetails = ({ influencerId }: InfluencerDetailsProps) => {
           <DefaultHeader backWard title="DETALHES DO PARCEIRO" />
         </HeaderEnviroment>
       </div>
-      <div className="mobile mobileHeader">
-        <Text
-          nowrap
-          align="center"
-          fontName="LARGE_SEMI_BOLD"
-          color={theme.text_02}
-        >
-          DETALHES PARCEIRO
-        </Text>
-      </div>
+      <MobilePageHeader title="DETALHES PARCEIRO" />
 
       <div className="influencerMainContent">
         <div className="headerSection">

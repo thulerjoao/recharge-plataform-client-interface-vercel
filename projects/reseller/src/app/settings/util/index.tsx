@@ -4,6 +4,7 @@ import Text from "@4miga/design-system/components/Text";
 import { useTheme } from "styled-components";
 import { useAuth } from "context/auth";
 import DefaultHeader from "public/components/defaultHeader";
+import MobilePageHeader from "public/components/mobilePageHeader";
 import HeaderEnviroment from "public/components/headerEnviroment";
 import CarouselUpload from "../common/components/carouselUpload";
 import SecondaryBannerUpload from "../common/components/secondaryBannerUpload";
@@ -21,11 +22,7 @@ const Store = () => {
           <DefaultHeader title="LOJA" />
         </HeaderEnviroment>
       </div>
-      <div className="mobile mobileHeader">
-        <Text align="center" fontName="LARGE_SEMI_BOLD" color={theme.text_02}>
-          LOJA
-        </Text>
-      </div>
+      <MobilePageHeader title="LOJA" />
 
       <div className="mainContentContainer">
         <CarouselUpload

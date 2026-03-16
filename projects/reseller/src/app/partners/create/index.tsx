@@ -8,6 +8,7 @@ import { useTheme } from "styled-components";
 import { connectionAPIPost } from "@4miga/services/connectionAPI/connection";
 import { useRouter } from "next/navigation";
 import DefaultHeader from "public/components/defaultHeader";
+import MobilePageHeader from "public/components/mobilePageHeader";
 import HeaderEnviroment from "public/components/headerEnviroment";
 import { useState } from "react";
 import InputMask from "react-input-mask";
@@ -106,11 +107,7 @@ const CreateInfluencer = () => {
           <DefaultHeader backWard title="ADICIONAR PARCEIRO" />
         </HeaderEnviroment>
       </div>
-      <div className="mobile mobileHeader">
-        <Text align="center" fontName="LARGE_SEMI_BOLD" color={theme.text_02}>
-          ADIC. PARCEIRO
-        </Text>
-      </div>
+      <MobilePageHeader title="ADIC. PARCEIRO" />
 
       <div className="mainContent">
         <div className="headerSection">
