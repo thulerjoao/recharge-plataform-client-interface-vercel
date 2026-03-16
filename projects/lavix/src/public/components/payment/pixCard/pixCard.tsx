@@ -278,12 +278,12 @@ const PixCard = ({
           <span>
             <Pix />
           </span>
-          <Text fontName="REGULAR_MEDIUM" color={theme.border_01}>
+          <Text fontName="REGULAR_MEDIUM" color={theme.text_02}>
             Pix
           </Text>
         </div>
         <span className="value">
-          <Text fontName="REGULAR_SEMI_BOLD" color={theme.border_01}>
+          <Text fontName="REGULAR_SEMI_BOLD" color={theme.text_02}>
             R$ {formatPrice(handleGetPrice())}
           </Text>
         </span>

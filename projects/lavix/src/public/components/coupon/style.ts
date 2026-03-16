@@ -51,7 +51,6 @@ export const CouponContainer = styled.div<CouponContainerProps>`
     overflow: hidden;
     border-bottom-left-radius: 8px;
     border-bottom-right-radius: 8px;
-    background-color: ${({ theme }) => theme.border_01}30;
     transition:
       max-height 0.3s cubic-bezier(0.4, 0, 0.2, 1),
       opacity 0.25s ease-out,
