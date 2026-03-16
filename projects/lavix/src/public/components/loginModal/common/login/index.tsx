@@ -96,7 +96,7 @@ const LoginComponent = ({ setPreviousStep, setStep, closeModal }: Props) => {
   return (
     <LoginComponentContainer onSubmit={handleSubmit(onSubmit)}>
       <Text margin="24px 0 0 0" align="center" fontName="REGULAR_MEDIUM">
-       Acessar sua conta
+        Acessar sua conta
       </Text>
       <Input
         id="email"
