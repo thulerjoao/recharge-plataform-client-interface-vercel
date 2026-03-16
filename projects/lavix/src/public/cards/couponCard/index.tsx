@@ -61,11 +61,7 @@ const CouponCard = ({ coupon, isActiveOut }: CouponCardProps) => {
     >
       {!isActive && (
         <div className="expiredOverlay">
-          <Text
-            align="center"
-            color={`${theme.text_01}`}
-            fontName="TINY"
-          >
+          <Text align="center" color={`${theme.text_01}`} fontName="TINY">
             EXPIRADO!
           </Text>
         </div>

@@ -11,13 +11,23 @@ const SecurityAdvertise = () => {
     <SecurityAdvertiseContainer>
       <article>
         <Locker />
-        <Text color={theme.text_01} tag="h3" align="center" fontName="SMALL_MEDIUM">
+        <Text
+          color={theme.text_01}
+          tag="h3"
+          align="center"
+          fontName="SMALL_MEDIUM"
+        >
           Compra Segura
         </Text>
       </article>
       <article>
         <Clock />
-        <Text color={theme.text_01} tag="h3" align="center" fontName="SMALL_MEDIUM">
+        <Text
+          color={theme.text_01}
+          tag="h3"
+          align="center"
+          fontName="SMALL_MEDIUM"
+        >
           Entrega rápida
         </Text>
       </article>

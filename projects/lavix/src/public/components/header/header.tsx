@@ -83,7 +83,10 @@ const Header = () => {
             </span>
             <span>
               <Button
-                style={{ backgroundColor: theme.background_05, color: theme.mainColor }}
+                style={{
+                  backgroundColor: theme.background_05,
+                  color: theme.mainColor,
+                }}
                 onClick={() => handleOpenLogin(true)}
                 width={98}
                 height={28}

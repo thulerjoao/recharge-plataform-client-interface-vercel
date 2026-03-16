@@ -26,9 +26,10 @@ const Terms = () => {
           margin="0 0 24px 0"
         >
           Estes Termos de Serviço regem seus (&quot;Você&quot;, &quot;seu&quot;)
-          direitos e obrigações como usuários dos portais gerenciados pela LAVIX. A menos que seja indicado de outra forma pela LAVIX,
-          todos os novos portais introduzidos e gerenciados pela LAVIX
-          serão regidos por estes Termos de Serviço.
+          direitos e obrigações como usuários dos portais gerenciados pela
+          LAVIX. A menos que seja indicado de outra forma pela LAVIX, todos os
+          novos portais introduzidos e gerenciados pela LAVIX serão regidos por
+          estes Termos de Serviço.
         </Text>
 
         <Text
@@ -77,16 +78,16 @@ const Terms = () => {
             <li>
               <Text tag="span" fontName="REGULAR" color={theme.text_01}>
                 <strong>Itens / Créditos de Jogos:</strong> Produtos digitais
-                listados para venda na LAVIX. Este termo refere-se, mas
-                não se limita, a: Diamantes do Bigo Live, Moedas do Poppo Live
-                ou quaisquer outros créditos virtuais de aplicativos
+                listados para venda na LAVIX. Este termo refere-se, mas não se
+                limita, a: Diamantes do Bigo Live, Moedas do Poppo Live ou
+                quaisquer outros créditos virtuais de aplicativos
                 disponibilizados na plataforma.
               </Text>
             </li>
             <li>
               <Text tag="span" fontName="REGULAR" color={theme.text_01}>
-                <strong>Portais:</strong> O site da LAVIX e quaisquer plataformas afiliadas gerenciadas
-                pela empresa.
+                <strong>Portais:</strong> O site da LAVIX e quaisquer
+                plataformas afiliadas gerenciadas pela empresa.
               </Text>
             </li>
             <li>
@@ -114,8 +115,7 @@ const Terms = () => {
             color={theme.text_01}
             margin="0 0 16px 0"
           >
-            O processo para comprar Créditos de Jogos na LAVIX é o
-            seguinte:
+            O processo para comprar Créditos de Jogos na LAVIX é o seguinte:
           </Text>
 
           <ol className="ordered-list">
@@ -151,8 +151,8 @@ const Terms = () => {
             </li>
             <li>
               <Text tag="span" fontName="REGULAR" color={theme.text_01}>
-                A LAVIX entrega os Créditos adquiridos para o ID fornecido
-                no pedido. Após a entrega, os Créditos não são reembolsáveis nem
+                A LAVIX entrega os Créditos adquiridos para o ID fornecido no
+                pedido. Após a entrega, os Créditos não são reembolsáveis nem
                 recuperáveis.
               </Text>
             </li>
@@ -190,9 +190,9 @@ const Terms = () => {
             color={theme.text_01}
             margin="0 0 24px 0"
           >
-            Ao aceitar estes Termos, a LAVIX concede a você uma licença
-            não exclusiva e intransferível para acessar seus Portais e utilizar
-            seus Serviços conforme estes Termos.
+            Ao aceitar estes Termos, a LAVIX concede a você uma licença não
+            exclusiva e intransferível para acessar seus Portais e utilizar seus
+            Serviços conforme estes Termos.
           </Text>
         </section>
 
@@ -254,10 +254,10 @@ const Terms = () => {
             </li>
             <li>
               <Text tag="span" fontName="REGULAR" color={theme.text_01}>
-                A LAVIX não se responsabiliza pela forma como o cliente
-                escolhe usar os Créditos dentro dos aplicativos (seja Bigo Live,
-                Poppo Live ou outros). Todo uso, consumo ou gasto no aplicativo
-                é de responsabilidade exclusiva do cliente.
+                A LAVIX não se responsabiliza pela forma como o cliente escolhe
+                usar os Créditos dentro dos aplicativos (seja Bigo Live, Poppo
+                Live ou outros). Todo uso, consumo ou gasto no aplicativo é de
+                responsabilidade exclusiva do cliente.
               </Text>
             </li>
           </ul>
@@ -324,8 +324,8 @@ const Terms = () => {
           <ul className="definitions-list">
             <li>
               <Text tag="span" fontName="REGULAR" color={theme.text_01}>
-                A LAVIX busca operar 24/7, mas pode haver interrupções
-                devido a manutenções ou circunstâncias imprevistas.
+                A LAVIX busca operar 24/7, mas pode haver interrupções devido a
+                manutenções ou circunstâncias imprevistas.
               </Text>
             </li>
             <li>
@@ -335,8 +335,8 @@ const Terms = () => {
             </li>
             <li>
               <Text tag="span" fontName="REGULAR" color={theme.text_01}>
-                A LAVIX pode suspender, encerrar ou restringir o acesso
-                aos Serviços a qualquer momento, sem aviso prévio.
+                A LAVIX pode suspender, encerrar ou restringir o acesso aos
+                Serviços a qualquer momento, sem aviso prévio.
               </Text>
             </li>
           </ul>
@@ -364,8 +364,8 @@ const Terms = () => {
             </li>
             <li>
               <Text tag="span" fontName="REGULAR" color={theme.text_01}>
-                A LAVIX não garante que os Itens atenderão às suas
-                expectativas ou que os Serviços estarão livres de erros.
+                A LAVIX não garante que os Itens atenderão às suas expectativas
+                ou que os Serviços estarão livres de erros.
               </Text>
             </li>
             <li>
@@ -500,8 +500,8 @@ const Terms = () => {
             margin="0 0 24px 0"
           >
             Estes Termos são regidos pelas leis aplicáveis no local de operação
-            da LAVIX. Ao utilizar nossos Serviços, você renuncia ao
-            direito de participar de ações coletivas contra a LAVIX.
+            da LAVIX. Ao utilizar nossos Serviços, você renuncia ao direito de
+            participar de ações coletivas contra a LAVIX.
           </Text>
         </section>
 

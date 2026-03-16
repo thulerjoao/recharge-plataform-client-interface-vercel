@@ -17,14 +17,14 @@ export const PackageBigoCardCompact = styled.article<PackageCardProps>`
   padding: 8px 0px;
   padding-bottom: 56px;
   background-color: pink;
-  
+
   .mobile {
     display: none;
   }
   border: 3px solid ${({ theme }) => theme.background_05};
   background-color: ${({ theme }) => theme.background_04};
   position: relative;
-  
+
   @media (hover: hover) {
     &:hover {
       box-shadow: 0px 0px 10px 0px ${({ theme }) => theme.background_05};
@@ -39,13 +39,13 @@ export const PackageBigoCardCompact = styled.article<PackageCardProps>`
     cursor: default;
     `}
 
-@media (hover: none) {
-  &:hover {
+  @media (hover: none) {
+    &:hover {
       border: 2px solid ${({ theme }) => theme.border_02};
       box-shadow: none;
     }
   }
-  
+
   .diamondContainer {
     display: flex;
     align-items: center;
@@ -82,7 +82,6 @@ export const PackageBigoCardCompact = styled.article<PackageCardProps>`
     bottom: 0;
     padding: 6px 16px 12px 0;
     border-radius: 0 0 20px 20px;
-
 
     .basePriceDiscount {
       position: absolute;
@@ -131,7 +130,7 @@ export const PackageBigoCardCompact = styled.article<PackageCardProps>`
       }
     }
   }
-/* 
+  /* 
   ${({ paymentPage }) =>
     !paymentPage &&
     `
