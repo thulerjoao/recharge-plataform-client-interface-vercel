@@ -13,7 +13,6 @@ export const CouponCardContainer = styled.article<Props>`
   position: relative;
   cursor: ${({ isActive }) => (isActive ? "pointer" : "default")};
 
-
   .expiredOverlay {
     position: absolute;
     top: 0;
@@ -59,37 +58,33 @@ export const CouponCardContainer = styled.article<Props>`
     padding: 8px 16px 8px 0px;
 
     .topSection {
-    width: 100%;
-    height: 38px;
-    position: relative;
-    display: flex;
-    flex-direction: column;
-    padding-top: 6px;
-    background-color: ${({ theme }) => theme.background_04};
-    border-radius: 24px 24px 0 0;
-    width: calc(100% - 85px);
+      width: 100%;
+      height: 38px;
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      padding-top: 6px;
+      background-color: ${({ theme }) => theme.background_04};
+      border-radius: 24px 24px 0 0;
+      width: calc(100% - 85px);
 
+      h3 {
+        text-shadow: 0 0 10px ${({ theme }) => theme.background_01}80;
+      }
+    }
 
-    h3 {
-      text-shadow: 0 0 10px ${({ theme }) => theme.background_01}80;
+    .bottomSection {
+      width: 100%;
+      height: 36px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 0px 24px;
+      padding-top: 12px;
+      padding-bottom: 12px;
+      background-color: ${({ theme }) => theme.background_04};
+      border-radius: 0 0 24px 24px;
+      width: calc(100% - 85px);
     }
   }
-
-  .bottomSection {
-    width: 100%;
-    height: 36px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 0px 24px;
-    padding-top: 12px;
-    padding-bottom: 12px;
-    background-color: ${({ theme }) => theme.background_04};
-    border-radius: 0 0 24px 24px;
-    width: calc(100% - 85px);
-  
-  }
-  }
-
-  
 `;

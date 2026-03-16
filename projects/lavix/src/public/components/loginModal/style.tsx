@@ -13,10 +13,6 @@ export const LoginModalBackground = styled.div`
   justify-content: center;
   align-items: center;
 
-  /* button {
-    color: ${({ theme }) => theme.text_01} !important;
-  } */
-
   input {
     color: ${({ theme }) => theme.text_02} !important;
   }

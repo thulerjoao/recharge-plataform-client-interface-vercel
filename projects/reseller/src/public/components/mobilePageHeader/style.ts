@@ -8,8 +8,6 @@ export const MobilePageHeaderContainer = styled.div`
     top: 20px;
   }
 
-
-
   @media (max-width: 768px) {
     display: flex;
     width: 100%;
@@ -20,4 +18,3 @@ export const MobilePageHeaderContainer = styled.div`
     height: 0;
   }
 `;
-
