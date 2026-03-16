@@ -10,6 +10,14 @@ export const SettingsContainer = styled.div`
   align-items: center;
   min-height: 100vh;
 
+  input {
+    color: ${({ theme }) => theme.text_02} !important;
+  }
+
+  select {
+    background-color: ${({ theme }) => theme.background_06} !important;
+  }
+
   .settings-header {
     width: 100%;
     max-width: 780px;
@@ -38,18 +46,16 @@ export const SettingsContainer = styled.div`
 
     .form-section {
       width: 100%;
-      background-color: ${({ theme }) => theme.background_01};
+      background-color: ${({ theme }) => theme.background_02};
       border-radius: 12px;
       padding: 24px;
-      -webkit-box-shadow: 0px 0px 5px 1px rgba(7, 29, 35, 1);
-      -moz-box-shadow: 0px 0px 5px 1px rgba(7, 29, 35, 1);
-      box-shadow: 0px 0px 5px 1px rgba(7, 29, 35, 1);
-      border: 1px solid ${({ theme }) => theme.border_01}80;
+      box-shadow: 0px 0px 3px ${({ theme }) => theme.background_05};
+      border: 1px solid ${({ theme }) => theme.border_01};
 
       .section-title {
         margin-bottom: 24px;
         color: ${({ theme }) => theme.text_01};
-        border-bottom: 1px solid ${({ theme }) => theme.background_03};
+        border-bottom: 1px solid ${({ theme }) => theme.border_01};
         padding-bottom: 12px;
       }
 
@@ -99,7 +105,7 @@ export const SettingsContainer = styled.div`
 
           &:disabled {
             opacity: 0.6;
-            cursor: not-allowed;
+            cursor: default;
           }
         }
 

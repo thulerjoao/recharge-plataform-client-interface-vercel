@@ -15,6 +15,7 @@ import Product from "./icons/Products.svg";
 import Profile from "./icons/Profile.svg";
 import { HeaderContainer, MenuComponent } from "./style";
 import { formatString } from "utils/formatString";
+import { useTheme } from "styled-components";
 
 const Header = () => {
   const [loginModal, setLoginModal] = useState<boolean>(false);
@@ -26,6 +27,7 @@ const Header = () => {
   const pathname = usePathname();
   const searchParams = useSearchParams();
   const { getOrders } = useOrders();
+  const theme = useTheme();
 
   const handleClickOutside = (event: MouseEvent) => {
     if (modalRef.current && !modalRef.current.contains(event.target)) {
@@ -71,16 +73,22 @@ const Header = () => {
               className="loginButton getIn"
               onClick={() => handleOpenLogin(false)}
             >
-              <Text align="start" fontName="SMALL_SEMI_BOLD">
+              <Text
+                align="start"
+                fontName="SMALL_SEMI_BOLD"
+                color={theme.text_03}
+              >
                 Entrar
               </Text>
             </span>
             <span>
               <Button
+                style={{ backgroundColor: theme.background_05, color: theme.mainColor }}
                 onClick={() => handleOpenLogin(true)}
                 width={98}
                 height={28}
                 title="Cadastre-se"
+                rounded
               />
             </span>
           </div>
@@ -90,7 +98,11 @@ const Header = () => {
             onClick={() => setOpenMenu(!openMenu)}
           >
             <span className="loginButton">
-              <Text align="start" fontName="SMALL_SEMI_BOLD">
+              <Text
+                color={theme.text_01}
+                align="start"
+                fontName="SMALL_SEMI_BOLD"
+              >
                 {user && getFirstTwoNames(user.name)}
               </Text>
             </span>

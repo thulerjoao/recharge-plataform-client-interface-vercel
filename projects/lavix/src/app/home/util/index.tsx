@@ -2,15 +2,12 @@
 
 import Text from "@4miga/design-system/components/Text";
 import { useProducts } from "contexts/products/ProductsProvider";
-import { useStore } from "contexts/store/StoreProvider";
 import { useRouter } from "next/navigation";
-import BottomOffer from "public/components/bottomOffer/bottomOffer";
-import HowItWorks from "public/components/howItWorks";
 import { PackageType } from "types/productTypes";
 import { formatString } from "utils/formatString";
 import { useTheme } from "styled-components";
 import { HomeTestContainer } from "./style";
-import PackageCardCompact from "public/cards/packageCardCompact/card";
+import PackageBigoCard from "public/cards/packageBigoCardCompact/card";
 
 type Props = {
   coupon?: string;
@@ -20,7 +17,6 @@ const HomeTest = ({ coupon }: Props) => {
   const theme = useTheme();
   const route = useRouter();
   const { product } = useProducts();
-  const { store } = useStore();
 
   const handleClick = (item: PackageType) => {
     sessionStorage.removeItem("order");
@@ -58,60 +54,11 @@ const HomeTest = ({ coupon }: Props) => {
                 className="cardEnviroment"
                 onClick={() => handleClick(packageItem)}
               >
-                <PackageCardCompact selected={false} item={packageItem} />
+                <PackageBigoCard selected={false} item={packageItem} />
               </div>
             ))}
         </section>
       </main>
-      <HowItWorks />
-      {/* <SecurityAdvertise /> */}
-      <BottomOffer />
-      <div className="couponsLink">
-        <Text
-          tag="p"
-          align="center"
-          fontName="REGULAR"
-          color={theme.text_03}
-          margin="32px 0 16px 0"
-        >
-          Quer economizar ainda mais?
-        </Text>
-        <Text
-          tag="a"
-          align="center"
-          fontName="REGULAR_MEDIUM"
-          color={theme.mainColor}
-          underline
-          pointer
-          onClick={() => route.push("/coupons")}
-          style={{ cursor: "pointer" }}
-        >
-          Ver cupons disponíveis
-        </Text>
-      </div>
-      <div className="couponsLink">
-        <Text
-          tag="p"
-          align="center"
-          fontName="REGULAR"
-          color={theme.text_03}
-          margin="0px 0 16px 0"
-        >
-          Calcule aqui sua meta mensal de Beans
-        </Text>
-        <Text
-          tag="a"
-          align="center"
-          fontName="REGULAR_MEDIUM"
-          color={theme.mainColor}
-          underline
-          pointer
-          onClick={() => route.push("/calc")}
-          style={{ cursor: "pointer" }}
-        >
-          Calculadora de Beans
-        </Text>
-      </div>
     </HomeTestContainer>
   );
 };

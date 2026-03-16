@@ -7,6 +7,7 @@ import {
   connectionAPIDelete,
 } from "@4miga/services/connectionAPI/connection";
 import { createContext, ReactNode, useContext, useState } from "react";
+import { useAuth } from "context/auth";
 import { CouponResponseType, CouponType } from "types/couponType";
 import { apiUrl } from "@4miga/services/connectionAPI/url";
 
@@ -50,6 +51,7 @@ const CouponsContext = createContext<CouponsProviderData>(
 );
 
 export const CouponsProvider = ({ children }: CouponsProviderProps) => {
+  const { store } = useAuth();
   const [loadingCoupons, setLoadingCoupons] = useState<boolean>(true);
   const [coupons, setCoupons] = useState<CouponResponseType>();
   const [filter, setFilter] = useState<string>("");
@@ -103,6 +105,8 @@ export const CouponsProvider = ({ children }: CouponsProviderProps) => {
   };
 
   const getFeaturedCoupons = async () => {
+    const storeId = store?.id;
+    if (!storeId) return;
     if (hasLoadedFeatured) {
       return;
     }
@@ -110,7 +114,7 @@ export const CouponsProvider = ({ children }: CouponsProviderProps) => {
     setLoadingFeatured(true);
     try {
       const featured = await connectionAPIGet<CouponType[]>(
-        "/coupon/featured",
+        `/coupon/featured?storeId=${storeId}`,
         apiUrl,
       );
       setFeaturedCoupons(featured);

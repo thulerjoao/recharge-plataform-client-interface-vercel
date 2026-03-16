@@ -14,7 +14,7 @@ import NewAccountDirect from "./common/newAccountDirect";
 import NewPassword from "./common/newPassword";
 import Backward from "./icons/Backward.svg";
 import Close from "./icons/Close.svg";
-import TopLogo from "./icons/topLogo.svg";
+import Logo from "./icons/Logo.svg";
 import { LoginModalBackground, LoginModalContainer } from "./style";
 import { LoginSteps } from "./types/types";
 
@@ -123,7 +123,7 @@ const LoginModal = ({ setLoginModal, openInNewAccount }: LoginModalProps) => {
             <Close />
           </span>
         </div>
-        <TopLogo />
+        <Logo />
         {step === "login" && (
           <LoginComponent
             setPreviousStep={setPreviousStep}

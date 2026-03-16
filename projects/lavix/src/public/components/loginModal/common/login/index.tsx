@@ -96,7 +96,7 @@ const LoginComponent = ({ setPreviousStep, setStep, closeModal }: Props) => {
   return (
     <LoginComponentContainer onSubmit={handleSubmit(onSubmit)}>
       <Text margin="24px 0 0 0" align="center" fontName="REGULAR_MEDIUM">
-        Entre para acessar sua conta
+       Acessar sua conta
       </Text>
       <Input
         id="email"
@@ -139,7 +139,7 @@ const LoginComponent = ({ setPreviousStep, setStep, closeModal }: Props) => {
           onClick={() => setStep("forgotPassword")}
         >
           <Text nowrap align="end" color={theme.mainColor} fontName="TINY">
-            Esqueceu sua senha?
+            Esqueceu a senha?
           </Text>
         </span>
       </div>

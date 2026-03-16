@@ -4,6 +4,7 @@ import Text from "@4miga/design-system/components/Text";
 
 import GameCard from "public/cards/gameCard/card";
 import DefaultHeader from "public/components/defaultHeader";
+import MobilePageHeader from "public/components/mobilePageHeader";
 import HeaderEnviroment from "public/components/headerEnviroment";
 import InvisibleCards from "./invisivleCards";
 import { ProductsPageContainer } from "./style";
@@ -34,11 +35,7 @@ const ProductsPage = () => {
           <DefaultHeader title="PRODUTOS" />
         </HeaderEnviroment>
       </div>
-      <div className="mobile mobileHeader">
-        <Text align="center" fontName="LARGE_SEMI_BOLD" color={theme.text_02}>
-          PRODUTOS
-        </Text>
-      </div>
+      <MobilePageHeader title="PRODUTOS" />
       <div className="mainTitle">
         <Text align="center" fontName="REGULAR_SEMI_BOLD">
           CONFIGURE SEUS PRODUTOS

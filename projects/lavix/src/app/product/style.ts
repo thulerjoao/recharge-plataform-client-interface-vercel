@@ -6,6 +6,10 @@ export const ProductInnerPage = styled.div`
   flex-direction: column;
   align-items: center;
 
+  input {
+    color: ${({ theme }) => theme.text_02} !important;
+  }
+
   .couponButton {
     width: 100%;
     display: flex;

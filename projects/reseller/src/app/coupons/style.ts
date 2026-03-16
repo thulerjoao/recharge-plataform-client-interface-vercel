@@ -8,9 +8,9 @@ export const CouponsContainer = styled.div`
   padding-top: 64px;
   padding-bottom: 64px;
 
-  .mobile {
-    display: none;
-  }
+    .mobile {
+      display: none;
+    }
 
   .mainContentComponent {
     width: 100%;
@@ -197,15 +197,6 @@ export const CouponsContainer = styled.div`
     .mobile {
       display: flex;
       width: 100%;
-    }
-
-    .mobileHeader {
-      position: fixed;
-      top: 0;
-      z-index: 10;
-      margin-top: 12px;
-      width: auto;
-      height: 0;
     }
 
     .mainContentComponent {

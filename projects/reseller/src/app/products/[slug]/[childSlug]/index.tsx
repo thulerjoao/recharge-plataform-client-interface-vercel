@@ -17,6 +17,7 @@ import { useAuth } from "context/auth";
 import { useProducts } from "context/products";
 import { useRouter } from "next/navigation";
 import DefaultHeader from "public/components/defaultHeader";
+import MobilePageHeader from "public/components/mobilePageHeader";
 import HeaderEnviroment from "public/components/headerEnviroment";
 import { useEffect, useState } from "react";
 import { PackageType, ProductType } from "types/productTypes";
@@ -498,11 +499,9 @@ const SecondaryProductPage = ({ slug, childSlug }: Props) => {
           />
         </HeaderEnviroment>
       </div>
-      <div className="mobile mobileHeader">
-        <Text align="center" fontName="LARGE_SEMI_BOLD" color={theme.text_02}>
-          {isCreatingNewPackage ? "CRIAR PACOTE" : "CONFIG PACOTE"}
-        </Text>
-      </div>
+      <MobilePageHeader
+        title={isCreatingNewPackage ? "CRIAR PACOTE" : "CONFIG PACOTE"}
+      />
       <div className="mainContentPackage">
         <div className="headerSection">
           <div className="packageInfo">

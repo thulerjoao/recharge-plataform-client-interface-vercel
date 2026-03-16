@@ -7,6 +7,8 @@ import { useEffect, useState } from "react";
 import { useTheme } from "styled-components";
 import { FeaturedCoupon } from "types/couponType";
 import { CouponsContainer } from "./style";
+import { useStore } from "contexts/store/StoreProvider";
+import { storeId } from "utils/apiUrl";
 
 const CouponsPage = () => {
   const theme = useTheme();
@@ -14,7 +16,7 @@ const CouponsPage = () => {
   const [featuredCoupons, setFeaturedCoupons] = useState<FeaturedCoupon[]>([]);
 
   useEffect(() => {
-    connectionAPIGet<FeaturedCoupon[]>("/coupon/featured")
+    connectionAPIGet<FeaturedCoupon[]>(`/coupon/featured?storeId=${storeId}`)
       .then((res) => {
         setFeaturedCoupons(res);
       })
@@ -23,6 +25,14 @@ const CouponsPage = () => {
         setLoading(false);
       });
   }, []);
+
+  if (loading) {
+    return (
+      <div className="container">
+        <span className="loading" />
+      </div>
+    );
+  }
 
   return (
     <CouponsContainer>
@@ -34,7 +44,7 @@ const CouponsPage = () => {
           color={theme.text_01}
           margin="0 0 8px 0"
         >
-          Cupons Disponíveis
+          Lista de Cupons
         </Text>
         <Text
           tag="p"
@@ -43,7 +53,7 @@ const CouponsPage = () => {
           color={theme.text_03}
           margin="0 0 40px 0"
         >
-          Escolha um cupom e aproveite descontos exclusivos em suas compras
+          Escolha um cupom disponível e economize com descontos exclusivos.
         </Text>
       </div>
 

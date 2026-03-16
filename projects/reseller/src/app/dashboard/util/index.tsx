@@ -10,6 +10,7 @@ import {
 import { apiUrl } from "@4miga/services/connectionAPI/url";
 import LoadingPage from "app/loading";
 import DefaultHeader from "public/components/defaultHeader";
+import MobilePageHeader from "public/components/mobilePageHeader";
 import HeaderEnviroment from "public/components/headerEnviroment";
 import { useEffect, useRef, useState } from "react";
 import { DashboardDataType, PeriodType } from "types/dashboardTypes";
@@ -52,7 +53,6 @@ const getPeriodParam = (period: PeriodType): string => {
 };
 
 const Dashboard = () => {
-  const { store } = useAuth();
   const theme = useTheme();
   const [selectedPeriod, setSelectedPeriod] =
     useState<PeriodType>(getCurrentPeriod());
@@ -237,20 +237,8 @@ const Dashboard = () => {
             <DefaultHeader title="DASHBOARD" />
           </HeaderEnviroment>
         </div>
-        <div className="mobile mobileHeader">
-          <Text color={theme.text_02} align="center" fontName="LARGE_SEMI_BOLD">
-            DASHBOARD
-          </Text>
-        </div>
+        <MobilePageHeader title="DASHBOARD" />
         <div className="header">
-          <Text
-            align="center"
-            fontName="LARGE_SEMI_BOLD"
-            color={theme.mainColor}
-            margin="0 0 16px 0"
-          >
-            {store.name}
-          </Text>
           <CronHealthIndicator
             cronHealthStatus={dashboardData.cronHealthStatus}
             onRecalculate={handleRecalculate}

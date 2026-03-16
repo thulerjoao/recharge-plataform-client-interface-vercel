@@ -495,8 +495,8 @@ const Settings = () => {
     <SettingsContainer>
       <div className="settings-header">
         <Text fontName="LARGE_SEMI_BOLD">Configurações</Text>
-        <Text fontName="SMALL" color="secondary">
-          Gerencie suas informações pessoais e preferências
+        <Text fontName="SMALL" color={theme.text_04}>
+          Controle suas informações pessoais e configurações
         </Text>
       </div>
 

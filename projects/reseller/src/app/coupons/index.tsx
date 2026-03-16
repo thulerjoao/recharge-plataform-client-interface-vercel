@@ -7,6 +7,7 @@ import { useTheme } from "styled-components";
 import { useCoupons } from "context/coupon";
 import { useRouter } from "next/navigation";
 import DefaultHeader from "public/components/defaultHeader";
+import MobilePageHeader from "public/components/mobilePageHeader";
 import HeaderEnviroment from "public/components/headerEnviroment";
 import Pagination from "public/components/pagination";
 import { useEffect, useState } from "react";
@@ -117,6 +118,8 @@ const CouponsPage = ({
     }
   };
 
+  console.log(featuredCoupons);
+
   const handleRemoveFromFeatured = async (couponId: string) => {
     try {
       await removeFromFeatured(couponId);
@@ -148,11 +151,7 @@ const CouponsPage = ({
           <DefaultHeader title="CUPONS" />
         </HeaderEnviroment>
       </div>
-      <div className="mobile mobileHeader">
-        <Text align="center" fontName="LARGE_SEMI_BOLD" color={theme.text_02}>
-          CUPONS
-        </Text>
-      </div>
+      <MobilePageHeader title="CUPONS" />
 
       <div className="mainContentComponent">
         <div className="headerSection">

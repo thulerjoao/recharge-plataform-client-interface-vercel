@@ -14,6 +14,7 @@ import Image from "next/image";
 import { useRouter } from "next/navigation";
 import PackageCardCompact from "public/cards/packageCardCompact/card";
 import DefaultHeader from "public/components/defaultHeader";
+import MobilePageHeader from "public/components/mobilePageHeader";
 import HeaderEnviroment from "public/components/headerEnviroment";
 import { useEffect, useState } from "react";
 import { PackageType, ProductType } from "types/productTypes";
@@ -201,11 +202,7 @@ const Productpage = ({ slug }: Props) => {
           <DefaultHeader backWard title="CONFIGURAR PRODUTOS" />
         </HeaderEnviroment>
       </div>
-      <div className="mobile mobileHeader">
-        <Text align="center" fontName="LARGE_SEMI_BOLD" color={theme.text_02}>
-          CONFIGURAR PRODUTOS
-        </Text>
-      </div>
+      <MobilePageHeader title="CONFIGURAR PRODUTOS" />
 
       <div className="mainContentComponent">
         <div className="headerSection">

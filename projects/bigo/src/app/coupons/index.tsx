@@ -7,6 +7,7 @@ import { useEffect, useState } from "react";
 import { useTheme } from "styled-components";
 import { FeaturedCoupon } from "types/couponType";
 import { CouponsContainer } from "./style";
+import { storeId } from "utils/apiUrl";
 
 const CouponsPage = () => {
   const theme = useTheme();
@@ -14,7 +15,7 @@ const CouponsPage = () => {
   const [featuredCoupons, setFeaturedCoupons] = useState<FeaturedCoupon[]>([]);
 
   useEffect(() => {
-    connectionAPIGet<FeaturedCoupon[]>("/coupon/featured")
+    connectionAPIGet<FeaturedCoupon[]>(`/coupon/featured?storeId=${storeId}`)
       .then((res) => {
         setFeaturedCoupons(res);
       })
@@ -23,6 +24,14 @@ const CouponsPage = () => {
         setLoading(false);
       });
   }, []);
+
+  if (loading) {
+    return (
+      <div className="container">
+        <span className="loading" />
+      </div>
+    );
+  }
 
   return (
     <CouponsContainer>

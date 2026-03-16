@@ -7,6 +7,7 @@ import { useTheme } from "styled-components";
 import { useInfluencers } from "context/influencers";
 import { useRouter } from "next/navigation";
 import DefaultHeader from "public/components/defaultHeader";
+import MobilePageHeader from "public/components/mobilePageHeader";
 import HeaderEnviroment from "public/components/headerEnviroment";
 import Pagination from "public/components/pagination";
 import { useEffect, useState } from "react";
@@ -96,11 +97,7 @@ const PartnersPage = ({
           <DefaultHeader title="PARCEIROS" />
         </HeaderEnviroment>
       </div>
-      <div className="mobile mobileHeader">
-        <Text align="center" fontName="LARGE_SEMI_BOLD" color={theme.text_02}>
-          PARCEIROS
-        </Text>
-      </div>
+      <MobilePageHeader title="PARCEIROS" />
       <main className="influencersContainer">
         <div className="headerSection">
           <div className="titleSection">

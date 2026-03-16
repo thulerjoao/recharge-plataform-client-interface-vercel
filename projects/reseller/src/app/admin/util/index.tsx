@@ -11,6 +11,7 @@ import {
 import LoadingPage from "app/loading";
 import { useAuth } from "context/auth";
 import DefaultHeader from "public/components/defaultHeader";
+import MobilePageHeader from "public/components/mobilePageHeader";
 import HeaderEnviroment from "public/components/headerEnviroment";
 import { useEffect, useRef, useState } from "react";
 import PasswordModal from "../passwordModal";
@@ -184,11 +185,7 @@ const AdmPage = () => {
           <DefaultHeader title="ADMINISTRAÇÃO" />
         </HeaderEnviroment>
       </div>
-      <div className="mobile mobileHeader">
-        <Text align="center" fontName="LARGE_SEMI_BOLD" color={theme.text_02}>
-          ADMINISTRAÇÃO
-        </Text>
-      </div>
+      <MobilePageHeader title="ADMINISTRAÇÃO" />
 
       <main className="permissionsContainer">
         <section className="adminsListSection">

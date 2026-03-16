@@ -7,6 +7,7 @@ import { useOrders } from "context/orders";
 import { useRouter } from "next/navigation";
 import OrderCard from "public/cards/orderCard/card";
 import DefaultHeader from "public/components/defaultHeader";
+import MobilePageHeader from "public/components/mobilePageHeader";
 import HeaderEnviroment from "public/components/headerEnviroment";
 import Pagination from "public/components/pagination";
 import { useEffect, useState } from "react";
@@ -110,11 +111,7 @@ const OrdersPage = ({ currentPage, search, status, productId }: Props) => {
             <DefaultHeader title="PEDIDOS" />
           </HeaderEnviroment>
         </div>
-        <div className="mobile mobileHeader">
-          <Text align="center" fontName="LARGE_SEMI_BOLD" color={theme.text_02}>
-            PEDIDOS
-          </Text>
-        </div>
+        <MobilePageHeader title="PEDIDOS" />
         <div className="filtersSection">
           <form
             className="searchSection"

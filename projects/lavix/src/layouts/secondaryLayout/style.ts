@@ -24,7 +24,32 @@ export const LayoutStyle = styled.div<LayoutProps>`
 
     .description {
       width: 100%;
-      max-width: 45%;
+      max-width: 42%;
+    }
+  }
+
+  .offerAndCoupons {
+    /* background-color: pink; */
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 48px;
+
+    .couponsLink {
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      margin: 24px 0 0;
+
+      a {
+        transition: opacity 0.2s ease;
+
+        &:hover {
+          opacity: 0.8;
+        }
+      }
     }
   }
 

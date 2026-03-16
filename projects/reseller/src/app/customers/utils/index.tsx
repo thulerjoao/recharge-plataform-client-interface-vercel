@@ -6,6 +6,7 @@ import { useTheme } from "styled-components";
 import { useCustomers } from "context/customers";
 import { useRouter } from "next/navigation";
 import DefaultHeader from "public/components/defaultHeader";
+import MobilePageHeader from "public/components/mobilePageHeader";
 import HeaderEnviroment from "public/components/headerEnviroment";
 import Pagination from "public/components/pagination";
 import { useEffect, useState } from "react";
@@ -211,11 +212,7 @@ const CustomersPage = ({
             <DefaultHeader title="CLIENTES" />
           </HeaderEnviroment>
         </div>
-        <div className="mobile mobileHeader">
-          <Text align="center" fontName="LARGE_SEMI_BOLD" color={theme.text_02}>
-            CLIENTES
-          </Text>
-        </div>
+        <MobilePageHeader title="CLIENTES" />
         <div className="headerSection">
           <div className="titleSection">
             <Text fontName="LARGE_SEMI_BOLD" color={theme.text_01}>

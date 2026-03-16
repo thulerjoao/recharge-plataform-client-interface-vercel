@@ -267,15 +267,6 @@ export const ProductsInnerPage = styled.div`
       width: 100%;
     }
 
-    .mobileHeader {
-      position: fixed;
-      top: 0;
-      z-index: 10;
-      margin-top: 12px;
-      width: auto;
-      height: 0;
-    }
-
     .mainContentComponent {
       padding: 16px;
       gap: 24px;

@@ -94,12 +94,12 @@ const Coupon = ({
             height={32}
             style={{ color: theme.mainColor }}
           />
-          <Text align="center" fontName="SMALL_MEDIUM" color={theme.border_01}>
+          <Text align="center" fontName="SMALL_MEDIUM" color={theme.text_02}>
             Cupom de desconto
           </Text>
         </div>
         <div className="couponText">
-          <Text align="center" fontName="SMALL_MEDIUM" color={theme.text_03}>
+          <Text align="center" fontName="SMALL_MEDIUM" color={theme.mainColor}>
             {couponApplied?.valid
               ? couponApplied.coupon.title
               : blockInput
