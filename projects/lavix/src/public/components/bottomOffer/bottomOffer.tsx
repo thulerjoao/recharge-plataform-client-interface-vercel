@@ -13,7 +13,7 @@ const BottomOffer = () => {
         tag="h2"
         align="center"
         fontName="LARGE_SEMI_BOLD"
-        margin="56px 0 24px 0"
+        margin="0px 0 24px 0"
       >
         OFERTA ESPECIAL
       </Text>

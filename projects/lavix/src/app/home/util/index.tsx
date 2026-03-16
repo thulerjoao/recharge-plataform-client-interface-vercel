@@ -2,9 +2,7 @@
 
 import Text from "@4miga/design-system/components/Text";
 import { useProducts } from "contexts/products/ProductsProvider";
-import { useStore } from "contexts/store/StoreProvider";
 import { useRouter } from "next/navigation";
-import BottomOffer from "public/components/bottomOffer/bottomOffer";
 import { PackageType } from "types/productTypes";
 import { formatString } from "utils/formatString";
 import { useTheme } from "styled-components";
@@ -19,7 +17,6 @@ const HomeTest = ({ coupon }: Props) => {
   const theme = useTheme();
   const route = useRouter();
   const { product } = useProducts();
-  const { store } = useStore();
 
   const handleClick = (item: PackageType) => {
     sessionStorage.removeItem("order");
@@ -62,53 +59,6 @@ const HomeTest = ({ coupon }: Props) => {
             ))}
         </section>
       </main>
-      <BottomOffer />
-      <div className="couponsLink">
-        <Text
-          tag="p"
-          align="center"
-          fontName="REGULAR"
-          color={theme.text_03}
-          margin="32px 0 16px 0"
-        >
-          Quer gastar ainda menos?
-        </Text>
-        <Text
-          tag="a"
-          align="center"
-          fontName="REGULAR_MEDIUM"
-          color={theme.mainColor}
-          underline
-          pointer
-          onClick={() => route.push("/coupons")}
-          style={{ cursor: "pointer" }}
-        >
-          Cupons disponíveis
-        </Text>
-      </div>
-      {/* <div className="couponsLink">
-        <Text
-          tag="p"
-          align="center"
-          fontName="REGULAR"
-          color={theme.text_03}
-          margin="0px 0 16px 0"
-        >
-          Calcule aqui sua meta mensal de Beans
-        </Text>
-        <Text
-          tag="a"
-          align="center"
-          fontName="REGULAR_MEDIUM"
-          color={theme.mainColor}
-          underline
-          pointer
-          onClick={() => route.push("/calc")}
-          style={{ cursor: "pointer" }}
-        >
-          Calculadora de Beans
-        </Text>
-      </div> */}
     </HomeTestContainer>
   );
 };

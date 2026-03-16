@@ -28,6 +28,31 @@ export const LayoutStyle = styled.div<LayoutProps>`
     }
   }
 
+  .offerAndCoupons {
+    /* background-color: pink; */
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 48px;
+
+    .couponsLink {
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      margin: 24px 0 0;
+
+      a {
+        transition: opacity 0.2s ease;
+
+        &:hover {
+          opacity: 0.8;
+        }
+      }
+    }
+  }
+
   @media (min-width: 768px) and (max-width: 1024px) {
     .mainContent {
       margin-top: 48px;
