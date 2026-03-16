@@ -20,7 +20,8 @@ export const CouponCardContainer = styled.article<Props>`
     left: 0;
     right: 0;
     bottom: 0;
-    background-color: ${({ theme }) => theme.background_01}99;
+    background-color: ${({ theme }) => theme.refused}99;
+    border: 1px solid ${({ theme }) => theme.refused};
     border-radius: 24px;
     z-index: 10;
     display: flex;
@@ -29,7 +30,7 @@ export const CouponCardContainer = styled.article<Props>`
 
     p {
       position: absolute;
-      bottom: -2px;
+      bottom: -5px;
       background-color: ${({ theme }) => theme.refused};
       width: auto;
       padding: 3px 12px 1px 12px;
@@ -64,7 +65,6 @@ export const CouponCardContainer = styled.article<Props>`
     display: flex;
     flex-direction: column;
     padding-top: 6px;
-    padding-left: 32px;
     background-color: ${({ theme }) => theme.background_04};
     border-radius: 24px 24px 0 0;
     width: calc(100% - 85px);
@@ -84,7 +84,6 @@ export const CouponCardContainer = styled.article<Props>`
     padding: 0px 24px;
     padding-top: 12px;
     padding-bottom: 12px;
-    padding-left: 64px;
     background-color: ${({ theme }) => theme.background_04};
     border-radius: 0 0 24px 24px;
     width: calc(100% - 85px);
